@@ -116,5 +116,53 @@ h4{
   @apply font-alata text-[24px]
 }
 p{
-  
+  @apply font-montserrat text-[16px]
 }
+.mn{
+ 
+    @apply font-montserrat text-[12px]
+ 
+}
+
+
+.shadowww{
+  box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.25);
+-webkit-box-shadow: 1px 1px 12px 0px rgba(0,0,0,0.25);
+-moz-box-shadow: 1px 1px 12px 0px rgba(0,0,0,0.25);
+  
+
+}
+
+.elipse{
+  shape-outside: circle(50% at 30%);
+  clip-path: circle(50% at 0%);
+}
+
+/* .s-input input {
+  display: none;
+}
+
+.s-input input + label:before {
+  content: "";
+  height: 18px;
+  width: 18px;
+  vertical-align: middle;
+
+  border: solid 2px #4C956C;
+  background-color: white;
+  border-radius: 1000px;
+  margin-right: 8px;
+  margin-bottom: 3px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.s-input input:checked + label:before{
+  padding: 1px;
+  background-position: center;
+  background-color: #4C956C;
+  border: solid 2px #4C956C;
+  padding: 2px;
+
+
+} */
