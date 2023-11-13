@@ -1,7 +1,15 @@
+'use client'
+
 import Image from "next/image"
-
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 export default function Header() {
-
+    const path = usePathname();
+    
+    useEffect( () => {
+        console.log(path);
+    }, [path.pathname])
+    
     const theme = "light";
     return (
         <>

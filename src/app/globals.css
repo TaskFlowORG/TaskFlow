@@ -115,6 +115,10 @@
 .h4{
   @apply font-alata text-[24px]
 }
+
+.h5{
+  @apply font-alata text-[20px]
+}
 .p{
   @apply font-montserrat text-[16px]
 }
