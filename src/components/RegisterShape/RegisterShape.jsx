@@ -1,29 +1,30 @@
-export const LoginShape = () => {
+export const RegisterShape = () => {
 
     return (
         <>
-            <svg width="1394" height="791" viewBox="0 0 1394 791" fill="none" xmlns="http://www.w3.org/2000/svg" className="fixed z-[-1] bottom-0 right-0">
-                <g filter="url(#filter0_d_1020_9273)">
-                    <path d="M37.3682 1354C36.0603 1354 35 1352.94 35 1351.63C35 625.029 624.029 36 1350.63 36L2253 36V1354L37.3682 1354Z" fill="url(#paint0_angular_1020_9273)" fillOpacity="0.9" shapeRendering="crispEdges" />
+            <svg width="1511" height="798" viewBox="0 0 1511 798" fill="none" xmlns="http://www.w3.org/2000/svg" className="fixed z-[-1] bottom-0 left-0">
+                <g filter="url(#filter0_d_1020_20539)">
+                    <path d="M1463.63 1354C1464.94 1354 1466 1352.94 1466 1351.63C1466 625.029 876.971 36 150.368 36L-752 36V1354L1463.63 1354Z" fill="url(#paint0_angular_1020_20539)" fillOpacity="0.9" shapeRendering="crispEdges" />
                 </g>
                 <defs>
-                    <filter id="filter0_d_1020_9273" x="0" y="0" width="2298" height="1398" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <filter id="filter0_d_1020_20539" x="-787" y="0" width="2298" height="1398" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                         <feFlood floodOpacity="0" result="BackgroundImageFix" />
                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                         <feOffset dx="5" dy="4" />
                         <feGaussianBlur stdDeviation="20" />
                         <feComposite in2="hardAlpha" operator="out" />
                         <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1020_9273" />
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1020_9273" result="shape" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1020_20539" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1020_20539" result="shape" />
                     </filter>
-                    <linearGradient id="paint0_angular_1020_9273" x1="1%" y1="2%" x2="80%" y2="95%">
-                        <stop offset="21.0902%" stopColor="#FF7A00  " />
-                        <stop offset="25.032849%" stopColor="#F04A94 " />
-                        <stop offset="48.9792%" stopColor="#E100F4" />
-                    </linearGradient>
+                    <radialGradient id="paint0_angular_1020_20539" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(102.5 36) rotate(142.36) scale(1079.1 560.221)">
+                        <stop offset="0.176135" stopColor="#E100F4" />
+                        <stop offset="0.265625" stopColor="#F04A94" />
+                        <stop offset="0.369792" stopColor="#FF7A00" />
+                    </radialGradient>
                 </defs>
             </svg>
+
 
 
             <svg width="297" height="156" viewBox="0 0 297 156" fill="none" xmlns="http://www.w3.org/2000/svg" className="fixed z-[-1] top-1 left-[720px]">
@@ -49,22 +50,22 @@ export const LoginShape = () => {
                 </defs>
             </svg>
 
-            <svg width="227" height="329" viewBox="0 0 227 329" fill="none" xmlns="http://www.w3.org/2000/svg" className="fixed z-[-1] bottom-0 left-0">
-                <g filter="url(#filter0_d_1020_9272)">
-                    <path d="M64.8099 40.7031C146.864 60.8831 197.024 143.761 176.844 225.815L172.306 244.265C152.126 326.32 69.2488 376.479 -12.8057 356.299C-94.8602 336.119 -145.019 253.242 -124.84 171.187L-120.302 152.737C-100.122 70.6824 -17.2446 20.5232 64.8099 40.7031Z" fill="url(#paint0_angular_1020_9272)" fillOpacity="0.9" shapeRendering="crispEdges" />
+            <svg width="217" height="329" viewBox="0 0 217 329" fill="none" xmlns="http://www.w3.org/2000/svg" className=" fixed z-[-1] bottom-0 right-0">
+                <g filter="url(#filter0_d_1020_20538)">
+                    <path d="M152.19 40.7012C70.1355 60.8811 19.9763 143.759 40.1562 225.813L44.6938 244.263C64.8737 326.318 147.751 376.477 229.806 356.297C311.86 336.117 362.019 253.24 341.84 171.185L337.302 152.735C317.122 70.6805 234.245 20.5212 152.19 40.7012Z" fill="url(#paint0_angular_1020_20538)" fillOpacity="0.9" shapeRendering="crispEdges" />
                 </g>
                 <defs>
-                    <filter id="filter0_d_1020_9272" x="-164.305" y="0.242188" width="390.609" height="404.52" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <filter id="filter0_d_1020_20538" x="0.695312" y="0.238281" width="390.609" height="404.521" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                         <feFlood floodOpacity="0" result="BackgroundImageFix" />
                         <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                         <feOffset dx="5" dy="4" />
                         <feGaussianBlur stdDeviation="20" />
                         <feComposite in2="hardAlpha" operator="out" />
                         <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1020_9272" />
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1020_9272" result="shape" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1020_20538" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1020_20538" result="shape" />
                     </filter>
-                    <radialGradient id="paint0_angular_1020_9272" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(-34.5696 345.601) rotate(-115.604) scale(203.636 111.492)">
+                    <radialGradient id="paint0_angular_1020_20538" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(251.57 345.599) rotate(-64.3959) scale(203.636 111.492)">
                         <stop stopColor="#AA19C1" />
                         <stop offset="0.243195" stopColor="#E100F4" />
                         <stop offset="0.351117" stopColor="#FF7A00" />
@@ -72,6 +73,8 @@ export const LoginShape = () => {
                 </defs>
             </svg>
 
+
         </>
     )
 }
+
