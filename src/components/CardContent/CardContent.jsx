@@ -16,9 +16,9 @@ export const CardContent = () => {
                 </div>
             </div>
             <p className=" w-full text-[#797979]">Lorem ipsum dolor sit amet consectetur. Mauris ullamcorper pretium sollicitudin montes maecenas nisl. </p>
-            {/* <CardDate/>
+            <CardDate/>
             <CardTag/>
-            <CardRadios/> */}
+            <CardRadios/>
 
         </>
     )
