@@ -67,13 +67,13 @@ export const ProjectsMainPage = () => {
   }, [])
 
   return (
-    <div className="w-min flex flex-col gap-5">
+    <div className="w-min flex flex-col gap-5 h-full">
       <div className="w-min h-min p-2">
         <button className="bg-pink w-80 h-24 text-white h4 rounded-md">
           PROJETOS
         </button>
       </div>
-      <div className="flex flex-col scroll-smooth gap-5 scroll w-min relative overflow-y-scroll p-2 h-[50vh]">
+      <div className="flex flex-col gap-5 w-min relative overflow-y-auto p-2 h-[57vh]">
         {projects.map(p => {
           return <Project project={p} key={p.id} />
         })}

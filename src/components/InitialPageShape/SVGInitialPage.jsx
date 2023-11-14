@@ -6,7 +6,7 @@ export const SVGInitialPage = () => {
   const [primary, setPrimary] = useState("#EF4996");
   const [secondary, setSecondary] = useState("#FE7A08");
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="100vw" height="100vh" viewBox="0 0 1900 930" fill="none" className='fixed z-[1]'>
+    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 1900 930" fill="none" className='fixed z-[-1] w-screen h-screen'>
       <path d="M1279.23 -532.274L1899.12 51.0295L1844.44 316.431C1834.84 363.028 1820.63 408.557 1802.03 452.347L1734.52 
         611.264C1709.8 669.473 1664.73 716.69 1607.73 744.099C1547.17 773.223 1500.21 824.639 1476.69 887.59L1440.49 984.467C1414.26 
         1054.66 1364.36 1113.51 1299.4 1150.87C1260.33 1173.34 1226.41 1203.76 1199.84 1240.17L811.38 1772.47L434.952 1597.72C258.302 
