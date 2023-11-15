@@ -122,3 +122,7 @@
 .p{
   @apply font-montserrat text-[16px]
 }
+
+.input{
+  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat 
+}
