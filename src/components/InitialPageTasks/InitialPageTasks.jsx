@@ -9,68 +9,28 @@ export const InitialPageTasks = () => {
         //Comunicação API
         setTasks([
             {
-                id: 1,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 1
             },
             {
-                id: 2,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 2
             },
             {
-                id: 3,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 3
             },
             {
-                id: 4,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 4
             },
             {
-                id: 5,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 5
             },
             {
-                id: 6,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 6
             },
             {
-                id: 7,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 7
             },
             {
-                id: 8,
-                name: "Tarefa 1",
-                properties: [
-                    { type: "text", value: "Descrição da Tarefa" },
-                    { type: "users", value: [{ image: "/next.svg" }] },
-                ]
+                id: 8
             }
         ])
     }, [])

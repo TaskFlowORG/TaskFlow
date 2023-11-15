@@ -6,20 +6,15 @@ export const SVGInitialPage = () => {
   const [primary, setPrimary] = useState("#EF4996");
   const [secondary, setSecondary] = useState("#FE7A08");
   return (
-    <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 1900 930" fill="none" className='fixed z-[-1] w-screen h-screen'>
-      <path d="M1279.23 -532.274L1899.12 51.0295L1844.44 316.431C1834.84 363.028 1820.63 408.557 1802.03 452.347L1734.52 
-        611.264C1709.8 669.473 1664.73 716.69 1607.73 744.099C1547.17 773.223 1500.21 824.639 1476.69 887.59L1440.49 984.467C1414.26 
-        1054.66 1364.36 1113.51 1299.4 1150.87C1260.33 1173.34 1226.41 1203.76 1199.84 1240.17L811.38 1772.47L434.952 1597.72C258.302 
-        1515.71 109.444 1383.9 6.6538 1218.48L-108.14 1033.74L98.4043 1054.87C181.924 1063.42 264.253 1030.04 318.246 965.751C344.915 
-        933.997 378.97 909.272 417.422 893.746L471.486 871.917C623.399 810.579 734.331 677.018 766.744 516.427L780.65 447.53L795.943 
-        332.823C815.241 188.066 891.691 57.0618 1008.23 -30.9492C1094.98 -96.4621 1160.21 -186.364 1195.58 -289.155L1279.23 -532.274Z" fill="url(#paint0_linear_1020_10332)" />
-      <defs>
-        <linearGradient id="paint0_linear_1020_10332" x1="2038.26" y1="197.085" x2="-662.773" y2="-191.676" gradientUnits="userSpaceOnUse">
-          <stop offset="0.0208333" stopColor={primary} />
-          <stop offset="0.304639" stopColor="#F04FB0" />
-          <stop offset="0.947917" stopColor={secondary} />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
+      <svg xmlns="http://www.w3.org/2000/svg" width="1584" height="930" viewBox="0 0 1584 930" fill="none" className='fixed z-[-1] w-min h-screen top-0 right-0'>
+        <path d="M1583.5 -5.00019L890.499 -5.00019L830.805 12.0632C629.962 69.4743 482.252 240.474 454.648 447.53C413.562 651.09 272.802 820.313 80.128 897.782L-1.21524e-05 930L1133 930L1149.87 886.379C1173.95 824.132 1220.82 773.388 1280.97 744.464C1338.45 716.82 1383.91 669.197 1408.85 610.489L1475.71 453.098C1494.52 408.812 1508.82 362.743 1518.4 315.589L1583.5 -5.00019Z" fill="url(#paint0_linear_1020_10332)" />
+        <defs>
+          <linearGradient id="paint0_linear_1020_10332" x1="1712.67" y1="174.261" x2="-583.686" y2="-14.391" gradientUnits="userSpaceOnUse">
+            <stop offset="0.0208333" stopColor={primary} />
+            <stop offset="0.304639" stopColor="#F04FB0" />
+            <stop offset="0.947917" stopColor={secondary} />
+          </linearGradient>
+        </defs>
+      </svg>
+      )
 }

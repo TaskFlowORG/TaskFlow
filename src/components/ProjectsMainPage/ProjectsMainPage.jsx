@@ -14,13 +14,13 @@ export const ProjectsMainPage = () => {
         id: 1,
         name: "Projeto A",
         description: "Descrição do Projeto A",
-        groups:[{image:"/next.svg"}],
+        groups:[{id:1, image:"/next.svg"}],
         percent:75
       }, {
         id: 2,
         name: "Projeto A",
         description: "Descrição do Projeto A",
-        groups:[ {image:"/next.svg"},{image:"/next.svg"}, {image:"/next.svg"}],
+        groups:[ {id:1, image:"/next.svg"},{id:2, image:"/next.svg"}, {id:3, image:"/next.svg"}],
         percent:75
       }, {
         id: 3,

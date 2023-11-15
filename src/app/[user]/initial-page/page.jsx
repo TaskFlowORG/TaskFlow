@@ -9,7 +9,7 @@ export default function InitialPage() {
             <SVGInitialPage />
             <div className="w-screen flex flex-col gap-6 items-center justify-center h-4/5">
                 <div className="flex justify-start w-4/6 px-12">
-                    <h1 className="h1 text-pink">Pagina Inicial</h1>
+                    <h1 className="h1 text-pink ">Pagina Inicial</h1>
                 </div>
                 <div className="flex w-[62%] h-fit justify-center items-start">
                     <ProjectsMainPage />
