@@ -10,11 +10,11 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }) {
   
-
+const theme = "dark"
 const pathName = usePathname();
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={theme == "dark" ? 'bg-back-grey': 'bg-white' }>
         
         {pathName !== "/login" && pathName !== "/register" && <Header></Header>}
         {children}</body>
