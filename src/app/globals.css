@@ -103,18 +103,18 @@
 @tailwind utilities;
 
 
-h1{
+.h1{
   @apply font-alata text-[56px]
 }
-h2{
-  @apply font-alata text-[58px]
+.h2{
+  @apply font-alata text-[48px]
 }
-h3{
-  @apply font-alata text-[32px]
+.h3{
+ @apply font-alata text-[32px]
 }
-h4{
-  @apply font-alata text-[24px]
+.h4{
+@apply font-alata text-[24px]
 }
-p{
-  
+.p{
+  @apply font-montserrat text-[16px]
 }
