@@ -73,7 +73,7 @@ export const ProjectsMainPage = () => {
           PROJETOS
         </button>
       </div>
-      <div className="flex flex-col gap-5 w-min relative overflow-y-auto p-2 h-[57vh]">
+      <div className="w-min h-[60vh] p-2 overflow-scroll flex flex-wrap gap-6">
         {projects.map(p => {
           return <Project project={p} key={p.id} />
         })}

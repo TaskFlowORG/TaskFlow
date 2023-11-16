@@ -1,4 +1,4 @@
-import { SVGInitialPage } from "@/components/InitialPageShape"
+import { SVGInitialPage } from "@/components/Shapes"
 import { InitialPageTasks } from "@/components/InitialPageTasks"
 import { ProjectsMainPage } from "@/components/ProjectsMainPage"
 
@@ -11,7 +11,7 @@ export default function InitialPage() {
                 <div className="flex justify-start w-4/6 px-12">
                     <h1 className="h1 text-pink ">Pagina Inicial</h1>
                 </div>
-                <div className="flex w-[62%] h-fit justify-center items-start">
+                <div className="flex w-[62%] h-full justify-center items-start">
                     <ProjectsMainPage />
                      <div className="h-full pt-2">
                         <InitialPageTasks />

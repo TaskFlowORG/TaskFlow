@@ -1,1 +1,0 @@
-export {SVGInitialPage} from "./SVGInitialPage"

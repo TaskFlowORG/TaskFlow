@@ -9,7 +9,7 @@ export const Project = ({ project }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div className="w-80 h-min flex flex-col shadow-blur-10 gap-16 bg-white duration-300 p-6 rounded-md"
+    <div className={"w-80 flex flex-col shadow-blur-10 gap-16 bg-white duration-700 p-6 rounded-md overflow-clip relative " + (isHovering ? " h-80" : "h-24")}
       onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
       {/* Imagem do Projeto */}
