@@ -1,7 +1,8 @@
 
 import { Tag } from "./Tag"
 
-export const CardTag = () => {
+export const CardTag = ({tags}) => {
+    console.log(tags)
     return (
         <>
         <div className="oi w-full overflow-clip  flex gap-2 relative">
