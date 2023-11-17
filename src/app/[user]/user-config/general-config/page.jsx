@@ -1,5 +1,6 @@
 import { GeneralConfig } from "@/components/GeneralConfig"
 import { SideBarConfig } from "@/components/SideBarConfig"
+
 export default function UserConfigPage() {
     return (
 
