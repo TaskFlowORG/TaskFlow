@@ -1,11 +1,11 @@
-import { UserConfig } from "@/components/UserConfig"
+import { NotificationsConfig } from "@/components/NotificationsConfig"
 import { SideBarConfig } from "@/components/SideBarConfig"
 export default function UserConfigPage() {
     return (
 
         <div className="flex">
             <SideBarConfig></SideBarConfig>
-            <UserConfig></UserConfig>
+            <NotificationsConfig></NotificationsConfig>
         </div>
     )
 }
