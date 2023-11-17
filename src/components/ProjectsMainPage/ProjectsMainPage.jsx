@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Project } from "../Project";
 
@@ -69,9 +70,11 @@ export const ProjectsMainPage = () => {
   return (
     <div className="w-min flex flex-col gap-5 h-full">
       <div className="w-min h-min p-2">
-        <button className="bg-pink w-80 h-24 text-white h4 rounded-md">
-          PROJETOS
-        </button>
+        <Link href={"./projects"}>
+          <button className="bg-pink w-80 h-24 text-white h4 rounded-md">
+            PROJETOS
+          </button>
+        </Link>
       </div>
       <div className="w-min h-[60vh] p-2 overflow-scroll flex flex-wrap gap-6">
         {projects.map(p => {

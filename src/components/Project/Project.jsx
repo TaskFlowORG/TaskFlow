@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import { ProgressBar } from "./components/ProgressBar";
+import { ProgressBar } from "../ProgressBar";
 import { Groups } from "../Groups";
 
 export const Project = ({ project }) => {
@@ -9,7 +9,7 @@ export const Project = ({ project }) => {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <div className={"w-80 flex flex-col shadow-blur-10 gap-16 bg-white duration-700 p-6 rounded-md overflow-clip relative " + (isHovering ? " h-80" : "h-24")}
+    <div className={"w-80 flex flex-col shadow-blur-10 gap-16 bg-white duration-700 p-6 rounded-md overflow-clip  " + (isHovering ? " h-80" : "h-24")}
       onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
       {/* Imagem do Projeto */}

@@ -116,11 +116,11 @@ export default function InitialPage({ color }) {
         <div className="h-full flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />
             <div className=" flex flex-col gap-6 items-center justify-center w-4/5 h-4/5">
-                <div className="flex justify-start w-full px-44">
-                    <h1 className="h1 text-pink ">Projetos</h1>
+                <div className="flex justify-center w-4/5">
+                    <h1 className="h1 w-[90%] px-6 text-pink ">Projetos</h1>
                 </div>
-                <div className="w-4/5 h-[60vh] overflow-y-scroll">
-                    <div className="w-full flex flex-col flex-wrap p-6 gap-6">
+                <div className="w-4/5 h-[60vh] flex justify-center overflow-y-scroll">
+                    <div className=" w-[90%] justify-start flex flex-wrap p-6 gap-y-5 gap-x-12">
                         {projects.map(p => {
                             return <Project project={p} key={p.id} />
                         })}
