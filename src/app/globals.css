@@ -159,3 +159,31 @@
 .buttonDark {
   @apply  rounded-md h5 bg-orange text-white hover:bg-light-orange
 }
+
+.modalTaskwhite {
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+}
+
+.modalTaskDisplay{
+  @apply flex items-center
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8889;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

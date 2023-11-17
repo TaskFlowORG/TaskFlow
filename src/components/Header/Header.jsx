@@ -14,7 +14,7 @@ export default function Header() {
     return (
         <>
             {theme == "light" &&
-                <div className="h-[55px] w-full bg-white shadow-md px-8 flex  items-center justify-between border bottom-2">
+                <div className="h-[10%] w-full bg-white shadow-md px-8 flex  items-center justify-between border bottom-2">
                     <img src="/Assets/themeLight/iconLight.svg" alt="" height={'50px'} width={'50px'} />
 
                     <div className=" w-1/4 h-full flex space-x-[48px]  items-center justify-end">
@@ -26,7 +26,7 @@ export default function Header() {
 
                 </div>
             }
-            {theme == "dark" &&  <div className="h-[55px] w-full bg-back-grey shadow-md px-8 flex  items-center justify-between border bottom-2">
+            {theme == "dark" &&  <div className="h-[10%] w-full bg-back-grey shadow-md px-8 flex  items-center justify-between border bottom-2">
                     <img src="/Assets/themeDark/iconDark.svg" alt="" height={'50px'} width={'50px'} />
 
                     <div className=" w-1/4 h-full flex space-x-[48px]  items-center justify-end">
