@@ -3,10 +3,11 @@
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
 import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { useEffect } from "react";
-import { getListData } from "@/services/http/api";
+import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 export default function Home() {
   const [tasks, setTasks] = useState([])
+  const [defaultTasks, setDefaultTasks] = useState([])
   const [id, setId] = useState(0);
   const [options, setOptions] = useState([]);
 
@@ -15,19 +16,47 @@ export default function Home() {
       const fetchedTasks = await getListData("task");
 
 
-      fetchedTasks.map((task) => {
+      await fetchedTasks.map((task) => {
         task.properties.map((property) => {
           if (property.property.type == "select") {
             setOptions(property.property.options);
-            setId(property.propertyId);
+            let id2 = property.propertyId
+            setId(id2);
+            console.log("sou o id"+id)
           }
         });
       });
+      console.log("sou o id"+id)
+      const defaultPacaralho = []
+
+       fetchedTasks.map(async (task) => {
+        console.log("xadsjakldjaskl")
+
+        let property = task.properties.find((property) =>property.propertyId == id && property.value=="vazio");
+        console.log(property)
+        if (property!=null){
+          let batata = await getData("task", property.taskId)
+          if (batata != null) {
+            defaultPacaralho.push(batata)
+          }
+          console.log(batata)
+        }
+
+       
+
+
+
+      });
+
+
+
+      console.log(defaultPacaralho)
 
       setTasks(fetchedTasks)
+      setDefaultTasks(defaultPacaralho)
     };
     getList();
-  }, []);
+  }, [id]);
 
 
   return (
@@ -53,9 +82,24 @@ export default function Home() {
                 id={option.id}
                 option={option.name}
                 columnName={"To Do"}
+                verify={true}
               />
             );
           })}
+          {
+            <ColumnKanban
+              key={404}
+              tasks={defaultTasks}
+              propertyId={id}
+              color="#FF0000"
+              id={404}
+              option={"Não marcadas"}
+              columnName={"To Do"}
+              verify={false}
+            />
+          }
+
+
         </div>
       </div>
     </>

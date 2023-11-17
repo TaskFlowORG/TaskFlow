@@ -18,7 +18,7 @@ export const CardContent = ({ task }) => {
   return (
     <>
       <div className="flex justify-between">
-        <h4>{task.name}</h4>
+        <h4 className="w-max">{task.name}</h4>
         <div className="  flex items-center relative w-16">
           <span className="w-8 h-8 rounded-full bg-pink absolute shadowww  right-8"></span>
           <span className="w-8 h-8 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>

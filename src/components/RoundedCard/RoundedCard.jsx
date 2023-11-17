@@ -15,9 +15,9 @@ export const RoundedCard = ({ color, task }) => {
         }
         getList()
         console.log(task)
-   
 
-    },[])
+
+    }, [])
 
     const style = {
         borderColor: color ? color : "#FF0000"
@@ -27,7 +27,7 @@ export const RoundedCard = ({ color, task }) => {
     return (
 
         <div style={style} className={` border-l-8   shadowww w-full  rounded-lg bg-[#FCFCFC] p-4 flex flex-col justify-between gap-4 max-w-[362px]`}>
- <CardContent key={task.id} task={task} />
+            <CardContent key={task.id} task={task} />
         </div>
     )
 }
