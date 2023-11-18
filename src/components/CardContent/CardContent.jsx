@@ -33,7 +33,7 @@ export const CardContent = ({ task }) => {
         })}
         {properties.map((property) => {
           if (property.property.type == "date") {
-            console.log(property);
+           
             return <CardDate key={property.propertyId} date={property.value} />;
           }
         })}
@@ -52,7 +52,7 @@ export const CardContent = ({ task }) => {
 
         {properties.map((property) => {
           if (property.property.type == "tag") {
-            console.log(property);
+           
             return (
               <CardTag key={property.propertyId} values={property.values} />
             );
@@ -60,7 +60,7 @@ export const CardContent = ({ task }) => {
         })}
         {properties.map((property) => {
           if (property.property.type == "radio") {
-            console.log(property);
+           
             return (
               <CardRadios key={property.propertyId} values={property.values} />
             );

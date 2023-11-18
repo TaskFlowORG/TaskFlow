@@ -1,21 +1,20 @@
-"use client";
+'use client';
 
 import { RoundedCard } from "@/components/RoundedCard/RoundedCard";
 import { useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
+import { CardContent } from "../CardContent";
 
-export const ColumnKanban = ({ color, option, propertyId, tasks, id, verify }) => {
+export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
   const [colorUse, setColorUse] = useState("");
   const [tasksColumn, setTasksColumn] = useState([]);
-  let filteredTasks = []
 
   useEffect(() => {
-    console.log(tasks)
-    console.log(id, color, option);
+
     setColorUse(color ? color : "#FF0000");
-    console.log(tasks, id);
-    if (verify){
+
+    if (verify) {
       const filteredTasks = tasks.filter((task) => {
         return task.properties.some((property) => {
           return property.propertyId === propertyId && property.value === option;
@@ -23,12 +22,13 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, id, verify }) =
       });
       setTasksColumn(filteredTasks)
     } else {
-      console.log("eu passei por aqui")
       setTasksColumn(tasks)
+      console.log(tasks)
     }
 
-   
-  }, [id, color, option, tasks]);
+    console.log(tasksColumn, verify)
+
+  }, [color, option, tasks]);
   return (
     <div className="w-min min-w-[360px] flex flex-col gap-4  brightness-[0.95] hover:brightness-[1]">
       <div className="flex gap-6 items-center">
@@ -40,9 +40,11 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, id, verify }) =
       </div>
 
       {tasksColumn.map(task => {
-        console.log(task)
-        console.log(tasksColumn.length)
-        return <RoundedCard key={task.id} task={task}/>
+        return (
+          <RoundedCard key={task.id}>
+            <CardContent key={task.id} task={task} />
+          </RoundedCard>
+        )
       })}
     </div>
   );

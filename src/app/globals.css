@@ -107,7 +107,7 @@ h1{
   @apply font-alata text-[56px]
 }
 h2{
-  @apply font-alata text-[58px]
+  @apply font-alata text-[48px]
 }
 h3{
   @apply font-alata text-[32px]
@@ -132,10 +132,25 @@ p{
   
 
 }
+.shadowwwOrange{
+  box-shadow: 1px 1px 10px 0px rgba(255, 135, 26,0.25);
+-webkit-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26,0.25);
+-moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26,0.25);
+  
+
+}
 
 .elipse{
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
+}
+.timeline__pinkToPurple{
+  background: linear-gradient(180deg, #E100F4 -20.75%, #EF4996 120.75%);
+}
+
+
+.timeline__purpleToOrange{
+  background: linear-gradient(180deg, #EA35BE -20.75%, #F76858 120.75%);
 }
 
 /* .s-input input {
