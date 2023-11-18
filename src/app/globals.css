@@ -119,3 +119,34 @@
   @apply font-montserrat text-[16px]
 }
 
+
+@keyframes toggle-slider-animation{
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(32px);
+  }
+}
+
+@keyframes toggle-slider-animation-reverse{
+  0%{
+    transform: translateX(32px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}
+.toggle-input:checked + .toggle-slider::before{
+  transform: translateX(32px);
+  animation: toggle-slider-animation 0.2s ease-in-out forwards;
+}
+.toggle-input:not(:checked) + .toggle-slider::before{
+  transform: translateX(0px);
+  animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
+}
+
+.toggle-input:checked + .toggle-slider{
+  background-color: #F76858;
+}
+

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const UserData = () => {
 
-    const [username, setUsername] = useState([]);
+    const [name, setName] = useState([]);
     const [surname, setSurname] = useState([]);
     const [address, setAddress] = useState([]);
     const [picture, setPicture] = useState([]);
@@ -14,9 +14,12 @@ const UserData = () => {
 
     const getData = async () => {
         try {
+
+            //alterar o id para o id do usuario logado futuramente
+
             const res = await axios.get('http://localhost:9999/user/3');
             const info = res.data;
-            setUsername(info.name);
+            setName(info.name);
             setSurname(info.surname);
             setAddress(info.address);
             setPicture(info.picture);
@@ -35,7 +38,7 @@ const UserData = () => {
             await getData();
         })();
     }, []);
-    return { username, surname, address, picture, email, phone, description };
+    return { name, surname, address, picture, email, phone, description };
 }
 
 export default UserData;

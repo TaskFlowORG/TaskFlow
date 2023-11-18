@@ -2,7 +2,7 @@
 import UserData from "../../services/http/api";
 
 export const PersonalInformations = () => {
-    const { username, surname, address, picture, email, phone, description } = UserData();
+    const { name, surname, address, picture, email, phone, description } = UserData();
     return (
         <>
             <div className=" flex  pt-40 justify-center w-full">
@@ -21,7 +21,7 @@ export const PersonalInformations = () => {
 
                         <div className="flex flex-col h-full justify-center gap-4">
                             <div>
-                                <h2 className="h2">{username} {surname}</h2>
+                                <h2 className="h2">{name} {surname}</h2>
                             </div>
                             <div className="flex items-center gap-2">
                                 <p className="p">{address}</p>
@@ -37,7 +37,7 @@ export const PersonalInformations = () => {
                         <div className="h-full p">
                             <div className="pb-10 flex flex-row justify-around">
                                 <label className="flex flex-col">
-                                    Nome <input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%] rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={username} />
+                                    Nome <input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%] rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={name} />
                                 </label>
                                 <label className="flex flex-col">
                                     Sobrenome<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md h-12 w-72  pl-4 focus:outline-0" type="text" placeholder={surname} />
