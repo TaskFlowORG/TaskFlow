@@ -39,7 +39,7 @@ export default function CalendarPage() {
         if (month == 1) {
             setYear(year - 1)
             setMonth(12)
-        } else{
+        } else {
             setMonth(month - 1)
         }
         setDays(getDays())
@@ -48,7 +48,7 @@ export default function CalendarPage() {
         if (month == 12) {
             setYear(year + 1)
             setMonth(1)
-        }else{
+        } else {
             setMonth(month + 1)
         }
         setDays(getDays())
@@ -68,12 +68,12 @@ export default function CalendarPage() {
                         {year}
                     </div>
                     <div className="flex gap-2 items-center">
-                        <button onClick={decMonth} >
-                            {"<"}
+                        <button onClick={decMonth}>
+                            <img src="/img/arrow.svg" className="rotate-180" alt="Arrow" />
                         </button>
                         <span className="h2 text-orange w-72 text-center">{getMonthName()}</span>
                         <button onClick={incMonth} >
-                            {">"}
+                            <img src="/img/arrow.svg" alt="Arrow" />
                         </button>
                     </div>
                     <div className="flex gap-2">
@@ -89,8 +89,8 @@ export default function CalendarPage() {
                     <span className="text-back-grey h-8 row-span-1 h4 text-center">QUI</span>
                     <span className="text-back-grey h-8 row-span-1 h4 text-center">SEX</span>
                     <span className="text-back-grey h-8 row-span-1 h4 text-center">SAB</span>
-                    {getDays().map(d => <CalendarDay day ={d.day} inThisMonth={d.inThisMonth} 
-                    key={d.day.getDate() + ", " + d.day.getMonth() + ", " + d.day.getFullYear()}/>)}
+                    {getDays().map(d => <CalendarDay day={d.day} inThisMonth={d.inThisMonth}
+                        key={d.day.getDate() + ", " + d.day.getMonth() + ", " + d.day.getFullYear()} />)}
                 </div>
             </div>
         </div>
