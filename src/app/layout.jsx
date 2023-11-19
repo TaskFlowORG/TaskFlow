@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="h-screen w-screen">
-        <div className='bg-yellow-600 h-20'></div>
+        <div className='bg-yellow-600 h-[55px]'></div>
         {children}
         </body>
     </html>
