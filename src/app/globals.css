@@ -120,5 +120,9 @@
 }
 .p{
   @apply font-montserrat text-[16px]
-  
 }
+
+::-webkit-scrollbar{
+  @apply hidden;
+}
+

@@ -1,6 +1,6 @@
 
-import './globals.css'
 
+import './globals.css'
 
 
 export const metadata = {
@@ -9,6 +9,7 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  const color = 'yellow';
   return (
     <html lang="en">
       <body className="h-screen w-screen">
