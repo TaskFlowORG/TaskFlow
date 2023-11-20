@@ -1,11 +1,47 @@
-export const Header = () => {
+
+'use client'
+
+import Image from "next/image"
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+export default function Header() {
+    const path = usePathname();
+    
+    useEffect( () => {
+        console.log(path);
+    }, [path.pathname])
+    
+    const theme = "light";
     return (
-        <div className="p-12 py-8 pb-0 flex justify-between w-full items-center">
-            <img src="Icon.svg" alt="" />
-            <div className="flex gap-6">
-                <img src="moon.svg" alt="" />
-                <img src="language.svg" alt="" />
-            </div>
-        </div>
-    )
+        <>
+            {theme == "light" &&
+                <div className="h-[5%] w-full bg-white shadow-md px-2 flex  items-center justify-between border bottom-2">
+                    <img src="/Assets/logo/iconLight.svg" alt="" height={'50px'} width={'50px'} />
+
+                    <div className=" w-1/4 h-full flex space-x-[48px]  items-center justify-end">
+                        <img src="/Assets/themeLight/notification.svg" alt="" width={"20px"} hight={"20px"} />
+                        <img src="/Assets/Language.svg" alt="" width={"20px"} height={"20px"} />
+                        <img src="/Assets/themeLight/themeLight.svg" alt="" width={"20px"} height={"20px"} />
+                        <img src="/Assets/themeLight/Profile.svg" alt="" width={"20px"} height={"20px"} />
+                    </div>
+
+                </div>
+            }
+            {theme == "dark" &&  <div className="h-[9%] w-full bg-back-grey shadow-md px-8 flex  items-center justify-between border bottom-2">
+                    <img src="/Assets/themeDark/iconDark.svg" alt="" height={'50px'} width={'50px'} />
+
+                    <div className=" w-1/4 h-full flex space-x-[30px]  items-center justify-end">
+                        <img src="/Assets/themeDark/notificationDark.svg" alt="" width={"20px"} hight={"20px"} />
+                        <img src="/Assets/Language.svg" alt="" width={"20px"} height={"20px"} />
+                        <img src="/Assets/themeDark/themeDark.svg" alt="" width={"20px"} height={"20px"} />
+                        <img src="/Assets/themeDark/ProfileDark.svg" alt="" width={"20px"} height={"20px"} />
+                    </div>
+
+                </div>
 }
+        </>
+
+    )
+
+}
+

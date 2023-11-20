@@ -1,6 +1,13 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
-@font-face {
-  font-family: "Alata";
+
+
+
+
+
+@font-face{
+  font-family:"Alata";
+
+
   src: url('../../public/fonts/Alata/Alata-Regular.ttf') format('truetype')
 }
 
@@ -119,25 +126,7 @@
 @tailwind utilities;
 
 
-h1 {
-  @apply font-alata text-[56px]
-}
 
-h2 {
-  @apply font-alata text-[48px]
-}
-
-h3 {
-  @apply font-alata text-[32px]
-}
-
-h4 {
-  @apply font-alata text-[24px]
-}
-
-p {
-  @apply font-montserrat text-[16px]
-}
 
 .mn {
 
@@ -175,6 +164,8 @@ p {
   background: linear-gradient(180deg, #EA35BE -20.75%, #F76858 120.75%);
 }
 
+
+
 /* .s-input input {
   display: none;
 }
@@ -203,3 +194,104 @@ p {
 
 
 } */
+
+
+
+
+
+
+.inputLight {
+  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat
+}
+
+.inputDark {
+
+  @apply w-full flex justify-center items-center gap-2 h-[62px] rounded-sm font-montserrat text-white bg-modal-grey border-b-2 border-white
+}
+
+.buttonLight {
+  @apply bg-pink  rounded-md h5 text-white hover:bg-light-pink
+}
+
+
+.buttonDark {
+  @apply  rounded-md h5 bg-orange text-white hover:bg-light-orange
+
+}
+
+.h1{
+  @apply font-alata text-[56px]
+}
+.h2{
+  @apply font-alata text-[48px]
+}
+.h3{
+
+ @apply font-alata text-[32px]
+}
+.h4{
+@apply font-alata text-[24px]
+
+}
+.h5 {
+  @apply font-alata text-[20px]
+}
+
+.p{
+  @apply font-montserrat text-[16px]
+}
+
+
+
+@keyframes toggle-slider-animation{
+  0%{
+    transform: translateX(0px);
+  }
+  100%{
+    transform: translateX(32px);
+  }
+}
+
+@keyframes toggle-slider-animation-reverse{
+  0%{
+    transform: translateX(32px);
+  }
+  100%{
+    transform: translateX(0px);
+  }
+}
+.toggle-input:checked + .toggle-slider::before{
+  transform: translateX(32px);
+  animation: toggle-slider-animation 0.2s ease-in-out forwards;
+}
+.toggle-input:not(:checked) + .toggle-slider::before{
+  transform: translateX(0px);
+  animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
+}
+
+.toggle-input:checked + .toggle-slider{
+  background-color: #F76858;
+}
+
+.toggleIn{
+  animation: toggle-slider-animation 0.2s ease-in-out forwards;
+}
+.toggleOut{
+  animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
+
+::-webkit-scrollbar{
+  @apply hidden;
+
+}
+
+
+
+.modalTaskwhite {
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+}
+
+.modalTaskDisplay{
+  @apply flex items-center
+}
+
+
