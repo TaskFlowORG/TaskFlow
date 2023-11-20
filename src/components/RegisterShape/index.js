@@ -1,0 +1,1 @@
+export{RegisterShape} from "./RegisterShape";

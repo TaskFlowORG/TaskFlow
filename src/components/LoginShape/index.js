@@ -1,0 +1,1 @@
+export { LoginShape } from "./LoginShape";

@@ -12,7 +12,9 @@ module.exports = {
         'back-grey':'#3C3C3C',
         'modal-grey':'#333333',
         'pink':'#F04A94',
+        'light-pink': '#f576ae',
         'orange':'#F76858',
+        'light-orange':'#fa877a',
         'input-grey':'#F2F2F2'
       },
       boxShadow: {
