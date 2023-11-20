@@ -14,14 +14,14 @@ export const CalendarDay = ({ date }) => {
 
     return (
         <div className={"aspect-square h-full px-2 pt-2 font-montserrat text-[32px] rounded-sm" + dayClasses}>
-            <div className="w-full h-1/5 flex justify-start items-start flex-wrap">
+            <div className="w-full h-1/5 flex justify-start items-start ">
                 {
-                    date.tasks.length >= 10 ?
-                        <div className=" relative p-1 rounded-full text-[12px] text-white bg-pink"
+                    date.tasks.length >=15 ?
+                        <div className=" relative  w-full "
                             onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-                            <p>Tasks</p>
+                            <p className="text-[12px] text-white bg-pink rounded-full w-min h-min px-1">Tasks</p>
                             {isHovering && (
-                                <div className="absolute flex h-full bg-white py-1 px-2 rounded-md shadow-blur-10 top-0 left-0">
+                                <div className="absolute flex w-full flex-wrap bg-white py-1 px-2 rounded-md shadow-blur-10 top-0 left-0">
                                     {date.tasks.map(t => <TaskCalendar task={t} key={t.id} />)}
                                 </div>)
                             }

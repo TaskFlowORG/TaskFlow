@@ -49,6 +49,18 @@ export default function CalendarPage() {
         date: new Date(2023, 10, 1)
     },,
     {
+        id: 8,
+        name: "Tarefa 8",
+        color: "#ff0000",
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 11,
+        name: "Tarefa 11",
+        color: null,
+        date: new Date(2023, 10, 2)
+    },
+    {
         id: 5,
         name: "Tarefa 5",
         color: "#ff0000",
@@ -65,13 +77,31 @@ export default function CalendarPage() {
         name: "Tarefa 7",
         color: null,
         date: new Date(2023, 10, 1)
+    },,
+    {
+        id: 8,
+        name: "Tarefa 8",
+        color: "#ff0000",
+        date: new Date(2023, 10, 1)
     },
     {
-        id: 7,
-        name: "Tarefa 7",
+        id: 11,
+        name: "Tarefa 11",
         color: null,
         date: new Date(2023, 10, 2)
     },
+    {
+        id: 2,
+        name: "Tarefa 2",
+        color: "#ff0000",
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 3,
+        name: "Tarefa 3",
+        color: "#ff0000",
+        date: new Date(2023, 10, 1)
+    }
     ]
     const [month, setMonth] = useState(0)
     const [year, setYear] = useState(2023)
@@ -150,13 +180,13 @@ export default function CalendarPage() {
                     </div>
                 </div>
                 <div className="grid grid-cols-7 gap-1 w-full h-full">
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">DOM</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">SEG</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">TER</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">QUA</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">QUI</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">SEX</span>
-                    <span className="text-back-grey h-10 row-span-1 h4 text-center">SAB</span>
+                    <span className="text-back-grey h-10 h4 text-center">DOM</span>
+                    <span className="text-back-grey h-10 h4 text-center">SEG</span>
+                    <span className="text-back-grey h-10 h4 text-center">TER</span>
+                    <span className="text-back-grey h-10 h4 text-center">QUA</span>
+                    <span className="text-back-grey h-10 h4 text-center">QUI</span>
+                    <span className="text-back-grey h-10 h4 text-center">SEX</span>
+                    <span className="text-back-grey h-10 h4 text-center">SAB</span>
                     {getDays().map(d => <CalendarDay date={d}
                         key={d.day.getDate() + ", " + d.day.getMonth() + ", " + d.day.getFullYear()} />)}
                 </div>
