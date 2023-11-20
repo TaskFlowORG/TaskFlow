@@ -284,7 +284,9 @@
 
 }
 
-
+.pAlata{
+  @apply font-alata text-[16px]
+}
 
 .modalTaskwhite {
   @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
