@@ -142,8 +142,10 @@
   @apply bg-pink  rounded-md h5 text-white hover:bg-light-pink
 }
 
+
 .buttonDark {
   @apply  rounded-md h5 bg-orange text-white hover:bg-light-orange
+
 }
 
 .h1{
@@ -209,5 +211,15 @@
 ::-webkit-scrollbar{
   @apply hidden;
 
+}
+
+
+
+.modalTaskwhite {
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+}
+
+.modalTaskDisplay{
+  @apply flex items-center
 }
 
