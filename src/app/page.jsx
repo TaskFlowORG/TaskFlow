@@ -1,20 +1,15 @@
 
-"use client"
-
-
-import Image from 'next/image'
-
 
 import { ModalTarefa } from '@/components/ModalTarefa'
 import Image from 'next/image'
-import { useEffect } from 'react'
+
 import {Footer} from "@/components/Footer"
+
 export default function Home() {
-  useEffect(() => {
-    console.log('oi')
-  }, [])
+
 
   return (
+
     <div className='h-[95%] w-screen flex justify-center items-center'>
 
 
@@ -82,6 +77,7 @@ export default function Home() {
       </div>
     
     </div>
+
 
   )
 }
