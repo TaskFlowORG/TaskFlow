@@ -27,23 +27,20 @@ export default function Home() {
                 });
             });
 
-            const defaultPacaralho = []
+            const tasksPadrao = []
 
             fetchedTasks.map((task) => {
 
                 let property = task.properties.find((property) => property.propertyId == id && property.value == "vazio");
 
                 if (property != null) {
-                    defaultPacaralho.push(task)
+                    tasksPadrao.push(task)
                 }
-
-
-
 
 
             });
             setTasks(fetchedTasks)
-            setDefaultTasks(defaultPacaralho)
+            setDefaultTasks(tasksPadrao)
         };
         getList();
     }, [id]);
