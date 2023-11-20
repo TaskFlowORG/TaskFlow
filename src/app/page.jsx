@@ -1,4 +1,9 @@
+
 "use client"
+
+
+import Image from 'next/image'
+
 
 import { ModalTarefa } from '@/components/ModalTarefa'
 import Image from 'next/image'
