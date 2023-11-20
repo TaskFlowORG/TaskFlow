@@ -21,7 +21,7 @@ export const NotificationsConfig = () => {
 
     const [isChecked, setIsChecked] = useState(false)
     const verificarToggle = () => {
-        const a = document.querySelector("body > div.flex > div.w-full > div > div > div.flex.justify-between.col-span-2.row-start-1 > div > label > span")
+        const a = document.querySelector("#mostrarNotificacoes")
         let toggles = document.querySelectorAll("#toggle")
         let togglesSpan = document.querySelectorAll("#toggleSpan")
         if (a.classList.toggle("toggle-slider-active") === false) {

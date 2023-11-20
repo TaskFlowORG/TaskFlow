@@ -278,7 +278,7 @@
 }
 .toggleOut{
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
-
+}
 ::-webkit-scrollbar{
   @apply hidden;
 
