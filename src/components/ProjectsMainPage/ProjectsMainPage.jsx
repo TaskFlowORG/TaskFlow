@@ -71,7 +71,7 @@ export const ProjectsMainPage = () => {
     <div className="w-min flex flex-col gap-5 h-full">
       <div className="w-min h-min p-2">
         <Link href={"./projects"}>
-          <button className="bg-pink w-80 h-24 text-white h4 rounded-md">
+          <button className="bg-primary w-80 h-24 text-white h4 rounded-md">
             PROJETOS
           </button>
         </Link>

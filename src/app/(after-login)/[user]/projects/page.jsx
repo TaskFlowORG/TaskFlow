@@ -117,7 +117,7 @@ export default function InitialPage({ color }) {
             <SVGProjectsPage />
             <div className=" flex flex-col gap-6 items-center justify-center w-4/5 h-4/5">
                 <div className="flex justify-center w-4/5">
-                    <h1 className="h1 w-[90%] px-6 text-pink ">Projetos</h1>
+                    <h1 className="h1 w-[90%] px-6 text-primary ">Projetos</h1>
                 </div>
                 <div className="w-4/5 h-[60vh] flex justify-center overflow-y-scroll">
                     <div className=" w-[90%] justify-start flex flex-wrap p-6 gap-y-5 gap-x-12">

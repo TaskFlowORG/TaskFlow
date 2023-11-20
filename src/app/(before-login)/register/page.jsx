@@ -36,7 +36,7 @@ const page = () => {
                     <div className="w-[75%] flex justify-center">
 
                         <p className={'font-alata text-sm ' + (theme == "dark" && " text-white")}>Já possui uma conta?</p>
-                        <p className="font-alata text-sm underline text-orange hover:cursor-pointer hover:text-light-orange">Entrar</p>
+                        <p className="font-alata text-sm underline text-secondary hover:cursor-pointer hover:text-light-orange">Entrar</p>
                     </div>
 
                     <button className={theme == "dark" ? "buttonDark  w-[150px] h-[44px]": "buttonLight w-[150px] h-[44px]"}>Entrar</button>

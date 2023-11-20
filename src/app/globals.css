@@ -125,7 +125,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
+:root{
+  --primary-color: #F04A94;
+  --secondary-color: #F76858;
+}
 
 
 .mn {
@@ -142,7 +145,7 @@
 
 }
 
-.shadowwwOrange {
+.shadowwwsecondary {
   box-shadow: 1px 1px 10px 0px rgba(255, 135, 26, 0.25);
   -webkit-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
@@ -155,12 +158,12 @@
   clip-path: circle(50% at 0%);
 }
 
-.timeline__pinkToPurple {
+.timeline__primaryToPurple {
   background: linear-gradient(180deg, #E100F4 -20.75%, #EF4996 120.75%);
 }
 
 
-.timeline__purpleToOrange {
+.timeline__purpleTosecondary {
   background: linear-gradient(180deg, #EA35BE -20.75%, #F76858 120.75%);
 }
 
@@ -210,12 +213,12 @@
 }
 
 .buttonLight {
-  @apply bg-pink  rounded-md h5 text-white hover:bg-light-pink
+  @apply bg-primary rounded-md h5 text-white hover:bg-light-pink
 }
 
 
 .buttonDark {
-  @apply  rounded-md h5 bg-orange text-white hover:bg-light-orange
+  @apply  rounded-md h5 bg-secondary text-white hover:bg-light-pink
 
 }
 

@@ -49,7 +49,7 @@ export const NotificationsConfig = () => {
                     <div className="w-[80%] grid grid-cols-2 grid-rows-4 gap-10">
 
                         <div className="flex justify-between col-span-2 row-start-1">
-                            <h2 className="h2 text-orange">Mostrar notificações</h2>
+                            <h2 className="h2 text-secondary">Mostrar notificações</h2>
                             <div className="flex items-center py-4 font-bold ">
                                 <label className="relative w-16 h-8 ml-4 mr-4">
                                     <input onClick={() => verificarToggle()} id="mostrarNotificacoes" type="checkbox" className="opacity-0 w-0 h-0 toggle-input" />

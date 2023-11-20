@@ -27,8 +27,8 @@ const page = () => {
                         </div>
 
                         <div className="w-4/6 flex justify-between">
-                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-orange' + (theme == "dark" && " text-white")}>Esqueceu sua senha?</p>
-                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-orange' + (theme == "dark" && " text-white")}>Registre-se!</p>
+                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary' + (theme == "dark" && " text-white")}>Esqueceu sua senha?</p>
+                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary' + (theme == "dark" && " text-white")}>Registre-se!</p>
                         </div>
 
                         <button className={theme == "dark" ? "buttonDark  w-[150px] h-[44px]" : "buttonLight  w-[150px] h-[44px]"}>Entrar</button>

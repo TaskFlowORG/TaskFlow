@@ -51,9 +51,9 @@ export default function Home() {
 
             <div className="w-full h-full mt-[5em] flex flex-col ">
                 <div className="flex gap-5 items-end pb-16 justify-center    h-max">
-                    <h1 className="h1 text-pink whitespace-nowrap">Page Name</h1>
+                    <h1 className="h1 text-primary whitespace-nowrap">Page Name</h1>
                     <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
-                        <p className="p text-pink text-4xl h-min w-min">+</p>
+                        <p className="p text-primary text-4xl h-min w-min">+</p>
                     </div>
                     <SearchBar hasOrder hasFilter hasSearch />
                 </div>

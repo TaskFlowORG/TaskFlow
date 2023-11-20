@@ -162,21 +162,21 @@ export default function CalendarPage() {
 
             <div className="w-1/2 flex flex-col h-full justify-center items-center gap-4">
                 <div className="flex items-center justify-between w-full">
-                    <div className="h2 text-pink">
+                    <div className="h2 text-primary">
                         {year}
                     </div>
                     <div className="flex gap-2 items-center">
                         <button onClick={decMonth}>
                             <img src="/img/arrow.svg" className="rotate-180" alt="Arrow" />
                         </button>
-                        <span className="h2 text-orange w-64 text-center">{getMonthName()}</span>
+                        <span className="h2 text-secondary w-64 text-center">{getMonthName()}</span>
                         <button onClick={incMonth} >
                             <img src="/img/arrow.svg" alt="Arrow" />
                         </button>
                     </div>
                     <div className="flex gap-2">
-                        <div className="w-12 rounded-full h-12 bg-pink"></div>
-                        <div className="w-12 rounded-full h-12 bg-pink"></div>
+                        <div className="w-12 rounded-full h-12 bg-primary"></div>
+                        <div className="w-12 rounded-full h-12 bg-primary"></div>
                     </div>
                 </div>
                 <div className="grid grid-cols-7 gap-1 w-full h-full">
