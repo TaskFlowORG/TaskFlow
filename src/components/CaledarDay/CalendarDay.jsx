@@ -14,9 +14,9 @@ export const CalendarDay = ({ date }) => {
 
     return (
         <div className={"aspect-square h-full px-2 pt-2 font-montserrat text-[32px] rounded-sm" + dayClasses}>
-            <div className="w-full h-1/5 flex justify-start items-start ">
+            <div className="w-full h-1/5 flex justify-start items-start flex-wrap">
                 {
-                    date.tasks.length >=15 ?
+                    date.tasks.length >=35 ?
                         <div className=" relative  w-full "
                             onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                             <p className="text-[12px] text-white bg-pink rounded-full w-min h-min px-1">Tasks</p>
