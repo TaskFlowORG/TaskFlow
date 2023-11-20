@@ -1,0 +1,1 @@
+export { SideBarConfig } from './SideBarConfig';
