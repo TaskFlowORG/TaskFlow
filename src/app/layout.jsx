@@ -1,4 +1,7 @@
+
+
 import './globals.css'
+
 
 export const metadata = {
   title: 'Create Next App',
@@ -9,10 +12,10 @@ export default function RootLayout({ children }) {
   const color = 'yellow';
   return (
     <html lang="en">
-      <body  className="h-screen w-screen flex flex-col ">
-        <div className='w-screen h-20 bg-yellow-300'></div>
-        {children}
-        </body>
+      <body className="h-screen w-screen">
+        <div className='bg-yellow-600 h-[7%]'></div>
+          {children}
+      </body>
     </html>
   )
 }

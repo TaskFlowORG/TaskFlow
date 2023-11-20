@@ -1,1 +1,1 @@
-//export {function} from "pathfunction"
+export {compareDates} from "./compareDates"
