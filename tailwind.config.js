@@ -16,8 +16,8 @@ module.exports = {
         'input-grey':'#F2F2F2'
       },
       boxShadow: {
-        'blur-10': '0 0px 0px 10px rgba(0, 0, 10, 0.25)',
-        'blur-20': '0 0px 0px 10px rgba(0, 0, 20, 0.25)',
+        'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',
+        'blur-20': '0 0px 20px 0px rgba(0, 0, 0, 0.25)',
       }, 
       fontFamily:{
         'alata':['Alata', 'sans-serif'],
