@@ -4,7 +4,7 @@
 import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
-export default function Header() {
+export  function Header() {
     const path = usePathname();
     
     useEffect( () => {
@@ -15,7 +15,7 @@ export default function Header() {
     return (
         <>
             {theme == "light" &&
-                <div className="h-[5%] w-full bg-white shadow-md px-2 flex  items-center justify-between border bottom-2">
+                <div className="h-14 w-full bg-white shadow-md px-2 flex  items-center justify-between border bottom-2 px-6">
                     <img src="/Assets/logo/iconLight.svg" alt="" height={'50px'} width={'50px'} />
 
                     <div className=" w-1/4 h-full flex space-x-[48px]  items-center justify-end">

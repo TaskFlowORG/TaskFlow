@@ -36,7 +36,7 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
           className={`w-2 h-2 rounded-full`}
           style={{ backgroundColor: color }}
         ></div>
-        <h4 className=" whitespace-nowrap">{option}</h4>
+        <h4 className="h4 whitespace-nowrap">{option}</h4>
       </div>
 
       {tasksColumn.map(task => {
