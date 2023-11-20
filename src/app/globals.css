@@ -150,3 +150,10 @@
   background-color: #F76858;
 }
 
+.toggleIn{
+  animation: toggle-slider-animation 0.2s ease-in-out forwards;
+}
+.toggleOut{
+  animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
+}
+
