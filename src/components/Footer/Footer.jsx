@@ -1,4 +1,4 @@
-const Footer = () => {
+export const Footer = () => {
            const theme = "light";
     return (
 <>
@@ -6,7 +6,7 @@ const Footer = () => {
             
             <div className="h-1/2 w-3/5 flex justify-between border-b-2" >
                 <div className="flex flex-col justify-center w-1/3">
-                    <img src="./Assets/icon.svg" alt="" className="h-[128px] w-[121px]" />
+                    <img src="/Assets/logo/iconDark.svg" alt="" className="h-[128px] w-[121px]" />
                     <p className=" font-alata h4 text-white">A organização que te liberta! </p>
                 </div>
 
@@ -88,4 +88,3 @@ const Footer = () => {
     )
 }
 
-export default Footer;

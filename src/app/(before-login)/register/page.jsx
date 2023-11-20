@@ -2,15 +2,15 @@ import { RegisterShape } from "@/components/RegisterShape";
 
 const page = () => {
 
-    const theme = 'dark'
+    const theme = 'light'
     return (
 
         <div className="h-screen w-screen flex justify-center items-center">
 
             <RegisterShape />
-            <div className={"h-[595px] w-[460px] shadow-blur-10 rounded-md flex justify-center items-center" + (theme == "dark" ? " bg-modal-grey" : "bg-white")}>
+            <div className={"h-[60%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center " + (theme == "dark" ? " bg-modal-grey" : "bg-white")}>
                 <div className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
-                    <p className={"h4" + (theme == "dark" && " text-white")}>Registrar</p>
+                    <p className={ (theme == "dark" && " h4 text-white") + (theme == "light" && " h4")}>Registrar</p>
 
                     <div className={theme == "dark" ? "inputDark" : "inputLight"}>
                         {theme == "dark" && <img src="./Assets/themeDark/iconUser.svg" alt="" className='h-[30px]' />}
@@ -42,6 +42,8 @@ const page = () => {
                     <button className={theme == "dark" ? "buttonDark  w-[150px] h-[44px]": "buttonLight w-[150px] h-[44px]"}>Entrar</button>
                 </div>
             </div>
+
+            
         </div>
 
     )

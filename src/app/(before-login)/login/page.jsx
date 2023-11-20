@@ -3,7 +3,7 @@ import { text } from 'stream/consumers';
 
 const page = () => {
 
-    const theme = 'dark'
+    const theme = 'light'
     return (
         <>
             <div className="h-screen w-screen flex justify-center items-center">
