@@ -45,7 +45,6 @@ const UserData = () => {
     const [phone, setPhone] = useState([]);
     const [description, setDescription] = useState([]);
 
-
     const getData = async () => {
         try {
 
@@ -66,6 +65,17 @@ const UserData = () => {
             console.log(error);
         }
     };
+
+
+    const postData = async (user) => {
+        try {
+            const res = await axios.post('http://localhost:9999/user', user);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     useEffect(() => {
         (async () => {
