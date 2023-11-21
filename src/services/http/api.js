@@ -51,7 +51,7 @@ const UserData = () => {
 
             //alterar o id para o id do usuario logado futuramente
 
-            const res = await axios.get('http://localhost:9999/user/3');
+            const res = await axios.get('http://localhost:9999/user/4');
             const info = res.data;
             setName(info.name);
             setSurname(info.surname);

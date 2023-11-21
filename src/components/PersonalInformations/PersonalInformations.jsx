@@ -20,7 +20,7 @@ export const PersonalInformations = () => {
                         </div>
 
                         <div className="flex flex-col h-full justify-center gap-4">
-                            <div>
+                            <div className=" overflow-auto">
                                 <h2 className="h2">{name} {surname}</h2>
                             </div>
                             <div className="flex items-center gap-2">
@@ -33,30 +33,34 @@ export const PersonalInformations = () => {
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div className="h-full p">
-                            <div className="pb-10 flex flex-row justify-around">
-                                <label className="flex flex-col">
+                    <div className=" flex justify-center" >
+                        <div className="grid grid-cols-2 grid-rows-4 gap-10 absolute">
+                            <div className="row-start-1 px-6">
+                                <label className="flex flex-col ">
                                     Nome <input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%] rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={name} />
                                 </label>
+                            </div>
+                            <div className="row-start-1 px-6">
                                 <label className="flex flex-col">
-                                    Sobrenome<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md h-12 w-72  pl-4 focus:outline-0" type="text" placeholder={surname} />
+                                    Sobrenome<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="email" placeholder={surname} />
                                 </label>
                             </div>
-                            <div className="pb-10 flex flex-row justify-around">
+                            <div className="row-start-2  px-6">
                                 <label className="flex flex-col">
                                     Email<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="email" placeholder={email} />
                                 </label>
+                            </div>
+                            <div className="row-start-2  px-6">
                                 <label className="flex flex-col">
-                                    Telefone<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={phone} />
+                                    Telefone<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="email" placeholder={phone} />
                                 </label>
                             </div>
-                            <div>
-                                <label className="flex flex-col px-14">
-                                    Descrição<input className="w-full bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12  pl-4  focus:outline-none" type="text" placeholder={description} />
+                            <div className="row-start-3  px-6">
+                                <label className="flex flex-col">
+                                    Descrição<input className=" bg-[#222222] border-2 border-[#222222] border-opacity-[5%] bg-opacity-[3%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="email" placeholder={description} />
                                 </label>
                             </div>
-                            <div className="pt-10 px-14">
+                            <div className="row-start-4  px-6">
                                 <div>
                                     <button className="h4 w-60  drop-shadow-xl  h-12 rounded-md bg-[#F04A94] text-[#FCFCFC]">Salvar alteraçoes</button>
                                 </div>

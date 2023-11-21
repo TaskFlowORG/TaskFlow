@@ -7,19 +7,7 @@ export const NotificationsConfig = () => {
         verificarToggle()
     })
 
-    function changeToggle (e){
-        if(isChecked){
-            setIsChecked(false)
-            document.getElementById("toggleTest").classList.remove("toggleIn")
-            document.getElementById("toggleTest").classList.add( "toggleOut")
-        }else{
-            setIsChecked(true)
-            document.getElementById("toggleTest").classList.remove("toggleOut")
-            document.getElementById("toggleTest").classList.add("toggleIn")
-        }
-    }
 
-    const [isChecked, setIsChecked] = useState(false)
     const verificarToggle = () => {
         const a = document.querySelector("#mostrarNotificacoes")
         let toggles = document.querySelectorAll("#toggle")
