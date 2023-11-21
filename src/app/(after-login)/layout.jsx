@@ -12,12 +12,6 @@ import { usePathname } from 'next/navigation';
 
 export default function RootLayout({ children }) {
 
-  const a = []
-
-  b = a.filter(if (b.length<3){
-    return 
-  })
-  
 const theme = "light"
 const pathName = usePathname();
   return (
