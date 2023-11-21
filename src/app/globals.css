@@ -299,4 +299,13 @@
   @apply flex items-center
 }
 
+.inputGrayAndPink{
+  /* @apply bg-[#F2F2F2] border-[#F04A94] 
+  background-color: #F2F2F2;
+  border-color: #F04A94;
+  stroke-width: 1px;
+  height: 21px;
+  width: 21px; */
+}
+
 

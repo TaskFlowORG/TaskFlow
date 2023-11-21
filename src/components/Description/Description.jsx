@@ -16,8 +16,7 @@ export const Description = () => {
     }, [])
 
     return (
-        <div className=" flex gap-4 h-max  pr-12">
-
+        <div className=" flex gap-4 h-max pr-12">
             {
                 groups && groups.map(g => (
                     <GroupAccess key={g.id} nome={g.nome} descricao={g.descricao} />
