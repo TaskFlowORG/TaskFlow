@@ -12,12 +12,14 @@ export const NotificationsConfig = () => {
 
     return (
         <>
-            <div className="w-full">
+        
+            <div className="w-full ">
+
                 <div className="w-full flex justify-center h-full items-center">
 
-                    <div className="w-[80%] grid grid-cols-2 grid-rows-4 gap-10">
+                    <div className="w-[80%] md:grid grid-cols-2 grid-rows-4 gap-10 sm:">
 
-                        <div className="flex justify-between col-span-2 row-start-1">
+                        <div className="flex justify-between items-center col-span-2 row-start-1">
                             <h2 className="h2 text-secondary">Mostrar notificações</h2>
                             <div className="flex items-center py-4 font-bold ">
                                 <label className="relative w-16 h-8 ml-4 mr-4">

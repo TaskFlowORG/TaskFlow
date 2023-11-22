@@ -1,9 +1,25 @@
+"use client"
+
+import { useEffect, useState } from "react"
 
 export const SideBarConfig = () => {
+    const [invisible, setInvisble] = useState(true)
+    useEffect(() => {
+        mostrarSidebar()
+    })
+
+    const mostrarSidebar = ()=>{
+        if (window.innerWidth <= 768) {
+            setInvisble(true)
+            console.log(window.innerWidth)
+        }
+    }
     return (
         <>
 
-            <div className="text-white bg-primary  w-[23%] h-screen grid" style={{ gridAutoRows: '20% 40% 38%' }}>
+            <div className={`text-white bg-primary  md:w-[23%] h-screen md:grid ${
+                invisible ? "hidden" : "visible"
+            }`} style={{ gridAutoRows: '25% 43% 30%' }}>
                 <div className="flex flex-col items-center justify-center h-full row-start-1 row-end-2 ">
                     <h3 className="h3 ">Perfil de usuário</h3>
                 </div>

@@ -36,7 +36,7 @@ export const PersonalInformations = () => {
                         <div className="grid grid-cols-2 grid-rows-4 gap-10 absolute text-modal-grey p">
                             <div className="row-start-1 px-6">
                                 <label className="flex flex-col ">
-                                    Nome <input className=" bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={name} />
+                                    Nome <input className="  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={name} />
                                 </label>
                             </div>
                             <div className="row-start-1 px-6">
