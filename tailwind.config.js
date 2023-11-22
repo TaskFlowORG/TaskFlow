@@ -15,7 +15,9 @@ module.exports = {
         'light-pink': '#f576ae',
         'secondary':'var(--secondary-color)',
         'light-orange':'#fa877a',
-        'input-grey':'#F2F2F2'
+        'input-grey':'#F2F2F2',
+        'input-grey-opacity':'rgba(34, 34, 34, 0.02)',
+        'input-toggle-grey': '#E0E0E0'
       },
       boxShadow: {
         'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',
