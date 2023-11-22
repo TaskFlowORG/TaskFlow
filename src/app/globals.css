@@ -291,8 +291,13 @@
   @apply font-alata text-[16px]
 }
 
+.inputSombra{
+  @apply relative left-10 h-10 w-[80%] rounded-xl px-2 py-1
+}
+
+
 .modalTaskwhite {
-  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center 
 }
 
 .modalTaskDisplay{
@@ -300,12 +305,7 @@
 }
 
 .inputGrayAndPink{
-  /* @apply bg-[#F2F2F2] border-[#F04A94] 
-  background-color: #F2F2F2;
-  border-color: #F04A94;
-  stroke-width: 1px;
-  height: 21px;
-  width: 21px; */
+   @apply bg-[#F2F2F2] border-[#F04A94] 
 }
 
 
