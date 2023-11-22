@@ -43,14 +43,14 @@ export default function InitialPage({ color }) {
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 7,
             name: "Projeto G",
             description: "Descrição do Projeto A",
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 8,
             name: "Projeto H",
             description: "Descrição do Projeto A",
@@ -70,14 +70,14 @@ export default function InitialPage({ color }) {
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 7,
             name: "Projeto K",
             description: "Descrição do Projeto A",
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 8,
             name: "Projeto L",
             description: "Descrição do Projeto A",
@@ -97,14 +97,14 @@ export default function InitialPage({ color }) {
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 7,
             name: "Projeto O",
             description: "Descrição do Projeto A",
             groups: [],
             percent: 75
 
-        },  {
+        }, {
             id: 8,
             name: "Projeto P",
             description: "Descrição do Projeto A",
@@ -116,14 +116,14 @@ export default function InitialPage({ color }) {
         <div className="h-full flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />
             <div className=" flex flex-col gap-6 items-center justify-center w-4/5 h-4/5">
-                <div className="flex justify-center w-4/5">
-                    <h1 className="h1 w-[90%] px-6 text-primary ">Projetos</h1>
-                </div>
-                <div className="w-4/5 h-[60vh] flex justify-center overflow-y-scroll">
-                    <div className="justify-start grid grid-cols-3 bg-red-200 p-6 gap-y-5 gap-x-12">
-                        {projects.map(p => {
-                            return <Project project={p} key={p.id} />
-                        })}
+                <div className="flex  items-center  lg:items-start flex-col w-fit">
+                    <h1 className="h1 text-start px-6 text-white lg:stroke-text-white lg:text-primary">Projetos</h1>
+                    <div className="w-fit h-[60vh] flex justify-center overflow-y-scroll">
+                        <div className=" justify-start grid lg:grid-cols-2 2xl:grid-cols-3 p-6 gap-y-5 gap-x-12">
+                            {projects.map(p => {
+                                return <Project project={p} key={p.id} />
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

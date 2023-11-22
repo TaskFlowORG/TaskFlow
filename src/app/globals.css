@@ -129,13 +129,14 @@
   --primary-color: #F04A94;
   --secondary-color: #F76858;
 }
-.gridCss{
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-}
+
 
 .mn {
 
   @apply font-montserrat text-[12px]
+}
+.stroke-text-white {
+  -webkit-text-stroke: 1px #FCFCFC;
 }
 
 
