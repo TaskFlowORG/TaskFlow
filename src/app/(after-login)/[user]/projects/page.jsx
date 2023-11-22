@@ -120,7 +120,7 @@ export default function InitialPage({ color }) {
                     <h1 className="h1 w-[90%] px-6 text-primary ">Projetos</h1>
                 </div>
                 <div className="w-4/5 h-[60vh] flex justify-center overflow-y-scroll">
-                    <div className="justify-start grid p-6 gap-y-5 gap-x-12">
+                    <div className="justify-start grid grid-cols-3 bg-red-200 p-6 gap-y-5 gap-x-12">
                         {projects.map(p => {
                             return <Project project={p} key={p.id} />
                         })}
