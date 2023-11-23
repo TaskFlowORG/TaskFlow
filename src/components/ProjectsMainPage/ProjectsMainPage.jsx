@@ -68,15 +68,15 @@ export const ProjectsMainPage = () => {
   }, [])
 
   return (
-    <div className="w-min flex flex-col gap-5 h-full">
-      <div className="w-min h-min p-2">
-        <Link href={"./projects"}>
-          <button className="bg-primary w-80 h-24 text-white h4 rounded-md">
+    <div className="w-2/3 lg:w-1/3 flex flex-col gap-5 h-full lg:h-[70vh]">
+      <div className="w-full flex justify-center h-min p-2">
+        <Link href={"./projects"} className="w-full">
+          <button className="bg-primary w-full h-24 shadow-blur-10 text-white h4 rounded-md">
             PROJETOS
           </button>
         </Link>
       </div>
-      <div className="w-min h-[60vh] p-2 overflow-scroll flex flex-wrap gap-6">
+      <div className="w-full h-full p-2  overflow-scroll flex flex-wrap gap-6">
         {projects.map(p => {
           return <Project project={p} key={p.id} />
         })}
