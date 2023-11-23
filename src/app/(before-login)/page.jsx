@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
    <>
-    <div className="h-[85%] w-full">
+    <div className="h-full w-full">
       
         <SlideBarProjects></SlideBarProjects>
     </div>
