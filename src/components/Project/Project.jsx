@@ -4,14 +4,15 @@ import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import { Groups } from "../Groups";
 
-export const Project = ({ project }) => {
+  export const Project = ({ project, col }) => {
 
   const [isHovering, setIsHovering] = useState(false);
+  const style = {gridColumn:col}
 
   return (
-    <div className={"w-80 relative flex flex-col shadow-blur-10 row-span-1 gap-16 bg-white duration-300 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3"}
-      onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
-      <div className="flex gap-2 w-full relative">
+    <div className={"w-80 flex flex-col shadow-blur-10 gap-16 bg-white duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}
+    style={style} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+      <div className="flex gap-2 w-full">
         {/* Imagem do Projeto */}
         <div className="bg-zinc-200 rounded-md w-12 h-12"></div>
         <div>
