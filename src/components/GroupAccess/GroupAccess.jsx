@@ -31,11 +31,12 @@ export const GroupAccess = ({ nome, descricao }) => {
                 </div>
                 <div className="flex justify-between">
                     <div className="flex gap-4">
-                    <input type="checkbox" name="one" id="one" checked={checkboxOne} onChange={() => handleCheckboxChange("one")}/>
+                        <input type="checkbox" name="three" id="three" />
+                        {/* <input type="checkbox" name="one" id="one" checked={checkboxOne} onChange={() => handleCheckboxChange("one")}/> */}
                         <label className="pAlata" htmlFor="one">Adicionar</label>
                     </div>
                     <div className="flex gap-4">
-                    <input type="checkbox" name="three" id="three"/>
+                        <input type="checkbox" name="three" id="three" />
                         <label className="pAlata" htmlFor="two">Editar</label>
                     </div>
                     <div className="flex gap-4">

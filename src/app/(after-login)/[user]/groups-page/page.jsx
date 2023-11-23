@@ -9,7 +9,7 @@ export default function Home() {
             <div className="flex w-1/2 justify-end">
                 <Description />
             </div>
-            <div className="flex w-1/2  ">
+            <div className="flex w-1/2 ">
                 <UsersToGroupsPage/>
             </div>
         </div>
