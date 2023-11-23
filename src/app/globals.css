@@ -292,7 +292,7 @@
 }
 
 .inputSombra{
-  @apply relative left-10 h-10 w-[80%] rounded-xl px-2 py-1
+  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1
 }
 
 
@@ -307,5 +307,4 @@
 .inputGrayAndPink{
    @apply bg-[#F2F2F2] border-[#F04A94] 
 }
-
 

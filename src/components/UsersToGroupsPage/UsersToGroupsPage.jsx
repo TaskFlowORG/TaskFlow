@@ -1,51 +1,49 @@
 "use client";
 
 import { FindUser } from "../FindUser"
-
 import { useState, useEffect } from "react"
 
 export const UsersToGroupsPage = () => {
     const [text, setText] = useState([]);
     const [result, setResult] = useState([]);
     const [user, setUser] = useState([]);
+    const [search, setSearch] = useState([])
 
     const sendText = () => {
-        // Atualiza o estado 'resultado' com o texto digitado
         console.log(text)
         setResult('Texto digitado: ' + text);
         setText("")
     };
 
-    const sendUser = () =>{
+    const sendUser = () => {
+        console.log('clicou')
         setUser('Usuário: ' + user)
     }
-
     return (
-        <div className="flex w-full">
-            <div className="bg-[#F2F2F2] min-w-[45%] h-2/3 relative">
-                <div className="flex flex-col">
-                    <div className="w-full flex gap-4 absolute self-center mt-12 ">
-                        <input
-                            className="inputSombra pAlata"
-                            placeholder="Pesquisa"
-                            type="text"
-                            id="campoTexto"
-                            value={text}
-                            onChange={(e) => setText(e.target.value)} />
-                        <button type="button" onClick={sendText}>
-                            <img className="flex absolute right-14 bottom-2" src="/img/search.svg" />
-                        </button>
-                    </div>
+        <div className="flex w-full ml-24">
+            <div className="bg-[#F2F2F2] min-w-[55%] h-[75%] relative">
+                <div className="flex flex-col gap-4 mt-12 content-start">
                     <div>
-                        <FindUser />
-                        {/* usuarios */}
+                    <input
+                        className="inputSombra pAlata relative"
+                        placeholder="Pesquisa"
+                        type="text"
+                        id="campoTexto"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                    />
+                    <button className="absolute w-[60%] h-[7%]" type="button" onClick={sendText}>
+                        <img className=" " src="/img/search.svg" />
+                    </button>
                     </div>
-                    <div className="flex">
-                        <button type="button" onClick={sendUser}>Add User</button>
-
-                    </div>
+                    
+                    <button className="bg-[#EF4996] h-10 w-[80%] rounded-xl self-center" type="button" onClick={sendUser}>
+                        <h1 className="text-[#FCFCFC]">Add User</h1>
+                    </button>
                 </div>
+                {/* Restante do seu código */}
             </div>
         </div>
-    )
+    );
+
 }
