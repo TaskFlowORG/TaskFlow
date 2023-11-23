@@ -13,8 +13,8 @@ export const SlideBarProjects = () => {
 
     return (
         <>
-            <div className="h-full w-1/4 flex justify-center items-center shadow-blur-10">
-                <div className="h-[90%] w-[90%] flex flex-col justify-center items-center">
+            <div className="h-full w-[20%] flex justify-center items-center shadow-blur-10">
+                <div className="h-[95%] w-[90%] flex flex-col justify-center items-center">
                     <div className="w-full h-1/4 flex items-center justify-around">
                         <div className="h-1/3 w-1/5  bg-modal-grey rounded-md"></div>
                         <div>
