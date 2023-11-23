@@ -17,6 +17,9 @@ module.exports = {
         'light-orange':'#fa877a',
         'input-grey':'#F2F2F2'
       },
+      screens: {
+        '2xl': '1440px',
+      },
       boxShadow: {
         'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',
         'blur-20': '0 0px 20px 0px rgba(0, 0, 0, 0.25)',

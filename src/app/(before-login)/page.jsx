@@ -12,24 +12,24 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center w-screen">
       <div className="w-full h-full flex flex-col gap-[6.125rem]">
-        <div className="justify-center flex gap-10  w-full h-[38rem] items-center">
-          <div className="flex flex-col gap-16 w-1/4  justify-center">
-            <h1 className="text-primary h1">Headline Here</h1>
+        <div className="justify-center flex gap-10  w-full h-[38rem] 2xl:items-center items-start">
+          <div className="flex flex-col md:w-full gap-16 lg:gap-8  xl:gap-10 2xl:w-1/4 lg:w-2/5 md:p-10  lg:pl-[6rem] 2xl:p-0  justify-center">
+            <h1 className="text-primary h1 whitespace-nowrap">Headline Here</h1>
             <p className="p whitespace-normal">Lorem ipsum dolor sit amet consectetur. Quis purus ullamcorper facilisis molestie dignissim viverra elementum nunc eros. Fermentum neque justo ut elementum. Sit erat vulputate ac aliquet enim cras. Diam aliquam massa aliquam arcu suspendisse lorem odio velit suscipit. Velit nec habitant enim blandit nec vitae at convallis sed. Augue commodo etiam ultrices urna at urna. </p>
             <button className="p-12 py-2 bg-primary font-alata text-[20px] w-max text-white rounded-lg">Confirmar</button>
           </div>
 
 
 
-          <div className="relative flex items-center justify-center gap-4 h-full w-[43rem]">
+          <div className="relative md:hidden lg:flex items-center justify-center gap-4 h-full w-[43rem]">
 
-            <div className="z-50 shadowwwsecondary rounded-lg bg-secondary  h-[450px]  w-[270px]">
-
-            </div>
-            <div className="z-50 shadowwwsecondary rounded-lg bg-secondary h-[450px]  w-[270px]">
+            <div className="z-50 shadowwwsecondary rounded-lg bg-secondary 2xl:block  h-[450px] hidden 2xl:h-[400px] 2xl:w-[220px] w-[270px]">
 
             </div>
-            <img src="landing.svg" className="z-[-1] absolute" alt="" />
+            <div className="z-50 shadowwwsecondary rounded-lg bg-secondary 2xl:h-[400px]  h-1/2 w-1/2 2xl:w-[220px]">
+
+            </div>
+            <img src="landing.svg" className="z-[-1] absolute 2xl:w-[550px] w-[450px]" alt="" />
           </div>
 
         </div>
@@ -61,8 +61,8 @@ export default function Home() {
         </div>
         <div className="w-full flex flex-col">
           <h2 className="h2 text-primary self-center">Conheça nossos desenvolvedores!</h2>
-          <div className="shadowww rounded-lg flex flex-col gap-4 p-6 pt-12 max-w-[320px]  max-h-[254px] w-max">
-            <h3 className="h3 text-primary">Cleiton do pneu</h3>
+          <div className="shadowww relative rounded-lg flex flex-col gap-4 p-6 pt-12 pb-8 max-w-[320px]  max-h-[254px] w-max">
+            <h3 className="h3 text-primary self-center">Cleiton do pneu</h3>
             <p className="p h-full overflow-auto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi vero repellendus beatae aut dolore exercitationem. </p>
           </div>
         </div>
