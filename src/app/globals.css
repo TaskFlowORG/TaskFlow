@@ -244,6 +244,16 @@
   @apply font-montserrat text-[16px]
 }
 
+.mn{
+  @apply font-montserrat text-[12px]
+}
+.t:hover {
+  transition: 0.5s ease-in-out left 100px;
+}
+
+.p:hover {
+  transition: 0.5s ease-in-out left -100px;
+}
 
 
 @keyframes toggle-slider-animation{
@@ -282,10 +292,10 @@
 .toggleOut{
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
   @apply hidden;
 
-}
+} */
 
 .pAlata{
   @apply font-alata text-[16px]
@@ -299,4 +309,10 @@
   @apply flex items-center
 }
 
+
+.centeredAbsolute {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
