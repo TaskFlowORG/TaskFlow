@@ -47,29 +47,11 @@ export default function CalendarPage() {
         name: "Tarefa 7",
         color: null,
         date: new Date(2023, 10, 1)
-    },,
-    {
-        id: 8,
-        name: "Tarefa 8",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
     },
     {
-        id: 11,
-        name: "Tarefa 11",
+        id: 7,
+        name: "Tarefa 7",
         color: null,
-        date: new Date(2023, 10, 2)
-    },
-    {
-        id: 5,
-        name: "Tarefa 5",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 6,
-        name: "Tarefa 6",
-        color: "#ff0000",
         date: new Date(2023, 10, 1)
     },
     {
@@ -77,29 +59,77 @@ export default function CalendarPage() {
         name: "Tarefa 7",
         color: null,
         date: new Date(2023, 10, 1)
-    },,
-    {
-        id: 8,
-        name: "Tarefa 8",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
     },
     {
-        id: 11,
-        name: "Tarefa 11",
+        id: 7,
+        name: "Tarefa 7",
         color: null,
-        date: new Date(2023, 10, 2)
-    },
-    {
-        id: 2,
-        name: "Tarefa 2",
-        color: "#ff0000",
         date: new Date(2023, 10, 1)
     },
     {
-        id: 3,
-        name: "Tarefa 3",
-        color: "#ff0000",
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
+        date: new Date(2023, 10, 1)
+    },
+    {
+        id: 7,
+        name: "Tarefa 7",
+        color: null,
         date: new Date(2023, 10, 1)
     }
     ]
@@ -158,7 +188,7 @@ export default function CalendarPage() {
     }
 
     return (
-        <div className="w-full h-min flex flex-col items-center justify-center">
+        <div className="w-full h-full flex flex-col items-center justify-center">
 
             <div className="w-1/2 flex flex-col h-full justify-center items-center gap-4">
                 <div className="flex items-center justify-between w-full">
