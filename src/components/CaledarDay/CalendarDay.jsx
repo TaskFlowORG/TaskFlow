@@ -23,7 +23,7 @@ export const CalendarDay = ({ date }) => {
         <div className={"aspect-square h-full px-2 pt-px sm:pt-2 font-montserrat text-[24x] sm:text-[32px] rounded-sm" + dayClasses}>
             <div className="w-full h-1/5 flex justify-start items-start flex-wrap">
                 {
-                    <If condition={date.tasks.length >= (windowWidth < 1200 ? windowWidth < 500 ? 2 : 5 : 22)}>
+                    <If condition={date.tasks.length >= (windowWidth <= 1280 ? windowWidth <= 560 ? 3 : 5 : 21)}>
                         <div className="relative w-full flex justify-center"
                             onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
                             <p className="text-[8px] sm:text-[12px] text-white bg-primary  rounded-full w-min h-min sm:px-1">Tasks</p>

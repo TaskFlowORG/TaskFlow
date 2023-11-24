@@ -17,120 +17,6 @@ export default function CalendarPage() {
         name: "Tarefa 2",
         color: "#ff0000",
         date: new Date(2023, 10, 1)
-    },
-    {
-        id: 3,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 4,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 5,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 6,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 7,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 8,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 9,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 10,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 11,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 12,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 13,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 14,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 15,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 16,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 17,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 18,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 19,
-        name: "Tarefa 4",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 20,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 21,
-        name: "Tarefa 3",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
     }
     ]
     const [month, setMonth] = useState(0)
@@ -191,14 +77,14 @@ export default function CalendarPage() {
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
 
-            <div className="h-full flex flex-col w-5/6 md:w-2/3 lg:w-3/5 2xl:w-[45%]">
+            <div className="h-full flex flex-col w-5/6 md:w-2/3 lg:w-3/5 xl:w-[45%] 2xl:w-[45%]">
                 <div className="h-fit w-full flex items-center">
                     <div className="h4 sm:text-[40px] md:text-[48px]  w-min text-primary">
                         {year}
                     </div>
                     <div className="w-full h-min flex justify-center">
                         <button onClick={decMonth}>
-                            <img src="/img/arrow.svg" className="rotate-180  h-4 md:h-6" alt="Arrow" />
+                            <img src="/img/arrow.svg" className="rotate-180 relative -z-10 h-4 md:h-6" alt="Arrow" />
                         </button>
                         <span className="h4 sm:text-[40px] md:text-[48px] text-secondary w-32 sm:w-56 md:w-64 text-center">{getMonthName()}</span>
                         <button onClick={incMonth} >
