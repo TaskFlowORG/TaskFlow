@@ -33,7 +33,7 @@ export const CalendarDay = ({ date }) => {
                                 </div>
                             </If>
                         </div>
-                        <div className="flex">
+                        <div className="flex flex-wrap w-full">
                             {date.tasks.map(t => <TaskCalendar task={t} key={t.id} />)}
                         </div>
                     </If>
