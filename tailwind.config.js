@@ -14,8 +14,9 @@ module.exports = {
         'primary':'var(--primary-color)',
         'light-pink': '#f576ae',
         'secondary':'var(--secondary-color)',
-        'light-orange':'#fa877a',
-        'input-grey':'#F2F2F2',
+          'light-orange':'#fa877a',
+          'input-grey':'#F2F2F2',
+          'grey-icon':'#E8E6E6 ',
         'input-grey-opacity':'rgba(34, 34, 34, 0.02)',
         'input-toggle-grey': '#E0E0E0'
       },

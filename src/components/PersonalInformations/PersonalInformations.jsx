@@ -34,32 +34,32 @@ export const PersonalInformations = () => {
                     </div>
                     <div className=" flex justify-center" >
                         <div className="grid grid-cols-2 grid-rows-4 gap-10 absolute text-modal-grey p">
-                            <div className="row-start-1 px-6">
+                            <div className="row-start-1 px-6  ">
                                 <label className="flex flex-col ">
-                                    Nome <input className="  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={name} />
+                                    Nome <input className=" shadow-blur-10   bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={name} />
                                 </label>
                             </div>
-                            <div className="row-start-1 px-6">
+                            <div className="row-start-1 px-6 ">
                                 <label className="flex flex-col">
-                                    Surname <input className=" bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={surname} />
+                                    Surname <input className ="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={surname} />
                                 </label>
                             </div>
-                            <div className="row-start-2  px-6">
+                            <div className="row-start-2  px-6 ">
                                 <label className="flex flex-col">
-                                    Email <input className=" bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={email} />
+                                    Email <input className="shadow-blur-10  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={email} />
                                 </label>
                             </div>
-                            <div className="row-start-2  px-6">
+                            <div className="row-start-2  px-6 ">
                                 <label className="flex flex-col">
-                                    Telefone <input className=" bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={phone} />
+                                    Telefone <input className ="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={phone} />
                                 </label>
                             </div>
-                            <div className="row-start-3  px-6 col-span-2">
+                            <div className="row-start-3  px-6  col-span-2">
                                 <label className="flex flex-col">
-                                    Descrição <input className=" bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-full  pl-4 focus:outline-none" type="text" placeholder={description} />
+                                    Descrição <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-full  pl-4 focus:outline-none" type="text" placeholder={description} />
                                 </label>
                             </div>
-                            <div className="row-start-4  px-6">
+                            <div className="row-start-4  px-6 ">
                                 <div>
                                     <button className="h4 w-60  drop-shadow-xl  h-12 rounded-md bg-primary text-white">Salvar alteraçoes</button>
                                 </div>
