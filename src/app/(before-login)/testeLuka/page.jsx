@@ -7,8 +7,10 @@ import { Function } from "@/components/Function"
 import { Button } from "@/components/Button"
 import { Headline } from "@/components/LandingPage"
 import { HeadlineImage } from "@/components/LandingPage/Headline"
+import { HowWorks } from "@/components/HowWorks"
 import { ArrowSVG } from "@/components/LandingPage"
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 export default function Home() {
 
@@ -23,37 +25,7 @@ export default function Home() {
           <Headline />
           <HeadlineImage />
         </div>
-        <div className="flex flex-col w-full items-center gap-[4.5rem]">
-          <h2 className="h2 text-primary self-center">Como o TaskFlow funciona?</h2>
-          <div className="flex flex-col gap-2 w-full">
-
-
-
-
-
-            <div className="flex gap-8 w-full justify-start p-4 py-4 overflow-auto">
-              <RoundedCard changeImage={() => setImage("project.jpg")} color={"#F04A94"} >
-                <LandingPageCardContent color={"text-[#F04A94]"} title={"Projetos"}
-                  text={"Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu."} />
-              </RoundedCard>
-              <RoundedCard changeImage={() => setImage("moon.svg")} color={"#EA35BE"} >
-                <LandingPageCardContent color={"text-[#EA35BE]"} title={"Tarefas"}
-                  text={"Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu."} />
-              </RoundedCard>
-              <RoundedCard changeImage={() => setImage("language.svg")} color={"#E41CEF"} >
-                <LandingPageCardContent color={"text-[#E41CEF]"} title={"Propriedades"}
-                  text={"Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu."} />
-              </RoundedCard>
-            </div>
-            <div className="flex gap-2 w-full justify-center">
-              <ArrowSVG rotate={"rotate-180"}></ArrowSVG>
-              <ArrowSVG></ArrowSVG>
-
-            </div>
-            {/* 
-            <img src={image} className="w-[100%]" alt="" /> */}
-          </div>
-        </div>
+        <HowWorks/>
 
         <div className="w-full flex flex-col gap-[4.5rem] ">
           <h2 className="h2 text-primary self-center">Nossas Funcionalidades</h2>
