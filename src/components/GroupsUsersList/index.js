@@ -1,1 +1,0 @@
-export {GroupsUsersList} from "./GroupsUsersList.jsx"
