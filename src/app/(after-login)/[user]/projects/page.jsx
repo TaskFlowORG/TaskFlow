@@ -149,10 +149,10 @@ export default function InitialPage({ color }) {
     }
 
     return (
-        <div className="h-full flex flex-col justify-center items-center w-screen">
+        <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />
-            <div className=" flex flex-col gap-6 items-center justify-center w-full h-4/5">
-                <div className="flex items-center flex-col w-full">
+            <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
+                <div className="flex items-center flex-col w-full h-4/5">
                     <h1 className="h2 sm:text-[68px] sm:w-3/5 w-full stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary">
                         Projetos
                     </h1>
