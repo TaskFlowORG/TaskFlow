@@ -3,7 +3,7 @@
 import { RoundedCard } from "@/components/RoundedCard"
 import { LandingPageCardContent } from "@/components/CardContent"
 import { useState } from "react"
-import { Function } from "@/components/Function"
+import { Function } from "@/components/Features/Function"
 
 export default function Home() {
 

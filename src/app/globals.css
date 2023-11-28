@@ -308,11 +308,59 @@
 .modalTaskDisplay{
   @apply flex items-center
 }
-
+.test::after{
+  content: '>';
+  color: var(--primary-color);
+  font-size: 24px;
+}
 
 .centeredAbsolute {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.centeredAbsoluteTop {
+  top: -5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 92px;
+  height: 92px;
+  background-color: none;
+
+  /* Outros estilos desejados */
+}
+
+/* Estilos para a seta "prev" */
+.swiper-button-prev::after {
+  content: '<'; /* ou use uma imagem de seta */
+  color: #F04A94;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* Estilos para a seta "next" */
+.swiper-button-next::after {
+  content: url("../../public/arrowPink.svg"); /* ou use uma imagem de seta */
+  color: #F04A94;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+
+ .swiper {
+  width: 256px;
+  height: 300px;
+  padding: 50px;
+}
+
+ /* .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+} */

@@ -31,13 +31,10 @@ export const HowWorks = () => {
         setWindowWidth(window.innerWidth)
     }, [])
 
-    const [image, setImage] = useState("project.jpg")
-
     function changeView() {
         return windowWidth > 768 ? 2 : 1
     }
 
-    // const swiper = useSwiperSlide()
     return (
         <>
             <div className="flex flex-col w-full items-center gap-8 lg:gap-16">
@@ -46,7 +43,6 @@ export const HowWorks = () => {
                     <Carousel change={changeView} />
                     :
                     <Default />
-
                 }
 
             </div>
