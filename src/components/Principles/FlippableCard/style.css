@@ -1,0 +1,27 @@
+/* .swiper {
+    width: 256px;
+    height: 300px;
+    padding: 50px;
+  }
+  .batata {
+    background-color: blue;
+  }
+  
+   /* .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: max-content;
+    height: 300px;
+  } */
+
+/* .swiper  {
+    width: 256px;
+    height: 300px;
+    padding: 50px;
+  } */
+
+#cocotinha>.swiper {
+  display: flex;
+  width: 256px;
+  height: 300px;
+}
