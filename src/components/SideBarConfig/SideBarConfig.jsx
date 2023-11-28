@@ -3,7 +3,7 @@ export const SideBarConfig = () => {
     return (
         <>
 
-            <div className="text-[#FCFCFC] bg-[#F04A94]  w-[23%] h-screen grid" style={{gridAutoRows:'20% 40% 38%'}}>
+            <div className="text-[#FCFCFC] bg-primary  w-[23%] h-screen grid" style={{gridAutoRows:'20% 40% 38%'}}>
                 <div className="flex flex-col items-center justify-center h-full row-start-1 row-end-2 ">
                     <h3 className="h3 ">Perfil de usuário</h3>
                 </div>

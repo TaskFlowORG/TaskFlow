@@ -131,9 +131,13 @@
 }
 
 
+
 .mn {
 
   @apply font-montserrat text-[12px]
+}
+.stroke-text-white {
+  -webkit-text-stroke: 1px #FCFCFC;
 }
 
 
@@ -200,8 +204,15 @@
 
 
 
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;  
+}
 
-
+select::-ms-expand {
+  display: none;
+}
 
 .inputLight {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat
@@ -244,6 +255,16 @@
   @apply font-montserrat text-[16px]
 }
 
+.mn{
+  @apply font-montserrat text-[12px]
+}
+.t:hover {
+  transition: 0.5s ease-in-out left 100px;
+}
+
+.p:hover {
+  transition: 0.5s ease-in-out left -100px;
+}
 
 
 @keyframes toggle-slider-animation{
@@ -282,21 +303,78 @@
 .toggleOut{
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
   @apply hidden;
 
-}
+} */
 
 .pAlata{
   @apply font-alata text-[16px]
 }
 
+.inputSombra{
+  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1
+}
+
+
 .modalTaskwhite {
-  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center 
 }
 
 .modalTaskDisplay{
   @apply flex items-center
 }
+.test::after{
+  content: '>';
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.centeredAbsolute {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.centeredAbsoluteTop {
+  top: -5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.inputGrayAndPink{
+   @apply bg-[#F2F2F2] border-[#F04A94] 
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 92px;
+  height: 92px;
+  background-color: none;
+
+  /* Outros estilos desejados */
+}
+
+/* Estilos para a seta "prev" */
+.swiper-button-prev::after {
+  content: '<'; /* ou use uma imagem de seta */
+  color: #F04A94;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* Estilos para a seta "next" */
+.swiper-button-next::after {
+  content: url("../../public/arrowPink.svg"); /* ou use uma imagem de seta */
+  color: #F04A94;
+    font-size: 48px;
+    font-weight: bold;
+}
 
 
+/* 
+ .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+} */
