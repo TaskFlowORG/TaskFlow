@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 
-export default function Home() {
+export default function Kanban() {
     const [tasks, setTasks] = useState([])
     const [defaultTasks, setDefaultTasks] = useState([])
     const [id, setId] = useState(0);

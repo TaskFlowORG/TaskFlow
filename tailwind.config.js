@@ -14,7 +14,6 @@ module.exports = {
         'modal-grey': '#333333',
         'primary': 'var(--primary-color)',
         'light-pink': '#f576ae',
-
         'secondary':'var(--secondary-color)',
           'light-orange':'#fa877a',
           'input-grey':'#F2F2F2',
@@ -26,7 +25,6 @@ module.exports = {
         '1.5xl': '1440px',
         '3xl': '1792px',
         '4xl': '1792px',
-
       },
       boxShadow: {
         'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',

@@ -23,8 +23,8 @@ export function Header() {
                 <img src="/Assets/themeLight/notification.svg" alt="" width={"20px"} hight={"20px"} />
                 <img src="/Assets/Language.svg" alt="" width={"20px"} height={"20px"} />
 
-                <img src="moon.svg" className="dark:hidden" alt="" onClick={() => setTheme("dark")} />
-                <img src="sun.svg" className="hidden dark:flex" alt="" onClick={() => setTheme("light")} />
+                <img src="/moon.svg" className="dark:hidden " alt="" onClick={() => setTheme("dark")} />
+                <img src="/sun.svg" className="hidden dark:flex" alt="" onClick={() => setTheme("light")} />
 
                 <img src="/Assets/themeLight/Profile.svg" alt="" width={"20px"} height={"20px"} />
             </div>

@@ -1,4 +1,5 @@
 
+
 import { SVGInitialPage } from "@/components/Shapes"
 import { InitialPageTasks } from "@/components/InitialPageTasks"
 import { ProjectsMainPage } from "@/components/ProjectsMainPage"
