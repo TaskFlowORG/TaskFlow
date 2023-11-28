@@ -1,4 +1,5 @@
-export const Footer = () => {
+export const Footer =  () => {
+
            const theme = "light";
     return (
 <>

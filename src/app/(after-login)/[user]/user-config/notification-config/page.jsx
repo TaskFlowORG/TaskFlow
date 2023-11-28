@@ -5,6 +5,7 @@ export default function UserConfigPage() {
     return (
 
         <div className="flex">
+            
             <SideBarConfig></SideBarConfig>
             <NotificationsConfig></NotificationsConfig>
         </div>

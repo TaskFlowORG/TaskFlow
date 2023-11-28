@@ -1,9 +1,23 @@
+
 "use client"
 import { RegisterShape } from "@/components/RegisterShape";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+
+
+const schema = z.object({
+    name: z.string().min(3, 'Nome muito curto').max(50, 'Nome muito longo'),
+    surname: z.string().min(3, 'Sobrenome muito curto').max(50, 'Sobrenome muito longo'),
+    username: z.string().min(3, 'Nome de usuário muito curto').max(50, 'Nome de usuário muito longo'),
+    password: z.string().min(3, 'Senha muito curta').max(50, 'Senha muito longa'),
+    email: z.string().email('Email inválido')
+});
 const page = () => {
+    const api = new Api();
+   
+    const theme = 'light';
+
 
     const [user, setUser] = useState({});
     const theme = 'light';
@@ -123,6 +137,7 @@ const page = () => {
                                     onClick={register}>Enviar</button>
                             </div>
                         }
+
                     </div>
                     <div className="w-[75%] flex justify-center">
 
@@ -131,10 +146,13 @@ const page = () => {
                             route.push('/login')
                         }}>Entrar</p>
                     </div>
+
                 </div>
-            </div>
+            </form>
+
 
         </div>)
+
 }
 
 export default page;
