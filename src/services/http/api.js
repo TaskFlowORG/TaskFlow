@@ -28,37 +28,3 @@ async function putData(table, object) {
 async function deleteData(table, id) {
     return await axios.delete("http://localhost:9999/" + table + "/" + id);
 }
-
-
-
-    const getData = async () => {
-        try {
-
-
-
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-
-    const postData = async (user) => {
-        try {
-            const res = await axios.post('http://localhost:9999/user', user);
-            console.log(res);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    useEffect(() => {
-        (async () => {
-            await getData();
-        })();
-    }, []);
-    return { name, surname, address, picture, email, phone, description };
-}
-
-
-

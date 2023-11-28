@@ -1,12 +1,16 @@
+import Providers from "@/services/Theme/providers"
+import ThemeSwitcher from "@/services/Theme/ThemeSwitcher"
 
 
 export default function RootLayout({ children }) {
 
-    const theme = "light"
     return (
     <html lang="en">
-        <body className="w-screen h-screen bg-white flex flex-col items-center justify-center">
+        <body className="w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start">
+        <Providers>
+            <ThemeSwitcher />
             {children}
+            </Providers>
         </body>
 
     </html >
