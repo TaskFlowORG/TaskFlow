@@ -27,7 +27,6 @@ const page = () => {
         reValidateMode: 'onChange',
         zodResolver: schema});
 
-
     return (
         <div className="h-[90%] w-screen flex justify-center items-center">
 
