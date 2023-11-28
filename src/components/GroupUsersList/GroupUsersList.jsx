@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 
-export const GroupUsersList = ({id, users}) => {
+export const GroupUsersList = ({}) => {
     return (
         <div>
             <div className="flex flex-col gap-6 ">
