@@ -136,6 +136,9 @@
 
   @apply font-montserrat text-[12px]
 }
+.stroke-text-white {
+  -webkit-text-stroke: 1px #FCFCFC;
+}
 
 
 .shadowww {

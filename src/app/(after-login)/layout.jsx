@@ -12,7 +12,6 @@ import { usePathname } from 'next/navigation';
 
 export default function RootLayout({ children }) {
 
-
   return (
     <>
     <div className='h-screen w-screen'></div>

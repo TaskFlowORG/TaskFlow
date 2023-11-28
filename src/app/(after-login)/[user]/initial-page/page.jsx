@@ -7,17 +7,20 @@ export default function InitialPage() {
 
 
     return (
-        <div className="h-full flex flex-col justify-center">
+        <div className="h-full flex flex-col justify-center items-center mt-14">
             <SVGInitialPage />
-            <div className="w-screen flex flex-col gap-6 items-center justify-center h-4/5">
-            <div className="flex justify-center w-[62%] ">
-                    <h1 className="h1 w-full px-1 text-primary ">Página Inicial</h1>
-                </div>
-                <div className="flex w-[62%] h-full justify-center items-start">
-                    <ProjectsMainPage />
-                     <div className="h-full pt-2">
-                        <InitialPageTasks />
-                     </div>
+            <div className="w-screen flex flex-col gap-6 items-center justify-center h-full lg:h-4/5">
+                <div className="flex flex-col gap-6 items-center w-full lg:w-3/5 pt-24 pb-12 lg:pt-0">
+                    <h1 className="h3 sm:text-[68px] w-full h-min px-1 text-white stroke-text-white text-center xl:text-primary xl:text-start">
+                        Página Inicial
+                    </h1>
+                    <div className={`flex w-full flex-col-reverse  flex-1 h-full pt-6 lg:pt-0 justify-start 
+                    items-center gap-6 lg:flex-row lg:justify-center lg:items-start`}>
+                        <ProjectsMainPage />
+                        <div className="h-full w-2/3 lg:h-[70vh]">
+                            <InitialPageTasks />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
