@@ -6,11 +6,10 @@ import { useState } from "react"
 import { Function } from "@/components/Function"
 import { Select } from "@/components/Select/Select"
 
-export default async function Home() {
+export default function Home() {
 
   const [selected, setSelected] = useState("BBBBBBBBBB")
   const [image, setImage] = useState("project.jpg")
-  await new Promise((e) => setTimeout(e, 3000))
   return (
     <div className="flex flex-col items-center w-screen">
       <Select options={["AAAAAAAAAAAAA", "BBBBBBBBBBBBBBB", "CCCCCCCCCC"]} defaultValue={selected} change={v => setSelected(v)}/>
