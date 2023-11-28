@@ -14,7 +14,6 @@ import 'swiper/css/effect-flip';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
-
 export default function Home() {
 
   const devs = [

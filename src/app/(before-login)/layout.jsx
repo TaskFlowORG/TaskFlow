@@ -8,7 +8,7 @@ export default function RootLayout({ children }) {
   const theme = "light"
   return (
     <html lang="en">
-      <body className={theme == "dark" ? 'bg-back-grey' : 'bg-white'}>
+      <body>
         <div className='h-screen w-screen'>
           <div className=" p-4 flex justify-between  w-full items-center">
             <img src="Icon.svg" alt="" className='w-16 ' />
@@ -24,5 +24,6 @@ export default function RootLayout({ children }) {
       </body>
 
     </html >
+
   )
 }
