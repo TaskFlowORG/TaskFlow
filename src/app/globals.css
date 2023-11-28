@@ -379,6 +379,7 @@ select::-ms-expand {
   background-position: 0 100%
 }
 
+
 /* Estilos para a seta "prev" */
 .swiper-button-prev::after {
   content: '<'; /* ou use uma imagem de seta */

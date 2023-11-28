@@ -1,8 +1,10 @@
+import { TextContent } from "../TextContent"
+
 export const ChatContent = () => {
     return (
         <>
 
-            <div className="w-full h-full grid grid-rows-3" style={{ gridTemplateRows: "20% 60% 20%" }}>
+            <div className="w-full h-full grid grid-rows-3" style={{ gridTemplateRows: "10% 80% 9%" }}>
                 <div className=" row-start-1 row-end-2 bg-input-grey h-20 rounded-lg grid  grid-cols-2">
                     <div className=" px-4 flex items-center">
                         <div className=" col-start-1  flex items-center justify-center w-10 h-10 bg-[url('/img/notificacao.svg')]">
@@ -21,10 +23,10 @@ export const ChatContent = () => {
                 </div>
                 <div className="row-start-2 h-96 ">
                     <div>
-                        <p>tem q progredir mais pra fazer o sistema de mensagens</p>
+                        <TextContent></TextContent>
                     </div>
                 </div>
-                <div className="flex  row-start-3 w-full h-4/6  gap-6 ">
+                <div className="flex  row-start-3 w-full h-full  gap-6 ">
                     <div className="bg-input-grey w-full  flex rounded-xl shadow-blur-10">
                         <input type="text" placeholder="Digite aqui..." className="p p-5 outline-none col-start-1 bg-input-grey w-full rounded-2xl" />
                         <div className="flex justify-end items-center w-1/6 gap-3 px-5">
