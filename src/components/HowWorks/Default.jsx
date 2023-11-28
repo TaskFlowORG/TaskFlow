@@ -10,7 +10,7 @@ export const Default = () => {
 
     return (
         <div className="flex gap-16 p-8">
-            <div className="flex flex-col gap-12 xl:w-[550px]  2xl:w-[700px] ">
+            <div className="flex flex-col gap-12 xl:w-[550px]  1.5xl:w-[700px] ">
                 <RoundedCard changeImage={() => setImage("project.jpg")} color={"#F04A94"} >
                     <LandingPageCardContent color={"text-[#F04A94]"} title={"Projetos"} text={"Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu."} />
                 </RoundedCard>

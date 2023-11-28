@@ -131,6 +131,7 @@
 }
 
 
+
 .mn {
 
   @apply font-montserrat text-[12px]
@@ -352,13 +353,8 @@
 }
 
 
- .swiper {
-  width: 256px;
-  height: 300px;
-  padding: 50px;
-}
-
- /* .swiper-slide {
+/* 
+ .swiper-slide {
   background-position: center;
   background-size: cover;
   width: 300px;
