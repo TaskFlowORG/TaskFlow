@@ -5,10 +5,10 @@ const page = () => {
     const theme = 'light'
     return (
 
-        <div className="h-screen w-screen flex justify-center items-center">
+        <div className="h-[85%] w-screen flex justify-center items-center">
 
             <RegisterShape />
-            <div className={"h-[60%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center " + (theme == "dark" ? " bg-modal-grey" : "bg-white")}>
+            <div className={"h-[70%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center " + (theme == "dark" ? " bg-modal-grey" : "bg-white")}>
                 <div className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
                     <p className={ (theme == "dark" && " h4 text-white") + (theme == "light" && " h4")}>Registrar</p>
 
