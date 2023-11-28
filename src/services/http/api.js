@@ -1,6 +1,4 @@
-
 export { getData, getListData }
-
 
 const axios = require('axios').default;
 

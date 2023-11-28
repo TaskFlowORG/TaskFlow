@@ -5,6 +5,7 @@ import { SearchBar } from "@/components/SearchBar/SearchBar";
 import { useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
+
 export default function Home() {
     const [tasks, setTasks] = useState([])
     const [defaultTasks, setDefaultTasks] = useState([])
@@ -16,14 +17,12 @@ export default function Home() {
         const getList = async () => {
             const fetchedTasks = await getListData("task");
 
-
             await fetchedTasks.map((task) => {
                 task.properties.map((property) => {
                     if (property.property.type == "select") {
                         setOptions(property.property.options);
                         let id2 = property.propertyId
                         setId(id2);
-
                     }
                 });
             });
@@ -33,12 +32,10 @@ export default function Home() {
             fetchedTasks.map((task) => {
 
                 let property = task.properties.find((property) => property.propertyId == id && property.value == "vazio");
-
+                
                 if (property != null) {
                     tasksPadrao.push(task)
                 }
-
-
             });
             setTasks(fetchedTasks)
             setDefaultTasks(tasksPadrao)
@@ -49,7 +46,6 @@ export default function Home() {
 
     return (
         <>
-
             <div className="w-full h-full mt-[5em] flex flex-col ">
                 <div className="flex gap-5 items-end pb-16 justify-center    h-max">
                     <h1 className="h1 text-primary whitespace-nowrap">Page Name</h1>
@@ -60,8 +56,7 @@ export default function Home() {
                 </div>
                 <div className="flex gap-8 justify-center w-full">
                     {options.map((option) => {
-
-                        return (
+                         return (
                             <ColumnKanban
                                 key={option.id}
                                 tasks={tasks}
@@ -84,9 +79,7 @@ export default function Home() {
                             option={"Não marcadas"}
                             columnName={"To Do"} />
                     }
-
-
-                </div>
+                    </div>
             </div>
         </>
     );

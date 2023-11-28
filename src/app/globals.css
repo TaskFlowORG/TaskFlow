@@ -312,8 +312,13 @@ select::-ms-expand {
   @apply font-alata text-[16px]
 }
 
+.inputSombra{
+  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1
+}
+
+
 .modalTaskwhite {
-  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center 
 }
 
 .modalTaskDisplay{
@@ -336,6 +341,9 @@ select::-ms-expand {
   transform: translate(-50%, -50%);
 }
 
+.inputGrayAndPink{
+   @apply bg-[#F2F2F2] border-[#F04A94] 
+}
 
 .swiper-button-prev,
 .swiper-button-next {
