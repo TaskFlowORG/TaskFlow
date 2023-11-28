@@ -4,16 +4,15 @@ import { RoundedCard } from "@/components/RoundedCard"
 import { LandingPageCardContent } from "@/components/CardContent"
 import { useState } from "react"
 import { Function } from "@/components/Function"
-import { Select } from "@/components/Select/Select"
+import { List } from "@/components/List"
 
 export default function Home() {
 
-  const [selected, setSelected] = useState("BBBBBBBBBB")
   const [image, setImage] = useState("project.jpg")
 
   return (
     <div className="flex flex-col items-center w-screen">
-      <Select options={["AAAAAAAAAAAAA", "BBBBBBBBBBBBBBB", "CCCCCCCCCC"]} defaultValue={selected} change={v => setSelected(v)}/>
+          <List headName="Tasks" icon="img/arrow.svg" list={[[1,1,1,,1,1,1,1]]} multivalued />
       <div className="w-full h-full flex flex-col gap-[6.125rem]">
         <div className="justify-center flex gap-10  w-full h-[38rem] items-center">
           <div className="flex flex-col gap-16 w-1/4  justify-center">
@@ -21,7 +20,6 @@ export default function Home() {
             <p className="p whitespace-normal">Lorem ipsum dolor sit amet consectetur. Quis purus ullamcorper facilisis molestie dignissim viverra elementum nunc eros. Fermentum neque justo ut elementum. Sit erat vulputate ac aliquet enim cras. Diam aliquam massa aliquam arcu suspendisse lorem odio velit suscipit. Velit nec habitant enim blandit nec vitae at convallis sed. Augue commodo etiam ultrices urna at urna. </p>
             <button className="p-12 py-2 bg-primary font-alata text-[20px] w-max text-white rounded-lg">Confirmar</button>
           </div>
-
 
 
           <div className="relative flex items-center justify-center gap-4 h-full w-[43rem]">
