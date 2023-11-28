@@ -1,5 +1,6 @@
 'use client'
 
+
 import { Headline } from "@/components/LandingPage"
 import { HeadlineImage } from "@/components/LandingPage/Headline"
 import { HowWorks } from "@/components/HowWorks"
@@ -13,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/effect-flip';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
 
 export default function Home() {
 
@@ -40,6 +42,7 @@ export default function Home() {
   ]
 
   return (
+
     <div className=" flex flex-col items-center w-screen" >
       <div className="w-full h-full flex flex-col gap-[4rem] md:gap-[6.125rem]">
         <div className="flex flex-col 1.5xl:gap-16 lg:flex-row lg:items-center lg:justify-center">
@@ -84,6 +87,9 @@ export default function Home() {
         </div>
 <Principles/>
       </div>
+
     </div>
+
+   </>
   )
 }
