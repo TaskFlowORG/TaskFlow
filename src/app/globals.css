@@ -131,6 +131,7 @@
 }
 
 
+
 .mn {
 
   @apply font-montserrat text-[12px]
@@ -251,6 +252,16 @@ select::-ms-expand {
   @apply font-montserrat text-[16px]
 }
 
+.mn{
+  @apply font-montserrat text-[12px]
+}
+.t:hover {
+  transition: 0.5s ease-in-out left 100px;
+}
+
+.p:hover {
+  transition: 0.5s ease-in-out left -100px;
+}
 
 
 @keyframes toggle-slider-animation{
@@ -289,10 +300,10 @@ select::-ms-expand {
 .toggleOut{
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
   @apply hidden;
 
-}
+} */
 
 .pAlata{
   @apply font-alata text-[16px]
@@ -305,5 +316,54 @@ select::-ms-expand {
 .modalTaskDisplay{
   @apply flex items-center
 }
+.test::after{
+  content: '>';
+  color: var(--primary-color);
+  font-size: 24px;
+}
+
+.centeredAbsolute {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.centeredAbsoluteTop {
+  top: -5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
 
+.swiper-button-prev,
+.swiper-button-next {
+  width: 92px;
+  height: 92px;
+  background-color: none;
+
+  /* Outros estilos desejados */
+}
+
+/* Estilos para a seta "prev" */
+.swiper-button-prev::after {
+  content: '<'; /* ou use uma imagem de seta */
+  color: #F04A94;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* Estilos para a seta "next" */
+.swiper-button-next::after {
+  content: url("../../public/arrowPink.svg"); /* ou use uma imagem de seta */
+  color: #F04A94;
+    font-size: 48px;
+    font-weight: bold;
+}
+
+
+/* 
+ .swiper-slide {
+  background-position: center;
+  background-size: cover;
+  width: 300px;
+  height: 300px;
+} */

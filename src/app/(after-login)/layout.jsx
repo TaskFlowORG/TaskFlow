@@ -13,8 +13,6 @@ import { usePathname } from 'next/navigation';
 export default function RootLayout({ children }) {
 
 
-  const theme = "light"
-  const pathName = usePathname();
   return (
     <>
     <div className='h-screen w-screen'></div>
