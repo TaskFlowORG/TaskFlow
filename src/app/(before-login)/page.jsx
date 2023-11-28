@@ -4,13 +4,16 @@ import { RoundedCard } from "@/components/RoundedCard"
 import { LandingPageCardContent } from "@/components/CardContent"
 import { useState } from "react"
 import { Function } from "@/components/Function"
+import { Select } from "@/components/Select/Select"
 
 export default function Home() {
 
+  const [selected, setSelected] = useState("BBBBBBBBBB")
   const [image, setImage] = useState("project.jpg")
 
   return (
     <div className="flex flex-col items-center w-screen">
+      <Select options={["AAAAAAAAAAAAA", "BBBBBBBBBBBBBBB", "CCCCCCCCCC"]} defaultValue={selected} change={v => setSelected(v)}/>
       <div className="w-full h-full flex flex-col gap-[6.125rem]">
         <div className="justify-center flex gap-10  w-full h-[38rem] items-center">
           <div className="flex flex-col gap-16 w-1/4  justify-center">
