@@ -4,11 +4,11 @@ import { ChatContent } from "./components/ChatContent"
 export const Chat = () => {
     return (
         <>
-            <div className="flex mt-10">
-                <div className="w-full grid justify-center grid-cols-2 gap-10 overflow-hidden" style={{ gridTemplateColumns: " 25% 50%" }}>
-                    <div className="">
-                        <div className="flex flex-col col-1">
-                            <div className="flex items-center justify-center gap-[65%] bg-input-grey h-20 rounded-lg">
+            <div className="flex mt-10 ">
+                <div className="w-full lg:grid justify-center grid-cols-2 gap-10 overflow-hidden" style={{ gridTemplateColumns: " 25% 50%" }}>
+                    <div>
+                        <div className="flex flex-col items-center lg:items-start col-1">
+                            <div className="flex items-center justify-center gap-[40%] lg:gap-[65%] bg-input-grey h-20 rounded-lg w-[90%] lg:w-full">
                                 <h3 className="h3">Chats</h3>
                                 <div>
                                     <div className="flex items-center justify-center w-10 h-10 bg-[url('/img/notificacao.svg')]">
@@ -27,7 +27,7 @@ export const Chat = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full flex h-[73vh]  overflow-scroll">
+                            <div className="w-full flex h-[65vh] lg:h-[73vh] overflow-scroll">
                                 <div className="w-full">
                                     <Chats></Chats>
                                     <Chats></Chats>
@@ -45,7 +45,7 @@ export const Chat = () => {
                             </div>
                         </div>
                     </div>
-                        <div className="w-full">
+                        <div className="w-full h-0 lg:h-[89.5vh]">
                             <ChatContent></ChatContent>
                         </div>
                 </div>
