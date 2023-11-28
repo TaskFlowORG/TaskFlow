@@ -12,18 +12,11 @@ import { usePathname } from 'next/navigation';
 
 export default function RootLayout({ children }) {
 
-
-  const theme = "light"
-  const pathName = usePathname();
   return (
-    <html lang="en">
-      <body className='w-screen h-screen first-line:'>
-        <Header></Header>
-
-        <main className="flex flex-col items-center justify-center min-w-full min-h-full">
-          {children}
-        </main>
-      </body>
-    </html>
+    <>
+    <div className='h-screen w-screen'></div>
+    <Header></Header>
+    {children}
+    </>
   )
 }
