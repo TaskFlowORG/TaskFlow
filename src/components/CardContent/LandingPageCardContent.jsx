@@ -6,9 +6,9 @@ export const LandingPageCardContent = ({ title, text, color }) => {
 
 
     return (
-        <div className="w-full flex flex-col gap-12">
-            <h3 className={"h3 " + color}>{title}</h3>
-            <p className="p"> {text}</p>
+        <div className="w-full  flex flex-col gap-4">
+            <h3 className={" text-[24px]   md:text-[32px] " + color}>{title}</h3>
+            <p className=" text-[12px] font-montserrat md:text-[16px]"> {text}</p>
         </div>
     )
 }

@@ -7,6 +7,7 @@ const page = () => {
     const [user, setUser] = useState({})
     const theme = 'light'
 
+
     useEffect(() => {
         console.log(user)
     }
@@ -43,7 +44,6 @@ const page = () => {
                             <input className={"w-5/6 h-full outline-none " + (theme == "dark" && "bg-modal-grey")} type="text" placeholder="Seu Sobrenome"
                             required
                                 onChange={(e) => {
-
                                     setUser({ ...user, surname: e.target.value })
                                 }} />
                         </div>
