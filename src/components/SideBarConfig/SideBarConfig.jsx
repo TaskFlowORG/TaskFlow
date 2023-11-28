@@ -17,9 +17,11 @@ export const SideBarConfig = () => {
     return (
         <>
 
+
             <div className={`text-white bg-primary  md:w-[23%] h-screen md:grid ${
                 invisible ? "hidden" : "visible"
             }`} style={{ gridAutoRows: '25% 43% 30%' }}>
+
                 <div className="flex flex-col items-center justify-center h-full row-start-1 row-end-2 ">
                     <h3 className="h3 ">Perfil de usuário</h3>
                 </div>

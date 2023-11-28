@@ -1,22 +1,26 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import { Groups } from "../Groups";
 
-export const Project = ({ project }) => {
+export const Project = ({ project, col }) => {
 
   const [isHovering, setIsHovering] = useState(false);
+  const style = { gridColumn: col }
 
   return (
-    <div className={"w-80 flex flex-col shadow-blur-10 gap-16 bg-white duration-700 p-6 rounded-md overflow-clip  " + (isHovering ? " h-80" : "h-24")}
-      onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+    <div className={"min-w-full flex flex-col shadow-blur-10 gap-16 bg-white duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}
+      style={style} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
-      {/* Imagem do Projeto */}
-        <div className="bg-zinc-200 rounded-md w-12 h-12"></div>
-        <div>
-          <h4 className="font-alata text-[16px] text-modal-grey">{project.name}</h4>
-          <p className="font-montserrat text-[12px] text-modal-grey">{project.description}</p>
+        {/* Imagem do Projeto */}
+        <div className="w-min">
+          <div className="bg-zinc-200 rounded-md w-12 h-12">
+          </div>
+        </div>
+        <div className="w-full whitespace-nowrap overflow-hidden">
+          <h4 className="w-11/12 font-alata text-[16px] text-modal-grey text-ellipsis overflow-hidden">{project.name}</h4>
+          <p className="w-11/12 font-montserrat text-[12px] text-modal-grey text-ellipsis overflow-hidden">{project.description}</p>
         </div>
       </div>
       {isHovering &&
