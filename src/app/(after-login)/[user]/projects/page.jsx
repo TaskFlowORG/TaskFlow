@@ -4,122 +4,18 @@ import { Project } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
 import { useEffect, useState } from "react";
 
-export default function InitialPage({ color }) {
+export default function Projects({ color }) {
 
     const [windowWidth, setWindowWidth] = useState(0);
-    const [projects, setProjects] = useState([{
-        id: 1,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups: [{ id: 1, image: "/next.svg" }],
-        percent: 75
-    }, {
-        id: 2,
-        name: "Projeto B",
-        description: "Descrição do Projeto A",
-        groups: [{ id: 1, image: "/next.svg" }, { id: 2, image: "/next.svg" }, { id: 3, image: "/next.svg" }],
-        percent: 75
-    }, {
-        id: 3,
-        name: "Projeto C",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-    }, {
-        id: 4,
-        name: "Projeto D",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 5,
-        name: "Projeto E",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 6,
-        name: "Projeto F",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 7,
-        name: "Projeto G",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 8,
-        name: "Projeto H",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-    }, {
-        id: 5,
-        name: "Projeto I",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 6,
-        name: "Projeto J",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 7,
-        name: "Projeto K",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 8,
-        name: "Projeto L",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-    }, {
-        id: 5,
-        name: "Projeto M",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 6,
-        name: "Projeto N",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 7,
-        name: "Projeto O",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-
-    }, {
-        id: 8,
-        name: "Projeto P",
-        description: "Descrição do Projeto A",
-        groups: [],
-        percent: 75
-    }])
+    const [projects, setProjects] = useState([])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
         setWindowWidth(window.innerWidth)
+        //Comunicação com API
+        setProjects([]);
     }, [])
 
     function getCol2Xl(index) {

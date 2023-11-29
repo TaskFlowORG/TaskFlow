@@ -6,26 +6,16 @@ import { useEffect, useState } from "react";
 
 export default function CalendarPage() {
 
-    const tasks = [{
-        id: 1,
-        name: "Tarefa 1",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    },
-    {
-        id: 2,
-        name: "Tarefa 2",
-        color: "#ff0000",
-        date: new Date(2023, 10, 1)
-    }
-    ]
+    const [tasks, setTasks] = useState([])
     const [month, setMonth] = useState(0)
     const [year, setYear] = useState(0)
     const [days, setDays] = useState(getDays())
 
     useEffect(() => {
-        setMonth((new Date()).getMonth() + 2)
+        setMonth((new Date()).getMonth() + 1)
         setYear((new Date()).getUTCFullYear())
+        //comunicação com API
+        setTasks([])
     }, [])
 
     function getDays() {
@@ -58,6 +48,8 @@ export default function CalendarPage() {
             setMonth(month - 1)
         }
         setDays(getDays())
+        //comunicação com API
+        setTasks([])
     }
     function incMonth() {
         if (month == 12) {
@@ -67,6 +59,8 @@ export default function CalendarPage() {
             setMonth(month + 1)
         }
         setDays(getDays())
+        //comunicação com API
+        setTasks([])
     }
     function getMonthName() {
         const date = new Date(year, month - 1);

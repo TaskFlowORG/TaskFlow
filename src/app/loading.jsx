@@ -1,14 +1,14 @@
 
 export default function Loading() {
     return (
-        <html>
 
-        <body className=" items-center justify-center  bg-white flex h-screen w-screen">
+
+            <div className="w-screen h-screen flex justify-center items-center">
             <video loop width={200} className=" animate-pulse" autoPlay muted>
                 <source src="Assets/WhiteLoad.mp4" type="video/mp4" />
             </video>
-        </body>
-        </html>
+
+            </div>
     )
 
 

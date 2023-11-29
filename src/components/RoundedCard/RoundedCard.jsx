@@ -14,8 +14,6 @@ export const RoundedCard = ({ color, children, changeImage, choose}) => {
     }
     let hasProperty = true;
 
-
-
         return (
 
             <div style={style} className={`${choose} border-l-8   shadowww w-full min-w-[300px]  rounded-lg bg-[#FCFCFC] p-4 flex flex-col justify-between gap-4 max-w-[440px]`} onClick={()=>{

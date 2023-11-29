@@ -10,61 +10,7 @@ export const ProjectsMainPage = () => {
 
   useEffect(() => {
     //Consumir api
-    setProjects([
-      {
-        id: 1,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[{id:1, image:"/next.svg"}],
-        percent:75
-      }, {
-        id: 2,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[ {id:1, image:"/next.svg"},{id:2, image:"/next.svg"}, {id:3, image:"/next.svg"}],
-        percent:75
-      }, {
-        id: 3,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-      }, {
-        id: 4,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-
-      }, {
-        id: 5,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-
-      }, {
-        id: 6,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-
-      }, , {
-        id: 7,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-
-      }, , {
-        id: 8,
-        name: "Projeto A",
-        description: "Descrição do Projeto A",
-        groups:[],
-        percent:75
-      }
-    ])
+    setProjects([])
   }, [])
 
   return (

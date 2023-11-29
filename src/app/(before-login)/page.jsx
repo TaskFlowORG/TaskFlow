@@ -16,7 +16,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 
-export default function Home() {
+export default async function Home() {
+await new Promise(e => setTimeout(e, 4000))
 
   const devs = [
     {

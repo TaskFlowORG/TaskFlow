@@ -1,38 +1,14 @@
 'use client';
 
 import { useEffect, useState } from "react"
-import { InitialPageTask } from "./components";
+import { CardContent } from "../CardContent";
+import { RoundedCard } from "../RoundedCard";
 
 export const InitialPageTasks = () => {
     const [tasks, setTasks] = useState([])
     useEffect(() => {
         //Comunicação API
-        setTasks([
-            {
-                id: 1
-            },
-            {
-                id: 2
-            },
-            {
-                id: 3
-            },
-            {
-                id: 4
-            },
-            {
-                id: 5
-            },
-            {
-                id: 6
-            },
-            {
-                id: 7
-            },
-            {
-                id: 8
-            }
-        ])
+        setTasks([])
     }, [])
 
     return (
@@ -43,7 +19,11 @@ export const InitialPageTasks = () => {
             <div className="flex justify-center flex-wrap gap-5 h-96 lg:h-full w-full overflow-y-auto p-2" >
                 {
                     tasks.map(t => {
-                        return <InitialPageTask key={t.id} />
+                        return <div className="h-min flex items-center">
+                            <RoundedCard color={t.color}>
+                                <CardContent task={t} />
+                            </RoundedCard>
+                        </div>
                     })
                 }
             </div >
