@@ -133,9 +133,9 @@
 
 
 .mn {
-
   @apply font-montserrat text-[12px]
 }
+
 .stroke-text-white {
   -webkit-text-stroke: 1px #FCFCFC;
 }
@@ -212,6 +212,19 @@ select {
 
 select::-ms-expand {
   display: none;
+}
+
+@keyframes custom-pulse {
+  0% {
+     opacity:1
+  }
+  50% {
+    opacity:0
+
+  }
+  100% {
+    opacity:1
+  }
 }
 
 .inputLight {

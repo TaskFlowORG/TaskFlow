@@ -10,7 +10,7 @@ export const Project = ({ project, col }) => {
   const style = { gridColumn: col }
 
   return (
-    <div className={"min-w-full flex flex-col shadow-blur-10 gap-16 bg-white duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}
+    <div className={"min-w-full flex flex-col shadow-blur-10 gap-16 bg-white dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}
       style={style} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
         {/* Imagem do Projeto */}
@@ -19,8 +19,8 @@ export const Project = ({ project, col }) => {
           </div>
         </div>
         <div className="w-full whitespace-nowrap overflow-hidden">
-          <h4 className="w-11/12 font-alata text-[16px] text-modal-grey text-ellipsis overflow-hidden">{project.name}</h4>
-          <p className="w-11/12 font-montserrat text-[12px] text-modal-grey text-ellipsis overflow-hidden">{project.description}</p>
+          <h4 className="w-11/12 font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden">{project.name}</h4>
+          <p className="w-11/12 font-montserrat text-[12px] text-modal-grey dark:text-white text-ellipsis overflow-hidden">{project.description}</p>
         </div>
       </div>
       {isHovering &&

@@ -1,6 +1,5 @@
 export const Groups = ({ groups, max }) => {
-    const style = "rounded-full -m-6 w-8 h-8 bg-primary text-white overflow-clip flex shadow-blur-10 items-center justify-center";
-
+    const style = "rounded-full -m-6 w-8 h-8 bg-primary dark:bg-secondary text-white overflow-clip flex shadow-blur-10 items-center justify-center";
     return (
         <div className="flex justify-center">
             {
