@@ -1,26 +1,12 @@
-
 "use client"
 import { RegisterShape } from "@/components/RegisterShape";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-
-
-
-const schema = z.object({
-    name: z.string().min(3, 'Nome muito curto').max(50, 'Nome muito longo'),
-    surname: z.string().min(3, 'Sobrenome muito curto').max(50, 'Sobrenome muito longo'),
-    username: z.string().min(3, 'Nome de usuário muito curto').max(50, 'Nome de usuário muito longo'),
-    password: z.string().min(3, 'Senha muito curta').max(50, 'Senha muito longa'),
-    email: z.string().email('Email inválido')
-});
+import { Input } from "@/components/Input"
 const page = () => {
-    const api = new Api();
-   
-    const theme = 'light';
-
 
     const [user, setUser] = useState({});
-    const theme = 'light';
+    const theme = 'light-'
     const route = useRouter();
     const [value, setValue] = useState(0);
     const handlebutton = () => {
@@ -44,77 +30,57 @@ const page = () => {
         <div className="h-5/6 w-screen flex justify-center items-center">
 
             <RegisterShape />
-            <div className={"h-[60%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center " + (theme == "dark" ? " bg-modal-grey" : "bg-white")}>
+            <div className={"h-[60%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center bg-white dark:bg-modal-grey "}>
                 <div className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
-                    <p className={(theme == "dark" && " h4 text-white") + (theme == "light" && " h4")}>Registrar</p>
+                    <p className="h4">Registrar</p>
 
                     {value == 0 && <>
-                        <div className="inputLight ">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none px-5 rounded-md" placeholder="Digite o seu nome " valeu={user.name}
-                                onChange={
-                                    (e) => {
-                                        setUser({ ...user, name: e.target.value })
-                                    }
-                                } />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" value={user.name} change={
+                            (e) => {
+                                setUser({ ...user, name: e.target.value })
+                            }
+                        } />
 
-                        <div className="inputLight">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none  px-5" placeholder="Digite o seu sobrenome " value={user.surname}
-                                onChange={
-                                    (e) => {
-                                        setUser({ ...user, surname: e.target.value })
-                                    }
-                                } />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu sobrenome" value={user.surname} change={
+                            (e) => {
+                                setUser({ ...user, surname: e.target.value })
+                            }
+                        } />
                     </>
                     }
 
                     {value == 1 && <>
-                        <div className="inputLight ">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none px-5 rounded-md" placeholder="Digite o nome de Usuário " value={user.username}
-                                onChange={
-                                    (e) => {
-                                        setUser({ ...user, username: e.target.value })
-                                    }
-                                } />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" value={user.username} change={
+                            (e) => {
+                                setUser({ ...user, username: e.target.value })
+                            }
+                        } />
 
-                        <div className="inputLight">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none  px-5" placeholder="Digite seu email " value={user.email}
-                                onChange={
-                                    (e) => {
-                                        setUser({ ...user, email: e.target.value })
-                                    }
-                                } />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" value={user.email} change={
+                            (e) => {
+                                setUser({ ...user, email: e.target.value })
+                            }
+                        } />
                     </>}
                     {value == 2 && <>
-                        <div className="inputLight ">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none px-5 rounded-md" placeholder="Digite sua senha" value={user.password}
-                                onChange={
-                                    (e) => {
-                                        setUser({ ...user, password: e.target.value })
-                                    }
-                                }
-                            />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" value={user.password} change={
+                            (e) => {
+                                setUser({ ...user, password: e.target.value })
+                            }
+                        } />
 
-                        <div className="inputLight">
-                            <img src="Assets/themelight/IconUser.svg" alt="" className="w-8 h-full" />
-                            <input type="text" className="w-5/6 h-full outline-none  px-5" placeholder="Confirme sua senha " />
-                        </div>
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" value={user.email} change={
+                            (e) => {
+                                setUser({ ...user, email: e.target.value })
+                            }
+                        } />
                     </>}
 
                     <div className=" flex flex-row justify-end w-full">
 
                         {value > 0 &&
                             <div className="w-1/2 flex justify-start">
-                                <button className={theme == "dark" ? "buttonDark w-[150px] h-[44px]" : "buttonLight w-[150px] h-[44px]"}
+                                <button className={ "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
                                     onClick={handlebuttonSub}>Voltar</button>
                             </div>
                         }
@@ -127,13 +93,13 @@ const page = () => {
                         {value >= 0 && value < 2
                             &&
                             <div className="w-1/2 flex justify-end">
-                                <button className={theme == "dark" ? "buttonDark  w-[150px] h-[44px] justify-end" : "buttonLight w-[150px] h-[44px] justify-end"}
+                                <button className={ "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
                                     onClick={handlebutton}>Proximo</button>
                             </div>}
 
                         {value == 2 &&
                             <div className="w-1/2 flex justify-end">
-                                <button className={theme == "dark" ? "buttonDark  w-[150px] h-[44px] justify-end" : "buttonLight w-[150px] h-[44px] justify-end"}
+                                <button className={ "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
                                     onClick={register}>Enviar</button>
                             </div>
                         }
@@ -141,15 +107,15 @@ const page = () => {
                     </div>
                     <div className="w-[75%] flex justify-center">
 
-                        <p className={'font-alata text-sm ' + (theme == "dark" && " text-white")}>Já possui uma conta?</p>
+                        <p className={'font-alata text-sm'}>Já possui uma conta?</p>
                         <p className="font-alata text-sm underline text-secondary hover:cursor-pointer hover:text-light-orange" onClick={() => {
                             route.push('/login')
                         }}>Entrar</p>
                     </div>
 
                 </div>
-            </form>
 
+            </div>
 
         </div>)
 
