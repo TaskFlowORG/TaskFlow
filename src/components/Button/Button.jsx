@@ -5,7 +5,7 @@ export const Button = ({ padding, paddingY, width, rounded, background, textColo
              ${paddingY ? paddingY : "py-2"} 
              ${width ? width : "w-max"}
               ${rounded ? rounded : "rounded-lg"}
-               ${background ? background : "bg-primary"} 
+               ${background ? background : "bg-primary dark:bg-secondary"} 
                ${textSize ? textSize : "text-[20px]"} 
                ${textColor ? textColor : "text-white"} 
                ${other ? other : " "}
