@@ -12,10 +12,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
 
     useEffect(() => {
         const getListGroup = async () => {
-            const fetchedGroupUsers = await getListData("userGroup");
-            // if(fetchedGroupUsers.id == id){
-            //     setUsers(fetchedGroupUsers);
-            // }
+            const fetchedGroupUsers = await getListData("UserGroup");
             setUsers(fetchedGroupUsers);
             console.log("oi" + fetchedGroupUsers)
         }
@@ -31,8 +28,6 @@ export const UsersToGroupPage = ({ id = 1 }) => {
 //             ))
 // }
 //         }
-
-        
     }, []);
 
 const sendText = () => {
@@ -43,7 +38,6 @@ const sendText = () => {
 
 const sendUser = () => {
     console.log('clicou')
-    setUser('Usuário: ' + user)
 }
 return (
     <div className="flex w-full ml-24">
