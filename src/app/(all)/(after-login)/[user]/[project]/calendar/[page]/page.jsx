@@ -5,7 +5,7 @@ import { Arrow } from "@/components/icons/Slidebarprojects";
 import { compareDates } from "@/functions";
 import { useEffect, useState } from "react";
 
-export default function CalendarPage() {
+export default function calendarPage() {
 
     const [tasks, setTasks] = useState([])
     const [month, setMonth] = useState(0)
