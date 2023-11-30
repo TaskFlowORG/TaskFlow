@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
 
     return (
         <html lang="en">
-            <body className=" transition-iris w-screen h-screen transition-theme dark:bg-back-grey bg-white flex flex-col items-center justify-start">
+            <body className=" w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start">
                 <Providers>
                     <ThemeSwitcher />
                     {children}

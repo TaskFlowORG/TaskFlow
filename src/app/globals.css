@@ -214,6 +214,11 @@ select::-ms-expand {
   display: none;
 }
 
+* {
+  transition-property:color,  background-color, border-color, text-decoration-color, fill, stroke 150ms ease-in-out;
+  transition-duration:150ms;
+}
+
 @keyframes custom-pulse {
   0% {
     opacity: 1;
@@ -224,49 +229,7 @@ select::-ms-expand {
   100% {
     opacity: 1;
   }
-}
-
-*{
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke ;
-  transition-delay:500ms;
-}
-
-.dark {
-  animation: changeColorAnimation 1s forwards;
-}
-.light {
-  animation: otherChangeColorAnimation 1s forwards;
-}
-
-@keyframes changeColorAnimation {
-  0% {
-    -webkit-clip-path: circle(70.7% at 50% 50%);
-    clip-path: circle(70.7% at 50% 50%);
-  }
-  50% {
-    -webkit-clip-path: circle(1% at 50% 50%);
-    clip-path: circle(1% at 50% 50%);
-  }
-  100% {
-    -webkit-clip-path: circle(70.7% at 50% 50%);
-    clip-path: circle(70.7% at 50% 50%);
-  }
-}
-
-@keyframes otherChangeColorAnimation {
-  0% {
-    -webkit-clip-path: circle(70.7% at 50% 50%);
-    clip-path: circle(70.7% at 50% 50%);
-  }
-  50% {
-    -webkit-clip-path: circle(1% at 50% 50%);
-    clip-path: circle(1% at 50% 50%);
-  }
-  100% {
-    -webkit-clip-path: circle(70.7% at 50% 50%);
-    clip-path: circle(70.7% at 50% 50%);
-  }
-}
+} 
 
 .inputLight {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat focus-within:border-primary border-2 duration-300;
