@@ -214,15 +214,7 @@ select::-ms-expand {
   display: none;
 }
 
-.inputLight {
 
-  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat focus-within:border-primary border-2 duration-300;
-}
-
-.inputDark {
-
-  @apply w-5/6 flex justify-center items-center gap-2 h-[62px] rounded-sm font-montserrat text-white bg-modal-grey border-b-2 border-white;
-}
 
 .buttonLight {
   @apply bg-primary rounded-md h5 text-white hover:bg-light-pink
