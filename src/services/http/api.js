@@ -3,13 +3,9 @@ export { getData, getListData }
 const axios = require('axios').default;
 
 async function getData(table, paramether) {
-    try {
-        const response = await axios.get("http://localhost:9999/"+table+"/"+paramether);
-        return response.data;
-      } catch (error) {
-        throw error
-      }
+  return await axios.get("http://localhost:9999/" + table + "/" + paramether);
 }
+
 
 async function getListData(table) {
     try {

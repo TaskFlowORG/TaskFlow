@@ -1,50 +1,47 @@
 import { TextContent } from "../TextContent"
-
 export const ChatContent = () => {
     return (
         <>
 
-            <div className="w-full h-full grid grid-rows-3" style={{ gridTemplateRows: "10% 80% 9%" }}>
-                <div className=" row-start-1 row-end-2 bg-input-grey h-20 rounded-lg grid  grid-cols-2">
-                    <div className=" px-4 flex items-center">
-                        <div className=" col-start-1  flex items-center justify-center w-10 h-10 bg-[url('/img/notificacao.svg')]">
-                            <img src="" alt="" />
-                        </div>
-                        <div className="px-4">
-                            <h4 className="h4">Fernando Pessoa</h4>
-                        </div>
+            <div className="w-full h-full ">
+                <div className="flex bg-input-grey w-full h-[10%] rounded-lg items-center justify-around shadow-blur-10">
+                    <div className="flex bg-primary rounded-full w-[5%] h-14 mx-5">
+
                     </div>
-                    <div className="col-start-2 px-4 flex items-center justify-end">
-                        <div className="flex gap-4 px-6">
+                    <div className="w-[80%] mx-5">
+                        <h3 className="p lg:h4">Fabrício Stefano</h3>
+                    </div>
+                    <div className="w-[20%] flex items-center px-14 justify-end ">
+                        <div className="mx-2">
                             <img src="/img/Status.svg" alt="" />
+                        </div>
+                        <div className="mx-2">
                             <p className="p">online</p>
                         </div>
                     </div>
                 </div>
-                <div className="row-start-2 h-96 ">
-                    <div>
-                        <TextContent></TextContent>
-                    </div>
+                <div className="h-[80%] w-full">
+                    a
                 </div>
-                <div className="flex  row-start-3 w-full h-full  gap-6 ">
-                    <div className="bg-input-grey w-full  flex rounded-xl shadow-blur-10">
-                        <input type="text" placeholder="Digite aqui..." className="p p-5 outline-none col-start-1 bg-input-grey w-full rounded-2xl" />
-                        <div className="flex justify-end items-center w-1/6 gap-3 px-5">
-                            <button>
-                                <img className="  w-10 h-10" src="/img/audio.svg" alt="" />
-                            </button>
-
-                            <button>
-                                <img className="w-10 h-10" src="/img/arquivo.svg" alt="" />
-                            </button>
+                <div className="flex w-full h-[10%] gap-3">
+                    <div className="w-[90%] bg-input-grey flex items-center px-5 shadow-blur-10 rounded-lg">
+                        <div className="w-[88%]">
+                            <input className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                         </div>
+                        <button className="flex justify-center items-center w-[6%]">
+                            <img className="" src="/img/audio.svg" alt="" />
+                        </button>
+                        <button className="flex justify-center items-center w-[6%]">
+                            <img className="" src="/img/arquivo.svg" alt="" />
+                        </button>
                     </div>
-                    <div className="  bg-input-grey w-[7%] rounded-2xl bg-primary flex justify-center items-center">
-                        <img className="w-10 h-10" src="/img/enviar.svg" alt="" />
-                    </div>
+                    <button className="bg-primary w-[7%] rounded-lg flex justify-center items-center">
+                        <img className="" src="/img/enviar.svg" alt="" />
+                    </button>
                 </div>
+
             </div>
 
         </>
     )
-}
+}   
