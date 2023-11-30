@@ -151,9 +151,9 @@
 }
 
 .shadowww {
-  box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 1px 1px 12px 0px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: 1px 1px 12px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
 }
 
 .shadowwwsecondary {
@@ -166,6 +166,7 @@
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
 }
+
 
 .timeline__primaryToPurple {
   background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
