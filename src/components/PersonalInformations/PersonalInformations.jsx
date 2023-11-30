@@ -1,8 +1,22 @@
 "use client";
+import { useEffect, useState } from "react";
 import UserData from "../../services/http/api";
+import { getData } from "../../services/http/api";
 
 export const PersonalInformations = () => {
-    const { name, surname, address, picture, email, phone, description } = UserData();
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+
+        async function getUser() {
+            const response = await getData("user",2)
+            console.log(response)
+            setUser(response)
+        }
+
+        getUser()
+    }, [])
     return (
         <>
             <div className=" flex  pt-40 justify-center w-full ">
@@ -10,20 +24,20 @@ export const PersonalInformations = () => {
                     <div className="flex gap-10 ">
                         <div className="h-full relative">
                             <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 w-48 h-48">
-                                <img className="rounded-full" src={picture} alt="" />
+                                <img className="rounded-full" src="{user.picture}" alt="" />
                                 <label className=" border-secondary border-2 rounded-full p-2 bg-white w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">
                                     <img src="/img/imagem.svg" alt="" />
-                                    <input className="opacity-0 w-full h-full absolute top-0 left-0" type="file" accept="image/*"/>
+                                    <input className="opacity-0 w-full h-full absolute top-0 left-0" type="file" accept="image/*" />
                                 </label>
                             </div>
                         </div>
 
                         <div className="flex flex-col h-full justify-center gap-4 text-modal-grey">
                             <div className=" overflow-auto">
-                                <h2 className="h2">{name} {surname}</h2>
+                                <h2 className="h2">{user.name} {user.surname}</h2>
                             </div>
                             <div className="flex items-center gap-2">
-                                <p className="p">{address}</p>
+                                <p className="p">{user.address}</p>
                                 <button>
                                     <div>
                                         <img src="/img/editar.svg" alt="" />
@@ -36,27 +50,27 @@ export const PersonalInformations = () => {
                         <div className="grid grid-cols-2 grid-rows-4 gap-10 absolute text-modal-grey p">
                             <div className="row-start-1 px-6  ">
                                 <label className="flex flex-col ">
-                                    Nome <input className=" shadow-blur-10   bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={name} />
+                                    Nome <input className=" shadow-blur-10   bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={user.name} />
                                 </label>
                             </div>
                             <div className="row-start-1 px-6 ">
                                 <label className="flex flex-col">
-                                    Surname <input className ="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={surname} />
+                                    Surname <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user.surname} />
                                 </label>
                             </div>
                             <div className="row-start-2  px-6 ">
                                 <label className="flex flex-col">
-                                    Email <input className="shadow-blur-10  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={email} />
+                                    Email <input className="shadow-blur-10  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user.email} />
                                 </label>
                             </div>
                             <div className="row-start-2  px-6 ">
                                 <label className="flex flex-col">
-                                    Telefone <input className ="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={phone} />
+                                    Telefone <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user.phone} />
                                 </label>
                             </div>
                             <div className="row-start-3  px-6  col-span-2">
                                 <label className="flex flex-col">
-                                    Descrição <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-full  pl-4 focus:outline-none" type="text" placeholder={description} />
+                                    Descrição <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-full  pl-4 focus:outline-none" type="text" placeholder={user.description} />
                                 </label>
                             </div>
                             <div className="row-start-4  px-6 ">

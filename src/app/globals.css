@@ -304,10 +304,10 @@ select::-ms-expand {
 .toggleOut{
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
-/* ::-webkit-scrollbar{
+ ::-webkit-scrollbar{
   @apply hidden;
 
-} */
+} 
 
 .pAlata{
   @apply font-alata text-[16px]
