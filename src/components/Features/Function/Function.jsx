@@ -13,7 +13,7 @@ export const Function = ({ bg, text, size }) => {
 
             <div className="flex flex-col  w-full md:w-4/5 gap-4 md:gap-7">
                 <h3 className={` text-[24px] text-center md:text-start md:text-[32px] ${text} dark:text-white`}>IA treinada para te oferecer o melhor</h3>
-                <p className="text-[12px] md:text-[16px] md:text-start text-center w-full">Lorem ipsum dolor sit amet consectetur. Urna egestas nisi commodo faucibus quam fermentum luctus faucibus elementum. Egestas mauris viverra libero gravida id a. Adipiscing molestie ut tincidunt hendrerit. Posuere dignissim eu natoque eget facilisis aliquam sit porta. Ultrices mattis vitae aliquam libero tempor fermentum vel.</p>
+                <p className="text-[12px] md:text-[16px] md:text-start text-center w-full text-modal-grey dark:text-white">Lorem ipsum dolor sit amet consectetur. Urna egestas nisi commodo faucibus quam fermentum luctus faucibus elementum. Egestas mauris viverra libero gravida id a. Adipiscing molestie ut tincidunt hendrerit. Posuere dignissim eu natoque eget facilisis aliquam sit porta. Ultrices mattis vitae aliquam libero tempor fermentum vel.</p>
             </div>
         </div>
     )

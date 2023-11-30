@@ -21,7 +21,7 @@ export const LandingPageCardContent = ({ title, text, dark, color }) => {
     return (
         <div className="w-full  flex flex-col gap-4">
             <h3 style={style} className={ " text-[24px]   md:text-[32px] " + color }>{title}</h3>
-            <p className=" text-[12px] font-montserrat md:text-[16px]"> {text}</p>
+            <p className=" text-[12px] font-montserrat md:text-[16px] text-modal-grey dark:text-white"> {text}</p>
         </div>
     )
 }
