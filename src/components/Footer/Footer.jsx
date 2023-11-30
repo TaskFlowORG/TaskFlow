@@ -3,7 +3,7 @@ export const Footer =  () => {
            const theme = "light";
     return (
 <>
-        {theme === "light" &&  <div className="h-[500px] w-full bg-primary flex justify-center flex-col items-center">
+        {theme === "light" &&  <div className="h-[500px] w-full bg-primary dark:bg-secondary flex justify-center flex-col items-center">
             
             <div className="h-1/2 w-3/5 flex justify-between border-b-2" >
                 <div className="flex flex-col justify-center w-1/3">
@@ -38,8 +38,8 @@ export const Footer =  () => {
                         <img src="./Assets/iconsSocial/iconFacebook.svg" alt="" className="h-[48px] w-[48px]" />
                     </div>
                 </div>
-                <div className="h-1/5 w-full bg-white flex justify-center items-center">
-                    <p className="font-alata text-primary">© TaskFlow. Todos os direitos reservados</p>
+                <div className="h-1/5 w-full bg-white dark:bg-back-grey flex justify-center items-center">
+                    <p className="font-alata text-primary dark:text-white">© TaskFlow. Todos os direitos reservados</p>
 
                 </div>
             </div>

@@ -7,7 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-
+      animation:{
+        'custom-pulse':'custom-pulse 1000ms ease-in-out infinite'
+      },
       colors: {
         'white': '#FCFCFC',
         'back-grey': '#3C3C3C',
@@ -39,7 +41,12 @@ module.exports = {
       }
     },
   },
+  variants: {
+    animationDuration: ['responsive'],
+  },
 
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animation-delay"),
+  ],
   darkMode:"class"
 }

@@ -49,7 +49,7 @@ export default function Projects({ color }) {
             <SVGProjectsPage />
             <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
                 <div className="flex items-center flex-col w-full h-4/5">
-                    <h1 className="h2 sm:text-[68px] sm:w-3/5 w-full stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary">
+                    <h1 className="h2 sm:text-[68px] sm:w-3/5 w-full stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
                         Projetos
                     </h1>
                     <div className="w-full lg:w-3/5 h-[70vh] flex justify-center overflow-y-scroll">
