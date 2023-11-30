@@ -14,49 +14,68 @@ export default function Kanban() {
 
 
     useEffect(() => {
-        const getList = async () => {
-            const fetchedTasks = await getListData("task");
 
-            await fetchedTasks.map((task) => {
-                task.properties.map((property) => {
-                    if (property.property.type == "select") {
-                        setOptions(property.property.options);
-                        let id2 = property.propertyId
-                        setId(id2);
-                    }
-                });
-            });
 
-            const tasksPadrao = []
+        const getPage = async () => {
+            const page = await getData("page", 1)
 
-            fetchedTasks.map((task) => {
+            const tasks = page.tasks.map((taskPage) => {
+                return taskPage.task
+            })
 
-                let property = task.properties.find((property) => property.propertyId == id && property.value == "vazio");
-                
-                if (property != null) {
-                    tasksPadrao.push(task)
-                }
-            });
-            setTasks(fetchedTasks)
-            setDefaultTasks(tasksPadrao)
-        };
-        getList();
+            const propertyOrdering = page.propertyOrdering;
+
+            console.log(page, tasks, propertyOrdering)
+        }
+
+
+
+        getPage()
+
+
+        // const getList = async () => {
+        //     const fetchedTasks = await getListData("task");
+
+        //     await fetchedTasks.map((task) => {
+        //         task.properties.map((property) => {
+        //             if (property.property.type == "select") {
+        //                 setOptions(property.property.options);
+        //                 let id2 = property.propertyId
+        //                 setId(id2);
+        //             }
+        //         });
+        //     });
+
+        //     const tasksPadrao = []
+
+        //     fetchedTasks.map((task) => {
+
+        //         let property = task.properties.find((property) => property.propertyId == id && property.value == "vazio");
+
+        //         if (property != null) {
+        //             tasksPadrao.push(task)
+        //         }
+        //     });
+        //     setTasks(fetchedTasks)
+        //     setDefaultTasks(tasksPadrao)
+        // };
+        // getList();
     }, [id]);
 
 
     return (
         <>
-            <div className="w-full h-full mt-[5em] flex flex-col ">
+            <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
                 <div className="flex gap-5 items-end pb-16 justify-center    h-max">
-                    <h1 className="h1 text-primary whitespace-nowrap">Page Name</h1>
+                    <h1 className="h1 text-primary whitespace-nowrap dark:text-white">Page Name</h1>
                     <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
                         <p className="p text-primary text-4xl h-min w-min">+</p>
                     </div>
-                    <SearchBar hasOrder hasFilter hasSearch />
+                    <SearchBar order={() => console.log("Ordering")} filter={() => console.log("Filtering")} search={() => console.log("Searching")} />
                 </div>
                 <div className="flex gap-8 justify-center w-full">
                     {options.map((option) => {
-                         return (
+                        return (
                             <ColumnKanban
                                 key={option.id}
                                 tasks={tasks}
@@ -79,7 +98,7 @@ export default function Kanban() {
                             option={"Não marcadas"}
                             columnName={"To Do"} />
                     }
-                    </div>
+                </div>
             </div>
         </>
     );

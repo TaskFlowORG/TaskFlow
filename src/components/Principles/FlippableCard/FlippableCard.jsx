@@ -25,9 +25,6 @@ export const FlippableCard = ({ title, img, content }) => {
                 <Flipped content={content} />
             </SwiperSlide>
 
-            <SwiperSlide>
-                <Flipped content={content} />
-            </SwiperSlide>
         </Swiper>
     )
 }
