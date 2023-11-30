@@ -1,160 +1,165 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Alata&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); */
 
+@font-face {
+  font-family: "Alata";
 
-
-
-
-@font-face{
-  font-family:"Alata";
-
-
-  src: url('../../public/fonts/Alata/Alata-Regular.ttf') format('truetype')
+  src: url("../../public/fonts/Alata/Alata-Regular.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Regular.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf")
+    format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Black.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf")
+    format("truetype");
   font-weight: 900;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf")
+    format("truetype");
   font-weight: 900;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Bold.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf")
+    format("truetype");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf")
+    format("truetype");
   font-weight: 700;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf")
+    format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf")
+    format("truetype");
   font-weight: 800;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf")
+    format("truetype");
   font-weight: 200;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf")
+    format("truetype");
   font-weight: 200;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Light.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf")
+    format("truetype");
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf")
+    format("truetype");
   font-weight: 300;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Medium.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf")
+    format("truetype");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf")
+    format("truetype");
   font-weight: 500;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf")
+    format("truetype");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf")
+    format("truetype");
   font-weight: 600;
-  font-style: italic
+  font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-Thin.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf")
+    format("truetype");
   font-weight: 100;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url('../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf') format('truetype');
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf")
+    format("truetype");
   font-weight: 100;
-  font-style: italic
+  font-style: italic;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root{
-  --primary-color: #F04A94;
-  --secondary-color: #F76858;
+:root {
+  --primary-color: #f04a94;
+  --secondary-color: #f76858;
 }
 
-
-
 .mn {
-  @apply font-montserrat text-[12px]
+  @apply font-montserrat text-[12px];
 }
 
 .stroke-text-white {
-  -webkit-text-stroke: 1px #FCFCFC;
+  -webkit-text-stroke: 1px #fcfcfc;
 }
-
 
 .shadowww {
   box-shadow: 1px 1px 10px 0px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 1px 1px 12px 0px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: 1px 1px 12px 0px rgba(0, 0, 0, 0.25);
-
-
 }
 
 .shadowwwsecondary {
   box-shadow: 1px 1px 10px 0px rgba(255, 135, 26, 0.25);
   -webkit-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
-
-
 }
 
 .elipse {
@@ -163,15 +168,12 @@
 }
 
 .timeline__primaryToPurple {
-  background: linear-gradient(180deg, #E100F4 -20.75%, #EF4996 120.75%);
+  background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
 }
-
 
 .timeline__purpleTosecondary {
-  background: linear-gradient(180deg, #EA35BE -20.75%, #F76858 120.75%);
+  background: linear-gradient(180deg, #ea35be -20.75%, #f76858 120.75%);
 }
-
-
 
 /* .s-input input {
   display: none;
@@ -202,12 +204,10 @@
 
 } */
 
-
-
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;  
+  appearance: none;
 }
 
 select::-ms-expand {
@@ -216,61 +216,96 @@ select::-ms-expand {
 
 @keyframes custom-pulse {
   0% {
-     opacity:1
+    opacity: 1;
   }
   50% {
-    opacity:0
-
+    opacity: 0;
   }
   100% {
-    opacity:1
+    opacity: 1;
+  }
+}
+
+*{
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke ;
+  transition-delay:500ms;
+}
+
+.dark {
+  animation: changeColorAnimation 1s forwards;
+}
+.light {
+  animation: otherChangeColorAnimation 1s forwards;
+}
+
+@keyframes changeColorAnimation {
+  0% {
+    -webkit-clip-path: circle(70.7% at 50% 50%);
+    clip-path: circle(70.7% at 50% 50%);
+  }
+  50% {
+    -webkit-clip-path: circle(1% at 50% 50%);
+    clip-path: circle(1% at 50% 50%);
+  }
+  100% {
+    -webkit-clip-path: circle(70.7% at 50% 50%);
+    clip-path: circle(70.7% at 50% 50%);
+  }
+}
+
+@keyframes otherChangeColorAnimation {
+  0% {
+    -webkit-clip-path: circle(70.7% at 50% 50%);
+    clip-path: circle(70.7% at 50% 50%);
+  }
+  50% {
+    -webkit-clip-path: circle(1% at 50% 50%);
+    clip-path: circle(1% at 50% 50%);
+  }
+  100% {
+    -webkit-clip-path: circle(70.7% at 50% 50%);
+    clip-path: circle(70.7% at 50% 50%);
   }
 }
 
 .inputLight {
-
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat focus-within:border-primary border-2 duration-300;
 }
 
 .inputDark {
-
   @apply w-5/6 flex justify-center items-center gap-2 h-[62px] rounded-sm font-montserrat text-white bg-modal-grey border-b-2 border-white;
 }
 
 .buttonLight {
-  @apply bg-primary rounded-md h5 text-white hover:bg-light-pink
+  @apply bg-primary rounded-md h5 text-white hover:bg-light-pink;
 }
-
 
 .buttonDark {
-  @apply  rounded-md h5 bg-secondary text-white hover:bg-light-pink
-
+  @apply rounded-md h5 bg-secondary text-white hover:bg-light-pink;
 }
 
-.h1{
-  @apply font-alata text-[56px]
+.h1 {
+  @apply font-alata text-[56px];
 }
-.h2{
-  @apply font-alata text-[48px]
+.h2 {
+  @apply font-alata text-[48px];
 }
-.h3{
-
- @apply font-alata text-[32px]
+.h3 {
+  @apply font-alata text-[32px];
 }
-.h4{
-@apply font-alata text-[24px]
-
+.h4 {
+  @apply font-alata text-[24px];
 }
 .h5 {
-  @apply font-alata text-[20px]
+  @apply font-alata text-[20px];
 }
 
-.p{
-  @apply font-montserrat text-[16px]
+.p {
+  @apply font-montserrat text-[16px];
 }
 
-.mn{
-  @apply font-montserrat text-[12px]
+.mn {
+  @apply font-montserrat text-[12px];
 }
 .t:hover {
   transition: 0.5s ease-in-out left 100px;
@@ -280,66 +315,63 @@ select::-ms-expand {
   transition: 0.5s ease-in-out left -100px;
 }
 
-
-@keyframes toggle-slider-animation{
-  0%{
+@keyframes toggle-slider-animation {
+  0% {
     transform: translateX(0px);
   }
-  100%{
+  100% {
     transform: translateX(32px);
   }
 }
 
-@keyframes toggle-slider-animation-reverse{
-  0%{
+@keyframes toggle-slider-animation-reverse {
+  0% {
     transform: translateX(32px);
   }
-  100%{
+  100% {
     transform: translateX(0px);
   }
 }
-.toggle-input:checked + .toggle-slider::before{
+.toggle-input:checked + .toggle-slider::before {
   transform: translateX(32px);
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
-.toggle-input:not(:checked) + .toggle-slider::before{
+.toggle-input:not(:checked) + .toggle-slider::before {
   transform: translateX(0px);
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-.toggle-input:checked + .toggle-slider{
-  background-color: #F76858;
+.toggle-input:checked + .toggle-slider {
+  background-color: #f76858;
 }
 
-.toggleIn{
+.toggleIn {
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
-.toggleOut{
+.toggleOut {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
- ::-webkit-scrollbar{
+::-webkit-scrollbar {
   @apply hidden;
-
-} 
-
-.pAlata{
-  @apply font-alata text-[16px]
 }
 
-.inputSombra{
-  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1
+.pAlata {
+  @apply font-alata text-[16px];
 }
 
+.inputSombra {
+  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1;
+}
 
 .modalTaskwhite {
-  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center 
+  @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center;
 }
 
-.modalTaskDisplay{
-  @apply flex items-center
+.modalTaskDisplay {
+  @apply flex items-center;
 }
-.test::after{
-  content: '>';
+.test::after {
+  content: ">";
   color: var(--primary-color);
   font-size: 24px;
 }
@@ -355,8 +387,8 @@ select::-ms-expand {
   transform: translate(-50%, -50%);
 }
 
-.inputGrayAndPink{
-   @apply bg-[#F2F2F2] border-[#F04A94] 
+.inputGrayAndPink {
+  @apply bg-[#F2F2F2] border-[#F04A94];
 }
 
 .swiper-button-prev,
@@ -368,36 +400,36 @@ select::-ms-expand {
   /* Outros estilos desejados */
 }
 
-
 .hovert {
   position: relative;
   color: #fff;
-  text-decoration: none;  
+  text-decoration: none;
 }
 
 .link-underline {
   border-bottom-width: 0;
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#fff, #fff);
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#fff, #fff);
   background-size: 0 3px;
   background-position: 0 100%;
   background-repeat: no-repeat;
-  transition: background-size .5s ease-in-out;
+  transition: background-size 0.5s ease-in-out;
 }
 
 .link-underline-black {
-  background-image: linear-gradient(transparent, transparent), linear-gradient(#F2C, #F2C)
+  background-image: linear-gradient(transparent, transparent),
+    linear-gradient(#f2c, #f2c);
 }
 
 .link-underline:hover {
   background-size: 100% 3px;
-  background-position: 0 100%
+  background-position: 0 100%;
 }
-
 
 /* Estilos para a seta "prev" */
 .swiper-button-prev::after {
-  content: '<'; /* ou use uma imagem de seta */
-  color: #F04A94;
+  content: "<"; /* ou use uma imagem de seta */
+  color: #f04a94;
   font-size: 48px;
   font-weight: bold;
 }
@@ -405,11 +437,10 @@ select::-ms-expand {
 /* Estilos para a seta "next" */
 .swiper-button-next::after {
   content: url("../../public/arrowPink.svg"); /* ou use uma imagem de seta */
-  color: #F04A94;
-    font-size: 48px;
-    font-weight: bold;
+  color: #f04a94;
+  font-size: 48px;
+  font-weight: bold;
 }
-
 
 /* 
  .swiper-slide {
@@ -418,4 +449,3 @@ select::-ms-expand {
   width: 300px;
   height: 300px;
 } */
-

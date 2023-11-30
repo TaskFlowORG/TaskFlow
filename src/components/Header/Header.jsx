@@ -13,6 +13,13 @@ export function Header() {
         console.log(path);
     }, [path.pathname])
 
+    function toggleColor() {
+        const element = document.querySelector("body");
+        element.classList.remove("transition-iris")
+        element.classList.add("transition-iris")
+        setTheme(theme == "dark" ? "light" : "dark")
+    }
+
     return (
 
 
@@ -26,8 +33,8 @@ export function Header() {
 
                 <img src="/Assets/Language.svg" alt="" className=" cursor-pointer" width={"20px"} height={"20px"} />
 
-                <img src="/moon.svg" className="dark:hidden  cursor-pointer" alt="" onClick={() => setTheme("dark")} />
-                <img src="/sun.svg" className="hidden dark:flex  cursor-pointer" alt="" onClick={() => setTheme("light")} />
+                <img src="/moon.svg" className="dark:hidden  cursor-pointer" alt="" onClick={() => toggleColor()} />
+                <img src="/sun.svg" className="hidden dark:flex  cursor-pointer" alt="" onClick={() => toggleColor()} />
 
                 <img src="/Assets/themeLight/Profile.svg" className=" cursor-pointer" alt="" width={"20px"} height={"20px"} />
             </div>
