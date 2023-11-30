@@ -26,20 +26,20 @@ export const CardContent = ({ task }) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-4 justify-between">
-        {properties.map((property) => {
-          if (property.property.type == "text") {
+        {task.uniProperties.map((property) => {
+          if (property.property.type == "TEXT") {
             return <CardText key={property.propertyId} text={property.value} />;
           }
         })}
-        {properties.map((property) => {
-          if (property.property.type == "date") {
-           
+        {task.uniProperties.map((property) => {
+          if (property.property.type == "date" && visible == true) {
+
             return <CardDate key={property.propertyId} date={property.value} />;
           }
         })}
 
-        {properties.map((property) => {
-          if (property.property.type == "select") {
+        {task.uniProperties.map((property) => {
+          if (property.property.type == "select" && visible == true) {
             return (
               <CardSelect
                 key={property.propertyId}
@@ -50,17 +50,17 @@ export const CardContent = ({ task }) => {
           }
         })}
 
-        {properties.map((property) => {
+        {task.multiProperties.map((property) => {
           if (property.property.type == "tag") {
-           
+
             return (
               <CardTag key={property.propertyId} values={property.values} />
             );
           }
         })}
-        {properties.map((property) => {
+        {task.uniProperties.map((property) => {
           if (property.property.type == "radio") {
-           
+
             return (
               <CardRadios key={property.propertyId} values={property.values} />
             );

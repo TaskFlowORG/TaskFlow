@@ -14,9 +14,11 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
 
     setColorUse(color ? color : "#FF0000");
 
+
+
     if (verify) {
       const filteredTasks = tasks.filter((task) => {
-        return task.properties.some((property) => {
+        return task.uniProperties.some((property) => {
           return property.propertyId === propertyId && property.value === option;
         });
       });
@@ -41,7 +43,7 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
 
       {tasksColumn.map(task => {
         return (
-          <RoundedCard key={task.id}>
+          <RoundedCard color={color} key={task.id}>
             <CardContent key={task.id} task={task} />
           </RoundedCard>
         )

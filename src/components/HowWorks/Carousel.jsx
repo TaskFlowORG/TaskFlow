@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide, } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { RoundedCard } from '@/components/RoundedCard';
 import { LandingPageCardContent } from '@/components/CardContent';
+import { useTheme } from "next-themes";
 
 export const Carousel = ({ change }) => {
 
@@ -15,22 +16,29 @@ export const Carousel = ({ change }) => {
             img: "project.jpg",
             color: "#F04A94",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Projetos"
+            title: "Projetos",
+            dark: "#FF871A"
         },
         {
             img: "moon.svg",
             color: "#EA35BE",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Tarefas"
+            title: "Tarefas",
+            dark: "#D7541C"
         },
         {
             img: "language.svg",
             color: "#E41CEF",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Propriedades"
+            title: "Propriedades",
+            dark: "#F76858"
         },
 
     ]
+
+
+
+
 
 
     return (
@@ -44,12 +52,12 @@ export const Carousel = ({ change }) => {
                 onSlideChange={(swiper) => console.log(swiper.activeIndex)}
             >
                 {
-                    functions.map((slide) => {
+                    functions.map((slide, index) => {
                         return (
-                            <SwiperSlide>
+                            <SwiperSlide key={index}>
                                 <div className='p-4 flex justify-center w-full'>
-                                    <RoundedCard changeImage={() => setImage(slide.img)} color={slide.color} >
-                                        <LandingPageCardContent color={`text-[${slide.color}]`} title={slide.title}
+                                    <RoundedCard changeImage={() => setImage(slide.img)} dark={slide.dark} color={slide.color} >
+                                        <LandingPageCardContent color={slide.color} dark={slide.dark} title={slide.title}
                                             text={slide.text} />
                                     </RoundedCard>
                                 </div>
