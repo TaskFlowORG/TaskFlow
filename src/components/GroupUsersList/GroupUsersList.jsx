@@ -11,7 +11,6 @@ export const GroupUsersList = ({ userId }) => {
             const fetchedUser = await getData("user", userId);
             setUser(fetchedUser)
         }
-        console.log(userId)
         getUser();
     }, []);
 

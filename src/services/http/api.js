@@ -1,4 +1,4 @@
-export { getData, getListData }
+export { getData, getListData, putData}
 
 const axios = require('axios').default;
 

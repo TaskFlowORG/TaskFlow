@@ -19,8 +19,6 @@ export const Description = ({groupId = 1}) => {
         <div className="flex gap-4 h-max pr-12">
             {
                 groups.map((g) => {
-                    console.log(g)
-                    console.log(g.id, groupId)
                     if (g.id === groupId) {
                         return <GroupAccess key={g.id} name={g.name} description={g.description} />
                     }
