@@ -3,11 +3,20 @@
 import { Chats } from "./components/Chats"
 import { ChatContent } from "./components/ChatContent"
 import { useState, useEffect } from "react"
-import { getListData } from "@/services/http/api"
+import { getListChat } from "../../services/http/api"
+
+
+interface Chat{
+    name: string,
+    lastMessage: string,
+    quantity: number,
+    quantitityUnvisualized: number
+}
+
 export const Chat = () => {
     const [mostrarChat, setMostrarChat] = useState(true)
     const [abrirChat, setAbrirChat] = useState(true)
-
+    const [chats, setChats] = useState<Chat[]>([])
     const mostrarChats = () => {
         if (window.innerWidth < 1024) {
             setMostrarChat(!mostrarChat)
@@ -15,9 +24,17 @@ export const Chat = () => {
         }
     }
 
-    useEffect()
-    
-    getListData(`chat/private/1`)
+    useEffect(() => {
+        async function getChats() {
+            const response = await getListChat("private", 1);
+            setChats(response);
+            console.log(response);
+        }
+        getChats();
+    }, []);
+
+
+
 
     return (
         <>
@@ -43,16 +60,12 @@ export const Chat = () => {
                                 <h5 className="h5 text-black">Grupos</h5>
                             </div>
                         </div>
-                        <div onClick={() => mostrarChats()} className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll ${mostrarChat ? 'visible lg:block' : 'hidden lg:block'
-                            }`}>
+                        <div onClick={mostrarChats} className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll ${mostrarChat ? 'visible' : 'hidden'}`}>
                             <div className="w-full">
-                                {
-                                    Chats.map((chat) => {
-                                        return <Chats unvisualized={chat.quantitityUnvisualized} name={chat.name} lastMessage={chat.lastMessage}/>
-                                    })
-                                }
+                                {chats.map((chat) => <Chats name={chat.name} lastMessage={chat.lastMessage} quantitityUnvisualized={chat.quantitityUnvisualized} />)}
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div className={`w-full  lg:block ${abrirChat ? 'hidden lg:block' : 'visible lg:block'}`}>
