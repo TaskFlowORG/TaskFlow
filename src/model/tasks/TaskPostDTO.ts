@@ -1,3 +1,5 @@
+import { Page } from "../pages/Page";
+
 export class TaskPostDTO{
     page: Page
 

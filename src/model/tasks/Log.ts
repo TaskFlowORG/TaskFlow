@@ -8,9 +8,9 @@ export  class Log {
     description: String;
     action: Action;
     user: User;
-    datetime: LocalDateTime;
+    datetime: Date;
 
-    constructor(id: Number, description: String, action: Action, user: User, datetime: LocalDateTime) {
+    constructor(id: Number, description: String, action: Action, user: User, datetime: Date) {
         this.id = id;
         this.description = description;
         this.action = action;
