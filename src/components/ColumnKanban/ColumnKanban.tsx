@@ -6,9 +6,17 @@ import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
 
-export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
-  const [colorUse, setColorUse] = useState("");
-  const [tasksColumn, setTasksColumn] = useState([]);
+interface Props {
+  color?: string,
+  option?: string,
+  propertyId?: number,
+  tasks: any[],
+  verify?: boolean
+}
+
+export const ColumnKanban = ({ color, option, propertyId, tasks, verify }: Props) => {
+  const [colorUse, setColorUse] = useState<string>("");
+  const [tasksColumn, setTasksColumn] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -17,8 +25,8 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
 
 
     if (verify) {
-      const filteredTasks = tasks.filter((task) => {
-        return task.uniProperties.some((property) => {
+      const filteredTasks: any[] = tasks.filter((task) => {
+        return task.uniProperties.some((property: any) => {
           return property.propertyId === propertyId && property.value === option;
         });
       });
@@ -38,7 +46,7 @@ export const ColumnKanban = ({ color, option, propertyId, tasks, verify }) => {
           className={`w-2 h-2 rounded-full`}
           style={{ backgroundColor: color }}
         ></div>
-        <h4 className="h4 whitespace-nowrap">{option}</h4>
+        <h4 className="h4 whitespace-nowrap text-black dark:text-white ">{option}</h4>
       </div>
 
       {tasksColumn.map(task => {

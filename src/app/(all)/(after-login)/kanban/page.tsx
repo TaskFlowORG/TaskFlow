@@ -1,18 +1,19 @@
 'use client';
 
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
-import { SearchBar } from "@/components/SearchBar/SearchBar";
+import { SearchBar } from "@/components/SearchBar";
 import { useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 
 export default function Kanban() {
-    const [tasks, setTasks] = useState([])
-    const [defaultTasks, setDefaultTasks] = useState([])
-    const [id, setId] = useState(0);
-    const [options, setOptions] = useState([]);
+    const [tasks, setTasks] = useState<any[]>([])
+    const [defaultTasks, setDefaultTasks] = useState<any[]>([])
+    const [id, setId] = useState<number>(0);
+    const [options, setOptions] = useState<any[]>([]);
 
-    const page = {
+
+    const page: any = {
         id: 1,
         name: "Page 1",
         type: "KANBAN",
@@ -179,9 +180,8 @@ export default function Kanban() {
                                 tasks={tasks}
                                 propertyId={id}
                                 color={option.color}
-                                id={option.id}
+
                                 option={option.name}
-                                columnName={"To Do"}
                                 verify={true}
                             />
                         );
@@ -194,7 +194,7 @@ export default function Kanban() {
                             propertyId={id}
                             color="#FF0000"
                             option={"Não marcadas"}
-                            columnName={"To Do"} />
+                        />
                     }
                 </div>
             </div>

@@ -1,5 +1,3 @@
-"use client"
-
 import { useState } from "react"
 import { Swiper, SwiperSlide, } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
@@ -7,9 +5,14 @@ import { RoundedCard } from '@/components/RoundedCard';
 import { LandingPageCardContent } from '@/components/CardContent';
 import { useTheme } from "next-themes";
 
-export const Carousel = ({ change }) => {
 
-    const [image, setImage] = useState("project.jpg")
+interface Props {
+    change: () => number
+}
+
+export const Carousel = ({ change }: Props) => {
+
+    const [image, setImage] = useState<string>("project.jpg")
 
     const functions = [
         {

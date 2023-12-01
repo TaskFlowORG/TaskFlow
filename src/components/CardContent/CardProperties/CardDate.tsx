@@ -1,4 +1,8 @@
-export const CardDate = ({date}) => {
+interface Props{
+    date:string
+}
+
+export const CardDate = ({date}:Props) => {
     return (
         <>
             <div className="flex gap-2 items-center bg-[yellow] ">

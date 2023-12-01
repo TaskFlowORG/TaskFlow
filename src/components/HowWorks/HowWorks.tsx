@@ -22,7 +22,7 @@ import 'swiper/css/scrollbar';
 
 export const HowWorks = () => {
 
-    const [windowWidth, setWindowWidth] = useState(0);
+    const [windowWidth, setWindowWidth] = useState<number>(0);
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
@@ -31,7 +31,7 @@ export const HowWorks = () => {
         setWindowWidth(window.innerWidth)
     }, [])
 
-    function changeView() {
+    function changeView(): number {
         return windowWidth > 768 ? 2 : 1
     }
 

@@ -1,4 +1,9 @@
-export const Dev = ({ name, description }) => {
+interface Props {
+    name: string,
+    description: string
+}
+
+export const Dev = ({ name, description }:Props) => {
     return (
 
         <div className="relative dark:bg-modal-grey min-h-[254px] mt-16 min-w-[315px] mb-8 flex flex-col shadowww rounded-lg gap-4 p-6 pt-12 pb-8 max-w-[318px] w-full">

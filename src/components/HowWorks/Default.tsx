@@ -32,7 +32,7 @@ export const Default = () => {
 
     ]
 
-    const [image, setImage] = useState("project.jpg")
+    const [image, setImage] = useState<string>("project.jpg")
 
     return (
         <div className="flex gap-16 p-8">

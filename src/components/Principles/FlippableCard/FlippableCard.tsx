@@ -9,7 +9,13 @@ import { Flipped } from './Flipped';
 import './style.css'
 import { useEffect, useState } from 'react';
 
-export const FlippableCard = ({ title, img, content }) => {
+interface Props {
+    title: string,
+    img: string,
+    content: string
+}
+
+export const FlippableCard = ({ title, img, content }: Props) => {
 
     return (
         <Swiper
