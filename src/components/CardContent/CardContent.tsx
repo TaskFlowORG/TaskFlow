@@ -8,16 +8,13 @@ import { CardText } from "./CardProperties/CardText";
 import { useEffect, useState } from "react";
 import { CardSelect } from "./CardProperties/CardSelect";
 import { ProgressBar } from "../ProgressBar";
+import { Task } from "@/model/tasks/Task";
 
 interface Props {
-  task: any;
+  task: Task;
 }
 export const CardContent = ({ task }: Props) => {
   const [properties, setProperties] = useState<any[]>([]);
-
-  useEffect(() => {
-    setProperties(task.properties);
-  });
 
   return (
     <>
@@ -78,7 +75,6 @@ export const CardContent = ({ task }: Props) => {
             );
           }
         })}
-
 
         {/* <CardTag />
         <CardRadios /> */}

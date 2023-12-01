@@ -50,13 +50,13 @@ export default function Kanban() {
                 },
                 {
                   id: 2,
-                  name: "Done",
-                  color: "#F04A94",
+                  name: "Doing",
+                  color: "#F7624B",
                 },
                 {
                   id: 3,
-                  name: "Doing",
-                  color: "#F7624B",
+                  name: "Done",
+                  color: "#F04A94",
                 },
               ],
             },
@@ -65,7 +65,7 @@ export default function Kanban() {
             taskId: 1002,
             propertyId: 2,
             value:
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi temporibus hic unde!",
+              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi temporibus hic unde!",
             property: {
               id: 2,
               name: "Description",
@@ -128,8 +128,7 @@ export default function Kanban() {
           {
             taskId: 1002,
             propertyId: 3,
-            value:
-              "11/05/2023",
+            value: "11/05/2023",
 
             property: {
               id: 3,
@@ -138,9 +137,9 @@ export default function Kanban() {
               obligatory: false,
               type: "DATE",
             },
-          }
+          },
         ],
-      }
+      },
     ],
 
     userProperties: [],
@@ -252,7 +251,7 @@ export default function Kanban() {
               key={0}
               tasks={defaultTasks}
               propertyId={id}
-              color="#FF0000"
+              color="#767867"
               option={"Não marcadas"}
             />
           }
