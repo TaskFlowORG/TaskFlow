@@ -12,6 +12,7 @@ export default function Kanban() {
     const [id, setId] = useState<number>(0);
     const [options, setOptions] = useState<any[]>([]);
 
+
     const page: any = {
         id: 1,
         name: "Page 1",
