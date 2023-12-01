@@ -1,5 +1,7 @@
 import { Group } from "./Group";
+import { Property } from "./Properties/Property";
 import { User } from "./User";
+import { Page } from "./pages/Page";
 
 export class Project {
 
