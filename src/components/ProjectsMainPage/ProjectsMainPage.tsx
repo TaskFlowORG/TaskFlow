@@ -4,9 +4,21 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Project } from "../Project";
 
+interface Project{
+  id:number,
+  groups:Array<Group>,
+  name:string,
+  description:string, 
+  percent:number
+}
+interface Group{
+  id:number,
+  image:string
+}
+
 export const ProjectsMainPage = () => {
 
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState<Array<Project>>([])
 
   useEffect(() => {
     //Consumir api

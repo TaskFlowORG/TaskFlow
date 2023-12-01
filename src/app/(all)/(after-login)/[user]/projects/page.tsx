@@ -1,13 +1,25 @@
 'use client'
 
+interface Project{
+    id:number,
+    groups:Array<Group>,
+    name:string,
+    description:string, 
+    percent:number
+  }
+  interface Group{
+    id:number,
+    image:string
+  }
+
 import { Project } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
 import { useEffect, useState } from "react";
 
-export default function Projects({ color }) {
+export default function Projects() {
 
-    const [windowWidth, setWindowWidth] = useState(0);
-    const [projects, setProjects] = useState([])
+    const [windowWidth, setWindowWidth] = useState<number>(0);
+    const [projects, setProjects] = useState<Array<Project>>([])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -18,7 +30,7 @@ export default function Projects({ color }) {
         setProjects([]);
     }, [])
 
-    function getCol2Xl(index) {
+    function getCol2Xl(index:number):number {
         if (index % 3 == 0) {
             return 1
         } else if ((index + 1) % 3 == 0) {
@@ -26,7 +38,7 @@ export default function Projects({ color }) {
         }
         return 2
     }
-    function getColLg(index) {
+    function getColLg(index:number):number {
         if (index % 2 == 0) {
             return 1
         } else if ((index + 1) % 2 == 0) {
@@ -34,7 +46,7 @@ export default function Projects({ color }) {
         }
         return 1
     }
-    function getCol(p) {
+    function getCol(p:Project):number {
         const index = projects.indexOf(p)
         if (windowWidth > 1440) {
             return getCol2Xl(index)

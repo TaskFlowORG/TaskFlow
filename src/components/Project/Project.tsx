@@ -4,10 +4,28 @@ import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import { Groups } from "../Groups";
 
-export const Project = ({ project, col }) => {
+interface Props{
+  project:Project,
+  col?:number,
 
-  const [isHovering, setIsHovering] = useState(false);
-  const style = { gridColumn: col }
+}
+interface Project{
+  id:number,
+  groups:Array<Group>,
+  name:string,
+  description:string, 
+  percent:number
+}
+interface Group{
+  id:number,
+  image:string
+}
+
+
+export const Project = ({ project, col }:Props) => {
+
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const style:Object = { gridColumn: col }
 
   return (
     <div className={"min-w-full flex flex-col shadow-blur-10 gap-16 bg-white dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}

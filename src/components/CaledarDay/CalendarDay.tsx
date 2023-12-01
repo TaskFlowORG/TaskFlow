@@ -5,17 +5,30 @@ import { TaskCalendar } from "./components/TaskCalendar";
 import { useEffect, useState } from "react";
 import { If } from "../If";
 
-export const CalendarDay = ({ date }) => {
+interface Props{
+    date:InterfaceDate
+}
+interface InterfaceDate{
+    day:Date,
+    inThisMonth:boolean,
+    tasks:Array<Task>
+}
 
-    const [isHovering, setIsHovering] = useState(false);
-    const [windowWidth, setWindowWidth] = useState(0);
+interface Task{
+    date:Date,
+    id:number
+}
+export const CalendarDay = ({ date }:Props) => {
+
+    const [isHovering, setIsHovering] = useState<boolean>(false);
+    const [windowWidth, setWindowWidth] = useState<number>(0);
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
         setWindowWidth(window.innerWidth)
     }, [])
-    const dayClasses = date.inThisMonth
+    const dayClasses:string = date.inThisMonth
         ? (compareDates(date.day, new Date()) ? " bg-primary dark:bg-secondary text-primary dark:text-white  " :
             "bg-white dark:bg-transparent border-[1px] dark:text-white border-primary dark:border-white text-primary")
         : "bg-zinc-200 text-black opacity-50 dark:opacity-100 dark:bg-modal-grey dark:border-secondary dark:text-secondary dark:border-[1px]";

@@ -1,15 +1,34 @@
 'use client'
 
-import { CalendarDay } from "@/components/CaledarDay";
 import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
-import { Arrow } from "@/components/icons";
-import { compareDates } from "@/functions";
 import { useEffect, useState } from "react";
+
+interface Task {
+    date: Date,
+    id: number,
+    name:string,
+    uniProperties: Array<PropertyValue>,
+    userProperties: Array<PropertyValue>,
+    multiProperties: Array<MultiPropertyValue>,
+
+}
+interface Property {
+    id: number,
+    type: string
+}
+interface PropertyValue {
+    property: Property,
+    value: string
+}
+interface MultiPropertyValue {
+    property: Property,
+    value: Array<string>
+}
 
 export default function listPage() {
 
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState<Array<Task>>([])
     useEffect(() => {
         //comunicação com API
         setTasks([])

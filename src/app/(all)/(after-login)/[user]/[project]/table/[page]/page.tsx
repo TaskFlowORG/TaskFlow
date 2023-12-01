@@ -4,10 +4,32 @@ import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
 import { useEffect, useState } from "react";
 
+interface Task {
+    date: Date,
+    id: number,
+    name:string,
+    uniProperties: Array<PropertyValue>,
+    userProperties: Array<PropertyValue>,
+    multiProperties: Array<MultiPropertyValue>,
+
+}
+interface Property {
+    id: number,
+    type: string,
+    visible : true
+}
+interface PropertyValue {
+    property: Property,
+    value: string
+}
+interface MultiPropertyValue {
+    property: Property,
+    value: Array<string>
+}
 export default function tablePage() {
 
-    const [tasks, setTasks] = useState([])
-    const [properties, setProperties] = useState([])
+    const [tasks, setTasks] = useState<Array<Task>>([])
+    const [properties, setProperties] = useState<Array<Property>>([])
     useEffect(() => {
         //comunicação com API
         setTasks([
@@ -16,8 +38,6 @@ export default function tablePage() {
         // props =  [...props, ...await getPropsOfProject()]
 
         setProperties([
-            
-
         ])
     }, [])
 
