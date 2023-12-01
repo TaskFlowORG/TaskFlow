@@ -1,4 +1,4 @@
-import { TextContent } from "../TextContent"
+
 export const ChatContent = () => {
     return (
         <>
