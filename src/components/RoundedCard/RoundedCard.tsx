@@ -29,7 +29,7 @@ export const RoundedCard = ({ color, dark, children, changeImage, choose }: Prop
 
     return (
 
-        <div style={style} className={` border-l-8  dark:bg-modal-grey shadowww w-full min-w-[300px]  rounded-lg bg-white p-4 flex flex-col justify-between gap-4 max-w-[440px]`} onClick={() => {
+        <div style={style} className={` border-l-8 cursor-pointer  dark:bg-modal-grey shadowww w-full min-w-[300px]  rounded-lg bg-white p-4 flex flex-col justify-between gap-4 max-w-[440px]`} onClick={() => {
             changeImage && changeImage()
         }}>
             {children}

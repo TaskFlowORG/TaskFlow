@@ -5,9 +5,9 @@ interface Props{
 export const CardDate = ({date}:Props) => {
     return (
         <>
-            <div className="flex gap-2 items-center bg-[yellow] ">
+            <div className="flex gap-2 items-center">
                 <img src="cardContentIcons/date.svg" alt="" />
-                <p className="p mn text-[#797979] mt-[0.08rem] w-max">{date}</p>
+                <p className="p mn text-[#797979] dark:text-white mt-[0.08rem] w-max">{date}</p>
             </div>
         </>
     )
