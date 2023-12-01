@@ -4,8 +4,13 @@ import { useEffect, useState } from "react"
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
 
+interface Task{
+    color:string,
+    id:number
+}
+
 export const InitialPageTasks = () => {
-    const [tasks, setTasks] = useState([])
+    const [tasks, setTasks] = useState<Array<Task>>([])
     useEffect(() => {
         //Comunicação API
         setTasks([])
@@ -19,10 +24,10 @@ export const InitialPageTasks = () => {
             <div className="flex justify-center flex-wrap gap-5 h-96 lg:h-full w-full overflow-y-auto p-2" >
                 {
                     tasks.map(t => {
-                        return <div className="h-min flex items-center">
-                            <RoundedCard color={t.color}>
+                        return <div className="h-min flex items-center" key={t.id}>
+                            {/* <RoundedCard color={t.color}>
                                 <CardContent task={t} />
-                            </RoundedCard>
+                            </RoundedCard> */}
                         </div>
                     })
                 }

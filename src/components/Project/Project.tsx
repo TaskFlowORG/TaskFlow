@@ -2,12 +2,30 @@
 
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
-import { Groups } from "../Groups";
+import {Obj} from  '../Obj'
+interface Props{
+  project:Project,
+  col?:number,
 
-export const Project = ({ project, col }) => {
+}
+interface Project{
+  id:number,
+  groups:Array<Group>,
+  name:string,
+  description:string, 
+  percent:number
+}
+interface Group{
+  id:number,
+  image:string,
+  name:string
+}
 
-  const [isHovering, setIsHovering] = useState(false);
-  const style = { gridColumn: col }
+
+export const Project = ({ project, col }:Props) => {
+
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const style:Object = { gridColumn: col }
 
   return (
     <div className={"min-w-full flex flex-col shadow-blur-10 gap-16 bg-white dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"}
@@ -25,7 +43,7 @@ export const Project = ({ project, col }) => {
       </div>
       {isHovering &&
         <div className=" h-44 w-full justify-center flex flex-col gap-10">
-          <Groups groups={project.groups} max={4}></Groups>
+          <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
           <ProgressBar percent={project.percent} />
         </div>
       }

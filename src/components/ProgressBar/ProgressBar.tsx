@@ -2,12 +2,16 @@
 
 import { useEffect, useState } from "react";
 
-export const ProgressBar = ({ percent }) => {
-    const [percCount, setPercCount] = useState(0)
-    let transform = {
+interface Props{
+    percent:number
+}
+
+export const ProgressBar = ({ percent }:Props) => {
+    const [percCount, setPercCount] = useState<number>(0)
+    let transform:Object = {
         transform: "rotate(" + (percCount / 100) * 180 + "deg)"
     }
-    let gradient = {
+    const gradient:Object = {
         border: "double 14px transparent",
         backgroundImage: "linear-gradient(white, white), radial-gradient(circle at left, #EF4996, #EF4996, #EF4996, #FF973D, #FF973D)",
         backgroundOrigin: "border-box",
@@ -20,7 +24,7 @@ export const ProgressBar = ({ percent }) => {
             setPercCount(prevPorc => prevPorc + 1);
           }
         }
-        const interval = setInterval(animateBar, 16); // Aproximadamente 60 FPS
+        const interval:any = setInterval(animateBar, 16); // Aproximadamente 60 FPS
         return () => clearInterval(interval);
       }, [percCount, percent]);
 
