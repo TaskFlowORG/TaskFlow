@@ -5,7 +5,7 @@ import { UsersToGroupPage } from "@/components/UsersToGroupPage";
 export default function Home() {
     return (
         <div className="flex w-screen h-screen pt-28">
-            <SVGGroupsPage />
+            <SVGGroupsPage className="colorOne={#EF4996} colorTwo={#FE7A08} dark:colorOne={#FF973D}" />
             <div className="flex w-1/2 justify-end">
                 <Description />
             </div>

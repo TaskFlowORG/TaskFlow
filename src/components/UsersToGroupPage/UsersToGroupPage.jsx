@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { GroupUsersList } from "../GroupUsersList";
 import { getData, getListData, putData } from "@/services/http/api";
 
-export const UsersToGroupPage = ({ id = 1}) => {
+export const UsersToGroupPage = ({ id = 1 }) => {
     const [text, setText] = useState("");
     const [users, setUsers] = useState("");
     const [groupUsers, setGroupUser] = useState([]);
@@ -31,22 +31,20 @@ export const UsersToGroupPage = ({ id = 1}) => {
         users.map(u => {
 
             if (u.name == text) {
-                setUserToAdd(u, u.groupId=id);
+                setUserToAdd(u, u.groupId = id);
             }
         });
         setText("");
     }
 
     async function addUser() {
-        if(!text==null){
             if (!userToAdd.groupId) {
                 userToAdd.groupId = id;
-            } 
-            if(!userToAdd.userId){
+            }
+            if (!userToAdd.userId) {
                 userToAdd.userId = userToAdd.id
             }
             await putData("user-group", userToAdd);
-        }
     }
 
     return (
@@ -67,7 +65,7 @@ export const UsersToGroupPage = ({ id = 1}) => {
                             type="button"
                             onClick={findUser}
                         >
-                            <img className="" src="/img/search.svg"/>
+                            <img className="" src="/img/search.svg" />
                         </button>
                     </div>
                     <div className="self-center w-[80%] flex flex-col gap-6">
