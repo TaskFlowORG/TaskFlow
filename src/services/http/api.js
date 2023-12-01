@@ -3,7 +3,7 @@ export { getData, getListData, putData, getListChat}
 const axios = require('axios').default;
 
 async function getData(table, paramether) {
-  return await axios.get("http://localhost:9999/" + table + "/" + paramether);
+  return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
 
 

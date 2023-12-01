@@ -1,1 +1,0 @@
-export{RegisterShape} from "./RegisterShape";
