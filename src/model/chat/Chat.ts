@@ -1,5 +1,6 @@
 import { Message } from "./Message";
 import { TypeOfChat } from "../enums/TypeOfChat";
+import { User } from "../User";
 export  class Chat {
 
      id: Number;

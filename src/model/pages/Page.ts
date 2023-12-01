@@ -1,5 +1,7 @@
 import { Project } from "../Project";
 import { TypeOfPage } from "../enums/TypeOfPage";
+import { TaskPage } from "../relations/TaskPage";
+import { Property } from "../Properties/Property";
 
 export class Page {
 

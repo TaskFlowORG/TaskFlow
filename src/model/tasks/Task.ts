@@ -1,4 +1,8 @@
 import { Message } from "../chat/Message";
+import { Multivalued } from "../Properties/relations/Multivalued";
+import { Univalued } from "../Properties/relations/Univalued";
+import { UserValue } from "../Properties/relations/UserValue";
+import { TaskPage } from "../relations/TaskPage";
 import { Log } from "./Log";
 
 export class Task{
