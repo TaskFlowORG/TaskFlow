@@ -1,4 +1,5 @@
 import { User } from "./User";
+import { Theme } from "./enums/Theme";
 
 export class Configuration {
     id: Number;
