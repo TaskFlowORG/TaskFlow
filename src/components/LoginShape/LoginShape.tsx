@@ -1,8 +1,10 @@
+import React from "react";
+
 export const LoginShape = () => {
 
     return (
         <>
-         
+    
                 <svg width="1394" height="791" viewBox="0 0 1394 791" fill="none" xmlns="http://www.w3.org/2000/svg" className="fixed z-[-1] bottom-0 right-0 ">
                     <g filter="url(#filter0_d_1020_9273)">
                         <path d="M37.3682 1354C36.0603 1354 35 1352.94 35 1351.63C35 625.029 624.029 36 1350.63 36L2253 36V1354L37.3682 1354Z" fill="url(#paint0_angular_1020_9273)" fillOpacity="0.9" shapeRendering="crispEdges" />
@@ -67,7 +69,7 @@ export const LoginShape = () => {
                             </radialGradient>
                         </defs>
                     </svg>
-                
+            
         </>
     )
 }
