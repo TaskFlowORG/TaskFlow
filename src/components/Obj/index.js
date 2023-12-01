@@ -1,1 +1,1 @@
-export {Obj} from './Obj.jsx'
+export { Obj } from "./Obj";
