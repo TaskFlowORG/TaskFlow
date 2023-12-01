@@ -24,7 +24,7 @@ export const UsersToGroupPage = ({ id = 1}) => {
         getUsers();
     }, []);
 
-    const filtersUsers = users.filter((user) => users.startsWith)
+    const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
 
@@ -73,7 +73,7 @@ export const UsersToGroupPage = ({ id = 1}) => {
                             <img src="/img/search.svg" />
                         </button>
                     </div>
-                    <div className="grid self-center w-[80%] flex flex-col gap-6">
+                    <div className="self-center w-[80%] flex flex-col gap-6">
                         {groupUsers.map((u) => {
                             if (u.groupId === id) {
                                 return (
