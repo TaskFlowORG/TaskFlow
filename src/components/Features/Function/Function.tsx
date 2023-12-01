@@ -1,6 +1,10 @@
+interface Props {
+    bg: string,
+    text: string,
+    size: string
+}
 
-
-export const Function = ({ bg, text, size }) => {
+export const Function = ({ bg, text, size }: Props) => {
     return (
         <div className="flex items-center relative z-10 px-6 py-6  md:py-14 rounded-2xl shadowww dark:bg-modal-grey bg-white gap-6 w-full">
             <div className="relative  hidden md:flex  justify-center">

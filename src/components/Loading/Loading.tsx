@@ -1,7 +1,7 @@
 
 
 export const Loading = () => {
-    const style = {
+    const style: Object = {
         clipPath: "polygon(49% 7%, 88% 29%, 88% 76%, 50% 98%, 10% 77%, 10% 29%)"
     }
     return (
