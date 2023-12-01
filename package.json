@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.2",
     "axios": "^1.6.2",
     "next": "14.0.2",
     "next-themes": "^0.2.1",
@@ -16,6 +17,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
+    "styled-components": "^6.1.1",
     "swiper": "^11.0.5",
     "tailwindcss-animation-delay": "^1.2.0",
     "zod": "^3.22.4"

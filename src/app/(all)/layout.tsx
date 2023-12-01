@@ -6,7 +6,7 @@ import ThemeSwitcher from "@/services/Theme/ThemeSwitcher"
 import { useEffect } from 'react'
 import { useTheme } from 'next-themes'
 
-export default function RootLayout({ children }) {
+export default function RootLayout({children }: { children: React.ReactNode}) {
     const { theme, setTheme } = useTheme();
     useEffect(() => {
         async function setProps() {

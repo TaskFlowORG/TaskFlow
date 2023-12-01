@@ -6,14 +6,17 @@ import { HowWorks } from "@/components/HowWorks"
 import { Features } from "@/components/Features"
 import { Principles } from "@/components/Principles"
 import { Devs } from "@/components/Devs"
+
 import 'swiper/css';
 import 'swiper/css/effect-flip';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+
 import { Footer } from "@/components/Footer"
 
 
 export default function Home() {
+
 
   return (
 
