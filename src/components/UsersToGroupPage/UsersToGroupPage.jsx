@@ -24,37 +24,34 @@ export const UsersToGroupPage = ({ id = 1}) => {
         getUsers();
     }, []);
 
-    const filtersUsers = users.filter((user) => users.startsWith)
+    const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
 
         users.map(u => {
 
             if (u.name == text) {
-                console.log("Entrou no if!");
                 setUserToAdd(u, u.groupId=id);
             }
         });
-
         setText("");
     }
 
     async function addUser() {
-
-        if (!userToAdd.groupId) {
-            userToAdd.groupId = id;
-        } 
-        if(!userToAdd.userId){
-            userToAdd.userId = userToAdd.id
+        if(!text==null){
+            if (!userToAdd.groupId) {
+                userToAdd.groupId = id;
+            } 
+            if(!userToAdd.userId){
+                userToAdd.userId = userToAdd.id
+            }
+            await putData("user-group", userToAdd);
         }
-    
-        console.log("Dados do usuário a serem enviados:", userToAdd);
-        await putData("user-group", userToAdd);
     }
 
     return (
-        <div className="flex w-full ml-24">
-            <div className="bg-[#F2F2F2] w-[55%] h-[75%] relative">
+        <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
+            <div className="bg-[#F2F2F2] dark:bg-[#333] w-[55%] h-[75%] relative">
                 <div className="flex flex-col mt-12 gap-12 justify-between">
                     <div>
                         <input
@@ -70,10 +67,10 @@ export const UsersToGroupPage = ({ id = 1}) => {
                             type="button"
                             onClick={findUser}
                         >
-                            <img src="/img/search.svg" />
+                            <img className="" src="/img/search.svg"/>
                         </button>
                     </div>
-                    <div className="grid self-center w-[80%] flex flex-col gap-6">
+                    <div className="self-center w-[80%] flex flex-col gap-6">
                         {groupUsers.map((u) => {
                             if (u.groupId === id) {
                                 return (
@@ -83,7 +80,7 @@ export const UsersToGroupPage = ({ id = 1}) => {
                         })}
                     </div>
                     <button
-                        className="bg-[#EF4996] h-10 w-[80%] rounded-xl self-center"
+                        className="groupGrandient dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
                         type="button"
                         onClick={addUser}
                     >
