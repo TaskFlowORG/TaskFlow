@@ -44,7 +44,7 @@ export const Project = ({ project, col }:Props) => {
       {isHovering &&
         <div className=" h-44 w-full justify-center flex flex-col gap-10">
           <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
-          <ProgressBar percent={project.percent} />
+          <ProgressBar  percent={project.percent} />
         </div>
       }
     </div>

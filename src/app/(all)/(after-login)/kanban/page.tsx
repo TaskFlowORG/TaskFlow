@@ -65,8 +65,7 @@ export default function Kanban() {
             taskId: 1002,
             propertyId: 2,
             value:
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi temporibus hic unde! Eaque totam, qui voluptates ea corrupti delectus cum eligendi quo possimus atque. Reprehenderit doloribus iure quo reiciendis sunt",
-
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi temporibus hic unde!",
             property: {
               id: 2,
               name: "Description",
@@ -77,6 +76,71 @@ export default function Kanban() {
           },
         ],
       },
+      {
+        id: 1003,
+        name: "Varrer a casa",
+        multiProperties: [],
+        uniProperties: [
+          {
+            taskId: 1002,
+            propertyId: 1,
+            value: "To-do",
+
+            property: {
+              id: 1,
+              name: "Stats",
+              visible: true,
+              obligatory: false,
+              type: "SELECT",
+              options: [
+                {
+                  id: 1,
+                  name: "To-do",
+                  color: "#FF7A00",
+                },
+                {
+                  id: 2,
+                  name: "Done",
+                  color: "#F04A94",
+                },
+                {
+                  id: 3,
+                  name: "Doing",
+                  color: "#F7624B",
+                },
+              ],
+            },
+          },
+          {
+            taskId: 1002,
+            propertyId: 2,
+            value:
+              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi temporibus hic unde!",
+
+            property: {
+              id: 2,
+              name: "Description",
+              visible: true,
+              obligatory: false,
+              type: "TEXT",
+            },
+          },
+          {
+            taskId: 1002,
+            propertyId: 3,
+            value:
+              "11/05/2023",
+
+            property: {
+              id: 3,
+              name: "Final date",
+              visible: true,
+              obligatory: false,
+              type: "DATE",
+            },
+          }
+        ],
+      }
     ],
 
     userProperties: [],
