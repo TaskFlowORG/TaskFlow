@@ -8,7 +8,7 @@ export const GroupAccess = ({ name, description }) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <h3 className="pAlata ">{name}</h3>
-                    <p className="mn whitespace-pre-wrap w-[403px] text-[#333]">{description}</p>
+                    <p className="mn whitespace-pre-wrap w-[403px] text-[#333] dark:text-[#FCFCFC]">{description}</p>
                 </div>
                 <div className="flex justify-between">
                     <div className="flex gap-4">

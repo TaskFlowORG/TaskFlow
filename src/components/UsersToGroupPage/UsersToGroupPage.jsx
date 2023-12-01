@@ -54,7 +54,7 @@ export const UsersToGroupPage = ({ id = 1}) => {
 
     return (
         <div className="flex w-full ml-24">
-            <div className="bg-[#F2F2F2] w-[55%] h-[75%] relative">
+            <div className="bg-[#F2F2F2] dark:bg-[#333] w-[55%] h-[75%] relative">
                 <div className="flex flex-col mt-12 gap-12 justify-between">
                     <div>
                         <input
