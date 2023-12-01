@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
-import { Groups } from "../Groups";
-
+import {Obj} from  '../Obj'
 interface Props{
   project:Project,
   col?:number,
@@ -18,7 +17,8 @@ interface Project{
 }
 interface Group{
   id:number,
-  image:string
+  image:string,
+  name:string
 }
 
 
@@ -43,7 +43,7 @@ export const Project = ({ project, col }:Props) => {
       </div>
       {isHovering &&
         <div className=" h-44 w-full justify-center flex flex-col gap-10">
-          <Groups groups={project.groups} max={4}></Groups>
+          <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
           <ProgressBar percent={project.percent} />
         </div>
       }
