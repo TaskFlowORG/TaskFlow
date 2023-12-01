@@ -120,7 +120,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/CardContent/index.js", "src/components/SearchBar/index.js", "src/app/(all)/(before-login)/loading.jsx", "src/components/Loading/index.js"  ],
   "exclude": [
     "node_modules"
   ]
