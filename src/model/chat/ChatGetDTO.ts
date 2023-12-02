@@ -12,7 +12,7 @@ export class ChatGetDTO {
         this.id = id;
         this.picture = picture;
         this.quantitityUnvisualized = quantitityUnvisualized;
-        this.lastMessage = lastMessage;
+        this.lastMessage = new Message(lastMessage.id, lastMessage.value, lastMessage.chat, lastMessage.user, new Date(lastMessage.dateTime), lastMessage.visualized);
         this.name = name;
     }
 }

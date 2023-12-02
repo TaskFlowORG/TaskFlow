@@ -1,22 +1,15 @@
 "use client"
 
+import { ChatGetDTO } from "@/model/chat/ChatGetDTO"
 import { Chats } from "./components/Chats"
 import { ChatContent } from "./components/ChatContent"
 import { useState, useEffect } from "react"
 import { getListChat } from "../../services/http/api"
 
-
-interface Chat{
-    name: string,
-    lastMessage: string,
-    quantity: number,
-    quantitityUnvisualized: number
-}
-
 export const Chat = () => {
     const [mostrarChat, setMostrarChat] = useState(true)
     const [abrirChat, setAbrirChat] = useState(true)
-    const [chats, setChats] = useState<Chat[]>([])
+    const [chats, setChats] = useState<ChatGetDTO[]>([])
     const mostrarChats = () => {
         if (window.innerWidth < 1024) {
             setMostrarChat(!mostrarChat)
@@ -28,7 +21,6 @@ export const Chat = () => {
         async function getChats() {
             const response = await getListChat("private", 1);
             setChats(response);
-            console.log(response);
         }
         getChats();
     }, []);
@@ -62,7 +54,7 @@ export const Chat = () => {
                         </div>
                         <div onClick={mostrarChats} className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll ${mostrarChat ? 'visible' : 'hidden'}`}>
                             <div className="w-full">
-                                {chats.map((chat) => <Chats name={chat.name} lastMessage={chat.lastMessage} quantitityUnvisualized={chat.quantitityUnvisualized} />)}
+                                {chats.map((chat) => <Chats id={chat.id} picture={chat.picture} name={chat.name} quantitityUnvisualized={chat.quantitityUnvisualized} lastMessage={chat.lastMessage} />)}
                             </div>
                         </div>
 
