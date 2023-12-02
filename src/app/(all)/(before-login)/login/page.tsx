@@ -1,11 +1,11 @@
-
+"use client";
 import { LoginShape } from '@/components/LoginShape';
 import {Input} from '@/components/Input';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const page = () => {
-
-    const theme = 'light'
+    const route = useRouter();
     return (
         <>
             <div className="h-[85%] w-screen flex justify-center items-center">
@@ -15,14 +15,14 @@ const page = () => {
                     <div className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
                         <p className={"h4 "}>Acesse sua conta</p>  
 
-                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" />
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" register={undefined} />
 
 
-                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome"  />
+                        <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome" register={undefined}  />
 
                         <div className="w-4/6 flex justify-between">
                             <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary '  }>Esqueceu sua senha?</p>
-                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary ' }>Registre-se!</p>
+                            <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary ' } onClick={() => route.push("/register")}>Registre-se!</p>
                         </div>
 
                         <button className={ "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}>Enviar</button>
