@@ -29,23 +29,22 @@ export const UsersToGroupPage = ({ id = 1 }) => {
     async function findUser() {
 
         users.map(u => {
-
             if (u.name == text) {
                 setUserToAdd(u, u.groupId = id);
             }
         });
         setText("");
     }
-
-    async function addUser() {
-            if (!userToAdd.groupId) {
-                userToAdd.groupId = id;
-            }
-            if (!userToAdd.userId) {
-                userToAdd.userId = userToAdd.id
-            }
-            await putData("user-group", userToAdd);
-    }
+    const addUser = async () => {
+          if (!userToAdd.groupId) {
+            userToAdd.groupId = id;
+          }
+          if (!userToAdd.userId) {
+            userToAdd.userId = userToAdd.id;
+          }
+          await putData('user-group', userToAdd);
+          alert('Usuário adicionado com sucesso');
+      };
 
     return (
         <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
