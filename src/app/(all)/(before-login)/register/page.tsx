@@ -1,4 +1,5 @@
 "use client"
+import  "./style.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Api } from "@/services/api";
@@ -11,7 +12,7 @@ import { Input } from "@/components/Input";
 
 const schema = z.object({
     name: z.string().min(3, { message: "Nome deve conter no minimo 3 caracteres" }).max(20, { message: "Nome deve conter no maximo 20 caracteres" }),
-    surname: z.string().min(3, { message: "Sobrenome deve conter no minimo 3 caracteres" }).max(20, { message: "Sobrenome deve conter no maximo 20 caracteres" }),
+    surname: z.string().min(3, { message: "Sobrenome deve conter no minimo 3 caracteres" }).max(40, { message: "Sobrenome deve conter no maximo 40 caracteres" }),
     username: z.string().min(3, { message: "Nome de usuario deve conter no minimo 3 caracteres" }).max(20, { message: "Nome de usuario deve conter no maximo 20 caracteres" }),
     email: z.string().email({ message: "Email invalido" }),
     password: z.string().min(6, { message: "Senha deve conter no minimo 6 caracteres" }).max(20, { message: "Senha deve conter no maximo 20 caracteres" }),
@@ -69,7 +70,7 @@ const page = () => {
         <div className="h-5/6 w-screen flex justify-center items-center">
 
             <RegisterShape />
-            <div className={"h-[60%] w-[25%] shadow-blur-10 rounded-md flex justify-center items-center bg-white dark:bg-modal-grey "}>
+            <div className={"h-[60%] w-[80%] 1.5xl:w-[30%] 2xl:w-1/4  md:w-[45%] sm:w-[80%]  shadow-blur-10 rounded-md flex justify-center items-center bg-white dark:bg-modal-grey "}>
                 <form onSubmit={handleSubmit(handleRegister)} className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
                     <p className="h4">Registrar</p>
 
