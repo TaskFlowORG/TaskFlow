@@ -26,7 +26,6 @@ const schema = z.object({
     }
 );
 type FormData = z.infer<typeof schema>
-
 const page = () => {
 
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
@@ -34,8 +33,6 @@ const page = () => {
         reValidateMode: 'onChange',
         resolver: zodResolver(schema)
     });
-
-    console.log(errors)
 
     const api = new Api();
     const route = useRouter();
@@ -46,7 +43,6 @@ const page = () => {
         if (value >= 0 && value <= 2) {
             console.log(getValues())
             setValue(value + 1)
-
         }
     }
 
