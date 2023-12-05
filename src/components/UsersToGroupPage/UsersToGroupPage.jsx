@@ -9,6 +9,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
     const [users, setUsers] = useState("");
     const [groupUsers, setGroupUser] = useState([]);
     const [userToAdd, setUserToAdd] = useState({});
+    const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
         const getListGroup = async () => {
@@ -24,10 +25,13 @@ export const UsersToGroupPage = ({ id = 1 }) => {
         getUsers();
     }, []);
 
+    useEffect(() => {
+        console.log(isAdd);
+    }, [isAdd]);
+
     const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
-
         users.map(u => {
             if (u.name == text) {
                 setUserToAdd(u, u.groupId = id);
@@ -35,16 +39,36 @@ export const UsersToGroupPage = ({ id = 1 }) => {
         });
         setText("");
     }
+
     const addUser = async () => {
-          if (!userToAdd.groupId) {
-            userToAdd.groupId = id;
-          }
-          if (!userToAdd.userId) {
-            userToAdd.userId = userToAdd.id;
-          }
-          await putData('user-group', userToAdd);
-          alert('Usuário adicionado com sucesso');
-      };
+        groupUsers.map(u => {
+            if (u.userId === userToAdd.id) {
+                alert('Adicione um usuário válido');
+                setIsAdd(true, () => {
+                    console.log(isAdd);
+                });
+            } else if (!userToAdd.id) {
+                alert('Adicione um usuário válido');
+                setIsAdd(true);
+            }
+        });
+
+        console.log("gay", isAdd);
+
+        if (!isAdd) {
+            if (!userToAdd.groupId) {
+                userToAdd.groupId = id;
+            }
+            if (!userToAdd.userId) {
+                userToAdd.userId = userToAdd.id;
+            }
+
+            await putData('user-group', userToAdd);
+            alert('Usuário adicionado com sucesso');
+        }
+        setIsAdd(false)
+    };
+
 
     return (
         <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
