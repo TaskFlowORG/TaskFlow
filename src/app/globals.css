@@ -358,7 +358,7 @@ select::-ms-expand {
   width: 92px;
   height: 92px;
   background-color: none;
-
+@apply sm:visible invisible
   /* Outros estilos desejados */
 }
 
