@@ -1,7 +1,7 @@
 import { Page } from "../pages/Page";
 import { Task } from "../tasks/Task";
 
-export class TaskPage {
+export class TaskCanvas {
     taskId: Number;
     pageId: Number;
     task: Task;
