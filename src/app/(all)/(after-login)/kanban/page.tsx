@@ -170,6 +170,10 @@ export default function Kanban() {
   };
 
   useEffect(() => {
+    (async () => {
+      console.log(await getListData("project"));
+    })();
+
     setOptions(page.propertyOrdering.options);
     setTasks(page.tasks);
     setId(page.propertyOrdering.id);
