@@ -424,3 +424,19 @@ select::-ms-expand {
   width: 300px;
   height: 300px;
 } */
+
+/* These are the KEY styles - you can add them directly to any object you want in your project */
+.fancy-border-radius {
+  border-radius: 0% 100% 100% 0% / 1% 0% 50% 1% ;
+
+  /* These are ADDITIONAL styles - add them if you want an object exactly like in the demo above */
+  width: 400px;
+  height: 200px;
+  background: #ad5389;
+  background: -webkit-linear-gradient(to right,
+      #3c1053,
+      #ad5389);
+  background: linear-gradient(to right,
+      #3c1053,
+      #ad5389);
+}
