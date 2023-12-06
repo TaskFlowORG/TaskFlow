@@ -1,6 +1,6 @@
 import { Description } from "@/components/Description";
 import { SVGGroupsPage } from "@/components/SVGGroupsPage/SVGGroupsPage";
-import { UsersToGroupPage } from "@/components/UsersToGroupPage";
+import { UsersList } from "@/components/UsersList";
 
 export default function Home() {
     return (
@@ -10,7 +10,7 @@ export default function Home() {
                 <Description />
             </div>
             <div className="flex w-1/2 ">
-                <UsersToGroupPage/>
+                <UsersList/>
             </div>
         </div>
     )

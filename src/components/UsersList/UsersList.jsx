@@ -1,24 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { UsersGroupList } from "../UsersGroupList/UsersGroupList";
+import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
 
-export const UsersToGroupPage = ({ id = 1 }) => {
+export const UsersList = ({ id = 1 }) => {
     const [text, setText] = useState("");
     const [users, setUsers] = useState("");
-    const [project, setProject] = useState("");
     const [usersGroup, setUsersGroup] = useState([]);
-    const [userToAdd, setUserToAdd] = useState({});
-    const [isAdd, setIsAdd] = useState(false);
+    const [newUser, setNewUser] = useState({});
 
     useEffect(() => {
-        const getProjects = async () => {
-            const fetchedProjects = await getListData("project")
-            setProject(fetchedProjects);
-        }
-        getProjects()
-
         const getUsers = async () => {
             const fetchedUsers = await getListData("user");
             console.log("users", fetchedUsers)
@@ -34,60 +26,47 @@ export const UsersToGroupPage = ({ id = 1 }) => {
         getGroupUsers()
     }, [])
 
-    useEffect(() => {
-        console.log(isAdd);
-    }, [isAdd]);
-
     const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
-        console.log("pessoa do projeto", project)
-        console.log(usersGroup)
         users.map(u => {
             if (u.name == text) {
-                setUserToAdd(u);
+                setNewUser(u);
             }
         });
         setText("");
     }
 
     const addUser = async () => {
-        let userExists= false;
-
+        let userExists = false;
+    
         for (const u of usersGroup) {
-            if (u.id === userToAdd.id) {
+            if (u.id === newUser.id) {
                 alert('Este usuário já é um integrante do grupo');
-                setIsAdd(true, () => {
-                    console.log(isAdd);
-                });
-
+                userExists = true;
                 break;
-            } else if (!userToAdd.id) {
+            } else if (!newUser.id) {
                 alert('Adicione um usuário válido');
-                setIsAdd(true, () => {
-                    console.log(isAdd);
-                });
                 userExists = true;
                 break;
             }
         }
-
-        if (!isAdd) {
-            if (!userToAdd.groupId) {
-                userToAdd.groupId = id;
+    
+        if (!userExists) {
+            if (!newUser.groupId) {
+                newUser.groupId = id;
             }
-            if (!userToAdd.userId) {
-                userToAdd.usersId = userToAdd.id;
+            if (!newUser.userId) {
+                newUser.usersId = newUser.id;
             }
-
-            await putData("group/users/" + id, userToAdd);
+    
+            await putData("group/users/" + id , newUser);
             alert('Usuário adicionado com sucesso');
         }
-        setIsAdd(false, () => {
-            console.log(isAdd);
-        });
-        setUserToAdd({});
+    
+        setNewUser({});
     };
+    
 
     return (
         <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
@@ -113,7 +92,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                     <div className="self-center w-[80%] flex flex-col gap-6">
                         {usersGroup.map((u) => {
                             return (
-                                <UsersGroupList key={u.id} userId={u.id} />
+                                <PermissionUser key={u.id} userId={u.id} />
                             );
 
                         })}
