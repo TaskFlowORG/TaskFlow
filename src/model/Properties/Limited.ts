@@ -7,9 +7,9 @@ export class Permited extends Property {
   maximum: Number;
 
   constructor(
-    id: Number,name: String,visible: Boolean,obligatory: Boolean,type: TypeOfProperty,page: Page,project: Project,maximum: Number
+    id: Number,name: String,visible: Boolean,obligatory: Boolean,type: TypeOfProperty,pages: Array<Page>,project: Project,maximum: Number
   ) {
-    super(id, name, visible, obligatory, type, page, project);
+    super(id, name, visible, obligatory, type, pages, project);
     this.maximum = maximum;
   }
 }

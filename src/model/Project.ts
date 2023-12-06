@@ -12,7 +12,6 @@ export class Project {
     description: String;
     deadline: Date;
     visualizedAt:Date;
-    owner:User;
     picture: String;
     groups: Array<Group>;
     owner: User;

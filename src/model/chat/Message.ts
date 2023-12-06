@@ -7,9 +7,9 @@ export class Message {
     value: String ;
     user: User ;
     dateTime: Date;
-    visualized: boolean;
+    visualized: Boolean;
 
-    constructor(id: Number, value: String, user: User, dateTime: Date, visualized: boolean) {
+    constructor(id: Number, value: String, user: User, dateTime: Date, visualized: Boolean) {
         this.id = id;
         this.value = value;
         this.user = user;

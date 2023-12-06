@@ -1,5 +1,6 @@
 import { Configuration } from "./Configuration";
 import { Group } from "./Group";
+import { Permission } from "./Permission";
 import { Project } from "./Project";
 
 export class User {
@@ -15,10 +16,9 @@ export class User {
     description : String;
     points: Number;
     configuration: Configuration;
-    groups: Array<Group>;
-    project: Array<Project>;
+    permissions: Array<Permission>;
 
-    constructor(id: Number, name: String, surname: String, username: String, password: String, address: String, picture: String, mail: String, phone: String, description : String, points: Number, configuration: Configuration, groups: Array<Group>, project: Array<Project>) {
+    constructor(id: Number, name: String, surname: String, username: String, password: String, address: String, picture: String, mail: String, phone: String, description: String, points: Number, configuration: Configuration, permissions: Array<Permission>) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -31,8 +31,7 @@ export class User {
         this.description = description;
         this.points = points;
         this.configuration = configuration;
-        this.groups = groups;
-        this.project = project;
+        this.permissions = permissions;
     }
     
 }

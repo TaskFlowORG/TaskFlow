@@ -2,18 +2,14 @@ import { Page } from "../pages/Page";
 import { Task } from "../tasks/Task";
 
 export class TaskCanvas {
-    taskId: Number;
-    pageId: Number;
+    id: Number; 
     task: Task;
-    page: Page;
     x: Number;
     y: Number;
 
-    constructor(taskId: Number, pageId: Number, task: Task, page: Page, x: Number, y: Number) {
-        this.taskId = taskId;
-        this.pageId = pageId;
+    constructor(id:Number,  taskId: Number, pageId: Number, task: Task, page: Page, x: Number, y: Number) {
+        this.id = id;
         this.task = task;
-        this.page = page;
         this.x = x;
         this.y = y;
     }

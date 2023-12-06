@@ -10,8 +10,8 @@ export class Date extends Property{
     term:Boolean;
     scheduling:Boolean;
     
-    constructor(id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,page:Page,project:Project, canBePass:Boolean,includesHours:Boolean,term:Boolean,scheduling:Boolean){
-        super(id,name,visible,obligatory,type,page,project)
+    constructor(id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,pages:Array<Page>,project:Project, canBePass:Boolean,includesHours:Boolean,term:Boolean,scheduling:Boolean){
+        super(id,name,visible,obligatory,type,pages,project)
         this.canBePass=canBePass;
         this.includesHours=includesHours;
         this.term=term;
