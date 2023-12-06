@@ -1,13 +1,11 @@
 "use client"
-import { getData } from "@/services/http/api";
+import { getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react"
-
-import { ModalPermission } from "../ModalPermission"
-
 
 export const GroupUsersList = ({ userId }) => {
     const [user, setUser] = useState({});
-    const [showModal, setShowModal] = useState(false);
+    const [permission, setPermission] = useState('');
+
 
     useEffect(() => {
         const getUser = async () => {
@@ -17,14 +15,23 @@ export const GroupUsersList = ({ userId }) => {
         getUser();
     }, []);
 
+    const handlePermissionChange = (event) => {
+        const newPermission = event.target.value;
+        setPermission(newPermission);
+        updatePermission()
 
-    const handleClick = () => {
-        if (!showModal) {
-            setShowModal(true);
-        } else {
-            setShowModal(false);
-        }
+        console.log('Permissão selecionada:', newPermission);
     };
+
+    async function updatePermission(){
+        user.permission= "'"+permission + "'"
+        await putData('user-group', user);
+            alert('Usuário adicionado com sucesso');
+    }
+
+    function mostrarId() {
+        console.log(userId)
+    }
 
     return (
         <div>
@@ -36,8 +43,19 @@ export const GroupUsersList = ({ userId }) => {
                     </div>
                     <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between ">
                         <p>|</p>
-                        <p onClick={handleClick}>Permission</p>
-                        {showModal && <ModalPermission id={userId} />}
+                        <select
+                            className='selectGroup mnAlata border-[#F04A94]'
+                            name="permission"
+                            id="permission"
+                            value={permission}
+                            onChange={handlePermissionChange}
+                        >
+                            <option value="" disabled selected>Permissão</option>
+                            <option value="CREATE">Adicionar</option>
+                            <option value="DELETE">Remover</option>
+                            <option value="UPDATE,">Editar</option>
+                            <option value=" READ">Ler</option>
+                        </select>
                     </div>
                 </div>
             </div>

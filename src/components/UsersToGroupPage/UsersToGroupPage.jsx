@@ -3,27 +3,36 @@
 import { useState, useEffect } from "react";
 import { GroupUsersList } from "../GroupUsersList";
 import { getData, getListData, putData } from "@/services/http/api";
+import { Permission } from "@/model/Permission";
+
 
 export const UsersToGroupPage = ({ id = 1 }) => {
     const [text, setText] = useState("");
     const [users, setUsers] = useState("");
-    const [groupUsers, setGroupUser] = useState([]);
+    const [project, setProject] = useState("");
+    const [groupUsers, setGroupUsers] = useState([]);
     const [userToAdd, setUserToAdd] = useState({});
     const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
-        const getListGroup = async () => {
-            const fetchedGroupUsers = await getListData("user-group");
-            setGroupUser(fetchedGroupUsers);
+        const getProjects = async () => {
+            const fetchedProjects = await getListData("project")
+            setProject(fetchedProjects);
         }
-        getListGroup();
-
+        getProjects()
         const getUsers = async () => {
             const fetchedUsers = await getListData("user");
             setUsers(fetchedUsers);
         }
         getUsers();
-    }, []);
+
+        const getListGroup = async () => {
+            const fetchedGroupUsers = await getListData("group/users/" +id
+            );
+            setGroupUsers(fetchedGroupUsers);
+        }
+        getListGroup();
+    }, [])
 
     useEffect(() => {
         console.log(isAdd);
@@ -32,28 +41,35 @@ export const UsersToGroupPage = ({ id = 1 }) => {
     const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
+        console.log(groupUsers)
         users.map(u => {
             if (u.name == text) {
-                setUserToAdd(u, u.groupId = id);
+                setUserToAdd(u, u.group = id);
             }
         });
         setText("");
     }
 
     const addUser = async () => {
-        groupUsers.map(u => {
+        let userExists = false;
+
+        for (const u of groupUsers) {
             if (u.userId === userToAdd.id) {
+                alert('Este usuário já é um integrante do grupo');
+                setIsAdd(true, () => {
+                    console.log(isAdd);
+                });
+                userExists = true;
+                break;
+            } else if (!userToAdd.id) {
                 alert('Adicione um usuário válido');
                 setIsAdd(true, () => {
                     console.log(isAdd);
                 });
-            } else if (!userToAdd.id) {
-                alert('Adicione um usuário válido');
-                setIsAdd(true);
+                userExists = true;
+                break;
             }
-        });
-
-        console.log("gay", isAdd);
+        }
 
         if (!isAdd) {
             if (!userToAdd.groupId) {
@@ -63,10 +79,12 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                 userToAdd.userId = userToAdd.id;
             }
 
-            await putData('user-group', userToAdd);
+            await putData("group/users/" + id, userToAdd);
             alert('Usuário adicionado com sucesso');
         }
-        setIsAdd(false)
+        setIsAdd(false, () => {
+            console.log(isAdd);
+        });
     };
 
 
@@ -93,7 +111,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                     </div>
                     <div className="self-center w-[80%] flex flex-col gap-6">
                         {groupUsers.map((u) => {
-                            if (u.groupId === id) {
+                            if (u.group === id) {
                                 return (
                                     <GroupUsersList key={u.id} userId={u.userId} />
                                 );
@@ -105,7 +123,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                         type="button"
                         onClick={addUser}
                     >
-                        <h5 className="text-[#FCFCFC]">Add User</h5>
+                        <h5 className="text-[#FCFCFC]">Add Usuário</h5>
                     </button>
                 </div>
             </div>

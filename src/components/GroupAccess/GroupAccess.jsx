@@ -12,19 +12,13 @@ export const GroupAccess = ({ name, description }) => {
                     <h3 className="pAlata ">{name}</h3>
                     <p className="mn whitespace-pre-wrap w-[403px] text-[#333]  dark:invert">{description}</p>
                 </div>
-                <div className="flex justify-between">
-                    <div className="flex gap-4">
-                        <input type="checkbox" name="one" id="one"/>
-                        <label className="pAlata" htmlFor="one">Adicionar</label>
-                    </div>
-                    <div className="flex gap-4">
-                        <input type="checkbox" name="two" id="two"  />
-                        <label className="pAlata" htmlFor="two">Editar</label>
-                    </div>
-                    <div className="flex gap-4">
-                        <input type="checkbox" name="three" id="three" />
-                        <label className="pAlata" htmlFor="three">Remover</label>
-                    </div>
+                <div className="flex justify-end">
+                    <select className='selectGroup pAlata border-[#F04A94]' name="permissão" id="permissão">
+                        <option value="" disabled selected>Permissão</option>
+                        <option value="adicionar">Adicionar</option>
+                        <option value="remover">Remover</option>
+                        <option value="editar">Editar</option>
+                    </select>
                 </div>
             </div>
         </div>
