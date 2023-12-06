@@ -25,9 +25,9 @@ export const InitialPageTasks = () => {
                 {
                     tasks.map(t => {
                         return <div className="h-min flex items-center" key={t.id}>
-                            {/* <RoundedCard color={t.color}>
+                            <RoundedCard color={t.color}>
                                 <CardContent task={t} />
-                            </RoundedCard> */}
+                            </RoundedCard>
                         </div>
                     })
                 }

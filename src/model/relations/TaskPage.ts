@@ -5,11 +5,11 @@ export class TaskPage {
     taskId: Number;
     pageId: Number;
     task: Task;
-    page: Page;
+    page?: Page | null;
     x: Number;
     y: Number;
 
-    constructor(taskId: Number, pageId: Number, task: Task, page: Page, x: Number, y: Number) {
+    constructor(taskId: Number, pageId: Number, task: Task, page: Page | null, x: Number, y: Number) {
         this.taskId = taskId;
         this.pageId = pageId;
         this.task = task;
