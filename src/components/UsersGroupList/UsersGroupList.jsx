@@ -2,7 +2,7 @@
 import { getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react"
 
-export const GroupUsersList = ({ userId }) => {
+export const UsersGroupList = ({ userId }) => {
     const [user, setUser] = useState({});
     const [permission, setPermission] = useState('');
 

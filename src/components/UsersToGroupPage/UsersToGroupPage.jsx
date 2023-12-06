@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { GroupUsersList } from "../GroupUsersList";
+import { UsersGroupList } from "../UsersGroupList/UsersGroupList";
 import { getData, getListData, putData } from "@/services/http/api";
-import { Permission } from "@/model/Permission";
-
 
 export const UsersToGroupPage = ({ id = 1 }) => {
     const [text, setText] = useState("");
     const [users, setUsers] = useState("");
     const [project, setProject] = useState("");
-    const [groupUsers, setGroupUsers] = useState([]);
+    const [usersGroup, setUsersGroup] = useState([]);
     const [userToAdd, setUserToAdd] = useState({});
     const [isAdd, setIsAdd] = useState(false);
 
@@ -20,18 +18,20 @@ export const UsersToGroupPage = ({ id = 1 }) => {
             setProject(fetchedProjects);
         }
         getProjects()
+
         const getUsers = async () => {
             const fetchedUsers = await getListData("user");
+            console.log("users", fetchedUsers)
             setUsers(fetchedUsers);
         }
         getUsers();
 
-        const getListGroup = async () => {
-            const fetchedGroupUsers = await getListData("group/users/" +id
-            );
-            setGroupUsers(fetchedGroupUsers);
+        const getGroupUsers = async () => {
+            const fetchedGroupUsers = await getData("group", id);
+            console.log("estou aqui", fetchedGroupUsers);
+            setUsersGroup(fetchedGroupUsers.users);
         }
-        getListGroup();
+        getGroupUsers()
     }, [])
 
     useEffect(() => {
@@ -41,25 +41,26 @@ export const UsersToGroupPage = ({ id = 1 }) => {
     const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
-        console.log(groupUsers)
+        console.log("pessoa do projeto", project)
+        console.log(usersGroup)
         users.map(u => {
             if (u.name == text) {
-                setUserToAdd(u, u.group = id);
+                setUserToAdd(u);
             }
         });
         setText("");
     }
 
     const addUser = async () => {
-        let userExists = false;
+        let userExists= false;
 
-        for (const u of groupUsers) {
-            if (u.userId === userToAdd.id) {
+        for (const u of usersGroup) {
+            if (u.id === userToAdd.id) {
                 alert('Este usuário já é um integrante do grupo');
                 setIsAdd(true, () => {
                     console.log(isAdd);
                 });
-                userExists = true;
+
                 break;
             } else if (!userToAdd.id) {
                 alert('Adicione um usuário válido');
@@ -76,7 +77,7 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                 userToAdd.groupId = id;
             }
             if (!userToAdd.userId) {
-                userToAdd.userId = userToAdd.id;
+                userToAdd.usersId = userToAdd.id;
             }
 
             await putData("group/users/" + id, userToAdd);
@@ -85,8 +86,8 @@ export const UsersToGroupPage = ({ id = 1 }) => {
         setIsAdd(false, () => {
             console.log(isAdd);
         });
+        setUserToAdd({});
     };
-
 
     return (
         <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
@@ -110,12 +111,11 @@ export const UsersToGroupPage = ({ id = 1 }) => {
                         </button>
                     </div>
                     <div className="self-center w-[80%] flex flex-col gap-6">
-                        {groupUsers.map((u) => {
-                            if (u.group === id) {
-                                return (
-                                    <GroupUsersList key={u.id} userId={u.userId} />
-                                );
-                            }
+                        {usersGroup.map((u) => {
+                            return (
+                                <UsersGroupList key={u.id} userId={u.id} />
+                            );
+
                         })}
                     </div>
                     <button
