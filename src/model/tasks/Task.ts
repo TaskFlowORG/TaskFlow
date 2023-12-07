@@ -1,29 +1,24 @@
 import { Message } from "../chat/Message";
-import { Multivalued } from "../Properties/relations/Multivalued";
-import { Univalued } from "../Properties/relations/Univalued";
-import { UserValue } from "../Properties/relations/UserValue";
-import { TaskPage } from "../relations/TaskPage";
+import { TaskValue } from "../relations/TaskValue";
 import { Log } from "./Log";
 
 export class Task{
-    id: Number;
-    name: String;
-    multiProperties: Array<Multivalued>;
-    uniProperties: Array<Univalued>;
-    userProperties: Array<UserValue>;
-    pages: Array<TaskPage>;
-    deleted: boolean;
-    logs: Array<Log>;
-    comments: Array<Message>;
+    id: null | Number;
+    name: null| String;
+    deleted: null| boolean;
+    completed: null| boolean;
+    completedDate: null| Date;
+    properties: null| Array<TaskValue>;
+    logs: null| Array<Log>;
+    comments: null| Array<Message>;
     
-    constructor(id: Number, name: String, multiProperties: Array<Multivalued>, uniProperties: Array<Univalued>, userProperties: Array<UserValue>, pages: Array<TaskPage>, deleted: boolean, logs: Array<Log>, comments: Array<Message>) {
+    constructor(id: null | Number, name: null | String, deleted: null | boolean, completed: null | boolean, completedDate: null | Date, properties: null | Array<TaskValue>, logs: null | Array<Log>, comments: null | Array<Message>) {
         this.id = id;
         this.name = name;
-        this.multiProperties = multiProperties;
-        this.uniProperties = uniProperties;
-        this.userProperties = userProperties;
-        this.pages = pages;
         this.deleted = deleted;
+        this.completed = completed;
+        this.completedDate = completedDate;
+        this.properties = properties;
         this.logs = logs;
         this.comments = comments;
     }
