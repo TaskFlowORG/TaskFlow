@@ -4,26 +4,20 @@ import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
 
-export const UsersList = ({ id = 1 }) => {
+export const UsersList = ({ id = 1 , projectId=1}) => {
     const [text, setText] = useState("");
     const [users, setUsers] = useState("");
     const [usersGroup, setUsersGroup] = useState([]);
     const [newUser, setNewUser] = useState({});
 
     useEffect(() => {
-        const getUsers = async () => {
+        const getLists = async () => {
             const fetchedUsers = await getListData("user");
-            console.log("users", fetchedUsers)
-            setUsers(fetchedUsers);
-        }
-        getUsers();
-
-        const getGroupUsers = async () => {
             const fetchedGroupUsers = await getData("group", id);
-            console.log("estou aqui", fetchedGroupUsers);
+            setUsers(fetchedUsers);
             setUsersGroup(fetchedGroupUsers.users);
         }
-        getGroupUsers()
+        getLists();
     }, [])
 
     const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
@@ -32,14 +26,14 @@ export const UsersList = ({ id = 1 }) => {
         users.map(u => {
             if (u.name == text) {
                 setNewUser(u);
+                setText("");
             }
-        });
-        setText("");
+        })
     }
 
     const addUser = async () => {
         let userExists = false;
-    
+
         for (const u of usersGroup) {
             if (u.id === newUser.id) {
                 alert('Este usuário já é um integrante do grupo');
@@ -51,7 +45,7 @@ export const UsersList = ({ id = 1 }) => {
                 break;
             }
         }
-    
+
         if (!userExists) {
             if (!newUser.groupId) {
                 newUser.groupId = id;
@@ -59,14 +53,13 @@ export const UsersList = ({ id = 1 }) => {
             if (!newUser.userId) {
                 newUser.usersId = newUser.id;
             }
-    
-            await putData("group/users/" + id , newUser);
+
+            await putData("group/users/" + id, newUser);
             alert('Usuário adicionado com sucesso');
         }
-    
         setNewUser({});
     };
-    
+
 
     return (
         <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
@@ -92,7 +85,7 @@ export const UsersList = ({ id = 1 }) => {
                     <div className="self-center w-[80%] flex flex-col gap-6">
                         {usersGroup.map((u) => {
                             return (
-                                <PermissionUser key={u.id} userId={u.id} />
+                                <PermissionUser groupId={id} userId={u.id} projectId={projectId} />
                             );
 
                         })}

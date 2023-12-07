@@ -261,9 +261,10 @@ select::-ms-expand {
   @apply font-montserrat text-[12px];
 }
 
-.mnAlata{
+.mnAlata {
   @apply font-alata text-[12px]
 }
+
 .t:hover {
   transition: 0.5s ease-in-out left 100px;
 }
@@ -420,8 +421,8 @@ select::-ms-expand {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.selectGroup{
-  @apply text-[#F04A94] border-2 rounded-sm  w-[55%] text-center
+.selectGroup {
+  @apply text-[#F04A94] border-2 rounded-sm w-[55%] text-center
 }
 
 /* 
