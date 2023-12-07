@@ -87,7 +87,6 @@ export const UsersList = ({ id = 1 , projectId=1}) => {
                             return (
                                 <PermissionUser groupId={id} userId={u.id} projectId={projectId} />
                             );
-
                         })}
                     </div>
                     <button

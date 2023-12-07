@@ -3,15 +3,15 @@ import { useEffect, useState } from "react"
 import { getListData } from "@/services/http/api";
 import { GroupAccess } from "../GroupAccess/GroupAccess"
 
-export const Description = ({groupId = 1}) => {
+export const Description = ({ projectId, groupId = 1 }) => {
     const [groups, setGroups] = useState([])
+
 
     useEffect(() => {
         const getList = async () => {
             const fetchedGroups = await getListData("group");
             setGroups(fetchedGroups);
         }
-
         getList();
     }, []);
 
@@ -20,7 +20,7 @@ export const Description = ({groupId = 1}) => {
             {
                 groups.map((g) => {
                     if (g.id === groupId) {
-                        return <GroupAccess key={g.id} name={g.name} description={g.description} />
+                        return <GroupAccess key={g.id} name={g.name} description={g.description} projectId={projectId} groupId={groupId} />
                     }
                 })
             }
