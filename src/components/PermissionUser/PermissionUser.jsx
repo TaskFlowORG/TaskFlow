@@ -44,6 +44,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
                         onChange={handlePermissionChange}
                         value={selectedPermissions}
                     >
+                      if(!user.permission)
                         <option value="" disabled>Permissão</option>
                         {permissions.map(permission => (
                             <option key={permission.id} value={permission.permission}>

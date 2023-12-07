@@ -20,7 +20,6 @@ export const UsersList = ({ id = 1 , projectId=1}) => {
         getLists();
     }, [])
 
-    const filteredUsers = Object.keys(users).filter((key) => key.startsWith("alguma coisa"));
 
     async function findUser() {
         users.map(u => {
