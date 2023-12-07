@@ -11,11 +11,13 @@ import { ProgressBar } from "../ProgressBar";
 import { Task } from "@/model/tasks/Task";
 
 interface Props {
-  task: Task;
+  task: any;
 }
 export const CardContent = ({ task }: Props) => {
   const [properties, setProperties] = useState<any[]>([]);
+  console.log(task)
 
+  
   return (
     <>
       <div className="flex justify-between">
@@ -27,7 +29,8 @@ export const CardContent = ({ task }: Props) => {
         </div>
       </div>
       <div className="flex flex-wrap gap-4 justify-between">
-        {task.uniProperties.map((property: any) => {
+        {task.properties.map((property: any) => {
+          console.log(property)
           if (
             property.property.type == "TEXT" &&
             property.property.visible == true
@@ -35,7 +38,7 @@ export const CardContent = ({ task }: Props) => {
             return <CardText key={property.propertyId} text={property.value} />;
           }
         })}
-        {task.uniProperties.map((property: any) => {
+        {task.properties.map((property: any) => {
           if (
             property.property.type == "DATE" &&
             property.property.visible == true
@@ -44,7 +47,7 @@ export const CardContent = ({ task }: Props) => {
           }
         })}
 
-        {task.uniProperties.map((property: any) => {
+        {task.properties.map((property: any) => {
           if (
             property.property.type == "SELECT" &&
             property.property.visible == true

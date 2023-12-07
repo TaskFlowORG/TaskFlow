@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 import { Page } from "@/model/pages/Page";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 export default function Kanban() {
   const [tasks, setTasks] = useState<any[]>([]);
@@ -13,7 +14,6 @@ export default function Kanban() {
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<any[]>([]);
   const [paged, setPage] = useState<Page | null>(null);
-  
 
   useEffect(() => {
     (async () => {
@@ -23,9 +23,16 @@ export default function Kanban() {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-
   }, [id]);
 
+
+  function handleOnDragEnd(result: any) {
+    console.log(result)
+    const items = Array.from(tasks);
+    const [reorderedItems] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItems);
+    setTasks(tasks);
+  }
   return (
     <>
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
@@ -46,29 +53,32 @@ export default function Kanban() {
           />
         </div>
         <div className="flex gap-8 justify-center w-full">
-          {options.map((option) => {
-            console.log(option)
-            return (
+          <DragDropContext onDragEnd={handleOnDragEnd}>
+
+            {options.map((option) => {
+              console.log(option);
+              return (
+                <ColumnKanban
+                  key={option.id}
+                  tasks={tasks}
+                  propertyId={id}
+                  color={option.color}
+                  option={option.name}
+                  verify={true}
+                />
+              );
+            })}
+
+            {
               <ColumnKanban
-                key={option.id}
+                key={0}
                 tasks={tasks}
                 propertyId={id}
-                color={option.color}
-                option={option.name}
-                verify={true}
+                color="#767867"
+                option={"Não marcadas"}
               />
-            );
-          })}
-
-          {
-            <ColumnKanban
-              key={0}
-              tasks={defaultTasks}
-              propertyId={id}
-              color="#767867"
-              option={"Não marcadas"}
-            />
-          }
+            }
+          </DragDropContext>
         </div>
       </div>
     </>

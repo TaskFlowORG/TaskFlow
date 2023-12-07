@@ -12,14 +12,14 @@ export const SelectIcon = () => {
     >
       <path
         d="M9 17C13.4184 17 17 13.4184 17 9C17 4.5816 13.4184 1 9 1C4.5816 1 1 4.5816 1 9C1 13.4184 4.5816 17 9 17Z"
-        stroke-width="0.96"
-        stroke-linejoin="round"
+        strokeWidth="0.96"
+        strokeLinejoin="round"
       />
       <path
         d="M12.5166 7.40039L8.99656 10.9204L5.47656 7.40039"
-        stroke-width="0.96"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="0.96"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
