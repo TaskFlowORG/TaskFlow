@@ -8,7 +8,7 @@ type Draw = {
 
 type Point = { x: number; y: number }
 
-export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
+export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw,) => void, shape:string) => {
   const [mouseDown, setMouseDown] = useState(false)
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -26,7 +26,7 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
   }
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
+    const handlerLine = (e: MouseEvent) => {
       if (!mouseDown) return
       const currentPoint = computePointInCanvas(e)
 
@@ -51,16 +51,16 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void
       setMouseDown(false)
       prevPoint.current = null
     }
+      // Add event listeners
+      canvasRef.current?.addEventListener('mouseup', handlerLine)
+      window.addEventListener('mouseup', mouseUpHandler)
+  
+      // Remove event listeners
+      return () => {
+        canvasRef.current?.removeEventListener('mouseup', handlerLine)
+        window.removeEventListener('mouseup', mouseUpHandler)
+      }
 
-    // Add event listeners
-    canvasRef.current?.addEventListener('mousemove', handler)
-    window.addEventListener('mouseup', mouseUpHandler)
-
-    // Remove event listeners
-    return () => {
-      canvasRef.current?.removeEventListener('mousemove', handler)
-      window.removeEventListener('mouseup', mouseUpHandler)
-    }
   }, [onDraw])
 
   return { canvasRef, onMouseDown, clear }
