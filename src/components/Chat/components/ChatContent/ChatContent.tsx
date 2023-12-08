@@ -4,7 +4,8 @@ import { ChatGetDTO } from "@/model/chat/ChatGetDTO"
 import { getSingleChat } from "@/services/http/api"
 
 
-export const ChatContent = () => {
+
+export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualized, lastMessage }: ChatGetDTO) => {
     const [receptor, setReceptor] = useState(false)
     const [mostrarChat, setMostrarChat] = useState(true)
     const [mensagens, setMensagens] = useState<ChatGetDTO[]>([])
@@ -17,15 +18,6 @@ export const ChatContent = () => {
         }
     }
 
-    useEffect(() => {
-        async function getChats() {
-            const response = await getSingleChat("private", 1, 7);
-            setMensagens(response);
-        }
-        getChats();
-    }, []);
-    
-
     return (
         <>
 
@@ -34,7 +26,7 @@ export const ChatContent = () => {
                     <div className="flex bg-primary rounded-full w-[17.5%] lg:w-[4%] h-11 mx-5">
                     </div>
                     <div className="w-[80%] lg:mx-2">
-                        {mensagens.map((mensagem) => <h3 className="p lg:h4">{mensagem.name}</h3>)}
+                        <h3>{name}</h3>
                     </div>
                     <div className="w-[40%] lg:w-[20%] flex items-center lg:px-14 lg:justify-end ">
                         <div className="mx-2">

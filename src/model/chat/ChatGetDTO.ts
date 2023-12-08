@@ -2,14 +2,14 @@ import { Message } from "./Message";
 
 export class ChatGetDTO {
 
-    id: Number;
+    id: number;
     name: String;
     picture: String;
     messages: Array<Message>;
     quantitityUnvisualized: Number;
     lastMessage: Message;
 
-    constructor(id: Number, name: String, picture: String, messages: Array<Message>, quantitityUnvisualized: Number, lastMessage: Message) {
+    constructor(id: number, name: String, picture: String, messages: Array<Message>, quantitityUnvisualized: Number, lastMessage: Message) {
         this.id = id;
         this.name = name;
         this.picture = picture;

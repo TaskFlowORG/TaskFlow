@@ -4,7 +4,7 @@ import { User } from "../User";
 
 export  class Chat {
 
-     id: Number;
+     id: number;
      users : Array<User>;
      messages : Array<Message>;
      type : TypeOfChat;
@@ -13,7 +13,7 @@ export  class Chat {
      quantitityUnvisualized : Number;
      lastMessage : Message;
 
-    constructor(id: Number, users: Array<User>, messages: Array<Message>, type: TypeOfChat, name: String, picture: String, quantitityUnvisualized: Number, lastMessage: Message) {
+    constructor(id: number, users: Array<User>, messages: Array<Message>, type: TypeOfChat, name: String, picture: String, quantitityUnvisualized: Number, lastMessage: Message) {
         this.id = id;
         this.users = users;
         this.messages = messages;

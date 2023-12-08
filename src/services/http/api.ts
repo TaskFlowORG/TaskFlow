@@ -29,7 +29,7 @@ async function getListChat(type: String, userId: Number) {
       const messages = chat.messages;
       const quantitityUnvisualized: Number = chat.quantitityUnvisualized;
       const lastMessage = chat.lastMessage;
-      array.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage,))
+      array.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage))
     }
     return array;
   } catch (error) {
@@ -50,7 +50,7 @@ async function getSingleChat(type: String, userId: Number, idBusca: number) {
       const lastMessage = chat.lastMessage;
       
       if (chat.id == idBusca) {
-        info.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage,))
+        info.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage))
       }
     }
     console.log(info)
