@@ -10,6 +10,15 @@ export const Devs = () => {
       setWindowWidth(window.innerWidth);
     });
     setWindowWidth(window.innerWidth);
+    const swiperNext = document.querySelector(".swiper-button-next")
+
+    if (swiperNext!=null){
+      swiperNext.classList.add("ooo")
+      swiperNext.addEventListener("click", (e) => {
+        console.log("bomdia")// logs `false`
+            });
+    }
+
   }, []);
 
   function changeView(): number {
@@ -45,7 +54,9 @@ export const Devs = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-[5rem] py-10">
-      <h2 className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
+      <h2 onClick={()=>{
+       console.log(document.querySelector(".swiper-button-next"))
+      }} className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
         Conheça nossos desenvolvedores!
       </h2>
 
@@ -59,8 +70,8 @@ export const Devs = () => {
             nextEl: ".swiper-button-next",
           }}
           pagination={{ clickable: true }}
-          onSwiper={(swiper) => console.log(swiper)}
-          onSlideChange={(swiper) => console.log(swiper.activeIndex)}
+          onSwiper={(swiper:any) => console.log(swiper)}
+          onSlideChange={(swiper:any) => console.log(swiper.activeIndex)}
         >
           {devs.map((slide, index) => {
             return (

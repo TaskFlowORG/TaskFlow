@@ -352,7 +352,9 @@ select::-ms-expand {
 .inputGrayAndPink {
   @apply bg-[#F2F2F2] border-[#F04A94];
 }
-
+.ooo{
+  margin-left: 12px;
+}
 .swiper-button-prev,
 .swiper-button-next {
   width: 92px;

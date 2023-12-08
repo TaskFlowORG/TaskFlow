@@ -32,10 +32,6 @@ export const RoundedCard = ({
 
   return (
     <div
-      {...provider.draggableProps}
-      {...provider.dragHandleProps}
-      ref={provider.innerRef}
-      style={style}
       className={` border-l-8 cursor-pointer  dark:bg-modal-grey shadowww w-full min-w-[300px]  rounded-lg bg-white p-4 flex flex-col justify-between gap-4 max-w-[440px]`}
       onClick={() => {
         changeImage && changeImage();
