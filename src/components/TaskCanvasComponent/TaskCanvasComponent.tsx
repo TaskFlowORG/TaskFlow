@@ -19,8 +19,8 @@ export const TaskCanvasComponent = ({task}:Props) => {
     const elementRef = useRef<HTMLDivElement>(null);
 
     const style:Object = {
-        top : y,
-        left : x
+        top : y+"%",
+        left : x+"%"
     }
 
     function changeXandY(e:DragEvent<HTMLDivElement>){
@@ -28,12 +28,12 @@ export const TaskCanvasComponent = ({task}:Props) => {
         if(elementRef.current === null) return  
         const offsetX = e.clientX - elementRef.current.clientWidth/2
         const offsetY = e.clientY - elementRef.current.clientHeight/2
-        if(offsetX > 0 && offsetX < window.innerWidth-50){
-            setX(offsetX)
-        }
-        if(offsetY > 0){
-            setY(offsetY)
-        }
+        
+        const percentageX = offsetX/window.innerWidth*100
+        const percentageY = offsetY/window.innerHeight*100
+        if(percentageX < 0 || percentageX > 100 || percentageY < 0 || percentageY > 100) return
+        setX(percentageX)
+        setY(percentageY)
     }
 
     function removeGhost(e:DragEvent<HTMLDivElement>){
