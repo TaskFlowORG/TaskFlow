@@ -1,1 +1,0 @@
-export { ModalPermission } from "./ModalPermission";

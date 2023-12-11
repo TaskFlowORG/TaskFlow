@@ -5,7 +5,7 @@ export const Principles = () => {
         <div className="flex flex-col items-center gap-[5rem] mb-12">
             <h2 className="h3 md:text-[48px] text-primary dark:text-white self-center">Princípios</h2>
 
-            <div id="cocotinha" className="flex justify-between w-full relative max-w-[957px]">
+            <div id="cocotinha" className="flex flex-wrap gap-12 md:gap-1 justify-between  w-full relative max-w-[957px]">
                 <img src="prank.svg" alt="" className="absolute z-[1] bottom-[-105px] left-[-48px]" />
 
                 <img src="prank.svg" alt="" className="absolute z-[1] top-[-55px] rotate-180 right-[-30px]" />

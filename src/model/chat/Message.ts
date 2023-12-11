@@ -3,11 +3,12 @@ import { Chat } from "./Chat";
 
 export class Message {
 
-    id: number ;
+
+    id: number;
     value: String ;
     user: User ;
     dateTime: Date;
-    visualized: boolean;
+    visualized: Boolean;
 
     constructor(id: number, value: String, user: User, dateTime: string, visualized: boolean) {
         this.id = id;
