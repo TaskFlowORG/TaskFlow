@@ -8,8 +8,8 @@ export class Select extends Property{
      options : Array <Option>;
 
 
-    constructor( options : Array <Option>, id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,page:Page,project:Project){
-        super(id,name,visible,obligatory,type,page,project);
+    constructor( options : Array <Option>, id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,pages:Array<Page>,project:Project){
+        super(id,name,visible,obligatory,type,pages,project);
         this.options=options;
     }
 }
