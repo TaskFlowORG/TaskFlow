@@ -8,9 +8,26 @@ ${({hasError}) => hasError && `border-color: red;` }
 `
 
 
-export const Container = styled.div`
- display: flex;
-justify-content: center;
-items-align: center;
+
+export const Label = styled.label`
+display: flex;
+width: 100%;
+  justify-content: start;
 `
+
+interface ContainerProps {
+  $haserror?: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
+  display: flex;
+  justify-content: center;
+  align-items: center;  // Fix the typo here
+  ${(props)=> {
+    const { $haserror } = props as unknown as ContainerProps;
+    return  $haserror ? `border-color: red;` : `border-color: transparent;`;
+  }}
+  
+`;
+
 
