@@ -14,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/effect-flip';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import React from "react"
 
 
 export default function Home() {

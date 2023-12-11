@@ -1,5 +1,6 @@
 import Providers from "@/services/Theme/providers"
 import ThemeSwitcher from "@/services/Theme/ThemeSwitcher"
+import React from "react"
 
 
 export default function RootLayout({ children }) {

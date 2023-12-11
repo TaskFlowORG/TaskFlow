@@ -1,8 +1,7 @@
 'use client'
 import '../globals.css'
-import Providers from '@/services/Theme/providers'
-import ThemeSwitcher from '@/services/Theme/ThemeSwitcher'
 import { useTheme } from 'next-themes'
+import React from 'react'
 
 export default function RootLayout({ children }) {
   const { theme, setTheme } = useTheme()
