@@ -1,0 +1,1 @@
+export  {SVGGroupPageDark} from "./SVGGroupPage";

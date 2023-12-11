@@ -103,8 +103,13 @@
       "esnext"
     ],
     "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
     "noEmit": true,
     "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -120,7 +125,10 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+
+, "src/app/(before-login)/layout.jsx"  ,
+"src/components/CardContent/index.js", "src/components/SearchBar/index.js", "src/app/(all)/(before-login)/loading.jsx", "src/components/Loading/index.js"  ],
+
   "exclude": [
     "node_modules"
   ]

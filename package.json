@@ -10,15 +10,20 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@hello-pangea/dnd": "^16.5.0",
+    "@types/react-beautiful-dnd": "^13.1.7",
+
     "axios": "^1.6.2",
     "next": "14.0.2",
     "next-themes": "^0.2.1",
     "node": "^21.1.0",
     "react": "^18",
+    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
-    "styled-components": "^6.1.1",
+
     "swiper": "^11.0.5",
+    "styled-components": "^6.1.1",
     "tailwindcss-animation-delay": "^1.2.0",
     "zod": "^3.22.4"
   },

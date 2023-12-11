@@ -14,8 +14,10 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> &{
 export const Input = forwardRef<HTMLInputElement, InputProps> (({type='text', name='', required=false , image='', label='',placeholder='', helperText='', register , ...props},ref) => {
    
    const inputId = useId();
+
   
    const haserror: boolean = helperText.length>0;
+
 
     return (
         <>
@@ -23,9 +25,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps> (({type='text', na
                     {label && <label className="w-1/6 flex justify-center items-center" htmlFor={inputId}>{label}</label>}
                     <img src={image} alt="" />
                     <S.Input className="w-5/6 h-full outline-none  px-5 dark:bg-modal-grey" type={type} id={inputId}   {...register} placeholder={placeholder} {...props}
+
                     required={required} />
+                    {hasError && <span className="text-red-500 text-sm">{helperText}</span>}
             </S.Container>
            {haserror && <S.Label className="text-red-500 text-sm px-5">{helperText}</S.Label>}
+
         </>
     )
 })

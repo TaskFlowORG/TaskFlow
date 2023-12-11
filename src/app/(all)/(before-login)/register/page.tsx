@@ -1,8 +1,10 @@
 "use client"
 import  "./style.css";
 import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
 import { Api } from "@/services/api";
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from 'zod';
@@ -29,17 +31,25 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>
 const page = () => {
 
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
-        mode: 'all',
+
+    const { register, handleSubmit, getValues ,formState: { errors } } = useForm<FormData>({
+        mode : 'all',
         reValidateMode: 'onChange',
         resolver: zodResolver(schema)
     });
+
 
     const api = new Api();
     const route = useRouter();
     const [value, setValue] = useState(0);
     const [user, setUser] = useState({} as FormData)
 
+
+    const api = new Api();
+    const route = useRouter();
+    const [value, setValue] = useState(0);
+
+              
     const handlebutton = () => {
         if (value >= 0 && value <= 2) {
             console.log(getValues())
@@ -83,6 +93,7 @@ const page = () => {
                         <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu nome de usuário" helperText={errors.username?.message} register={{ ...register('username') }} required />
                         <Input image={"Assets/themelight/IconUser.svg"} placeholder="Digite seu email" helperText={errors.email?.message} register={{ ...register('email') }} required />
                     </>}
+
                     {value === 2 && <>
                         <Input image={"Assets/themelight/IconUser.svg"} type="password" placeholder="Digite sua senha" helperText={errors.password?.message} register={{ ...register('password') }} required />
                         <Input image={"Assets/themelight/IconUser.svg"} placeholder="Confirme sua senha" helperText={errors.confirmPassword?.message} register={{ ...register('confirmPassword') }} required />
@@ -109,8 +120,8 @@ const page = () => {
                             </div>}
                         {value == 2 &&
                             <div className="w-1/2 flex justify-end">
-                                <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
-                                    type="submit">Enviar</button>
+                                <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}              
+                                    type="submit" onClick={handleRegister}>Enviar</button>
                             </div>
                         }
                     </div>

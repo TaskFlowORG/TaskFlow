@@ -8,127 +8,110 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf") format("truetype");
   font-weight: 900;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf") format("truetype");
   font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf") format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf") format("truetype");
   font-weight: 800;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf") format("truetype");
   font-weight: 200;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf") format("truetype");
   font-weight: 200;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf") format("truetype");
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf") format("truetype");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf") format("truetype");
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf") format("truetype");
   font-weight: 600;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf") format("truetype");
   font-weight: 100;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf") format("truetype");
   font-weight: 100;
   font-style: italic;
 }
@@ -151,9 +134,9 @@
 }
 
 .shadowww {
-  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
--webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
--moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
 }
 
 .shadowwwsecondary {
@@ -216,21 +199,23 @@ select::-ms-expand {
 }
 
 * {
-  transition-property:color,  background-color, border-color, text-decoration-color, fill, stroke 150ms ease-in-out;
-  transition-duration:150ms;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke 150ms ease-in-out;
+  transition-duration: 150ms;
 }
 
 @keyframes custom-pulse {
   0% {
     opacity: 1;
   }
+
   50% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
-} 
+}
 
 .inputLight {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat focus-within:border-primary border-2 duration-300;
@@ -251,15 +236,19 @@ select::-ms-expand {
 .h1 {
   @apply font-alata text-[56px];
 }
+
 .h2 {
   @apply font-alata text-[48px];
 }
+
 .h3 {
   @apply font-alata text-[32px];
 }
+
 .h4 {
   @apply font-alata text-[24px];
 }
+
 .h5 {
   @apply font-alata text-[20px];
 }
@@ -271,6 +260,13 @@ select::-ms-expand {
 .mn {
   @apply font-montserrat text-[12px];
 }
+
+
+.mnAlata {
+  @apply font-alata text-[12px]
+}
+
+
 .t:hover {
   transition: 0.5s ease-in-out left 100px;
 }
@@ -283,6 +279,7 @@ select::-ms-expand {
   0% {
     transform: translateX(0px);
   }
+
   100% {
     transform: translateX(32px);
   }
@@ -292,29 +289,34 @@ select::-ms-expand {
   0% {
     transform: translateX(32px);
   }
+
   100% {
     transform: translateX(0px);
   }
 }
-.toggle-input:checked + .toggle-slider::before {
+
+.toggle-input:checked+.toggle-slider::before {
   transform: translateX(32px);
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
-.toggle-input:not(:checked) + .toggle-slider::before {
+
+.toggle-input:not(:checked)+.toggle-slider::before {
   transform: translateX(0px);
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-.toggle-input:checked + .toggle-slider {
+.toggle-input:checked+.toggle-slider {
   background-color: #f76858;
 }
 
 .toggleIn {
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
+
 .toggleOut {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
+
 ::-webkit-scrollbar {
   @apply hidden;
 }
@@ -334,6 +336,7 @@ select::-ms-expand {
 .modalTaskDisplay {
   @apply flex items-center;
 }
+
 .test::after {
   content: ">";
   color: var(--primary-color);
@@ -345,6 +348,7 @@ select::-ms-expand {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .centeredAbsoluteTop {
   top: -5%;
   left: 50%;
@@ -354,13 +358,15 @@ select::-ms-expand {
 .inputGrayAndPink {
   @apply bg-[#F2F2F2] border-[#F04A94];
 }
-
+.ooo{
+  margin-left: 12px;
+}
 .swiper-button-prev,
 .swiper-button-next {
   width: 92px;
   height: 92px;
   background-color: none;
-
+@apply sm:visible invisible
   /* Outros estilos desejados */
 }
 
@@ -392,7 +398,8 @@ select::-ms-expand {
 
 /* Estilos para a seta "prev" */
 .swiper-button-prev::after {
-  content: "<"; /* ou use uma imagem de seta */
+  content: "<";
+  /* ou use uma imagem de seta */
   color: #f04a94;
   font-size: 48px;
   font-weight: bold;
@@ -400,10 +407,26 @@ select::-ms-expand {
 
 /* Estilos para a seta "next" */
 .swiper-button-next::after {
-  content: url("../../public/arrowPink.svg"); /* ou use uma imagem de seta */
+  content: url("../../public/arrowPink.svg");
+  /* ou use uma imagem de seta */
   color: #f04a94;
   font-size: 48px;
   font-weight: bold;
+}
+
+.groupGrandient {
+  background: var(--Gradiente-2, linear-gradient(220deg, #EF4996 7.64%, #F04FB0 42.82%, #FE7A08 122.57%));
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+}
+
+.groupGrandientDark {
+  background: var(--Gradiente-Direto, linear-gradient(249deg, #FF973D 17.15%, #EF4996 65.33%));
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.selectGroup {
+  @apply text-[#F04A94] border-2 rounded-sm w-[55%] text-center
 }
 
 /* 
@@ -413,3 +436,19 @@ select::-ms-expand {
   width: 300px;
   height: 300px;
 } */
+
+/* These are the KEY styles - you can add them directly to any object you want in your project */
+.fancy-border-radius {
+  border-radius: 0% 100% 100% 0% / 1% 0% 50% 1% ;
+
+  /* These are ADDITIONAL styles - add them if you want an object exactly like in the demo above */
+  width: 400px;
+  height: 200px;
+  background: #ad5389;
+  background: -webkit-linear-gradient(to right,
+      #3c1053,
+      #ad5389);
+  background: linear-gradient(to right,
+      #3c1053,
+      #ad5389);
+}

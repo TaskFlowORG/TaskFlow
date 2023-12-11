@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-export const Input = styled.input`
-  height: 100%;  // Fix the typo here
-`;
+
+export const Input  = styled.input<{hasError:boolean}>`
+    hight: 100%;
+
+${({hasError}) => hasError && `border-color: red;` }
+`
+
 
 
 export const Label = styled.label`
@@ -25,3 +29,5 @@ export const Container = styled.div<ContainerProps>`
   }}
   
 `;
+
+
