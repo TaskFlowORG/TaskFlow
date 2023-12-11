@@ -29,10 +29,9 @@ export const ColumnKanban = ({
 
     if (verify) {
       const filteredTasks: any[] = tasks.filter((task) => {
-        return task.uniProperties.some((property: any) => {
-          return (
-            property.propertyId === propertyId && property.value === option
-          );
+        return task.properties.some((property: any) => {
+          console.log(property);
+          return property.id === propertyId && property.value === option;
         });
       });
       setTasksColumn(filteredTasks);

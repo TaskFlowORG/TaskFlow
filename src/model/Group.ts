@@ -3,7 +3,6 @@ import { User } from "./User";
 
 export class Group {
 
-
     id: Number;
     name: String;
     picture: String;
@@ -24,3 +23,4 @@ export class Group {
 
 
 }
+
