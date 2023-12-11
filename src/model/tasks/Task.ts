@@ -3,17 +3,18 @@ import { TaskValue } from "../relations/TaskValue";
 import { Log } from "./Log";
 
 export class Task{
-    id: Number;
-    name: String;
 
-    deleted: boolean;
-    completed: boolean;
-    completedDate: Date;
-    properties: Array<TaskValue>;
-    logs: Array<Log>;
-    comments: Array<Message>;
+    id: null | Number;
+    name: null| String;
+    deleted: null| boolean;
+    completed: null| boolean;
+    completedDate: null| Date;
+    properties: null| Array<TaskValue>;
+    logs: null| Array<Log>;
+    comments: null| Array<Message>;
     
-    constructor(id: Number, name: String, deleted: boolean, completed: boolean, completedDate: Date, properties: Array<TaskValue>, logs: Array<Log>, comments: Array<Message>) {
+    constructor(id: null | Number, name: null | String, deleted: null | boolean, completed: null | boolean, completedDate: null | Date, properties: null | Array<TaskValue>, logs: null | Array<Log>, comments: null | Array<Message>) {
+
         this.id = id;
         this.name = name;
         this.deleted = deleted;

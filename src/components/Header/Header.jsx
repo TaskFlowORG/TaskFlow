@@ -10,7 +10,7 @@ export function Header() {
     return (
 
 
-        <div className="h-14 w-full fixed bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
+        <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
             <img src="/Icon.svg" alt="" className='w-12 h-12 cursor-pointer dark:grayscale dark:brightness-[60]' />
 
 
