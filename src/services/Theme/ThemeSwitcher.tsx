@@ -1,16 +1,21 @@
 "use client"
 
 import { useTheme } from "next-themes"
+import React from "react"
 import { useState, useEffect } from "react"
 import { isNull } from "util"
 
 
 const ThemeSwitcher = () => {
     const { theme, setTheme } = useTheme()
+<<<<<<< HEAD:src/services/Theme/ThemeSwitcher.tsx
+   const [mounted, setMounted] = useState(false) 
+=======
     const [mounted, setMounted] = useState(false)
+>>>>>>> main:src/services/Theme/ThemeSwitcher.js
 
     useEffect(() => {
-        setMounted(true)
+         setMounted(true)
     }, [])
 
     if (!mounted) {
