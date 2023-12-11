@@ -1,1 +1,0 @@
-export {SVGGroupsPage } from "./SVGGroupsPage";
