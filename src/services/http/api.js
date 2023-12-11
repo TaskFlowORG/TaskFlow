@@ -1,4 +1,4 @@
-export { getData, getListData, putData}
+export { getData, getListData, putData, getListChat}
 
 const axios = require('axios').default;
 
@@ -14,6 +14,15 @@ async function getListData(table) {
       } catch (error) {
         throw error
       }
+}
+
+ async function getListChat(type, userId) {
+  try {
+      const response = await axios.get("http://localhost:9999/chat/"+type+"/"+userId);
+      return response.data;
+    } catch (error) {
+      throw error
+    }
 }
 async function postData(table, object) {
     return await axios.post("http://localhost:9999/" + table, object);

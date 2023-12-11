@@ -261,6 +261,16 @@ select::-ms-expand {
   @apply font-montserrat text-[12px];
 }
 
+.user-drag-none {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  }
+
 .t:hover {
   transition: 0.5s ease-in-out left 100px;
 }
