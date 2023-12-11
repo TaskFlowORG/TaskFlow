@@ -1,8 +1,4 @@
 'use client'
-<<<<<<< HEAD:src/app/(before-login)/layout.jsx
-import '../globals.css'
-=======
->>>>>>> main:src/app/(all)/(before-login)/layout.tsx
 import { useTheme } from 'next-themes'
 import React from 'react'
 
