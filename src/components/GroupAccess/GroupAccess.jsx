@@ -8,10 +8,10 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
 
     useEffect(() => {
         const getList = async () => {
-            const fetchedPermissions = await getListData("group/" + groupId + "/" + projectId);
+            const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
             setPermissions(fetchedPermissions);
+            console.log(fetchedPermissions)
         }
-
         getList();
     }, []);
 
@@ -42,6 +42,7 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
                                 {permission.name}
                             </option>
                         ))}
+
                     </select>
                 </div>
             </div>
