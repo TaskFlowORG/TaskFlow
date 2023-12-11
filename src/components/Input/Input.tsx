@@ -14,6 +14,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps> (({type='text', na
    
    const inputId = useId();
    const hasError = helperText.length>0;
+
     return (
         <>
             <S.Container className="w-full flex justify-center items-center gap-2 shadow-blur-10 h-[62px] bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20">
@@ -23,6 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps> (({type='text', na
                     required={required} />
                     {hasError && <span className="text-red-500 text-sm">{helperText}</span>}
             </S.Container>
+
         </>
     )
 })

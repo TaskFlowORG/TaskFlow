@@ -8,7 +8,11 @@ import { isNull } from "util"
 
 const ThemeSwitcher = () => {
     const { theme, setTheme } = useTheme()
+<<<<<<< HEAD:src/services/Theme/ThemeSwitcher.tsx
    const [mounted, setMounted] = useState(false) 
+=======
+    const [mounted, setMounted] = useState(false)
+>>>>>>> main:src/services/Theme/ThemeSwitcher.js
 
     useEffect(() => {
          setMounted(true)

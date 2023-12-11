@@ -1,1 +1,1 @@
-export {InitialPageTasks} from './InitialPageTasks.jsx'
+export { InitialPageTasks } from "./InitialPageTasks";

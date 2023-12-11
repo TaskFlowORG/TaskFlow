@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+
 export const Input  = styled.input<{hasError:boolean}>`
     hight: 100%;
 
@@ -12,3 +13,4 @@ export const Container = styled.div`
 justify-content: center;
 items-align: center;
 `
+
