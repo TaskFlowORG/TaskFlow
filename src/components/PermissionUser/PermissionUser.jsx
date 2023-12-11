@@ -13,8 +13,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
       const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
       setUser(fetchedUser);
       setPermissions(fetchedPermissions);
-      // Defina as permissões selecionadas inicialmente, se necessário
-      // setSelectedPermissions(fetchedUser.permissions.map(permission => permission.permission));
     };
 
     getLists();
@@ -26,7 +24,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   };
 
   async function updatePermission() {
-    // Aqui você pode enviar as permissões selecionadas para a API ou realizar outras ações necessárias
     alert('Permissões atualizadas com sucesso');
   }
 
