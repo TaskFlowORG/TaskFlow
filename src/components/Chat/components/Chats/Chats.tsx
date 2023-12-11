@@ -9,12 +9,8 @@ export const Chats = ({ id, name, messages, picture, quantitityUnvisualized, las
     const total = hour + ":" + minutes
     const [chatClicado] = useState<number>(id)
 
-    const setarChat = () => {
-        console.log(chatClicado)
-    }
-
     return (
-        <div onClick={() => setarChat()} className="w-full h-32 lg:h-28 bg-white border rounded flex shadow-blur-10 my-1 cursor-pointer hover:bg-modal-grey ">
+        <div className="w-full h-32 lg:h-28 bg-white border rounded flex shadow-blur-10 my-1 cursor-pointer hover:bg-modal-grey ">
             <div className="w-full h-full grid grid-cols-3 hover:text-white " style={{ gridTemplateColumns: "20% 55% 25%" }}>
                 <div className="flex items-center pl-2">
                     <div className=" col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary border-2">
