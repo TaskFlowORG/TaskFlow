@@ -1,4 +1,4 @@
-"use client";
+import Select from "react-select";
 import { getListData, getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
@@ -6,6 +6,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [user, setUser] = useState({});
   const [selectedPermissions, setSelectedPermissions] = useState([]);
   const [permissions, setPermissions] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const getLists = async () => {
@@ -16,14 +17,19 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
     };
 
     getLists();
-  }, [userId, groupId, projectId]);
+  }, []);
 
-  const handlePermissionChange = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
+  const handlePermissionChange = (selectedOptions) => {
     setSelectedPermissions(selectedOptions);
+    user.permission = selectedOptions.permission
+    updatePermission()
+    console.log(selectedOptions)
+
   };
 
   async function updatePermission() {
+   await putData("group/user/" + groupId, user);
+   console.log("tô")
     alert('Permissões atualizadas com sucesso');
   }
 
@@ -37,21 +43,21 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
           </div>
           <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
             <p>|</p>
-            <select
-              className='selectGroup mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
+            <Select
+              className=' mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
               name="permission"
               id="permission"
+              isMulti
               onChange={handlePermissionChange}
               value={selectedPermissions}
-          
-            >
-              {!user.permission && <option value="" disabled>Permissão</option>}
-              {permissions.map(permission => (
-                <option key={permission.id} value={permission.permission}>
-                  {permission.name}
-                </option>
-              ))}
-            </select>
+              options={permissions.map(permission => ({
+                value: permission.permission,
+                label: permission.name
+              }))}
+              menuIsOpen={isMenuOpen}
+              onMenuOpen={() => setIsMenuOpen(true)}
+              onMenuClose={() => setIsMenuOpen(false)}
+            />
           </div>
         </div>
       </div>
