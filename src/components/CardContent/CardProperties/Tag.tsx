@@ -1,5 +1,5 @@
 interface Props {
-    value:string
+    value:String
 }
 
 export const Tag = ({value}:Props) => {

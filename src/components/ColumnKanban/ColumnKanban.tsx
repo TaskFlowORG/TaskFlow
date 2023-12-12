@@ -5,12 +5,18 @@ import { useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
+import { Task } from "@/model/tasks/Task";
+import { TaskValue } from "@/model/relations/TaskValue";
+import { TextValued } from "@/model/values/TextValued";
+import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { UniOptionValued } from "@/model/values/UniPotionValued";
+import { Option } from "@/model/Properties/Option";
 
 interface Props {
-  color?: string;
-  option?: string;
-  propertyId?: number;
-  tasks: any[];
+  color?: String;
+  option?: Option;
+  propertyId?: Number;
+  tasks: Task[];
   verify?: boolean;
 }
 
@@ -21,20 +27,22 @@ export const ColumnKanban = ({
   tasks,
   verify,
 }: Props) => {
-  const [colorUse, setColorUse] = useState<string>("");
-  const [tasksColumn, setTasksColumn] = useState<any[]>([]);
+  const [colorUse, setColorUse] = useState<String>("");
+  const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
 
   useEffect(() => {
     setColorUse(color ? color : "#FF0000");
 
     if (verify) {
-      const filteredTasks: any[] = tasks.filter((task) => {
-        return task.properties.some((property: any) => {
-          console.log(property);
-          return property.id === propertyId && property.value === option;
+      const filteredTasks: Task[] = tasks.filter((task) => {
+
+        return task.properties?.some((property) => {
+          // console.log(option,(property.value as UniOptionValued).value?.name )
+          return property.property.id == propertyId && (property.value as UniOptionValued).value.id == option?.id;
         });
       });
       setTasksColumn(filteredTasks);
+      console.log(filteredTasks)
     } else {
       setTasksColumn(tasks);
       console.log(tasks);
@@ -47,17 +55,17 @@ export const ColumnKanban = ({
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color as string }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
-          {option}
+          {option?.name}
         </h4>
       </div>
 
       {tasksColumn.map((task) => {
         return (
-          <RoundedCard color={color} key={task.id}>
-            <CardContent key={task.id} task={task} />
+          <RoundedCard color={color} key={task.id?.toString()}>
+            <CardContent key={task.id?.toString()} task={task} />
           </RoundedCard>
         );
       })}

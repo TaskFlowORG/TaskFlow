@@ -4,7 +4,7 @@ import { RadioIcon } from "@/components/CardContentIcons/RadioIcon";
 
 interface Props{
   property:any,
-  value:string
+  value:String
 }
 
 export const CardSelect = ({ property, value }:Props) => {
