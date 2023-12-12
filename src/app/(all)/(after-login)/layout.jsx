@@ -5,7 +5,7 @@ import { Inter } from 'next/font/google'
 import { Header } from '@/components/Header';
 import { usePathname } from 'next/navigation';
 
-export default function RootLayout({ children }) {
+export default function Layout({ children }) {
 
   return (
     <>

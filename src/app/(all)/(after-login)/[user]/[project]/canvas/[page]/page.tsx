@@ -7,6 +7,8 @@ import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvas
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { Page } from "@/model/pages/Page";
 import { TypeOfPage } from "@/model/enums/TypeOfPage";
+import { AddTask, Broom, Circle, Eraser, Line, Pencil, Square, Triangle } from "@/components/icons";
+import { If } from "@/components/If";
 
 type Draw = {
   ctx: CanvasRenderingContext2D;
@@ -125,9 +127,13 @@ const page: FC<pageProps> = ({}) => {
         height={930}
         className="w-full h-full"
       ></canvas>
-      <div className="absolute top-14 right-0 flex flex-col  items-center justify-center bg-input-grey rounded-l-2xl h-72 w-min gap-2 py-6" ref={optionsRef}>
+      <div className="absolute top-14 right-0 flex flex-col dark:bg-modal-grey items-center justify-center
+       bg-input-grey rounded-l-2xl h-72 w-min gap-2 py-6" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
-          {isErasing ? "P" : "E"}
+          <If condition={isErasing}>
+              <Eraser />
+              <Pencil />
+          </If>
         </button>
         <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{backgroundColor: lineColor}}>
           <input
@@ -142,17 +148,17 @@ const page: FC<pageProps> = ({}) => {
           max={50}
           min={2}
           value={lineWidth}
-          className=" -rotate-90 w-16 h-16"
+          className=" -rotate-90 w-16 h-16 "
           onChange={(e) => setLineWidth(parseInt(e.target.value))}
         />
         <select name="shape" value={shape} onChange={e => setShape(e.target.value)} >
-          <option value="square">square</option>
-          <option value="circle">circle</option>
-          <option value="triangle">triangle</option>
-          <option value="line">line</option>
+          <option value="square"><Square/></option>
+          <option value="circle"><Circle/></option>
+          <option value="triangle"><Triangle/></option>
+          <option value="line"><Line/></option>
         </select>
-        <button>+</button>
-        <button onClick={() => clear()}>C</button>
+        <button><AddTask /></button>
+        <button onClick={() => clear()}><Broom /></button>
       </div>
       {tasks.map((t, index) => (
         <TaskCanvasComponent task={t} key={index} />
