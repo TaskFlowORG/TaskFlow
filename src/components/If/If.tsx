@@ -4,12 +4,12 @@ import { ReactElement, ReactNode, isValidElement } from "react"
 
 interface Props{
     condition:Boolean,
-    children?: ReactElement[] | ReactElement
+    children?: ReactNode[] | ReactNode
 }
-export const If = ({condition, children}:Props): ReactElement => {
+export const If = ({condition, children}:Props): ReactNode => {
     if (!children ) return <></>
-    if(children as ReactElement[] && (children as ReactElement[]).length > 1){
-        return condition ? (children as ReactElement[])[0]:(children as ReactElement[])[1]
+    if(children as ReactNode[] && (children as ReactNode[]).length > 1){
+        return condition ? (children as ReactNode[])[0]:(children as ReactElement[])[1]
     }
-    return condition && children as ReactElement 
+    return condition && children as ReactNode 
 }

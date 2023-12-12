@@ -29,22 +29,7 @@ const page: FC<pageProps> = ({ }) => {
   const [lineWidth, setLineWidth] = useState<number>(5);
   const [lineColor, setLineColor] = useState<string>("#000000");
   const optionsRef = useRef<HTMLDivElement>(null);
-  const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(
-      1,
-      new Task(1, "AAAA", false, false, null, [], null, []),
-      null,
-      85,
-      85
-    ),
-    new TaskCanvas(
-      2,
-      new Task(1, "BBB", false, false, null, [], null, []),
-      null,
-      50,
-      50
-    ),
-  ]);
+  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [shape, setShape] = useState<string>("line");
   const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef);
 
@@ -55,6 +40,8 @@ const page: FC<pageProps> = ({ }) => {
     });
     setWindowWidth(window.innerWidth);
     setWindowHeight(window.innerHeight);
+    //get tasks from API
+    setTasks([])
   }, []);
 
   function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
@@ -123,15 +110,15 @@ const page: FC<pageProps> = ({ }) => {
   }
 
   return (
-    <div className="overflow-clip">
+    <div className="overflow-clip w-screen h-full">
       <canvas
         ref={canvasRef}
         width={windowWidth}
-        height={windowHeight}
+        height={windowHeight-56}
         className="w-full h-full relative"
       ></canvas>
       <div className="absolute bottom-0 flex  dark:bg-modal-grey items-center justify-around
-       bg-input-grey rounded-t-2xl h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
+       bg-input-grey rounded-t-2xl h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
           <If condition={isErasing}>
             <Eraser />
@@ -165,6 +152,7 @@ const page: FC<pageProps> = ({ }) => {
       {tasks.map((t, index) => (
         <TaskCanvasComponent task={t} key={index} />
       ))}
+ 
     </div>
   );
 };
