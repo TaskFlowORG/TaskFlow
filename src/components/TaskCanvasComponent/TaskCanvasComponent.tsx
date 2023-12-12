@@ -31,9 +31,12 @@ export const TaskCanvasComponent = ({task}:Props) => {
         
         const percentageX = offsetX/window.innerWidth*100
         const percentageY = offsetY/window.innerHeight*100
-        if(percentageX < 0 || percentageX > 100 || percentageY < 0 || percentageY > 100) return
-        setX(percentageX)
-        setY(percentageY)
+        if(percentageX > 1 && percentageX < 85) {
+            setX(percentageX)
+        }
+        if(percentageY > 5 && percentageY < 100){
+            setY(percentageY)
+        }
     }
 
     function removeGhost(e:DragEvent<HTMLDivElement>){

@@ -28,10 +28,11 @@ export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw,) => voi
     if(!optionsRef) return false
     const rect = optionsRef.current?.getBoundingClientRect();
     if(!rect) return false
-    return x >= rect.left &&
+    return (x >= rect.left &&
             x <= rect.right &&
             y >= rect.top &&
-            y <= rect.bottom
+            y <= rect.bottom) ||
+            y <= 56
   }
 
   useEffect(() => {
