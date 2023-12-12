@@ -28,6 +28,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   };
 
   async function updatePermission() {
+    //Não é a requisição certa, pero que si pero que no, devo arrumar amanhâ
    await putData("group/user/" + groupId, user);
    console.log("tô")
     alert('Permissões atualizadas com sucesso');

@@ -53,7 +53,7 @@ export const UsersList = ({ id = 1 , projectId=1}) => {
                 newUser.usersId = newUser.id;
             }
 
-            await putData("group/users/" + id, newUser);
+            await putData("group/user/" + id, newUser);
             alert('Usuário adicionado com sucesso');
         }
         setNewUser({});
