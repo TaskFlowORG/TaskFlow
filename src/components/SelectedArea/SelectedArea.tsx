@@ -18,7 +18,8 @@ export const SelectedArea = ({ canvasRef, shape }: { canvasRef?: LegacyRef<HTMLC
         }
         return (n2 - n1)
     }
-
+ 
+  
     let style = {}
     style = {
         left: currX > prevX ? prevX : currX,
@@ -43,16 +44,16 @@ export const SelectedArea = ({ canvasRef, shape }: { canvasRef?: LegacyRef<HTMLC
         if (typeof canvasRef === "string" || typeof canvasRef === "function") return
 
         canvasRef.current?.addEventListener('mousedown', (e) => {
-            setPrevX(e.clientX)
-            setPrevY(e.clientY)
-            setCurrX(e.clientX)
-            setCurrY(e.clientY) 
+            setPrevX(e.pageX)
+            setPrevY(e.pageY)
+            setCurrX(e.pageX)
+            setCurrY(e.pageY) 
             setShow(true)
         })
         canvasRef.current?.addEventListener('mousemove', (e) => {
             if (!show) return
-            setCurrX(e.clientX)
-            setCurrY(e.clientY)
+            setCurrX(e.pageX)
+            setCurrY(e.pageY)
         })
         window.addEventListener('mouseup', (e) => {
             setShow(false)
@@ -62,13 +63,13 @@ export const SelectedArea = ({ canvasRef, shape }: { canvasRef?: LegacyRef<HTMLC
     return (
         <If condition={show}>
             <If condition={shape == "square"}>
-                <div className="bg-primary dark:bg-white opacity-20 absolute transition-none" style={style}>
+                <div className="bg-zinc-500 dark:bg-white opacity-20 absolute transition-none" style={style}>
                 </div>
                 <If condition={shape == "circle"}>
-                    <div className="bg-primary dark:bg-white opacity-20 absolute transition-none" style={style}>
+                    <div className="bg-zinc-500 dark:bg-white opacity-20 absolute transition-none" style={style}>
                     </div>
                     <If condition={shape == "triangle"}>
-                        <div className=" bg-primary opacity-20 dark:bg-white absolute transition-none" style={style}>
+                        <div className=" bg-zinc-500 opacity-20 dark:bg-white absolute transition-none" style={style}>
                         </div>
                     </If>
                 </If>

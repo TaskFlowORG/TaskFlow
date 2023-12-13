@@ -11,6 +11,9 @@ import { AddTask, Broom, Circle, Eraser, Line, Pencil, Square, Triangle } from "
 import { If } from "@/components/If";
 import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
+import { drawLine } from "@/functions";
+import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
+
 
 type Draw = {
   ctx: CanvasRenderingContext2D;
@@ -23,101 +26,24 @@ type Point = { x: number; y: number };
 interface pageProps { }
 
 const page: FC<pageProps> = ({ }) => {
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [windowHeight, setWindowHeight] = useState<number>(0);
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const [lineWidth, setLineWidth] = useState<number>(5);
   const [lineColor, setLineColor] = useState<string>("#000000");
   const optionsRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [shape, setShape] = useState<string>("line");
-  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setWindowWidth(window.innerWidth);
-      setWindowHeight(window.innerHeight);
-    });
-    setWindowWidth(window.innerWidth);
-    setWindowHeight(window.innerHeight);
-    //get tasks from API
-    setTasks([])
-  }, []);
-
-  function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-    const { x: currX, y: currY } = currentPoint;
-    const { x: prevX, y: prevY } = prevPoint ?? currentPoint;
-
-    if (isErasing) {
-      ctx.globalCompositeOperation = "destination-out";
-    } else {
-      ctx.globalCompositeOperation = "source-over";
-    }
-
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
-    ctx.beginPath();
-
-    if (shape == "square") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.lineTo(prevX, currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    } else if (shape == "circle") {
-      if (currX > prevX && currY > prevY) {
-        const center = { x: prevX + ((currX - prevX) / 2), y: prevY + ((currY - prevY) / 2) }
-        ctx.ellipse(center.x, center.y, (currX - prevX) / 2, (currY - prevY) / 2, 0, 0, 2 * Math.PI);
-      } else if (currX > prevX && currY < prevY) {
-        const center = { x: prevX + ((currX - prevX) / 2), y: currY + ((prevY - currY) / 2) }
-        ctx.ellipse(center.x, center.y, (currX - prevX) / 2, (prevY - currY) / 2, 0, 0, 2 * Math.PI);
-      } else if (currX < prevX && currY > prevY) {
-        const center = { x: currX + ((prevX - currX) / 2), y: prevY + ((currY - prevY) / 2) }
-        ctx.ellipse(center.x, center.y, (prevX - currX) / 2, (currY - prevY) / 2, 0, 0, 2 * Math.PI);
-      } else if (currX < prevX && currY < prevY) {
-        const center = { x: currX + ((prevX - currX) / 2), y: currY + ((prevY - currY) / 2) }
-        ctx.ellipse(center.x, center.y, (prevX - currX) / 2, (prevY - currY) / 2, 0, 0, 2 * Math.PI);
-      } else {
-        ctx.ellipse(prevX, prevY, (currX - prevX) / 2, (currY - prevY) / 2, 0, 0, 2 * Math.PI);
-      }
-      ctx.stroke();
-    } else if (shape == "triangle") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(prevX + ((currX - prevX) / 2), currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    } else if (shape == "line") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.stroke();
-    }
-    ctx.fillStyle = lineColor;
-    ctx.beginPath();
-    if (shape == "line") {
-      ctx.arc(
-        prevX,
-        prevY,
-        lineWidth / 2,
-        0,
-        (lineWidth / 2) * Math.PI
-      );
-    }
-    ctx.fill();
-  }
+  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, lineColor, isErasing);
+  const {elementRef} = useNavigationWithScroll()
 
   return (
-    <div className="overflow-clip w-screen h-full">
+    <div ref ={elementRef}>
       <canvas
         ref={canvasRef}
-        width={windowWidth}
-        height={windowHeight-56}
-        className="w-full h-full relative"
+        width={4000}
+        height={2000}
+        className="relative"
       ></canvas>
-      <div className="absolute bottom-0 flex  dark:bg-modal-grey items-center justify-around
+      <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around
        bg-input-grey rounded-t-2xl h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
           <If condition={isErasing}>
