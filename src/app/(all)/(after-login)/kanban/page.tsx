@@ -6,14 +6,14 @@ import { useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 import { Page } from "@/model/pages/Page";
-
+import {RegisterTaskModal} from "@/components/RegisterTaskModal";
 export default function Kanban() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<any[]>([]);
   const [paged, setPage] = useState<Page | null>(null);
-  
+  const [modal, setModal] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -26,9 +26,12 @@ export default function Kanban() {
 
   }, [id]);
 
+
+
   return (
     <>
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+        <RegisterTaskModal open={modal} close={() => setModal(false)}listInputs={[]} />
         <div className="flex gap-5 items-end pb-16 justify-center    h-max">
           <h1
             className="h1 text-primary whitespace-nowrap dark:text-white"
@@ -36,7 +39,7 @@ export default function Kanban() {
           >
             {paged?.name}
           </h1>
-          <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
+          <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer " onClick={ () => setModal(true)}>
             <p className="p text-primary text-4xl h-min w-min">+</p>
           </div>
           <SearchBar
