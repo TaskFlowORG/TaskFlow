@@ -1,12 +1,11 @@
-import Select from "react-select";
+"use client";
 import { getListData, getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
 export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [user, setUser] = useState({});
-  const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [selectedPermission, setSelectedPermission] = useState({});
   const [permissions, setPermissions] = useState([]);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const getLists = async () => {
@@ -17,20 +16,18 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
     };
 
     getLists();
-  }, []);
+  }, [userId, groupId, projectId]);
 
-  const handlePermissionChange = (selectedOptions) => {
-    setSelectedPermissions(selectedOptions);
-    user.permission = selectedOptions.permission
+  const findPermission = (selectedValue) => {
+    const selectedPermissionToAdd = permissions.find(permission => permission.permission === selectedValue);
+    setSelectedPermission(selectedPermissionToAdd);
     updatePermission()
-    console.log(selectedOptions)
-
   };
 
   async function updatePermission() {
-    //Não é a requisição certa, pero que si pero que no, devo arrumar amanhâ aa!
-   await putData("group/user/" + groupId, user);
-   console.log("tô")
+    console.log(selectedPermission)
+    user.permission=selectedPermission;
+    await putData("group/user/" + groupId, user.permission);
     alert('Permissões atualizadas com sucesso');
   }
 
@@ -44,21 +41,21 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
           </div>
           <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
             <p>|</p>
-            <Select
-              className=' mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
+            <select
+              className='selectGroup w-[75%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
               name="permission"
               id="permission"
-              isMulti
-              onChange={handlePermissionChange}
-              value={selectedPermissions}
-              options={permissions.map(permission => ({
-                value: permission.permission,
-                label: permission.name
-              }))}
-              menuIsOpen={isMenuOpen}
-              onMenuOpen={() => setIsMenuOpen(true)}
-              onMenuClose={() => setIsMenuOpen(false)}
-            />
+              value={selectedPermission} 
+              onChange={(e) => findPermission(e.target.value)}
+            >
+              <option value="" disabled>Permissão</option>
+              {permissions.map(permission => (
+                <option key={permission.id} value={permission.permission}>
+                  {permission.name}
+                </option>
+              ))}
+            </select>
+
           </div>
         </div>
       </div>

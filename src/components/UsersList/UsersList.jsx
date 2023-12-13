@@ -23,8 +23,6 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
   }, [key]);
 
   const findUser = () => {
-    console.log("cliquei")
-    console.log(text)
     setText('')
     const user = users.find((u) => u.name.toLowerCase() === text.toLowerCase());
     if (user) {
@@ -63,6 +61,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
 
     const updatedUsersGroup = [...usersGroup, newUser];
     setUsersGroup(updatedUsersGroup);
+    await putData("group/user/" + id, newUser);
     setNewUser({});
   };
 
@@ -112,8 +111,9 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
                 userId={u.id}
                 projectId={projectId}
                 key={u.id}
-              />
+              /> 
             ))}
+            
           </div>
 
           <button

@@ -30,7 +30,7 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
                 </div>
                 <div className="flex justify-end">
                     <select
-                        className='selectGroup mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
+                        className='selectGroup w-[60%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
                         name="permission"
                         id="permission"
                         onChange={handlePermissionChange}
