@@ -1,4 +1,4 @@
-"use client";
+
 
 import { CardDate } from "./CardProperties/CardDate";
 
@@ -23,14 +23,12 @@ interface Props {
 }
 export const CardContent = ({ task, min }: Props) => {
   const [properties, setProperties] = useState<TaskValue[]>([]);
-  console.log(task);
+
 
   function is(property: TaskValue, type: TypeOfProperty) {
-    console.log(property.property.type, property.property.visible)
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-    console.log(type)
     return property.property.type == type && property.property.visible == true;
   }
+
 
   return (
     <>
@@ -44,7 +42,7 @@ export const CardContent = ({ task, min }: Props) => {
       </div>
       <div className="flex flex-wrap gap-4 justify-between">
         {task.properties?.map((property) => {
-          console.log(property);
+        
           if (is(property, TypeOfProperty.TEXT)) {
             return (
               <CardText
