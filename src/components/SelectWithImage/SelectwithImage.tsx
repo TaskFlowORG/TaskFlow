@@ -24,15 +24,16 @@ export const SelectWithImage = ({ list, onChange, selected }: Props) => {
 
     return (
         <div ref={ref} className={" rounded-sm relative gap-2 flex w-8 flex-col items-center overflow-clip pt-2 duration-200 " + 
-        (show ? "shadow-blur-10 h-44 bg-white dark:bg-back-grey":"  h-full")}>
+        (show ? "shadow-blur-10 h-[10.7rem] bg-white dark:bg-back-grey":"  h-full")}>
             <div onClick={() => setShow(!show)} >
                 {list.filter(item => item.value === selected)[0].image}
             </div>
             <If condition={show}>
-                <div className="w-8 h-min border-t-2 border-input-grey z-20 dark:border-modal-grey flex-col absolute flex top-10 p-2 gap-2 items-center">
+                <div className="w-8 h-min border-t-2 border-input-grey z-20 dark:border-modal-grey flex-col absolute flex top-10 items-center">
                     {
                         list.map((item, index) => (
-                            <div key={index} onClick={() => {onChange(item.value); setShow(false)}}>
+                            <div key={index} className="hover:bg-zinc-200 hover:dark:bg-zinc-600 px-2 py-1 bg-white dark:bg-back-grey  " 
+                            onClick={() => {onChange(item.value); setShow(false)}}>
                                 {item.image}
                             </div>
                         ))

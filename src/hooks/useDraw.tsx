@@ -96,7 +96,7 @@ shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:
         window.removeEventListener('mouseup', mouseUpHandler)
       }
 
-  }, [onDraw, shape, mouseDown])
+  }, [onDraw, shape, mouseDown, isErasing])
 
   return { canvasRef, clear }
 }

@@ -7,8 +7,11 @@ type Draw = {
   };
 
 export function drawLine({ prevPoint, currentPoint, ctx }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) {
-    const { x: currX, y: currY } = currentPoint;
-    const { x: prevX, y: prevY } = prevPoint ?? currentPoint;
+    let { x: currX, y: currY } = currentPoint;
+    let { x: prevX, y: prevY } = prevPoint ?? currentPoint;
+    //Diference because the size of cursor
+    prevY += 20;
+    currY += 20;
 
     if (isErasing) {
       ctx.globalCompositeOperation = "destination-out";

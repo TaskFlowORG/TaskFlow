@@ -150,7 +150,7 @@
   -webkit-text-stroke: 1px #fcfcfc;
 }
 
-/* Estilizando a bolinha (thumb) */
+
 input[type="range"] {
   @apply overflow-hidden bg-zinc-300 dark:bg-back-grey h-3 rounded-full my-7 z-10;
   -webkit-appearance: none;
@@ -160,7 +160,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  @apply h-1 w-1 cursor-pointer bg-primary z-10 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
+  @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
   box-shadow: ;
 }
 input[type="range"]::-moz-range-progress {
@@ -169,13 +169,13 @@ input[type="range"]::-moz-range-progress {
 input[type="range"]::-moz-range-track {
   @apply bg-zinc-200 dark:bg-back-grey;
 }
-/* IE*/
 input[type="range"]::-ms-fill-lower {
   @apply bg-zinc-200 dark:bg-back-grey;
 }
 input[type="range"]::-ms-fill-upper {
   @apply bg-zinc-200 dark:bg-back-grey;
 }
+
 
 .shadowww {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);

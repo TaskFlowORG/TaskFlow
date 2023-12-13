@@ -13,6 +13,7 @@ import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { drawLine } from "@/functions";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
+import { useTheme } from "next-themes";
 
 
 type Draw = {
@@ -34,41 +35,40 @@ const page: FC<pageProps> = ({ }) => {
   const [shape, setShape] = useState<string>("line");
   const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, lineColor, isErasing);
   const {elementRef} = useNavigationWithScroll()
+  const { theme, setTheme } = useTheme();
+  
+
+  const style = {
+     cursor:"url('"+( isErasing ? theme == "dark"? "/img/eraserDark.svg": "/img/eraserLight.svg" 
+     : theme == "dark"? "/img/pencilDark.svg": "/img/pencilLight.svg") + "'), auto"
+  }
+  console.log(style)
 
   return (
-    <div ref ={elementRef}>
+    <div ref ={elementRef} style={style}>
       <canvas
         ref={canvasRef}
         width={4000}
         height={2000}
         className="relative"
       ></canvas>
-      <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around
-       bg-input-grey rounded-t-2xl h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
+      <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl 
+      h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
           <If condition={isErasing}>
             <Eraser />
             <Pencil />
           </If>
         </button>
-        <input
-          type="range"
-          max={50}
-          min={2}
-          value={lineWidth}
-          className=" -rotate-90 w-16 h-16 z-10"
-          onChange={(e) => setLineWidth(parseInt(e.target.value))}
-        />
+        <input type="range" max={50} min={2} value={lineWidth} 
+        className=" -rotate-90 w-16 h-16 z-30" onChange={(e) => setLineWidth(parseInt(e.target.value))}/>
         <div className="w-8 h-8 bg-transparent flex ">
           <SelectWithImage list={[{ value: "line", image: <Line /> }, { value: "square", image: <Square /> }, { value: "circle", image: <Circle /> }, { value: "triangle", image: <Triangle /> }]}
             selected={shape} onChange={s => setShape(s)} />
         </div>
         <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: lineColor }}>
-          <input
-            type="color"
-            value={lineColor}
-            className="w-6 h-6 opacity-0"
-            onChange={(e) => setLineColor(e.target.value)}
+          <input type="color" value={lineColor}
+            className="w-6 h-6 opacity-0" onChange={(e) => setLineColor(e.target.value)}
           />
         </span>
         <button onClick={() => clear()}><Broom /></button>
@@ -78,7 +78,6 @@ const page: FC<pageProps> = ({ }) => {
       {tasks.map((t, index) => (
         <TaskCanvasComponent task={t} key={index} />
       ))}
- 
     </div>
   );
 };
