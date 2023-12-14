@@ -23,8 +23,9 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)
-    const topFocus = y/(2000/windowHeight) + 64
-    const leftFocus = x/(4000/windowWidth) + 8
+    const topFocus = (((width/2)*y)/2000) + 64
+    const leftFocus = ((width*x)/4000) + 8
+
     
 
     const style = {
