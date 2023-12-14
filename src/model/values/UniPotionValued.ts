@@ -2,7 +2,7 @@ import { Option } from "../Properties/Option";
 import { Value } from "./Value";
 
 export class UniOptionValued extends Value{
-    uniOption: Option;
+    uniOption: Option | null;
 
     constructor(id: number, value: Option){
         super(id, value );

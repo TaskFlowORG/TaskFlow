@@ -33,7 +33,7 @@ export const CardContent = ({ task, min }: Props) => {
   return (
     <>
       <div className="flex justify-between">
-        <h4 className="h4 w-max text-black dark:text-white">{task.name}</h4>
+        <h4 style={{opacity: task.name ? 1 : 0.25}} className="h4 w-max text-black dark:text-white">{task.name ?? "Sem Nome"}</h4>
         <div className="  flex items-center relative w-16">
           <span className="w-8 h-8 rounded-full bg-primary absolute shadowww  right-8"></span>
           <span className="w-8 h-8 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
@@ -61,8 +61,9 @@ export const CardContent = ({ task, min }: Props) => {
             return (
               <CardSelect
                 property={property.property.name}
+                color={(property.value as UniOptionValued).value?.color}
                 key={property.property.id.toString()}
-                value={(property.value as UniOptionValued).value.name}
+                value={(property.value as UniOptionValued).value?.name ?? "Não marcada"}
               />
             );
           } else if (is(property, TypeOfProperty.TAG)) {

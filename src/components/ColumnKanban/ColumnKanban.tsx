@@ -12,12 +12,13 @@ import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
 import { UniOptionValued } from "@/model/values/UniPotionValued";
 import { Option } from "@/model/Properties/Option";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { TaskCanvas } from "@/model/relations/TaskCanvas";
 
 interface Props {
   color?: String;
   option?: Option;
   propertyId?: Number;
-  tasks: Task[];
+  tasks: TaskCanvas[];
   verify?: boolean;
 }
 
@@ -53,38 +54,43 @@ export const ColumnKanban = ({
   // }, [color, option, tasks]);
   return (
     <div
-      className="w-min min-w-[360px] flex lg:flex-col gap-4   brightness-[0.95] hover:brightness-[1]"
+      className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: "FF0000" }}
+          style={{ backgroundColor: (option?.color as string) ?? "FF0000" }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
           {option?.name}
         </h4>
       </div>
-      <div className="rounded-full">
+      <div className="rounded-full h-full">
         <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
           {(provided, snapshot) => {
             return (
               <div
-                {...provided.droppableProps}
                 ref={provided.innerRef}
                 style={{
-                  borderRadius: 8,
+                  opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
+                  borderRadius: 16,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "24px",
                   background: snapshot.isDraggingOver
-                    ? "lightblue"
-                    : "lightgrey",
+                    ? (option?.color as string) ?? "#F04a94"
+                    : "none",
                 }}
+                {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
                   return (
                     <Draggable
                       draggableId={`${item.id}`}
                       key={`${item.id}`}
-                      index={index}
+                      index={item.id as number}
                     >
                       {(provided, snapshot) => {
                         return (
@@ -92,9 +98,12 @@ export const ColumnKanban = ({
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
+                            style={{
+                              ...provided.draggableProps.style,
+                            }}
                           >
-                            <RoundedCard>
-                              <CardContent task={item} />
+                            <RoundedCard color={option?.color}>
+                              <CardContent task={item.task as Task} />
                             </RoundedCard>
                           </div>
                         );

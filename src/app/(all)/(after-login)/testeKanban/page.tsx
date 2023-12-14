@@ -14,22 +14,26 @@ import { Option } from "@/model/Properties/Option";
 import { UniOptionValued } from "@/model/values/UniPotionValued";
 import { Task } from "@/model/tasks/Task";
 import { TaskValue } from "@/model/relations/TaskValue";
+import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { TextValued } from "@/model/values/TextValued";
+import { TaskCanvas } from "@/model/relations/TaskCanvas";
 
 export default function otherTry() {
-  const [s, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
   const [id, setId] = useState<Number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [paged, setPage] = useState<Page | null>(null);
+  const [page, setPage] = useState<Page | null>(null);
 
   useEffect(() => {
     (async () => {
       const pg: CommonPage = await getPage("page", 1);
-      console.log(pg);
       setTasks(pg.tasks);
+      console.log(1);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
+      console.log();
     })();
   }, []);
 
@@ -37,59 +41,50 @@ export default function otherTry() {
     if (!result.destination) return;
     const { source, destination } = result;
 
-    if (source.droppableId !== destination.droppableId) {
-      const finded: Task | undefined = s.find((task) => {
-        return task.id == result.draggableId;
-      });
-      console.log(finded);
-      //       let property:TaskValue | undefined = finded?.properties?.find((property)=>{
-      // return property.id == id
-      //       })
+    const optionOrder = options.find((option) => {
+      return option.id == destination.droppableId;
+    });
 
-      if (finded?.properties != undefined)
-        for (let property of finded?.properties) {
-          if (property.property.id == id) {
-            let propa: UniOptionValued = property?.value as UniOptionValued;
+    const draggedTask: TaskCanvas | undefined = tasks.find((task) => {
+      return task?.id == result.draggableId;
+    });
 
-            propa.uniOption = new Option(2, "Doing", "#FF0000");
-            postt(finded)
-          }
-        }
+    const copiedItems = [...tasks];
 
-      async function postt(task: Task) {
-        await putData("task", task);
+    const property: TaskValue | undefined = draggedTask?.task?.properties?.find(
+      (property) => {
+        return property.property.id == id;
       }
+    );
+    const valueOfTaskInOrderingProperty: UniOptionValued =
+      property?.value as UniOptionValued;
 
-      console.log(finded);
+    const properties: TaskValue[] =
+      draggedTask?.task?.properties?.filter((property) => {
+        return property.property?.type == TypeOfProperty.TEXT;
+      }) ?? [];
 
-      //   putData("task", finded)
-      //   const sourceColumn: Column = columns.find(
-      //     (column) => column.id == source.droppableId
-      //   );
-      //   const destColumn: Column = columns.find(
-      //     (column) => column.id == destination.droppableId
-      //   );
-
-      //   const sourceItems = [...sourceColumn.items];
-      //   const destItems = [...destColumn.items];
-      //   const [removed] = sourceItems.splice(source.index, 1);
-      //   destItems.splice(destination.index, 0, removed);
-      //   sourceColumn.items = sourceItems;
-      //   destColumn.items = destItems;
-      //   columns[columns.indexOf(sourceColumn)] = sourceColumn;
-      //   columns[columns.indexOf(destColumn)] = destColumn;
-      //   setColumns([...columns]);
-    } else {
-      //   const column: Column = columns.find(
-      //     (column) => column.id == source.droppableId
-      //   );
-      //   const copiedItems = [...column.items];
-      //   const [removed] = copiedItems.splice(source.index, 1);
-      //   copiedItems.splice(destination.index, 0, removed);
-      //   column.items = copiedItems;
-      //   columns[columns.indexOf(column)] = column;
-      //   setColumns([...columns]);
+    properties.map((property) => {
+      return ((property.value as TextValued).text = property.value.value);
+    });
+    valueOfTaskInOrderingProperty.uniOption = optionOrder ?? null;
+    valueOfTaskInOrderingProperty.value = optionOrder ?? null;
+    if (draggedTask) {
+      postt(draggedTask.task as Task);
     }
+
+    async function postt(task: Task) {
+      await putData("task", task);
+    }
+
+    const [removed] = copiedItems.splice(source.index, 1);
+    copiedItems.splice(destination.index, 0, removed);
+
+    // No corpo passa a page, de indice, primeiro a task, e depois indice que ela estará
+    setTasks(copiedItems);
+    const copiedColumns = [...options];
+    setOptions(copiedColumns);
+    console.log(tasks);
   };
 
   return (
@@ -97,9 +92,9 @@ export default function otherTry() {
       <div className="flex gap-5 items-end pb-16 justify-center    h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
-          onClick={() => console.log(paged)}
+          onClick={() => console.log(page)}
         >
-          {paged?.name}
+          {page?.name}
         </h1>
         <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
           <p className="p text-primary text-4xl h-min w-min">+</p>
@@ -116,12 +111,13 @@ export default function otherTry() {
             return (
               <ColumnKanban
                 key={`${option.id}`}
-                tasks={s.filter((task) => {
-                  return task.properties?.some((property) => {
+                tasks={tasks.filter((task) => {
+                  return task?.task?.properties?.some((property) => {
                     // console.log(option,(property.value as UniOptionValued).value?.name )
                     return (
                       property.property.id == id &&
-                      (property.value as UniOptionValued).value.id == option?.id
+                      (property.value as UniOptionValued).value?.id ==
+                        option?.id
                     );
                   });
                 })}
@@ -132,6 +128,23 @@ export default function otherTry() {
               />
             );
           })}
+          {
+            <ColumnKanban
+              key={0}
+              tasks={tasks.filter((task) => {
+                return task?.task?.properties?.some((property) => {
+                  // console.log(option,(property.value as UniOptionValued).value?.name )
+                  return (
+                    property.property.id == id &&
+                    (property.value as UniOptionValued).value == null
+                  );
+                });
+              })}
+              propertyId={id}
+              color="#767867"
+              option={new Option(0, "Não Marcadas", "#767867")}
+            />
+          }
         </div>
       </DragDropContext>
     </div>
