@@ -1,6 +1,7 @@
 
 import { useTheme } from "next-themes";
 import { LegacyRef, useEffect, useRef, useState } from "react";
+import { set } from "zod";
 
 export const useNavigationWithScroll = () => {
     const elementRef = useRef<HTMLDivElement>(null)
@@ -9,6 +10,8 @@ export const useNavigationWithScroll = () => {
     const [oldCursor, setOldCursor] = useState('')
     const [prevY, setPrevY] = useState(0);
     const{theme, setTheme} = useTheme()
+    const [scrollX, setScrollX] = useState(0);
+    const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
 
@@ -49,13 +52,16 @@ export const useNavigationWithScroll = () => {
             if(!elementRef.current) return
             elementRef.current.style.cursor = oldCursor
             setMouseDown(false)
+            setPrevX(window.scrollX + e.pageX);
+            setPrevY(window.scrollY + e.pageY);
+            setScrollX(window.scrollX)
+            setScrollY(window.scrollY)
         }
 
         window.addEventListener("mousedown", handleMouseDown)
         window.addEventListener("mousemove", handleMouseMove)
         window.addEventListener("mouseup", handeMouseUp)
         window.addEventListener("wheel", whileWheel)
-
 
         return () => {
             window.removeEventListener("mousedown", handleMouseDown)
@@ -65,5 +71,5 @@ export const useNavigationWithScroll = () => {
         }
     }, [elementRef, mouseDown, theme])
 
-    return { elementRef }
+    return { elementRef, scrollX, scrollY }
 }

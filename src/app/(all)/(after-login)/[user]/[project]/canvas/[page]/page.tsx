@@ -14,6 +14,7 @@ import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { drawLine } from "@/functions";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { useTheme } from "next-themes";
+import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
 
 
 type Draw = {
@@ -31,10 +32,13 @@ const page: FC<pageProps> = ({ }) => {
   const [lineWidth, setLineWidth] = useState<number>(5);
   const [lineColor, setLineColor] = useState<string>("#000000");
   const optionsRef = useRef<HTMLDivElement>(null);
-  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
+  const [tasks, setTasks] = useState<TaskCanvas[]>([
+    new TaskCanvas(1, new Task(1, "Task 1", true, true, null, null, null, null), null, 100, 50),
+    new TaskCanvas(2, new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100),
+  ]);
   const [shape, setShape] = useState<string>("line");
   const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, lineColor, isErasing);
-  const {elementRef} = useNavigationWithScroll()
+  const {elementRef, scrollX:x, scrollY:y} = useNavigationWithScroll()
   const { theme, setTheme } = useTheme();
   
 
@@ -44,13 +48,15 @@ const page: FC<pageProps> = ({ }) => {
   }
 
   return (
-    <div ref ={elementRef} style={style}>
+    <div ref ={elementRef} style={style} className="overflow-scroll flex justify-start items-start w-min h-min ">
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} />
+    
       <canvas
         ref={canvasRef}
         width={4000}
         height={2000}
-        className="relative"
-      ></canvas>
+        className="relative w-[4000px] h-[2000px]"
+      />
       <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
       h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>

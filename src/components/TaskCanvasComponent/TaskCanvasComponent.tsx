@@ -3,7 +3,8 @@
 import { TaskCanvas } from "@/model/relations/TaskCanvas"
 import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
-import {useState, useRef, DragEvent} from "react"
+import {useState, useRef, DragEvent, MouseEvent, useEffect} from "react"
+import { useTheme } from "next-themes"
 
 
 
@@ -16,37 +17,43 @@ export const TaskCanvasComponent = ({task}:Props) => {
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
+    const[isDragging, setIsDragging] = useState<boolean>(false)
+    const{theme, setTheme} = useTheme()
     const elementRef = useRef<HTMLDivElement>(null);
 
     const style:Object = {
-        top : y+"%",
-        left : x+"%"
+        cursor: theme == "dark"? "url('/img/grabDark.svg'), auto" : "url('/img/grabLight.svg'), auto" ,
+        top : y,
+        left : x,
     }
 
-    function changeXandY(e:DragEvent<HTMLDivElement>){
+    function changeXandY(e:MouseEvent<HTMLDivElement | MouseEvent>){
+        if(!isDragging) return
         e.preventDefault()
         if(elementRef.current === null) return  
-        const offsetX = e.clientX - elementRef.current.clientWidth/2
-        const offsetY = e.clientY - elementRef.current.clientHeight/2
-        
-        const percentageX = offsetX/window.innerWidth*100
-        const percentageY = offsetY/window.innerHeight*100
-        if(percentageX > 1 && percentageX < 85) {
-            setX(percentageX)
-        }
-        if(percentageY > 5 && percentageY < 100){
-            setY(percentageY)
-        }
-    }
+        const offsetX = window.scrollX + e.clientX - elementRef.current.clientWidth/2
+        const offsetY = window.scrollY + e.clientY - elementRef.current.clientHeight/2
 
-    function removeGhost(e:DragEvent<HTMLDivElement>){
-        const ghostImage = new Image();
-        ghostImage.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABXElEQVR42mL8//8/AyURP6Ksgx3oDAzQA6oU2GLiqAVxGbgTWcEPsCIzIyWskBoFwZoh0GkAwMEJyQFOwYOQPYIE2BthFuGwBwKtA9gcRRiwCmEXYRnwCGmAQdBFoCnIyD8QFgAWvA0wwA1AAE9QMgThmQA0yCXrAkQMv0DDQBJMIgS1BDQCY1IuYFAFHAazAJwDVQISkBS4BqgPqkAHAakAbIMjyIYADP9AAkAAmwQ9SAIzIyWwAowFowT6FBMRCgCLyDgFUKL0YAcAo8AOkJAhBUBGQCRaR8EG8IRCBJ4R6gDpAGQJFhwCHAEeQFHtYJhIACMKYjyINwCmEIqA2YKsZBojBwGNoA9AgDoA9gEZAHYCgAADPAF8jGL8vH9UAAAAASUVORK5CYII=';
-        e.dataTransfer.setDragImage(ghostImage, 0, 0);
+        console.log(e.clientX)
+        console.log("scroll", window.scrollX)
+
+        if(offsetX > 0 && offsetX < 3700) {
+            setX(offsetX)
+        }
+        if(offsetY > 56 && offsetY < 2000){
+            setY(offsetY)
+        }
     }
+    useEffect(()=> {
+        window.addEventListener("mouseup", () => setIsDragging(false))
+        return () => {
+            window.removeEventListener("mouseup", () => setIsDragging(false))
+        }
+    }, [isDragging])
+
     return(
-        <div className="w-min h-min p-2 absolute transition-none" draggable onDragStart={e => removeGhost(e)}
-        onDrag={e => changeXandY(e)} style={style} ref={elementRef}>
+        <div className="w-min h-min p-2 absolute transition-none" onMouseDown={() => setIsDragging(true)}
+        onMouseMove={e => changeXandY(e)} style={style} ref={elementRef} >
             <RoundedCard>
                 {/* <CardContent task={task.task} /> */}
                 <p>{task.task?.name}</p>

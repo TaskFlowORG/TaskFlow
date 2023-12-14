@@ -68,6 +68,7 @@ shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:
       if(testIfInOptions({x:e.screenX, y:e.screenY}, e)) {
         return null
       }
+      console.log(x)
       return { x, y }
     }
 

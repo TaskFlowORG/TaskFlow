@@ -44,6 +44,7 @@ export const SelectedArea = ({ canvasRef, shape }: { canvasRef?: LegacyRef<HTMLC
         if (typeof canvasRef === "string" || typeof canvasRef === "function") return
 
         canvasRef.current?.addEventListener('mousedown', (e) => {
+            if(e.button == 1) return
             setPrevX(e.pageX)
             setPrevY(e.pageY)
             setCurrX(e.pageX)
