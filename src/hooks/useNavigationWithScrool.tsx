@@ -21,8 +21,8 @@ export const useNavigationWithScroll = () => {
             e.preventDefault()
             if (e.button != 1) return
             setMouseDown(true)
-            setPrevX(window.scrollX + e.pageX);
-            setPrevY(window.scrollY + e.pageY);
+            setPrevX(elementRef.current?.scrollLeft + e.pageX);
+            setPrevY(elementRef.current?.scrollTop + e.pageY);
             setOldCursor(getComputedStyle(elementRef.current).cursor)
             elementRef.current.style.cursor = "url('"+(theme == "dark" ? "/img/grabDark.svg" : "/img/grabLight.svg")+"'), auto"
         }
@@ -30,44 +30,44 @@ export const useNavigationWithScroll = () => {
             if(!mouseDown) return
             if(!elementRef.current) return
         
-            const currentX = window.scrollX + e.pageX;
-            const currentY = window.scrollY + e.pageY;
+            const currentX = elementRef.current?.scrollLeft + e.pageX;
+            const currentY = elementRef.current?.scrollTop + e.pageY;
 
             const difX = prevX - currentX;
             const difY = prevY - currentY;
 
-            const deltaX =  window.scrollX + difX;
-            const deltaY =  window.scrollY + difY;
+            const deltaX =  elementRef.current?.scrollLeft + difX;
+            const deltaY =  elementRef.current?.scrollTop + difY;
 
-            window.scrollTo({left:deltaX, top:deltaY})
+            elementRef.current?.scrollTo({left:deltaX, top:deltaY})
 
         }
         const whileWheel = (e:WheelEvent) => {
             e.preventDefault();
-            if(!window) return
-            window.scrollTo({ left:(window.scrollX + e.deltaX), top:(window.scrollY + e.deltaY)})
+            if(!elementRef.current) return
+            elementRef.current?.scrollTo({ left:(elementRef.current?.scrollLeft + e.deltaX), top:(elementRef.current?.scrollTop + e.deltaY)})
         }
         const handeMouseUp = (e:MouseEvent) => {
             if(e.button != 1) return
             if(!elementRef.current) return
             elementRef.current.style.cursor = oldCursor
             setMouseDown(false)
-            setPrevX(window.scrollX + e.pageX);
-            setPrevY(window.scrollY + e.pageY);
-            setScrollX(window.scrollX)
-            setScrollY(window.scrollY)
+            setPrevX(elementRef.current?.scrollLeft + e.pageX);
+            setPrevY(elementRef.current?.scrollTop + e.pageY);
+            setScrollX(elementRef.current?.scrollLeft)
+            setScrollY(elementRef.current?.scrollTop)
         }
 
-        window.addEventListener("mousedown", handleMouseDown)
-        window.addEventListener("mousemove", handleMouseMove)
+        elementRef.current?.addEventListener("mousedown", handleMouseDown)
+        elementRef.current?.addEventListener("mousemove", handleMouseMove)
         window.addEventListener("mouseup", handeMouseUp)
-        window.addEventListener("wheel", whileWheel)
+        elementRef.current?.addEventListener("wheel", whileWheel)
 
         return () => {
-            window.removeEventListener("mousedown", handleMouseDown)
-            window.removeEventListener("mousemove", handleMouseMove)
+            elementRef.current?.removeEventListener("mousedown", handleMouseDown)
+            elementRef.current?.removeEventListener("mousemove", handleMouseMove)
             window.removeEventListener("mouseup", handeMouseUp)
-            window.removeEventListener("wheel", whileWheel)
+            elementRef.current?.removeEventListener("wheel", whileWheel)
         }
     }, [elementRef, mouseDown, theme])
 
