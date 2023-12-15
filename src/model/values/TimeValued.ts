@@ -1,11 +1,11 @@
 import { Value } from "./Value";
 
 export class TimeValued extends Value{
-    value: TimeRanges;
+    time: TimeRanges;
 
     constructor(id: number, value: TimeRanges){
-        super(id);
-        this.value = value;
+        super(id, value);
+        this.time = value;
     }
 
     getValue(): any {

@@ -1,9 +1,13 @@
 export abstract class Value{
     id: Number
+    value:any
 
-    constructor(id: Number){
+    constructor(id: Number, value:any){
         this.id = id;
+        this.value = value
     }
 
-    abstract getValue():any;
+     getValue():any{
+     return this.value   
+     };
 }

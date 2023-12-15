@@ -25,9 +25,9 @@ export const Obj = ({ objs, max, functionObj }:Props) => {
                     :
                     objs.map(o => {
                         if (objs.indexOf(o) > max) {
-                            return <div className={style} key={o.id} > {o.image && <img src={o.image} />}</div>
+                            return <div className={style} key={o.id}> {o.image && <img src={o.image} />}</div>
                         } else if (objs.indexOf(o) == max) {
-                            return <div className={style} key={o.id} >+</div>
+                            return <div className={style} key={o.id}>+</div>
                         }
                     })
             }
