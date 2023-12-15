@@ -1,11 +1,19 @@
 import { ChatGetDTO } from '@/model/chat/ChatGetDTO';
+import { CommonPage } from '@/model/pages/CommonPage';
+import { Page } from '@/model/pages/Page';
+import { AxiosResponse } from 'axios';
 
-export { getData, getListData, putData, getListChat, getSingleChat }
+export { getData, getListData, putData, getListChat, getSingleChat, getPage }
 
 const axios = require('axios').default;
 
 async function getData(table: String, paramether: Number) {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
+}
+async function getPage(table: String, paramether: Number):Promise<CommonPage> {
+
+    return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data
+
 }
 
 
@@ -65,7 +73,7 @@ async function postData(table, object) {
   return await axios.post("http://localhost:9999/" + table, object);
 }
 async function putData(table, object) {
-  return await axios.put("http://localhost:9999/" + table, object);
+  return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
 async function deleteData(table, id) {
   return await axios.delete("http://localhost:9999/" + table + "/" + id);

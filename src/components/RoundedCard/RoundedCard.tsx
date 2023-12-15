@@ -19,20 +19,20 @@ export const RoundedCard = ({
 }: Props) => {
   const { theme, setTheme } = useTheme();
   let style: Object = {};
-
   if (theme == "light") {
     style = {
-      borderColor: color ? color : "#0000FF",
+      borderColor: color ?? "#F04A94",
     };
   } else {
     style = {
-      borderColor: dark ? dark : color ? color : "#FF0000",
+      borderColor: dark ? dark : color ?? "#f76858",
     };
   }
 
   return (
     <div
-      className={` border-l-8 dark:bg-modal-grey shadowww w-full min-w-[300px]  rounded-lg bg-white p-4 flex flex-col justify-between gap-4 max-w-[440px]`}
+      style={style}
+      className={` border-l-8 cursor-pointer  dark:bg-modal-grey shadowww w-full min-w-[300px]  rounded-lg bg-white p-4 flex flex-col justify-between gap-4 max-w-[440px]`}
       onClick={() => {
         changeImage && changeImage();
       }}
