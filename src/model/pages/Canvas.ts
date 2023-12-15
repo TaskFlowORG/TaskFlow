@@ -1,9 +1,9 @@
 import { TaskCanvas } from "../relations/TaskCanvas";
 
 export class Canvas {
-      draw : String;
+      draw : string;
 
-        constructor(draw:String){
+        constructor(draw:string){
             this.draw=draw;
         }
         

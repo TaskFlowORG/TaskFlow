@@ -6,20 +6,20 @@ import { Permission } from "./Permission";
 
 export class Project {
 
-    id: Number;
-    name: String;
+    id: number;
+    name: string;
 
-    description: String;
+    description: string;
     deadline: Date;
     visualizedAt:Date;
-    picture: String;
+    picture: string;
     groups: Array<Group>;
     owner: User;
     pages: Array<Page>;
     properties: Array<Property>; 
 
 
-    constructor(id: Number, name: String, description: String, deadline: Date, visualizedAt:Date, picture: String, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>) {
+    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -7,17 +7,17 @@ export { getData, getListData, putData, getListChat, getSingleChat, getPage }
 
 const axios = require('axios').default;
 
-async function getData(table: String, paramether: Number) {
+async function getData(table: string, paramether: number) {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
-async function getPage(table: String, paramether: Number):Promise<CommonPage> {
+async function getPage(table: string, paramether: number):Promise<CommonPage> {
 
     return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data
 
 }
 
 
-async function getListData(table: String) {
+async function getListData(table: string) {
   try {
     const response = await axios.get("http://localhost:9999/" + table);
     return response.data;
@@ -26,7 +26,7 @@ async function getListData(table: String) {
   }
 }
 
-async function getListChat(type: String, userId: Number) {
+async function getListChat(type: string, userId: number) {
   try {
     const response = await axios.get("http://localhost:9999/chat/" + type + "/" + userId);
     const array = []
@@ -35,7 +35,7 @@ async function getListChat(type: String, userId: Number) {
       const name = chat.name;
       const picture = chat.picture;
       const messages = chat.messages;
-      const quantitityUnvisualized: Number = chat.quantitityUnvisualized;
+      const quantitityUnvisualized: number = chat.quantitityUnvisualized;
       const lastMessage = chat.lastMessage;
       array.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage))
     }
@@ -45,7 +45,7 @@ async function getListChat(type: String, userId: Number) {
   }
 }
 
-async function getSingleChat(type: String, userId: Number, idBusca: number) {
+async function getSingleChat(type: string, userId: number, idBusca: number) {
   try {
     const response = await axios.get("http://localhost:9999/chat/" + type + "/" + userId);
     const info = []
@@ -54,7 +54,7 @@ async function getSingleChat(type: String, userId: Number, idBusca: number) {
       const name = chat.name;
       const picture = chat.picture;
       const messages = chat.messages;
-      const quantitityUnvisualized: Number = chat.quantitityUnvisualized;
+      const quantitityUnvisualized: number = chat.quantitityUnvisualized;
       const lastMessage = chat.lastMessage;
       
       if (chat.id == idBusca) {

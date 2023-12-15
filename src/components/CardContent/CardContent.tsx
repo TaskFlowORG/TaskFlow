@@ -46,14 +46,14 @@ export const CardContent = ({ task, min }: Props) => {
           if (is(property, TypeOfProperty.TEXT)) {
             return (
               <CardText
-                key={property.property.id.toString()}
+                key={property.property.id.tostring()}
                 text={(property.value as TextValued).value}
               />
             );
           } else if (is(property, TypeOfProperty.DATE)) {
             return (
               <CardDate
-                key={property.property.id.toString()}
+                key={property.property.id.tostring()}
                 date={property.value.getValue()}
               />
             );
@@ -62,21 +62,21 @@ export const CardContent = ({ task, min }: Props) => {
               <CardSelect
                 property={property.property.name}
                 color={(property.value as UniOptionValued).value?.color}
-                key={property.property.id.toString()}
+                key={property.property.id.tostring()}
                 value={(property.value as UniOptionValued).value?.name ?? "Não marcada"}
               />
             );
           } else if (is(property, TypeOfProperty.TAG)) {
             return (
               <CardTag
-                key={property.property.id.toString()}
+                key={property.property.id.tostring()}
                 tags={(property.value as MultiOptionValued).value}
               />
             );
           } else if (is(property, TypeOfProperty.RADIO)) {
             return (
               <CardRadio
-                key={property.property.id.toString()}
+                key={property.property.id.tostring()}
                 property={property.property.name}
                 value={property.value.getValue()}
               />

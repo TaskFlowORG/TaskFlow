@@ -3,13 +3,13 @@ import { Message } from "./Message";
 export class ChatGetDTO {
 
     id: number;
-    name: String;
-    picture: String;
+    name: string;
+    picture: string;
     messages: Array<Message>;
-    quantitityUnvisualized: Number;
+    quantitityUnvisualized: number;
     lastMessage: Message;
 
-    constructor(id: number, name: String, picture: String, messages: Array<Message>, quantitityUnvisualized: Number, lastMessage: Message) {
+    constructor(id: number, name: string, picture: string, messages: Array<Message>, quantitityUnvisualized: number, lastMessage: Message) {
         this.id = id;
         this.name = name;
         this.picture = picture;

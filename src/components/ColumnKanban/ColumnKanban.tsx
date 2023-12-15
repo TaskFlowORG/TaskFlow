@@ -15,9 +15,9 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
 
 interface Props {
-  color?: String;
+  color?: string;
   option?: Option;
-  propertyId?: Number;
+  propertyId?: number;
   tasks: TaskCanvas[];
   verify?: boolean;
 }
@@ -29,7 +29,7 @@ export const ColumnKanban = ({
   tasks,
   verify,
 }: Props) => {
-  const [colorUse, setColorUse] = useState<String>("");
+  const [colorUse, setColorUse] = useState<string>("");
   const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
 
   // useEffect(() => {

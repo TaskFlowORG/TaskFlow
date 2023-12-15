@@ -5,15 +5,15 @@ import { TaskCanvas } from "../relations/TaskCanvas";
 
 export class Page {
 
-    id: Number;
-    name: String;
+    id: number;
+    name: string;
     type: TypeOfPage;
     project: Project;
     properties: Array<Property>;
     tasks:Array<TaskCanvas>;
 
 
-    constructor(id: Number, name: String, type: TypeOfPage, project: Project, properties: Array<Property>, tasks:Array<TaskCanvas>) {
+    constructor(id: number, name: string, type: TypeOfPage, project: Project, properties: Array<Property>, tasks:Array<TaskCanvas>) {
 
         this.id = id;
         this.name = name;

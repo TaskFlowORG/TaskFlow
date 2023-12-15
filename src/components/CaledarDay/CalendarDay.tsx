@@ -54,7 +54,7 @@ export const CalendarDay = ({ date }:Props) => {
                 }
             </div>
             <div className="w-full h-4/5 flex items-end relative z-20 justify-end">
-                {String(date.day.getDate()).padStart(2, "0")}
+                {string(date.day.getDate()).padStart(2, "0")}
             </div>
             <If condition={compareDates(date.day, new Date())}>
                 <div className={`w-full h-full absolute bg-white z-10 dark:bg-back-grey opacity-75 border-[1px] 

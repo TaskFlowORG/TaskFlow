@@ -36,7 +36,7 @@ export const RegisterTaskModal = ({ open = false, listInputs = [], close }: Regi
                                 {listInputs.map((property) => {
                                     return (
                                         <>
-                                            {property.type.toString() == "TEXT" && <Input register={undefined} placeholder={property.name} classNameInput={''}></Input>}
+                                            {property.type.tostring() == "TEXT" && <Input register={undefined} placeholder={property.name} classNameInput={''}></Input>}
                                         </>
                                     )
                                 })}

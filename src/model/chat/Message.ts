@@ -5,12 +5,12 @@ export class Message {
 
 
     id: number;
-    value: String ;
+    value: string ;
     user: User ;
     dateTime: Date;
-    visualized: Boolean;
+    visualized: boolean;
 
-    constructor(id: number, value: String, user: User, dateTime: string, visualized: boolean) {
+    constructor(id: number, value: string, user: User, dateTime: string, visualized: boolean) {
         this.id = id;
         this.value = value;
         this.user = user;

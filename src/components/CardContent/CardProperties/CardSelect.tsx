@@ -6,7 +6,7 @@ import { useTheme } from "next-themes";
 
 interface Props{
   property:any,
-  value:String,
+  value:string,
   color: string
 }
 

@@ -1,4 +1,4 @@
-export const CardNumber = () => {
+export const Cardnumber = () => {
     return (
         <div>
             

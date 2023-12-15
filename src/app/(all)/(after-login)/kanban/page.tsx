@@ -15,7 +15,7 @@ import { Option } from "@/model/Properties/Option";
 export default function Kanban() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
-  const [id, setId] = useState<Number>(0);
+  const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
   const [paged, setPage] = useState<Page | null>(null);
   const [modal, setModal] = useState<boolean>(false);
@@ -61,7 +61,7 @@ export default function Kanban() {
             console.log(option);
             return (
               <ColumnKanban
-                key={option.id.toString()}
+                key={option.id.tostring()}
                 tasks={tasks}
                 propertyId={id}
                 color={option.color}

@@ -4,21 +4,21 @@ import { Permission } from "./Permission";
 import { Project } from "./Project";
 
 export class User {
-    id: Number;
-    name: String;
-    surname: String;
-    username: String;
-    password: String;
-    address: String;
-    picture: String;
-    mail: String;
-    phone: String;
-    description : String;
-    points: Number;
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    password: string;
+    address: string;
+    picture: string;
+    mail: string;
+    phone: string;
+    description : string;
+    points: number;
     configuration: Configuration;
     permissions: Array<Permission>;
 
-    constructor(id: Number, name: String, surname: String, username: String, password: String, address: String, picture: String, mail: String, phone: String, description: String, points: Number, configuration: Configuration, permissions: Array<Permission>) {
+    constructor(id: number, name: string, surname: string, username: string, password: string, address: string, picture: string, mail: string, phone: string, description: string, points: number, configuration: Configuration, permissions: Array<Permission>) {
         this.id = id;
         this.name = name;
         this.surname = surname;

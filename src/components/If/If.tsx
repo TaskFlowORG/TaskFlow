@@ -3,7 +3,7 @@ import { ReactElement, ReactNode, isValidElement } from "react"
 
 
 interface Props{
-    condition:Boolean,
+    condition:boolean,
     children?: ReactElement[] | ReactElement
 }
 export const If = ({condition, children}:Props): ReactElement => {

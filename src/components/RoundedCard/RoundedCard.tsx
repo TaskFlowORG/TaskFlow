@@ -1,11 +1,11 @@
 import { useTheme } from "next-themes";
 import { ReactNode } from "react";
 interface Props {
-  color?: String;
-  dark?: String;
+  color?: string;
+  dark?: string;
   children?: ReactNode;
   changeImage?: () => void;
-  choose?: String;
+  choose?: string;
   provider?: any;
 }
 

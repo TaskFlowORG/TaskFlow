@@ -3,7 +3,7 @@ import { Task } from "../tasks/Task";
 
 export class TaskCanvas {
 
-    id?:null | Number; 
+    id?:null | number; 
     task?:null | Task;
     x:number;
     y:number;

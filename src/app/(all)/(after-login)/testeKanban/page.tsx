@@ -25,7 +25,7 @@ import { TimeValued } from "@/model/values/TimeValued";
 export default function otherTry() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
-  const [id, setId] = useState<Number>(0);
+  const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
   const [page, setPage] = useState<Page | null>(null);
 

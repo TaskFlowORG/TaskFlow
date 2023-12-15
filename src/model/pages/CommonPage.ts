@@ -8,7 +8,7 @@ import { TaskCanvas } from "../relations/TaskCanvas";
 export class CommonPage extends Page {
     propertyOrdering: Property;
 
-    constructor(id: Number, name: String, type: TypeOfPage, project: Project, properties: Array<Property>, propertyOrdering: Property, tasks:Array<TaskCanvas>) {
+    constructor(id: number, name: string, type: TypeOfPage, project: Project, properties: Array<Property>, propertyOrdering: Property, tasks:Array<TaskCanvas>) {
         super(id, name, type, project, properties, tasks)
         this.propertyOrdering = propertyOrdering;
     }
