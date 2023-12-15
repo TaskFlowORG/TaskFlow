@@ -3,7 +3,7 @@ import { getListData } from '@/services/http/api';
 
 export const GroupAccess = ({ name, description, projectId, groupId }) => {
     const [permissions, setPermissions] = useState([]);
-    const [selectedPermissions, setSelectedPermissions] = useState([]);
+    const [selectedPermission, setSelectedPermission] = useState([]);
 
 
     useEffect(() => {
@@ -15,10 +15,20 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
         getList();
     }, []);
 
-    const handlePermissionChange = (event) => {
-        const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
-        setSelectedPermissions(selectedOptions);
+    //{projectId}{groupId}/{permission}
+
+    const findPermission = (selectedValue) => {
+        const selectedPermissionToAdd = permissions.find(permission => permission.permission === selectedValue);
+        setSelectedPermission(selectedPermissionToAdd);
+        updatePermission()
     };
+
+    async function updatePermission() {
+        console.log(selectedPermission)
+        user.permission = selectedPermission;
+        await putData("group/user/" + groupId, user);
+        alert('Permissões atualizadas com sucesso');
+    }
 
     return (
         <div className="flex gap-4 items-start">
@@ -30,11 +40,11 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
                 </div>
                 <div className="flex justify-end">
                     <select
-                        className='selectGroup mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
+                        className='selectGroup w-[75%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
                         name="permission"
                         id="permission"
-                        onChange={handlePermissionChange}
-                        value={selectedPermissions}
+                        value={selectedPermission}
+                        onChange={(e) => findPermission(e.target.value)}
                     >
                         <option value="" disabled>Permissão</option>
                         {permissions.map(permission => (
@@ -42,7 +52,6 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
                                 {permission.name}
                             </option>
                         ))}
-
                     </select>
                 </div>
             </div>

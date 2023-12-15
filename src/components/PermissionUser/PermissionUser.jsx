@@ -2,15 +2,15 @@
 import { getListData, getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
-export const PermissionUser = ({ groupId, userId, projectId }) => {
+export const PermissionUser = ({ groupId, userId, projectId, permissionId = 1 }) => {
   const [user, setUser] = useState({});
-  const [selectedPermissions, setSelectedPermissions] = useState([]);
+  const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     const getLists = async () => {
       const fetchedUser = await getData("user", userId);
-      const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
+      const fetchedPermissions = await getListData(`group/${groupId}/permissions/${projectId}`);
       setUser(fetchedUser);
       setPermissions(fetchedPermissions);
     };
@@ -18,14 +18,31 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
     getLists();
   }, [userId, groupId, projectId]);
 
-  const handlePermissionChange = (event) => {
-    const selectedOptions = Array.from(event.target.selectedOptions, (option) => option.value);
-    setSelectedPermissions(selectedOptions);
+  const findPermission = (selectedValue) => {
+    setSelectedPermission(selectedValue);
+    updatePermission();
   };
 
   async function updatePermission() {
+    console.log("Selected Permission:", selectedPermission);
+
+    // try {
+    user.permission = selectedPermission;
+
+    console.log("projectId:", projectId);
+    console.log("groupId:", groupId);
+    console.log("user.id:", user.id);
+    console.log("permissionId:", permissionId);
+
+    await putData("group/" + projectId + "/" + groupId + "/user/" + user.id + "/permission/" + permissionId, user);
+
     alert('Permissões atualizadas com sucesso');
+    // } catch (error) {
+    //   console.error("Erro ao atualizar permissões:", error);
+    //   alert('Erro ao atualizar permissões.');
+    // }
   }
+
 
   return (
     <div>
@@ -38,20 +55,20 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
           <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
             <p>|</p>
             <select
-              className='selectGroup mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
+              className='selectGroup w-[75%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
               name="permission"
               id="permission"
-              onChange={handlePermissionChange}
-              value={selectedPermissions}
-          
+              value={selectedPermission}
+              onChange={(e) => findPermission(e.target.value)}
             >
-              {!user.permission && <option value="" disabled>Permissão</option>}
+              <option value="" disabled>Permissão</option>
               {permissions.map(permission => (
                 <option key={permission.id} value={permission.permission}>
                   {permission.name}
                 </option>
               ))}
             </select>
+
           </div>
         </div>
       </div>

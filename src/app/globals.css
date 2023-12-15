@@ -478,7 +478,7 @@ select::-ms-expand {
 }
 
 .selectGroup {
-  @apply text-[#F04A94] border-2 rounded-sm w-[55%] text-center;
+  @apply text-[#F04A94] border-2 rounded-sm  text-center
 }
 
 /* 
