@@ -107,59 +107,59 @@ const page = () => {
           {value === 0 && (
             <>
               <Input
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu nome"
                 value={user.name}
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
               <Input
+              className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu sobrenome"
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
             </>
           )}
 
           {value === 1 && (
             <>
               <Input
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu nome de usuário"
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
               <Input
+              className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu email"
                 helperText={errors.email?.message}
                 register={{ ...register("email") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
             </>
           )}
 
           {value === 2 && (
             <>
               <Input
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 type="password"
                 placeholder="Digite sua senha"
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
               <Input
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Confirme sua senha"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
-                required
-              />
+                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
             </>
           )}
 
