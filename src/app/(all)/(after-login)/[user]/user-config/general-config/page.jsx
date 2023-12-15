@@ -66,9 +66,9 @@ export default function UserConfigPage({ params }) {
 
   function RGBToHex(r, g, b) {
     // Converter valores de vermelho, verde e azul para código hexadecimal
-    const red = r.tostring(16).padStart(2, '0');
-    const green = g.tostring(16).padStart(2, '0');
-    const blue = b.tostring(16).padStart(2, '0');
+    const red = r.toString(16).padStart(2, '0');
+    const green = g.toString(16).padStart(2, '0');
+    const blue = b.toString(16).padStart(2, '0');
     return `#${red}${green}${blue}`;
   }
 

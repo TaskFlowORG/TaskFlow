@@ -121,7 +121,7 @@ export default function otherTry() {
       updateTask();
     }
     const updatePage = async ()=> {
-      await putData(`page/${draggedTask?.task?.id}/${destination.index}`, page)
+      await putData(`page/${draggedTask?.task?.id}/${destination.index}/${destination.droppableId!=source.droppableId ? 1 : 0}`, page )
     }
     updatePage()
 

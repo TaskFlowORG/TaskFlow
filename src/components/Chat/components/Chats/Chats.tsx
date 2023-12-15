@@ -39,7 +39,7 @@ export const Chats = ({
             <h5 className="p">{total}</h5>
           </div>
           <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-            <p className="p text-white">{quantitityUnvisualized.tostring()}</p>
+            <p className="p text-white">{quantitityUnvisualized.toString()}</p>
           </div>
         </div>
       </div>

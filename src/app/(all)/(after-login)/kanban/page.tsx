@@ -61,7 +61,7 @@ export default function Kanban() {
             console.log(option);
             return (
               <ColumnKanban
-                key={option.id.tostring()}
+                key={option.id.toString()}
                 tasks={tasks}
                 propertyId={id}
                 color={option.color}
