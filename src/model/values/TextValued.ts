@@ -1,15 +1,15 @@
 import { Value } from "./Value";
 
 export class TextValued extends Value{
-    value: string;
+    text: string;
 
     constructor(id: number, value: string){
-        super(id);
-        this.value = value;
+        super(id, value);
+        this.text = value;
     }
 
     getValue(): any {
-        return this.value;
+        return this.text;
     }
 
 }

@@ -7,6 +7,15 @@ import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvas
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { Page } from "@/model/pages/Page";
 import { TypeOfPage } from "@/model/enums/TypeOfPage";
+import { AddTask, Broom, Circle, Eraser, Line, Pencil, Square, Triangle } from "@/components/icons";
+import { If } from "@/components/If";
+import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
+import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
+import { drawLine } from "@/functions";
+import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
+import { useTheme } from "next-themes";
+import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
+
 
 type Draw = {
   ctx: CanvasRenderingContext2D;
@@ -16,148 +25,67 @@ type Draw = {
 
 type Point = { x: number; y: number };
 
-interface pageProps {}
+interface pageProps { }
 
-const page: FC<pageProps> = ({}) => {
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [windowHeight, setWindowHeight] = useState<number>(0);
+const page: FC<pageProps> = ({ }) => {
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const [lineWidth, setLineWidth] = useState<number>(5);
   const [lineColor, setLineColor] = useState<string>("#000000");
   const optionsRef = useRef<HTMLDivElement>(null);
-  const [cursor, setCursor] = useState<string>("default");
   const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(
-      1,
-      new Task(1, "AAAA", false, false, null, [], null, []),
-      null,
-      90,
-      90
-      ),
-      new TaskCanvas(
-        2,
-        new Task(1, "BBB", false, false, null, [], null, []),
-        null,
-        50,
-        50
-        ),
-      ]);
-    const [shape, setShape] = useState<string>("line");
-    const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef);
+    new TaskCanvas(1, new Task(1, "Task 1", true, true, null, null, null, null), null, 100, 50),
+    new TaskCanvas(2, new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100),
+  ]);
+  const [shape, setShape] = useState<string>("line");
+  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, "#000000", isErasing);
+  const { elementRef, scrollX: x, scrollY: y } = useNavigationWithScroll()
+  const { theme, setTheme } = useTheme();
 
-    useEffect(() => {
-      window.addEventListener("resize", () => {
-        setWindowWidth(window.innerWidth);
-        setWindowHeight(window.innerHeight);
-      });
-    }, []);
-      
-  function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-    const { x: currX, y: currY } = currentPoint;
-    const { x: prevX, y: prevY } = prevPoint ?? currentPoint;	
 
-    if (isErasing) {
-      ctx.globalCompositeOperation = "destination-out";
-    } else {
-      ctx.globalCompositeOperation = "source-over";
-    }
-
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
-    ctx.beginPath();
-    
-    if(shape == "square") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.lineTo(prevX, currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    }else if(shape == "circle") {
-      if(currX > prevX && currY > prevY) {
-        const center= {x: prevX + ((currX - prevX)/2), y: prevY+((currY - prevY)/2)}
-        ctx.ellipse(center.x, center.y, (currX-prevX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX > prevX && currY < prevY) {
-        const center= {x: prevX + ((currX - prevX)/2), y: currY+((prevY - currY)/2)}
-        ctx.ellipse(center.x, center.y, (currX-prevX)/2, (prevY-currY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX < prevX && currY > prevY) {
-        const center= {x: currX + ((prevX - currX)/2), y: prevY+((currY - prevY)/2)}
-        ctx.ellipse(center.x, center.y, (prevX-currX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX < prevX && currY < prevY) {
-        const center= {x: currX + ((prevX - currX)/2), y: currY+((prevY - currY)/2)}
-        ctx.ellipse(center.x, center.y, (prevX-currX)/2, (prevY-currY)/2, 0, 0, 2 * Math.PI);
-      } else {
-        ctx.ellipse(prevX, prevY, (currX-prevX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      }
-      ctx.stroke();
-    }else if(shape == "triangle") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(prevX + ((currX-prevX)/2), currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    }else if(shape == "line") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.stroke();
-    }
-    ctx.fillStyle = lineColor;
-    ctx.beginPath();
-    if( shape == "line") {
-      ctx.arc(
-        prevX,
-        prevY,
-        lineWidth / 2,
-        0,
-        (lineWidth / 2) * Math.PI
-      );
-    }
-    ctx.fill();
+  const style = {
+    cursor: "url('" + (isErasing ? theme == "dark" ? "/img/eraserDark.svg" : "/img/eraserLight.svg"
+      : theme == "dark" ? "/img/pencilDark.svg" : "/img/pencilLight.svg") + "'), auto"
   }
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        width={1920}
-        height={930}
-        className="w-full h-full"
-      ></canvas>
-      <div className="absolute top-14 right-0 flex flex-col  items-center justify-center bg-input-grey rounded-l-2xl h-72 w-min gap-2 py-6" ref={optionsRef}>
+    <div ref={elementRef} style={style} className="overflow-scroll flex justify-start items-start w-screen h-full">
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} />
+      <div className="w-min h-min relative">
+        <canvas
+          ref={canvasRef}
+          width={4000}
+          height={2000}
+          className="relative w-[4000px] h-[2000px]"
+        />
+        {tasks.map((t, index) => (
+          <TaskCanvasComponent task={t} key={index} elementRef={elementRef} canvasRef={canvasRef} />
+        ))}
+      </div>
+
+      <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
+        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
-          {isErasing ? "P" : "E"}
+          <If condition={isErasing}>
+            <Eraser />
+            <Pencil />
+          </If>
         </button>
-        <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{backgroundColor: lineColor}}>
-          <input
-            type="color"
-            value={lineColor}
-            className="w-6 h-6 opacity-0"
-            onChange={(e) => setLineColor(e.target.value)}
+        <input type="range" max={50} min={2} value={lineWidth}
+          className=" -rotate-90 w-16 h-16 z-30 cursor-pointer" onChange={(e) => setLineWidth(parseInt(e.target.value))} />
+        <div className="w-8 h-8 bg-transparent flex ">
+          <SelectWithImage list={[{ value: "line", image: <Line /> }, { value: "square", image: <Square /> }, { value: "circle", image: <Circle /> }, { value: "triangle", image: <Triangle /> }]}
+            selected={shape} onChange={s => setShape(s)} />
+        </div>
+        <span className="w-6 h-6 rounded-full flex cursor-pointer items-center justify-center" style={{ backgroundColor: lineColor }}>
+          <input type="color" value={lineColor}
+            className="w-6 h-6 opacity-0 cursor-pointer" onChange={(e) => setLineColor(e.target.value)}
           />
         </span>
-        <input
-          type="range"
-          max={50}
-          min={2}
-          value={lineWidth}
-          className=" -rotate-90 w-16 h-16"
-          onChange={(e) => setLineWidth(parseInt(e.target.value))}
-        />
-        <select name="shape" value={shape} onChange={e => setShape(e.target.value)} >
-          <option value="square">square</option>
-          <option value="circle">circle</option>
-          <option value="triangle">triangle</option>
-          <option value="line">line</option>
-        </select>
-        <button>+</button>
-        <button onClick={() => clear()}>C</button>
+        <button onClick={() => clear()}><Broom /></button>
+        <button><AddTask /></button>
       </div>
-      {tasks.map((t, index) => (
-        <TaskCanvasComponent task={t} key={index} />
-      ))}
-    </>
+      <SelectedArea canvasRef={canvasRef} shape={shape} />
+    </div>
   );
 };
 

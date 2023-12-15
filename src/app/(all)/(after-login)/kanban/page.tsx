@@ -3,27 +3,29 @@
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
 import { SearchBar } from "@/components/SearchBar";
 import { useEffect } from "react";
-import { getData, getListData } from "@/services/http/api";
+import { getData, getListData, getPage } from "@/services/http/api";
 import { useState } from "react";
 import { Page } from "@/model/pages/Page";
+import { CommonPage } from "@/model/pages/CommonPage";
+import { Select } from "@/model/Properties/Select";
+import { Option } from "@/model/Properties/Option";
 
 export default function Kanban() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
-  const [id, setId] = useState<number>(0);
-  const [options, setOptions] = useState<any[]>([]);
+  const [id, setId] = useState<Number>(0);
+  const [options, setOptions] = useState<Option[]>([]);
   const [paged, setPage] = useState<Page | null>(null);
-  
 
   useEffect(() => {
     (async () => {
-      const pg: any = await getData("page", 1);
+      const pg: CommonPage = await getPage("page", 1);
+      console.log(pg)
       setTasks(pg.tasks);
-      setOptions(pg.propertyOrdering.options);
+      setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-
   }, [id]);
 
   return (
@@ -47,14 +49,14 @@ export default function Kanban() {
         </div>
         <div className="flex gap-8 justify-center w-full">
           {options.map((option) => {
-            console.log(option)
+            console.log(option);
             return (
               <ColumnKanban
-                key={option.id}
+                key={option.id.toString()}
                 tasks={tasks}
                 propertyId={id}
                 color={option.color}
-                option={option.name}
+                option={option}
                 verify={true}
               />
             );
@@ -66,7 +68,7 @@ export default function Kanban() {
               tasks={defaultTasks}
               propertyId={id}
               color="#767867"
-              option={"Não marcadas"}
+              option={new Option(0, "Não Marcadas", "#F04A94")}
             />
           }
         </div>
