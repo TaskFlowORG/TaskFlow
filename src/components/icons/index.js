@@ -11,3 +11,12 @@ export {IconLogout} from "./Slidebarprojects/IconLogout";
 export { Arrow } from "./GeneralIcons/IconArrow";
 export { IconTask } from "./GeneralIcons/IconTask";
 
+export { Broom } from "./Canvas/Broom";
+export { Eraser } from "./Canvas/Eraser";
+export { AddTask } from "./Canvas/AddTask";
+export { Pencil } from "./Canvas/Pencil";
+
+export{Triangle} from "./Canvas/Shapes/Triangle"
+export { Circle } from "./Canvas/Shapes/Circle";
+export { Line } from "./Canvas/Shapes/Line";
+export { Square } from "./Canvas/Shapes/Square";
