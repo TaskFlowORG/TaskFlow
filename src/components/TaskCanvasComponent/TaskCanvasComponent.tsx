@@ -11,15 +11,15 @@ import { useTheme } from "next-themes"
 
 interface Props{
     task: TaskCanvas,
+    elementRef: React.RefObject<HTMLDivElement>
 }
 
-export const TaskCanvasComponent = ({task}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
-    const[isDragging, setIsDragging] = useState<boolean>(false)
     const{theme, setTheme} = useTheme()
-    const elementRef = useRef<HTMLDivElement>(null);
+    const draggableRef = useRef<HTMLDivElement>(null);
 
     const style:Object = {
         cursor: theme == "dark"? "url('/img/grabDark.svg'), auto" : "url('/img/grabLight.svg'), auto" ,
@@ -27,33 +27,27 @@ export const TaskCanvasComponent = ({task}:Props) => {
         left : x,
     }
 
-    function changeXandY(e:MouseEvent<HTMLDivElement | MouseEvent>){
-        if(!isDragging) return
+    function changeXandY(e:DragEvent){
         e.preventDefault()
-        if(elementRef.current === null) return  
-        const offsetX = window.scrollX + e.clientX - elementRef.current.clientWidth/2
-        const offsetY = window.scrollY + e.clientY - elementRef.current.clientHeight/2
-
-        console.log(e.clientX)
-        console.log("scroll", window.scrollX)
+        if(!draggableRef.current || !elementRef.current) return  
+        const offsetX = elementRef.current.scrollLeft + e.pageX - draggableRef.current.clientWidth/2
+        const offsetY = elementRef.current.scrollTop + e.pageY - draggableRef.current.clientHeight/2
 
         if(offsetX > 0 && offsetX < 3700) {
             setX(offsetX)
         }
-        if(offsetY > 56 && offsetY < 2000){
+        if(offsetY > 56 && offsetY < (2000)){
             setY(offsetY)
         }
     }
-    useEffect(()=> {
-        window.addEventListener("mouseup", () => setIsDragging(false))
-        return () => {
-            window.removeEventListener("mouseup", () => setIsDragging(false))
-        }
-    }, [isDragging])
 
+    function removeGhost(e:DragEvent){
+    s
+        e.dataTransfer.setDragImage(new Image(), 0, 0)
+    }
     return(
-        <div className="w-min h-min p-2 absolute transition-none" onMouseDown={() => setIsDragging(true)}
-        onMouseMove={e => changeXandY(e)} style={style} ref={elementRef} >
+        <div className="w-min h-min p-2 absolute transition-none" draggable onDragStart={removeGhost}
+        onDrag={changeXandY} style={style} ref={draggableRef} onDragEnd={changeXandY}>
             <RoundedCard>
                 {/* <CardContent task={task.task} /> */}
                 <p>{task.task?.name}</p>

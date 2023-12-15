@@ -50,16 +50,15 @@ const page: FC<pageProps> = ({ }) => {
   return (
     <div ref={elementRef} style={style} className="overflow-scroll flex justify-start items-start w-screen h-full">
       <MapOfCanvas canvas={canvasRef} x={x} y={y} />
-      <div className="w-min h-min relative">s
+      <div className="w-min h-min relative">
         <canvas
           ref={canvasRef}
           width={4000}
           height={2000}
           className="relative w-[4000px] h-[2000px]"
         />
-        <SelectedArea canvasRef={canvasRef} shape={shape} />
         {tasks.map((t, index) => (
-          <TaskCanvasComponent task={t} key={index} />
+          <TaskCanvasComponent task={t} key={index} elementRef={elementRef} />
         ))}
       </div>
 
@@ -85,6 +84,7 @@ const page: FC<pageProps> = ({ }) => {
         <button onClick={() => clear()}><Broom /></button>
         <button><AddTask /></button>
       </div>
+        <SelectedArea canvasRef={canvasRef} shape={shape} />
     </div>
   );
 };
