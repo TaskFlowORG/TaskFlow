@@ -7,7 +7,7 @@ export class TaskCanvas {
     task?:null | Task;
     x:number;
     y:number;
-    index:number;
+    indexAtColumn:number;
 
     constructor(id:null |number,  task:null | Task, page:null | Page, x: number, y: number, index:number) {
 
@@ -15,7 +15,7 @@ export class TaskCanvas {
         this.task = task;
         this.x = x;
         this.y = y;
-        this.index = index
+        this.indexAtColumn = index
     }
 
 }

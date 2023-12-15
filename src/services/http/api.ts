@@ -73,7 +73,7 @@ async function postData(table, object) {
   return await axios.post("http://localhost:9999/" + table, object);
 }
 async function putData(table, object) {
-  return await axios.put("http://localhost:9999/" + table, object);
+  return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
 async function deleteData(table, id) {
   return await axios.delete("http://localhost:9999/" + table + "/" + id);

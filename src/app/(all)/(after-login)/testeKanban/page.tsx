@@ -17,6 +17,10 @@ import { TaskValue } from "@/model/relations/TaskValue";
 import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
 import { TextValued } from "@/model/values/TextValued";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
+import { MultiOptionValued } from "@/model/values/MultiOptionValued";
+import { ArchiveValued } from "@/model/values/ArchiveValued";
+import { NumberValued } from "@/model/values/NumberValued";
+import { TimeValued } from "@/model/values/TimeValued";
 
 export default function otherTry() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
@@ -35,9 +39,52 @@ export default function otherTry() {
       setPage(pg);
       console.log();
     })();
-  }, []);
+  }, [tasks]);
+
+  function compararPorIndice(a: TaskCanvas, b: TaskCanvas) {
+    return a.indexAtColumn - b.indexAtColumn;
+  }
+
+  function indiceNaColuna(tasks: TaskCanvas[]) {
+    tasks.sort(compararPorIndice);
+    return tasks;
+  }
+
+  function verificaProperties(task: TaskCanvas) {
+    const properties: TaskValue[] = task?.task?.properties ?? [];
+    properties.map((property) => {
+      console.log(property.property.type == TypeOfProperty.SELECT);
+      switch (property.property.type) {
+        case TypeOfProperty.TEXT:
+          return ((property.value as TextValued).text = property.value.value);
+        case TypeOfProperty.SELECT:
+        case TypeOfProperty.RADIO:
+          console.log("Entrei uma hora");
+          return ((property.value as UniOptionValued).uniOption =
+            property.value.value);
+        case (TypeOfProperty.CHECKBOX, TypeOfProperty.USER, TypeOfProperty.TAG):
+          return ((property.value as MultiOptionValued).multiOptions =
+            property.value.value);
+        case TypeOfProperty.ARCHIVE:
+          return ((property.value as ArchiveValued).archive =
+            property.value.value);
+        case TypeOfProperty.NUMBER:
+          return ((property.value as NumberValued).number =
+            property.value.value);
+        case TypeOfProperty.TIME:
+          return ((property.value as TimeValued).time = property.value.value);
+        case TypeOfProperty.DATE:
+          return ((property.value as TimeValued).time = property.value.value);
+        case TypeOfProperty.PROGRESS:
+          return ((property.value as NumberValued).number =
+            property.value.value);
+      }
+    });
+  }
 
   const onDragEnd = (result: any, columns: any[], setColumns: any) => {
+    tasks.map((task) => verificaProperties(task));
+    console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
 
@@ -49,46 +96,42 @@ export default function otherTry() {
       return task?.id == result.draggableId;
     });
 
-    const copiedItems = [...tasks];
-
     const property: TaskValue | undefined = draggedTask?.task?.properties?.find(
       (property) => {
         return property.property.id == id;
       }
     );
+
+    // const taskPushed = tasks.find((task) => {
+    //   return task?.task?.id == destination.index;
+    // });
+
+
     const valueOfTaskInOrderingProperty: UniOptionValued =
-      property?.value as UniOptionValued;
+    property?.value as UniOptionValued;
 
-    const properties: TaskValue[] =
-      draggedTask?.task?.properties?.filter((property) => {
-        return property.property?.type == TypeOfProperty.TEXT;
-      }) ?? [];
-
-    properties.map((property) => {
-      return ((property.value as TextValued).text = property.value.value);
-    });
     valueOfTaskInOrderingProperty.uniOption = optionOrder ?? null;
     valueOfTaskInOrderingProperty.value = optionOrder ?? null;
+    console.log(destination.index)
+    
     if (draggedTask) {
-      postt(draggedTask.task as Task);
+      const updateTask = async() => {
+        await putData("task", draggedTask.task);
+      }
+      updateTask();
     }
-
-    async function postt(task: Task) {
-      await putData("task", task);
+    const updatePage = async ()=> {
+      await putData(`page/${draggedTask?.task?.id}/${destination.index}`, page)
     }
+    updatePage()
 
-    const [removed] = copiedItems.splice(source.index, 1);
-    copiedItems.splice(destination.index, 0, removed);
-
-    // No corpo passa a page, de indice, primeiro a task, e depois indice que ela estará
-    setTasks(copiedItems);
-    const copiedColumns = [...options];
-    setOptions(copiedColumns);
-    console.log(tasks);
-  };
+    };
 
   return (
-    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+    <div
+      className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey"
+      onClick={() => indiceNaColuna(tasks)}
+    >
       <div className="flex gap-5 items-end pb-16 justify-center    h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
@@ -111,16 +154,18 @@ export default function otherTry() {
             return (
               <ColumnKanban
                 key={`${option.id}`}
-                tasks={tasks.filter((task) => {
-                  return task?.task?.properties?.some((property) => {
-                    // console.log(option,(property.value as UniOptionValued).value?.name )
-                    return (
-                      property.property.id == id &&
-                      (property.value as UniOptionValued).value?.id ==
-                        option?.id
-                    );
-                  });
-                })}
+                tasks={indiceNaColuna(
+                  tasks.filter((task) => {
+                    return task?.task?.properties?.some((property) => {
+                      // console.log(option,(property.value as UniOptionValued).value?.name )
+                      return (
+                        property.property.id == id &&
+                        (property.value as UniOptionValued).value?.id ==
+                          option?.id
+                      );
+                    });
+                  })
+                )}
                 propertyId={id}
                 color={option.color}
                 option={option}

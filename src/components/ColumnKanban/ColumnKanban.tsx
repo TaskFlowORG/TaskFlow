@@ -90,7 +90,7 @@ export const ColumnKanban = ({
                     <Draggable
                       draggableId={`${item.id}`}
                       key={`${item.id}`}
-                      index={item.id as number}
+                      index={item.indexAtColumn}
                     >
                       {(provided, snapshot) => {
                         return (
