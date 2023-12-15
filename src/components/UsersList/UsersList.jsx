@@ -71,7 +71,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
   };
 
   return (
-    <div className="flex w-full ml-24 dark:text-[#FCFCFC]">
+    <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-[55%] h-[75%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
           <div>
@@ -101,7 +101,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
               type="button"
               onClick={findUser}
             >
-              <img className="" src="/img/search.svg"/>
+              <img className="" src="/img/search.svg" />
             </button>
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
@@ -111,13 +111,11 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
                 userId={u.id}
                 projectId={projectId}
                 key={u.id}
-              /> 
+              />
             ))}
-            
           </div>
-
           <button
-            className="groupGrandient dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
+            className="groupGrandient content-end dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
             type="button"
             onClick={addUser}
           >

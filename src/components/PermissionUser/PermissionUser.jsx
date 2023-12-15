@@ -2,15 +2,15 @@
 import { getListData, getData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
-export const PermissionUser = ({ groupId, userId, projectId }) => {
+export const PermissionUser = ({ groupId, userId, projectId, permissionId = 1 }) => {
   const [user, setUser] = useState({});
-  const [selectedPermission, setSelectedPermission] = useState({});
+  const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     const getLists = async () => {
       const fetchedUser = await getData("user", userId);
-      const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
+      const fetchedPermissions = await getListData(`group/${groupId}/permissions/${projectId}`);
       setUser(fetchedUser);
       setPermissions(fetchedPermissions);
     };
@@ -19,17 +19,30 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   }, [userId, groupId, projectId]);
 
   const findPermission = (selectedValue) => {
-    const selectedPermissionToAdd = permissions.find(permission => permission.permission === selectedValue);
-    setSelectedPermission(selectedPermissionToAdd);
-    updatePermission()
+    setSelectedPermission(selectedValue);
+    updatePermission();
   };
 
   async function updatePermission() {
-    console.log(selectedPermission)
-    user.permission=selectedPermission;
-    await putData("group/user/" + groupId, user.permission);
+    console.log("Selected Permission:", selectedPermission);
+
+    // try {
+    user.permission = selectedPermission;
+
+    console.log("projectId:", projectId);
+    console.log("groupId:", groupId);
+    console.log("user.id:", user.id);
+    console.log("permissionId:", permissionId);
+
+    await putData("group/" + projectId + "/" + groupId + "/user/" + user.id + "/permission/" + permissionId, user);
+
     alert('Permissões atualizadas com sucesso');
+    // } catch (error) {
+    //   console.error("Erro ao atualizar permissões:", error);
+    //   alert('Erro ao atualizar permissões.');
+    // }
   }
+
 
   return (
     <div>
@@ -45,7 +58,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
               className='selectGroup w-[75%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
               name="permission"
               id="permission"
-              value={selectedPermission} 
+              value={selectedPermission}
               onChange={(e) => findPermission(e.target.value)}
             >
               <option value="" disabled>Permissão</option>
