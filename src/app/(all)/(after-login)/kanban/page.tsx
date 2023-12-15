@@ -7,6 +7,10 @@ import { getData, getListData } from "@/services/http/api";
 import { useState } from "react";
 import { Page } from "@/model/pages/Page";
 import {RegisterTaskModal} from "@/components/RegisterTaskModal";
+
+
+
+
 export default function Kanban() {
   const [tasks, setTasks] = useState<any[]>([]);
   const [defaultTasks, setDefaultTasks] = useState<any[]>([]);
@@ -23,7 +27,7 @@ export default function Kanban() {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-
+    
   }, [id]);
 
 
@@ -31,7 +35,7 @@ export default function Kanban() {
   return (
     <>
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <RegisterTaskModal open={modal} close={() => setModal(false)}listInputs={[]} />
+        <RegisterTaskModal open={modal}  close={() => setModal(false)}listInputs={[]} />
         <div className="flex gap-5 items-end pb-16 justify-center    h-max">
           <h1
             className="h1 text-primary whitespace-nowrap dark:text-white"
