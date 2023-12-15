@@ -58,7 +58,7 @@ const page: FC<pageProps> = ({ }) => {
           className="relative w-[4000px] h-[2000px]"
         />
         {tasks.map((t, index) => (
-          <TaskCanvasComponent task={t} key={index} elementRef={elementRef} />
+          <TaskCanvasComponent task={t} key={index} elementRef={elementRef} canvasRef={canvasRef} />
         ))}
       </div>
 

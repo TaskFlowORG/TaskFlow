@@ -11,10 +11,11 @@ import { useTheme } from "next-themes"
 
 interface Props{
     task: TaskCanvas,
-    elementRef: React.RefObject<HTMLDivElement>
+    elementRef: React.RefObject<HTMLDivElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement>
 }
 
-export const TaskCanvasComponent = ({task, elementRef}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, canvasRef}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -39,14 +40,13 @@ export const TaskCanvasComponent = ({task, elementRef}:Props) => {
         if(offsetY > 56 && offsetY < (2000)){
             setY(offsetY)
         }
-    }
 
+    }
     function removeGhost(e:DragEvent){
-    s
         e.dataTransfer.setDragImage(new Image(), 0, 0)
     }
     return(
-        <div className="w-min h-min p-2 absolute transition-none" draggable onDragStart={removeGhost}
+        <div className="w-min h-min p-2 absolute transition-none " draggable onDragStart={removeGhost}
         onDrag={changeXandY} style={style} ref={draggableRef} onDragEnd={changeXandY}>
             <RoundedCard>
                 {/* <CardContent task={task.task} /> */}
