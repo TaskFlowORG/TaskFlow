@@ -42,11 +42,15 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef}:Props) => {
         }
 
     }
+    elementRef.current?.addEventListener("dragover", e => {
+        e.preventDefault()
+    })
+
     function removeGhost(e:DragEvent){
         e.dataTransfer.setDragImage(new Image(), 0, 0)
     }
     return(
-        <div className="w-min h-min p-2 absolute transition-none " draggable onDragStart={removeGhost}
+        <div className="w-min h-min p-2 absolute transition-none draggable select-none " draggable onDragStart={removeGhost}
         onDrag={changeXandY} style={style} ref={draggableRef} onDragEnd={changeXandY}>
             <RoundedCard>
                 {/* <CardContent task={task.task} /> */}

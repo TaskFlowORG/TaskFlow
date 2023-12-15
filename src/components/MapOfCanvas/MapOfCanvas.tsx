@@ -35,7 +35,7 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
         left: leftFocus,
     }
     return (
-        <div className="w-min h-min">
+        <div className="w-min h-min pointer-events-none">
 
             <img src={imageUrl} className="fixed top-16 bg-white bg-opacity-75 left-2 brightness-75 z-40 border-2" width={width} height={width/2} />
             <div className="fixed z-50 backdrop-brightness-125" style={style}>

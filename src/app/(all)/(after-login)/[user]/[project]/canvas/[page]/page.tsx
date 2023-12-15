@@ -37,7 +37,7 @@ const page: FC<pageProps> = ({ }) => {
     new TaskCanvas(2, new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100),
   ]);
   const [shape, setShape] = useState<string>("line");
-  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, lineColor, isErasing);
+  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, "#000000", isErasing);
   const { elementRef, scrollX: x, scrollY: y } = useNavigationWithScroll()
   const { theme, setTheme } = useTheme();
 
@@ -63,7 +63,7 @@ const page: FC<pageProps> = ({ }) => {
       </div>
 
       <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
-       h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
+        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
         <button onClick={() => setIsErasing(!isErasing)}>
           <If condition={isErasing}>
             <Eraser />
@@ -84,7 +84,7 @@ const page: FC<pageProps> = ({ }) => {
         <button onClick={() => clear()}><Broom /></button>
         <button><AddTask /></button>
       </div>
-        <SelectedArea canvasRef={canvasRef} shape={shape} />
+      <SelectedArea canvasRef={canvasRef} shape={shape} />
     </div>
   );
 };
