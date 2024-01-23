@@ -75,7 +75,7 @@ export const PersonalInformations = () => {
                             </div>
                             <div className="row-start-4  px-6 ">
                                 <div>
-                                    <button className="h4 w-60  drop-shadow-xl  h-12 rounded-md bg-primary text-white">Salvar alteraçoes</button>
+                                    <button className="h4 w-60  drop-shadow-xl  h-12 rounded-md bg-primary text-contrast">Salvar alteraçoes</button>
                                 </div>
                             </div>
                         </div>

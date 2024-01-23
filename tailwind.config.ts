@@ -15,6 +15,7 @@ module.exports = {
         'back-grey': '#3C3C3C',
         'modal-grey': '#333333',
         'primary': 'var(--primary-color)',
+        'contrast': 'var(--contrast-color)',
         'light-pink': '#f576ae',
         'secondary':'var(--secondary-color)',
           'light-orange':'#fa877a',

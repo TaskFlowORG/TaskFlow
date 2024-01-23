@@ -140,6 +140,7 @@
 :root {
   --primary-color: #f04a94;
   --secondary-color: #f76858;
+  --contrast-color: #fcfcfc;
 }
 
 .mn {
@@ -147,7 +148,7 @@
 }
 
 .stroke-text-white {
-  -webkit-text-stroke: 1px #fcfcfc;
+  -webkit-text-stroke: 1px var(--contrast-color);
 }
 
 

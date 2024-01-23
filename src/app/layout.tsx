@@ -1,7 +1,8 @@
+
 import Providers from "@/services/Theme/providers"
 import ThemeSwitcher from "@/services/Theme/ThemeSwitcher"
-import React from "react"
-
+import React, { useEffect } from "react"
+import '@/styles/global.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode}) {
 
@@ -11,7 +12,7 @@ export default function RootLayout({ children }: { children: React.ReactNode}) {
         <Providers>
             <ThemeSwitcher />
             {children}
-            </Providers>
+        </Providers>
         </body>
     </html >
     )

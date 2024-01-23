@@ -6,7 +6,7 @@ type Draw = {
     prevPoint: Point | null;
   };
 
-export function drawLine({ prevPoint, currentPoint, ctx }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) {
+export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) {
     let { x: currX, y: currY } = currentPoint;
     let { x: prevX, y: prevY } = prevPoint ?? currentPoint;
     //Diference because the size of cursor

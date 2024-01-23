@@ -1,14 +1,10 @@
+import { Group } from "@/model/Group";
 import Link from "next/link";
 
 interface Props{
-    objs:Array<Obj>,
+    objs:Array<Group>,
     max:number,
-    functionObj:(o:Obj) => void;
-}
-interface Obj{
-    id:number,
-    image:string,
-    name:string
+    functionObj:(o:Object) => void;
 }
 
 
@@ -19,13 +15,19 @@ export const Obj = ({ objs, max, functionObj }:Props) => {
             {
                 objs.length <= max ?
                     objs.map(o => {
+                        if(o instanceof Group){
+                            o = (o as Group)
+                        }
                         // Falta Navegação para Pagina de grupo
-                        return <div className={style} onClick={() => functionObj(o)} key={o.id} title={o.name}> {o.image && <img src={o.image} />}</div>
+                        return <div className={style} onClick={() => functionObj(o)} key={o.id} title={o.name}> {o.picture && <img src={o.picture} />}</div>
                     })
                     :
                     objs.map(o => {
+                        if(o instanceof Group){
+                            o = (o as Group)
+                        }
                         if (objs.indexOf(o) > max) {
-                            return <div className={style} key={o.id}> {o.image && <img src={o.image} />}</div>
+                            return <div className={style} key={o.id}> {o.picture && <img src={o.picture} />}</div>
                         } else if (objs.indexOf(o) == max) {
                             return <div className={style} key={o.id}>+</div>
                         }

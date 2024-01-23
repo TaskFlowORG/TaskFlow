@@ -75,7 +75,7 @@ export default function calendarPage() {
     }
     function getMonthName():string {
         const date:Date = new Date(year, month - 1);
-        const name:string = date.toLocalestring('pt-br', { month: 'long' });
+        const name:string = date.toLocaleString('pt-br', { month: 'long' });
         return name[0].toUpperCase() + name.slice(1, name.length)
     }
 

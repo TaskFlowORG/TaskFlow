@@ -17,9 +17,10 @@ export class Project {
     owner: User;
     pages: Array<Page>;
     properties: Array<Property>; 
+    percentage: number;
 
 
-    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>) {
+    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>, percentage: number) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,6 +31,7 @@ export class Project {
         this.owner = owner;
         this.pages = pages;
         this.properties = properties;
+        this.percentage = percentage;
     }
     
 }

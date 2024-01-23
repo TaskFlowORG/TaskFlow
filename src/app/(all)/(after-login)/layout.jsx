@@ -1,14 +1,28 @@
 
 'use client'
-import { Inter } from 'next/font/google'
 
 import { Header } from '@/components/Header';
-import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+import { useTheme } from 'next-themes';
+import {useContrast} from '@/hooks/useContrast'
 
 export default function Layout({ children }) {
 
+  const {theme, setTheme} = useTheme()
+  const {contrastColor} = useContrast()
+
+  useEffect(() => {
+    (async () => {//const theme = await Promise
+      //setTheme(theme)
+      //document.documentElement.style.setProperty('--primary-color', await color);
+      //document.documentElement.style.setProperty('--secondary-color', await color);
+      document.documentElement.style.setProperty('--contrast-color',  contrastColor);
+    })()})
   return (
     <>
+    <p className='absolute top-20 right-96'>
+    {contrastColor}
+    </p>
     <Header></Header>
     <main className='w-full h-full flex flex-col items-center justify-start'>
     {children}
