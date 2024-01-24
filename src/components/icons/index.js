@@ -15,7 +15,7 @@ export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";
 export { Pencil } from "./Canvas/Pencil";
-
+import { MoveIcon } from "./Canvas/Move";
 export{Triangle} from "./Canvas/Shapes/Triangle"
 export { Circle } from "./Canvas/Shapes/Circle";
 export { Line } from "./Canvas/Shapes/Line";

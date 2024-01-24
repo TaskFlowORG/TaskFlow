@@ -11,7 +11,7 @@ type Draw = {
 type Point = { x: number; y: number }
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) => void, 
-shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:string, isErasing:boolean) => {
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:string, isErasing:boolean) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -50,7 +50,7 @@ shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:
     }
 
     const handlerOtherShape = (e: MouseEvent) => {
-      if(e.button == 1) return
+      if(e.button == 1 || moving) return
       setTool(e.button == 0 ?  isErasing : !isErasing )
       setMouseDown(true)
       const currentPoint = computePointInCanvas(e)
@@ -97,7 +97,7 @@ shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:
         window.removeEventListener('mouseup', mouseUpHandler)
       }
 
-  }, [onDraw, shape, mouseDown, isErasing])
+  }, [onDraw, shape, mouseDown, isErasing, moving])
 
   return { canvasRef, clear }
 }

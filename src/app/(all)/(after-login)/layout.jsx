@@ -20,9 +20,6 @@ export default function Layout({ children }) {
     })()})
   return (
     <>
-    <p className='absolute top-20 right-96'>
-    {contrastColor}
-    </p>
     <Header></Header>
     <main className='w-full h-full flex flex-col items-center justify-start'>
     {children}

@@ -15,6 +15,7 @@ import { drawLine } from "@/functions";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { useTheme } from "next-themes";
 import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
+import { MoveIcon } from "@/components/icons/Canvas/Move";
 
 
 type Draw = {
@@ -33,20 +34,20 @@ const page: FC<pageProps> = ({ }) => {
   const [lineColor, setLineColor] = useState<string>("#000000");
   const optionsRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(1, new Task(1, "Task 1", true, true, null, null, null, null), null, 100, 50),
-    new TaskCanvas(2, new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100),
+    new TaskCanvas(1,   new Task(1, "Task 1", true, true, null, null, null, null), null, 100, 50, 1),
+    new TaskCanvas(2,  new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100, 1),
   ]);
   const [shape, setShape] = useState<string>("line");
-  const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef, lineWidth, "#000000", isErasing);
-  const { elementRef, scrollX: x, scrollY: y } = useNavigationWithScroll()
+  const [moving, setMoving] = useState<boolean>(false);
+  const { canvasRef, clear } = useDraw(drawLine, moving, shape, optionsRef, lineWidth, lineColor, isErasing);
+  const { elementRef, scrollX: x, scrollY: y } = useNavigationWithScroll(moving)
   const { theme, setTheme } = useTheme();
 
-
-  const style = {
-    cursor: "url('" + (isErasing ? theme == "dark" ? "/img/eraserDark.svg" : "/img/eraserLight.svg"
-      : theme == "dark" ? "/img/pencilDark.svg" : "/img/pencilLight.svg") + "'), auto"
-  }
-
+  let style;
+  if(moving) style = theme == "dark" ? {cursor: "url('/img/grabDark.svg'), auto"} : {cursor: "url('/img/grabLight.svg'), auto"}
+  else if(theme == "dark") style = isErasing ? {cursor: "url('/img/eraserDark.svg'), auto"} : {cursor: "url('/img/pencilDark.svg'), auto"}
+  else if(theme == "light") style = isErasing ? {cursor: "url('/img/eraserLight.svg'), auto"} : {cursor: "url('/img/pencilLight.svg'), auto"}
+  
   return (
     <div ref={elementRef} style={style} className="overflow-scroll flex justify-start items-start w-screen h-full">
       <MapOfCanvas canvas={canvasRef} x={x} y={y} />
@@ -63,7 +64,8 @@ const page: FC<pageProps> = ({ }) => {
       </div>
 
       <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
-        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}>
+        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}
+        >
         <button onClick={() => setIsErasing(!isErasing)}>
           <If condition={isErasing}>
             <Eraser />
@@ -76,12 +78,13 @@ const page: FC<pageProps> = ({ }) => {
           <SelectWithImage list={[{ value: "line", image: <Line /> }, { value: "square", image: <Square /> }, { value: "circle", image: <Circle /> }, { value: "triangle", image: <Triangle /> }]}
             selected={shape} onChange={s => setShape(s)} />
         </div>
-        <span className="w-6 h-6 rounded-full flex cursor-pointer items-center justify-center" style={{ backgroundColor: lineColor }}>
+         <span className="w-6 h-6 rounded-full flex cursor-pointer items-center justify-center" style={{ backgroundColor: lineColor }}>
           <input type="color" value={lineColor}
             className="w-6 h-6 opacity-0 cursor-pointer" onChange={(e) => setLineColor(e.target.value)}
           />
-        </span>
+         </span> 
         <button onClick={() => clear()}><Broom /></button>
+        <button onClick={() => setMoving(!moving)}><MoveIcon /></button>
         <button><AddTask /></button>
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} />
