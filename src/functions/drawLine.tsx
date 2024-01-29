@@ -72,4 +72,5 @@ export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, 
       );
     }
     ctx.fill();
+
   }

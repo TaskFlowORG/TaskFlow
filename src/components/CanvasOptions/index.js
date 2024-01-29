@@ -1,0 +1,1 @@
+export {CanvasOptions} from './CanvasOptions';

@@ -1,4 +1,5 @@
 import { use, useEffect, useState } from "react";
+import { set } from "zod";
 
 interface Props{
     canvas: React.RefObject<HTMLCanvasElement>,
@@ -8,9 +9,10 @@ interface Props{
 
 
 export const MapOfCanvas = ({canvas, x, y}:Props) => {
-    const imageUrl = canvas.current?.toDataURL() || "";
+    const imageUrl = canvas?.current?.toDataURL() || ""
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
+    const ctx = canvas?.current?.getContext('2d')
     useEffect(() => {
         window.addEventListener("resize", () => {
             setWindowWidth(window.innerWidth)
@@ -19,21 +21,19 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
     }, [])
-
+        
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)
     const topFocus = (((width/2)*y)/2000) + 64
     const leftFocus = ((width*x)/4000) + 8
-
-    
-
     const style = {
         width:focusWidth,
         height:focusHeight,
         top: topFocus,
         left: leftFocus,
     }
+
     return (
         <div className="w-min h-min pointer-events-none">
 

@@ -1,55 +1,47 @@
 "use client";
 
-import { FC, MouseEventHandler, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDraw } from "@/hooks/useDraw";
 import { Task } from "@/model/tasks/Task";
 import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { Page } from "@/model/pages/Page";
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
-import { AddTask, Broom, Circle, Eraser, Line, Pencil, Square, Triangle } from "@/components/icons";
-import { If } from "@/components/If";
-import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
-import { drawLine } from "@/functions";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { useTheme } from "next-themes";
 import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
-import { MoveIcon } from "@/components/icons/Canvas/Move";
+import { CanvasOptions } from "@/components/CanvasOptions/CanvasOptions";
+import { drawLine } from "@/functions";
 
-
-type Draw = {
-  ctx: CanvasRenderingContext2D;
-  currentPoint: Point;
-  prevPoint: Point | null;
-};
-
-type Point = { x: number; y: number };
-
-interface pageProps { }
-
-const page: FC<pageProps> = ({ }) => {
-  const [isErasing, setIsErasing] = useState<boolean>(false);
-  const [lineWidth, setLineWidth] = useState<number>(5);
-  const [lineColor, setLineColor] = useState<string>("#000000");
-  const optionsRef = useRef<HTMLDivElement>(null);
+export default function canvas() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(1,   new Task(1, "Task 1", true, true, null, null, null, null), null, 100, 50, 1),
-    new TaskCanvas(2,  new Task(1, "Task 2", true, true, null, null, null, null), null, 50, 100, 1),
+    new TaskCanvas(
+      1,
+      new Task(1, "Task 1", true, true, null, null, null, null),
+      null,
+      100,
+      50,
+      1
+    ),
+    new TaskCanvas(
+      2,
+      new Task(1, "Task 2", true, true, null, null, null, null),
+      null,
+      50,
+      100,
+      1
+    ),
   ]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
+  const[x, setX] = useState(0)
+  const[y, setY] = useState(0)
   const [shape, setShape] = useState<string>("line");
-  const [moving, setMoving] = useState<boolean>(false);
-  const { canvasRef, clear } = useDraw(drawLine, moving, shape, optionsRef, lineWidth, lineColor, isErasing);
-  const { elementRef, scrollX: x, scrollY: y } = useNavigationWithScroll(moving)
-  const { theme, setTheme } = useTheme();
 
-  let style;
-  if(moving) style = theme == "dark" ? {cursor: "url('/img/grabDark.svg'), auto"} : {cursor: "url('/img/grabLight.svg'), auto"}
-  else if(theme == "dark") style = isErasing ? {cursor: "url('/img/eraserDark.svg'), auto"} : {cursor: "url('/img/pencilDark.svg'), auto"}
-  else if(theme == "light") style = isErasing ? {cursor: "url('/img/eraserLight.svg'), auto"} : {cursor: "url('/img/pencilLight.svg'), auto"}
-  
   return (
-    <div ref={elementRef} style={style} className="overflow-scroll flex justify-start items-start w-screen h-full">
+    <div
+      ref={elementRef}
+      className="overflow-scroll flex justify-start items-start w-screen h-full"
+    >
       <MapOfCanvas canvas={canvasRef} x={x} y={y} />
       <div className="w-min h-min relative">
         <canvas
@@ -59,37 +51,21 @@ const page: FC<pageProps> = ({ }) => {
           className="relative w-[4000px] h-[2000px]"
         />
         {tasks.map((t, index) => (
-          <TaskCanvasComponent task={t} key={index} elementRef={elementRef} canvasRef={canvasRef} />
-        ))}
-      </div>
-
-      <div className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
-        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0" ref={optionsRef}
-        >
-        <button onClick={() => setIsErasing(!isErasing)}>
-          <If condition={isErasing}>
-            <Eraser />
-            <Pencil />
-          </If>
-        </button>
-        <input type="range" max={50} min={2} value={lineWidth}
-          className=" -rotate-90 w-16 h-16 z-30 cursor-pointer" onChange={(e) => setLineWidth(parseInt(e.target.value))} />
-        <div className="w-8 h-8 bg-transparent flex ">
-          <SelectWithImage list={[{ value: "line", image: <Line /> }, { value: "square", image: <Square /> }, { value: "circle", image: <Circle /> }, { value: "triangle", image: <Triangle /> }]}
-            selected={shape} onChange={s => setShape(s)} />
-        </div>
-         <span className="w-6 h-6 rounded-full flex cursor-pointer items-center justify-center" style={{ backgroundColor: lineColor }}>
-          <input type="color" value={lineColor}
-            className="w-6 h-6 opacity-0 cursor-pointer" onChange={(e) => setLineColor(e.target.value)}
+          <TaskCanvasComponent
+            task={t}
+            key={index}
+            elementRef={elementRef}
+            canvasRef={canvasRef}
           />
-         </span> 
-        <button onClick={() => clear()}><Broom /></button>
-        <button onClick={() => setMoving(!moving)}><MoveIcon /></button>
-        <button><AddTask /></button>
+        ))}
+        <CanvasOptions
+          canvasRef={canvasRef}
+          elementRef={elementRef}
+          setX={setX}
+          setY={setY}
+          getShape={setShape}
+        />
       </div>
-      <SelectedArea canvasRef={canvasRef} shape={shape} />
     </div>
   );
-};
-
-export default page;
+}

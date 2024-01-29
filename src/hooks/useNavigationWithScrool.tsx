@@ -3,8 +3,7 @@ import { useTheme } from "next-themes";
 import { LegacyRef, useEffect, useRef, useState } from "react";
 import { set } from "zod";
 
-export const useNavigationWithScroll = (moving:boolean) => {
-    const elementRef = useRef<HTMLDivElement>(null)
+export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObject<HTMLDivElement>) => {
     const [mouseDown, setMouseDown] = useState(false)
     const [prevX, setPrevX] = useState(0);
     const [oldCursor, setOldCursor] = useState('')
@@ -70,5 +69,5 @@ export const useNavigationWithScroll = (moving:boolean) => {
         }
     }, [elementRef, mouseDown, theme,moving])
 
-    return { elementRef, scrollX, scrollY }
+    return { scrollX, scrollY }
 }

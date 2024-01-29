@@ -1,5 +1,5 @@
 
-import { LegacyRef, RefObject, useEffect, useRef, useState } from 'react'
+import { ElementRef, LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
 import { drawLine } from "@/functions";
 
 type Draw = {
@@ -11,10 +11,9 @@ type Draw = {
 type Point = { x: number; y: number }
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) => void, 
-moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:number, lineColor:string, isErasing:boolean) => {
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number, canvasRef:React.RefObject<HTMLCanvasElement>) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
-  const canvasRef = useRef<HTMLCanvasElement>(null)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const prevPoint = useRef<null | Point>(null)
   const [tool, setTool] = useState<boolean>(isErasing)
@@ -39,11 +38,12 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:nu
   useEffect(() => {
     const handlerLine = (e: MouseEvent) => {
       if(shape == "line" ) {
-        if (!mouseDown) return
+        if (!mouseDown || moving) return
         const currentPoint = computePointInCanvas(e)
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
         onDraw({ ctx, currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
+        
         if (!currentPoint) return
         prevPoint.current = currentPoint
       }
@@ -68,12 +68,11 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:nu
       if(testIfInOptions({x:e.screenX, y:e.screenY}, e)) {
         return null
       }
-      console.log(x)
       return { x, y }
     }
 
     const mouseUpHandler = (e:MouseEvent) => {
-      if(e.button == 1) return
+      if(e.button == 1 || moving) return
       const currentPoint = computePointInCanvas(e)
       if(shape != "line") {
         const ctx = canvasRef.current?.getContext('2d')
@@ -99,5 +98,5 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, lineWidth:nu
 
   }, [onDraw, shape, mouseDown, isErasing, moving])
 
-  return { canvasRef, clear }
+  return { clear}
 }
