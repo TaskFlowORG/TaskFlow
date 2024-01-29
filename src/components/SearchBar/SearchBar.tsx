@@ -4,13 +4,14 @@ import { useState } from "react";
 
 interface Props {
   order?: () => any;
-  search?: () => any;
+  search?: (textInput: string) => any;
   filter?: () => any;
 }
 export const SearchBar = ({ order, search, filter }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
-  const [openedOrder, setOpenedOrder] = useState(true);
-  const [openedFilter, setOpenedFilter] = useState(true);
+  const [openedOrder, setOpenedOrder] = useState(false);
+  const [openedFilter, setOpenedFilter] = useState(false);
+  const [textInput, setTextInput] = useState("");
 
   function change(bar: string) {
     if (bar == "search") {
@@ -30,11 +31,22 @@ export const SearchBar = ({ order, search, filter }: Props) => {
 
   return (
     <div className="justify-end w-[45rem] mb-3 flex gap-2 ">
-      {search && openedSearch && <SearchInput />}
+      {search && openedSearch && (
+        <SearchInput
+          action={() => {
+            console.log(textInput);
+            search(textInput);
+          }}
+          setTextField={(newText: string) => setTextInput(newText)}
+        />
+      )}
       {search && (
         <SearchIcon
           iconSrc={"searchIcons/search.svg"}
-          action={() => search()}
+          action={() => {
+            console.log(textInput);
+            search(textInput);
+          }}
           open={() => change("search")}
         />
       )}

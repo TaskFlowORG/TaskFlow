@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
@@ -22,7 +23,7 @@ import { ArchiveValued } from "@/model/values/ArchiveValued";
 import { NumberValued } from "@/model/values/NumberValued";
 import { TimeValued } from "@/model/values/TimeValued";
 
-export default function otherTry() {
+export default function Kanban() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
@@ -36,7 +37,7 @@ export default function otherTry() {
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
-    })();
+    })()
   }, [tasks]);
 
   function compararPorIndice(a: TaskCanvas, b: TaskCanvas) {
@@ -101,36 +102,32 @@ export default function otherTry() {
     );
 
     const valueOfTaskInOrderingProperty: UniOptionValued =
-      property?.value as UniOptionValued;
+    property?.value as UniOptionValued;
 
     valueOfTaskInOrderingProperty.uniOption = optionOrder ?? null;
     valueOfTaskInOrderingProperty.value = optionOrder ?? null;
 
     if (draggedTask) {
-      const updateTask = async () => {
+      const updateTask = async() => {
         try {
           await putData("task", draggedTask.task);
         } catch (e) {
-          console.log("OI task update");
+        console.log("OI task update")
         }
-      };
 
+      }
       updateTask();
     }
-    const updatePage = async () => {
+    const updatePage = async ()=> {
       try {
-        await putData(
-          `page/${draggedTask?.task?.id}/${destination.index}/${
-            destination.droppableId != source.droppableId ? 1 : 0
-          }`,
-          page
-        );
+        await putData(`page/${draggedTask?.task?.id}/${destination.index}/${destination.droppableId!=source.droppableId ? 1 : 0}`, page )
       } catch (e) {
-        console.log("OI");
+      console.log("OI")
       }
+    }
+    updatePage()
+
     };
-    updatePage();
-  };
 
   return (
     <div
@@ -147,11 +144,19 @@ export default function otherTry() {
         <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
+        {/* console.log(setTasks(tasks.filter((task) => {
+            return task.task?.name?.includes("t")
+          }))) */}
         <SearchBar
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}
-          search={() => console.log("Searching")}
+          search={(textInput:string) => setTasks(tasks.filter((task) => {
+            return task.task?.name?.includes(textInput)
+          }))}
         />
+        {/* (textInput:string) => setTasks(tasks.filter((task) => {
+            return task.task?.name?.includes(textInput)
+          })) */}
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <div className="flex gap-8 justify-center w-full">
@@ -162,7 +167,6 @@ export default function otherTry() {
                 tasks={indexAtColumn(
                   tasks.filter((task) => {
                     return task?.task?.properties?.some((property) => {
-                      // console.log(option,(property.value as UniOptionValued).value?.name )
                       return (
                         property.property.id == id &&
                         (property.value as UniOptionValued).value?.id ==
