@@ -1,16 +1,13 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useDraw } from "@/hooks/useDraw";
 import { Task } from "@/model/tasks/Task";
 import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
-import { useTheme } from "next-themes";
 import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
-import { CanvasOptions } from "@/components/CanvasOptions/CanvasOptions";
-import { drawLine } from "@/functions";
+import { CanvasComponents } from "@/components/CanvasOptions/CanvasComponents";
+import { set } from "zod";
 
 export default function canvas() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([
@@ -32,17 +29,17 @@ export default function canvas() {
     ),
   ]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
-  const[x, setX] = useState(0)
-  const[y, setY] = useState(0)
-  const [shape, setShape] = useState<string>("line");
-
+  const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
+  const [drawing, setDrawing] = useState<boolean>(false);
+  
   return (
     <div
       ref={elementRef}
       className="overflow-scroll flex justify-start items-start w-screen h-full"
     >
-      <MapOfCanvas canvas={canvasRef} x={x} y={y} />
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} drawing={drawing} />
       <div className="w-min h-min relative">
         <canvas
           ref={canvasRef}
@@ -58,12 +55,12 @@ export default function canvas() {
             canvasRef={canvasRef}
           />
         ))}
-        <CanvasOptions
+        <CanvasComponents
           canvasRef={canvasRef}
           elementRef={elementRef}
-          setX={setX}
-          setY={setY}
-          getShape={setShape}
+          moving={moving}
+          setMoving={setMoving}
+          setDrawing={setDrawing}
         />
       </div>
     </div>

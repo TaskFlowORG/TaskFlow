@@ -1,1 +1,1 @@
-export {CanvasOptions} from './CanvasOptions';
+export {CanvasComponents} from './CanvasComponents';

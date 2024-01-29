@@ -14,31 +14,29 @@ import {
 import { MoveIcon } from "../icons/Canvas/Move";
 import { drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
-import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { useTheme } from "next-themes";
 import { SelectedArea } from "../SelectedArea/SelectedArea";
 
 interface Props {
   elementRef: React.RefObject<HTMLDivElement>;
   canvasRef: React.RefObject<HTMLCanvasElement>;
-  setX: (value: number) => void;
-  setY: (value: number) => void;
-  getShape: (value: string) => void;
+  moving: boolean;
+  setMoving: React.Dispatch<React.SetStateAction<boolean>>;
+  setDrawing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CanvasOptions = ({
+export const CanvasComponents = ({
   elementRef,
   canvasRef,
-  setX,
-  setY,
-  getShape,
+  moving,
+  setMoving,
+  setDrawing
 }: Props) => {
   const optionsRef = useRef<HTMLDivElement>(null);
   const [lineColor, setLineColor] = useState<string>("#000000");
   const [lineWidth, setLineWidth] = useState<number>(2);
   const [shape, setShape] = useState<string>("line");
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const [moving, setMoving] = useState<boolean>(false);
   const { clear } = useDraw(
     drawLine,
     moving,
@@ -47,20 +45,14 @@ export const CanvasOptions = ({
     isErasing,
     lineColor,
     lineWidth,
-    canvasRef
+    canvasRef,
+    setDrawing
   );
-  const { scrollX: x, scrollY: y } = useNavigationWithScroll(
-    moving,
-    elementRef
-  );
+
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    setX(x);
-    setY(y);
-  }, [x, y]);
-
-  useEffect(() => {
+    if(!elementRef.current) return 
     let cursor = "";
     if (moving)
       cursor =
@@ -75,13 +67,8 @@ export const CanvasOptions = ({
       cursor = isErasing
         ? "url('/img/eraserLight.svg'), auto"
         : "url('/img/pencilLight.svg'), auto";
-    elementRef.current?.setAttribute("cursor", cursor);
+    elementRef.current.style.cursor =  cursor;
   }, [moving, theme, isErasing]);
-
-  useEffect(() => {
-    getShape(shape);
-  }, [shape]);
-
   return (
     <div>
       <div
