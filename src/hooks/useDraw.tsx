@@ -1,5 +1,5 @@
 
-import { ElementRef, LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
+import React, { ElementRef, LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
 import { drawLine } from "@/functions";
 
 type Draw = {
@@ -11,12 +11,13 @@ type Draw = {
 type Point = { x: number; y: number }
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) => void, 
-moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number, canvasRef:React.RefObject<HTMLCanvasElement>) => {
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const prevPoint = useRef<null | Point>(null)
   const [tool, setTool] = useState<boolean>(isErasing)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   
 
   const clear = () => {
@@ -45,7 +46,6 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
         onDraw({ ctx, currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
-        
         if (!currentPoint) return
         prevPoint.current = currentPoint
       }
@@ -100,5 +100,5 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
 
   }, [onDraw, shape, mouseDown, isErasing, moving])
 
-  return { clear}
+  return { clear , canvasRef}
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { If } from "../If";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import {
@@ -16,17 +16,18 @@ import { drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { useTheme } from "next-themes";
 import { SelectedArea } from "../SelectedArea/SelectedArea";
+import { set } from "react-hook-form";
 
 interface Props {
   elementRef: React.RefObject<HTMLDivElement>;
-  canvasRef: React.RefObject<HTMLCanvasElement>;
+  setCanvasRef: React.Dispatch<RefObject<HTMLCanvasElement>>;
   moving: boolean;
   setMoving: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CanvasComponents = ({
   elementRef,
-  canvasRef,
+  setCanvasRef,
   moving,
   setMoving
 }: Props) => {
@@ -35,15 +36,14 @@ export const CanvasComponents = ({
   const [lineWidth, setLineWidth] = useState<number>(2);
   const [shape, setShape] = useState<string>("line");
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const { clear } = useDraw(
+  const { clear, canvasRef } = useDraw(
     drawLine,
     moving,
     shape,
     optionsRef,
     isErasing,
     lineColor,
-    lineWidth,
-    canvasRef
+    lineWidth
   );
 
   const { theme, setTheme } = useTheme();
@@ -66,6 +66,10 @@ export const CanvasComponents = ({
         : "url('/img/pencilLight.svg'), auto";
     elementRef.current.style.cursor =  cursor;
   }, [moving, theme, isErasing]);
+
+  useEffect(()=> {
+    setCanvasRef(canvasRef)
+  }, [canvasRef])
   return (
     <div>
       <div id="tools"

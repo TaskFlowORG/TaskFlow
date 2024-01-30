@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Task } from "@/model/tasks/Task";
 import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
@@ -28,7 +28,7 @@ export default function canvas() {
       1
     ),
   ]);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [canvasRef, setCavasRef] = useState<RefObject<HTMLCanvasElement>>(React.createRef<HTMLCanvasElement>());
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
@@ -55,7 +55,7 @@ export default function canvas() {
           />
         ))}
         <CanvasComponents
-          canvasRef={canvasRef}
+          setCanvasRef={setCavasRef}
           elementRef={elementRef}
           moving={moving}
           setMoving={setMoving}

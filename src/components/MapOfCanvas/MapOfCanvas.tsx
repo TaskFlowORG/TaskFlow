@@ -9,7 +9,7 @@ interface Props{
 
 
 export const MapOfCanvas = ({canvas, x, y}:Props) => {
-    const image = canvas?.current?.toDataURL() || ""
+    const image =canvas?.current?.toDataURL() || ""
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
     useEffect(() => {
@@ -31,8 +31,6 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
         top: topFocus,
         left: leftFocus,
     }
-
-    
     return (
 
         <div className="w-min h-min pointer-events-none">
