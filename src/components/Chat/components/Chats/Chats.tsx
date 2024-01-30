@@ -1,6 +1,7 @@
+'use client'
+
 import { ChatGetDTO } from "@/model/chat/ChatGetDTO";
 import { useEffect,useState } from "react";
-import { number } from "zod";
 
 export const Chats = ({
   id,

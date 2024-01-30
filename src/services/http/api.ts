@@ -1,6 +1,6 @@
 import { ChatGetDTO } from '@/model/chat/ChatGetDTO';
 
-export { getData, getListData, putData, getListChat, getSingleChat }
+export { getData, getListData, putData, getListChat, getSingleChat, enviarMessage }
 
 const axios = require('axios').default;
 
@@ -59,6 +59,32 @@ async function getSingleChat(type: String, userId: Number, idBusca: number) {
   } catch (error) {
     throw error
   }
+}
+
+async function enviarMessage() {
+  const response = await axios.put("http://localhost:9999/chat", {
+    "id": 1,
+    "users": [
+      {
+        "id": 2
+      }
+    ],
+    "messages": [
+      {
+        "id": 100,
+        "value": "isso mesmooooooooo",
+        "dateTime": "2017-01-13T17:09:42.411",
+        "user": {
+          "id": 1
+        }
+      },
+    ],
+    "type": "PRIVATE",
+    "name": "sou eu denovo",
+    "quantityUnvisualized": null
+  });
+  return response;
+
 }
 
 async function postData(table, object) {
