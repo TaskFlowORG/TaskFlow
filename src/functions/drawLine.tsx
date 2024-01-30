@@ -6,7 +6,18 @@ type Draw = {
     prevPoint: Point | null;
   };
 
-export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) {
+let lineWidth = 5;
+let lineColor = "#000000";
+
+export function setLineColor(color: string) {
+  lineColor = color;
+}
+
+export function setLineWidth(width: number) {
+  lineWidth = width;
+}
+
+export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, isErasing:boolean) {
     let { x: currX, y: currY } = currentPoint;
     let { x: prevX, y: prevY } = prevPoint ?? currentPoint;
     //Diference because the size of cursor
@@ -19,8 +30,8 @@ export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, 
       ctx.globalCompositeOperation = "source-over";
     }
 
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
+     ctx.lineWidth = lineWidth;
+     ctx.strokeStyle = lineColor;
     ctx.beginPath();
 
     if (shape == "square") {
@@ -60,13 +71,13 @@ export function drawLine ({ prevPoint, currentPoint, ctx }: Draw, shape:string, 
       ctx.lineTo(currX, currY);
       ctx.stroke();
     }
-    ctx.fillStyle = lineColor;
+     ctx.fillStyle = lineColor;
     ctx.beginPath();
     if (shape == "line") {
       ctx.arc(
         prevX,
         prevY,
-        lineWidth / 2,
+         lineWidth / 2,
         0,
         (lineWidth / 2) * Math.PI
       );

@@ -1,6 +1,6 @@
 export const Eraser = () => {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="currentColor" className="text-primary dark:text-white w-6 h-6">
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50" fill="currentColor" className="text-primary dark:text-white w-5 h-5">
 <path d="M35.844 1.5621L48.5038 14.7531C50.4987 16.8626 50.4987 20.2271 48.5038 22.3366L25 46.8762C23.0785 48.8767 20.4757 50 17.7621 50C15.0486 50 12.4458 48.8767 10.5243 46.8762L1.49616 37.4503C-0.498721 35.3408 -0.498721 31.9762 1.49616 29.8667L28.6061 1.5621C30.6266 -0.520699 33.8491 -0.520699 35.844 1.5621ZM5.1023 33.6585L14.156 43.0845C16.1509 45.194 19.3734 45.194 21.3939 43.0845L30.422 33.6585L17.7621 20.4408L5.1023 33.6585Z"/>
 </svg>
     )

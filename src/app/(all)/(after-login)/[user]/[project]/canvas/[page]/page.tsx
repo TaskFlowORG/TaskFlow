@@ -7,7 +7,10 @@ import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
 import { CanvasComponents } from "@/components/CanvasOptions/CanvasComponents";
-import { set } from "zod";
+import { drawLine } from "@/functions";
+import { useDraw } from "@/hooks/useDraw";
+import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
+import { useTheme } from "next-themes";
 
 export default function canvas() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([
@@ -28,10 +31,35 @@ export default function canvas() {
       1
     ),
   ]);
-  const [canvasRef, setCavasRef] = useState<RefObject<HTMLCanvasElement>>(React.createRef<HTMLCanvasElement>());
+
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
+  const optionsRef = useRef<HTMLDivElement>(null);
+
+  const [shape, setShape] = useState<string>("line");
+  const [isErasing, setIsErasing] = useState<boolean>(false);
+  const { clear, canvasRef } = useDraw(drawLine, moving, shape, optionsRef, isErasing);
+  const { theme, setTheme } = useTheme();
+
+  useEffect(() => {
+    if(!elementRef.current) return 
+    let cursor = "";
+    if (moving)
+      cursor =
+        theme == "dark"
+          ? "url('/img/grabDark.svg'), auto"
+          : "url('/img/grabLight.svg'), auto";
+    else if (theme == "dark")
+      cursor = isErasing
+        ? "url('/img/eraserDark.svg'), auto"
+        : "url('/img/pencilDark.svg'), auto";
+    else if (theme == "light")
+      cursor = isErasing
+        ? "url('/img/eraserLight.svg'), auto"
+        : "url('/img/pencilLight.svg'), auto";
+    elementRef.current.style.cursor =  cursor;
+  }, [moving, theme, isErasing]);
   
   return (
     <div
@@ -55,12 +83,18 @@ export default function canvas() {
           />
         ))}
         <CanvasComponents
-          setCanvasRef={setCavasRef}
-          elementRef={elementRef}
           moving={moving}
           setMoving={setMoving}
+          clear={clear}
+          isErasing={isErasing}
+          setIsErasing={setIsErasing}
+          optionsRef={optionsRef}
+          shape={shape}
+          setShape={setShape}          
         />
       </div>
+      <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
+
     </div>
   );
 }

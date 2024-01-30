@@ -10,8 +10,8 @@ type Draw = {
 
 type Point = { x: number; y: number }
 
-export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) => void, 
-moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number) => {
+export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, isErasing:boolean) => void, 
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -33,7 +33,6 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
     if(!optionsRef) return false
     const rect = optionsRef.current?.getBoundingClientRect();
     if(!rect) return false
-    console.log(rect.y + rect.height, y)
     return (x >= rect.x && y <= rect.y + rect.height && y >= rect.y)
   }
 
@@ -45,7 +44,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
         const currentPoint = computePointInCanvas(e)
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
-        onDraw({ ctx, currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
+        onDraw({ ctx, currentPoint, prevPoint: prevPoint.current }, shape, tool)
         if (!currentPoint) return
         prevPoint.current = currentPoint
       }
@@ -79,7 +78,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
       if(shape != "line") {
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
-        onDraw({ ctx, currentPoint: currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
+        onDraw({ ctx, currentPoint: currentPoint, prevPoint: prevPoint.current }, shape, tool)
       }else{
         prevPoint.current = null
       }
