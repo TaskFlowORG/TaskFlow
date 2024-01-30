@@ -11,7 +11,7 @@ type Draw = {
 type Point = { x: number; y: number }
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, lineWidth:number, lineColor:string, isErasing:boolean) => void, 
-moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number, canvasRef:React.RefObject<HTMLCanvasElement>, setDrawing:( React.Dispatch<React.SetStateAction<boolean>>)) => {
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, lineColor:string, lineWidth:number, canvasRef:React.RefObject<HTMLCanvasElement>) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -32,7 +32,8 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
     if(!optionsRef) return false
     const rect = optionsRef.current?.getBoundingClientRect();
     if(!rect) return false
-    return (x >= rect.x || y <= rect.y)
+    console.log(rect.y + rect.height, y)
+    return (x >= rect.x && y <= rect.y + rect.height && y >= rect.y)
   }
 
 
@@ -43,9 +44,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
         const currentPoint = computePointInCanvas(e)
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
-        setDrawing(true)
         onDraw({ ctx, currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
-        setDrawing(false)
         
         if (!currentPoint) return
         prevPoint.current = currentPoint
@@ -68,7 +67,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
 
-      if(testIfInOptions({x:e.screenX, y:e.screenY}, e)) {
+      if(testIfInOptions({x:e.pageX, y:e.pageY}, e)) {
         return null
       }
       return { x, y }
@@ -80,9 +79,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
       if(shape != "line") {
         const ctx = canvasRef.current?.getContext('2d')
         if (!ctx || !currentPoint) return
-        setDrawing(true)
         onDraw({ ctx, currentPoint: currentPoint, prevPoint: prevPoint.current }, shape, lineWidth, lineColor, tool)
-        setDrawing(false)
       }else{
         prevPoint.current = null
       }

@@ -32,14 +32,13 @@ export default function canvas() {
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
-  const [drawing, setDrawing] = useState<boolean>(false);
   
   return (
     <div
       ref={elementRef}
       className="overflow-scroll flex justify-start items-start w-screen h-full"
     >
-      <MapOfCanvas canvas={canvasRef} x={x} y={y} drawing={drawing} />
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} />
       <div className="w-min h-min relative">
         <canvas
           ref={canvasRef}
@@ -60,7 +59,6 @@ export default function canvas() {
           elementRef={elementRef}
           moving={moving}
           setMoving={setMoving}
-          setDrawing={setDrawing}
         />
       </div>
     </div>

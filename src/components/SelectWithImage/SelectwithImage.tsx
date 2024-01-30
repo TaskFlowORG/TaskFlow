@@ -5,10 +5,11 @@ interface Props {
     list: { value: string, image: ReactNode }[];
     onChange: (value: string) => void;
     selected: string;
+    disabled?:boolean
 }
 
 
-export const SelectWithImage = ({ list, onChange, selected }: Props) => {
+export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) => {
 
     const [show, setShow] = useState<boolean>(false);
     const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ export const SelectWithImage = ({ list, onChange, selected }: Props) => {
     return (
         <div ref={ref} className={" rounded-sm relative gap-2 flex w-8 flex-col items-center overflow-clip pt-2 duration-200 cursor-pointer " + 
         (show ? "shadow-blur-10 h-[10.7rem] bg-white dark:bg-back-grey":"  h-full")}>
-            <div onClick={() => setShow(!show)} >
+            <div onClick={() => !disabled && setShow(!show)} style={{opacity: disabled? "0.6" : '1'}}>
                 {list.filter(item => item.value === selected)[0].image}
             </div>
             <If condition={show}>

@@ -333,6 +333,10 @@ select::-ms-expand {
   }
 }
 
+*:disabled{
+  opacity:0.6
+}
+
 @keyframes toggle-slider-animation-reverse {
   0% {
     transform: translateX(32px);

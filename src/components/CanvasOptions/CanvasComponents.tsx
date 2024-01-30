@@ -22,15 +22,13 @@ interface Props {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   moving: boolean;
   setMoving: React.Dispatch<React.SetStateAction<boolean>>;
-  setDrawing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const CanvasComponents = ({
   elementRef,
   canvasRef,
   moving,
-  setMoving,
-  setDrawing
+  setMoving
 }: Props) => {
   const optionsRef = useRef<HTMLDivElement>(null);
   const [lineColor, setLineColor] = useState<string>("#000000");
@@ -45,8 +43,7 @@ export const CanvasComponents = ({
     isErasing,
     lineColor,
     lineWidth,
-    canvasRef,
-    setDrawing
+    canvasRef
   );
 
   const { theme, setTheme } = useTheme();
@@ -71,18 +68,19 @@ export const CanvasComponents = ({
   }, [moving, theme, isErasing]);
   return (
     <div>
-      <div
+      <div id="tools"
         className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
         h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0"
         ref={optionsRef}
       >
-        <button onClick={() => setIsErasing(!isErasing)}>
+        <button onClick={() => setIsErasing(!isErasing)} disabled={moving}>
           <If condition={isErasing}>
             <Eraser />
             <Pencil />
           </If>
         </button>
         <input
+         disabled={moving}
           type="range"
           max={50}
           min={2}
@@ -92,6 +90,7 @@ export const CanvasComponents = ({
         />
         <div className="w-8 h-8 bg-transparent flex ">
           <SelectWithImage
+           disabled={moving}
             list={[
               { value: "line", image: <Line /> },
               { value: "square", image: <Square /> },
@@ -104,7 +103,7 @@ export const CanvasComponents = ({
         </div>
         <span
           className="w-6 h-6 rounded-full flex cursor-pointer items-center justify-center"
-          style={{ backgroundColor: lineColor }}
+          style={{ backgroundColor: lineColor, opacity:moving? "0.6":"1" }}
         >
           <input
             type="color"
@@ -113,13 +112,16 @@ export const CanvasComponents = ({
             onChange={(e) => setLineColor(e.target.value)}
           />
         </span>
-        <button onClick={() => clear()}>
+        <button onClick={() => clear()}
+         disabled={moving}>
+          
           <Broom />
         </button>
         <button onClick={() => setMoving(!moving)}>
           <MoveIcon />
         </button>
-        <button>
+        <button 
+         disabled={moving}>
           <AddTask />
         </button>
       </div>
