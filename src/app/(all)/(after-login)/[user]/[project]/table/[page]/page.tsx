@@ -2,44 +2,29 @@
 
 import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
+import { Project } from "@/model/Project";
+import { Property } from "@/model/Properties/Property";
+import { Page } from "@/model/pages/Page";
+import { TaskCanvas } from "@/model/relations/TaskCanvas";
+import { getData, getListData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
-interface Task {
-    date: Date,
-    id: number,
-    name:string,
-    uniProperties: Array<PropertyValue>,
-    userProperties: Array<PropertyValue>,
-    multiProperties: Array<MultiPropertyValue>,
 
-}
-interface Property {
-    id: number,
-    type: string,
-    visible : true
-}
-interface PropertyValue {
-    property: Property,
-    value: string
-}
-interface MultiPropertyValue {
-    property: Property,
-    value: Array<string>
-}
-export default function tablePage() {
+export default function tablePage({ params }: { params: { page: string, project:string } }) {
 
-    const [tasks, setTasks] = useState<Array<Task>>([])
+    const [tasks, setTasks] = useState<Array<TaskCanvas>>([])
     const [properties, setProperties] = useState<Array<Property>>([])
     useEffect(() => {
-        //comunicação com API
-        setTasks([
-        ])
-        // let props = [...await getPropsOfPage()]
-        // props =  [...props, ...await getPropsOfProject()]
+        (async ()=> {
+            const pagePromise:Promise<Page> = await getData("page", JSON.parse(params.page))
+            const projectPromise:Promise<Project> = await getData("project", JSON.parse(params.project))
 
-        setProperties([
-        ])
-    }, [])
+            let tasksPromise = (await pagePromise).tasks
+            let propsPromise = [...(await projectPromise).properties, ...(await pagePromise).properties]
+            setTasks(tasksPromise)
+            setProperties(propsPromise)
+        })()
+    })
 
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
@@ -54,9 +39,10 @@ export default function tablePage() {
                         <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
                     </div>
                 </div>
-                <div className="w-full h-4/5 justify-center items-start flex">
+                <div className="w-full h-4/5 justify-center items-start flex gap-1">
+                    <List list={tasks} headName="Tasks" justName/>
                     {properties.map(p => {
-                        return p.visible && <List icon={<IconTask />} list={tasks} property={p} headName="Tasks" key={p.id}/>    
+                        return p.visible && <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}/>    
                     })}
                 </div>
             </div>

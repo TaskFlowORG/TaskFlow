@@ -16,7 +16,7 @@ export default function canvas() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([
     new TaskCanvas(
       1,
-      new Task(1, "Task 1", true, true, null, null, null, null),
+      new Task(1, "Task 1", true, true, null, [], null, null),
       null,
       100,
       50,
@@ -24,7 +24,7 @@ export default function canvas() {
     ),
     new TaskCanvas(
       2,
-      new Task(1, "Task 2", true, true, null, null, null, null),
+      new Task(1, "Task 2", true, true, null, [], null, null),
       null,
       50,
       100,
