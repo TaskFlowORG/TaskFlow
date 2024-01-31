@@ -53,7 +53,6 @@ async function getSingleChat(type: String, userId: Number, idBusca: number) {
         info.push(new ChatGetDTO(id, name, picture, messages, quantitityUnvisualized, lastMessage))
       }
     }
-    console.log(info)
 
     return info;
   } catch (error) {

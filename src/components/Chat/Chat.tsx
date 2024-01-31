@@ -38,10 +38,11 @@ export const Chatt = () => {
 
     return (
         <>
-            <div className="mx-2">
+            <div className="mx-2 lg:h-[10%] ">
                 <div className="w-full h-full  lg:block">
                     {chatContent.map((chatContentt) => (
                         <ChatContent
+                            key={chatContentt.id}
                             id={chatContentt.id}
                             picture={chatContentt.picture}
                             name={chatContentt.name}

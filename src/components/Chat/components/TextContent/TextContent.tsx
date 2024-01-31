@@ -7,7 +7,7 @@ export const TextContent = ({ id, name, messages, picture, quantitityUnvisualize
 
     useEffect(() => {
         async function getChats() {
-            const response = await getSingleChat("private", 1, 7);
+            const response = await getSingleChat("private", 1, 6);
             setMensagens(response);
         }
         getChats();
@@ -15,9 +15,10 @@ export const TextContent = ({ id, name, messages, picture, quantitityUnvisualize
 
 
     return (
-        <div className="fancy-border-radius">
+        <div className="bg-black p-[10px] w-[100%] max-w-[250px] rounded-tr-xl">
             {mensagens.map((mensagem) =>
-                <h3 className="p lg:h4">
+                //Tem q arrumar a key
+                <h3 key={1} className="p lg:h4 text-white">
                     {mensagem.messages[0].value}
                 </h3>)}
         </div>

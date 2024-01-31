@@ -6,13 +6,18 @@ import { getSingleChat, enviarMessage } from "@/services/http/api"
 
 export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualized, lastMessage }: ChatGetDTO) => {
 
-    const [mensagem, setMensagem] = useState();
-
     async function enviarMensagem() {
         const response = await enviarMessage();
-        console.log(response);
-        
-        
+    }
+
+    function verificarStatus(){
+        //mais para frente será implementado sistema para verificar se o usuário está online ou offline
+        return "Offline"
+    }
+
+    function alterarCorStatus(){
+        //mais para frente será implementado sistema para verificar se o usuário está online ou offline
+        return "bg-red-500"
     }
 
     return (
@@ -29,7 +34,7 @@ export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualize
                             <img src="/img/Status.svg" alt="" />
                         </div>
                         <div className="mx-2">
-                            <p className="p">online</p>
+                            <p className="p">{verificarStatus()}</p>
                         </div>
                     </div>
                 </div>
@@ -40,7 +45,7 @@ export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualize
                         ))}
                     </div>
                 </div>
-                <div className="flex w-full h-[60%] gap-3">
+                <div className="flex w-full h-[67%] gap-3">
                     <div className="w-full h-full lg:w-[93%] bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-[88%]">
                             <input className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
