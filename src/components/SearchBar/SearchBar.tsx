@@ -1,10 +1,11 @@
 import { SearchIcon } from "./SearchIcon";
 import { SearchInput } from "./SearchInput";
 import { useState } from "react";
+import { OrderInput } from "../OrderInput"
 
 interface Props {
   order?: () => any;
-  search?: (textInput: string) => any;
+  search: (textInput: string) => any;
   filter?: () => any;
 }
 export const SearchBar = ({ order, search, filter }: Props) => {
@@ -16,6 +17,8 @@ export const SearchBar = ({ order, search, filter }: Props) => {
   function change(bar: string) {
     if (bar == "search") {
       setOpenedSearch(!openedSearch);
+      setTextInput("")
+      search("");
       setOpenedFilter(false);
       setOpenedOrder(false);
     } else if (bar == "filter") {
@@ -38,8 +41,17 @@ export const SearchBar = ({ order, search, filter }: Props) => {
             search(textInput);
           }}
           setTextField={(newText: string) => setTextInput(newText)}
-        />
-      )}
+          />
+          )}
+
+        {order && openedOrder && (
+          <SearchIcon
+            iconSrc={"searchIcons/order.svg"}
+            open={() => change("order")}
+            action={() => order()}
+          />
+
+        )}
       {search && (
         <SearchIcon
           iconSrc={"searchIcons/search.svg"}

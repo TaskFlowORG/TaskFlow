@@ -14,7 +14,11 @@ export const SearchInput = ({ setTextField, action }: Props) => {
         type="text"
         id="textSearch"
         className="w-full h-full outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
-        onChange={(e) => setTextField(e.target.value)}
+        onKeyUp={action()}
+        onChange={ (e) => {
+          setTextField(e.target.value)
+          
+        }}
       />
       <div className="gap-3 flex">
         <img src="keyboard.svg" alt="" />

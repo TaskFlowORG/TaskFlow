@@ -20,6 +20,7 @@ interface Props {
   propertyId?: number;
   tasks: TaskCanvas[];
   verify?: boolean;
+  input?:string;
 }
 
 export const ColumnKanban = ({
@@ -28,6 +29,7 @@ export const ColumnKanban = ({
   propertyId,
   tasks,
   verify,
+  input
 }: Props) => {
   const [colorUse, setColorUse] = useState<string>("");
   const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
@@ -86,6 +88,10 @@ export const ColumnKanban = ({
                 {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
+
+                  if (item.task?.name?.toLowerCase().includes(input?.toLowerCase() ?? "")){
+
+                  
                   return (
                     <Draggable
                       draggableId={`${item.id}`}
@@ -110,7 +116,7 @@ export const ColumnKanban = ({
                       }}
                     </Draggable>
                   );
-                })}
+                }})}
                 {provided.placeholder}
               </div>
             );

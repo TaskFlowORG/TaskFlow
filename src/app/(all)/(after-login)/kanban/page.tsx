@@ -13,7 +13,6 @@ import { CommonPage } from "@/model/pages/CommonPage";
 import { Select } from "@/model/Properties/Select";
 import { Option } from "@/model/Properties/Option";
 import { UniOptionValued } from "@/model/values/UniPotionValued";
-import { Task } from "@/model/tasks/Task";
 import { TaskValue } from "@/model/relations/TaskValue";
 import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
 import { TextValued } from "@/model/values/TextValued";
@@ -24,10 +23,11 @@ import { NumberValued } from "@/model/values/NumberValued";
 import { TimeValued } from "@/model/values/TimeValued";
 
 export default function Kanban() {
+  const [input, setInput ] = useState("")
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [page, setPage] = useState<Page | null>(null);
+  const [page, setPage] = useState<CommonPage | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -36,9 +36,9 @@ export default function Kanban() {
       console.log(1);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
-      setPage(pg);
-    })()
-  }, [tasks]);
+      setPage(pg); 
+    })();
+  });
 
   function compararPorIndice(a: TaskCanvas, b: TaskCanvas) {
     return a.indexAtColumn - b.indexAtColumn;
@@ -102,32 +102,35 @@ export default function Kanban() {
     );
 
     const valueOfTaskInOrderingProperty: UniOptionValued =
-    property?.value as UniOptionValued;
+      property?.value as UniOptionValued;
 
     valueOfTaskInOrderingProperty.uniOption = optionOrder ?? null;
     valueOfTaskInOrderingProperty.value = optionOrder ?? null;
 
     if (draggedTask) {
-      const updateTask = async() => {
+      const updateTask = async () => {
         try {
           await putData("task", draggedTask.task);
         } catch (e) {
-        console.log("OI task update")
+          console.log("OI task update");
         }
-
-      }
+      };
       updateTask();
     }
-    const updatePage = async ()=> {
+    const updatePage = async () => {
       try {
-        await putData(`page/${draggedTask?.task?.id}/${destination.index}/${destination.droppableId!=source.droppableId ? 1 : 0}`, page )
+        await putData(
+          `page/${draggedTask?.task?.id}/${destination.index}/${
+            destination.droppableId != source.droppableId ? 1 : 0
+          }`,
+          page
+        );
       } catch (e) {
-      console.log("OI")
+        console.log("OI");
       }
-    }
-    updatePage()
-
     };
+    updatePage();
+  };
 
   return (
     <div
@@ -144,25 +147,21 @@ export default function Kanban() {
         <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
-        {/* console.log(setTasks(tasks.filter((task) => {
-            return task.task?.name?.includes("t")
-          }))) */}
         <SearchBar
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}
-          search={(textInput:string) => setTasks(tasks.filter((task) => {
-            return task.task?.name?.includes(textInput)
-          }))}
+          search={(textInput: string) => 
+            setInput(textInput)
+
+          }
         />
-        {/* (textInput:string) => setTasks(tasks.filter((task) => {
-            return task.task?.name?.includes(textInput)
-          })) */}
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <div className="flex gap-8 justify-center w-full">
           {options.map((option) => {
             return (
               <ColumnKanban
+              input={input}
                 key={`${option.id}`}
                 tasks={indexAtColumn(
                   tasks.filter((task) => {
