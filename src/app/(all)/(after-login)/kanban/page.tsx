@@ -21,6 +21,8 @@ import { MultiOptionValued } from "@/model/values/MultiOptionValued";
 import { ArchiveValued } from "@/model/values/ArchiveValued";
 import { NumberValued } from "@/model/values/NumberValued";
 import { TimeValued } from "@/model/values/TimeValued";
+import { OrderInput } from "@/components/OrderInput/OrderInput";
+import { Property } from "@/model/Properties/Property"
 
 export default function Kanban() {
   const [input, setInput ] = useState("")
@@ -33,7 +35,6 @@ export default function Kanban() {
     (async () => {
       const pg: CommonPage = await getPage("page", 1);
       setTasks(pg.tasks);
-      console.log(1);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg); 
@@ -158,6 +159,7 @@ export default function Kanban() {
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <div className="flex gap-8 justify-center w-full">
+          <OrderInput orderingId={id} properties={page?.properties ?? []}></OrderInput>
           {options.map((option) => {
             return (
               <ColumnKanban
