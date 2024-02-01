@@ -4,11 +4,14 @@ import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
 import { Page } from "@/model/pages/Page";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { getData, getListData } from "@/services/http/api";
+import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 import { set } from "zod";
 import page from "@/app/(all)/(before-login)/login/page";
 import { TypeOfPage } from "@/model/enums/TypeOfPage";
+import { TaskValue } from "@/model/relations/TaskValue";
+import { Task } from "@/model/tasks/Task";
+import { DropResult } from "@hello-pangea/dnd";
 
 
 export default function listPage({ params }: { params: { page: string } }) {
@@ -33,6 +36,21 @@ export default function listPage({ params }: { params: { page: string } }) {
             setPages(list)
         })()
     }, [])
+
+    async function updateIndexes(e: DropResult) {
+        if (e.source.droppableId == e.destination?.droppableId) {
+            const pagePromise = await putData(`page/${e.draggableId}/${e.destination?.index}`, pageObj)
+            setPageObj(await pagePromise)
+        }
+    }
+
+    function contains(p: Page, t: TaskCanvas): boolean {
+        for (let task of p.tasks) {
+            if (task.task.id == t.task.id) return true
+        }
+        return false
+    }
+
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
 
@@ -47,10 +65,10 @@ export default function listPage({ params }: { params: { page: string } }) {
                     </div>
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="w-min h-min flex gap-1 shadow-blur-10">
+                    <div className="w-min h-min flex gap-4">
                         {
                             pages.map((p) => {
-                                return <List key={p.id} list={p.tasks} headName={p.name} justName />
+                                return <List key={p.id} list={pageObj?.tasks.filter(t => contains(p, t)) ?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
                             })
                         }
                     </div>

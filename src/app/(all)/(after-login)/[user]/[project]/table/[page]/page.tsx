@@ -6,8 +6,9 @@ import { Project } from "@/model/Project";
 import { Property } from "@/model/Properties/Property";
 import { Page } from "@/model/pages/Page";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { getData, getListData } from "@/services/http/api";
+import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
+import { DropResult } from "@hello-pangea/dnd";
 
 
 export default function tablePage({ params }: { params: { page: string, project: string } }) {
@@ -29,6 +30,13 @@ export default function tablePage({ params }: { params: { page: string, project:
         })()
     }, [])
 
+    async function updateIndexes(e: DropResult) {
+        if (e.source.droppableId == e.destination?.droppableId) {
+            const pagePromise = await putData(`page/${e.draggableId}/${e.destination?.index}`, pageObj)
+            setPageObj(await pagePromise)
+        }
+    }
+
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
 
@@ -44,9 +52,9 @@ export default function tablePage({ params }: { params: { page: string, project:
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
                     <div className="w-min h-min flex gap-1 shadow-blur-10">
-                            <List list={tasks} headName="Tasks" justName />
+                            <List list={tasks} headName="Tasks" justName updateIndexes={updateIndexes} listId={0} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} />
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}  updateIndexes={updateIndexes} listId={p.id} /> 
                             })}
                     </div>
                 </div>
