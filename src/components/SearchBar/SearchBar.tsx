@@ -1,14 +1,15 @@
 import { SearchIcon } from "./SearchIcon";
 import { SearchInput } from "./SearchInput";
-import { useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { OrderInput } from "../OrderInput"
 
 interface Props {
   order?: () => any;
   search: (textInput: string) => any;
   filter?: () => any;
+  children?: ReactElement | ReactNode | ReactElement[]
 }
-export const SearchBar = ({ order, search, filter }: Props) => {
+export const SearchBar = ({ order, search, filter, children }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
@@ -33,7 +34,7 @@ export const SearchBar = ({ order, search, filter }: Props) => {
   }
 
   return (
-    <div className="justify-end w-[45rem] mb-3 flex gap-2 ">
+    <div className="justify-end w-[45rem] relative mb-3 flex gap-2 ">
       {search && openedSearch && (
         <SearchInput
           action={() => {
@@ -45,12 +46,7 @@ export const SearchBar = ({ order, search, filter }: Props) => {
           )}
 
         {order && openedOrder && (
-          <SearchIcon
-            iconSrc={"searchIcons/order.svg"}
-            open={() => change("order")}
-            action={() => order()}
-          />
-
+          children
         )}
       {search && (
         <SearchIcon

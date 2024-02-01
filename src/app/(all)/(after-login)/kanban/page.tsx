@@ -156,16 +156,19 @@ export default function Kanban() {
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}
           search={(textInput: string) => setInput(textInput)}
-        />
-                  <OrderInput
+        >
+          <div className="fixed  top-40 z-30">
+          <OrderInput
             page={page as CommonPage}
             orderingId={id}
             properties={page?.properties ?? []}
           ></OrderInput>
+          </div>
+          
+        </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
         <div className="flex gap-8 justify-center w-full">
-
           {options.map((option) => {
             return (
               <ColumnKanban
@@ -192,12 +195,13 @@ export default function Kanban() {
           {
             <ColumnKanban
               key={0}
+              input={input}
               tasks={tasks.filter((task) => {
                 return task?.task?.properties?.some((property) => {
                   // console.log(option,(property.value as UniOptionValued).value?.name )
                   return (
                     property.property.id == id &&
-                    (property.value as UniOptionValued).value === null
+                    (property.value as UniOptionValued).value == null
                   );
                 });
               })}

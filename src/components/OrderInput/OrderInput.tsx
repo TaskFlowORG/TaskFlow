@@ -25,7 +25,7 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
   }, []);
 
   return (
-    <div className="rounded-2xl shadowww fixed right-0 top-8 bg-white flex flex-col p-4 gap-6 min-w-[300px]">
+    <div className="rounded-2xl shadowww bg-white flex flex-col p-4 gap-6 min-w-[300px]">
       <h5 className="h5">Ordenar por</h5>
       <div
         onClick={() => {
@@ -59,13 +59,14 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
             }
           })
         }
-        <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-center">
+       
           {projectProperties.map((property) => {
             if (
               property.type == TypeOfProperty.SELECT &&
               property.id != orderingId
             ) {
               return (
+                <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-center ">
                 <p
                   onClick={(e) => {
                     console.log(e.currentTarget.id);
@@ -87,6 +88,7 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
                 >
                   {property.name}
                 </p>
+                </div>
               );
             }
           })}
@@ -96,6 +98,7 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
               property.id != orderingId
             ) {
               return (
+                <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-center">
                 <p
                   onClick={(e) => {
                     console.log(e.currentTarget.id);
@@ -117,13 +120,14 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
                 >
                   {property.name}
                 </p>
+                </div>
               );
             }
           })}
 
 
         </div>
-      </div>
+
     </div>
   );
 };
