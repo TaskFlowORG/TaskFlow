@@ -88,11 +88,12 @@ export const ColumnKanban = ({
                 {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
+                  console.log(input)
                   if (
                     item.task?.name
                       ?.toLowerCase()
                       .includes(input?.toLowerCase() ?? "") ||
-                    item.task?.name == null 
+                    (item.task?.name == null && input?.toLowerCase() == "")
                   ) {
                     return (
                       <Draggable

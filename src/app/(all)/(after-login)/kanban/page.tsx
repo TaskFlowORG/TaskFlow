@@ -142,7 +142,7 @@ export default function Kanban() {
       className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey"
       onClick={() => indexAtColumn(tasks)}
     >
-      <div className="flex gap-5 items-end pb-16 justify-center    h-max">
+      <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
           onClick={() => console.log(page)}
@@ -157,14 +157,15 @@ export default function Kanban() {
           filter={() => console.log("Filtering")}
           search={(textInput: string) => setInput(textInput)}
         />
-      </div>
-      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-        <div className="flex gap-8 justify-center w-full">
-          <OrderInput
+                  <OrderInput
             page={page as CommonPage}
             orderingId={id}
             properties={page?.properties ?? []}
           ></OrderInput>
+      </div>
+      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+        <div className="flex gap-8 justify-center w-full">
+
           {options.map((option) => {
             return (
               <ColumnKanban

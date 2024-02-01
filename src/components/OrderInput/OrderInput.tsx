@@ -25,7 +25,7 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
   }, []);
 
   return (
-    <div className="rounded-2xl fixed top-0 bg-white flex flex-col gap-6">
+    <div className="rounded-2xl shadowww fixed right-0 top-8 bg-white flex flex-col p-4 gap-6 min-w-[300px]">
       <h5 className="h5">Ordenar por</h5>
       <div
         onClick={() => {
@@ -35,7 +35,31 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
         }}
         className="flex flex-col gap-4"
       >
-        <div className="flex w-full p-2 rounded-lg bg-[#F2F2F2] justify-between">
+        {
+          properties.map((property)=>{
+            if (property.id == orderingId){
+              return (
+                <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-between">
+                  <p>{property.name}</p>
+                  <img src="ok.svg" alt="NaN" />
+                </div>
+              )
+            }
+          })
+        }
+        {
+          projectProperties.map((property)=>{
+            if (property.id == orderingId){
+              return (
+                <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-between">
+                  <p>{property.name}</p>
+                  <img src="ok.svg" alt="NaN" />
+                </div>
+              )
+            }
+          })
+        }
+        <div className="flex w-full p-2 text-center rounded-lg bg-[#F2F2F2] justify-center">
           {projectProperties.map((property) => {
             if (
               property.type == TypeOfProperty.SELECT &&
@@ -97,7 +121,7 @@ export const OrderInput = ({ properties, orderingId, page }: Props) => {
             }
           })}
 
-          <img src="ok.svg" alt="NaN" />
+
         </div>
       </div>
     </div>
