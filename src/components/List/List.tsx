@@ -9,6 +9,10 @@ import { TaskValue } from "@/model/relations/TaskValue"
 import { ReactElement, ReactNode } from "react"
 import { useContrast } from "@/hooks"
 import { generateContrast } from "@/functions"
+import { format } from "path"
+import { Obj } from "../Obj"
+import { User } from "@/model/User"
+import { Task } from "@/model/tasks/Task"
 
 interface Props {
     list: Array<TaskCanvas>,
@@ -28,22 +32,22 @@ export const List = ({ list, headName, multivalued, justName, property }: Props)
         }
     }
 
-    function generateList(value: TaskValue | null | undefined) {
-        let list = [<></>]
+    function generateList(value: TaskValue | null | undefined): Array<Option> {
+        let list = new Array<Option>
         if (!value) return list
-        if(value.property.type == TypeOfProperty.CHECKBOX || value.property.type == TypeOfProperty.TAG){
+        if (value.property.type == TypeOfProperty.CHECKBOX || value.property.type == TypeOfProperty.TAG) {
             let val = value.value.value as Option[]
             for (let opt of val) {
-                list.push(<div key={opt.id} className="p-1 rounded-md" style={{ backgroundColor:opt.color, color: generateContrast(opt.color)}}>{opt.name}</div>)
+                list.push(opt)
             }
         }
         return list
     }
     return (
 
-        <div className="w-full h-full p-2  min-w-[150px] bg-white dark:bg-modal-grey shadow-blur-10 flex flex-col items-start rounded-sm truncate">
+        <div className="w-min h-min p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10 ">
 
-            <div className="flex gap-4 p-3 h-20 items-center justify-start truncate text-modal-grey dark:text-white">
+            <div className="flex gap-4 p-3 h-20 w-min items-center justify-start truncate text-modal-grey dark:text-white">
                 <If condition={justName}>
                     <IconTask />
                     <div>
@@ -83,21 +87,25 @@ export const List = ({ list, headName, multivalued, justName, property }: Props)
                         </If>
                     </div>
                 </If>
+                <If condition={headName != null}>
                 <p>{headName}</p>
+                </If>
             </div>
-            <div className="h-full overflow-auto w-full ">
+            <div className="h-full w-min ">
 
                 <If condition={justName}>
                     <div>
                         {list.map((l) => {
-                            return <div key={l.task.id} className="w-full py-4 px-3 border-zinc-400 dark:border-zinc-800 border-t-2 justify-start text-zinc-400 items-center flex flex-wrap truncate">{l.task.name}</div>
+                            return <div key={l.id} className="w-full py-4 px-3  h-16 overflow-clip border-zinc-400 dark:border-zinc-800 border-t-2 justify-start items-center flex flex-wrap truncate" 
+                            style={{color:l.task.name ? "#52525b" : "#a1a1aa" }}>{l.task.name || "Sem Nome"}</div>
                         })}
                     </div>
                     <div>
                         {list.map((l) => {
                             const propVl = getValueOfProperty(l);
                             return (
-                                <div key={l.task.id} className="w-full py-4 px-3 border-zinc-400 dark:border-zinc-800 border-t-2 justify-start text-zinc-400 items-center flex flex-wrap truncate">
+                                <div key={l.id} className="w-full py-4 px-6 h-16 overflow-clip border-zinc-400 dark:border-zinc-800 border-t-2 justify-start text-zinc-400 items-center flex flex-wrap truncate">
+
                                     <If condition={property?.type == TypeOfProperty.ARCHIVE}>
                                         <div>
                                             Archive
@@ -105,7 +113,7 @@ export const List = ({ list, headName, multivalued, justName, property }: Props)
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.DATE}>
                                         <div>
-                                            {propVl?.value.value}
+                                            {new Date(propVl?.value.value).toLocaleDateString()}
                                         </div>
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.NUMBER}>
@@ -119,15 +127,20 @@ export const List = ({ list, headName, multivalued, justName, property }: Props)
                                         </div>
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.RADIO || property?.type == TypeOfProperty.SELECT}>
-                                        <div className="p-1 rounded-md" style={{ backgroundColor: propVl?.value.value.color, color: generateContrast(propVl?.value.value.color)}}>
+                                        {
+                                            propVl?.value.value != null ? 
+                                            (<div className="p-1 rounded-md" style={{ backgroundColor: propVl?.value.value.color, color: generateContrast(propVl?.value.value.color) }}>
                                             {propVl?.value.value.name}
-                                        </div>
+                                            </div>)
+                                            : 
+                                            <></>
+                                        }
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.TAG || property?.type == TypeOfProperty.CHECKBOX}>
-                                        <div>
+                                        <div className="flex gap-1 w-min max-w-[10rem] overflow-auto">
                                             {
-                                                generateList(propVl).map((o: ReactNode) => {
-                                                    return o
+                                                generateList(propVl).map((opt) => {
+                                                    return <div key={opt.id} className="p-1 rounded-md" style={{ backgroundColor: opt.color, color: generateContrast(opt.color) }}>{opt.name}</div>
                                                 })
                                             }
                                         </div>
@@ -139,16 +152,17 @@ export const List = ({ list, headName, multivalued, justName, property }: Props)
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.TIME}>
                                         <div>
-                                            {propVl?.value.value}
+                                            {!propVl?.value.value || propVl?.value.value.toString().slice(0, 8)}
                                         </div>
                                     </If>
                                     <If condition={property?.type == TypeOfProperty.USER}>
                                         <div>
-                                            {propVl?.value.value.name}
+                                            <Obj objs={propVl?.value.value as Array<User>} max={5} functionObj={() => { }} />
                                         </div>
                                     </If>
                                 </div>
                             )
+
                         })}
                     </div>
                 </If>
