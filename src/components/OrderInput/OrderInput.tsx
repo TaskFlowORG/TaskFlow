@@ -1,16 +1,18 @@
 import { Select } from "@/model/Properties/Select";
 import { Property } from "@/model/Properties/Property";
 import { useEffect, useState } from "react";
-import { getData } from "@/services/http/api";
+import { getData, putData } from "@/services/http/api";
 import { Project } from "@/model/Project";
 import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { CommonPage } from "@/model/pages/CommonPage";
 
 interface Props {
   properties: Property[];
-  orderingId: number;
+  orderingId: number | undefined;
+  page: CommonPage;
 }
 
-export const OrderInput = ({ properties, orderingId }: Props) => {
+export const OrderInput = ({ properties, orderingId, page }: Props) => {
   const [projectProperties, setProjectProperties] = useState<Property[]>([]);
 
   useEffect(() => {
@@ -23,7 +25,7 @@ export const OrderInput = ({ properties, orderingId }: Props) => {
   }, []);
 
   return (
-    <div className="rounded-2xl bg-white flex flex-col gap-6">
+    <div className="rounded-2xl fixed top-0 bg-white flex flex-col gap-6">
       <h5 className="h5">Ordenar por</h5>
       <div
         onClick={() => {
@@ -33,13 +35,35 @@ export const OrderInput = ({ properties, orderingId }: Props) => {
         }}
         className="flex flex-col gap-4"
       >
-        <div className="flex w-full p-2 rounded-lg bg-[#F2F2F2]">
+        <div className="flex w-full p-2 rounded-lg bg-[#F2F2F2] justify-between">
           {projectProperties.map((property) => {
             if (
               property.type == TypeOfProperty.SELECT &&
               property.id != orderingId
             ) {
-              return <p className="">{property.name}</p>;
+              return (
+                <p
+                  onClick={(e) => {
+                    console.log(e.currentTarget.id);
+                    let property = properties.find(
+                      (property) => property.id.toString() == e.currentTarget.id
+                    );
+                    if (!property) {
+                      property = projectProperties.find(
+                        (property) =>
+                          property.id.toString() == e.currentTarget.id
+                      );
+                    }
+                    page.propertyOrdering = property as Property;
+                    console.log("page1", page);
+                    putData("page", page);
+                  }}
+                  id={property.id.toString()}
+                  key={property.id}
+                >
+                  {property.name}
+                </p>
+              );
             }
           })}
           {properties.map((property) => {
@@ -47,7 +71,29 @@ export const OrderInput = ({ properties, orderingId }: Props) => {
               property.type == TypeOfProperty.SELECT &&
               property.id != orderingId
             ) {
-              return <p>{property.name}</p>;
+              return (
+                <p
+                  onClick={(e) => {
+                    console.log(e.currentTarget.id);
+                    let property = properties.find(
+                      (property) => property.id.toString() == e.currentTarget.id
+                    );
+                    if (!property) {
+                      property = projectProperties.find(
+                        (property) =>
+                          property.id.toString() == e.currentTarget.id
+                      );
+                    }
+                    page.propertyOrdering = property as Property;
+                    console.log("page2",page);
+                    putData("page", page);
+                  }}
+                  id={property.id.toString()}
+                  key={property.id}
+                >
+                  {property.name}
+                </p>
+              );
             }
           })}
 

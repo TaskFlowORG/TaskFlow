@@ -20,7 +20,7 @@ interface Props {
   propertyId?: number;
   tasks: TaskCanvas[];
   verify?: boolean;
-  input?:string;
+  input?: string;
 }
 
 export const ColumnKanban = ({
@@ -29,7 +29,7 @@ export const ColumnKanban = ({
   propertyId,
   tasks,
   verify,
-  input
+  input,
 }: Props) => {
   const [colorUse, setColorUse] = useState<string>("");
   const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
@@ -88,35 +88,38 @@ export const ColumnKanban = ({
                 {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
-
-                  if (item.task?.name?.toLowerCase().includes(input?.toLowerCase() ?? "")){
-
-                  
-                  return (
-                    <Draggable
-                      draggableId={`${item.id}`}
-                      key={`${item.id}`}
-                      index={item.indexAtColumn}
-                    >
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                            }}
-                          >
-                            <RoundedCard color={option?.color}>
-                              <CardContent task={item.task as Task} />
-                            </RoundedCard>
-                          </div>
-                        );
-                      }}
-                    </Draggable>
-                  );
-                }})}
+                  if (
+                    item.task?.name
+                      ?.toLowerCase()
+                      .includes(input?.toLowerCase() ?? "") ||
+                    item.task?.name == null 
+                  ) {
+                    return (
+                      <Draggable
+                        draggableId={`${item.id}`}
+                        key={`${item.id}`}
+                        index={item.indexAtColumn}
+                      >
+                        {(provided, snapshot) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                              }}
+                            >
+                              <RoundedCard color={option?.color}>
+                                <CardContent task={item.task as Task} />
+                              </RoundedCard>
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    );
+                  }
+                })}
                 {provided.placeholder}
               </div>
             );
