@@ -5,6 +5,8 @@ import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
 import {useState, useRef, useEffect} from "react"
 import { useTheme } from "next-themes"
+import { putData } from "@/services/http/api"
+import { Canvas } from "@/model/pages/Canvas"
 
 
 
@@ -12,10 +14,11 @@ import { useTheme } from "next-themes"
 interface Props{
     task: TaskCanvas,
     elementRef: React.RefObject<HTMLDivElement>,
-    canvasRef: React.RefObject<HTMLCanvasElement>
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+    page:Canvas | undefined
 }
 
-export const TaskCanvasComponent = ({task, elementRef, canvasRef}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -40,6 +43,10 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef}:Props) => {
             if(offsetY > 56 && offsetY < (2000)){
                 setY(offsetY)
             }
+            (async () => {
+                if(!page) return
+                await putData("canvas/"+page.id, {id:task.id, x:offsetX, y:offsetY})
+            })()
     }
 
     useEffect(() => {
@@ -50,12 +57,8 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef}:Props) => {
         return () => {
             elementRef.current?.removeEventListener("mousemove", changeXandY)
             elementRef.current?.removeEventListener("mouseup", () => setDragging(false))
-
         }
     }, [dragging])
-
-
-
 
     return(
         <div className="w-min h-min p-2 absolute transition-none select-none " style={style} onMouseDown={() => setDragging(true)} ref={draggableRef} >

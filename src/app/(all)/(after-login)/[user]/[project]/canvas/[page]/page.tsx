@@ -11,32 +11,17 @@ import { drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
+import { Canvas } from "@/model/pages/Canvas";
+import { getData } from "@/services/http/api";
+import page from "@/app/(all)/(before-login)/login/page";
 
-export default function Canvas() {
-  const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(
-      1,
-      new Task(1, "Task 1", true, true, null, [], null, null),
-      null,
-      100,
-      50,
-      1
-    ),
-    new TaskCanvas(
-      2,
-      new Task(1, "Task 2", true, true, null, [], null, null),
-      null,
-      50,
-      100,
-      1
-    ),
-  ]);
-
+export default function CanvasPage({params}:{params:{page:number}}) {
+  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
+  const[pageObj, setPageObj] = useState<Canvas>()
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
   const optionsRef = useRef<HTMLDivElement>(null);
-
   const [shape, setShape] = useState<string>("line");
   const [isErasing, setIsErasing] = useState<boolean>(false);
   const { clear, canvasRef } = useDraw(drawLine, moving, shape, optionsRef, isErasing);
@@ -60,13 +45,21 @@ export default function Canvas() {
         : "url('/img/pencilLight.svg'), auto";
     elementRef.current.style.cursor =  cursor;
   }, [moving, theme, isErasing]);
-  
+
+  useEffect(() => {
+    (async () => {
+        const pagePromise = await getData("canvas", params.page)
+        setPageObj(pagePromise);
+        setTasks(pagePromise.tasks);
+    })()
+  }, [])
+
   return (
     <div
       ref={elementRef}
       className="overflow-scroll flex justify-start items-start w-screen h-full"
     >
-      <MapOfCanvas canvas={canvasRef} x={x} y={y} />
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} page={pageObj} />
       <div className="w-min h-min relative">
         <canvas
           ref={canvasRef}
@@ -80,6 +73,7 @@ export default function Canvas() {
             key={index}
             elementRef={elementRef}
             canvasRef={canvasRef}
+            page={pageObj}
           />
         ))}
         <CanvasComponents

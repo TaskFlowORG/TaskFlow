@@ -44,7 +44,6 @@ export default function Projects() {
         }
         return 1
     }
-
     return (
         <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />

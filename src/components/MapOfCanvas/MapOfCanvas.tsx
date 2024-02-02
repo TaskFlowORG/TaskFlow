@@ -1,14 +1,17 @@
+import { Canvas } from "@/model/pages/Canvas";
+import { putData } from "@/services/http/api";
 import { use, useEffect, useState } from "react";
 import { set } from "zod";
 
 interface Props{
     canvas: React.RefObject<HTMLCanvasElement>,
     x: number,
-    y: number
+    y: number,
+    page:Canvas | undefined
 }
 
 
-export const MapOfCanvas = ({canvas, x, y}:Props) => {
+export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
     const image =canvas?.current?.toDataURL() || ""
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
@@ -20,6 +23,11 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
     }, [])
+    useEffect(() => {
+         if(!page) return 
+         page.draw = image;
+        // putData("canvas/draw", {id: page.id, draw: page.draw})
+    })
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)

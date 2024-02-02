@@ -16,7 +16,7 @@ interface Task{
     id:number
 }
 
-export default function calendarPage() {
+export default function CalendarPage() {
 
     const [tasks, setTasks] = useState<Array<Task>>([])
     const [month, setMonth] = useState<number>(0)

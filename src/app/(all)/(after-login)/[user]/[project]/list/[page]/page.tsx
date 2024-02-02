@@ -70,7 +70,6 @@ export default function ListPage({ params }: { params: { page: string } }) {
                 <div className="w-full h-4/5 overflow-auto p-2">
                     <div className="min-w-full h-full flex gap-4">
                 <DragDropContext onDragEnd={e => updateIndexes(e)}>
-
                         {
                             pages.map((p) => {
                                 return <List key={p.id} list={pageObj?.tasks.filter(t => contains(p, t)) ?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
