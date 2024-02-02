@@ -4,17 +4,12 @@ import { Property } from "@/model/Properties/Property"
 import { TypeOfProperty } from "@/model/enums/TypeOfProperty"
 import { Option } from "@/model/Properties/Option"
 import { IconArchive, IconCheckbox, IconNumber, IconSelect, IconTask, IconUser, IconCalendar, IconProgress, IconRadio, IconTag, IconText, IconClock } from "../icons"
-import { MultiOptionValued } from "@/model/values/MultiOptionValued"
 import { TaskValue } from "@/model/relations/TaskValue"
-import { ReactElement, ReactNode, useState } from "react"
-import { useContrast } from "@/hooks"
+import { useState } from "react"
 import { generateContrast } from "@/functions"
-import { format } from "path"
 import { Obj } from "../Obj"
 import { User } from "@/model/User"
-import { Task } from "@/model/tasks/Task"
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
-import styled from "styled-components"
 
 interface Props {
     list: Array<TaskCanvas>,
@@ -29,7 +24,6 @@ interface Props {
 
 export const List = ({ list, headName, multivalued, justName, property, updateIndexes, listId }: Props) => {
 
-    const [downTask, setDownTask] = useState<TaskCanvas>()
 
     function getValueOfProperty(task: TaskCanvas) {
         if (!property) return
@@ -51,75 +45,86 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
     }
 
     return (
+        <Droppable droppableId={listId.toString()}>
+            {(provided, snapshot) => {
+                return (
 
-        <div key={listId} className="w-min h-min p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10 ">
+                    <div key={listId} ref={provided.innerRef} {...provided.droppableProps} className=" lg:min-w-[25%] sm:min-w-[30%] min-w-full w-full h-full p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10 ">
 
-            <div className="flex gap-4 p-3 h-20 w-min items-center justify-start truncate text-modal-grey dark:text-white">
-                <If condition={justName}>
-                    <IconTask />
-                    <div>
+                        <div className={`flex gap-4 p-3 h-20 w-full min-w-min items-center justify-start truncate
+             text-modal-grey dark:text-white border-zinc-400 dark:border-zinc-600 border-b-2`}>
+                            <If condition={justName}>
+                                <IconTask />
+                                <div>
 
-                        <If condition={property?.type == TypeOfProperty.ARCHIVE}>
-                            <IconArchive />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.CHECKBOX}>
-                            <IconCheckbox />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.DATE}>
-                            <IconCalendar />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.NUMBER}>
-                            <IconNumber />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.PROGRESS}>
-                            <IconProgress />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.RADIO}>
-                            <IconRadio />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.SELECT}>
-                            <IconSelect />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.TAG}>
-                            <IconTag />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.TEXT}>
-                            <IconText />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.TIME}>
-                            <IconClock />
-                        </If>
-                        <If condition={property?.type == TypeOfProperty.USER}>
-                            <IconUser />
-                        </If>
-                    </div>
-                </If>
-                <If condition={headName != null}>
-                    <p>{headName}</p>
-                </If>
-            </div>
-            <div className="h-full w-min ">
+                                    <If condition={property?.type == TypeOfProperty.ARCHIVE}>
+                                        <IconArchive />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.CHECKBOX}>
+                                        <IconCheckbox />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.DATE}>
+                                        <IconCalendar />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.NUMBER}>
+                                        <IconNumber />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.PROGRESS}>
+                                        <IconProgress />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.RADIO}>
+                                        <IconRadio />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.SELECT}>
+                                        <IconSelect />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.TAG}>
+                                        <IconTag />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.TEXT}>
+                                        <IconText />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.TIME}>
+                                        <IconClock />
+                                    </If>
+                                    <If condition={property?.type == TypeOfProperty.USER}>
+                                        <IconUser />
+                                    </If>
+                                </div>
+                            </If>
+                            <If condition={headName != null}>
+                                <p>{headName}</p>
+                            </If>
+                        </div>
+                        <div className="h-full min-w-min w-full">
 
-                <DragDropContext onDragEnd={e => updateIndexes(e)}>
 
-                    <Droppable droppableId={listId.toString()}>
-                        {(provided, snapshot) => {
-                            return (
-                                <div ref={provided.innerRef} {...provided.droppableProps}>
-                                    {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l) => {
-                                        return (
-                                            <Draggable draggableId={l.id?.toString() ?? ""} index={l.indexAtColumn ?? 0} key={l.id}>{
-                                                (provided, snapshot) => {
-                                                    const propVl = getValueOfProperty(l);
-                                                    return (
-                                                        <div key={l.id}  className={"bg-white dark:bg-back-grey "  + (snapshot.isDragging ? " brightness-95" : "") } {...provided.draggableProps}{...provided.dragHandleProps} ref={provided.innerRef}>
+
+                            <div className="w-full relative">
+                                {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l) => {
+                                    return (
+                                        <Draggable draggableId={listId + "/" + l.id ?? ""} index={l.indexAtColumn ?? 0} key={l.id}>{
+                                            (provided, snapshot) => {
+                                                const propVl = getValueOfProperty(l);
+                                                return (
+                                                    <div >
+                                                        <div key={l.id}
+                                                            className="bg-white dark:bg-modal-grey  border-zinc-400 dark:border-zinc-600 border-b-2 w-full"
+                                                            {...provided.draggableProps}{...provided.dragHandleProps} ref={provided.innerRef}
+                                                            style={snapshot.isDragging ?
+                                                                { ...provided.draggableProps.style, filter: "brightness(90%)", left: 0, position: "absolute", top: (list.indexOf(l) * 5 + "rem") } :
+                                                                { ...provided.draggableProps.style }}>
                                                             <If condition={justName}>
-                                                                <div   className="w-full py-4 px-3  h-16 overflow-clip border-zinc-400 dark:border-zinc-800 border-t-2 justify-start items-center flex flex-wrap truncate"
-                                                                    style={{ color: l.task.name ? "#52525b" : "#a1a1aa"}} >
+                                                                <div className={"w-full py-4 px-3 gap-6 h-16 overflow-clip justify-start items-center flex flex-wrap truncate" +
+                                                                 (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
+                                                                        <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-800 dark:bg-zinc-600 flex flex-col text-[0.5rem] rounded-full">
+                                                                           <p >/\</p>
+                                                                           <p >\/</p>
+                                                                        </div>
                                                                     {l.task.name || "Sem Nome"}
                                                                 </div>
                                                                 <div>
-                                                                    <div className="w-full py-4 px-6 h-16 overflow-clip border-zinc-400 dark:border-zinc-800 border-t-2 justify-start text-zinc-400 items-center flex flex-wrap truncate">
+                                                                    <div className="w-full py-4 px-6 h-16 overflow-clip  justify-start text-zinc-400 items-center flex flex-wrap truncate">
 
                                                                         <If condition={property?.type == TypeOfProperty.ARCHIVE}>
                                                                             <div>
@@ -179,19 +184,20 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
 
                                                                 </div>
                                                             </If>
-                                                        </div>)
-                                                }}
-                                            </Draggable>)
-                                    })}
-                                    {provided.placeholder}
-                                </div>
-                            )
-                        }}
-                    </Droppable>
+                                                        </div>
+                                                    </div>)
+                                            }}
+                                        </Draggable>)
+                                })}
+                                {provided.placeholder}
+                            </div>
 
-                </DragDropContext>
-            </div>
 
-        </div>
+                        </div>
+
+                    </div>
+                )
+            }}
+        </Droppable>
     )
 }

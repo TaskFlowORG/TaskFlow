@@ -8,10 +8,11 @@ import { Page } from "@/model/pages/Page";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
-import { DropResult } from "@hello-pangea/dnd";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import page from "@/app/(all)/(before-login)/login/page";
 
 
-export default function tablePage({ params }: { params: { page: string, project: string } }) {
+export default function TablePage({ params }: { params: { page: string, project: string } }) {
 
     const [tasks, setTasks] = useState<Array<TaskCanvas>>([])
     const [properties, setProperties] = useState<Array<Property>>([])
@@ -31,11 +32,13 @@ export default function tablePage({ params }: { params: { page: string, project:
     }, [])
 
     async function updateIndexes(e: DropResult) {
-        if (e.source.droppableId == e.destination?.droppableId) {
-            const pagePromise = await putData(`page/${e.draggableId}/${e.destination?.index}`, pageObj)
+        if(!e.draggableId || !e.destination?.index) return
+        const id = e.draggableId.split("/")[1]
+        console.log(e.draggableId, e.destination?.index)
+            const pagePromise = await putData(`page/${id}/${e.destination?.index}`, pageObj)
             setPageObj(await pagePromise)
-        }
     }
+
 
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
@@ -51,11 +54,14 @@ export default function tablePage({ params }: { params: { page: string, project:
                     </div>
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="w-min h-min flex gap-1 shadow-blur-10">
-                            <List list={tasks} headName="Tasks" justName updateIndexes={updateIndexes} listId={0} />
+                    <div className="min-w-full h-full flex gap-1 shadow-blur-10">
+                <DragDropContext onDragEnd={e => updateIndexes(e)}>
+
+                            <List list={tasks} headName="Tasks" justName updateIndexes={updateIndexes} listId={ pageObj?.id ?? 0} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}  updateIndexes={updateIndexes} listId={p.id} /> 
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}  updateIndexes={updateIndexes} listId={pageObj?.id ?? 0} /> 
                             })}
+                            </DragDropContext>
                     </div>
                 </div>
             </div>

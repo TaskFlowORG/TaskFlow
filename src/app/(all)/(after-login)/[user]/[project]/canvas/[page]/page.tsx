@@ -12,7 +12,7 @@ import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
 
-export default function canvas() {
+export default function Canvas() {
   const [tasks, setTasks] = useState<TaskCanvas[]>([
     new TaskCanvas(
       1,

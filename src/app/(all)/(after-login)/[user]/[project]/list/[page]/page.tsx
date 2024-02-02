@@ -11,10 +11,10 @@ import page from "@/app/(all)/(before-login)/login/page";
 import { TypeOfPage } from "@/model/enums/TypeOfPage";
 import { TaskValue } from "@/model/relations/TaskValue";
 import { Task } from "@/model/tasks/Task";
-import { DropResult } from "@hello-pangea/dnd";
+import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 
 
-export default function listPage({ params }: { params: { page: string } }) {
+export default function ListPage({ params }: { params: { page: string } }) {
 
     const [pages, setPages] = useState<Page[]>([])
     const [pageObj, setPageObj] = useState<Page>()
@@ -38,13 +38,16 @@ export default function listPage({ params }: { params: { page: string } }) {
     }, [])
 
     async function updateIndexes(e: DropResult) {
+        if(!e.draggableId || !e.destination?.index) return
+        const id = e.draggableId.split("/")[1]
         if (e.source.droppableId == e.destination?.droppableId) {
-            const pagePromise = await putData(`page/${e.draggableId}/${e.destination?.index}`, pageObj)
+            const pagePromise = await putData(`page/${id}/${e.destination?.index}`, pageObj)
             setPageObj(await pagePromise)
         }
     }
 
-    function contains(p: Page, t: TaskCanvas): boolean {
+    function contains(p:Page,  t: TaskCanvas): boolean {
+        if(!p) return false
         for (let task of p.tasks) {
             if (task.task.id == t.task.id) return true
         }
@@ -65,12 +68,15 @@ export default function listPage({ params }: { params: { page: string } }) {
                     </div>
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="w-min h-min flex gap-4">
+                    <div className="min-w-full h-full flex gap-4">
+                <DragDropContext onDragEnd={e => updateIndexes(e)}>
+
                         {
                             pages.map((p) => {
                                 return <List key={p.id} list={pageObj?.tasks.filter(t => contains(p, t)) ?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
                             })
                         }
+                        </DragDropContext>
                     </div>
                 </div>
             </div>
