@@ -7,7 +7,7 @@ export { getData, getListData, putData, getListChat, getSingleChat, getPage }
 
 const axios = require('axios').default;
 
-async function getData(table: string, paramether: number) {
+async function getData(table: string, paramether: number|string) {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
 async function getPage(table: string, paramether: number):Promise<CommonPage> {
