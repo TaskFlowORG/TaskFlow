@@ -23,6 +23,8 @@ import { NumberValued } from "@/model/values/NumberValued";
 import { TimeValued } from "@/model/values/TimeValued";
 import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { Property } from "@/model/Properties/Property";
+import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
+import { FilteredProperty } from "@/types/FilteredProperty";
 
 export default function Kanban() {
   const [input, setInput] = useState("");
@@ -30,6 +32,7 @@ export default function Kanban() {
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
   const [page, setPage] = useState<CommonPage | null>(null);
+  const [filterProp, setFilterProp] = useState<FilteredProperty[]>([])
 
   useEffect(() => {
     (async () => {
@@ -52,37 +55,6 @@ export default function Kanban() {
     return tasks;
   }
 
-  function verifyProperties(task: TaskCanvas) {
-    const properties: TaskValue[] = task?.task?.properties ?? [];
-    properties.map((property) => {
-      console.log(property.property.type == TypeOfProperty.SELECT);
-      switch (property.property.type) {
-        case TypeOfProperty.TEXT:
-          return ((property.value as TextValued).text = property.value.value);
-        case TypeOfProperty.SELECT:
-        case TypeOfProperty.RADIO:
-          console.log("Entrei uma hora");
-          return ((property.value as UniOptionValued).uniOption =
-            property.value.value);
-        case (TypeOfProperty.CHECKBOX, TypeOfProperty.USER, TypeOfProperty.TAG):
-          return ((property.value as MultiOptionValued).multiOptions =
-            property.value.value);
-        case TypeOfProperty.ARCHIVE:
-          return ((property.value as ArchiveValued).archive =
-            property.value.value);
-        case TypeOfProperty.NUMBER:
-          return ((property.value as NumberValued).number =
-            property.value.value);
-        case TypeOfProperty.TIME:
-          return ((property.value as TimeValued).time = property.value.value);
-        case TypeOfProperty.DATE:
-          return ((property.value as TimeValued).time = property.value.value);
-        case TypeOfProperty.PROGRESS:
-          return ((property.value as NumberValued).number =
-            property.value.value);
-      }
-    });
-  }
 
   const onDragEnd = (result: any) => {
     // tasks.map((task) => verifyProperties(task));
@@ -149,6 +121,7 @@ export default function Kanban() {
         >
           {page?.name}
         </h1>
+        <FilterAdvancedInput filterProps={(list)=> setFilterProp(list)} orderingId={page?.propertyOrdering.id} page={page} properties={page?.properties as Property[]}/>
         <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
@@ -172,6 +145,7 @@ export default function Kanban() {
           {options.map((option) => {
             return (
               <ColumnKanban
+              propsFiltered={filterProp}
                 input={input}
                 key={`${option.id}`}
                 tasks={indexAtColumn(
@@ -194,6 +168,7 @@ export default function Kanban() {
           })}
           {
             <ColumnKanban
+            propsFiltered={filterProp}
               key={0}
               input={input}
               tasks={tasks.filter((task) => {

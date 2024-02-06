@@ -13,6 +13,8 @@ import { UniOptionValued } from "@/model/values/UniPotionValued";
 import { Option } from "@/model/Properties/Option";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
+import { FilteredProperty } from "@/types/FilteredProperty";
+import { Select } from "@/model/Properties/Select";
 
 interface Props {
   color?: string;
@@ -21,6 +23,7 @@ interface Props {
   tasks: TaskCanvas[];
   verify?: boolean;
   input?: string;
+  propsFiltered: FilteredProperty[];
 }
 
 export const ColumnKanban = ({
@@ -30,30 +33,11 @@ export const ColumnKanban = ({
   tasks,
   verify,
   input,
+  propsFiltered = [],
 }: Props) => {
   const [colorUse, setColorUse] = useState<string>("");
   const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
 
-  // useEffect(() => {
-  //   setColorUse(color ? color : "#FF0000");
-
-  //   if (verify) {
-  //     const filteredTasks: Task[] = tasks.filter((task) => {
-
-  //       return task.properties?.some((property) => {
-  //         // console.log(option,(property.value as UniOptionValued).value?.name )
-  //         return property.property.id == propertyId && (property.value as UniOptionValued).value.id == option?.id;
-  //       });
-  //     });
-  //     setTasksColumn(filteredTasks);
-  //     console.log(filteredTasks)
-  //   } else {
-  //     setTasksColumn(tasks);
-  //     console.log(tasks);
-  //   }
-
-  //   console.log(tasksColumn, verify);
-  // }, [color, option, tasks]);
   return (
     <div
       className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
@@ -88,7 +72,6 @@ export const ColumnKanban = ({
                 {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
-                  console.log(input);
                   if (
                     item.task?.name
                       ?.toLowerCase()
@@ -96,30 +79,59 @@ export const ColumnKanban = ({
                     input?.toLowerCase() == "" ||
                     input?.toLowerCase() == undefined
                   ) {
-                    return (
-                      <Draggable
-                        draggableId={`${item.id}`}
-                        key={`${item.id}`}
-                        index={item.indexAtColumn}
-                      >
-                        {(provided, snapshot) => {
-                          return (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                ...provided.draggableProps.style,
-                              }}
-                            >
-                              <RoundedCard color={option?.color}>
-                                <CardContent task={item.task as Task} />
-                              </RoundedCard>
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
+                    let render = true;
+
+                    propsFiltered.map((prop) => {
+                      const propFilter = item.task?.properties?.find(
+                        (property) => property.property.id == prop.id
+                      );
+
+                      // console.log(item.task?.properties)
+                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
+                        // console.log(prop.value,propFilter?.value.value)
+                        // console.log(propFilter?.value.value)
+                        render = false;
+                        if (
+                          propFilter?.property.type == TypeOfProperty.SELECT
+                        ) {
+                          const opt: Option = propFilter?.value.value;
+                          console.log(opt);
+                          if (opt != null) {
+                            if (opt.name != null) {
+                              if (opt.name == prop.value) {
+                                render = true;
+                              }
+                            }
+                          }   
+                        }
+                      }
+                    });
+                    if (render) {
+                      return (
+                        <Draggable
+                          draggableId={`${item.id}`}
+                          key={`${item.id}`}
+                          index={item.indexAtColumn}
+                        >
+                          {(provided, snapshot) => {
+                            return (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style,
+                                }}
+                              >
+                                <RoundedCard color={option?.color}>
+                                  <CardContent task={item.task as Task} />
+                                </RoundedCard>
+                              </div>
+                            );
+                          }}
+                        </Draggable>
+                      );
+                    }
                   }
                 })}
                 {provided.placeholder}

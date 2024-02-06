@@ -46,6 +46,7 @@ export const CardContent = ({ task, min }: Props) => {
           if (is(property, TypeOfProperty.TEXT)) {
             return (
               <CardText
+              property={property.property.name}
                 key={property.property.id.toString()}
                 text={(property.value as TextValued).value}
               />
@@ -80,6 +81,15 @@ export const CardContent = ({ task, min }: Props) => {
                 property={property.property.name}
                 value={property.value.getValue()}
               />
+            );
+          } else if (is(property, TypeOfProperty.NUMBER)) {
+            return (
+              // <CardNumber
+              //   key={property.property.id.toString()}
+              //   property={property.property.name}
+              //   value={property.value.getValue()}
+              // />
+              <></>
             );
           }
         })}
