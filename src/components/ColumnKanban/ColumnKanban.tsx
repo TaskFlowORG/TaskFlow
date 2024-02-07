@@ -121,6 +121,7 @@ export const ColumnKanban = ({
                                 {...provided.dragHandleProps}
                                 style={{
                                   ...provided.draggableProps.style,
+
                                 }}
                               >
                                 <RoundedCard color={option?.color}>

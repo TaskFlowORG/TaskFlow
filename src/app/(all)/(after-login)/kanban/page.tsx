@@ -32,7 +32,7 @@ export default function Kanban() {
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
   const [page, setPage] = useState<CommonPage | null>(null);
-  const [filterProp, setFilterProp] = useState<FilteredProperty[]>([])
+  const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -54,7 +54,6 @@ export default function Kanban() {
     tasks.sort(compararPorIndice);
     return tasks;
   }
-
 
   const onDragEnd = (result: any) => {
     // tasks.map((task) => verifyProperties(task));
@@ -110,10 +109,7 @@ export default function Kanban() {
   };
 
   return (
-    <div
-      className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey"
-      onClick={() => indexAtColumn(tasks)}
-    >
+    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
       <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
@@ -121,7 +117,7 @@ export default function Kanban() {
         >
           {page?.name}
         </h1>
-        <FilterAdvancedInput filterProps={(list)=> setFilterProp(list)} orderingId={page?.propertyOrdering.id} page={page} properties={page?.properties as Property[]}/>
+
         <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 ">
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
@@ -131,13 +127,20 @@ export default function Kanban() {
           search={(textInput: string) => setInput(textInput)}
         >
           <div className="fixed  top-40 z-30">
-          <OrderInput
-            page={page as CommonPage}
-            orderingId={id}
-            properties={page?.properties ?? []}
-          ></OrderInput>
+            <OrderInput
+              page={page as CommonPage}
+              orderingId={id}
+              propertiesPage={page?.properties ?? []}
+            ></OrderInput>
           </div>
-          
+          <div className="fixed  top-40 z-30">
+            <FilterAdvancedInput
+              filterProps={(list) => setFilterProp(list)}
+              orderingId={page?.propertyOrdering.id}
+              page={page}
+              properties={page?.properties as Property[]}
+            />
+          </div>
         </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
@@ -145,7 +148,7 @@ export default function Kanban() {
           {options.map((option) => {
             return (
               <ColumnKanban
-              propsFiltered={filterProp}
+                propsFiltered={filterProp}
                 input={input}
                 key={`${option.id}`}
                 tasks={indexAtColumn(
@@ -168,7 +171,7 @@ export default function Kanban() {
           })}
           {
             <ColumnKanban
-            propsFiltered={filterProp}
+              propsFiltered={filterProp}
               key={0}
               input={input}
               tasks={tasks.filter((task) => {

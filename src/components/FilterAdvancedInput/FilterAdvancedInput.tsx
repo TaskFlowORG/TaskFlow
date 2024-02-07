@@ -18,14 +18,18 @@ interface Props {
   properties: Property[] | undefined;
   orderingId: number | undefined;
   page: CommonPage | null;
-  filterProps: (list:any)=>void
+  filterProps: (list: any) => void;
 }
 
-export const FilterAdvancedInput = ({ properties, orderingId, filterProps }: Props) => {
+export const FilterAdvancedInput = ({
+  properties,
+  orderingId,
+  filterProps,
+}: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );
-  let filterProp:FilteredProperty[] = []
+  let filterProp: FilteredProperty[] = [];
 
   useEffect(() => {
     (async () => {
@@ -35,34 +39,58 @@ export const FilterAdvancedInput = ({ properties, orderingId, filterProps }: Pro
   }, []);
   if (1 + 1 == 2) {
     return (
-      <div className="flex flex-col p-4 w-96 shadowww gap-4">
+      <div className="flex flex-col p-4 w-96 shadowww gap-4 hidden rounded-lg">
         {properties?.map((property) => {
           if (property.type === TypeOfProperty.TEXT) {
-            return <TextFilter name={property.name} id={property.id} />;
+            return (
+              <TextFilter
+                key={property.id}
+                name={property.name}
+                id={property.id}
+              />
+            );
           } else if (property.type === TypeOfProperty.DATE) {
-            return <DateFilter />;
+            return <DateFilter key={property.id} />;
           } else if (property.type === TypeOfProperty.NUMBER) {
-            return <NumberFilter name={property.name} id={property.id} />;
+            return (
+              <NumberFilter
+                key={property.id}
+                name={property.name}
+                id={property.id}
+              />
+            );
           } else if (property.type === TypeOfProperty.TAG) {
-            return <TagFilter />;
-          } 
-           else if (property.type === TypeOfProperty.SELECT) {
-            return <SelectFilter id={property.id} name={property.name} options={(property as Select).options} />;
-          } 
+            return <TagFilter key={property.id} />;
+          } else if (property.type === TypeOfProperty.SELECT) {
+            return (
+              <SelectFilter
+                key={property.id}
+                id={property.id}
+                name={property.name}
+                options={(property as Select).options}
+              />
+            );
+          }
         })}
         <div className="flex w-full justify-end">
-          <Button font="text-base" padding="p-4" fnButton={()=>{
-            properties?.map((property)=>{
-              const anInput:HTMLInputElement | null =  document.querySelector(`#prop${property.id}`)
-              if (anInput?.value){
-                filterProp.push({id:property.id, value:anInput.value})
+          <Button
+            font="text-base"
+            padding="p-4"
+            fnButton={() => {
+              properties?.map((property) => {
+                const anInput: HTMLInputElement | null = document.querySelector(
+                  `#prop${property.id}`
+                );
+                if (anInput?.value) {
+                  filterProp.push({ id: property.id, value: anInput.value });
+                }
+              });
+              if (filterProp) {
+                console.log(filterProp);
+                filterProps(filterProp);
               }
-            })
-            if (filterProp){
-              console.log(filterProp)
-              filterProps(filterProp)
-            }
-          }} />
+            }}
+          />
         </div>
       </div>
     );
@@ -73,7 +101,7 @@ export const FilterAdvancedInput = ({ properties, orderingId, filterProps }: Pro
       {allProperties?.map((property) => {
         if (property.id != orderingId) {
           return (
-            <div>
+            <div key={property.id}>
               <p>{property.name}</p>
             </div>
           );
@@ -82,7 +110,7 @@ export const FilterAdvancedInput = ({ properties, orderingId, filterProps }: Pro
       {properties?.map((property) => {
         if (property.id != orderingId) {
           return (
-            <div>
+            <div key={property.id}>
               <p>{property.name}</p>
             </div>
           );

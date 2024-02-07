@@ -48,6 +48,9 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
         {order && openedOrder && (
           children
         )}
+        {filter && openedFilter && (
+          children
+        )}
       {search && (
         <SearchIcon
           iconSrc={"searchIcons/search.svg"}
