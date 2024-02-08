@@ -17,9 +17,9 @@ export const SelectFilter = ({ options, name, id }: Props) => {
   };
 
   return (
-    <div>
+    <div className="text-black dark:text-white" >
       <p>{name}</p>
-      <select value={selectedOption} id={"prop" +id.toString()} onChange={handleOptionChange}>
+      <select className="bg-white dark:bg-modal-grey" value={selectedOption} id={"prop" +id.toString()} onChange={handleOptionChange}>
         <option value="">Selecione...</option>
         {options.map((option, index) => (
           <option key={index} value={option.name}>

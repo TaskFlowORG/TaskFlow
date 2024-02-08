@@ -40,7 +40,7 @@ export const FilterAdvancedInput = ({
   }, []);
 
     return (
-      <div className="flex flex-col p-4 fixed bg-white  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
+      <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
         {properties?.map((property) => {
           if (property.type === TypeOfProperty.TEXT) {
             return (

@@ -5,7 +5,7 @@ interface Props {
 
 export const NumberFilter = ({ id, name }: Props) => {
   return (
-    <div>
+    <div className="text-black dark:text-white">
       <p>{name}</p>
       <input type="number" name="" id={`prop${id}`} />
     </div>
