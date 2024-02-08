@@ -7,7 +7,7 @@ interface Props {
   order?: () => any;
   search: (textInput: string) => any;
   filter?: () => any;
-  children?: ReactElement | ReactNode | ReactElement[]
+  children:  ReactElement[] | ReactNode[]
 }
 export const SearchBar = ({ order, search, filter, children }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
@@ -46,10 +46,10 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
           )}
 
         {order && openedOrder && (
-          children
+          children[0]
         )}
         {filter && openedFilter && (
-          children
+          children[1]
         )}
       {search && (
         <SearchIcon

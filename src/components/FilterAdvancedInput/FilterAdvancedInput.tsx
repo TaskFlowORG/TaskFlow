@@ -31,15 +31,16 @@ export const FilterAdvancedInput = ({
   );
   let filterProp: FilteredProperty[] = [];
 
+
   useEffect(() => {
     (async () => {
       const project: Project = await getData("project", 1);
       setAllProperties(project.properties);
     })();
   }, []);
-  if (1 + 1 == 2) {
+
     return (
-      <div className="flex flex-col p-4 w-96 shadowww gap-4 hidden rounded-lg">
+      <div className="flex flex-col p-4 fixed bg-white  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
         {properties?.map((property) => {
           if (property.type === TypeOfProperty.TEXT) {
             return (
@@ -96,37 +97,3 @@ export const FilterAdvancedInput = ({
     );
   }
 
-  return (
-    <div>
-      {allProperties?.map((property) => {
-        if (property.id != orderingId) {
-          return (
-            <div key={property.id}>
-              <p>{property.name}</p>
-            </div>
-          );
-        }
-      })}
-      {properties?.map((property) => {
-        if (property.id != orderingId) {
-          return (
-            <div key={property.id}>
-              <p>{property.name}</p>
-            </div>
-          );
-        }
-      })}
-
-      <div
-        onClick={() => {
-          const input = document.querySelector("#BOLOLO") as HTMLInputElement;
-          input.focus();
-        }}
-      >
-        skjaslkdasjkljsldk
-      </div>
-
-      <input type="text" id="BOLOLO" />
-    </div>
-  );
-};

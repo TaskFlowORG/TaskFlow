@@ -37,8 +37,7 @@ export default function Kanban() {
   useEffect(() => {
     (async () => {
       const pg: CommonPage = await getPage("page", 1);
-      const project = await getData("project", 1);
-      pg.project = project;
+      pg.project = await getData("project", 1);;
       setTasks(pg.tasks);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
@@ -56,8 +55,6 @@ export default function Kanban() {
   }
 
   const onDragEnd = (result: any) => {
-    // tasks.map((task) => verifyProperties(task));
-    console.log(result);
     if (!result.destination) return;
     const { source, destination } = result;
 
@@ -65,35 +62,27 @@ export default function Kanban() {
       return option.id == destination.droppableId;
     });
 
-    const draggedTask: TaskCanvas | undefined = tasks.find((task) => {
-      return task?.id == result.draggableId;
-    });
+    const draggedTask: TaskCanvas = tasks.find((task) => {
+      return task.id == result.draggableId;
+    })!;
 
-    const property: TaskValue | undefined = draggedTask?.task?.properties?.find(
+    const property: TaskValue = draggedTask?.task?.properties?.find(
       (property) => {
         return property.property.id == id;
       }
-    );
+    )!;
 
-    const valueOfTaskInOrderingProperty: UniOptionValued =
-      property?.value as UniOptionValued;
-
-    valueOfTaskInOrderingProperty.value = optionOrder ?? null;
+    property.value.value = optionOrder ?? null;
 
     if (draggedTask) {
-      const updateTask = async () => {
-        try {
-          console.log("lkdjgf", draggedTask.task);
+      try {
+        (async () => {
           await putData("task", draggedTask.task);
-        } catch (e) {
-          console.log("OI task update");
-        }
-      };
-      updateTask();
+        })();
+      } catch (e) {}
     }
-    console.log("task depois", draggedTask);
+
     const updatePage = async () => {
-      console.log("page", page);
       try {
         await putData(
           `page/${draggedTask?.task?.id}/${destination.index}/${
@@ -101,9 +90,7 @@ export default function Kanban() {
           }`,
           page
         );
-      } catch (e) {
-        console.log("OI");
-      }
+      } catch (e) {}
     };
     updatePage();
   };
@@ -126,21 +113,17 @@ export default function Kanban() {
           filter={() => console.log("Filtering")}
           search={(textInput: string) => setInput(textInput)}
         >
-          <div className="fixed  top-40 z-30">
             <OrderInput
               page={page as CommonPage}
               orderingId={id}
               propertiesPage={page?.properties ?? []}
             ></OrderInput>
-          </div>
-          <div className="fixed  top-40 z-30">
             <FilterAdvancedInput
               filterProps={(list) => setFilterProp(list)}
               orderingId={page?.propertyOrdering.id}
               page={page}
               properties={page?.properties as Property[]}
             />
-          </div>
         </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
@@ -156,8 +139,8 @@ export default function Kanban() {
                     return task?.task?.properties?.some((property) => {
                       return (
                         property.property.id == id &&
-                        (property.value as UniOptionValued).value?.id ==
-                          option?.id
+                        (property.value as UniOptionValued | MultiOptionValued)
+                          .value?.id == option?.id
                       );
                     });
                   })

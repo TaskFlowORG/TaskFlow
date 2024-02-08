@@ -34,7 +34,7 @@ export const OrderInput = ({ propertiesPage, orderingId, page }: Props) => {
   }
 
   return (
-    <div className="rounded-2xl shadowww bg-white flex flex-col p-4 gap-6 min-w-[300px]">
+    <div className="rounded-2xl shadowww fixed  top-40 z-30 bg-white flex flex-col p-4 gap-6 min-w-[300px]">
       <h5 className="h5">Ordenar por</h5>
       <div className="flex flex-col gap-4">
         {properties.map((property) => {

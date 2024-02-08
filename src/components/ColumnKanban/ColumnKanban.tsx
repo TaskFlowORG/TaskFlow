@@ -27,17 +27,11 @@ interface Props {
 }
 
 export const ColumnKanban = ({
-  color,
   option,
-  propertyId,
   tasks,
-  verify,
   input,
   propsFiltered = [],
 }: Props) => {
-  const [colorUse, setColorUse] = useState<string>("");
-  const [tasksColumn, setTasksColumn] = useState<Task[]>([]);
-
   return (
     <div
       className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
