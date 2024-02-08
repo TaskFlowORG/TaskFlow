@@ -13,21 +13,19 @@ export class Project {
     deadline: Date;
     visualizedAt:Date;
     picture: string;
-    groups: Array<Group>;
     owner: User;
     pages: Array<Page>;
     properties: Array<Property>; 
     percentage: number;
 
 
-    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>, percentage: number) {
+    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, owner: User, pages: Array<Page>, properties: Array<Property>, percentage: number) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.deadline = deadline;
         this.visualizedAt = visualizedAt;
         this.picture = picture;
-        this.groups = groups;
         this.owner = owner;
         this.pages = pages;
         this.properties = properties;

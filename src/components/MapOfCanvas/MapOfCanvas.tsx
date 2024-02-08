@@ -1,7 +1,6 @@
 import { Canvas } from "@/model/pages/Canvas";
 import { putData } from "@/services/http/api";
-import { use, useEffect, useState } from "react";
-import { set } from "zod";
+import {useEffect, useState } from "react";
 
 interface Props{
     canvas: React.RefObject<HTMLCanvasElement>,
