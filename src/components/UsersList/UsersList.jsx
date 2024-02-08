@@ -142,7 +142,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
             </button>
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
-            {users.map((u) => (
+            {usersGroup.map((u) => (
               <PermissionUser
                 groupId={id}
                 userId={u.id}
