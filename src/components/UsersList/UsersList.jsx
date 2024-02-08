@@ -22,6 +22,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
 
         const fetchedGroup = await getData("group", id);
         const groupUsers = fetchedGroup.users;
+        console.log(groupUsers)
         const ownerIndex = groupUsers.findIndex(user => user.id === fetchedGroup.owner.id);
 
         if (ownerIndex !== -1) {
@@ -36,13 +37,13 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     };
 
 
-    const intervalId = setInterval(fetchData, 5000);
+     const intervalId = setInterval(fetchData, 5000);
 
 
     fetchData();
 
 
-    return () => clearInterval(intervalId);
+     return () => clearInterval(intervalId);
   }, [id]);
 
 
@@ -141,7 +142,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
             </button>
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
-            {usersGroup.map((u) => (
+            {users.map((u) => (
               <PermissionUser
                 groupId={id}
                 userId={u.id}
