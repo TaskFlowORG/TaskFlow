@@ -22,7 +22,6 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
 
         const fetchedGroup = await getData("group", id);
         const groupUsers = fetchedGroup.users;
-        console.log(groupUsers)
         const ownerIndex = groupUsers.findIndex(user => user.id === fetchedGroup.owner.id);
 
         if (ownerIndex !== -1) {
@@ -37,13 +36,11 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     };
 
 
-     const intervalId = setInterval(fetchData, 5000);
-
+    const intervalId = setInterval(fetchData, 5000);
 
     fetchData();
 
-
-     return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId);
   }, [id]);
 
 
@@ -93,7 +90,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     const updatedUsersGroup = [newUser, ...usersGroup];
     setUsersGroup(updatedUsersGroup);
     try {
-      await putData("group/user/" +id, newUser);
+      await putData("group/user/" + id, newUser);
     } catch (error) {
       console.error("Error adding user to group:", error);
     }

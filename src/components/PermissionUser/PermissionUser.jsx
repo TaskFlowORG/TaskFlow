@@ -1,8 +1,10 @@
 "use client";
 import { getListData, getData, putData } from "@/services/http/api";
+import { Theme } from "react-select";
 
 
 import { useEffect, useState } from "react";
+import { useTheme } from "styled-components";
 
 
 export const PermissionUser = ({ groupId, userId, projectId }) => {
@@ -10,6 +12,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [group, setGroup] = useState([]);
+  const {Theme} = useTheme;
 
 
   useEffect(() => {
@@ -62,7 +65,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
           <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
             <p>|</p>
             {group.owner && user.id === group.owner.id ? (
-              <img className="mx-auto" src="/img/owner.svg" alt="Master" />
+              <img className="mx-auto " src="/img/owner.svg" alt="Master" />
             ) : (
               <select
               // border-[#F04A94] dark:border-[#F76858] caso eu queira colocar borda no selec
