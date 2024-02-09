@@ -33,7 +33,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
     updatePermission(selectedValue);
   };
 
-
   async function updatePermission(selectedValue) {
     console.log(permissions);
     console.log("escolha feita", selectedValue);
