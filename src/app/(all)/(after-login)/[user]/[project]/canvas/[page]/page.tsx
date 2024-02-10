@@ -12,23 +12,36 @@ import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
 import { Canvas } from "@/model/pages/Canvas";
-import { getData } from "@/services/http/api";
+import { getData, postTask } from "@/services/http/api";
 import page from "@/app/(all)/(before-login)/login/page";
 
-export default function CanvasPage({params}:{params:{page:number}}) {
+export default function CanvasPage({
+  params,
+}: {
+  params: { page: number; user: number; project: number };
+}) {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
-  const[pageObj, setPageObj] = useState<Canvas>()
+  const [pageObj, setPageObj] = useState<Canvas>();
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
-  const { scrollX: x, scrollY: y } = useNavigationWithScroll( moving,elementRef);
+  const { scrollX: x, scrollY: y } = useNavigationWithScroll(
+    moving,
+    elementRef
+  );
   const optionsRef = useRef<HTMLDivElement>(null);
   const [shape, setShape] = useState<string>("line");
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const { clear, canvasRef } = useDraw(drawLine, moving, shape, optionsRef, isErasing);
+  const { clear, canvasRef } = useDraw(
+    drawLine,
+    moving,
+    shape,
+    optionsRef,
+    isErasing
+  );
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
-    if(!elementRef.current) return 
+    if (!elementRef.current) return;
     let cursor = "";
     if (moving)
       cursor =
@@ -43,17 +56,35 @@ export default function CanvasPage({params}:{params:{page:number}}) {
       cursor = isErasing
         ? "url('/img/eraserLight.svg'), auto"
         : "url('/img/pencilLight.svg'), auto";
-    elementRef.current.style.cursor =  cursor;
+    elementRef.current.style.cursor = cursor;
   }, [moving, theme, isErasing]);
 
   useEffect(() => {
-    (async () => {
-        const pagePromise = await getData("canvas", params.page)
-        setPageObj(pagePromise);
-        setTasks(pagePromise.tasks);
-    })()
-  }, [])
+    updatePageAndTasks();
+  }, []);
 
+  async function updatePageAndTasks() {
+    const pagePromise = await getData("canvas", params.page);
+    const projectPromise = await getData("project", params.project);
+    pagePromise.project = projectPromise;
+    setPageObj(pagePromise);
+    setTasks(pagePromise.tasks);
+  }
+
+  useEffect(() => {
+    const url = pageObj?.draw.data;
+    const img = new Image();
+    const ctx = canvasRef.current?.getContext("2d");
+    if (!canvasRef.current || !url || !ctx) return;
+    img.src = "data:" + pageObj.draw.type + ";base64," + pageObj.draw.data;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, 4000, 2000);
+    };
+  }, [tasks, pageObj]);
+  async function createTask() {
+    await postTask(params.user, params.page);
+    updatePageAndTasks();
+  }
   return (
     <div
       ref={elementRef}
@@ -84,11 +115,12 @@ export default function CanvasPage({params}:{params:{page:number}}) {
           setIsErasing={setIsErasing}
           optionsRef={optionsRef}
           shape={shape}
-          setShape={setShape}          
+          setShape={setShape}
+          postTask={createTask}
         />
+        <img src={pageObj?.draw.data} alt="" />
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
-
     </div>
   );
 }

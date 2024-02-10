@@ -28,6 +28,7 @@ interface Props {
   optionsRef: RefObject<HTMLDivElement>;
   shape: string;
   setShape: React.Dispatch<React.SetStateAction<string>>;
+  postTask: () => void;
 }
 
 export const CanvasComponents = ({
@@ -39,6 +40,7 @@ export const CanvasComponents = ({
   optionsRef,
   shape,
   setShape,
+  postTask
 }: Props) => {
 
   const [lineColor, setLocalLineColor] = useState<string>("#000000");
@@ -50,6 +52,7 @@ export const CanvasComponents = ({
   useEffect(() => {
     setLineWidth(lineWidth);
   }, [lineWidth]);
+
 
   return (
     <div>
@@ -109,7 +112,8 @@ export const CanvasComponents = ({
           </If>
         </button>
         <button 
-         disabled={moving}>
+         disabled={moving}
+         onClick={postTask}>
           <AddTask />
         </button>
       </div>

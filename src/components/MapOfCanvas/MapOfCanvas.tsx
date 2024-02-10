@@ -1,5 +1,6 @@
 import { Canvas } from "@/model/pages/Canvas";
-import { putData } from "@/services/http/api";
+import { patchData, putData } from "@/services/http/api";
+import { Blob } from "buffer";
 import {useEffect, useState } from "react";
 
 interface Props{
@@ -11,7 +12,7 @@ interface Props{
 
 
 export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
-    const image =canvas?.current?.toDataURL() || ""
+    const image = canvas?.current?.toDataURL() || ""
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
     useEffect(() => {
@@ -21,12 +22,19 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
         })
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
-    }, [])
-    useEffect(() => {
-         if(!page) return 
-         page.draw = image;
-        // putData("canvas/draw", {id: page.id, draw: page.draw})
     })
+    
+    useEffect(() => {
+         if(!page || !canvas || !canvas.current) return 
+         const formData = new FormData();
+         
+         canvas.current.toBlob((draw) => {
+                if(draw){
+                     formData.append("draw", draw)
+                     patchData("canvas/draw/"+page.id, formData)
+                }
+            })
+    }, [image])
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)

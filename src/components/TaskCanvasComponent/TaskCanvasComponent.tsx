@@ -5,7 +5,7 @@ import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
 import {useState, useRef, useEffect} from "react"
 import { useTheme } from "next-themes"
-import { putData } from "@/services/http/api"
+import { putData, patchData } from "@/services/http/api"
 import { Canvas } from "@/model/pages/Canvas"
 
 
@@ -45,7 +45,7 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
             }
             (async () => {
                 if(!page) return
-                await putData("canvas/"+page.id, {id:task.id, x:offsetX, y:offsetY})
+                await patchData("canvas/XandY",{id:task.id, x:offsetX, y:offsetY})
             })()
     }
 
