@@ -35,15 +35,12 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
       }
     };
 
-
     const intervalId = setInterval(fetchData, 5000);
 
     fetchData();
 
     return () => clearInterval(intervalId);
   }, [id]);
-
-
 
 
   const findUser = () => {
