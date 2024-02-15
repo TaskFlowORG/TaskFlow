@@ -1,6 +1,5 @@
 "use client";
 
-
 import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
@@ -52,7 +51,6 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
       alert("Usuário não encontrado");
     }
   };
-
 
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();

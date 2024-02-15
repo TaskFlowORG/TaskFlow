@@ -1,1 +1,1 @@
-export  {SVGGroupPageDark} from "./SVGGroupPage";
+export  {SVGGroupPageDark} from "./SVGGroupPageD";
