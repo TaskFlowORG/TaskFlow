@@ -86,7 +86,7 @@ export const ColumnKanban = ({
                         // console.log(propFilter?.value.value)
                         render = false;
                         if (
-                          propFilter?.property.type == TypeOfProperty.SELECT
+                          [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
                         ) {
                           const opt: Option = propFilter?.value.value;
                           console.log(opt);

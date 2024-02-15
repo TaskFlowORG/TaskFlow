@@ -37,7 +37,7 @@ export default function Kanban() {
   useEffect(() => {
     (async () => {
       const pg: CommonPage = await getPage("page", 1);
-      pg.project = await getData("project", 1);;
+      pg.project = await getData("project", 1);
       setTasks(pg.tasks);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
@@ -113,17 +113,17 @@ export default function Kanban() {
           filter={() => console.log("Filtering")}
           search={(textInput: string) => setInput(textInput)}
         >
-            <OrderInput
-              page={page as CommonPage}
-              orderingId={id}
-              propertiesPage={page?.properties ?? []}
-            ></OrderInput>
-            <FilterAdvancedInput
-              filterProps={(list) => setFilterProp(list)}
-              orderingId={page?.propertyOrdering.id}
-              page={page}
-              properties={page?.properties as Property[]}
-            />
+          <OrderInput
+            page={page as CommonPage}
+            orderingId={id}
+            propertiesPage={page?.properties ?? []}
+          ></OrderInput>
+          <FilterAdvancedInput
+            filterProps={(list) => setFilterProp(list)}
+            orderingId={page?.propertyOrdering.id}
+            page={page}
+            properties={page?.properties as Property[]}
+          />
         </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
