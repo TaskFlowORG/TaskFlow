@@ -9,7 +9,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [group, setGroup] = useState([]);
-  const {theme, setTheme} = useTheme();
+  const { theme, setTheme } = useTheme();
 
 
   useEffect(() => {
@@ -31,36 +31,38 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   };
 
   async function updatePermission(selectedValue) {
-    console.log(permissions);
-    console.log("escolha feita", selectedValue);
-    let changed = false;
-    console.log(selectedValue);
-    permissions.forEach((permission) => {
-      if (permission.name === selectedValue) {
-        putData("user/" + userId + "/" + projectId + "/" + permission.id);
-        changed = true;
+    try {
+      const selectedPermission = permissions.find(permission => permission.name === selectedValue);
+      if (!selectedPermission) {
+        throw new Error('Permissão selecionada não encontrada.');
       }
-    });
-    if (changed) {
-      alert('Permissões atualizadas com sucesso');
-    } else {
-      alert('Não foi possível atribuir permissão a este usuário!');
+      console.log(selectedPermission.id)
+
+      const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
+      await putData("user/" + userId + "/" + projectId  + "/" + selectedPermission.id);
+
+      alert('Permissão atualizada com sucesso!');
+      setSelectedPermission("");
+    } catch (error) {
+      console.log(selectedPermission)
+      console.error('Erro ao atualizar permissão:', error.message);
+      alert('Não foi possível atualizar a permissão do usuário.');
     }
-    setSelectedPermission("");
   }
+
 
   let userIcon = null;
   if (theme === "dark") {
     userIcon = <img className="" src="/img/whiteIconUser.svg" alt="User" />;
-  } else{
-    userIcon = <img className="" src="/img/darkIconUser.svg" alt="User"/>
+  } else {
+    userIcon = <img className="" src="/img/darkIconUser.svg" alt="User" />
   }
 
   let ownerIcon = null;
-  if(theme === "dark"){
-    ownerIcon = <img className="mx-auto " src="/img/darkOwner.svg" alt="Owner"/>
-  } else{
-    ownerIcon = <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner"/>
+  if (theme === "dark") {
+    ownerIcon = <img className="mx-auto " src="/img/darkOwner.svg" alt="Owner" />
+  } else {
+    ownerIcon = <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner" />
   }
 
 
