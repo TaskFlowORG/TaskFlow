@@ -4,27 +4,44 @@ import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
 
-export const UsersList = ({ id = 1, projectId = 1 }) => {
+export const UsersList = ({ id = 1, projectId }) => {
   const [text, setText] = useState("");
-  const [users, setUsers] = useState("");
+  const [users, setUsers] = useState([]);
   const [usersGroup, setUsersGroup] = useState([]);
   const [newUser, setNewUser] = useState({});
   const [suggestedUsers, setSuggestedUsers] = useState([]);
-  const [key, setKey] = useState(0);
 
   useEffect(() => {
-    const getLists = async () => {
-      const fetchedUsers = await getListData("user");
-      const fetchedGroupUsers = await getData("group", id);
-      setUsers(fetchedUsers);
-      setUsersGroup(fetchedGroupUsers.users);
+    const fetchData = async () => {
+      try {
+        const fetchedUsers = await getListData("user");
+        setUsers(fetchedUsers);
+
+        const fetchedGroup = await getData("group", id);
+        const groupUsers = fetchedGroup.users;
+        const ownerIndex = groupUsers.findIndex(user => user.id === fetchedGroup.owner.id);
+
+        if (ownerIndex !== -1) {
+          groupUsers.splice(ownerIndex, 1);
+          setUsersGroup([fetchedGroup.owner, ...groupUsers]);
+        } else {
+          setUsersGroup(groupUsers);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
-    getLists();
-  }, [key]);
+
+    const intervalId = setInterval(fetchData, 5000);
+
+    fetchData();
+
+    return () => clearInterval(intervalId);
+  }, [id]);
 
   const findUser = () => {
-    setText('')
-    const user = users.find((u) => u.name.toLowerCase() === text.toLowerCase());
+    setText('');
+    const user = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
     if (user) {
       setNewUser(user);
     } else {
@@ -35,15 +52,14 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
     setText(query);
-
     const filteredUsers = users.filter((user) =>
-      user.name.toLowerCase().includes(query)
+      user.username.toLowerCase().includes(query)
     );
     setSuggestedUsers(filteredUsers);
   };
 
   const handleUserSelect = (user) => {
-    setText(user.name);
+    setText(user.username);
     setSuggestedUsers([]);
   };
 
@@ -59,9 +75,13 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
       return;
     }
 
-    const updatedUsersGroup = [...usersGroup, newUser];
+    const updatedUsersGroup = [newUser, ...usersGroup];
     setUsersGroup(updatedUsersGroup);
-    await putData("group/user/" + id, newUser);
+    try {
+      await putData("group/user/" + id, newUser);
+    } catch (error) {
+      console.error("Error adding user to group:", error);
+    }
     setNewUser({});
   };
 
@@ -91,7 +111,7 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
                     className="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
                     onClick={() => handleUserSelect(user)}
                   >
-                    {user.name}
+                    {user.username}
                   </li>
                 ))}
               </ul>
@@ -126,3 +146,6 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     </div>
   );
 };
+
+
+

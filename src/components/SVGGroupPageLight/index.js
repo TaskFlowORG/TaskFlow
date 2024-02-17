@@ -1,0 +1,1 @@
+export {SVGGroupPageLight} from "./SVGGroupPageL"

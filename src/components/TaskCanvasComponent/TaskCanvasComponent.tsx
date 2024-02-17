@@ -7,8 +7,6 @@ import {useState, useRef, DragEvent, MouseEvent, useEffect} from "react"
 import { useTheme } from "next-themes"
 
 
-
-
 interface Props{
     task: TaskCanvas,
     elementRef: React.RefObject<HTMLDivElement>,
