@@ -28,7 +28,7 @@ const schema = z
       .max(20, {
         message: "Nome de usuario deve conter no maximo 20 caracteres",
       }),
-    email: z.string().email({ message: "Email invalido" }),
+    email: z.string().email({ message: "Email inválido" }),
     password: z
       .string()
       .min(6, { message: "Senha deve conter no minimo 6 caracteres" })
