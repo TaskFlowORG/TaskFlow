@@ -21,7 +21,7 @@ async function getListData(table: string) {
   try {
     const response = await axios.get("http://localhost:9999/" + table);
     return response.data;
-  } catch (error) {
+  } catch (error) { 
     throw error
   }
 }
