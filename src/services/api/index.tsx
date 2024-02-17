@@ -1,7 +1,7 @@
 import {api} from "./axiosConfig";
 
 export class Api {
-    get = async (url) => {
+    get = async (url:string) => {
      try{
         const response = await api.get(url);
         return response.data;
@@ -10,7 +10,7 @@ export class Api {
      }  
     }
 
-    getById = async (url, id) => {
+    getById = async (url:any, id:number) => {
         try{
             const response = await api.get(url + id);
             return response.data;
@@ -19,7 +19,7 @@ export class Api {
         }
     }
 
-    post = async (url, data) => {
+    post = async (url:string, data:any) => {
         try{
             const response = await api.post(url, data);
             return response.data;
@@ -28,7 +28,7 @@ export class Api {
         }
     }
 
-    put = async (url, data) => {
+    put = async (url:string, data:any) => {
         try{
             const response = await api.put(url, data);
             return response.data;
@@ -37,7 +37,7 @@ export class Api {
         }
     }
 
-    delete = async (url) => {
+    delete = async (url:string) => {
         try{
             const response = await api.delete(url);
             return response.data;

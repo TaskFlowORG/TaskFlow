@@ -1,9 +1,10 @@
 interface Props {
-    text: string
+    text: string,
+    property:string
 }
 
-export const CardText = ({ text }: Props) => {
+export const CardText = ({ text, property }: Props) => {
     return (
-        <p className="p w-full dark:text-white text-[#797979]">{text}</p>
+        <p className="p w-full dark:text-white text-[#797979]">{property}: {text ? text : "Não descrito!"}</p>
     )
 }

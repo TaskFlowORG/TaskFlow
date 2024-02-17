@@ -1,0 +1,3 @@
+.text{
+    @apply h-full w-[70%] shadow-blur-10 rounded-sm p-5 focus:outline-primary;
+}

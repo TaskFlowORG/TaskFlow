@@ -26,7 +26,7 @@ export default function Home() {
         <Features />
         <Devs />
         <Principles />
-        {/* <Footer /> */}
+        <Footer/>
       </div>
     </div>
   );

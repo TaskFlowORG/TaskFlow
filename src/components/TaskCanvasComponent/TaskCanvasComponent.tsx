@@ -9,8 +9,6 @@ import { putData, patchData } from "@/services/http/api"
 import { Canvas } from "@/model/pages/Canvas"
 
 
-
-
 interface Props{
     task: TaskCanvas,
     elementRef: React.RefObject<HTMLDivElement>,
