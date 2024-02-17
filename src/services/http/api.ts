@@ -3,14 +3,17 @@ import { CommonPage } from "@/model/pages/CommonPage";
 import { Page } from "@/model/pages/Page";
 import { AxiosResponse } from "axios";
 
-export { getData, getListData, putData, getListChat, getSingleChat, getPage };
+
+export { getData, getListData, putData, getListChat, getSingleChat, getPage, patchData, postTask }
+
 
 const axios = require("axios").default;
 
-async function getData(table: string, paramether: number) {
-  return (await axios.get("http://localhost:9999/" + table + "/" + paramether))
-    .data;
+
+async function getData(table: string, paramether: number|string) {
+  return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
+
 async function getPage(table: string, paramether: number): Promise<CommonPage> {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether))
     .data;
@@ -93,9 +96,18 @@ async function getSingleChat(type: string, userId: number, idBusca: number) {
 async function postData(table, object) {
   return await axios.post("http://localhost:9999/" + table, object);
 }
+
+async function postTask(userId, pageId) {
+  const retorno = await axios.post(`http://localhost:9999/task/${pageId}/${userId}`);
+  return await retorno.data;
+}
 async function putData(table, object) {
   console.log(object);
   return (await axios.put("http://localhost:9999/" + table, object)).data;
+}
+
+async function patchData(table, object) {
+  return (await axios.patch("http://localhost:9999/" + table, object)).data;
 }
 async function deleteData(table, id) {
   return await axios.delete("http://localhost:9999/" + table + "/" + id);

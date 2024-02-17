@@ -3,9 +3,10 @@
 import { ProjectComponent } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
 import { Project } from "@/model/Project";
+import { getData, getListData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
-export default function Projects() {
+export default function Projects({params}:{params:{user:string}}) {	
 
     const [windowWidth, setWindowWidth] = useState<number>(0);
     const [projects, setProjects] = useState<Array<Project>>([])
@@ -14,9 +15,11 @@ export default function Projects() {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
-        setWindowWidth(window.innerWidth)
-        //Comunicação com API
-        setProjects([]);
+        setWindowWidth(window.innerWidth);
+        (async () => {
+            const projectsPromise = await getListData("project/user/"+params.user)
+            setProjects(projectsPromise)
+        })()
     }, [])
 
     function getCol2Xl(index:number):number {
@@ -44,7 +47,6 @@ export default function Projects() {
         }
         return 1
     }
-
     return (
         <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />

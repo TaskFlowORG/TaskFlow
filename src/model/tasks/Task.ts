@@ -9,11 +9,11 @@ export class Task{
     deleted: null| boolean;
     completed: null| boolean;
     completedDate: null| Date;
-    properties: null| Array<TaskValue>;
+    properties:  Array<TaskValue>;
     logs: null| Array<Log>;
     comments: null| Array<Message>;
     
-    constructor(id: null | number, name: null | string, deleted: null | boolean, completed: null | boolean, completedDate: null | Date, properties: null | Array<TaskValue>, logs: null | Array<Log>, comments: null | Array<Message>) {
+    constructor(id: null | number, name: null | string, deleted: null | boolean, completed: null | boolean, completedDate: null | Date, properties: Array<TaskValue>, logs: null | Array<Log>, comments: null | Array<Message>) {
 
         this.id = id;
         this.name = name;

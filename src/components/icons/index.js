@@ -15,8 +15,20 @@ export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";
 export { Pencil } from "./Canvas/Pencil";
-
+export { MoveIcon } from "./Canvas/Move";
 export{Triangle} from "./Canvas/Shapes/Triangle"
 export { Circle } from "./Canvas/Shapes/Circle";
 export { Line } from "./Canvas/Shapes/Line";
 export { Square } from "./Canvas/Shapes/Square";
+
+export { IconArchive } from "./TypeOfProperties/Archive";
+export { IconCalendar } from "./TypeOfProperties/Calendar";
+export { IconCheckbox } from "./TypeOfProperties/Checkbox";
+export { IconClock } from "./TypeOfProperties/Clock";
+export { IconNumber } from "./TypeOfProperties/Number";
+export { IconProgress } from "./TypeOfProperties/Progress";
+export { IconRadio } from "./TypeOfProperties/Radio";
+export { IconSelect } from "./TypeOfProperties/Select";
+export { IconTag } from "./TypeOfProperties/Tag";
+export { IconText } from "./TypeOfProperties/Text";
+export { IconUser } from "./TypeOfProperties/User";

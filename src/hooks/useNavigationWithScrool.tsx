@@ -3,8 +3,7 @@ import { useTheme } from "next-themes";
 import { LegacyRef, useEffect, useRef, useState } from "react";
 import { set } from "zod";
 
-export const useNavigationWithScroll = () => {
-    const elementRef = useRef<HTMLDivElement>(null)
+export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObject<HTMLDivElement>) => {
     const [mouseDown, setMouseDown] = useState(false)
     const [prevX, setPrevX] = useState(0);
     const [oldCursor, setOldCursor] = useState('')
@@ -17,9 +16,8 @@ export const useNavigationWithScroll = () => {
 
         const handleMouseDown = (e:MouseEvent) => {
             if(!elementRef.current) return
-            if(e.button != 1) return
+            if(e.button != 1 && !moving) return
             e.preventDefault()
-            if (e.button != 1) return
             setMouseDown(true)
             setPrevX(elementRef.current?.scrollLeft + e.pageX);
             setPrevY(elementRef.current?.scrollTop + e.pageY);
@@ -48,7 +46,7 @@ export const useNavigationWithScroll = () => {
             elementRef.current?.scrollTo({ left:(elementRef.current?.scrollLeft + e.deltaX), top:(elementRef.current?.scrollTop + e.deltaY)})
         }
         const handeMouseUp = (e:MouseEvent) => {
-            if(e.button != 1) return
+            if(e.button != 1  && !moving) return
             if(!elementRef.current) return
             elementRef.current.style.cursor = oldCursor
             setMouseDown(false)
@@ -69,7 +67,7 @@ export const useNavigationWithScroll = () => {
             window.removeEventListener("mouseup", handeMouseUp)
             elementRef.current?.removeEventListener("wheel", whileWheel)
         }
-    }, [elementRef, mouseDown, theme])
+    }, [elementRef, mouseDown, theme,moving])
 
-    return { elementRef, scrollX, scrollY }
+    return { scrollX, scrollY }
 }

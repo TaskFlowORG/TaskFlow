@@ -1,2 +1,3 @@
 export {compareDates} from "./compareDates"
-export { drawLine } from "./drawLine"
+export { drawLine, setLineColor, setLineWidth } from "./drawLine"
+export { generateContrast } from "./generateContrast"

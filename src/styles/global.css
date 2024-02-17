@@ -178,11 +178,6 @@ input[type="range"]::-ms-fill-upper {
 }
 
 
-.dragabble:active{
-  cursor:pointer
-}
-
-
 .shadowww {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
@@ -331,6 +326,10 @@ select::-ms-expand {
   100% {
     transform: translateX(32px);
   }
+}
+
+*:disabled{
+  opacity:0.6
 }
 
 @keyframes toggle-slider-animation-reverse {
