@@ -9,8 +9,8 @@ export class Property {
     visible:boolean;
     obligatory:boolean;
     type:TypeOfProperty;
-    pages:Array<Page>;
-    project:Project;
+    pages:Array<Page>|null;
+    project:Project | undefined|null;
 
 
 
