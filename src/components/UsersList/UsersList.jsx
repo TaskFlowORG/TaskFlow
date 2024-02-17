@@ -4,14 +4,12 @@ import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
 
-
-export const UsersList = ({ id = 1, projectId = 1 }) => {
+export const UsersList = ({ id = 1, projectId }) => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState([]);
   const [usersGroup, setUsersGroup] = useState([]);
   const [newUser, setNewUser] = useState({});
   const [suggestedUsers, setSuggestedUsers] = useState([]);
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +39,6 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     return () => clearInterval(intervalId);
   }, [id]);
 
-
   const findUser = () => {
     setText('');
     const user = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
@@ -61,12 +58,10 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     setSuggestedUsers(filteredUsers);
   };
 
-
   const handleUserSelect = (user) => {
     setText(user.username);
     setSuggestedUsers([]);
   };
-
 
   const addUser = async () => {
     if (!newUser.id) {
@@ -74,13 +69,11 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
       return;
     }
 
-
     const userExists = usersGroup.some((u) => u.id === newUser.id);
     if (userExists) {
       alert("Este usuário já é um integrante do grupo");
       return;
     }
-
 
     const updatedUsersGroup = [newUser, ...usersGroup];
     setUsersGroup(updatedUsersGroup);
@@ -92,12 +85,10 @@ export const UsersList = ({ id = 1, projectId = 1 }) => {
     setNewUser({});
   };
 
-
   const combinedOnChange = (e) => {
     handleSearchChange(e);
     setText(e.target.value);
   };
-
 
   return (
     <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">

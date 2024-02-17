@@ -3,14 +3,12 @@ import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react"
 
-
 export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [user, setUser] = useState({});
   const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [group, setGroup] = useState([]);
   const { theme, setTheme } = useTheme();
-
 
   useEffect(() => {
     const getLists = async () => {
@@ -23,34 +21,55 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
     };
     getLists();
   }, [userId, groupId, projectId]);
-
-
+  
   const findPermission = (selectedValue) => {
     setSelectedPermission(selectedValue);
     updatePermission(selectedValue);
   };
 
+  // async function updatePermission(selectedValue) {
+  //   try {
+  //     const selectedPermission = permissions.find(permission => permission.name === selectedValue);
+  //     if (!selectedPermission) {
+  //       throw new Error('Permissão selecionada não encontrada.');
+  //     }
+  //     console.log(selectedPermission.id)
+
+  //     const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
+  //     await putData("user/" + userId + "/" + projectId  + "/" + selectedPermission.id);
+
+  //     alert('Permissão atualizada com sucesso!');
+  //     setSelectedPermission("");
+  //   } catch (error) {
+  //     console.log(selectedPermission)
+  //     console.error('Erro ao atualizar permissão:', error.message);
+  //     alert('Não foi possível atualizar a permissão do usuário.');
+  //   }
+  // }
+
   async function updatePermission(selectedValue) {
     try {
-      const selectedPermission = permissions.find(permission => permission.name === selectedValue);
-      if (!selectedPermission) {
-        throw new Error('Permissão selecionada não encontrada.');
-      }
-      console.log(selectedPermission.id)
+        const selectedPermission = permissions.find(permission => permission.name === selectedValue);
+        if (!selectedPermission) {
+            throw new Error('Permissão selecionada não encontrada.');
+        }
 
-      const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
-      await putData("user/" + userId + "/" + projectId  + "/" + selectedPermission.id);
+        console.log('ID da permissão selecionada:', selectedPermission.id);
 
-      alert('Permissão atualizada com sucesso!');
-      setSelectedPermission("");
+        const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
+        await putData("user", updatedUser);
+
+        setSelectedPermission("");
+
+        alert('Permissão atualizada com sucesso!');
     } catch (error) {
-      console.log(selectedPermission)
-      console.error('Erro ao atualizar permissão:', error.message);
-      alert('Não foi possível atualizar a permissão do usuário.');
+        console.error('Erro ao atualizar permissão:', error.message);
+        alert('Não foi possível atualizar a permissão do usuário.');
     }
-  }
+}
 
 
+  
   let userIcon = null;
   if (theme === "dark") {
     userIcon = <img className="" src="/img/whiteIconUser.svg" alt="User" />;
@@ -64,7 +83,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   } else {
     ownerIcon = <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner" />
   }
-
 
   return (
     <div>
@@ -99,8 +117,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
       </div>
     </div>
   );
-
-
 };
 
 
