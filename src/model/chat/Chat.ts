@@ -8,12 +8,12 @@ export  class Chat {
      users : Array<User>;
      messages : Array<Message>;
      type : TypeOfChat;
-     name: String;
-     picture : String;
-     quantitityUnvisualized : Number;
+     name: string;
+     picture : string;
+     quantitityUnvisualized : number;
      lastMessage : Message;
 
-    constructor(id: number, users: Array<User>, messages: Array<Message>, type: TypeOfChat, name: String, picture: String, quantitityUnvisualized: Number, lastMessage: Message) {
+    constructor(id: number, users: Array<User>, messages: Array<Message>, type: TypeOfChat, name: string, picture: string, quantitityUnvisualized: number, lastMessage: Message) {
         this.id = id;
         this.users = users;
         this.messages = messages;

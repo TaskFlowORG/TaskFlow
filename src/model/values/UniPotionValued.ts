@@ -2,15 +2,15 @@ import { Option } from "../Properties/Option";
 import { Value } from "./Value";
 
 export class UniOptionValued extends Value{
-    value: Option;
+    uniOption: Option | null;
 
     constructor(id: number, value: Option){
-        super(id);
-        this.value = value;
+        super(id, value );
+        this.uniOption = value;
     }
 
     getValue(): any {
-        return this.value;
+        return this.uniOption;
     }
 
 }

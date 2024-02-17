@@ -5,12 +5,12 @@ import { Property } from "./Property";
 
 export class Date extends Property{
 
-    canBePass:Boolean;
-    includesHours:Boolean;
-    term:Boolean;
-    scheduling:Boolean;
+    canBePass:boolean;
+    includesHours:boolean;
+    term:boolean;
+    scheduling:boolean;
     
-    constructor(id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,pages:Array<Page>,project:Project, canBePass:Boolean,includesHours:Boolean,term:Boolean,scheduling:Boolean){
+    constructor(id:number,name:string,visible:boolean,obligatory:boolean,type:TypeOfProperty,pages:Array<Page>,project:Project, canBePass:boolean,includesHours:boolean,term:boolean,scheduling:boolean){
         super(id,name,visible,obligatory,type,pages,project)
         this.canBePass=canBePass;
         this.includesHours=includesHours;

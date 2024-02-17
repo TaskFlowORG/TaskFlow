@@ -9,6 +9,7 @@ interface Props {
   font?: string;
   text?: string;
   other?: string;
+  fnButton?: ()=> void
 }
 
 export const Button = ({
@@ -22,10 +23,11 @@ export const Button = ({
   font,
   text,
   other,
+  fnButton
 }: Props) => {
   return (
     <>
-      <button
+      <button onClick={() => fnButton && fnButton()}
         className={` ${padding ? padding : "p-12"}
              ${paddingY ? paddingY : "py-2"} 
              ${width ? width : "w-max"}
@@ -37,6 +39,7 @@ export const Button = ({
                ${font ? font : "font-alata"} whitespace-nowrap`}
       >
         {text ? text : "Confirmar"}
+        
       </button>
     </>
   );

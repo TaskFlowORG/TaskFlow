@@ -3,26 +3,25 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import {Obj} from  '../Obj'
+import { Project } from "@/model/Project";
+import { Group } from "@/model/Group";
+import { getListData } from "@/services/http/api";
+import { set } from "zod";
 interface Props{
   project:Project,
   col?:number,
 
 }
-interface Project{
-  id:number,
-  groups:Array<Group>,
-  name:string,
-  description:string, 
-  percent:number
-}
-interface Group{
-  id:number,
-  image:string,
-  name:string
-}
+export const ProjectComponent = ({ project, col }:Props) => {
 
+  const[groups, setGroups] = useState<Array<Group>>([])
 
-export const Project = ({ project, col }:Props) => {
+  useEffect(() => {
+    (async () => {
+      const groupsPromise = await getListData("group/project/"+project.id)
+      setGroups(groupsPromise)
+    })()
+  }, [])
 
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const style:Object = { gridColumn: col }
@@ -43,8 +42,8 @@ export const Project = ({ project, col }:Props) => {
       </div>
       {isHovering &&
         <div className=" h-44 w-full justify-center flex flex-col gap-10">
-          <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
-          <ProgressBar  percent={project.percent} />
+          <Obj objs={groups} max={4} functionObj={() => {}}></Obj>
+          <ProgressBar  percent={project.percentage} />
         </div>
       }
     </div>

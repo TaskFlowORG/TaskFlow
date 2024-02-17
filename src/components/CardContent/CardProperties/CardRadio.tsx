@@ -2,7 +2,7 @@ import { Radio } from "./Radio";
 import { RadioIcon } from "@/components/CardContentIcons/RadioIcon";
 
 interface Props {
-  property: string;
+  property: any;
   value: string;
 }
 

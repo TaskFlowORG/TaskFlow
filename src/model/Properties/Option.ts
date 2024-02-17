@@ -1,10 +1,10 @@
 export class Option {
 
-     id : Number;
-     name : String;
-     color: String;
+     id : number;
+     name : string;
+     color: string;
 
-        constructor(id:Number,name:String,color:String){
+        constructor(id:number,name:string,color:string){
             this.id=id;
             this.name=name;
             this.color=color;

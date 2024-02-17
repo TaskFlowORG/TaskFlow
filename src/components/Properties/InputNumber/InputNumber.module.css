@@ -1,0 +1,3 @@
+.number{
+    @apply w-full h-full shadow-blur-10 rounded-sm focus:outline-primary text-center pl-2;
+}

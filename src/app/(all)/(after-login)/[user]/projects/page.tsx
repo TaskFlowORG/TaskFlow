@@ -1,22 +1,12 @@
 'use client'
 
-interface Project{
-    id:number,
-    groups:Array<Group>,
-    name:string,
-    description:string, 
-    percent:number
-  }
-  interface Group{
-    id:number,
-    image:string
-  }
-
-import { Project } from "@/components/Project"
+import { ProjectComponent } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
+import { Project } from "@/model/Project";
+import { getData, getListData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 
-export default function Projects() {
+export default function Projects({params}:{params:{user:string}}) {	
 
     const [windowWidth, setWindowWidth] = useState<number>(0);
     const [projects, setProjects] = useState<Array<Project>>([])
@@ -25,9 +15,11 @@ export default function Projects() {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
-        setWindowWidth(window.innerWidth)
-        //Comunicação com API
-        setProjects([]);
+        setWindowWidth(window.innerWidth);
+        (async () => {
+            const projectsPromise = await getListData("project/user/"+params.user)
+            setProjects(projectsPromise)
+        })()
     }, [])
 
     function getCol2Xl(index:number):number {
@@ -55,7 +47,6 @@ export default function Projects() {
         }
         return 1
     }
-
     return (
         <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />
@@ -67,7 +58,7 @@ export default function Projects() {
                     <div className="w-full lg:w-3/5 h-[70vh] flex justify-center overflow-y-scroll">
                         <div className={"justify-start grid-flow-col grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid p-6 gap-y-5 gap-x-12 h-min w-fit sm:w-1/2 lg:w-full "}>
                             {projects.map(p => {
-                                return <Project project={p} key={p.id} col={getCol(p)} />
+                                return <ProjectComponent project={p} key={p.id} col={getCol(p)} />
                             })}
                         </div>
                     </div>

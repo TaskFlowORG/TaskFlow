@@ -5,10 +5,10 @@ import { Task } from "../tasks/Task";
 import { Value } from "../values/Value";
 
 export class TaskValue {
-    id:Number;
+    id:number;
     property:Property;
     value:Value;
-    constructor(id:Number,property:Property, value:Value ){
+    constructor(id:number,property:Property, value:Value ){
         this.id = id;
         this.property = property;
         this.value = value;

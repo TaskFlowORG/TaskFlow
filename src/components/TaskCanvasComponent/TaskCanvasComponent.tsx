@@ -3,51 +3,66 @@
 import { TaskCanvas } from "@/model/relations/TaskCanvas"
 import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
-import {useState, useRef, DragEvent} from "react"
-
-
+import {useState, useRef, useEffect} from "react"
+import { useTheme } from "next-themes"
+import { putData, patchData } from "@/services/http/api"
+import { Canvas } from "@/model/pages/Canvas"
 
 
 interface Props{
     task: TaskCanvas,
+    elementRef: React.RefObject<HTMLDivElement>,
+    canvasRef: React.RefObject<HTMLCanvasElement>,
+    page:Canvas | undefined
 }
 
-export const TaskCanvasComponent = ({task}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
-    const elementRef = useRef<HTMLDivElement>(null);
+    const[dragging, setDragging] = useState<boolean>(false)
+    const{theme, setTheme} = useTheme()
+    const draggableRef = useRef<HTMLDivElement>(null);
 
     const style:Object = {
-        top : y+"%",
-        left : x+"%"
+        cursor: theme == "dark"? "url('/img/grabDark.svg'), auto" : "url('/img/grabLight.svg'), auto" ,
+        top : y,
+        left : x,
     }
 
-    function changeXandY(e:DragEvent<HTMLDivElement>){
-        e.preventDefault()
-        if(elementRef.current === null) return  
-        const offsetX = e.clientX - elementRef.current.clientWidth/2
-        const offsetY = e.clientY - elementRef.current.clientHeight/2
-        
-        const percentageX = offsetX/window.innerWidth*100
-        const percentageY = offsetY/window.innerHeight*100
-        if(percentageX < 0 || percentageX > 100 || percentageY < 0 || percentageY > 100) return
-        setX(percentageX)
-        setY(percentageY)
+    function changeXandY(e:MouseEvent){
+            if(!draggableRef.current || !elementRef.current || !dragging) return  
+            const offsetX = elementRef.current.scrollLeft + e.pageX - draggableRef.current.clientWidth/2
+            const offsetY = elementRef.current.scrollTop + e.pageY - draggableRef.current.clientHeight/2
+    
+            if(offsetX > 0 && offsetX < 3700) {
+                setX(offsetX)
+            }
+            if(offsetY > 56 && offsetY < (2000)){
+                setY(offsetY)
+            }
+            (async () => {
+                if(!page) return
+                await patchData("canvas/XandY",{id:task.id, x:offsetX, y:offsetY})
+            })()
     }
 
-    function removeGhost(e:DragEvent<HTMLDivElement>){
-        const ghostImage = new Image();
-        ghostImage.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABXElEQVR42mL8//8/AyURP6Ksgx3oDAzQA6oU2GLiqAVxGbgTWcEPsCIzIyWskBoFwZoh0GkAwMEJyQFOwYOQPYIE2BthFuGwBwKtA9gcRRiwCmEXYRnwCGmAQdBFoCnIyD8QFgAWvA0wwA1AAE9QMgThmQA0yCXrAkQMv0DDQBJMIgS1BDQCY1IuYFAFHAazAJwDVQISkBS4BqgPqkAHAakAbIMjyIYADP9AAkAAmwQ9SAIzIyWwAowFowT6FBMRCgCLyDgFUKL0YAcAo8AOkJAhBUBGQCRaR8EG8IRCBJ4R6gDpAGQJFhwCHAEeQFHtYJhIACMKYjyINwCmEIqA2YKsZBojBwGNoA9AgDoA9gEZAHYCgAADPAF8jGL8vH9UAAAAASUVORK5CYII=';
-        e.dataTransfer.setDragImage(ghostImage, 0, 0);
-    }
+    useEffect(() => {
+        if(dragging){
+            elementRef.current?.addEventListener("mousemove", changeXandY)
+            elementRef.current?.addEventListener("mouseup", () => setDragging(false))
+        }
+        return () => {
+            elementRef.current?.removeEventListener("mousemove", changeXandY)
+            elementRef.current?.removeEventListener("mouseup", () => setDragging(false))
+        }
+    }, [dragging])
+
     return(
-        <div className="w-min h-min p-2 absolute transition-none" draggable onDragStart={e => removeGhost(e)}
-        onDrag={e => changeXandY(e)} style={style} ref={elementRef}>
+        <div className="w-min h-min p-2 absolute transition-none select-none " style={style} onMouseDown={() => setDragging(true)} ref={draggableRef} >
             <RoundedCard>
-                {/* <CardContent task={task.task} /> */}
-                <p>{task.task?.name}</p>
-            </RoundedCard>
+                <CardContent task={task.task} />
+            </RoundedCard> 
         </div>
     )
 }

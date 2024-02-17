@@ -4,17 +4,17 @@ import { Page } from "../pages/Page";
 
 export class Property {
 
-    id:Number;
-    name:String;
-    visible:Boolean;
-    obligatory:Boolean;
+    id:number;
+    name:string;
+    visible:boolean;
+    obligatory:boolean;
     type:TypeOfProperty;
-    pages:Array<Page>;
-    project:Project;
+    pages:Array<Page>|null;
+    project:Project | undefined|null;
 
 
 
-    constructor(id:Number,name:String,visible:Boolean,obligatory:Boolean,type:TypeOfProperty,pages:Array<Page>,project:Project){
+    constructor(id:number,name:string,visible:boolean,obligatory:boolean,type:TypeOfProperty,pages:Array<Page>,project:Project){
         this.id=id;
         this.name=name;
         this.visible=visible;

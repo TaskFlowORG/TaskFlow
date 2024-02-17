@@ -18,7 +18,7 @@ export const SideBarConfig = () => {
         <>
 
 
-            <div className={`text-white bg-primary  md:w-[23%] h-screen md:grid ${
+            <div className={`text-contrast bg-primary  md:w-[23%] h-screen md:grid ${
                 invisible ? "hidden" : "visible"
             }`} style={{ gridAutoRows: '25% 43% 30%' }}>
 

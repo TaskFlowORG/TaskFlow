@@ -5,62 +5,136 @@ import { useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
+import { Task } from "@/model/tasks/Task";
+import { TaskValue } from "@/model/relations/TaskValue";
+import { TextValued } from "@/model/values/TextValued";
+import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { UniOptionValued } from "@/model/values/UniPotionValued";
+import { Option } from "@/model/Properties/Option";
+import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import { TaskCanvas } from "@/model/relations/TaskCanvas";
+import { FilteredProperty } from "@/types/FilteredProperty";
+import { Select } from "@/model/Properties/Select";
 
 interface Props {
   color?: string;
-  option?: string;
+  option?: Option;
   propertyId?: number;
-  tasks: any[];
+  tasks: TaskCanvas[];
   verify?: boolean;
+  input?: string;
+  propsFiltered: FilteredProperty[];
 }
 
 export const ColumnKanban = ({
-  color,
   option,
-  propertyId,
   tasks,
-  verify,
+  input,
+  propsFiltered = [],
 }: Props) => {
-  const [colorUse, setColorUse] = useState<string>("");
-  const [tasksColumn, setTasksColumn] = useState<any[]>([]);
-
-  useEffect(() => {
-    setColorUse(color ? color : "#FF0000");
-
-    if (verify) {
-      const filteredTasks: any[] = tasks.filter((task) => {
-        return task.properties.some((property: any) => {
-          console.log(property);
-          return property.id === propertyId && property.value === option;
-        });
-      });
-      setTasksColumn(filteredTasks);
-    } else {
-      setTasksColumn(tasks);
-      console.log(tasks);
-    }
-
-    console.log(tasksColumn, verify);
-  }, [color, option, tasks]);
   return (
-    <div className="w-min min-w-[360px] flex lg:flex-col gap-4   brightness-[0.95] hover:brightness-[1]">
+    <div
+      className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
+      key={`${option?.id}`}
+    >
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: (option?.color as string) ?? "FF0000" }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
-          {option}
+          {option?.name}
         </h4>
       </div>
+      <div className="rounded-full h-full">
+        <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
+          {(provided, snapshot) => {
+            return (
+              <div
+                ref={provided.innerRef}
+                style={{
+                  opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
+                  borderRadius: 16,
+                  padding: 16,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "24px",
+                  background: snapshot.isDraggingOver
+                    ? (option?.color as string) ?? "#F04a94"
+                    : "none",
+                }}
+                {...provided.droppableProps}
+              >
+                {tasks.map((item, index) => {
+                  if (
+                    item.task?.name
+                      ?.toLowerCase()
+                      .includes(input?.toLowerCase() ?? "") ||
+                    input?.toLowerCase() == "" ||
+                    input?.toLowerCase() == undefined
+                  ) {
+                    let render = true;
 
-      {tasksColumn.map((task) => {
-        return (
-          <RoundedCard color={color} key={task.id}>
-            <CardContent key={task.id} task={task} />
-          </RoundedCard>
-        );
-      })}
+                    propsFiltered.map((prop) => {
+                      const propFilter = item.task?.properties?.find(
+                        (property) => property.property.id == prop.id
+                      );
+
+                      // console.log(item.task?.properties)
+                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
+                        // console.log(prop.value,propFilter?.value.value)
+                        // console.log(propFilter?.value.value)
+                        render = false;
+                        if (
+                          [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
+                        ) {
+                          const opt: Option = propFilter?.value.value;
+                          console.log(opt);
+                          if (opt != null) {
+                            if (opt.name != null) {
+                              if (opt.name == prop.value) {
+                                render = true;
+                              }
+                            }
+                          }   
+                        }
+                      }
+                    });
+                    if (render) {
+                      return (
+                        <Draggable
+                          draggableId={`${item.id}`}
+                          key={`${item.id}`}
+                          index={item.indexAtColumn}
+                        >
+                          {(provided, snapshot) => {
+                            return (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                style={{
+                                  ...provided.draggableProps.style,
+
+                                }}
+                              >
+                                <RoundedCard color={option?.color}>
+                                  <CardContent task={item.task as Task} />
+                                </RoundedCard>
+                              </div>
+                            );
+                          }}
+                        </Draggable>
+                      );
+                    }
+                  }
+                })}
+                {provided.placeholder}
+              </div>
+            );
+          }}
+        </Droppable>
+      </div>
     </div>
   );
 };

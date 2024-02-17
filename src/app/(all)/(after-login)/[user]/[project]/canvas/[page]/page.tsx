@@ -1,164 +1,126 @@
 "use client";
 
-import { FC, MouseEventHandler, useEffect, useRef, useState } from "react";
-import { useDraw } from "@/hooks/useDraw";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Task } from "@/model/tasks/Task";
 import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { Page } from "@/model/pages/Page";
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
+import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
+import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
+import { CanvasComponents } from "@/components/CanvasOptions/CanvasComponents";
+import { drawLine } from "@/functions";
+import { useDraw } from "@/hooks/useDraw";
+import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
+import { useTheme } from "next-themes";
+import { Canvas } from "@/model/pages/Canvas";
+import { getData, postTask } from "@/services/http/api";
+import page from "@/app/(all)/(before-login)/login/page";
 
-type Draw = {
-  ctx: CanvasRenderingContext2D;
-  currentPoint: Point;
-  prevPoint: Point | null;
-};
-
-type Point = { x: number; y: number };
-
-interface pageProps {}
-
-const page: FC<pageProps> = ({}) => {
-  const [windowWidth, setWindowWidth] = useState<number>(0);
-  const [windowHeight, setWindowHeight] = useState<number>(0);
-  const [isErasing, setIsErasing] = useState<boolean>(false);
-  const [lineWidth, setLineWidth] = useState<number>(5);
-  const [lineColor, setLineColor] = useState<string>("#000000");
+export default function CanvasPage({
+  params,
+}: {
+  params: { page: number; user: number; project: number };
+}) {
+  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
+  const [pageObj, setPageObj] = useState<Canvas>();
+  const [moving, setMoving] = useState<boolean>(false);
+  const elementRef = useRef<HTMLDivElement>(null);
+  const { scrollX: x, scrollY: y } = useNavigationWithScroll(
+    moving,
+    elementRef
+  );
   const optionsRef = useRef<HTMLDivElement>(null);
-  const [cursor, setCursor] = useState<string>("default");
-  const [tasks, setTasks] = useState<TaskCanvas[]>([
-    new TaskCanvas(
-      1,
-      new Task(1, "AAAA", false, false, null, [], null, []),
-      null,
-      90,
-      90
-      ),
-      new TaskCanvas(
-        2,
-        new Task(1, "BBB", false, false, null, [], null, []),
-        null,
-        50,
-        50
-        ),
-      ]);
-    const [shape, setShape] = useState<string>("line");
-    const { canvasRef, clear } = useDraw(drawLine, shape, optionsRef);
+  const [shape, setShape] = useState<string>("line");
+  const [isErasing, setIsErasing] = useState<boolean>(false);
+  const { clear, canvasRef } = useDraw(
+    drawLine,
+    moving,
+    shape,
+    optionsRef,
+    isErasing
+  );
+  const { theme, setTheme } = useTheme();
 
-    useEffect(() => {
-      window.addEventListener("resize", () => {
-        setWindowWidth(window.innerWidth);
-        setWindowHeight(window.innerHeight);
-      });
-    }, []);
-      
-  function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-    const { x: currX, y: currY } = currentPoint;
-    const { x: prevX, y: prevY } = prevPoint ?? currentPoint;	
+  useEffect(() => {
+    if (!elementRef.current) return;
+    let cursor = "";
+    if (moving)
+      cursor =
+        theme == "dark"
+          ? "url('/img/grabDark.svg'), auto"
+          : "url('/img/grabLight.svg'), auto";
+    else if (theme == "dark")
+      cursor = isErasing
+        ? "url('/img/eraserDark.svg'), auto"
+        : "url('/img/pencilDark.svg'), auto";
+    else if (theme == "light")
+      cursor = isErasing
+        ? "url('/img/eraserLight.svg'), auto"
+        : "url('/img/pencilLight.svg'), auto";
+    elementRef.current.style.cursor = cursor;
+  }, [moving, theme, isErasing]);
 
-    if (isErasing) {
-      ctx.globalCompositeOperation = "destination-out";
-    } else {
-      ctx.globalCompositeOperation = "source-over";
-    }
+  useEffect(() => {
+    updatePageAndTasks();
+  }, []);
 
-    ctx.lineWidth = lineWidth;
-    ctx.strokeStyle = lineColor;
-    ctx.beginPath();
-    
-    if(shape == "square") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.lineTo(prevX, currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    }else if(shape == "circle") {
-      if(currX > prevX && currY > prevY) {
-        const center= {x: prevX + ((currX - prevX)/2), y: prevY+((currY - prevY)/2)}
-        ctx.ellipse(center.x, center.y, (currX-prevX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX > prevX && currY < prevY) {
-        const center= {x: prevX + ((currX - prevX)/2), y: currY+((prevY - currY)/2)}
-        ctx.ellipse(center.x, center.y, (currX-prevX)/2, (prevY-currY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX < prevX && currY > prevY) {
-        const center= {x: currX + ((prevX - currX)/2), y: prevY+((currY - prevY)/2)}
-        ctx.ellipse(center.x, center.y, (prevX-currX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      } else if(currX < prevX && currY < prevY) {
-        const center= {x: currX + ((prevX - currX)/2), y: currY+((prevY - currY)/2)}
-        ctx.ellipse(center.x, center.y, (prevX-currX)/2, (prevY-currY)/2, 0, 0, 2 * Math.PI);
-      } else {
-        ctx.ellipse(prevX, prevY, (currX-prevX)/2, (currY-prevY)/2, 0, 0, 2 * Math.PI);
-      }
-      ctx.stroke();
-    }else if(shape == "triangle") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.lineTo(prevX + ((currX-prevX)/2), currY);
-      ctx.lineTo(prevX, prevY);
-      ctx.lineTo(currX, prevY);
-      ctx.stroke();
-    }else if(shape == "line") {
-      ctx.moveTo(prevX, prevY);
-      ctx.lineTo(currX, currY);
-      ctx.stroke();
-    }
-    ctx.fillStyle = lineColor;
-    ctx.beginPath();
-    if( shape == "line") {
-      ctx.arc(
-        prevX,
-        prevY,
-        lineWidth / 2,
-        0,
-        (lineWidth / 2) * Math.PI
-      );
-    }
-    ctx.fill();
+  async function updatePageAndTasks() {
+    const pagePromise = await getData("canvas", params.page);
+    const projectPromise = await getData("project", params.project);
+    pagePromise.project = projectPromise;
+    setPageObj(pagePromise);
+    setTasks(pagePromise.tasks);
   }
 
+  useEffect(() => {
+    const url = pageObj?.draw.data;
+    const img = new Image();
+    const ctx = canvasRef.current?.getContext("2d");
+    if (!canvasRef.current || !url || !ctx) return;
+    img.src = "data:" + pageObj.draw.type + ";base64," + pageObj.draw.data;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, 4000, 2000);
+    };
+  }, [tasks, pageObj]);
+  async function createTask() {
+    await postTask(params.user, params.page);
+    updatePageAndTasks();
+  }
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        width={1920}
-        height={930}
-        className="w-full h-full"
-      ></canvas>
-      <div className="absolute top-14 right-0 flex flex-col  items-center justify-center bg-input-grey rounded-l-2xl h-72 w-min gap-2 py-6" ref={optionsRef}>
-        <button onClick={() => setIsErasing(!isErasing)}>
-          {isErasing ? "P" : "E"}
-        </button>
-        <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{backgroundColor: lineColor}}>
-          <input
-            type="color"
-            value={lineColor}
-            className="w-6 h-6 opacity-0"
-            onChange={(e) => setLineColor(e.target.value)}
-          />
-        </span>
-        <input
-          type="range"
-          max={50}
-          min={2}
-          value={lineWidth}
-          className=" -rotate-90 w-16 h-16"
-          onChange={(e) => setLineWidth(parseInt(e.target.value))}
+    <div
+      ref={elementRef}
+      className="overflow-scroll flex justify-start items-start w-screen h-full"
+    >
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} page={pageObj} />
+      <div className="w-min h-min relative">
+        <canvas
+          ref={canvasRef}
+          width={4000}
+          height={2000}
+          className="relative w-[4000px] h-[2000px]"
         />
-        <select name="shape" value={shape} onChange={e => setShape(e.target.value)} >
-          <option value="square">square</option>
-          <option value="circle">circle</option>
-          <option value="triangle">triangle</option>
-          <option value="line">line</option>
-        </select>
-        <button>+</button>
-        <button onClick={() => clear()}>C</button>
+        {tasks.map((t, index) => (
+          <TaskCanvasComponent
+            task={t}
+            key={index}
+            elementRef={elementRef}
+            canvasRef={canvasRef}
+            page={pageObj}
+          />
+        ))}
+        <CanvasComponents
+          moving={moving}
+          setMoving={setMoving}
+          clear={clear}
+          isErasing={isErasing}
+          setIsErasing={setIsErasing}
+          optionsRef={optionsRef}
+          shape={shape}
+          setShape={setShape}
+          postTask={createTask}
+        />
+        <img src={pageObj?.draw.data} alt="" />
       </div>
-      {tasks.map((t, index) => (
-        <TaskCanvasComponent task={t} key={index} />
-      ))}
-    </>
+      <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
+    </div>
   );
-};
-
-export default page;
+}

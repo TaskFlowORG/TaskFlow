@@ -3,14 +3,13 @@ import { TypeOfPage } from "../enums/TypeOfPage";
 import { Property } from "../Properties/Property";
 import { Page } from "./Page";
 import { Task } from "../tasks/Task";
+import { TaskCanvas } from "../relations/TaskCanvas";
 
 export class CommonPage extends Page {
-    tasks: Array<Task>;
     propertyOrdering: Property;
 
-    constructor(id: Number, name: String, type: TypeOfPage, project: Project, tasks: Array<Task>, properties: Array<Property>, propertyOrdering: Property) {
-        super(id, name, type, project, properties)
-        this.tasks = tasks;
+    constructor(id: number, name: string, type: TypeOfPage, project: Project, properties: Array<Property>, propertyOrdering: Property, tasks:Array<TaskCanvas>) {
+        super(id, name, type, project, properties, tasks)
         this.propertyOrdering = propertyOrdering;
     }
 }
