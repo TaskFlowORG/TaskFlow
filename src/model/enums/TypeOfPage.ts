@@ -1,4 +1,4 @@
-export enum TypeOfPage {
+export  enum TypeOfPage {
     KANBAN,
     CANVAS,
     CALENDAR,

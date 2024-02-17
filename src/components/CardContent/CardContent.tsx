@@ -15,7 +15,7 @@ import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
 import { Property } from "@/model/Properties/Property";
 import { TextValued } from "@/model/values/TextValued";
 import { UniOptionValued } from "@/model/values/UniPotionValued";
-import { MultiOptionValued } from "@/model/values/MultiOptionValued";
+import MultiOptionValued from "@/model/values/MultiOptionValued";
 
 interface Props {
   task: Task;

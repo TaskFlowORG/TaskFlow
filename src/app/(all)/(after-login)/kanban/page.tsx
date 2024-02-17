@@ -17,7 +17,7 @@ import { TaskValue } from "@/model/relations/TaskValue";
 import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
 import { TextValued } from "@/model/values/TextValued";
 import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import { MultiOptionValued } from "@/model/values/MultiOptionValued";
+import MultiOptionValued from "@/model/values/MultiOptionValued";
 import { ArchiveValued } from "@/model/values/ArchiveValued";
 import { NumberValued } from "@/model/values/NumberValued";
 import { TimeValued } from "@/model/values/TimeValued";

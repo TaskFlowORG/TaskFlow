@@ -1,5 +1,7 @@
-export enum Language{
-    PORTUGUESE,
+export  enum Language {
     ENGLISH,
-    SPANISH
+    SPANISH,
+    PORTUGUESE,
+
+    //ADD MORE
 }
