@@ -6,19 +6,20 @@ import { Permission } from "./Permission";
 
 export class Project {
 
-    id: Number; 
-    name: String;
-    description: String;
+    id: number;
+    name: string;
+    description: string;
     deadline: Date;
     visualizedAt:Date;
-    picture: String;
-    groups: Array<Group> |null;
-    owner: User |null;
-    pages: Array<Page> |null;
-    properties: Array<Property> |null; 
+    picture: string;
+    groups: Array<Group>;
+    owner: User;
+    pages: Array<Page>;
+    properties: Array<Property>; 
+    percentage: number;
 
 
-    constructor(id: Number, name: String, description: String, deadline: Date, visualizedAt:Date, picture: String, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>) {
+    constructor(id: number, name: string, description: string, deadline: Date, visualizedAt:Date, picture: string, groups: Array<Group>, owner: User, pages: Array<Page>, properties: Array<Property>, percentage: number) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -29,6 +30,7 @@ export class Project {
         this.owner = owner;
         this.pages = pages;
         this.properties = properties;
+        this.percentage = percentage;
     }
     
 }

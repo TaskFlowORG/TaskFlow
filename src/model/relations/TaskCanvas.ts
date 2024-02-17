@@ -3,17 +3,19 @@ import { Task } from "../tasks/Task";
 
 export class TaskCanvas {
 
-    id?:null | Number; 
+    id?:null | number; 
     task?:null | Task;
     x:number;
     y:number;
+    indexAtColumn:number;
 
-    constructor(id:null |number,  task:null | Task, page:null | Page, x: number, y: number) {
+    constructor(id:null |number,  task:null | Task, page:null | Page, x: number, y: number, index:number) {
 
         this.id = id;
         this.task = task;
         this.x = x;
         this.y = y;
+        this.indexAtColumn = index
     }
 
 }

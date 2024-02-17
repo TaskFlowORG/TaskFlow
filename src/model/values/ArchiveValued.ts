@@ -1,11 +1,11 @@
 import { Value } from "./Value";
 
 export class ArchiveValued extends Value{
-    value: string;
+    archive: string;
 
     constructor(id: number, value: string){
-        super(id);
-        this.value = value;
+        super(id, value);
+        this.archive = value;
     }
 
     getValue(): any {

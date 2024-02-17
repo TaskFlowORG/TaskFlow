@@ -1,11 +1,11 @@
 import { Value } from "./Value";
 
 export class NumberValued extends Value{
-    value: Number;
+    number: number;
 
-    constructor(id: number, value: Number){
-        super(id);
-        this.value = value;
+    constructor(id: number, value: number){
+        super(id, value);
+        this.number = value;
     }
 
     getValue(): any {

@@ -1,12 +1,10 @@
 import { TaskCanvas } from "../relations/TaskCanvas";
 
 export class Canvas {
-      draw : String;
-      tasks:Array<TaskCanvas>;
+      draw : string;
 
-        constructor(draw:String, tasks:Array<TaskCanvas>){
+        constructor(draw:string){
             this.draw=draw;
-            this.tasks = tasks;
         }
         
 }

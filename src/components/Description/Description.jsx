@@ -6,7 +6,6 @@ import { GroupAccess } from "../GroupAccess/GroupAccess"
 export const Description = ({ projectId, groupId = 1 }) => {
     const [groups, setGroups] = useState([])
 
-
     useEffect(() => {
         const getList = async () => {
             const fetchedGroups = await getListData("group");

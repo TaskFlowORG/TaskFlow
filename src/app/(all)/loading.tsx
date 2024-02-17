@@ -1,6 +1,6 @@
+import { Loading } from "@/components/Loading";
+import React from "react";
 
-import { Loading } from "@/components/Loading"
-export default function LoadingPage() {
-
+export default function RootLoading() {
     return <Loading/>
 }

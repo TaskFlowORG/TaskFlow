@@ -2,20 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Project } from "../Project";
-
-interface Project {
-  id: number;
-  groups: Array<Group>;
-  name: string;
-  description: string;
-  percent: number;
-}
-interface Group {
-  id: number;
-  image: string;
-  name: string;
-}
+import { ProjectComponent } from "../Project";
+import { Project } from "@/model/Project";
 
 export const ProjectsMainPage = () => {
   const [projects, setProjects] = useState<Array<Project>>([]);
@@ -29,14 +17,14 @@ export const ProjectsMainPage = () => {
     <div className="w-2/3 lg:w-1/3 flex flex-col gap-5 h-[70vh]">
       <div className="w-full flex justify-center h-min p-2">
         <Link href={"./projects"} className="w-full">
-          <button className="bg-primary dark:bg-secondary w-full h-24 shadow-blur-10 text-white h4 rounded-md">
+          <button className="bg-primary dark:bg-secondary w-full h-24 shadow-blur-10 text-contrast h4 rounded-md">
             PROJETOS
           </button>
         </Link>
       </div>
       <div className="w-full h-full p-2  overflow-scroll flex flex-wrap gap-6">
         {projects.map((p) => {
-          return <Project project={p} key={p.id} />;
+          return <ProjectComponent project={p} key={p.id} />;
         })}
       </div>
     </div>
