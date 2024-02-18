@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ProjectComponent } from "../Project";
-import { Project } from "@/model/Project";
+import { Project } from "@/models";
 
 export const ProjectsMainPage = () => {
-  const [projects, setProjects] = useState<Array<Project>>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     //Consumir api

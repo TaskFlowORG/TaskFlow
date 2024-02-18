@@ -1,18 +1,15 @@
-import { Select } from "@/model/Properties/Select";
-import { Property } from "@/model/Properties/Property";
+
 import { useEffect, useState } from "react";
 import { getData, putData } from "@/services/http/api";
-import { Project } from "@/model/Project";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { CommonPage } from "@/model/pages/CommonPage";
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";
+import { OrderedPage, Project, Property, TypeOfProperty } from "@/models";
 
 interface Props {
   propertiesPage: Property[];
   orderingId: number | undefined;
-  page: CommonPage;
+  page: OrderedPage;
 }
 
 export const OrderInput = ({ propertiesPage, orderingId, page }: Props) => {
@@ -23,6 +20,7 @@ export const OrderInput = ({ propertiesPage, orderingId, page }: Props) => {
       const project: Project = await getData("project", 1);
       setProperties([...project.properties, ...propertiesPage]);
     })();
+    // eslint-disable-next-line
   }, []);
 
   function updateOrderingProperty(e: MouseEvent<HTMLDivElement, MouseEvent>) {

@@ -48,7 +48,7 @@ const schema = z
     }
   );
 type FormData = z.infer<typeof schema>;
-const page = () => {
+const Page = () => {
   const {
     register,
     handleSubmit,
@@ -219,4 +219,4 @@ const page = () => {
     </div>
   );
 };
-export default page;
+export default Page;

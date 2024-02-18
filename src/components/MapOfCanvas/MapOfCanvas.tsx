@@ -1,4 +1,4 @@
-import { Canvas } from "@/model/pages/Canvas";
+import { CanvasPage } from "@/models";
 import { patchData, putData } from "@/services/http/api";
 import { Blob } from "buffer";
 import {useEffect, useState } from "react";
@@ -7,7 +7,7 @@ interface Props{
     canvas: React.RefObject<HTMLCanvasElement>,
     x: number,
     y: number,
-    page:Canvas | undefined
+    page:CanvasPage | undefined
 }
 
 
@@ -15,6 +15,8 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
     const image = canvas?.current?.toDataURL() || ""
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
+    
+    // eslint-disable-next-line
     useEffect(() => {
         window.addEventListener("resize", () => {
             setWindowWidth(window.innerWidth)
@@ -34,6 +36,7 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
                      patchData("canvas/draw/"+page.id, formData)
                 }
             })
+    // eslint-disable-next-line
     }, [image])
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)

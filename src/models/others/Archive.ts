@@ -1,16 +1,16 @@
-import { TaskGet } from '@/model/task/task/TaskGetDTO';
 import { AllArgsConstructor } from '@/utils';
 
 @AllArgsConstructor
-export class TaskPageGet {
+export class Archive {
     id!: number;
-    task!: TaskGet;
+    name!: string;
+    type!: string;
+    data!: number[]
 
-    constructor(id: number, task: TaskGet) {}
-    
+    constructor(id: number, name: string, type: string, data: number[]) {}
 
     equals(obj: any): boolean {
-        if (obj instanceof TaskPageGet) {
+        if (obj instanceof Archive) {
             return obj.constructor === this.constructor && obj.id === this.id;
         }
         return false;

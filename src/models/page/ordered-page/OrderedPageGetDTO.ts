@@ -8,7 +8,7 @@ import { TaskPageGet } from "@/model/relations/task-page/TaskPageGetDTO";
 
 @AllArgsConstructor
 export class OrderedPageGet extends PageGet {
-    propertyOrdering?: PropertyGet;
+    propertyOrdering!: PropertyGet;
 
     constructor(id: number, name: string, type: TypeOfPage, properties: PropertyGet[], tasks: TaskPageGet[], propertyOrdering: PropertyGet) {
         super(id, name, type, properties, tasks);

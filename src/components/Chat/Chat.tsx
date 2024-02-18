@@ -4,13 +4,13 @@ import { Chats } from "./components/Chats";
 import { ChatContent } from "./components/ChatContent";
 import { useState, useEffect } from "react";
 import { getListChat, getSingleChat } from "../../services/http/api";
-import { ChatGetDTO } from "@/model/chat/ChatGetDTO";
+import { Chat } from "@/models";
 
 export const Chatt = () => {
     const [mostrarChat, setMostrarChat] = useState(true);
     const [abrirChat, setAbrirChat] = useState(true);
-    const [chats, setChats] = useState<ChatGetDTO[]>([]);
-    const [chatContent, setChatContent] = useState<ChatGetDTO[]>([]);
+    const [chats, setChats] = useState<Chat[]>([]);
+    const [chatContent, setChatContent] = useState<Chat[]>([]);
     const [chatClicado, setChatClicado] = useState<number | null>(null);
 
     const mostrarChats = () => {
@@ -47,7 +47,7 @@ export const Chatt = () => {
                             picture={chatContentt.picture}
                             name={chatContentt.name}
                             lastMessage={chatContentt.lastMessage}
-                            quantitityUnvisualized={chatContentt.quantitityUnvisualized}
+                            quantityUnvisualized={chatContentt.quantityUnvisualized}
                             messages={chatContentt.messages}
                         />
                     ))}

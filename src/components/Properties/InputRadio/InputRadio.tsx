@@ -1,5 +1,6 @@
-import { Property } from "@/model/Properties/Property"
-import { Select } from "@/model/Properties/Select"
+
+
+import { Property, Select } from "@/models"
 import { Input } from "../../../components/Input"
 type InputRadioType = {
     property: Property
@@ -15,7 +16,7 @@ export const InputRadio = ({ property }: InputRadioType) => {
                 <div className="w-[70%] h-full flex flex-row items-center justify-between">
                     <p className="h5 text-center">{property.name}</p>
                     {(property as Select).options.map((option) =>
-                        <Input register={option.name} className='h-full' type="radio" classNameInput={""}></Input>
+                        <Input key={option.id} register={option.name} className='h-full' type="radio" classNameInput={""}></Input>
                         )
                     }
                 </div>

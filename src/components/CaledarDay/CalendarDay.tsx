@@ -3,8 +3,8 @@
 import { compareDates } from "@/functions";
 import { useEffect, useState } from "react";
 import { If } from "../If";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { Obj } from "../Obj";
+import { TaskPage } from "@/models";
 
 interface Props {
     date: Day
@@ -12,7 +12,7 @@ interface Props {
 interface Day {
     day: Date,
     inThisMonth: boolean,
-    tasks: Array<TaskCanvas>
+    tasks: TaskPage[]
 }
 
 export const CalendarDay = ({ date }: Props) => {

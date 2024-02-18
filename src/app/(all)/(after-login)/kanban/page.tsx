@@ -8,33 +8,18 @@ import { SearchBar } from "@/components/SearchBar";
 import { useEffect } from "react";
 import { getData, getListData, getPage, putData } from "@/services/http/api";
 import { useState } from "react";
-import { Page } from "@/model/pages/Page";
-import { CommonPage } from "@/model/pages/CommonPage";
-import { Select } from "@/model/Properties/Select";
-import { Option } from "@/model/Properties/Option";
-import { UniOptionValued } from "@/model/values/UniPotionValued";
-import { TaskValue } from "@/model/relations/TaskValue";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { TextValued } from "@/model/values/TextValued";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
-import MultiOptionValued from "@/model/values/MultiOptionValued";
-import { ArchiveValued } from "@/model/values/ArchiveValued";
-import { NumberValued } from "@/model/values/NumberValued";
-import { TimeValued } from "@/model/values/TimeValued";
 import { OrderInput } from "@/components/OrderInput/OrderInput";
-import { Property } from "@/model/Properties/Property";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
-import { Project } from "@/model/Project";
-import { User } from "@/model/User";
+import { MultiOptionValued, Option, OrderedPage, Property,Select,TaskOrdered,TaskValue,TypeOfProperty, UniOptionValued } from "@/models";
 
 //================================ Parte do Becker (Modal Cadastro Tarefa) ===============================
-const property1 = new Property(1, "Propriedade1", true, false, TypeOfProperty.TEXT, [], new Project(1,"a","asas",new Date(),new Date,"a",null,null,null,null));
-const property2 = new Property(2, "Propriedade2", false, true, TypeOfProperty.NUMBER, [], new Project(1,"a","asas",new Date(),new Date,"a",null,null,null,null));
-//const property3 = new Property(3, "Propriedade3", true, true, TypeOfProperty.RADIO, [], new Project(1,"a","asas",new Date(),new Date,"a",null,null,null,null));
-const property4 = new Property(4, "Propriedade4", true, true, TypeOfProperty.DATE, [], new Project(1,"a","asas",new Date(),new Date,"a",null,null,null,null));
-const property5 = new Property(5, "Propriedade5", true, true, TypeOfProperty.PROGRESS, [], new Project(1,"a","asas",new Date(),new Date,"a",null,null,null,null));
+const property1 = new Property(1, "Propriedade1", true, false, TypeOfProperty.TEXT,);
+const property2 = new Property(2, "Propriedade2", false, true, TypeOfProperty.NUMBER);
+//const property3 = new Property(3, "Propriedade3", true, true, TypeOfProperty.RADIO);
+const property4 = new Property(4, "Propriedade4", true, true, TypeOfProperty.DATE);
+const property5 = new Property(5, "Propriedade5", true, true, TypeOfProperty.PROGRESS);
 
 const list : Array<Property> = [];
 
@@ -43,28 +28,28 @@ list.push(property1,property2,property4, property5);
 
 export default function Kanban() {
   const [input, setInput] = useState("");
-  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
+  const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [page, setPage] = useState<CommonPage | null>(null);
+  const [modal, setModal] = useState(false);
+  const [page, setPage] = useState<OrderedPage | null>(null);
   const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
 
   useEffect(() => {
     (async () => {
-      const pg: CommonPage = await getPage("page", 1);
-      pg.project = await getData("project", 1);
-      setTasks(pg.tasks);
+      const pg: OrderedPage = await getPage("page", 1);
+      setTasks((pg.tasks as TaskOrdered[]));
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
   });
 
-  function compararPorIndice(a: TaskCanvas, b: TaskCanvas) {
+  function compararPorIndice(a: TaskOrdered, b: TaskOrdered) {
     return a.indexAtColumn - b.indexAtColumn;
   }
 
-  function indexAtColumn(tasks: TaskCanvas[]) {
+  function indexAtColumn(tasks: TaskOrdered[]) {
     tasks.sort(compararPorIndice);
     return tasks;
   }
@@ -77,7 +62,7 @@ export default function Kanban() {
       return option.id == destination.droppableId;
     });
 
-    const draggedTask: TaskCanvas = tasks.find((task) => {
+    const draggedTask: TaskOrdered = tasks.find((task) => {
       return task.id == result.draggableId;
     })!;
 
@@ -87,7 +72,7 @@ export default function Kanban() {
       }
     )!;
 
-    property.value.value = optionOrder ?? null;
+    property.value.getValue().equals(optionOrder) ?? null;
 
     if (draggedTask) {
       try {
@@ -129,7 +114,7 @@ export default function Kanban() {
           search={(textInput: string) => setInput(textInput)}
         >
           <OrderInput
-            page={page as CommonPage}
+            page={page as OrderedPage}
             orderingId={id}
             propertiesPage={page?.properties ?? []}
           ></OrderInput>
@@ -154,8 +139,11 @@ export default function Kanban() {
                     return task?.task?.properties?.some((property) => {
                       return (
                         property.property.id == id &&
-                        (property.value as UniOptionValued | MultiOptionValued)
-                          .value?.id == option?.id
+                        //se der algo errado, dar uma olhada nessa condição
+                        ((property.value instanceof UniOptionValued &&
+                        property.value?.value?.id == option?.id) || 
+                        (property.value instanceof MultiOptionValued &&
+                          property.value?.value?.find((val:Option) => val.id == option.id) != undefined))
                       );
                     });
                   })

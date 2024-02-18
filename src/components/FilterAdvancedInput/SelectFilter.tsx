@@ -1,4 +1,5 @@
-import { Option } from "@/model/Properties/Option";
+
+import { Option } from "@/models";
 import { useState } from "react";
 
 interface Props {

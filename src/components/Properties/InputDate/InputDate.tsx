@@ -1,5 +1,5 @@
 import { Input } from "@/components/Input"
-import { Property } from "@/model/Properties/Property"
+import { Property } from "@/models"
 type InputDateProps = {
     property: Property
 }

@@ -1,6 +1,5 @@
-import { ChatGetDTO } from "@/model/chat/ChatGetDTO";
-import { CommonPage } from "@/model/pages/CommonPage";
-import { Page } from "@/model/pages/Page";
+
+import { Chat, OrderedPage } from "@/models";
 import { AxiosResponse } from "axios";
 
 
@@ -14,7 +13,7 @@ async function getData(table: string, paramether: number|string) {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
 
-async function getPage(table: string, paramether: number): Promise<CommonPage> {
+async function getPage(table: string, paramether: number): Promise<OrderedPage> {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether))
     .data;
 }
@@ -33,26 +32,7 @@ async function getListChat(type: string, userId: number) {
     const response = await axios.get(
       "http://localhost:9999/chat/" + type + "/" + userId
     );
-    const array = [];
-    for (let chat of response.data) {
-      const id = chat.id;
-      const name = chat.name;
-      const picture = chat.picture;
-      const messages = chat.messages;
-      const quantitityUnvisualized: number = chat.quantitityUnvisualized;
-      const lastMessage = chat.lastMessage;
-      array.push(
-        new ChatGetDTO(
-          id,
-          name,
-          picture,
-          messages,
-          quantitityUnvisualized,
-          lastMessage
-        )
-      );
-    }
-    return array;
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -63,31 +43,7 @@ async function getSingleChat(type: string, userId: number, idBusca: number) {
     const response = await axios.get(
       "http://localhost:9999/chat/" + type + "/" + userId
     );
-    const info = [];
-    for (let chat of response.data) {
-      const id = chat.id;
-      const name = chat.name;
-      const picture = chat.picture;
-      const messages = chat.messages;
-      const quantitityUnvisualized: number = chat.quantitityUnvisualized;
-      const lastMessage = chat.lastMessage;
-
-      if (chat.id == idBusca) {
-        info.push(
-          new ChatGetDTO(
-            id,
-            name,
-            picture,
-            messages,
-            quantitityUnvisualized,
-            lastMessage
-          )
-        );
-      }
-    }
-    console.log(info);
-
-    return info;
+    return response.data;
   } catch (error) {
     throw error;
   }
@@ -119,22 +75,22 @@ async function enviarMessage() {
 
 }
 
-async function postData(table, object) {
+async function postData(table:any, object:any) {
   return await axios.post("http://localhost:9999/" + table, object);
 }
 
-async function postTask(userId, pageId) {
+async function postTask(userId:any, pageId:any) {
   const retorno = await axios.post(`http://localhost:9999/task/${pageId}/${userId}`);
   return await retorno.data;
 }
-async function putData(table, object) {
+async function putData(table:any, object:any) {
   console.log(object);
   return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
 
-async function patchData(table, object) {
+async function patchData(table:any, object:any) {
   return (await axios.patch("http://localhost:9999/" + table, object)).data;
 }
-async function deleteData(table, id) {
+async function deleteData(table:any, id:any) {
   return await axios.delete("http://localhost:9999/" + table + "/" + id);
 }

@@ -1,19 +1,19 @@
 'use client'
 
-import { TaskCanvas } from "@/model/relations/TaskCanvas"
+
 import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
 import {useState, useRef, useEffect} from "react"
 import { useTheme } from "next-themes"
 import { putData, patchData } from "@/services/http/api"
-import { Canvas } from "@/model/pages/Canvas"
+import { CanvasPage, TaskCanvas } from "@/models"
 
 
 interface Props{
     task: TaskCanvas,
     elementRef: React.RefObject<HTMLDivElement>,
     canvasRef: React.RefObject<HTMLCanvasElement>,
-    page:Canvas | undefined
+    page:CanvasPage | undefined
 }
 
 export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) => { 
@@ -54,8 +54,10 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
         }
         return () => {
             elementRef.current?.removeEventListener("mousemove", changeXandY)
+            // eslint-disable-next-line
             elementRef.current?.removeEventListener("mouseup", () => setDragging(false))
         }
+    // eslint-disable-next-line
     }, [dragging])
 
     return(

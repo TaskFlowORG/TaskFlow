@@ -8,14 +8,7 @@ import { CardText } from "./CardProperties/CardText";
 import { useEffect, useState } from "react";
 import { CardSelect } from "./CardProperties/CardSelect";
 import { ProgressBar } from "../ProgressBar";
-import { Task } from "@/model/tasks/Task";
-import { Value } from "@/model/values/Value";
-import { TaskValue } from "@/model/relations/TaskValue";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { Property } from "@/model/Properties/Property";
-import { TextValued } from "@/model/values/TextValued";
-import { UniOptionValued } from "@/model/values/UniPotionValued";
-import MultiOptionValued from "@/model/values/MultiOptionValued";
+import { MultiOptionValued, Task, TaskValue, TextValued, TypeOfProperty, UniOptionValued } from "@/models";
 
 interface Props {
   task: Task;
@@ -55,7 +48,7 @@ export const CardContent = ({ task, min }: Props) => {
             return (
               <CardDate
                 key={property.property.id.toString()}
-                date={property.value.value}
+                date={property.value.getValue()}
               />
             );
           } else if (is(property, TypeOfProperty.SELECT)) {
@@ -79,7 +72,7 @@ export const CardContent = ({ task, min }: Props) => {
               <CardRadio
                 key={property.property.id.toString()}
                 property={property.property.name}
-                value={property.value.value}
+                value={property.value.getValue()}
               />
             );
           } else if (is(property, TypeOfProperty.NUMBER)) {

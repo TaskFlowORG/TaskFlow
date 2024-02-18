@@ -24,7 +24,7 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
    
-    const page = () => {
+    const Page = () => {
         const [user, setUser] = useState({} as FormData);
         const {
             register,
@@ -79,4 +79,4 @@ type FormData = z.infer<typeof schema>;
     }
  
 
-    export default page;
+    export default Page;

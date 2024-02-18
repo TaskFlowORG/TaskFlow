@@ -1,8 +1,13 @@
 'use client'
 
+import {RoundedCard} from "@/components/RoundedCard";
+import { Function } from "../Features";
+import { LandingPageCardContent } from "../CardContent";
+import { useState } from "react";
+
 export const ModalTarefa = () => {
 
-
+    const [image, setImage] = useState("project.jpg")
 
     return (
         <>

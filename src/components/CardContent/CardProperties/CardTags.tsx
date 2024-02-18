@@ -1,5 +1,6 @@
 
-import { Option } from "@/model/Properties/Option"
+
+import { Option } from "@/models"
 import { Tag } from "./Tag"
 
 interface Props {
@@ -15,7 +16,7 @@ export const CardTag = ({ tags }: Props) => {
                 {/* <img src="gradient.svg" className="absolute h-full left-[-0.1rem]" alt="" /> */}
                 {
                     tags.map(tag => {
-                        return <Tag value={tag.name} />
+                        return <Tag value={tag.name} key={tag.id} />
                     })
                 }
             </div>

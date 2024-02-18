@@ -2,20 +2,17 @@
 
 import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
-import { Project } from "@/model/Project";
-import { Property } from "@/model/Properties/Property";
-import { Page } from "@/model/pages/Page";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import page from "@/app/(all)/(before-login)/login/page";
+import { Page, Project, Property, TaskOrdered } from "@/models";
 
 
 export default function TablePage({ params }: { params: { page: string, project: string } }) {
 
-    const [tasks, setTasks] = useState<Array<TaskCanvas>>([])
-    const [properties, setProperties] = useState<Array<Property>>([])
+    const [tasks, setTasks] = useState<TaskOrdered[]>([])
+    const [properties, setProperties] = useState<Property[]>([])
     const [pageObj, setPageObj] = useState<Page>()
 
     useEffect(() => {
@@ -26,9 +23,10 @@ export default function TablePage({ params }: { params: { page: string, project:
 
             let tasksPromise = (await pagePromise).tasks
             let propsPromise = [...(await projectPromise).properties, ...(await pagePromise).properties]
-            setTasks(tasksPromise)
+            setTasks(tasksPromise as TaskOrdered[])
             setProperties(propsPromise.filter(p => p.visible))
         })()
+    // eslint-disable-next-line
     }, [])
 
     async function updateIndexes(e: DropResult) {

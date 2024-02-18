@@ -12,6 +12,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 
 // forwardRef o primeiro parametro é o tipo de elemento que vai ser referenciado e o segundo é o tipo de props que ele vai receber;
+// eslint-disable-next-line react/display-name
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', name = '', className = "", classNameInput = "", required = false, image = '', label = '', placeholder = '', helperText = '', register, ...props }, ref) => {
 
     const inputId = useId();

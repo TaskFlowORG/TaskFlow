@@ -1,1 +1,1 @@
-export {SelectWithImage} from './SelectWithImage';
+export {SelectWithImage} from './SelectwithImage';

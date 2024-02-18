@@ -1,9 +1,5 @@
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { CommonPage } from "@/model/pages/CommonPage";
-import { Property } from "@/model/Properties/Property";
+
 import { getData } from "@/services/http/api";
-import { Project } from "@/model/Project";
-import { Select } from "@/model/Properties/Select";
 import { useEffect, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
@@ -13,11 +9,12 @@ import { TextFilter } from "./TextFilter";
 import { Button } from "../Button/Button";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { SelectFilter } from "./SelectFilter";
+import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 
 interface Props {
   properties: Property[] | undefined;
   orderingId: number | undefined;
-  page: CommonPage | null;
+  page: Page | null;
   filterProps: (list: any) => void;
 }
 

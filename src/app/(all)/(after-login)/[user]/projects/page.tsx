@@ -2,14 +2,14 @@
 
 import { ProjectComponent } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
-import { Project } from "@/model/Project";
 import { getData, getListData } from "@/services/http/api";
+import { Project } from "@/models";
 import { useEffect, useState } from "react";
 
 export default function Projects({params}:{params:{user:string}}) {	
 
     const [windowWidth, setWindowWidth] = useState<number>(0);
-    const [projects, setProjects] = useState<Array<Project>>([])
+    const [projects, setProjects] = useState<Project[]>([])
 
     useEffect(() => {
         window.addEventListener('resize', () => {
@@ -20,6 +20,7 @@ export default function Projects({params}:{params:{user:string}}) {
             const projectsPromise = await getListData("project/user/"+params.user)
             setProjects(projectsPromise)
         })()
+    // eslint-disable-next-line
     }, [])
 
     function getCol2Xl(index:number):number {

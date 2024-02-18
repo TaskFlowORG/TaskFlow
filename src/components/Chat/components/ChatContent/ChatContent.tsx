@@ -1,10 +1,19 @@
 import { TextContent } from "../TextContent/TextContent"
-import { ChatGetDTO } from "@/model/chat/ChatGetDTO"
 import { useState, useEffect } from "react"
 import { getSingleChat, enviarMessage } from "@/services/http/api"
+import { Archive, Chat } from "@/models";
+import { Message } from "@/models";
 
+interface Props {
+    id: number,
+    name: string,
+    messages: Message[],
+    picture: Archive,
+    quantityUnvisualized: number,
+    lastMessage?: Message
+}
 
-export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualized, lastMessage }: ChatGetDTO) => {
+export const ChatContent = ({ id, name, messages, picture, quantityUnvisualized, lastMessage }:Props) => {
 
     async function enviarMensagem() {
         const response = await enviarMessage();
@@ -41,7 +50,7 @@ export const ChatContent = ({ id, name, messages, picture, quantitityUnvisualize
                 <div className="h-[63vh] lg:h-[73.5vh] overflow-scroll">
                     <div className="flex w-full flex-col gap-5">
                         {messages.map((message) => (
-                            <TextContent key={message.id} id={message.id} messages={[message]} name={name} picture={picture} quantitityUnvisualized={quantitityUnvisualized} lastMessage={lastMessage} />
+                            <TextContent key={message.id} id={message.id} messages={[message]} name={name} picture={picture} quantityUnvisualized={quantityUnvisualized} lastMessage={lastMessage} />
                         ))}
                     </div>
                 </div>

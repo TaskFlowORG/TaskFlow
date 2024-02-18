@@ -1,9 +1,19 @@
-import { ChatGetDTO } from "@/model/chat/ChatGetDTO"
+
+import { Archive, Chat, Message } from "@/models";
 import { getListChat, getSingleChat } from "@/services/http/api";
 import { useEffect, useState } from "react"
 
-export const TextContent = ({ id, name, messages, picture, quantitityUnvisualized, lastMessage }: ChatGetDTO) => {
-    const [mensagens, setMensagens] = useState<ChatGetDTO[]>([])
+interface Props {
+    id: number,
+    name: string,
+    messages: Message[],
+    picture: Archive,
+    quantityUnvisualized: number,
+    lastMessage?: Message
+}
+
+export const TextContent = ({ id, name, messages, picture, quantityUnvisualized, lastMessage }:Props) => {
+    const [mensagens, setMensagens] = useState<Chat[]>([])
 
     useEffect(() => {
         async function getChats() {

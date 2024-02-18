@@ -1,13 +1,13 @@
-import { Property } from '@/model/Properties/Property';
+
 import { Input } from '../Input';
 import { useState } from 'react';
-import { TypeOfProperty } from '@/model/enums/TypeOfProperty';
 import {InputText} from '@/components/Properties/InputText/InputText';
 import style from './RegisterTaskModal.module.css';
 import { InputNumber } from '../Properties/InputNumber';
 import { InputDate } from '../Properties/InputDate/InputDate';
 import { InputRadio } from '../Properties/InputRadio';
 import { InputProgress } from '../Properties/InputProgress';
+import { Property, TypeOfProperty } from '@/models';
 
 type RegisterTaskModalProps = {
     open: boolean;

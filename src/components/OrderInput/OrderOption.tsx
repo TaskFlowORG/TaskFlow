@@ -1,4 +1,5 @@
-import { Property } from "@/model/Properties/Property";
+
+import { Property } from "@/models";
 import Image from "next/image";
 interface OrderOptionType {
   property: Property;

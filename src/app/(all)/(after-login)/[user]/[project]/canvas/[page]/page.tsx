@@ -1,19 +1,17 @@
 "use client";
 
 import React, { RefObject, useEffect, useRef, useState } from "react";
-import { Task } from "@/model/tasks/Task";
 import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
 import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
 import { CanvasComponents } from "@/components/CanvasOptions/CanvasComponents";
-import { drawLine } from "@/functions";
+import { archiveToSrc, drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
-import { Canvas } from "@/model/pages/Canvas";
 import { getData, postTask } from "@/services/http/api";
 import page from "@/app/(all)/(before-login)/login/page";
+import { CanvasPage as CanvasPageModel, TaskCanvas } from "@/models";
 
 export default function CanvasPage({
   params,
@@ -21,7 +19,7 @@ export default function CanvasPage({
   params: { page: number; user: number; project: number };
 }) {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
-  const [pageObj, setPageObj] = useState<Canvas>();
+  const [pageObj, setPageObj] = useState<CanvasPageModel>();
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll(
@@ -61,6 +59,7 @@ export default function CanvasPage({
 
   useEffect(() => {
     updatePageAndTasks();
+    // eslint-disable-next-line
   }, []);
 
   async function updatePageAndTasks() {
@@ -80,6 +79,7 @@ export default function CanvasPage({
     img.onload = function () {
       ctx.drawImage(img, 0, 0, 4000, 2000);
     };
+    // eslint-disable-next-line
   }, [tasks, pageObj]);
   async function createTask() {
     await postTask(params.user, params.page);
@@ -118,7 +118,7 @@ export default function CanvasPage({
           setShape={setShape}
           postTask={createTask}
         />
-        <img src={pageObj?.draw.data} alt="" />
+        <img src={archiveToSrc(pageObj!.draw)} alt="" />
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
     </div>

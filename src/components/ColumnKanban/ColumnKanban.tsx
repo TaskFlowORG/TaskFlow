@@ -5,22 +5,15 @@ import { useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
-import { Task } from "@/model/tasks/Task";
-import { TaskValue } from "@/model/relations/TaskValue";
-import { TextValued } from "@/model/values/TextValued";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { UniOptionValued } from "@/model/values/UniPotionValued";
-import { Option } from "@/model/Properties/Option";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { Select } from "@/model/Properties/Select";
+import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
 interface Props {
   color?: string;
   option?: Option;
   propertyId?: number;
-  tasks: TaskCanvas[];
+  tasks: TaskOrdered[];
   verify?: boolean;
   input?: string;
   propsFiltered: FilteredProperty[];
@@ -76,19 +69,19 @@ export const ColumnKanban = ({
                     let render = true;
 
                     propsFiltered.map((prop) => {
-                      const propFilter = item.task?.properties?.find(
+                      const propFilter = item.task?.properties.find(
                         (property) => property.property.id == prop.id
                       );
 
                       // console.log(item.task?.properties)
-                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
+                      if (!(propFilter?.value.getValue() == prop.value) && !(render == false)) {
                         // console.log(prop.value,propFilter?.value.value)
                         // console.log(propFilter?.value.value)
                         render = false;
                         if (
                           [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
                         ) {
-                          const opt: Option = propFilter?.value.value;
+                          const opt: Option = propFilter?.value.getValue();
                           console.log(opt);
                           if (opt != null) {
                             if (opt.name != null) {

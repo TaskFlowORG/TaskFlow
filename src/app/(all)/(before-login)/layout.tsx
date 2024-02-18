@@ -6,6 +6,7 @@ export default function Layout({ children } : { children: React.ReactNode }) {
   const { theme, setTheme } = useTheme();
   useEffect(() => {
           setTheme(localStorage.getItem('theme') || 'light')
+    // eslint-disable-next-line
   }, [])
   return (
         <>

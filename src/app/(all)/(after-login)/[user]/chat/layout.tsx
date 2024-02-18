@@ -1,14 +1,13 @@
 'use client'
 
-import { ChatGetDTO } from "@/model/chat/ChatGetDTO";
 import React from "react"
 import { useState, useEffect } from "react"
-import { Chats } from "../../../../../components/Chat/components/Chats"
-import { getListChat } from "../../../../../services/http/api";
+import { Chats } from "@/components/Chat/components/Chats"
+import { getListChat } from "@/services/http/api";
+import { Chat } from "@/models";
 export default function RootLayout({ children, params }: { children: React.ReactNode, params:{chatId:string} }) {
 
-    const [listaChats, setListaChats] = useState<ChatGetDTO[]>([]);
-
+    const [listaChats, setListaChats] = useState<Chat[]>([]);
 
     useEffect(() => {
         async function buscarChats() {
@@ -47,7 +46,7 @@ export default function RootLayout({ children, params }: { children: React.React
                         <div className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll`}>
                         <div className="w-full">
                                 {listaChats.map(chat => (
-                                    <Chats key={chat.id} id={chat.id} name={chat.name} messages={chat.messages} picture={chat.picture} quantitityUnvisualized={chat.quantitityUnvisualized} lastMessage={chat.lastMessage} />
+                                    <Chats key={chat.id} id={chat.id} name={chat.name} messages={chat.messages} picture={chat.picture} quantityUnvisualized={chat.quantityUnvisualized} lastMessage={chat.lastMessage} />
                                 ))}
                             </div>
                         </div>

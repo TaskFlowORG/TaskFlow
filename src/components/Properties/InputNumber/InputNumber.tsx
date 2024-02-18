@@ -1,6 +1,6 @@
 import { Input } from "@/components/Input"
-import { Property } from "@/model/Properties/Property"
 import style from './InputNumber.module.css'
+import { Property } from "@/models"
 
 type InputTextProps = {
     property: Property

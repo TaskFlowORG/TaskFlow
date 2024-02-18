@@ -1,17 +1,10 @@
 'use client'
 
 import { List } from "@/components/List";
-import { IconTask } from "@/components/icons";
-import { Page } from "@/model/pages/Page";
-import { TaskCanvas } from "@/model/relations/TaskCanvas";
 import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
-import { set } from "zod";
-import page from "@/app/(all)/(before-login)/login/page";
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
-import { TaskValue } from "@/model/relations/TaskValue";
-import { Task } from "@/model/tasks/Task";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
+import { OrderedPage, Page, TaskOrdered, TaskPage } from "@/models";
 
 
 export default function ListPage({ params }: { params: { page: string } }) {
@@ -35,6 +28,7 @@ export default function ListPage({ params }: { params: { page: string } }) {
             }
             setPages(list)
         })()
+    // eslint-disable-next-line
     }, [])
 
     async function updateIndexes(e: DropResult) {
@@ -46,10 +40,10 @@ export default function ListPage({ params }: { params: { page: string } }) {
         }
     }
 
-    function contains(p:Page,  t: TaskCanvas): boolean {
+    function contains(p:Page,  t: TaskPage): boolean {
         if(!p) return false
         for (let task of p.tasks) {
-            if (task.task.id == t.task.id) return true
+            if (task.task.id == t.task.id ) return true
         }
         return false
     }
@@ -72,7 +66,7 @@ export default function ListPage({ params }: { params: { page: string } }) {
                 <DragDropContext onDragEnd={e => updateIndexes(e)}>
                         {
                             pages.map((p) => {
-                                return <List key={p.id} list={pageObj?.tasks.filter(t => contains(p, t)) ?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
+                                return <List key={p.id} list={(pageObj?.tasks.filter(t => contains(p, t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
                             })
                         }
                         </DragDropContext>

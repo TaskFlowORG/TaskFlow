@@ -1,18 +1,14 @@
-import { TaskCanvas } from "@/model/relations/TaskCanvas"
+
 import { If } from "../If"
-import { Property } from "@/model/Properties/Property"
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty"
-import { Option } from "@/model/Properties/Option"
 import { IconArchive, IconCheckbox, IconNumber, IconSelect, IconTask, IconUser, IconCalendar, IconProgress, IconRadio, IconTag, IconText, IconClock } from "../icons"
-import { TaskValue } from "@/model/relations/TaskValue"
 import { useState } from "react"
 import { generateContrast } from "@/functions"
 import { Obj } from "../Obj"
-import { User } from "@/model/User"
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
+import { Option, Property, TaskOrdered, TaskValue, TypeOfProperty, UserWithoutPermission } from "@/models"
 
 interface Props {
-    list: Array<TaskCanvas>,
+    list: Array<TaskOrdered>,
     headName: string,
     multivalued?: boolean,
     justName: boolean,
@@ -25,7 +21,7 @@ interface Props {
 export const List = ({ list, headName, multivalued, justName, property, updateIndexes, listId }: Props) => {
 
 
-    function getValueOfProperty(task: TaskCanvas) {
+    function getValueOfProperty(task: TaskOrdered) {
         if (!property) return
         for (let prop of task.task.properties) {
             if (prop.property.id == property.id) return prop
@@ -36,7 +32,7 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
         let list = new Array<Option>
         if (!value) return list
         if (value.property.type == TypeOfProperty.CHECKBOX || value.property.type == TypeOfProperty.TAG) {
-            let val = value.value.value as Option[]
+            let val = value.value.getValue() as Option[]
             for (let opt of val) {
                 list.push(opt)
             }
@@ -133,24 +129,24 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.DATE}>
                                                                             <div>
-                                                                                {new Date(propVl?.value.value).toLocaleDateString()}
+                                                                                {new Date(propVl?.value.getValue()).toLocaleDateString()}
                                                                             </div>
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.NUMBER}>
                                                                             <div>
-                                                                                {propVl?.value.value}
+                                                                                {propVl?.value.getValue()}
                                                                             </div>
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.PROGRESS}>
                                                                             <div>
-                                                                                {propVl?.value.value + "%"}
+                                                                                {propVl?.value.getValue() + "%"}
                                                                             </div>
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.RADIO || property?.type == TypeOfProperty.SELECT}>
                                                                             {
-                                                                                propVl?.value.value != null ?
-                                                                                    (<div className="p-1 rounded-md" style={{ backgroundColor: propVl?.value.value.color, color: generateContrast(propVl?.value.value.color) }}>
-                                                                                        {propVl?.value.value.name}
+                                                                                propVl?.value.getValue() != null ?
+                                                                                    (<div className="p-1 rounded-md" style={{ backgroundColor: propVl?.value.getValue().color, color: generateContrast(propVl?.value.getValue().color) }}>
+                                                                                        {propVl?.value.getValue().name}
                                                                                     </div>)
                                                                                     :
                                                                                     <></>
@@ -167,17 +163,17 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.TEXT}>
                                                                             <div>
-                                                                                {propVl?.value.value}
+                                                                                {propVl?.value.getValue()}
                                                                             </div>
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.TIME}>
                                                                             <div>
-                                                                                {!propVl?.value.value || propVl?.value.value.toString().slice(0, 8)}
+                                                                                {!propVl?.value.getValue() || propVl?.value.getValue().toString().slice(0, 8)}
                                                                             </div>
                                                                         </If>
                                                                         <If condition={property?.type == TypeOfProperty.USER}>
                                                                             <div>
-                                                                                <Obj objs={propVl?.value.value as Array<User>} max={5} functionObj={() => { }} />
+                                                                                <Obj objs={propVl?.value.getValue() as Array<UserWithoutPermission>} max={5} functionObj={() => { }} />
                                                                             </div>
                                                                         </If>
                                                                     </div>

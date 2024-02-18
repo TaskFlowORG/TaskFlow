@@ -3,11 +3,8 @@
 import { useEffect, useState } from "react"
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
+import { Task } from "@/models";
 
-interface Task{
-    color:string,
-    id:number
-}
 
 export const InitialPageTasks = () => {
     const [tasks, setTasks] = useState<Array<Task>>([])
@@ -25,7 +22,7 @@ export const InitialPageTasks = () => {
                 {
                     tasks.map(t => {
                         return <div className="h-min flex items-center" key={t.id}>
-                            <RoundedCard color={t.color}>
+                            <RoundedCard>
                                 <CardContent task={t} />
                             </RoundedCard>
                         </div>
