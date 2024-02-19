@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
+import { useTheme } from "next-themes";
 
 export const UsersList = ({ id = 1, projectId }) => {
   const [text, setText] = useState("");
@@ -10,6 +11,7 @@ export const UsersList = ({ id = 1, projectId }) => {
   const [usersGroup, setUsersGroup] = useState([]);
   const [newUser, setNewUser] = useState({});
   const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const {theme, setTheme} = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -90,6 +92,25 @@ export const UsersList = ({ id = 1, projectId }) => {
     setText(e.target.value);
   };
 
+  let showButton = null
+  if (theme === "dark"){
+    showButton = <button
+    className="groupGrandient h-10 w-[80%] rounded-xl self-center"
+    type="button"
+    onClick={addUser}
+  >
+    <h5 className="text-[#FCFCFC]">Add Usuário</h5>
+    </button>
+  } else{
+    showButton = <button
+    className="groupGrandientDark h-10 w-[80%] rounded-xl self-center"
+    type="button"
+    onClick={addUser}
+  >
+    <h5 className="text-[#FCFCFC]">Add Usuário</h5>
+    </button>
+  }
+
   return (
     <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-[55%] h-[75%] relative">
@@ -134,13 +155,14 @@ export const UsersList = ({ id = 1, projectId }) => {
               />
             ))}
           </div>
-          <button
-            className="groupGrandient content-end dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
+          {showButton}          
+          {/* <button
+            className="groupGrandient dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
             type="button"
             onClick={addUser}
           >
             <h5 className="text-[#FCFCFC]">Add Usuário</h5>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

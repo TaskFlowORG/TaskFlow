@@ -8,7 +8,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   const [selectedPermission, setSelectedPermission] = useState("");
   const [permissions, setPermissions] = useState([]);
   const [group, setGroup] = useState([]);
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme } = useTheme();
 
   useEffect(() => {
     const getLists = async () => {
