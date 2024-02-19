@@ -1,5 +1,6 @@
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
-import { ProjectGet } from "@/model/project/project/ProjectGetDTO";
+
+import { TypeOfPage } from "@/models/enums/TypeOfPage";
+import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

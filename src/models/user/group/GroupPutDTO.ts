@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { SimpleUserGet } from "../user/SimpleUserGetDTO";
-import { PermissionGet } from "@/model/project/permission/PermissionGetDTO";
+import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
 
 @AllArgsConstructor
 export class GroupPut {

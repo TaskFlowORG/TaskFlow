@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { TaskPageGet } from "../task-page/TaskPageGetDTO";
-import { TaskGet } from "@/model/task/task/TaskGetDTO";
+import { TaskGet } from "@/models/task/task/TaskGetDTO";
 
 @AllArgsConstructor
 export class TaskOrderedGet extends TaskPageGet {

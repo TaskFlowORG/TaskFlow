@@ -1,6 +1,6 @@
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
-import { PageGet } from "@/model/page/page/PageGetDTO";
-import { ProjectGet } from "@/model/project/project/ProjectGetDTO";
+import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
+import { PageGet } from "@/models/page/page/PageGetDTO";
+import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

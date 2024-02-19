@@ -1,7 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
-import { Project } from "next/dist/build/swc";
 import { ProjectGet } from "../project/ProjectGetDTO";
-import { TypePermission } from "@/model/enums/TypePermission";
+import { TypePermission } from "@/models/enums/TypePermission";
 
 @AllArgsConstructor
 export class PermissionGet {

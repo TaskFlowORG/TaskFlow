@@ -1,4 +1,4 @@
-import { TypePermission } from "@/model/enums/TypePermission";
+import { TypePermission } from "@/models/enums/TypePermission";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

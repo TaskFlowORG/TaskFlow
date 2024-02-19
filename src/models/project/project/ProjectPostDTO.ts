@@ -1,4 +1,4 @@
-import { UserGet } from "@/model/user/user/UserGetDTO";
+import { UserGet } from "@/models/user/user/UserGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

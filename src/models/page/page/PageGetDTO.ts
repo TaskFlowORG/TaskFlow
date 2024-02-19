@@ -1,6 +1,7 @@
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
-import { PropertyGet } from "@/model/property/property/PropertyGetDTO";
-import { TaskPageGet } from "@/model/relations/task-page/TaskPageGetDTO";
+
+import { TypeOfPage } from "@/models/enums/TypeOfPage";
+import { PropertyGet } from "@/models/property/property/PropertyGetDTO";
+import { TaskPageGet } from "@/models/relations/task-page/TaskPageGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

@@ -1,18 +1,18 @@
 import { AllArgsConstructor } from "@/utils";
-import { Message } from "react-hook-form";
-import { Chat } from "../chat/Chat";
-import { GroupGet } from "@/model/user/group/GroupGetDTO";
-import { TypeOfChat } from "@/model/enums/TypeOfChat";
+import { ChatGet } from "../chat/ChatGetDTO";
+import { GroupGet } from "@/models/user/group/GroupGetDTO";
+import { TypeOfChat } from "@/models/enums/TypeOfChat";
+import { MessageGet } from "../message/MessageGetDTO";
 
 
 @AllArgsConstructor
-export class ChatGroupGet extends Chat {
+export class ChatGroupGet extends ChatGet {
     group!: GroupGet;
-    
-    constructor(id: number, messages: Message[], type: TypeOfChat, lastMessage: Message, group: GroupGet) {
-        super(id, messages, type, lastMessage);
-        this.group = group;
-    }
+
+    constructor(id: number, messages: MessageGet[], type: TypeOfChat, lastMessage: MessageGet, 
+        quantityUnvisualized: number, name: string, picture: string, group:GroupGet) {
+            super(id, messages, type, lastMessage, quantityUnvisualized, name, picture);
+        }
 
     equals(obj: any): boolean {
         if (obj instanceof ChatGroupGet) {

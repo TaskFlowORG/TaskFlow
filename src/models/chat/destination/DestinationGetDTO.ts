@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { DestinationId } from "./DestinationId";
-import { SimpleUserGet } from "@/model/user/user/SimpleUserGetDTO";
+import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
 
 @AllArgsConstructor
 export class DestinationGet {

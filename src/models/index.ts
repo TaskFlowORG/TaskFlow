@@ -1,5 +1,5 @@
 export { ChatGet as Chat} from "./chat/chat/ChatGetDTO";
-export { Chat as ChatPost} from "./chat/chat/Chat";
+// export { Chat as ChatPost} from "./chat/chat/@Chat";
 
 
 export { ChatGroupGet as ChatGroup } from "./chat/chat-group/ChatGroupGet";

@@ -1,7 +1,7 @@
 import { AllArgsConstructor } from "@/utils";
 import { DestinationGet } from "../destination/DestinationGetDTO";
-import { SimpleUserGet } from "@/model/user/user/SimpleUserGetDTO";
-import { Archive } from "@/model/others/Archive";
+import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
+import { Archive } from "@/models/others/Archive";
 
 @AllArgsConstructor
 export class MessageGet {

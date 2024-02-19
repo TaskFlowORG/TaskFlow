@@ -1,6 +1,6 @@
-import { Archive } from "@/model/others/Archive";
-import { Configuration } from "@/model/others/Configuration";
-import { PermissionGet } from "@/model/project/permission/PermissionGetDTO";
+import { Archive } from "@/models/others/Archive";
+import { Configuration } from "@/models/others/Configuration";
+import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 

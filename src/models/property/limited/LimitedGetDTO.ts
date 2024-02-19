@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { PropertyGet } from "../property/PropertyGetDTO";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
 @AllArgsConstructor
 export class LimitedGet extends PropertyGet {

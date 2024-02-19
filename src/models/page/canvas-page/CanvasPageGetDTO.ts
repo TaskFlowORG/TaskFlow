@@ -1,9 +1,9 @@
 import { AllArgsConstructor } from "@/utils";
 import { PageGet } from "../page/PageGetDTO";
-import { Archive } from "@/model/others/Archive";
-import { TypeOfPage } from "@/model/enums/TypeOfPage";
-import { PropertyGet } from "@/model/property/property/PropertyGetDTO";
-import { TaskCanvasGet } from "@/model/relations/task-canvas/TaskCanvasGetDTO";
+import { TypeOfPage } from "@/models/enums/TypeOfPage";
+import { Archive } from "@/models/others/Archive";
+import { PropertyGet } from "@/models/property/property/PropertyGetDTO";
+import { TaskCanvasGet } from "@/models/relations/task-canvas/TaskCanvasGetDTO";
 
 @AllArgsConstructor
 export class CanvasPageGet extends PageGet {

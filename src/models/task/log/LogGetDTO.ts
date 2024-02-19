@@ -1,5 +1,5 @@
-import { Action } from "@/model/enums/Action";
-import { SimpleUserGet } from "@/model/user/user/SimpleUserGetDTO";
+import { Action } from "@/models/enums/Action";
+import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

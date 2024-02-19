@@ -1,4 +1,4 @@
-import { UserGet } from "@/model/user/user/UserGetDTO";
+
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor
@@ -7,14 +7,12 @@ export class ProjectPut {
     name?: string;
     description?: string;
     deadline?: Date;
-    visualizedAt?: Date;
 
     constructor(
         id: number,
         name: string,
         description: string,
-        deadline: Date,
-        visualizedAt: Date
+        deadline: Date
     ) { }
     
     equals = (obj: any) => {

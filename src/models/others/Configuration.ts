@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
-import { Theme } from "react-select";
 import { Language } from "../enums/Language";
+import { Theme } from "../enums/Theme";
 
 @AllArgsConstructor
 export class Configuration {

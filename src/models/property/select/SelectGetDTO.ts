@@ -1,7 +1,7 @@
 import { AllArgsConstructor } from "@/utils";
 import { PropertyGet } from "../property/PropertyGetDTO";
-import { Option } from "@/model/values/Option";
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { Option } from "@/models/values/Option";
+import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
 @AllArgsConstructor
 export class SelectGet extends PropertyGet {

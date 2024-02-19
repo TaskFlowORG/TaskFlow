@@ -1,7 +1,7 @@
 import { AllArgsConstructor } from "@/utils";
 import { MessageGet } from "../message/MessageGetDTO";
-import { TypeOfChat } from "@/model/enums/TypeOfChat";
-import { Archive } from "@/model/others/Archive";
+import { TypeOfChat } from "@/models/enums/TypeOfChat";
+import { Archive } from "@/models/others/Archive";
 
 @AllArgsConstructor
 export abstract class ChatGet {

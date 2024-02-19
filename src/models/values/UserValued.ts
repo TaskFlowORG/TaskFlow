@@ -1,6 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { Value } from "./Value";
-import { SimpleUserGet } from "@/model/user/user/SimpleUserGetDTO";
+import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
 
 @AllArgsConstructor
 export class UserValued extends Value{

@@ -1,5 +1,5 @@
-import { Archive } from "@/model/others/Archive";
-import { Configuration } from "@/model/others/Configuration";
+import { Archive } from "@/models/others/Archive";
+import { Configuration } from "@/models/others/Configuration";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

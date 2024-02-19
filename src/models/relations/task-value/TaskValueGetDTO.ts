@@ -1,6 +1,6 @@
-import { Property } from "@/model/property/property/Property";
-import { PropertyGet } from "@/model/property/property/PropertyGetDTO";
-import { Value } from "@/model/values/Value";
+
+import { PropertyGet } from "@/models/property/property/PropertyGetDTO";
+import { Value } from "@/models/values/Value";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

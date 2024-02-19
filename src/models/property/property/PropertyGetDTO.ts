@@ -1,4 +1,4 @@
-import { TypeOfProperty } from "@/model/enums/TypeOfProperty";
+import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor

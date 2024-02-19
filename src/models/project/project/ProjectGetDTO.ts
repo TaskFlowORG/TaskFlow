@@ -1,7 +1,7 @@
-import { Archive } from "@/model/others/Archive";
-import { PageGet } from "@/model/page/page/PageGetDTO";
-import { PropertyGet } from "@/model/property/property/PropertyGetDTO";
-import { SimpleUserGet } from "@/model/user/user/SimpleUserGetDTO";
+import { Archive } from "@/models/others/Archive";
+import { PageGet } from "@/models/page/page/PageGetDTO";
+import { PropertyGet } from "@/models/property/property/PropertyGetDTO";
+import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor
