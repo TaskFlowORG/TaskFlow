@@ -1,3 +1,4 @@
+
 import { Project, ProjectPost, ProjectPut, User } from "@/models";
 import { Api } from "../axios";
 import { UserGet } from "@/models/user/user/UserGetDTO";
@@ -13,8 +14,8 @@ class ProjectService {
         await Api.patch(`project/picture/${id}`, formData);
     }
 
-    async setVisualizedNow(id: number): Promise<void> {
-        await Api.patch(`project/set-now/${id}`);
+    async setVisualizedNow(project: Project): Promise<void> {
+        await Api.patch(`project/set-now`, project);
     }
 
     async update(project: Project): Promise<void> {

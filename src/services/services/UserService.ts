@@ -42,6 +42,11 @@ class UserService {
         await Api.patch(`user/picture/${username}`, formData);
     }
 
+    async upDatePassword( username:string,  password:string):Promise<void> {
+        await Api.patch(`user/password/${username}`, password);
+    }
+
+
     async findAll():Promise<User[]>{
         return (await Api.get<User[]>(`user`)).data;
     }
