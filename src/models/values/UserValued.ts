@@ -11,9 +11,5 @@ export class UserValued extends Value{
         super(id);
     }
 
-    override getValue(): any{
-        return this.value;
-    }
 
-    override setValue(value:any):void{this.value = (value as SimpleUserGet[]);}
 }

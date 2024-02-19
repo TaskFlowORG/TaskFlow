@@ -1,11 +1,12 @@
 interface Props {
-    value:string
+    value:string,
+    color:string
 }
 
-export const Tag = ({value}:Props) => {
+export const Tag = ({value, color}:Props) => {
     return (
     <>
-    <p className="p py-1 rounded-sm px-2 bg-primary text-white">{value}</p>
+    <p style={{backgroundColor:color ? color : "#f04a94"}} className="p py-1 rounded-sm px-2  text-white">{value}</p>
     </>
     )
 

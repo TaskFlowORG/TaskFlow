@@ -11,9 +11,5 @@ export class ArchiveValued extends Value{
     }
 
 
-    override setValue(value:any):void{this.value =  (value as Archive);}
 
-    override getValue():any{
-        return this.value;
-    }
 }

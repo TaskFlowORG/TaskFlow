@@ -16,11 +16,4 @@ export class TimeValued extends Value {
         this.value = time;
     }
 
-    override setValue(value: any) {
-        this.value = value as Duration;
-    }
-
-    override getValue(): any {
-        return this.value;
-    }
 }
