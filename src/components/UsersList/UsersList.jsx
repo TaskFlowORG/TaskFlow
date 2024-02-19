@@ -155,14 +155,7 @@ export const UsersList = ({ id = 1, projectId }) => {
               />
             ))}
           </div>
-          {showButton}          
-          {/* <button
-            className="groupGrandient dark:groupGrandientDark h-10 w-[80%] rounded-xl self-center"
-            type="button"
-            onClick={addUser}
-          >
-            <h5 className="text-[#FCFCFC]">Add Usuário</h5>
-          </button> */}
+          {showButton} 
         </div>
       </div>
     </div>
