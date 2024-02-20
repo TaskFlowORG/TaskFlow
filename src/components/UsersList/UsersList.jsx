@@ -112,7 +112,7 @@ export const UsersList = ({ id = 1, projectId }) => {
   }
 
   return (
-    <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">
+    <div className="flex w-full dark:text-[#FCFCFFC]">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-[55%] h-[75%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
           <div>

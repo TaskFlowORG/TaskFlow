@@ -31,13 +31,15 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
     // }
 
     return (
-        <div className="flex gap-4 items-start">
+        <div className="flex lg:gap-4 gap-8 items-start">
             <img className="py-4" src="/img/EllipseTest.svg" />
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
-                    <h3 className="pAlata text-[#333] dark:text-[#FCFCFC] ">{name}</h3>
-                    <p className="mn whitespace-pre-wrap w-[403px] text-[#333]  dark:invert">{description}</p>
+                    <h3 className="pAlata text-[#333] dark:text-[#FCFCFC]">{name}</h3>
+                    <p className="mn whitespace-pre-wrap w-[403px] text-[#333] dark:invert">{description}</p>
                 </div>
+            
+
                 {/* <div className="flex justify-end">
                     <select
                         className='selectGroup w-[75%] mnAlata border-[#F04A94] dark:border-[#F76858] dark:text-[#F76858]'
@@ -54,7 +56,7 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
                         ))}
                     </select>
                 </div> */}
-            </div>
-        </div>
+                </div>
+        </div> 
     )
 }

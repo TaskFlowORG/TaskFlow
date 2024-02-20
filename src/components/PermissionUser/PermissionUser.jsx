@@ -36,8 +36,6 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
 
       console.log('ID da permissão selecionada:', selectedPermission.id);
 
-    
-      const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
       await putData("user/" + userId + "/" + projectId + "/" + selectedPermission.id);
 
       setSelectedPermission("");
@@ -77,15 +75,19 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
               ownerIcon
             ) : (
               <select
-                // border-[#F04A94] dark:border-[#F76858] caso eu queira colocar borda no selec
                 className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858]'
                 name="permission"
                 id="permission"
                 value={selectedPermission}
-                onChange={(e) => findPermission(e.target.value)}>
-                <option value="" disabled>Permissão</option>
+                onChange={(e) => findPermission(e.target.value)}
+              >
+                {user.permission && user.permission.name ? (
+                  <option value="" disabled>{user.permission.name}</option>
+                ) : (
+                  <option value="" disabled selected>Permissão</option>
+                )}
                 {permissions.map(permission => (
-                  <option key={permission.id} value={permission.name} selected={user.permission === permission.name}>
+                  <option key={permission.id} value={permission.name}>
                     {permission.name}
                   </option>
                 ))}

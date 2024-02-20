@@ -15,7 +15,7 @@ export const Description = ({ projectId, groupId = 1 }) => {
     }, []);
 
     return (
-        <div className="flex gap-4 h-max pr-12">
+        <div className="flex h-max pr-72 lg:pr-28">
             {
                 groups.map((g) => {
                     if (g.id === groupId) {

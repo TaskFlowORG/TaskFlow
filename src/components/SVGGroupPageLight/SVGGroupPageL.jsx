@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 export const SVGGroupPageL = () => {
-    const [primary, setPrimary] = useState("#EF4996")
-    const [secondary, setSecondary] = useState("#FE7A08")
+    const [primary, setPrimary] = useState("#F04DA8")
+    const [secondary, setSecondary] = useState("F3588B")
 
     return (
       <svg xmlns="http://www.w3.org/2000/svg" width="888" height="668" viewBox="0 0 888 668" className="absolute bottom-0" fill="none">
@@ -12,7 +12,7 @@ export const SVGGroupPageL = () => {
       <defs>
           <linearGradient id="paint0_linear_1041_17911" x1="798.868" y1="-21.1563" x2="-87.465" y2="1819.58" gradientUnits="userSpaceOnUse">
               <stop offset="0.0208333" stop-color={primary} />
-              <stop offset="0.614583" stop-color="#F04FB0" />
+              <stop offset="0.614583" stop-color="#F3588E" />
               <stop offset="0.947917" stop-color={secondary} />
           </linearGradient>
       </defs>
