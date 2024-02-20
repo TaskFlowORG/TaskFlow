@@ -26,7 +26,7 @@ export default function Home({ projectId = 1 }) {
             <div className="flex w-1/2 pt-32 justify-end">
                 <Description projectId={projectId} />
             </div>
-            <div className="flex w-1/2 lg:pt-32">
+            <div className="flex justify-center w-1/2 lg:pt-32">
                 <UsersList projectId={projectId} />
             </div>
         </div>
