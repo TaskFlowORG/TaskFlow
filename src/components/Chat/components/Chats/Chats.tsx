@@ -1,30 +1,25 @@
 'use client'
 
-import { If } from "@/components/If";
-import { Archive, Chat, Message } from "@/models";
-import { useEffect,useState } from "react";
+import { Chat } from "@/models";
+import { useEffect, useState } from "react";
 
-interface Props{
-  id: number;
-  name: string;
-  messages: Message[];
-  picture: Archive;
-  quantityUnvisualized: number;
-  lastMessage?: Message;
-}
+export const Chats = ({ id, name, lastMessage }: Chat) => {
+  //const hour = new Date(lastMessage.dateTime).getHours();
+  //const minutes = new Date(lastMessage.dateTime).getMinutes();
+  //const total = hour + ":" + minutes;
+  const [chatClicado, setChatClicado] = useState<number>(id)
 
-export const Chats = ({id, name, messages, picture, quantityUnvisualized, lastMessage}: Props) => {
-  const hour = new Date(lastMessage?.dateCreate ?? new Date()).getHours();
-  const minutes = new Date(lastMessage?.dateCreate ?? new Date()).getMinutes();
-  const total = hour + ":" + minutes;
-  const [chatClicado] = useState<number>(id);
+  const setarChat = () => {
+    setChatClicado(chatClicado)
+    console.log(chatClicado);
+    
+  }
 
   return (
-    <div className="w-full h-32 lg:h-28 bg-white border rounded flex shadow-blur-10 my-1 cursor-pointer hover:bg-modal-grey ">
-      <div
-        className="w-full h-full grid grid-cols-3 hover:text-white "
-        style={{ gridTemplateColumns: "20% 55% 25%" }}
-      >
+    <div className="w-full h-32 lg:h-28 bg-white border rounded-xl flex shadow-blur-10 my-3 cursor-pointer duration- hover:bg-modal-grey hover:text-white">
+      <div onClick={() => setarChat()}
+        className="w-full h-full grid grid-cols-3 duration-0"
+        style={{ gridTemplateColumns: "20% 55% 25%" }}>
         <div className="flex items-center pl-2">
           <div className=" col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary border-2">
             <img src="{picture}" alt="" />
@@ -34,25 +29,17 @@ export const Chats = ({id, name, messages, picture, quantityUnvisualized, lastMe
           <div>
             <h5 className="h5">{name}</h5>
           </div>
-          <If condition={lastMessage!=undefined}>
-            <div>
-              <p className="p">{lastMessage?.value}</p>
-            </div>
-          </If>
+          <div>
+            <p className="p"></p>
+          </div>
         </div>
         <div className=" col-start-3 flex flex-col items-end justify-center px-2">
-        <If condition={lastMessage!=undefined}>
-          <span>
           <div>
-            <h5 className="p">{total}</h5>
+            <h5 className="p"></h5>
           </div>
-
           <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
             <p className="p text-white">1</p>
           </div>
-          </span>
-          </If>
-
         </div>
       </div>
     </div>
