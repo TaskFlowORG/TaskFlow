@@ -74,22 +74,56 @@ export const ColumnKanban = ({
                       );
 
                       // console.log(item.task?.properties)
-                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
+                      if (
+                        !(propFilter?.value.value == prop.value) &&
+                        !(render == false)
+                      ) {
                         // console.log(prop.value,propFilter?.value.value)
                         // console.log(propFilter?.value.value)
                         render = false;
                         if (
-                          [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
+                          [
+                            TypeOfProperty.SELECT,
+                            TypeOfProperty.CHECKBOX,
+                            TypeOfProperty.TAG,
+                            TypeOfProperty.RADIO,
+                          ].includes(
+                            propFilter?.property.type ?? TypeOfProperty.ARCHIVE
+                          )
                         ) {
-                          const opt: Option = propFilter?.value.value;
+                          const opt: Option | Option[] =
+                            propFilter?.value.value;
                           console.log(opt);
+                          console.log(prop.value);
+
                           if (opt != null) {
-                            if (opt.name != null) {
-                              if (opt.name == prop.value) {
-                                render = true;
+                            console.log("To na primeria bagaça");
+                            if (
+                              [
+                                TypeOfProperty.CHECKBOX,
+                                TypeOfProperty.TAG,
+                              ].includes(
+                                propFilter?.property.type ??
+                                  TypeOfProperty.ARCHIVE
+                              )
+                            ) {
+                              const arr = opt as Option[];
+                              arr.map((item) => {
+                                if (item.name == prop.value) render = true;
+                              });
+                            } else {
+                              const option = opt as Option;
+                              if (option.name) {
+                                console.log("To aqui");
+                                if (option.name == prop.value) {
+                                  console.log(
+                                    "To aqui e setei true essa caralha"
+                                  );
+                                  render = true;
+                                }
                               }
                             }
-                          }   
+                          }
                         }
                       }
                     });
@@ -108,7 +142,6 @@ export const ColumnKanban = ({
                                 {...provided.dragHandleProps}
                                 style={{
                                   ...provided.draggableProps.style,
-
                                 }}
                               >
                                 <RoundedCard color={option?.color}>

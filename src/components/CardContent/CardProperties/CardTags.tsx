@@ -7,7 +7,6 @@ interface Props {
 }
 
 export const CardTag = ({ tags, nameProperty }: Props) => {
-  console.log(tags);
   return (
     <>
       <div className="flex flex-col gap-2 w-full justify-center">
