@@ -17,17 +17,17 @@ export default function Home({ projectId = 1 }) {
 
     return (
         <div className="flex w-screen h-screen">
-            <div className="flex">
+            <div className="flex hidden">
                 {svgGroupPage}
             </div>
-            <div className="flex lg:hidden pt-40">
+            <div className="flex lg:hidden md:hidden pt-40">
                 {svgGroupMobile}
             </div>
-            <div className="flex w-1/2 pt-32 justify-end">
-                <Description projectId={projectId} />
-            </div>
-            <div className="flex justify-center w-1/2 lg:pt-32">
-                <UsersList projectId={projectId} />
+                <div className="flex w-1/2 pt-32 justify-end">
+                    <Description projectId={projectId} />
+                </div>
+                <div className="flex w-1/2 lg:pt-32">
+                    <UsersList projectId={projectId} />
             </div>
         </div>
     )

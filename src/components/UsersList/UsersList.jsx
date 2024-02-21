@@ -34,7 +34,7 @@ export const UsersList = ({ id = 1, projectId }) => {
       }
     };
 
-    const intervalId = setInterval(fetchData, 5000);
+    const intervalId = setInterval(fetchData, 7000);
 
     fetchData();
 
