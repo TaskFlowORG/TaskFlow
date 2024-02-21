@@ -206,7 +206,10 @@ export default function Kanban() {
             propertiesPage={page?.properties ?? []}
           ></OrderInput>
           <FilterAdvancedInput
-            filterProps={(listx) => { console.log(listx); setFilterProp(listx)}}
+            filterProps={(listx) => {
+              console.log(listx);
+              setFilterProp(listx);
+            }}
             orderingId={page?.propertyOrdering.id}
             page={page}
             properties={page?.properties as Property[]}

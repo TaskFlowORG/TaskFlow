@@ -66,12 +66,22 @@ export const ColumnKanban = ({
                     input?.toLowerCase() == "" ||
                     input?.toLowerCase() == undefined
                   ) {
-                    let render = true;
 
+
+
+
+
+
+
+
+                    let render = true;
+                    let important = false;
                     propsFiltered.map((prop) => {
                       const propFilter = item.task?.properties.find(
                         (property) => property.property.id == prop.id
                       );
+                      console.log("Property", JSON.stringify(propFilter))
+                      console.log("Meu value nela", JSON.stringify(prop.value))
 
                       // console.log(item.task?.properties)
                       if (
@@ -107,9 +117,15 @@ export const ColumnKanban = ({
                                   TypeOfProperty.ARCHIVE
                               )
                             ) {
+
+                              
                               const arr = opt as Option[];
+                              console.log(arr)
+                              console.log("Em cima de mim são as options")
                               arr.map((item) => {
-                                if (item.name == prop.value) render = true;
+                                if (item.name == prop.value){
+                                  render = true
+                                } 
                               });
                             } else {
                               const option = opt as Option;
@@ -124,10 +140,22 @@ export const ColumnKanban = ({
                               }
                             }
                           }
+                        } else {
+                          render = false
                         }
                       }
                     });
-                    if (render) {
+
+
+
+
+
+
+
+
+
+
+                    if (render || important) {
                       return (
                         <Draggable
                           draggableId={`${item.id}-${option?.id}`}

@@ -89,16 +89,21 @@ export const FilterAdvancedInput = ({
                   property.type
                 )
               ) {
+                let values:string[] = [];
                 (property as Select).options.map((opt, index) => {
                   const anInput: HTMLInputElement | null =
                     document.querySelector(`#prop${property.id}_${index}`);
+                    
                   if (anInput?.checked) {
-                    filterProps([
-                      ...filterProp,
-                      { id: property.id, value: anInput.value },
-                    ]);
-                  }
-                });
+                    console.log(anInput.value)
+                    console.log("Em cima de mim são valores do input tá")
+                    values.push(anInput.value)
+
+                }});
+                filterProps([
+                  ...filterProp,
+                  { id: property.id, value: values },
+                ]);
               } else {
                 const anInput: HTMLInputElement | null = document.querySelector(
                   `#prop${property.id}`
