@@ -25,6 +25,10 @@ export const ColumnKanban = ({
   input,
   propsFiltered = [],
 }: Props) => {
+
+  const multiOptionTypes:TypeOfProperty[] = [TypeOfProperty.TAG, TypeOfProperty.CHECKBOX]
+  const optionTypes: TypeOfProperty[] = [...multiOptionTypes, TypeOfProperty.SELECT, TypeOfProperty.RADIO]
+
   return (
     <div
       className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
@@ -69,12 +73,37 @@ export const ColumnKanban = ({
 
 
 
+                  let render = false
+                  propsFiltered.map((prop)=>{
+                    const propertyOnTask = item.task.properties.find((property)=> property.property.id == prop.id)!
+
+
+                    if(multiOptionTypes.includes(propertyOnTask?.property.type)){
+
+                      prop.value.forEach((value:any)=>{
+                        console.log(propertyOnTask.value.value)
+                        if(propertyOnTask.value.value.includes(value)){
+                          render = true
+                        }
+                      })
+
+                    } else if (optionTypes.includes(propertyOnTask?.property.type)){
 
 
 
 
 
-                    let render = true;
+
+                    } else {
+
+
+                    }
+                    
+                  })
+
+
+
+                    // let render = true;
                     let important = false;
                     propsFiltered.map((prop) => {
                       const propFilter = item.task?.properties.find(
