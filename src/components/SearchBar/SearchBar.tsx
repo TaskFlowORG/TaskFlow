@@ -1,13 +1,13 @@
 import { SearchIcon } from "./SearchIcon";
 import { SearchInput } from "./SearchInput";
 import { ReactElement, ReactNode, useState } from "react";
-import { OrderInput } from "../OrderInput"
+import { OrderInput } from "../OrderInput";
 
 interface Props {
   order?: () => any;
   search: (textInput: string) => any;
   filter?: () => any;
-  children:  ReactElement[] | ReactNode[]
+  children: ReactElement[] | ReactNode[];
 }
 export const SearchBar = ({ order, search, filter, children }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
@@ -18,7 +18,7 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
   function change(bar: string) {
     if (bar == "search") {
       setOpenedSearch(!openedSearch);
-      setTextInput("")
+      setTextInput("");
       search("");
       setOpenedFilter(false);
       setOpenedOrder(false);
@@ -38,24 +38,20 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
       {search && openedSearch && (
         <SearchInput
           action={() => {
-            console.log(textInput);
+            // // console.log(textInput);
             search(textInput);
           }}
           setTextField={(newText: string) => setTextInput(newText)}
-          />
-          )}
+        />
+      )}
 
-        {order && openedOrder && (
-          children[0]
-        )}
-        {filter && openedFilter && (
-          children[1]
-        )}
+      {order && openedOrder && children[0]}
+      {filter && openedFilter && children[1]}
       {search && (
         <SearchIcon
           iconSrc={"searchIcons/search.svg"}
           action={() => {
-            console.log(textInput);
+            // // console.log(textInput);
             search(textInput);
           }}
           open={() => change("search")}

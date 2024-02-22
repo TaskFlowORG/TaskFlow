@@ -1,19 +1,30 @@
 import { Option } from "@/models";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   options: Option[];
   name: string;
   id: number;
+  value: string[];
 }
 
-export const CheckboxFilter = ({ options, name, id }: Props) => {
+export const CheckboxFilter = ({ options, name, id, value }: Props) => {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  useEffect(() => {
+    setSelectedOptions(value ?? []);
+  }, [value]);
+
+  function isChecked(optionName: string) {
+    return selectedOptions.includes(optionName);
+  }
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const optionName = event.target.value;
     if (selectedOptions.includes(optionName)) {
-      setSelectedOptions(selectedOptions.filter(option => option !== optionName));
+      setSelectedOptions(
+        selectedOptions.filter((option) => option !== optionName)
+      );
     } else {
       setSelectedOptions([...selectedOptions, optionName]);
     }
@@ -28,7 +39,7 @@ export const CheckboxFilter = ({ options, name, id }: Props) => {
             type="checkbox"
             id={`prop${id}_${index}`}
             value={option.name}
-            checked={selectedOptions.includes(option.name)}
+            checked={isChecked(option.name)}
             onChange={handleOptionChange}
           />
           <label htmlFor={`prop${id}_${index}`}>{option.name}</label>

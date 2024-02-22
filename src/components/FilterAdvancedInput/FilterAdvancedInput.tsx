@@ -16,12 +16,14 @@ interface Props {
   orderingId: number | undefined;
   page: Page | null;
   filterProps: (list: any) => void;
+  propsFiltered: FilteredProperty[];
 }
 
 export const FilterAdvancedInput = ({
   properties,
   orderingId,
   filterProps,
+  propsFiltered,
 }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
@@ -38,19 +40,26 @@ export const FilterAdvancedInput = ({
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
       {allProperties?.map((property) => {
+        const prop = propsFiltered.find((prop) => prop.id == property.id) ?? {
+          value: null,
+        };
+
+
         if (property.type === TypeOfProperty.TEXT) {
           return (
             <TextFilter
+              value={prop.value}
               key={property.id}
               name={property.name}
               id={property.id}
             />
           );
         } else if (property.type === TypeOfProperty.DATE) {
-          return <DateFilter key={property.id} />;
+          return <DateFilter value={prop?.value} key={property.id} />;
         } else if (property.type === TypeOfProperty.NUMBER) {
           return (
             <NumberFilter
+              value={prop.value}
               key={property.id}
               name={property.name}
               id={property.id}
@@ -63,6 +72,7 @@ export const FilterAdvancedInput = ({
               options={(property as Select).options}
               id={property.id}
               key={property.id}
+              value={prop.value}
             />
           );
         } else if (property.type === TypeOfProperty.CHECKBOX) {
@@ -72,11 +82,13 @@ export const FilterAdvancedInput = ({
               name={property.name}
               options={(property as Select).options}
               key={property.id}
+              value={prop.value}
             />
           );
         } else if (property.type === TypeOfProperty.SELECT) {
           return (
             <SelectFilter
+              value={prop?.value}
               key={property.id}
               id={property.id}
               name={property.name}
@@ -85,7 +97,19 @@ export const FilterAdvancedInput = ({
           );
         }
       })}
-      <div className="flex w-full justify-end">
+      <div className="flex w-full items-center justify-between">
+        <Button
+          fnButton={() => {
+            filterProps([]);
+            filterProp = [];
+          }}
+          font="text-sm"
+          padding="p-4"
+          text="Limpar filtros"
+          textColor="text-primary dark:text-contrast hover:text-contrast"
+          background="bg-transparent hover:bg-primary dark:hover:bg-secondary "
+        />
+
         <Button
           font="text-base"
           padding="p-4"
@@ -103,24 +127,27 @@ export const FilterAdvancedInput = ({
                     document.querySelector(`#prop${property.id}_${index}`);
 
                   if (anInput?.checked) {
-                    console.log(anInput.value);
-                    console.log("Em cima de mim são valores do input tá");
+                    // // console.log(anInput.value);
+                    // // console.log("Em cima de mim são valores do input tá");
                     values.push(anInput.value);
                   }
                 });
+                console.log(
+                  "Em baixo de mim, ta a porra do values das multiplas"
+                );
+                console.log(values.length);
                 if (values.length > 0) {
                   filterProps([
                     ...filterProp,
                     { id: property.id, value: values },
                   ]);
+                  filterProp.push({ id: property.id, value: values });
                 }
-
-                filterProp.push({ id: property.id, value: values });
               } else {
                 const anInput: HTMLInputElement | null = document.querySelector(
                   `#prop${property.id}`
                 );
-                console.log(anInput?.value);
+                // // console.log(anInput?.value);
                 if (anInput?.value) {
                   filterProps([
                     ...filterProp,

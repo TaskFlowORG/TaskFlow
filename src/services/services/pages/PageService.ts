@@ -12,7 +12,7 @@ class PageService {
     index: number,
     columnChanged: number
   ): Promise<OrderedPage> {
-    console.log(page);
+    // // console.log(page);
     const response = await Api.patch<OrderedPage>(
       `page/${taskId}/${index}/${columnChanged}`,
       page
