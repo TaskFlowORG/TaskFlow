@@ -9,5 +9,7 @@ export class PagePost {
     type!: TypeOfPage;
     project?: ProjectGet;
 
-    constructor(name: string, type: TypeOfPage, project: ProjectGet) {}
+    constructor(name: string, type: TypeOfPage, project: ProjectGet) {
+        
+    }
 }

@@ -511,3 +511,28 @@ select::-ms-expand {
 }
 
 
+.swiper-type-of-page-light{
+  --swiper-pagination-color: var(--primary-color);
+  --swiper-navigation-color: var(--primary-color);
+  @apply swiper-type-of-page
+}
+
+.swiper-type-of-page-dark{  
+--swiper-navigation-color: var(--secondary-color);
+  --swiper-pagination-color: var(--secondary-color);
+  @apply swiper-type-of-page
+}
+
+.swiper-type-of-page{
+  --swiper-pagination-right: 8px;
+  --swiper-pagination-bottom: 8px;
+  --swiper-pagination-bullet-size: 6px;
+  --swiper-pagination-bullet-width: 6px;
+  --swiper-pagination-bullet-height: 6px;
+  --swiper-pagination-bullet-horizontal-gap: 2px;
+  --swiper-pagination-bullet-vertical-gap: 6px;
+
+  --swiper-navigation-size: 20px;
+  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-sides-offset: 0px;
+}

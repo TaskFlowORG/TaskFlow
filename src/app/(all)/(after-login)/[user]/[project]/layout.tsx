@@ -10,6 +10,8 @@ import { projectService } from '@/services';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
 import { PageComponent } from '@/components/@PageComponent';
+import { SwiperSlide, Swiper } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 
 export default function Layout({ children, params }: { children: React.ReactNode, params: { project: number, user: string } }) {
 
@@ -30,7 +32,7 @@ export default function Layout({ children, params }: { children: React.ReactNode
                         <div className='flex flex-col gap-3 items-start h-min w-full '>
                             {project?.pages.map(page => {
                                 return (
-                                    <PageComponent key={page.id} page={page} username={params.user} projectId={params.project.toString()} />
+                                    <PageComponent key={page.id} page={page} username={params.user} project={project} />
                                 )
                             })}
                         </div>

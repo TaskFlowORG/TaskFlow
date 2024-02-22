@@ -1,9 +1,10 @@
+
 import { OrderedPage, Page, PagePost, Property, TaskCanvas } from '@/models';
 import { Api } from '@/services/axios';
 
 class PageService {
-    async insert(page: PagePost, subclass: string): Promise<void> {
-        await Api.post(`page/${subclass}`, page);
+    async insert(page: PagePost, subclass: string): Promise<Page> {
+        return (await Api.post<Page>(`page/${subclass}`, page)).data;
     }
 
     async updateIndexesKanban(
@@ -18,7 +19,7 @@ class PageService {
 
     async upDateName(name: string, id: number): Promise<void> {
         const config = {headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/string'
         }}
         await Api.patch(`page/${id}`, name, config);
     }
