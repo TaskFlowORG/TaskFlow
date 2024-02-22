@@ -3,24 +3,24 @@ import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react"
 
-export const PermissionUser = ({ groupId, userId, projectId }) => {
+export const PermissionUser = ({ groupId, userId, project }) => {
   const [user, setUser] = useState({});
   const [selectedPermission, setSelectedPermission] = useState("");
-  const [permissions, setPermissions] = useState([]);
   const [group, setGroup] = useState([]);
   const { theme, setTheme } = useTheme();
+  const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     const getLists = async () => {
       const fetchedUser = await getData("user", userId);
-      const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
       const fetchedGroup = await getData("group", groupId);
+      const fetchedPermissions = await getListData("permission");
       setUser(fetchedUser);
-      setPermissions(fetchedPermissions);
       setGroup(fetchedGroup);
+      setPermissions(fetchedPermissions);
     };
     getLists();
-  }, [userId, groupId, projectId]);
+  }, [userId, groupId, project]);
 
   const findPermission = (selectedValue) => {
     setSelectedPermission(selectedValue);
@@ -36,7 +36,10 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
 
       console.log('ID da permissão selecionada:', selectedPermission.id);
 
-      await putData("user/" + userId + "/" + projectId + "/" + selectedPermission.id);
+      user.permissions = [...user.permissions,  selectedPermission];
+
+
+      await putData("user", user);
 
       setSelectedPermission("");
 
@@ -63,37 +66,42 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
 
   return (
     <div>
-      <div className="">
-        <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-12 flex items-center justify-between">
-          <div className="flex gap-6">
-            {userIcon}
-            <p className="whitespace-nowrap dark:text-[#FCFCFC] text-black">{user.name}</p>
-          </div>
-          <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
-            <p>|</p>
-            {group.owner && user.id === group.owner.id ? (
-              ownerIcon
-            ) : (
-              <select
-                className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858]'
-                name="permission"
-                id="permission"
-                value={selectedPermission}
-                onChange={(e) => findPermission(e.target.value)}
-              >
-                {user.permission && user.permission.name ? (
-                  <option value="" disabled>{user.permission.name}</option>
-                ) : (
-                  <option value="" disabled selected>Permissão</option>
-                )}
-                {permissions.map(permission => (
-                  <option key={permission.id} value={permission.name}>
-                    {permission.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
+      <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-12 flex items-center justify-between">
+        <div className="flex gap-6">
+          {userIcon}
+          <p className="whitespace-nowrap dark:text-[#FCFCFC] text-black">{user.name}</p>
+        </div>
+        <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
+          <p>|</p>
+          {group.owner && user.username === group.owner.username ? (
+            ownerIcon
+          ) : (
+            <select
+              className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858]'
+              name="permission"
+              id="permission"
+              value={selectedPermission}
+              onChange={(e) => findPermission(e.target.value)}
+            >
+              {user.permission && user.permission.name ? (
+                <option value="" disabled>{user.permission.name}</option>
+              ) : (
+                <option value="" disabled>Permissão</option>
+              )}
+              {permissions.map(permission => {
+                if (permission.project.id === project.id) {
+                  return (
+                    <option key={permission.name} value={permission.name}>
+                      {permission.name}
+                    </option>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </select>
+
+          )}
         </div>
       </div>
     </div>
