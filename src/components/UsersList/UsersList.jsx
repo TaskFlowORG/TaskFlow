@@ -9,10 +9,10 @@ export const UsersList = ({ project, groupId = 1 }) => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState([]);
   const [usersGroup, setUsersGroup] = useState([]);
-  const [group, setGroup] = useState({}); 
+  const [group, setGroup] = useState({});
   const [newUser, setNewUser] = useState({});
   const [suggestedUsers, setSuggestedUsers] = useState([]);
-  const {theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +23,7 @@ export const UsersList = ({ project, groupId = 1 }) => {
         setGroup(fetchedGroup);
         const groupUsers = fetchedGroup.users;
         const ownerIndex = groupUsers.findIndex(user => user.username === fetchedGroup.owner.username);
-        
+
         if (ownerIndex !== -1) {
           groupUsers.splice(ownerIndex, 1);
           setUsersGroup([fetchedGroup.owner, ...groupUsers]);
@@ -67,28 +67,25 @@ export const UsersList = ({ project, groupId = 1 }) => {
   };
 
   const addUser = async () => {
-    if (!newUser.username) {
+    if (Object.keys(newUser).length === 0) {
       alert("Adicione um usuário válido");
       return;
     }
 
-    const userExists = usersGroup.some((u) => u.username === newUser.username);
+    const userExists = group.users.some((u) => u.username === newUser.username);
     if (userExists) {
       alert("Este usuário já é um integrante do grupo");
       return;
     }
 
-    const updatedUsersGroup = [newUser, ...usersGroup];
-    setUsersGroup(updatedUsersGroup);
     try {
-      console.log("sjhjhfsdjkfhsdjkfhjfhk",group)
-      usersGroup.push(newUser);
-      group.users = usersGroup;
-      console.log(group.users)
-      await putData("group", group);
+      const updatedUsersGroup = [newUser, ...usersGroup];
+      setUsersGroup(updatedUsersGroup);
+      await putData("group", { ...group, users: updatedUsersGroup });
     } catch (error) {
       console.error("Error adding user to group:", error);
     }
+
     setNewUser({});
   };
 
@@ -97,28 +94,21 @@ export const UsersList = ({ project, groupId = 1 }) => {
     setText(e.target.value);
   };
 
-  let showButton = null
-  if (theme === "dark") {
-    showButton = <button
-      className="groupGrandient h-10 w-[80%] rounded-xl self-center"
+  const addButtonClassName = theme === "dark" ? "groupGrandient" : "groupGrandientDark";
+
+  const addButton = (
+    <button
+      className={`${addButtonClassName} h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={addUser}
     >
       <h5 className="text-[#FCFCFC]">Add Usuário</h5>
     </button>
-  } else {
-    showButton = <button
-      className="groupGrandientDark h-10 w-[80%] rounded-xl self-center"
-      type="button"
-      onClick={addUser}
-    >
-      <h5 className="text-[#FCFCFC]">Add Usuário</h5>
-    </button>
-  }
+  );
 
   return (
     <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-[416px] h-[577px] lg:w-[55%] lg:h-[75%] relative">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] md:w-[570px] md:h-[1032px] w-96 h-[85%] lg:w-[55%] lg:h-[%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
           <div>
             <input
@@ -160,12 +150,9 @@ export const UsersList = ({ project, groupId = 1 }) => {
               />
             ))}
           </div>
-          {showButton}
+          {addButton}
         </div>
       </div>
     </div>
   );
 };
-
-
-

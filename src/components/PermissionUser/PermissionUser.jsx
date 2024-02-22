@@ -47,23 +47,13 @@ export const PermissionUser = ({ group, userId, project }) => {
     }
   }
 
-  let userIcon = null;
-  if (theme === "dark") {
-    userIcon = <img className="" src="/img/whiteIconUser.svg" alt="User" />;
-  } else {
-    userIcon = <img className="" src="/img/darkIconUser.svg" alt="User" />
-  }
+  const userIcon = theme === "dark" ? <img className="" src="/img/whiteIconUser.svg" alt="User"/> : <img className="" src="/img/darkIconUser.svg" alt="User"/>;
 
-  let ownerIcon = null;
-  if (theme === "dark") {
-    ownerIcon = <img className="mx-auto " src="/img/darkOwner.svg" alt="Owner" />
-  } else {
-    ownerIcon = <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner" />
-  }
+  const ownerIcon = theme === "dark" ?  <img className="mx-auto " src="/img/darkOwner.svg" alt="Owner"/> : <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner"/>
 
   return (
     <div>
-      <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-12 flex items-center justify-between">
+      <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-10 md:h-12 lg:h-12 flex items-center justify-between">
         <div className="flex gap-6">
           {userIcon}
           <p className="whitespace-nowrap dark:text-[#FCFCFC] text-black">{user.name}</p>
