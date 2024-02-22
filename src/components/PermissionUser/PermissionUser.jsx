@@ -3,24 +3,21 @@ import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react"
 
-export const PermissionUser = ({ groupId, userId, project }) => {
+export const PermissionUser = ({ group, userId, project }) => {
   const [user, setUser] = useState({});
   const [selectedPermission, setSelectedPermission] = useState("");
-  const [group, setGroup] = useState([]);
   const { theme, setTheme } = useTheme();
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     const getLists = async () => {
       const fetchedUser = await getData("user", userId);
-      const fetchedGroup = await getData("group", groupId);
       const fetchedPermissions = await getListData("permission");
       setUser(fetchedUser);
-      setGroup(fetchedGroup);
       setPermissions(fetchedPermissions);
     };
     getLists();
-  }, [userId, groupId, project]);
+  }, [userId, group, project]);
 
   const findPermission = (selectedValue) => {
     setSelectedPermission(selectedValue);
@@ -100,7 +97,6 @@ export const PermissionUser = ({ groupId, userId, project }) => {
                 }
               })}
             </select>
-
           )}
         </div>
       </div>
