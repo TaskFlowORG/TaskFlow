@@ -16,8 +16,11 @@ class PageService {
         return response.data;
     }
 
-    async upDate(name: string, id: number): Promise<void> {
-        await Api.patch(`page/${id}`, name);
+    async upDateName(name: string, id: number): Promise<void> {
+        const config = {headers: {
+            'Content-Type': 'application/json'
+        }}
+        await Api.patch(`page/${id}`, name, config);
     }
 
     async updateIndexes(

@@ -36,7 +36,6 @@ export { Theme } from "./enums/Theme";
 export { Archive } from "./others/Archive";
 export { Configuration } from "./others/Configuration";
 
-/////////////////////////////////////Os puts sairiam se o put de index mudasse///////////////////
 export { CanvasPageGet as CanvasPage} from "./page/canvas-page/CanvasPageGetDTO";
 // export { CanvasPage as CanvasPagePut } from "./page/canvas-page/CanvasPage";
 
@@ -46,7 +45,6 @@ export { PagePost } from "./page/page/PagePostDTO";
 
 // export { OrderedPage as OrderedPagePut } from "./page/ordered-page/OrderedPage";
 export { OrderedPageGet as OrderedPage } from "./page/ordered-page/OrderedPageGetDTO";
-///////////////////////////////////////////////////////////////////////////////////////////////
 
 export { PermissionGet as Permission } from "./project/permission/PermissionGetDTO";
 export { PermissionPost } from "./project/permission/PermissionPostDTO";
