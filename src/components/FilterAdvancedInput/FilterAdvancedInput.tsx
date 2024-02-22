@@ -12,7 +12,7 @@ import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
 
 interface Props {
-  properties: Property[] | undefined;
+  properties: Property[];
   orderingId: number | undefined;
   page: Page | null;
   filterProps: (list: any) => void;
@@ -31,7 +31,7 @@ export const FilterAdvancedInput = ({
   useEffect(() => {
     (async () => {
       const project: Project = await getData("project", 1);
-      setAllProperties([...project.properties, ...(properties ?? [])]);
+      setAllProperties([...project.properties, ...properties]);
     })();
   }, []);
 
@@ -57,7 +57,14 @@ export const FilterAdvancedInput = ({
             />
           );
         } else if (property.type === TypeOfProperty.TAG) {
-          return <TagFilter key={property.id} />;
+          return (
+            <CheckboxFilter
+              name={property.name}
+              options={(property as Select).options}
+              id={property.id}
+              key={property.id}
+            />
+          );
         } else if (property.type === TypeOfProperty.CHECKBOX) {
           return (
             <CheckboxFilter
@@ -83,27 +90,32 @@ export const FilterAdvancedInput = ({
           font="text-base"
           padding="p-4"
           fnButton={() => {
+            filterProps([]);
             allProperties?.map((property) => {
               if (
-                [TypeOfProperty.CHECKBOX || TypeOfProperty.TAG].includes(
+                [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
                   property.type
                 )
               ) {
-                let values:string[] = [];
+                let values: string[] = [];
                 (property as Select).options.map((opt, index) => {
                   const anInput: HTMLInputElement | null =
                     document.querySelector(`#prop${property.id}_${index}`);
-                    
-                  if (anInput?.checked) {
-                    console.log(anInput.value)
-                    console.log("Em cima de mim são valores do input tá")
-                    values.push(anInput.value)
 
-                }});
-                filterProps([
-                  ...filterProp,
-                  { id: property.id, value: values },
-                ]);
+                  if (anInput?.checked) {
+                    console.log(anInput.value);
+                    console.log("Em cima de mim são valores do input tá");
+                    values.push(anInput.value);
+                  }
+                });
+                if (values.length > 0) {
+                  filterProps([
+                    ...filterProp,
+                    { id: property.id, value: values },
+                  ]);
+                }
+
+                filterProp.push({ id: property.id, value: values });
               } else {
                 const anInput: HTMLInputElement | null = document.querySelector(
                   `#prop${property.id}`
@@ -114,6 +126,7 @@ export const FilterAdvancedInput = ({
                     ...filterProp,
                     { id: property.id, value: anInput.value },
                   ]);
+                  filterProp.push({ id: property.id, value: anInput.value });
                 }
               }
             });
