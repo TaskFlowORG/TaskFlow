@@ -43,7 +43,7 @@ export default function TablePage({
   async function updateIndexes(e: DropResult) {
     if (!e.draggableId || !e.destination?.index) return;
     const id = e.draggableId.split("/")[1];
-    // // console.log(e.draggableId, e.destination?.index)
+    // console.log(e.draggableId, e.destination?.index)
     const pagePromise = await putData(
       `page/${id}/${e.destination?.index}`,
       pageObj

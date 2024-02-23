@@ -78,19 +78,19 @@ export const ColumnKanban = ({
                   ) {
                     let render = false;
                     let counter = 0;
-                    // console.log(propsFiltered);
+                    console.log(propsFiltered);
                     propsFiltered.map((prop) => {
                       const propertyOnTask = item.task.properties.find(
                         (property) => property.property.id == prop.id
                       )!;
-                      // console.log(propertyOnTask);
+                      console.log(propertyOnTask);
                       if (
                         multiOptionTypes.includes(propertyOnTask?.property.type)
                       ) {
-                        // // console.log(prop.value)
+                        // console.log(prop.value)
                         let localRender = false;
                         prop.value.forEach((value: any) => {
-                          // console.log(propertyOnTask.value.value);
+                          console.log(propertyOnTask.value.value);
                           propertyOnTask.value.value.forEach(
                             (option: Option) => {
                               if (option.name == value) {
@@ -108,8 +108,8 @@ export const ColumnKanban = ({
                         optionTypes.includes(propertyOnTask?.property.type)
                       ) {
                         const option: Option = propertyOnTask.value.value;
-                        // console.log(propertyOnTask.value.value);
-                        // console.log(prop.value);
+                        console.log(propertyOnTask.value.value);
+                        console.log(prop.value);
                         if (option.name == prop.value) {
                           render = true;
                           counter++;
@@ -122,7 +122,7 @@ export const ColumnKanban = ({
                       }
                     });
 
-                    // console.log(counter);
+                    console.log(counter);
 
                     // let render = true;
                     // let important = false;
@@ -130,16 +130,16 @@ export const ColumnKanban = ({
                     //   const propFilter = item.task?.properties.find(
                     //     (property) => property.property.id == prop.id
                     //   );
-                    //   // console.log("Property", JSON.stringify(propFilter));
-                    //   // console.log("Meu value nela", JSON.stringify(prop.value));
+                    //   console.log("Property", JSON.stringify(propFilter));
+                    //   console.log("Meu value nela", JSON.stringify(prop.value));
 
-                    //   // // console.log(item.task?.properties)
+                    //   // console.log(item.task?.properties)
                     //   if (
                     //     !(propFilter?.value.value == prop.value) &&
                     //     !(render == false)
                     //   ) {
-                    //     // // console.log(prop.value,propFilter?.value.value)
-                    //     // // console.log(propFilter?.value.value)
+                    //     // console.log(prop.value,propFilter?.value.value)
+                    //     // console.log(propFilter?.value.value)
                     //     render = false;
                     //     if (
                     //       [
@@ -153,11 +153,11 @@ export const ColumnKanban = ({
                     //     ) {
                     //       const opt: Option | Option[] =
                     //         propFilter?.value.value;
-                    //       // console.log(opt);
-                    //       // console.log(prop.value);
+                    //       console.log(opt);
+                    //       console.log(prop.value);
 
                     //       if (opt != null) {
-                    //         // console.log("To na primeria bagaça");
+                    //         console.log("To na primeria bagaça");
                     //         if (
                     //           [
                     //             TypeOfProperty.CHECKBOX,
@@ -168,8 +168,8 @@ export const ColumnKanban = ({
                     //           )
                     //         ) {
                     //           const arr = opt as Option[];
-                    //           // console.log(arr);
-                    //           // console.log("Em cima de mim são as options");
+                    //           console.log(arr);
+                    //           console.log("Em cima de mim são as options");
                     //           arr.map((item) => {
                     //             if (item.name == prop.value) {
                     //               render = true;
@@ -178,9 +178,9 @@ export const ColumnKanban = ({
                     //         } else {
                     //           const option = opt as Option;
                     //           if (option.name) {
-                    //             // console.log("To aqui");
+                    //             console.log("To aqui");
                     //             if (option.name == prop.value) {
-                    //               // console.log(
+                    //               console.log(
                     //                 "To aqui e setei true essa caralha"
                     //               );
                     //               render = true;

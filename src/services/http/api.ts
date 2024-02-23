@@ -95,7 +95,7 @@ async function postTask(userId: any, pageId: any) {
   return await retorno.data;
 }
 async function putData(table: any, object: any) {
-  // // console.log(object);
+  // console.log(object);
   return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
 

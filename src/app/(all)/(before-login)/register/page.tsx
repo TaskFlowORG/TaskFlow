@@ -67,7 +67,7 @@ const Page = () => {
 
   const handlebutton = () => {
     if (value >= 0 && value <= 2) {
-      // // console.log(getValues());
+      // console.log(getValues());
       setValue(value + 1);
     }
   };
@@ -85,7 +85,7 @@ const Page = () => {
       route.push("/login");
     } catch (err) {
       if (err instanceof ZodError) {
-        // // console.log(err.flatten());
+        // console.log(err.flatten());
       }
     }
   };

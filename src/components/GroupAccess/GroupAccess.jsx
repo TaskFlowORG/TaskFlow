@@ -9,7 +9,7 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
   //     const getList = async () => {
   //         const fetchedPermissions = await getListData("group/" + groupId + "/permissions/" + projectId);
   //         setPermissions(fetchedPermissions);
-  //         // // console.log(fetchedPermissions)
+  //         // console.log(fetchedPermissions)
   //     }
   //     getList();
   // }, []);
@@ -23,7 +23,7 @@ export const GroupAccess = ({ name, description, projectId, groupId }) => {
   // };
 
   // async function updatePermission() {
-  //     // // console.log(selectedPermission)
+  //     // console.log(selectedPermission)
   //     user.permission = selectedPermission;
   //     await putData("group/user/" + groupId, user);
   //     alert('Permissões atualizadas com sucesso');

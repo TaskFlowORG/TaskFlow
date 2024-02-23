@@ -35,7 +35,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   //     if (!selectedPermission) {
   //       throw new Error('Permissão selecionada não encontrada.');
   //     }
-  //     // // console.log(selectedPermission.id)
+  //     // console.log(selectedPermission.id)
 
   //     const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
   //     await putData("user/" + userId + "/" + projectId  + "/" + selectedPermission.id);
@@ -43,7 +43,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
   //     alert('Permissão atualizada com sucesso!');
   //     setSelectedPermission("");
   //   } catch (error) {
-  //     // // console.log(selectedPermission)
+  //     // console.log(selectedPermission)
   //     console.error('Erro ao atualizar permissão:', error.message);
   //     alert('Não foi possível atualizar a permissão do usuário.');
   //   }
@@ -58,7 +58,7 @@ export const PermissionUser = ({ groupId, userId, projectId }) => {
         throw new Error("Permissão selecionada não encontrada.");
       }
 
-      // // console.log('ID da permissão selecionada:', selectedPermission.id);
+      // console.log('ID da permissão selecionada:', selectedPermission.id);
 
       const updatedUser = {
         ...user,

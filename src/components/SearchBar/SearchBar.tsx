@@ -38,7 +38,7 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
       {search && openedSearch && (
         <SearchInput
           action={() => {
-            // // console.log(textInput);
+            // console.log(textInput);
             search(textInput);
           }}
           setTextField={(newText: string) => setTextInput(newText)}
@@ -51,7 +51,7 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
         <SearchIcon
           iconSrc={"searchIcons/search.svg"}
           action={() => {
-            // // console.log(textInput);
+            // console.log(textInput);
             search(textInput);
           }}
           open={() => change("search")}

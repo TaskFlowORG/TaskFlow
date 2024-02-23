@@ -44,7 +44,6 @@ export const FilterAdvancedInput = ({
           value: null,
         };
 
-
         if (property.type === TypeOfProperty.TEXT) {
           return (
             <TextFilter
@@ -127,8 +126,8 @@ export const FilterAdvancedInput = ({
                     document.querySelector(`#prop${property.id}_${index}`);
 
                   if (anInput?.checked) {
-                    // // console.log(anInput.value);
-                    // // console.log("Em cima de mim são valores do input tá");
+                    // console.log(anInput.value);
+                    // console.log("Em cima de mim são valores do input tá");
                     values.push(anInput.value);
                   }
                 });
@@ -147,7 +146,7 @@ export const FilterAdvancedInput = ({
                 const anInput: HTMLInputElement | null = document.querySelector(
                   `#prop${property.id}`
                 );
-                // // console.log(anInput?.value);
+                // console.log(anInput?.value);
                 if (anInput?.value) {
                   filterProps([
                     ...filterProp,

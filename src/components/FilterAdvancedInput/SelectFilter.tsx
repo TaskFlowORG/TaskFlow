@@ -5,14 +5,12 @@ interface Props {
   options: Option[];
   name: string;
   id: number;
-  value:string
+  value: string;
 }
 
 export const SelectFilter = ({ options, name, id, value }: Props) => {
-
-  const option =  options.find((option)=> option.name == value)
+  const option = options.find((option) => option.name == value);
   const [selectedOption, setSelectedOption] = useState("");
-
 
   useEffect(() => {
     setSelectedOption(value ?? "");
@@ -21,7 +19,7 @@ export const SelectFilter = ({ options, name, id, value }: Props) => {
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
     // const select = document.querySelector(`#prop${id}`)
-    // // // console.log(select.value)
+    // // console.log(select.value)
   };
 
   return (

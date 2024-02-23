@@ -11,7 +11,7 @@ export const SideBarConfig = () => {
   const mostrarSidebar = () => {
     if (window.innerWidth <= 768) {
       setInvisble(true);
-      // // console.log(window.innerWidth)
+      // console.log(window.innerWidth)
     }
   };
   return (

@@ -9,7 +9,7 @@ export const PersonalInformations = () => {
   useEffect(() => {
     async function getUser() {
       const response = await getData("user", 2);
-      // // console.log(response)
+      // console.log(response)
       setUser(response);
     }
 

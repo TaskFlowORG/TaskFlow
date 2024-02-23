@@ -117,12 +117,12 @@ export default function Kanban() {
     let optionid: number;
     if (numerosSeparados) {
       const [numero1, numero2] = numerosSeparados;
-      // // console.log("Número 1:", numero1); // Saída: 12
-      // // console.log("Número 2:", numero2);
+      // console.log("Número 1:", numero1); // Saída: 12
+      // console.log("Número 2:", numero2);
       taskId = numero1;
       optionid = numero2; // Saída: 23
     } else {
-      // // console.log("A string não está no formato esperado.");
+      // console.log("A string não está no formato esperado.");
     }
 
     const optionOrder = options.find((option) => {
@@ -147,7 +147,7 @@ export default function Kanban() {
       const newArray = property.value.value.filter((value: any) => {
         return value.id != optionid && value.id != optionOrder!.id;
       });
-      // // console.log(newArray);
+      // console.log(newArray);
       property.value.value = [...(newArray ?? []), optionOrder] ?? null;
     } else {
       property.value.value = optionOrder ?? null;
@@ -156,7 +156,7 @@ export default function Kanban() {
     if (draggedTask) {
       try {
         (async () => {
-          // // console.log(draggedTask.task);
+          // console.log(draggedTask.task);
           await taskService.upDate(draggedTask.task);
         })();
       } catch (e) {}
@@ -206,9 +206,9 @@ export default function Kanban() {
             propertiesPage={page?.properties ?? []}
           ></OrderInput>
           <FilterAdvancedInput
-          propsFiltered={filterProp}
+            propsFiltered={filterProp}
             filterProps={(listx) => {
-              // // console.log(listx);
+              // console.log(listx);
               setFilterProp(listx);
             }}
             orderingId={page?.propertyOrdering.id}
@@ -228,7 +228,7 @@ export default function Kanban() {
                 tasks={indexAtColumn(
                   tasks.filter((task) => {
                     return task?.task?.properties?.some((property) => {
-                      // // // console.log(TypeOfProperty.CHECKBOX);
+                      // // console.log(TypeOfProperty.CHECKBOX);
                       return (
                         (property.property.id == id &&
                           (property.value as UniOptionValued).value?.id ==
@@ -255,7 +255,7 @@ export default function Kanban() {
               input={input}
               tasks={tasks.filter((task) => {
                 return task?.task?.properties?.some((property) => {
-                  // // // console.log(option,(property.value as UniOptionValued).value?.name )
+                  // // console.log(option,(property.value as UniOptionValued).value?.name )
                   return (
                     (property.property.id == id &&
                       (property.value as UniOptionValued).value == null) ||
