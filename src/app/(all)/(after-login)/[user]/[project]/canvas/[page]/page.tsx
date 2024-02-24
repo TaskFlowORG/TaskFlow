@@ -12,6 +12,7 @@ import { useTheme } from "next-themes";
 import { getData, postTask } from "@/services/http/api";
 import page from "@/app/(all)/(before-login)/login/page";
 import { CanvasPage as CanvasPageModel, TaskCanvas } from "@/models";
+import { pageService, projectService } from "@/services";
 
 export default function CanvasPage({
   params,
@@ -63,24 +64,23 @@ export default function CanvasPage({
   }, []);
 
   async function updatePageAndTasks() {
-    const pagePromise = await getData("canvas", params.page);
-    const projectPromise = await getData("project", params.project);
-    pagePromise.project = projectPromise;
-    setPageObj(pagePromise);
-    setTasks(pagePromise.tasks);
+    const pagePromise = await pageService.findOne(params.page);
+    const projectPromise = await projectService.findOne(params.project);
+    setPageObj(pagePromise as CanvasPageModel);
+    setTasks(pagePromise.tasks as TaskCanvas[]);
   }
 
   useEffect(() => {
-    const url = pageObj?.draw.data;
+    const url = (pageObj?.draw ?? {data:""}).data;
     const img = new Image();
     const ctx = canvasRef.current?.getContext("2d");
     if (!canvasRef.current || !url || !ctx) return;
-    img.src = "data:" + pageObj.draw.type + ";base64," + pageObj.draw.data;
+    img.src = "data:" + pageObj!.draw.type + ";base64," + pageObj!.draw.data;
     img.onload = function () {
       ctx.drawImage(img, 0, 0, 4000, 2000);
     };
     // eslint-disable-next-line
-  }, [tasks, pageObj]);
+  }, [pageObj]);
   async function createTask() {
     await postTask(params.user, params.page);
     updatePageAndTasks();
@@ -118,7 +118,7 @@ export default function CanvasPage({
           setShape={setShape}
           postTask={createTask}
         />
-        <img src={archiveToSrc(pageObj!.draw)} alt="" />
+        {/* <img src={archiveToSrc(pageObj!.draw)} alt="" /> */}
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
     </div>

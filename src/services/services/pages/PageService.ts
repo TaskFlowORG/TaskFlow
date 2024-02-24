@@ -17,7 +17,8 @@ class PageService {
         return response.data;
     }
 
-    async upDateName(name: string, id: number): Promise<void> {
+    async upDateName(name: string| undefined| null, id: number): Promise<void> {
+        console.log(name)
         const config = {headers: {
             'Content-Type': 'application/string'
         }}
