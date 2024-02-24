@@ -41,11 +41,11 @@ export const GroupAccess = ({ name, description, project, group }) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <h3 className="pAlata text-[#333] dark:text-[#FCFCFC]">{name}</h3>
-                    <p className="mn whitespace-pre-wrap w-[403px] text-[#333] dark:invert">{description}</p>
+                    <p className="mn whitespace-pre-wrap w-[350px] lg:w-[403px] md:w-[403px] text-[#333] dark:invert">{description}</p>
                 </div>
-                <div className="flex justify-center lg:justify-end md:justify-end">
+                <div className="flex justify-end">
                     <select
-                        className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858] '
+                        className='selectGroup w-[50%] mnAlata border-none dark:text-[#F76858] '
                         name="permission"
                         id="permission"
                         value={selectedPermission}
