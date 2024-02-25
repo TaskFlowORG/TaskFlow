@@ -35,10 +35,11 @@ class PageService {
     }
 
     async updateXAndY(taskPage: TaskCanvas): Promise<void> {
+        console.log(taskPage)
         await Api.patch('page/x-and-y', taskPage);
     }
 
-    async updateDraw(draw: File, id: number): Promise<void> {
+    async updateDraw(draw: File | Blob, id: number): Promise<void> {
         const formData = new FormData();
         formData.append('draw', draw);
         await Api.patch(`page/draw/${id}`, formData);

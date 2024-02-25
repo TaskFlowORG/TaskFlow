@@ -17,7 +17,7 @@ export default function ListPage({ params }: { params: { page: number } }) {
             const pagePromise: Page = await pageService.findOne(params.page)
             setPageObj( pagePromise)
             const pagesPromise: Page[] = await pageService.findAll()
-            let tasksPromise = ( pagePromise).tasks
+            let tasksPromise =  pagePromise.tasks
             const list = []
             for (let page of  pagesPromise) {
                 for (let task of page.tasks) {

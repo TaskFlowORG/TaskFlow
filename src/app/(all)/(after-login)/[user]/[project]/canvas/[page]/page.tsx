@@ -34,7 +34,8 @@ export default function CanvasPage({
     moving,
     shape,
     optionsRef,
-    isErasing
+    isErasing,
+    pageObj
   );
   const { theme, setTheme } = useTheme();
 

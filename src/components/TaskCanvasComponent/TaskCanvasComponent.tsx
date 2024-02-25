@@ -5,8 +5,8 @@ import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
 import {useState, useRef, useEffect} from "react"
 import { useTheme } from "next-themes"
-import { putData, patchData } from "@/services/http/api"
 import { CanvasPage, TaskCanvas } from "@/models"
+import { pageService } from "@/services"
 
 
 interface Props{
@@ -23,6 +23,9 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
     const[dragging, setDragging] = useState<boolean>(false)
     const{theme, setTheme} = useTheme()
     const draggableRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {task.x = x}, [x])
+    useEffect(() => {task.y = y}, [y])
 
     const style:Object = {
         cursor: theme == "dark"? "url('/img/grabDark.svg'), auto" : "url('/img/grabLight.svg'), auto" ,
@@ -43,7 +46,7 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
             }
             (async () => {
                 if(!page) return
-                await patchData("canvas/XandY",{id:task.id, x:offsetX, y:offsetY})
+                await pageService.updateXAndY(task)
             })()
     }
 

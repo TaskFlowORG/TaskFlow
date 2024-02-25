@@ -1,5 +1,5 @@
 import { CanvasPage } from "@/models";
-import { patchData, putData } from "@/services/http/api";
+import { pageService } from "@/services";
 import { Blob } from "buffer";
 import {useEffect, useState } from "react";
 
@@ -29,11 +29,10 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
     useEffect(() => {
          if(!page || !canvas || !canvas.current) return 
          const formData = new FormData();
-         
          canvas.current.toBlob((draw) => {
                 if(draw){
                      formData.append("draw", draw)
-                     patchData("canvas/draw/"+page.id, formData)
+                     pageService.updateDraw(draw,page.id)
                 }
             })
     // eslint-disable-next-line

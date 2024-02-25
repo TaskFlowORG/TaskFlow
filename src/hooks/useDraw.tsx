@@ -1,6 +1,8 @@
 
 import React, { ElementRef, LegacyRef, MutableRefObject, RefObject, useEffect, useRef, useState } from 'react'
 import { drawLine } from "@/functions";
+import { pageService } from '@/services';
+import { Page } from '@/models';
 
 type Draw = {
   ctx: CanvasRenderingContext2D
@@ -11,7 +13,7 @@ type Draw = {
 type Point = { x: number; y: number }
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, isErasing:boolean) => void, 
-moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean) => {
+moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, page:Page | undefined) => {
  
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
@@ -83,6 +85,14 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
         prevPoint.current = null
       }
       setMouseDown(false)
+      if(!page || !canvasRef || !canvasRef.current) return 
+      const formData = new FormData();
+      canvasRef.current.toBlob((draw) => {
+       if(draw){
+            formData.append("draw", draw)
+            pageService.updateDraw(draw,page.id)
+       }
+   })
     }
       // Add event listeners
       canvasRef.current?.addEventListener('mousemove', handlerLine)
