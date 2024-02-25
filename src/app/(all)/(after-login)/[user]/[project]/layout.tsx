@@ -29,6 +29,7 @@ export default function Layout({ children, params }: { children: React.ReactNode
     }, [params.project])
 
     const merge = () => {
+        console.log(listMerge)
         pageService.merge(listMerge, pageMerging!.id)
         setListMerge([]); 
         setMerging(false); 

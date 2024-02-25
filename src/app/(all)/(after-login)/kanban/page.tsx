@@ -72,7 +72,7 @@ export default function Kanban() {
       }
     )!;
 
-    property.value.getValue().equals(optionOrder) ?? null;
+    property.value.value.equals(optionOrder) ?? null;
 
     if (draggedTask) {
       try {

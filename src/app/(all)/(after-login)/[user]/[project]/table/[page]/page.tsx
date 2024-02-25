@@ -2,14 +2,15 @@
 
 import { List } from "@/components/List";
 import { IconTask } from "@/components/icons";
-import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import page from "@/app/(all)/(before-login)/login/page";
 import { Page, Project, Property, TaskOrdered } from "@/models";
+import { pageService, projectService } from "@/services";
+import { pages } from "next/dist/build/templates/app-page";
 
 
-export default function TablePage({ params }: { params: { page: string, project: string } }) {
+export default function TablePage({ params }: { params: { page: number, project: number } }) {
 
     const [tasks, setTasks] = useState<TaskOrdered[]>([])
     const [properties, setProperties] = useState<Property[]>([])
@@ -17,12 +18,12 @@ export default function TablePage({ params }: { params: { page: string, project:
 
     useEffect(() => {
         (async () => {
-            const pagePromise: Promise<Page> = await getData("page", JSON.parse(params.page))
-            setPageObj(await pagePromise)
-            const projectPromise: Promise<Project> = await getData("project", JSON.parse(params.project))
+            const pagePromise: Page = await pageService.findOne(params.page)
+            setPageObj( pagePromise)
+            const projectPromise: Project = await projectService.findOne(params.project)
 
-            let tasksPromise = (await pagePromise).tasks
-            let propsPromise = [...(await projectPromise).properties, ...(await pagePromise).properties]
+            let tasksPromise = ( pagePromise).tasks
+            let propsPromise = [...( projectPromise).properties, ...(pagePromise).properties]
             setTasks(tasksPromise as TaskOrdered[])
             setProperties(propsPromise.filter(p => p.visible))
         })()
@@ -33,8 +34,8 @@ export default function TablePage({ params }: { params: { page: string, project:
         if(!e.draggableId || !e.destination?.index) return
         const id = e.draggableId.split("/")[1]
         console.log(e.draggableId, e.destination?.index)
-            const pagePromise = await putData(`page/${id}/${e.destination?.index}`, pageObj)
-            setPageObj(await pagePromise)
+            const pagePromise = await pageService.updateIndexes(pageObj!, +id, e.destination?.index, )
+            setPageObj( pagePromise)
     }
 
 

@@ -74,14 +74,14 @@ export const ColumnKanban = ({
                       );
 
                       // console.log(item.task?.properties)
-                      if (!(propFilter?.value.getValue() == prop.value) && !(render == false)) {
+                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
                         // console.log(prop.value,propFilter?.value.value)
                         // console.log(propFilter?.value.value)
                         render = false;
                         if (
                           [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
                         ) {
-                          const opt: Option = propFilter?.value.getValue();
+                          const opt: Option = propFilter?.value.value;
                           console.log(opt);
                           if (opt != null) {
                             if (opt.name != null) {

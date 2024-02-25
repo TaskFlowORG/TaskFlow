@@ -8,11 +8,6 @@ export class TextValued extends Value {
     constructor(id:number, text:string){
         super(id);
     }
-    
-    override getValue():any{
-        return this.value;
-    }
 
-   override setValue(value:any):void{this.value = (value as string);}
 
 }

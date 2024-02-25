@@ -9,8 +9,5 @@ export class MultiOptionValued extends Value{
     constructor(id:number, option:Option[]){
         super(id);
     }
-    override setValue(value:any):void{this.value = (value as Option[]);}
-    override getValue():any{
-        return this.value;
-    }
+
 }

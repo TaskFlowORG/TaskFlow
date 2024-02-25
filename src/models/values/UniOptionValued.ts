@@ -12,10 +12,6 @@ export class UniOptionValued extends Value{
 ;    }
 
 
-    override setValue(value:any):void{this.value = (value as Option);}
 
-    override getValue():any{
-        return this.value;
-    }
 
 }

@@ -1,27 +1,27 @@
 'use client'
 
 import { List } from "@/components/List";
-import { getData, getListData, putData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { OrderedPage, Page, TaskOrdered, TaskPage } from "@/models";
+import { pageService } from "@/services";
 
 
-export default function ListPage({ params }: { params: { page: string } }) {
+export default function ListPage({ params }: { params: { page: number } }) {
 
     const [pages, setPages] = useState<Page[]>([])
     const [pageObj, setPageObj] = useState<Page>()
 
     useEffect(() => {
         (async () => {
-            const pagePromise: Promise<Page> = await getData("page", JSON.parse(params.page))
-            setPageObj(await pagePromise)
-            const pagesPromise: Promise<Page[]> = await getListData("page")
-            let tasksPromise = (await pagePromise).tasks
+            const pagePromise: Page = await pageService.findOne(params.page)
+            setPageObj( pagePromise)
+            const pagesPromise: Page[] = await pageService.findAll()
+            let tasksPromise = ( pagePromise).tasks
             const list = []
-            for (let page of await pagesPromise) {
+            for (let page of  pagesPromise) {
                 for (let task of page.tasks) {
-                    if (task.id == tasksPromise[0].id && page.id != JSON.parse(params.page)) {
+                    if (task.id == tasksPromise[0].id && page.id != params.page) {
                         list.push(page)
                     }
                 }
@@ -35,7 +35,7 @@ export default function ListPage({ params }: { params: { page: string } }) {
         if(!e.draggableId || !e.destination?.index) return
         const id = e.draggableId.split("/")[1]
         if (e.source.droppableId == e.destination?.droppableId) {
-            const pagePromise = await putData(`page/${id}/${e.destination?.index}`, pageObj)
+            const pagePromise = await pageService.updateIndexes(pageObj!, +id, e.destination?.index)
             setPageObj(await pagePromise)
         }
     }

@@ -5,7 +5,7 @@ import { CalendarDay } from "@/components/CaledarDay";
 import { Arrow } from "@/components/icons/";
 import { compareDates } from "@/functions";
 import { OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
-import { getData } from "@/services/http/api";
+import { pageService } from "@/services";
 import { useEffect, useState } from "react";
 
 interface Day{
@@ -15,7 +15,7 @@ interface Day{
 }
 
 
-export default function CalendarPage({params}:{params:{page:string}}) {
+export default function CalendarPage({params}:{params:{page:number}}) {
 
     const [tasks, setTasks] = useState<TaskOrdered[]>([])
     const [page, setPage] = useState<OrderedPage>()
@@ -27,11 +27,11 @@ export default function CalendarPage({params}:{params:{page:string}}) {
             const temporaryMonth = (new Date()).getMonth() + 1
             setMonth(temporaryMonth)
             setYear((new Date()).getUTCFullYear())
-            const pagePromise:OrderedPage = (await getData("page", params.page));
+            const pagePromise = (await pageService.findOne(params.page)) as OrderedPage;
             setPage(pagePromise)
             const tasksPromise = pagePromise.tasks as TaskOrdered[]
             setTasks(tasksPromise.filter((t:TaskOrdered) => {
-                return (new Date(getPropertyValueOfOrdering(t , pagePromise.propertyOrdering)?.value.getValue()).getMonth()+1) == temporaryMonth 
+                return (new Date(getPropertyValueOfOrdering(t , pagePromise.propertyOrdering)?.value.value).getMonth()+1) == temporaryMonth 
             }))
         })()
     // eslint-disable-next-line
@@ -54,17 +54,17 @@ export default function CalendarPage({params}:{params:{page:string}}) {
         for (let i = firstDate.getDay(); i > 0; i--) {
             let date:Date = new Date(firstDate);
             date.setTime(firstDate.getTime() - (i * 24 * 60 * 60 * 1000))
-            days.push({ day: date, inThisMonth: false, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.getValue()), date)) })
+            days.push({ day: date, inThisMonth: false, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.value), date)) })
         }
         for (let i = 0; i < lastDate.getDate(); i++) {
             let date:Date = new Date(firstDate);
             date.setTime(firstDate.getTime() + (i * 24 * 60 * 60 * 1000))
-            days.push({ day: date, inThisMonth: true, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.getValue()), date) )})
+            days.push({ day: date, inThisMonth: true, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.value), date) )})
         }
         for (let i = 1; i < (7 - lastDate.getDay()); i++) {
             let date:Date = new Date(lastDate);
             date.setTime(lastDate.getTime() + (i * 24 * 60 * 60 * 1000))
-            days.push({ day: date, inThisMonth: false, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.getValue()), date)) })
+            days.push({ day: date, inThisMonth: false, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page?.propertyOrdering)?.value.value), date)) })
         }
         return days
     }

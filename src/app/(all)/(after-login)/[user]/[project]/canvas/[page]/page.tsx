@@ -9,15 +9,14 @@ import { archiveToSrc, drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
-import { getData, postTask } from "@/services/http/api";
 import page from "@/app/(all)/(before-login)/login/page";
 import { CanvasPage as CanvasPageModel, TaskCanvas } from "@/models";
-import { pageService, projectService } from "@/services";
+import { pageService, projectService, taskService } from "@/services";
 
 export default function CanvasPage({
   params,
 }: {
-  params: { page: number; user: number; project: number };
+  params: { page: number; user: string; project: number };
 }) {
   const [tasks, setTasks] = useState<TaskCanvas[]>([]);
   const [pageObj, setPageObj] = useState<CanvasPageModel>();
@@ -82,7 +81,7 @@ export default function CanvasPage({
     // eslint-disable-next-line
   }, [pageObj]);
   async function createTask() {
-    await postTask(params.user, params.page);
+    await taskService.insert(params.page,params.user);
     updatePageAndTasks();
   }
   return (

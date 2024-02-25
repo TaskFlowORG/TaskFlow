@@ -9,9 +9,4 @@ export class DateValued extends Value{
         super(id);
     }
 
-
-    override setValue(value:any):void{this.value =(value as Date);}
-    override getValue():any{
-        return this.value;
-    }
 }

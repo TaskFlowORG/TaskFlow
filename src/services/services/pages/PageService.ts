@@ -3,8 +3,8 @@ import { OrderedPage, Page, PagePost, Property, TaskCanvas } from '@/models';
 import { Api } from '@/services/axios';
 
 class PageService {
-    async insert(page: PagePost, subclass: string): Promise<Page> {
-        return (await Api.post<Page>(`page/${subclass}`, page)).data;
+    async insert(page: PagePost): Promise<Page> {
+        return (await Api.post<Page>(`page`, page)).data;
     }
 
     async updateIndexesKanban(

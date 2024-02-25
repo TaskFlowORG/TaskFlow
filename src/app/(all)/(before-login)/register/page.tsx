@@ -3,7 +3,6 @@ import "./style.css";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
-import { Api } from "@/services/api";
 
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -11,6 +10,8 @@ import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterShape } from "@/components/RegisterShape";
 import { Input } from "@/components/Input";
+import { userService } from "@/services";
+import { UserPost } from "@/models";
 
 const schema = z
   .object({
@@ -60,7 +61,6 @@ const Page = () => {
     resolver: zodResolver(schema),
   });
 
-  const api = new Api();
   const route = useRouter();
   const [value, setValue] = useState(0);
   const [user, setUser] = useState({} as FormData);
@@ -81,7 +81,7 @@ const Page = () => {
   const handleRegister = async () => {
     try {
       const result = schema.parse(user);
-      api.post("/user", result);
+      userService.insert(new UserPost(result.username, result.name, result.surname, result.password));
       route.push("/login");
     } catch (err) {
       if (err instanceof ZodError) {

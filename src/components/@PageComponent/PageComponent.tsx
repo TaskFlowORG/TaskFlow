@@ -76,7 +76,7 @@ export const PageComponent = ({ page, username, project, merging, setMerging, li
         } else if ([TypeOfPage.KANBAN, TypeOfPage.TIMELINE, TypeOfPage.CALENDAR].includes(type)) {
             subclass = "ordered"
         }
-        const pagePromise = await pageService.insert(new PagePost(page.name, type, project), subclass)
+        const pagePromise = await pageService.insert(new PagePost(page.name, type, project))
         pageService.merge([pagePromise], page.id)
         pageService.delete(page.id)
         setTruncate(false)

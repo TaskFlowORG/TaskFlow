@@ -10,8 +10,4 @@ export class NumberValued extends Value{
         super(id);
     }
 
-    override setValue( value:any):void{this.value = (value as number);}
-    override getValue():any{
-        return this.value;
-    }
 }
