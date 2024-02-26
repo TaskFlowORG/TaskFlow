@@ -1,5 +1,6 @@
 import { Option } from "@/models";
 import { Tag } from "./Tag";
+import { useTheme } from "next-themes";
 
 interface Props {
   tags: Option[];
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export const CardTag = ({ tags, nameProperty }: Props) => {
+  const { theme } = useTheme();
   return (
     <>
       <div className="flex flex-col gap-2 w-full justify-center">
@@ -17,7 +19,13 @@ export const CardTag = ({ tags, nameProperty }: Props) => {
           {/* Código svg do gradiente para "mostrar ao usuário que é scrollavel" */}
           {/* <img src="gradient.svg" className="absolute h-full left-[-0.1rem]" alt="" /> */}
           {tags.map((tag) => {
-            return <Tag color={tag.color} value={tag.name} key={tag.id} />;
+            return (
+              <Tag
+                color={tag?.color}
+                value={tag?.name}
+                key={tag?.id}
+              />
+            );
           })}
         </div>
       </div>

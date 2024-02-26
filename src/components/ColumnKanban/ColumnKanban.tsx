@@ -9,6 +9,8 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
+import {useTheme} from "next-themes"
+
 interface Props {
   color?: string;
   option?: Option;
@@ -25,6 +27,8 @@ export const ColumnKanban = ({
   input,
   propsFiltered = [],
 }: Props) => {
+
+  const {theme} =  useTheme()
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -48,7 +52,7 @@ export const ColumnKanban = ({
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: (option?.color as string) ?? "#FCFCFC" }}
+          style={{ backgroundColor: (option?.color as string) ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d") }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
           {option?.name ?? "Não marcadas"}
@@ -68,7 +72,7 @@ export const ColumnKanban = ({
                   flexDirection: "column",
                   gap: "24px",
                   background: snapshot.isDraggingOver
-                    ? (option?.color as string) ?? "#FCFCFC"
+                    ? (option?.color as string)  ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d")
                     : "none",
                 }}
                 {...provided.droppableProps}
@@ -137,7 +141,7 @@ export const ColumnKanban = ({
                                   ...provided.draggableProps.style,
                                 }}
                               >
-                                <RoundedCard color={option?.color}>
+                                <RoundedCard color={option?.color ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d")}>
                                   <CardContent task={item.task as Task} />
                                 </RoundedCard>
                               </div>
