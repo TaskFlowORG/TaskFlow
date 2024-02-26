@@ -31,21 +31,30 @@ export const PermissionUser = ({ group, userId, project }) => {
         throw new Error('Permissão selecionada não encontrada.');
       }
 
-      console.log('ID da permissão selecionada:', selectedPermission.id);
+      const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
 
-      user.permissions = [...user.permissions, selectedPermission];
+      if (hasPermission) {
+        console.log('Este usuário já possui esta permissão.');
+        setSelectedPermission("");
+        alert('Este usuário já possui esta permissão.');
+      } else {
+        if (user.permissions != null) {
+          user.permissions = [];
+        }
+        user.permissions = [...user.permissions, selectedPermission];
 
+        await putData("user", user);
 
-      await putData("user", user);
+        setSelectedPermission("");
 
-      setSelectedPermission("");
-
-      alert('Permissão atualizada com sucesso!');
+        alert('Permissão atualizada com sucesso!');
+      }
     } catch (error) {
       console.error('Erro ao atualizar permissão:', error.message);
       alert('Não foi possível atualizar a permissão do usuário.');
     }
   }
+
 
   const userIcon = theme === "dark" ? <img className="" src="/img/whiteIconUser.svg" alt="User" /> : <img className="" src="/img/darkIconUser.svg" alt="User" />;
 
@@ -66,17 +75,20 @@ export const PermissionUser = ({ group, userId, project }) => {
             ownerIcon
           ) : (
             <select
-              className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858]'
+              className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858] flex justify-end'
               name="permission"
               id="permission"
               value={selectedPermission}
               onChange={(e) => findPermission(e.target.value)}
             >
-              {user.permission && user.permission.name ? (
-                <option value="" disabled>{user.permission.name}</option>
+              {user.permissions && user.permissions.length > 0 ? (
+                user.permissions.map((permission) => (
+                  <option key={permission.id} value="" disabled>{permission.name}</option>
+                ))
               ) : (
                 <option value="" disabled>Permissão</option>
               )}
+
               {permissions.map(permission => {
                 if (permission.project.id === project.id) {
                   return (
