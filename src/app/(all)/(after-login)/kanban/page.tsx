@@ -25,42 +25,6 @@ import {
   UniOptionValued,
 } from "@/models";
 
-//================================ Parte do Becker (Modal Cadastro Tarefa) ===============================
-const property1 = new Property(
-  1,
-  "Propriedade1",
-  true,
-  false,
-  TypeOfProperty.TEXT
-);
-const property2 = new Property(
-  2,
-  "Propriedade2",
-  false,
-  true,
-  TypeOfProperty.NUMBER
-);
-//const property3 = new Property(3, "Propriedade3", true, true, TypeOfProperty.RADIO);
-const property4 = new Property(
-  4,
-  "Propriedade4",
-  true,
-  true,
-  TypeOfProperty.DATE
-);
-const property5 = new Property(
-  5,
-  "Propriedade5",
-  true,
-  true,
-  TypeOfProperty.PROGRESS
-);
-
-const list: Array<Property> = [];
-
-list.push(property1, property2, property4, property5);
-//==========================================================================================================
-
 export default function Kanban() {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
@@ -72,7 +36,7 @@ export default function Kanban() {
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 2);
+      const pg: OrderedPage = await getPage("page", 1);
       setTasks(pg.tasks as TaskOrdered[]);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
@@ -175,11 +139,6 @@ export default function Kanban() {
 
   return (
     <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-      <RegisterTaskModal
-        open={modal}
-        close={() => setModal(false)}
-        listInputs={list}
-      />
       <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
