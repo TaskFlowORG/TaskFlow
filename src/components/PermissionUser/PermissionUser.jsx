@@ -58,7 +58,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
   const userIcon = theme === "dark" ? <img className="" src="/img/whiteIconUser.svg" alt="User" /> : <img className="" src="/img/darkIconUser.svg" alt="User" />;
 
-  const ownerIcon = theme === "dark" ? <img className="mx-auto relative justify-center " src="/img/darkOwner.svg" alt="Owner" /> : <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner" />
+  const ownerIcon = theme === "dark" ? <img className="" src="/img/darkOwner.svg" alt="Owner" /> : <img className="" src="/img/whiteOwner.svg" alt="Owner" />
 
   return (
     <div>
@@ -67,15 +67,17 @@ export const PermissionUser = ({ group, userId, project }) => {
           {userIcon}
           <p className="whitespace-nowrap dark:text-[#FCFCFC] text-black">{user.name}</p>
         </div>
-        <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-end lg:justify-between md:justify-between">
+        <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between ">
           <div className="hidden lg:flex md:flex">
             <p>|</p>
           </div>
           {group.owner && user.username === group.owner.username ? (
-            ownerIcon
+           <div className="w-[44%]">
+            {ownerIcon}
+            </div> 
           ) : (
             <select
-              className='selectGroup w-[75%] mnAlata border-none dark:text-[#F76858] flex justify-end'
+              className='text-[#F04A94] w-[50%] mnAlata border-none dark:text-[#F76858]'
               name="permission"
               id="permission"
               value={selectedPermission}

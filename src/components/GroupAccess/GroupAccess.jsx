@@ -55,7 +55,7 @@ export const GroupAccess = ({ name, description, project, group }) => {
                 </div>
                 <div className="flex justify-end">
                     <select
-                        className='selectGroup w-[50%] dark:text-[#F76858] border-[#F04A94] dark:border-[#F76858]'
+                        className='text-[#F04A94] border-2 rounded-sm text-center w-[50%] dark:text-[#F76858] border-[#F04A94] dark:border-[#F76858]'
                         name="permission"
                         id="permission"
                         value={selectedPermission}
