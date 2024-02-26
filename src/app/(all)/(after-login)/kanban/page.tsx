@@ -72,7 +72,7 @@ export default function Kanban() {
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 1);
+      const pg: OrderedPage = await getPage("page", 2);
       setTasks(pg.tasks as TaskOrdered[]);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
@@ -80,20 +80,14 @@ export default function Kanban() {
     })();
   });
 
-  function separarNumeros(stringComHifen: string): [number, number] | null {
-    // Divide a string usando o caractere hífen como separador
-    const numerosSeparados = stringComHifen.split("-");
+  function separateNumbers(stringComHifen: string): [number, number] | null {
+    const separatedNumbers = stringComHifen.split("-");
+    if (separatedNumbers.length === 2) {
+      const numberOne = parseInt(separatedNumbers[0], 10);
+      const numberTwo = parseInt(separatedNumbers[1], 10);
 
-    // Verifica se a string foi dividida em dois números
-    if (numerosSeparados.length === 2) {
-      // Converte os números de string para números inteiros
-      const numero1 = parseInt(numerosSeparados[0], 10);
-      const numero2 = parseInt(numerosSeparados[1], 10);
-
-      // Retorna os números separados em uma tupla
-      return [numero1, numero2];
+      return [numberOne, numberTwo];
     } else {
-      // Retorna null se a string não estiver no formato esperado
       return null;
     }
   }
@@ -107,59 +101,65 @@ export default function Kanban() {
     return tasks;
   }
 
-  const onDragEnd = (result: any) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-
-    const numerosSeparados = separarNumeros(result.draggableId);
-
-    let taskId: number;
-    let optionid: number;
-    if (numerosSeparados) {
-      const [numero1, numero2] = numerosSeparados;
-      // console.log("Número 1:", numero1); // Saída: 12
-      // console.log("Número 2:", numero2);
-      taskId = numero1;
-      optionid = numero2; // Saída: 23
-    } else {
-      // console.log("A string não está no formato esperado.");
-    }
-
-    const optionOrder = options.find((option) => {
+  function findDragDestinationColumn(destination: any) {
+    return options.find((option) => {
       return option.id == destination.droppableId;
     });
-
-    const draggedTask: TaskOrdered = tasks.find((task) => {
+  }
+  function findDraggedTask(taskId: number) {
+    return tasks.find((task) => {
       return task.id == taskId;
     })!;
+  }
 
-    const property: TaskValue = draggedTask?.task?.properties?.find(
+  function findPropertyInTask(draggedTask:TaskOrdered){
+    return draggedTask?.task?.properties?.find(
       (property) => {
         return property.property.id == id;
       }
     )!;
+  }
+
+  function updateOptions(propertyInTask:TaskValue,optionId:number,optionDestination:Option){
+  return  propertyInTask.value.value.filter((value: any) => {
+      return value.id != optionId && value.id != optionDestination!.id;
+    });
+  }
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const { source, destination } = result;
+
+    const separatedNumbers = separateNumbers(result.draggableId);
+    const [numberOne, numberTwo] = separatedNumbers!;
+    let taskId = numberOne;
+    let optionId = numberTwo;
+
+    const optionDestination = findDragDestinationColumn(destination);
+    const draggedTask: TaskOrdered = findDraggedTask(taskId!);
+    const propertyInTask: TaskValue = findPropertyInTask(draggedTask)
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
-        property.property.type
+        propertyInTask.property.type
       )
     ) {
-      const newArray = property.value.value.filter((value: any) => {
-        return value.id != optionid && value.id != optionOrder!.id;
-      });
-      // console.log(newArray);
-      property.value.value = [...(newArray ?? []), optionOrder] ?? null;
+
+      const updatedOptions = updateOptions(propertyInTask, optionId, optionDestination!) 
+
+      propertyInTask.value.value =
+        [...(updatedOptions ?? []), optionDestination] ?? null;
     } else {
-      property.value.value = optionOrder ?? null;
+      propertyInTask.value.value = optionDestination ?? null;
     }
 
     if (draggedTask) {
-      try {
         (async () => {
-          // console.log(draggedTask.task);
+          try {
           await taskService.upDate(draggedTask.task);
+           } catch (e) {}
         })();
-      } catch (e) {}
     }
 
     const updatePage = async () => {
@@ -208,7 +208,6 @@ export default function Kanban() {
           <FilterAdvancedInput
             propsFiltered={filterProp}
             filterProps={(listx) => {
-              // console.log(listx);
               setFilterProp(listx);
             }}
             orderingId={page?.propertyOrdering.id}
@@ -255,7 +254,6 @@ export default function Kanban() {
               input={input}
               tasks={tasks.filter((task) => {
                 return task?.task?.properties?.some((property) => {
-                  // // console.log(option,(property.value as UniOptionValued).value?.name )
                   return (
                     (property.property.id == id &&
                       (property.value as UniOptionValued).value == null) ||

@@ -35,6 +35,11 @@ export const ColumnKanban = ({
     TypeOfProperty.RADIO,
   ];
 
+  function findPropertyInTask(item:TaskOrdered, prop:FilteredProperty){
+    return item.task.properties.find(
+      (property) => property.property.id == prop.id
+    )!
+  }
   return (
     <div
       className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
@@ -72,26 +77,19 @@ export const ColumnKanban = ({
                   if (
                     item.task?.name
                       ?.toLowerCase()
-                      .includes(input?.toLowerCase() ?? "") ||
-                    input?.toLowerCase() == "" ||
-                    input?.toLowerCase() == undefined
+                      .includes(input?.toLowerCase()!) ||
+                    input?.toLowerCase() == ""
                   ) {
                     let render = false;
                     let counter = 0;
-                    console.log(propsFiltered);
                     propsFiltered.map((prop) => {
-                      const propertyOnTask = item.task.properties.find(
-                        (property) => property.property.id == prop.id
-                      )!;
-                      console.log(propertyOnTask);
+                      const propertyInTask = findPropertyInTask(item, prop)
                       if (
-                        multiOptionTypes.includes(propertyOnTask?.property.type)
+                        multiOptionTypes.includes(propertyInTask?.property.type)
                       ) {
-                        // console.log(prop.value)
                         let localRender = false;
                         prop.value.forEach((value: any) => {
-                          console.log(propertyOnTask.value.value);
-                          propertyOnTask.value.value.forEach(
+                          propertyInTask.value.value.forEach(
                             (option: Option) => {
                               if (option.name == value) {
                                 render = true;
@@ -105,95 +103,20 @@ export const ColumnKanban = ({
                           counter++;
                         }
                       } else if (
-                        optionTypes.includes(propertyOnTask?.property.type)
+                        optionTypes.includes(propertyInTask?.property.type)
                       ) {
-                        const option: Option = propertyOnTask.value.value;
-                        console.log(propertyOnTask.value.value);
-                        console.log(prop.value);
+                        const option: Option = propertyInTask.value.value;
                         if (option.name == prop.value) {
                           render = true;
                           counter++;
                         }
                       } else {
-                        if (propertyOnTask?.value?.value.contains(prop.value)) {
+                        if (propertyInTask?.value?.value.includes(prop.value)) {
                           render = true;
                           counter++;
                         }
                       }
                     });
-
-                    console.log(counter);
-
-                    // let render = true;
-                    // let important = false;
-                    // propsFiltered.map((prop) => {
-                    //   const propFilter = item.task?.properties.find(
-                    //     (property) => property.property.id == prop.id
-                    //   );
-                    //   console.log("Property", JSON.stringify(propFilter));
-                    //   console.log("Meu value nela", JSON.stringify(prop.value));
-
-                    //   // console.log(item.task?.properties)
-                    //   if (
-                    //     !(propFilter?.value.value == prop.value) &&
-                    //     !(render == false)
-                    //   ) {
-                    //     // console.log(prop.value,propFilter?.value.value)
-                    //     // console.log(propFilter?.value.value)
-                    //     render = false;
-                    //     if (
-                    //       [
-                    //         TypeOfProperty.SELECT,
-                    //         TypeOfProperty.CHECKBOX,
-                    //         TypeOfProperty.TAG,
-                    //         TypeOfProperty.RADIO,
-                    //       ].includes(
-                    //         propFilter?.property.type ?? TypeOfProperty.ARCHIVE
-                    //       )
-                    //     ) {
-                    //       const opt: Option | Option[] =
-                    //         propFilter?.value.value;
-                    //       console.log(opt);
-                    //       console.log(prop.value);
-
-                    //       if (opt != null) {
-                    //         console.log("To na primeria bagaça");
-                    //         if (
-                    //           [
-                    //             TypeOfProperty.CHECKBOX,
-                    //             TypeOfProperty.TAG,
-                    //           ].includes(
-                    //             propFilter?.property.type ??
-                    //               TypeOfProperty.ARCHIVE
-                    //           )
-                    //         ) {
-                    //           const arr = opt as Option[];
-                    //           console.log(arr);
-                    //           console.log("Em cima de mim são as options");
-                    //           arr.map((item) => {
-                    //             if (item.name == prop.value) {
-                    //               render = true;
-                    //             }
-                    //           });
-                    //         } else {
-                    //           const option = opt as Option;
-                    //           if (option.name) {
-                    //             console.log("To aqui");
-                    //             if (option.name == prop.value) {
-                    //               console.log(
-                    //                 "To aqui e setei true essa caralha"
-                    //               );
-                    //               render = true;
-                    //             }
-                    //           }
-                    //         }
-                    //       }
-                    //     } else {
-                    //       render = false;
-                    //     }
-                    //   }
-                    // });
-
                     if (
                       (render && counter == propsFiltered.length) ||
                       propsFiltered.length == 0
