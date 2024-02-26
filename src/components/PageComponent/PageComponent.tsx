@@ -11,7 +11,7 @@ import "swiper/css/navigation";
 import { useTheme } from "next-themes";
 import { Button } from "../Button";
 import Link from "next/link";
-import { TypeOfPageComponent } from "../@TypeOfPageComponent";
+import { TypeOfPageComponent } from "../TypeOfPageComponent";
 
 interface Props {
     page: Page;

@@ -536,3 +536,11 @@ select::-ms-expand {
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 0px;
 }
+
+input:checked {
+  background-color: #f04a94;
+  appearance:none;
+  border-radius: 10%;
+  color:white;
+
+}

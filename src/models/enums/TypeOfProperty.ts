@@ -1,27 +1,27 @@
 export  enum TypeOfProperty {
 
 //  Select
-    RADIO,
-//  Select
-    SELECT,
-//  Select
-    TAG,
-//  Limited
-    TEXT,
-//  Date
-    DATE,
-//  Limited
-    TIME,
-//  Limited
-    USER,
-//  Limited
-    PROGRESS,
-//  Limited
-    ARCHIVE,
-//  Select
-    CHECKBOX,
-//  Limited
-    NUMBER,
+    RADIO= "RADIO",
+//  Select= "Select"
+    SELECT= "SELECT",
+//  Select= "Select"
+    TAG= "TAG",
+//  Limited= "Limited"
+    TEXT= "TEXT",
+//  Date= "Date"
+    DATE= "DATE",
+//  Limited= "Limited"
+    TIME= "TIME",
+//  Limited= "Limited"
+    USER= "USER",
+//  Limited= "Limited"
+    PROGRESS= "PROGRESS",
+//  Limited= "Limited"
+    ARCHIVE= "ARCHIVE",
+//  Select= "Select"
+    CHECKBOX= "CHECKBOX",
+//  Limited= "Limited"
+    NUMBER= "NUMBER",
 //    //Os dois proximos são para atender o requisito de dependencia entre tarefas e projetos
 //    //Limited
 //    TASK,

@@ -6,23 +6,23 @@ import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { OrderedPage, Page, TaskOrdered, TaskPage } from "@/models";
 import { pageService } from "@/services";
 
+interface Props {
+    page: Page
+}
 
-export default function ListPage({ params }: { params: { page: number } }) {
+export const ListPage = ({page }:Props) => {
 
     const [pages, setPages] = useState<Page[]>([])
-    const [pageObj, setPageObj] = useState<Page>()
 
     useEffect(() => {
         (async () => {
-            const pagePromise: Page = await pageService.findOne(params.page)
-            setPageObj( pagePromise)
             const pagesPromise: Page[] = await pageService.findAll()
-            let tasksPromise =  pagePromise.tasks
+            let tasksPromise =  page.tasks
             const list = []
-            for (let page of  pagesPromise) {
-                for (let task of page.tasks) {
-                    if (task.id == tasksPromise[0].id && page.id != params.page) {
-                        list.push(page)
+            for (let p of  pagesPromise) {
+                for (let task of p.tasks) {
+                    if (task.task.id == tasksPromise[0].task.id && page.id != p.id) {
+                        list.push(p)
                     }
                 }
             }
@@ -35,8 +35,7 @@ export default function ListPage({ params }: { params: { page: number } }) {
         if(!e.draggableId || !e.destination?.index) return
         const id = e.draggableId.split("/")[1]
         if (e.source.droppableId == e.destination?.droppableId) {
-            const pagePromise = await pageService.updateIndexes(pageObj!, +id, e.destination?.index)
-            setPageObj(await pagePromise)
+            await pageService.updateIndexes(page, +id, e.destination?.index)
         }
     }
 
@@ -50,11 +49,10 @@ export default function ListPage({ params }: { params: { page: number } }) {
 
     return (
         <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
-
             <div className="h-full flex flex-col w-5/6 md:w-2/3 lg:w-3/5 xl:w-[45%] 2xl:w-[45%] gap-14">
                 <div className="h-min w-full flex items-center justify-between">
                     <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
-                        {pageObj?.name}
+                        {page?.name}
                     </div>
                     <div className="w-min flex">
                         <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
@@ -66,7 +64,7 @@ export default function ListPage({ params }: { params: { page: number } }) {
                 <DragDropContext onDragEnd={e => updateIndexes(e)}>
                         {
                             pages.map((p) => {
-                                return <List key={p.id} list={(pageObj?.tasks.filter(t => contains(p, t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
+                                return <List key={p.id} list={(page?.tasks.filter(t => contains(p, t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
                             })
                         }
                         </DragDropContext>

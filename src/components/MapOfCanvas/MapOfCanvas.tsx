@@ -25,18 +25,7 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
     })
-    
-    useEffect(() => {
-         if(!page || !canvas || !canvas.current) return 
-         const formData = new FormData();
-         canvas.current.toBlob((draw) => {
-                if(draw){
-                     formData.append("draw", draw)
-                     pageService.updateDraw(draw,page.id)
-                }
-            })
-    // eslint-disable-next-line
-    }, [image])
+
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)

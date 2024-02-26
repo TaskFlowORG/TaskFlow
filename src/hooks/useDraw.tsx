@@ -28,6 +28,14 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
     const ctx = canvas.getContext('2d')
     if (!ctx) return
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    if(!page || !canvasRef || !canvasRef.current) return 
+    const formData = new FormData();
+    canvasRef.current.toBlob((draw) => {
+     if(draw){
+          formData.append("draw", draw)
+          pageService.updateDraw(draw,page.id)
+     }
+    })
   }
 
   function testIfInOptions(point:Point, e:MouseEvent):boolean{
