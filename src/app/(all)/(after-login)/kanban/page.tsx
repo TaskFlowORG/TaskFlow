@@ -92,12 +92,12 @@ export default function Kanban() {
     }
   }
 
-  function compararPorIndice(a: TaskOrdered, b: TaskOrdered) {
+  function compareByIndex(a: TaskOrdered, b: TaskOrdered) {
     return a.indexAtColumn - b.indexAtColumn;
   }
 
   function indexAtColumn(tasks: TaskOrdered[]) {
-    tasks.sort(compararPorIndice);
+    tasks.sort(compareByIndex);
     return tasks;
   }
 
@@ -112,16 +112,18 @@ export default function Kanban() {
     })!;
   }
 
-  function findPropertyInTask(draggedTask:TaskOrdered){
-    return draggedTask?.task?.properties?.find(
-      (property) => {
-        return property.property.id == id;
-      }
-    )!;
+  function findPropertyInTask(draggedTask: TaskOrdered) {
+    return draggedTask?.task?.properties?.find((property) => {
+      return property.property.id == id;
+    })!;
   }
 
-  function updateOptions(propertyInTask:TaskValue,optionId:number,optionDestination:Option){
-  return  propertyInTask.value.value.filter((value: any) => {
+  function updateOptions(
+    propertyInTask: TaskValue,
+    optionId: number,
+    optionDestination: Option
+  ) {
+    return propertyInTask.value.value.filter((value: any) => {
       return value.id != optionId && value.id != optionDestination!.id;
     });
   }
@@ -138,32 +140,28 @@ export default function Kanban() {
 
     const optionDestination = findDragDestinationColumn(destination);
     const draggedTask: TaskOrdered = findDraggedTask(taskId!);
-    const propertyInTask: TaskValue = findPropertyInTask(draggedTask)
+    const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
         propertyInTask.property.type
       )
     ) {
-
-      const updatedOptions = updateOptions(propertyInTask, optionId, optionDestination!) 
-
+      const updatedOptions = updateOptions(
+        propertyInTask,
+        optionId,
+        optionDestination!
+      );
       propertyInTask.value.value =
         [...(updatedOptions ?? []), optionDestination] ?? null;
     } else {
       propertyInTask.value.value = optionDestination ?? null;
     }
-
-    if (draggedTask) {
-        (async () => {
-          try {
-          await taskService.upDate(draggedTask.task);
-           } catch (e) {}
-        })();
-    }
-
-    const updatePage = async () => {
+    const updatePageAndTask = async () => {
       try {
+        if (draggedTask) {
+          await taskService.upDate(draggedTask.task);
+        }
         await pageService.updateIndexesKanban(
           page!,
           draggedTask?.task?.id,
@@ -172,7 +170,7 @@ export default function Kanban() {
         );
       } catch (e) {}
     };
-    updatePage();
+    updatePageAndTask();
   };
 
   return (
@@ -227,7 +225,6 @@ export default function Kanban() {
                 tasks={indexAtColumn(
                   tasks.filter((task) => {
                     return task?.task?.properties?.some((property) => {
-                      // // console.log(TypeOfProperty.CHECKBOX);
                       return (
                         (property.property.id == id &&
                           (property.value as UniOptionValued).value?.id ==
