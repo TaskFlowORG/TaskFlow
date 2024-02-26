@@ -121,17 +121,18 @@ export default function Kanban() {
     } else {
       propertyInTask.value.value = optionDestination ?? null;
     }
+
     const updatePageAndTask = async () => {
       try {
         if (draggedTask) {
           await taskService.upDate(draggedTask.task);
+          await pageService.updateIndexesKanban(
+            page!,
+            draggedTask?.task?.id,
+            destination.index,
+            destination.droppableId != source.droppableId ? 1 : 0
+          );
         }
-        await pageService.updateIndexesKanban(
-          page!,
-          draggedTask?.task?.id,
-          destination.index,
-          destination.droppableId != source.droppableId ? 1 : 0
-        );
       } catch (e) {}
     };
     updatePageAndTask();

@@ -9,7 +9,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
-import {useTheme} from "next-themes"
+import { useTheme } from "next-themes";
 
 interface Props {
   color?: string;
@@ -27,8 +27,7 @@ export const ColumnKanban = ({
   input,
   propsFiltered = [],
 }: Props) => {
-
-  const {theme} =  useTheme()
+  const { theme } = useTheme();
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -39,10 +38,10 @@ export const ColumnKanban = ({
     TypeOfProperty.RADIO,
   ];
 
-  function findPropertyInTask(item:TaskOrdered, prop:FilteredProperty){
+  function findPropertyInTask(item: TaskOrdered, prop: FilteredProperty) {
     return item.task.properties.find(
       (property) => property.property.id == prop.id
-    )!
+    )!;
   }
   return (
     <div
@@ -52,7 +51,11 @@ export const ColumnKanban = ({
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: (option?.color as string) ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d") }}
+          style={{
+            backgroundColor:
+              (option?.color as string) ??
+              (theme == "dark" ? "#FCFCFC" : "#3d3d3d"),
+          }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
           {option?.name ?? "Não marcadas"}
@@ -72,7 +75,8 @@ export const ColumnKanban = ({
                   flexDirection: "column",
                   gap: "24px",
                   background: snapshot.isDraggingOver
-                    ? (option?.color as string)  ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d")
+                    ? (option?.color as string) ??
+                      (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
                     : "none",
                 }}
                 {...provided.droppableProps}
@@ -87,7 +91,7 @@ export const ColumnKanban = ({
                     let render = false;
                     let counter = 0;
                     propsFiltered.map((prop) => {
-                      const propertyInTask = findPropertyInTask(item, prop)
+                      const propertyInTask = findPropertyInTask(item, prop);
                       if (
                         multiOptionTypes.includes(propertyInTask?.property.type)
                       ) {
@@ -110,12 +114,16 @@ export const ColumnKanban = ({
                         optionTypes.includes(propertyInTask?.property.type)
                       ) {
                         const option: Option = propertyInTask.value.value;
-                        if (option.name == prop.value) {
+                        if (option?.name == prop.value) {
                           render = true;
                           counter++;
                         }
                       } else {
-                        if (propertyInTask?.value?.value.includes(prop.value)) {
+                        if (
+                          propertyInTask?.value?.value
+                            ?.toLowerCase()
+                            .includes(prop.value.toLowerCase())
+                        ) {
                           render = true;
                           counter++;
                         }
@@ -141,7 +149,12 @@ export const ColumnKanban = ({
                                   ...provided.draggableProps.style,
                                 }}
                               >
-                                <RoundedCard color={option?.color ?? ( theme=='dark' ?"#FCFCFC" : "#3d3d3d")}>
+                                <RoundedCard
+                                  color={
+                                    option?.color ??
+                                    (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
+                                  }
+                                >
                                   <CardContent task={item.task as Task} />
                                 </RoundedCard>
                               </div>

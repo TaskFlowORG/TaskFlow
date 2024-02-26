@@ -10,6 +10,7 @@ import { FilteredProperty } from "@/types/FilteredProperty";
 import { SelectFilter } from "./SelectFilter";
 import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
+import { Select as Selectt } from "@/components/Select";
 
 interface Props {
   properties: Property[];
@@ -86,13 +87,22 @@ export const FilterAdvancedInput = ({
           );
         } else if (property.type === TypeOfProperty.SELECT) {
           return (
-            <SelectFilter
-              value={prop?.value}
-              key={property.id}
-              id={property.id}
-              name={property.name}
-              options={(property as Select).options}
-            />
+            <div key={property.id} className="w-full flex border-b-2">
+              <Selectt
+                id={"prop" + property.id.toString()}
+                options={(property as Select).options.map(
+                  (option) => option.name
+                )}
+                value={prop.value}
+              />
+            </div>
+            // <SelectFilter
+            //   value={prop?.value}
+            //   key={property.id}
+            //   id={property.id}
+            //   name={property.name}
+            //   options={(property as Select).options}
+            // />
           );
         }
       })}

@@ -31,7 +31,7 @@ export const CheckboxFilter = ({ options, name, id, value }: Props) => {
   };
 
   return (
-    <div className="text-black dark:text-white">
+    <div className="text-black dark:text-white pb-2 border-b-2 ">
       <p>{name}</p>
       {options.map((option, index) => (
         <div key={index}>
