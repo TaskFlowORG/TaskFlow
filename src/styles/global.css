@@ -151,18 +151,25 @@
   -webkit-text-stroke: 1px var(--contrast-color);
 }
 
-
 input[type="range"] {
   @apply overflow-hidden bg-zinc-300 dark:bg-back-grey h-3 rounded-full my-7 z-10;
   -webkit-appearance: none;
 }
+
+.input-number:focus ~ span {
+  @apply dark:border-zinc-400 border-zinc-500 border-2 border-r-0;
+}
+
+.input-number:focus ~ .right {
+  @apply dark:border-zinc-400 border-zinc-500 border-2 border-l-0;
+}
+
 input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
-  box-shadow: ;
 }
 input[type="range"]::-moz-range-progress {
   @apply bg-zinc-200 dark:bg-back-grey;
@@ -176,7 +183,6 @@ input[type="range"]::-ms-fill-lower {
 input[type="range"]::-ms-fill-upper {
   @apply bg-zinc-200 dark:bg-back-grey;
 }
-
 
 .shadowww {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
@@ -197,6 +203,13 @@ input[type="range"]::-ms-fill-upper {
 
 .timeline__primaryToPurple {
   background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
+}
+.input-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input-number {
+  -moz-appearance: textfield;
 }
 
 .timeline__purpleTosecondary {
@@ -328,8 +341,8 @@ select::-ms-expand {
   }
 }
 
-*:disabled{
-  opacity:0.6
+*:disabled {
+  opacity: 0.6;
 }
 
 @keyframes toggle-slider-animation-reverse {
@@ -478,7 +491,7 @@ select::-ms-expand {
 }
 
 .selectGroup {
-  @apply text-[#F04A94] border-2 rounded-sm  text-center
+  @apply text-[#F04A94] border-2 rounded-sm  text-center;
 }
 
 /* 
@@ -497,17 +510,10 @@ select::-ms-expand {
   width: 400px;
   height: 200px;
   background: #ad5389;
-  background: -webkit-linear-gradient(to right,
-      #3c1053,
-      #ad5389);
-  background: linear-gradient(to right,
-      #3c1053,
-      #ad5389);
+  background: -webkit-linear-gradient(to right, #3c1053, #ad5389);
+  background: linear-gradient(to right, #3c1053, #ad5389);
 }
 
-
-.inputRegister{
+.inputRegister {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
-
-
