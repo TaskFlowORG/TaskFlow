@@ -107,9 +107,8 @@ export const UsersList = ({ project, groupId = 1 }) => {
   );
 
   return (
-    <div className="flex w-full ml-24 dark:text-[#FCFCFFC]">
-      {/* md:w-[570px] md:h-[1032px] */}
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 h-[109%] lg:w-[55%] lg:h-[75%] relative">
+    <div className="flex w-full justify-center lg:justify-start md:justify-start dark:text-[#FCFCFFC]">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 h-[109%] lg:w-[60%] lg:h-[75%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
           <div>
             <input

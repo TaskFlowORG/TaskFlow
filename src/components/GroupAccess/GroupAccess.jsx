@@ -45,43 +45,45 @@ export const GroupAccess = ({ name, description, project, group }) => {
         }
     }
 
+
     return (
-        <div className="flex lg:gap-4 gap-8 items-start">
+        <div className="flex gap-4 items-start">
             <img className="py-4" src="/img/EllipseTest.svg" />
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <h3 className="pAlata text-[#333] dark:text-[#FCFCFC]">{name}</h3>
-                    <p className="mn whitespace-pre-wrap w-[350px] lg:w-[403px] md:w-[403px] text-[#333] dark:invert">{description}</p>
+                    <p className="mn whitespace-pre-wrap w-72 lg:w-[403px] md:w-[403px] text-[#333] dark:invert">{description}</p>
                 </div>
                 <div className="flex justify-end">
                     <select
-                        className='text-[#F04A94] border-2 rounded-sm text-center w-[50%] dark:text-[#F76858] border-[#F04A94] dark:border-[#F76858]'
+                        className='flex mr-6 text-[#F04A94] dark:text-[#F76858] text-center w-[35%] ml-4 mnAlata  border-2 rounded-sm border-[#F04A94] dark:border-[#F76858]'
                         name="permission"
                         id="permission"
                         value={selectedPermission}
                         onChange={(e) => findPermission(e.target.value)}
                     >
                         {group.permissions && group.permissions.length > 0 ? (
-                        group.permissions.map((permission) => (
-                            <option key={permission.id} value="" disabled>{permission.name}</option>
-                          ))):
-                            (<option value = "" disabled>Permissão</option>)}
+                            group.permissions.map((permission) => (
+                                <option key={permission.id} value="" disabled>{permission.name}</option>
+                            ))
+                        ) : (
+                            <option value="" disabled>Permissão</option>
+                        )}
 
-                    {permissions.map(permission => {
-                        if (permission.project.id === project.id) {
-                            return (
-                                <option key={permission.name} value={permission.name}>
-                                    {permission.name}
-                                </option>
-                            );
-                        } else {
-                            return null;
-                        }
-                    })}
-                </select>
+                        {permissions.map(permission => {
+                            if (permission.project.id === project.id) {
+                                return (
+                                    <option className='flex justify-center' key={permission.name} value={permission.name}>
+                                        {permission.name}
+                                    </option>
+                                );
+                            } else {
+                                return null;
+                            }
+                        })}
+                    </select>
+                </div>
             </div>
-
-        </div>
         </div >
     )
 }

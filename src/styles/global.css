@@ -373,7 +373,7 @@ select::-ms-expand {
 }
 
 .inputSombra {
-  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1;
+  @apply relative left-10 h-10 lg:w-[82%] md:w-[79%] rounded-xl px-5 py-1;
 }
 
 .modalTaskwhite {
