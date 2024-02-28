@@ -8,6 +8,7 @@ import { FilteredProperty } from "@/types/FilteredProperty";
 import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { Select as Selectt } from "@/components/Select";
+import { RadioFilter } from "./RadioFilter";
 
 interface Props {
   properties: Property[];
@@ -90,10 +91,23 @@ export const FilterAdvancedInput = ({
                 value={prop.value}
               />
             );
-          } else if (property.type === TypeOfProperty.SELECT) {
+          } else if (property.type === TypeOfProperty.RADIO) {
             return (
-              <div key={property.id} className="w-full flex border-b-2">
+              <RadioFilter
+                id={property.id}
+                name={property.name}
+                options={(property as Select).options}
+                key={property.id}
+                value={prop.value}
+              />
+            );
+          } 
+          
+          else if (property.type === TypeOfProperty.SELECT) {
+            return (
+              <div key={property.id} className="w-full flex border-b-[1px] ">
                 <Selectt
+                name={property.name}
                   id={"prop" + property.id.toString()}
                   options={(property as Select).options.map(
                     (option) => option.name
@@ -126,7 +140,7 @@ export const FilterAdvancedInput = ({
             filterProps([]);
             allProperties?.map((property) => {
               if (
-                [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+                [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG, TypeOfProperty.RADIO].includes(
                   property.type
                 )
               ) {

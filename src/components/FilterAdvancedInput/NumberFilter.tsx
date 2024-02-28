@@ -14,7 +14,7 @@ export const NumberFilter = ({ id, value, name }: Props) => {
   }, [value]);
 
   return (
-    <div className="flex gap-4 w-full h-min justify-between  items-center border-b-2">
+    <div className="flex gap-4 w-full h-min justify-between  items-center border-b-[1px] ">
       <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
       <div className="flex py-2">
         <input

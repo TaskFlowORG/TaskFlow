@@ -14,7 +14,7 @@ export const TextFilter = ({ id, name, value }: Props) => {
     setValued(value ?? "");
   }, [value]);
   return (
-    <div className="flex gap-4 w-full items-center border-b-2 pb-2">
+    <div className="flex gap-4 w-full items-center border-b-[1px]  pb-2">
       <p className=" text-black dark:text-white">{name}:</p>
 
       <input
