@@ -2,12 +2,9 @@ import { getData } from "@/services/http/api";
 import { useEffect, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
-import { RadioFilter } from "./RadioFilter";
-import { TagFilter } from "./TagFilter";
 import { TextFilter } from "./TextFilter";
 import { Button } from "../Button/Button";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { SelectFilter } from "./SelectFilter";
 import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { Select as Selectt } from "@/components/Select";
@@ -40,72 +37,75 @@ export const FilterAdvancedInput = ({
 
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
-      {allProperties?.map((property) => {
-        const prop = propsFiltered.find((prop) => prop.id == property.id) ?? {
-          value: null,
-        };
+      <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
+        {allProperties?.map((property) => {
+          const prop = propsFiltered.find((prop) => prop.id == property.id) ?? {
+            value: null,
+          };
 
-        if (property.type === TypeOfProperty.TEXT) {
-          return (
-            <TextFilter
-              value={prop.value}
-              key={property.id}
-              name={property.name}
-              id={property.id}
-            />
-          );
-        } else if (property.type === TypeOfProperty.DATE) {
-          return <DateFilter value={prop?.value} key={property.id} />;
-        } else if (property.type === TypeOfProperty.NUMBER) {
-          return (
-            <NumberFilter
-              value={prop.value}
-              key={property.id}
-              name={property.name}
-              id={property.id}
-            />
-          );
-        } else if (property.type === TypeOfProperty.TAG) {
-          return (
-            <CheckboxFilter
-              name={property.name}
-              options={(property as Select).options}
-              id={property.id}
-              key={property.id}
-              value={prop.value}
-            />
-          );
-        } else if (property.type === TypeOfProperty.CHECKBOX) {
-          return (
-            <CheckboxFilter
-              id={property.id}
-              name={property.name}
-              options={(property as Select).options}
-              key={property.id}
-              value={prop.value}
-            />
-          );
-        } else if (property.type === TypeOfProperty.SELECT) {
-          return (
-            <div key={property.id} className="w-full flex border-b-2">
-              <Selectt
-                id={"prop" + property.id.toString()}
-                options={(property as Select).options.map(
-                  (option) => option.name
-                )}
+          if (property.type === TypeOfProperty.TEXT) {
+            return (
+              <TextFilter
+                value={prop.value}
+                key={property.id}
+                name={property.name}
+                id={property.id}
+              />
+            );
+          } else if (property.type === TypeOfProperty.DATE) {
+            return (
+              <DateFilter
+                name={property.name}
+                id={property.id}
+                value={prop?.value}
+                key={property.id}
+              />
+            );
+          } else if (property.type === TypeOfProperty.NUMBER) {
+            return (
+              <NumberFilter
+                value={prop.value ?? ""}
+                key={property.id}
+                name={property.name}
+                id={property.id}
+              />
+            );
+          } else if (property.type === TypeOfProperty.TAG) {
+            return (
+              <CheckboxFilter
+                name={property.name}
+                options={(property as Select).options}
+                id={property.id}
+                key={property.id}
                 value={prop.value}
               />
-            </div>
-            // <SelectFilter
-            //   value={prop?.value}
-            //   key={property.id}
-            //   id={property.id}
-            //   name={property.name}
-            //   options={(property as Select).options}
-            // />
-          );
-        }
-      })}
+            );
+          } else if (property.type === TypeOfProperty.CHECKBOX) {
+            return (
+              <CheckboxFilter
+                id={property.id}
+                name={property.name}
+                options={(property as Select).options}
+                key={property.id}
+                value={prop.value}
+              />
+            );
+          } else if (property.type === TypeOfProperty.SELECT) {
+            return (
+              <div key={property.id} className="w-full flex border-b-2">
+                <Selectt
+                  id={"prop" + property.id.toString()}
+                  options={(property as Select).options.map(
+                    (option) => option.name
+                  )}
+                  value={prop.value}
+                />
+              </div>
+            );
+          }
+        })}
+      </div>
+
       <div className="flex w-full items-center justify-between">
         <Button
           fnButton={() => {

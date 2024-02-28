@@ -125,14 +125,19 @@ export default function Kanban() {
     const updatePageAndTask = async () => {
       try {
         if (draggedTask) {
-          await taskService.upDate(draggedTask.task);
+          console.log(page);
+          console.log(draggedTask);
+
           await pageService.updateIndexesKanban(
             page!,
             draggedTask?.task?.id,
             destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
           );
+          await taskService.upDate(draggedTask.task);
         }
+
+
       } catch (e) {}
     };
     updatePageAndTask();
