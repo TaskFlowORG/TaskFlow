@@ -110,9 +110,9 @@ export const UsersList = ({ project, groupId = 1 }) => {
     <div className="flex w-full justify-center lg:justify-start md:justify-start dark:text-[#FCFCFFC]">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 h-[109%] lg:w-[60%] lg:h-[75%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
-          <div>
+          <div className="">
             <input
-              className="inputSombra pAlata"
+              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] rounded-xl px-5 py-1"
               placeholder="Pesquisa"
               type="text"
               id="campoTexto"

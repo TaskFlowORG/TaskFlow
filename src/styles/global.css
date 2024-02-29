@@ -372,9 +372,9 @@ select::-ms-expand {
   @apply font-alata text-[16px];
 }
 
-.inputSombra {
-  @apply relative left-10 h-10 lg:w-[82%] md:w-[79%] rounded-xl px-5 py-1;
-}
+/* .inputSombra {
+  @apply ;
+} */
 
 .modalTaskwhite {
   @apply w-16 h-16 shadow-blur-10 rounded-md flex justify-center items-center;
@@ -463,19 +463,11 @@ select::-ms-expand {
 
 .groupGrandient {
   @apply bg-gradient-to-r from-orange-500 to-pink-500;
-  /* background: var(
-    --Gradiente-2,
-    linear-gradient(220deg, #ef4996 7.64%, #f04fb0 42.82%, #fe7a08 122.57%)
-  ); */
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .groupGrandientDark {
   @apply rounded-lg bg-gradient-to-r from-pink-500 to-orange-500;
-  /* background: var(
-    --Gradiente-Direto,
-    linear-gradient(249deg, #ff973d 17.15%, #ef4996 65.33%)
-  ); */
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 

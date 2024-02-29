@@ -61,7 +61,7 @@ export const PermissionUser = ({ group, userId, project }) => {
   const ownerIcon = theme === "dark" ? <img className=" " src="/img/darkOwner.svg" alt="Owner" /> : <img className="ml-10 " src="/img/whiteOwner.svg" alt="Owner" />
 
   return (
-    <div>
+    <div className="">
       <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-10 md:h-12 lg:h-12 flex items-center justify-between">
         <div className="flex gap-6">
           {userIcon}
@@ -105,9 +105,6 @@ export const PermissionUser = ({ group, userId, project }) => {
       </div>
     </div>
   );
-
-
-
 };
 
 
