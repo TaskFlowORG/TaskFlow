@@ -9,6 +9,7 @@ import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { Select as Selectt } from "@/components/Select";
 import { RadioFilter } from "./RadioFilter";
+import { TagFilter } from "./TagFilter";
 
 interface Props {
   properties: Property[];
@@ -35,6 +36,8 @@ export const FilterAdvancedInput = ({
       setAllProperties([...project.properties, ...properties]);
     })();
   }, []);
+
+  const [list, setList] = useState<FilteredProperty[]>([]);
 
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
@@ -73,12 +76,26 @@ export const FilterAdvancedInput = ({
             );
           } else if (property.type === TypeOfProperty.TAG) {
             return (
-              <CheckboxFilter
+              <TagFilter
                 name={property.name}
                 options={(property as Select).options}
                 id={property.id}
                 key={property.id}
-                value={prop.value}
+                value={list.find((f) => f.id == property.id)?.value}
+                removeList={(value: string) => {
+                  const listFind = list.find((f) => f.id == property.id)!;
+                  listFind.value.splice(listFind.value.indexOf(value), 1);
+                }}
+                addList={(value: string) => {
+                  const listFind = list.find((f) => f.id == property.id);
+                  console.log(listFind, list);
+                  if (listFind) {
+                    listFind.value.push(value);
+                  } else {
+                    setList([...list, { id: property.id, value: [value] }]);
+                    console.log(list);
+                  }
+                }}
               />
             );
           } else if (property.type === TypeOfProperty.CHECKBOX) {
@@ -101,13 +118,11 @@ export const FilterAdvancedInput = ({
                 value={prop.value}
               />
             );
-          } 
-          
-          else if (property.type === TypeOfProperty.SELECT) {
+          } else if (property.type === TypeOfProperty.SELECT) {
             return (
               <div key={property.id} className="w-full flex border-b-[1px] ">
                 <Selectt
-                name={property.name}
+                  name={property.name}
                   id={"prop" + property.id.toString()}
                   options={(property as Select).options.map(
                     (option) => option.name
@@ -125,6 +140,7 @@ export const FilterAdvancedInput = ({
           fnButton={() => {
             filterProps([]);
             filterProp = [];
+            setList([]);
           }}
           font="text-sm"
           padding="p-4"
@@ -140,7 +156,7 @@ export const FilterAdvancedInput = ({
             filterProps([]);
             allProperties?.map((property) => {
               if (
-                [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG, TypeOfProperty.RADIO].includes(
+                [TypeOfProperty.CHECKBOX, TypeOfProperty.RADIO].includes(
                   property.type
                 )
               ) {
@@ -172,11 +188,16 @@ export const FilterAdvancedInput = ({
                 );
                 // console.log(anInput?.value);
                 if (anInput?.value) {
+                  console.log("Soy lista caliente");
+                  console.log(list);
                   filterProps([
                     ...filterProp,
+                    ...list,
                     { id: property.id, value: anInput.value },
                   ]);
                   filterProp.push({ id: property.id, value: anInput.value });
+                } else if (TypeOfProperty.TAG == property.type) {
+                  filterProps([...filterProp, ...list]);
                 }
               }
             });
