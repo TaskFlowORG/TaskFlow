@@ -27,17 +27,17 @@ export default function Home({ projectId = 1 }) {
     const svgGroupMobile = theme === "dark" ? <SVGGroupMobileD/> : <SVGGroupMobileL />;
 
     return (
-        <div className="flex flex-col md:flex-row w-screen h-screen lg:gap-36">
+        <div className="flex flex-col lg:flex-row w-screen h-screen lg:gap-36">
             <div className="flex hidden lg:flex">
                 {svgGroupPage}
             </div>
-            <div className="flex lg:hidden md:hidden pt-56 absolute">
+            <div className="flex lg:hidden pt-56 absolute">
                 {svgGroupMobile}
             </div>
-            <div className="flex flex-col ml-2 z-50 sm:flex-row w-1/2 mt-32 lg:justify-end md:justify-end">
+            <div className="flex flex-col ml-2 lg:ml-0 z-50 lg:flex-row w-1/2 mt-32 lg:justify-end">
                 <Description project={project} />
             </div>
-            <div className="flex flex-col sm:flex-row lg:w-1/2 mt-12 lg:mt-32">
+            <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-32">
                 <UsersList project={project} />
             </div>  
         </div>

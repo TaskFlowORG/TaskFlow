@@ -18,7 +18,7 @@ export const Description = ({ project, groupId = 1 }) => {
     }, []);
 
     return (
-        <div>
+        <div className="md:ml-20">
             {
                 groups.map((g) => {
                     if (g.id === groupId) {
