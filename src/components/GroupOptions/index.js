@@ -1,1 +1,1 @@
-export {GroupOptions} from "./GroupOptions";
+export {GroupOptions} from "./GroupOptions"

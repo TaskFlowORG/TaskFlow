@@ -2,12 +2,14 @@
 import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react"
+import { GroupOptions } from "../GroupOptions/GroupOptions"
 
 export const PermissionUser = ({ group, userId, project }) => {
   const [user, setUser] = useState({});
   const [selectedPermission, setSelectedPermission] = useState("");
   const { theme, setTheme } = useTheme();
   const [permissions, setPermissions] = useState([]);
+  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     const getLists = async () => {
@@ -35,7 +37,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
       if (hasPermission) {
         console.log('Este usuário já possui esta permissão.');
-        setSelectedPermission("");
+        
         alert('Este usuário já possui esta permissão.');
       } else {
         if (user.permissions != null) {
@@ -45,10 +47,9 @@ export const PermissionUser = ({ group, userId, project }) => {
 
         await putData("user", user);
 
-        setSelectedPermission("");
-
         alert('Permissão atualizada com sucesso!');
       }
+      setSelectedPermission("");
     } catch (error) {
       console.error('Erro ao atualizar permissão:', error.message);
       alert('Não foi possível atualizar a permissão do usuário.');
@@ -69,7 +70,7 @@ export const PermissionUser = ({ group, userId, project }) => {
         </div>
         <div className="text-[#F04A94] dark:text-[#F76858] flex justify-between lg:pr-10">
           <div className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>
-            <p >|</p>
+            <p>|</p>
           </div>
           {group.owner && user.username === group.owner.username ? (
             ownerIcon
@@ -103,9 +104,12 @@ export const PermissionUser = ({ group, userId, project }) => {
           )}
         </div>
       </div>
+      <div>
+        <button className="flex justify-end" onClick={() => openModal ? setOpenModal(false) : setOpenModal(true)}>
+          <img src="/img/optionsGroup.svg" />
+        </button>
+      </div>
+      <GroupOptions isOpen={openModal} group={group} user={user} />
     </div>
   );
 };
-
-
-

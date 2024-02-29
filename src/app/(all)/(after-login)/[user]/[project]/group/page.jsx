@@ -27,7 +27,7 @@ export default function Home({ projectId = 1 }) {
     const svgGroupMobile = theme === "dark" ? <SVGGroupMobileD/> : <SVGGroupMobileL />;
 
     return (
-        <div className="flex flex-col md:flex-row w-screen h-screen lg:gap-36 ">
+        <div className="flex flex-col md:flex-row w-screen h-screen lg:gap-36">
             <div className="flex hidden lg:flex">
                 {svgGroupPage}
             </div>
