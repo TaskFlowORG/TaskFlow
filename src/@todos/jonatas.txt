@@ -6,3 +6,6 @@ na pagina de list tem que verificar ser as tasks estao apatecendo
 prototipar timeline
 verificar a tabela
 fazer o criar page
+
+tenho que fazer o botao de cancelar
+tenho que terminar todas as sides

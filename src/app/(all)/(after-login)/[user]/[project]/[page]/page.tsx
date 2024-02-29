@@ -21,7 +21,6 @@ export default function Pages({params}:{params:{page:number, project:number, use
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />
         case TypeOfPage.KANBAN:
-
             return <Kanban />
         case TypeOfPage.LIST:
             return <List page={page} />

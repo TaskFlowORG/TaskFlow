@@ -83,7 +83,9 @@ export const Canvas = ({
       className="overflow-scroll flex justify-start items-start w-screen h-full"
     >
       <MapOfCanvas canvas={canvasRef} x={x} y={y} page={page} />
-      <div className="w-min h-min relative">
+      <div className="w-min h-min relative" 
+     >
+        
         <canvas
           ref={canvasRef}
           width={4000}

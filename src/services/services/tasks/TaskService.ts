@@ -39,12 +39,21 @@ class TaskService {
         await Api.delete(`task/${id}/${userId}`);
     }
 
+    async deletePermanent(id: number): Promise<void> {
+        await Api.delete(`task/${id}`);
+    }
+
     async redo(id: number, userId: string): Promise<void> {
-        await Api.put(`task/redo/${userId}`);
+        await Api.put(`task/redo/${userId}/${id}`);
     }
 
     async getTasksOfMonth(month: number, pageId: number, propertyId: number): Promise<TaskPage[]> {
         const response = await Api.get<TaskPage[]>(`task/month/${month}/${pageId}/${propertyId}`);
+        return response.data;
+    }
+
+    async getDeletedTasks(project: number): Promise<Task[]> {
+        const response = await Api.get<Task[]>(`task/project/${project}`);
         return response.data;
     }
 }

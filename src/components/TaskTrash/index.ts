@@ -1,0 +1,1 @@
+export { TaskTrash } from "./TaskTrash";

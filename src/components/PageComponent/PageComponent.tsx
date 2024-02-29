@@ -117,7 +117,7 @@ export const PageComponent = ({ page, username, project, merging, setMerging, li
                         <div className="fixed top-0 right-0 bottom-0 z-40 left-0  " onClick={() => { setModal(false); setTruncate(false); setChangingType(false) }}
                             onMouseOver={e => e.stopPropagation()} >
                         </div>
-                        <div className=" bg-input-grey shadow-blur-10 right-8 absolute font-alata text-[14px]  z-50 flex w-36 py-6 px-4 rounded-md" id={"modalPage"}
+                        <div className=" bg-input-grey shadow-blur-10 right-7 absolute font-alata text-[14px] z-50 flex w-36 py-6 px-4 rounded-md" id={"modalPage"}
                             onClick={e => e.stopPropagation()}>
                             <div className="flex flex-col w-full relative">
                                 <button className="w-max flex gap-3 bg-input-grey hover:text-zinc-500 text-[12px]"

@@ -11,6 +11,7 @@ interface Props {
   other?: string;
   hover?: string;
   border?:string;
+  secondary?: boolean;
   fnButton?: ()=> void
 }
 
@@ -27,7 +28,8 @@ export const Button = ({
   hover, 
   other,
   border,
-  fnButton
+  fnButton,
+  secondary = false
 }: Props) => {
   return (
     <>
@@ -36,13 +38,13 @@ export const Button = ({
              ${paddingY ? paddingY : "py-2"} 
              ${width ? width : "w-max"} 
               ${rounded ? rounded : "rounded-lg"} 
-               ${background ? background : "bg-primary dark:bg-secondary"} 
+               ${background ? background : !secondary ? "bg-primary dark:bg-secondary" : "bg-transparent dark:bg-transparent"} 
                ${textSize ? textSize : "text-[20px]"} 
-               ${textColor ? textColor : "text-white"} 
+               ${textColor ? textColor : !secondary ? "text-white" : "text-secondary"} 
                ${other ? other : " "} 
                ${font ? font : "font-alata"} whitespace-nowrap 
-               ${hover ? hover: "hover:brightness-110"} 
-               ${border ? border: "border-none"}`}
+               ${hover ? hover: !secondary ? "hover:brightness-110":"hover:bg-secondary text-secondary hover:text-white hover:border-white"} 
+               ${border ? border: !secondary ? "border-none": "border-secondary border-2"}`}
       >
         {text ? text : "Confirmar"}
         
