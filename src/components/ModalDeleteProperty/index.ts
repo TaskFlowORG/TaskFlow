@@ -1,0 +1,1 @@
+export {ModalDeleteProperty} from "./ModalDeleteProperty"

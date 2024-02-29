@@ -85,10 +85,10 @@ const [modalProperty, setModalProperty] = useState(false);
   };
 
   return (
-    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-      <RegisterProperty open={modalProperty} close={() => setModalProperty(false)} />
+    <div className="w-full h-full flex flex-col dark:bg-back-grey">
+      {/* <RegisterProperty open={modalProperty} close={() => setModalProperty(false)} /> */}
       <RegisterTaskModal open={modal} close={() => setModal(false)} listInputs={[]} />
-      <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
+      <div className="flex gap-5 items-end pb-16 justify-center relative  mt-[5rem]  h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
           onClick={() => console.log(page)}
