@@ -1,10 +1,7 @@
 
 'use client'
 
-import { Header } from '@/components/Header';
 import { useContext, useEffect } from 'react';
-import { useTheme } from 'next-themes';
-import {useContrast} from '@/hooks/useContrast'
 import { ProjectContext } from '@/utils/ContextProject';
 import { projectService } from '@/services';
 

@@ -11,31 +11,34 @@ interface Props {
     project?: Project;
     user: string;
     setWantLeave: (value: boolean) => void;
+    modalPages: boolean;
+    setModalPages: (value: boolean) => void;
+    modalGroups: boolean;
+    setModalGroups: (value: boolean) => void;
 }
 
-export const SideMain = ({ project, user, setWantLeave }: Props) => {
+export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
 
-    const [modalPages, setModalPages] = useState(false);
-    const [modalGroups, setModalGroups] = useState(false);
+
 
     return (
         <>
             <If condition={!modalGroups && !modalPages}>
                 <>
                 <div className="w-full h-full flex flex-col items-center cursor-pointer relative">
-                    <Link href={`/${user}/initial-page`} className="w-full h-14  border-b-2 border-primary flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                    <Link href={`/${user}/initial-page`} className="w-full h-14  border-b-2 border-primary-opacity  flex flex-row items-center px-6 hover:brightness-90 bg-white">
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconBurguerList />
                         </div>
                         <p className="p">Página Inicial</p>
                     </Link>
-                    <Link href={`/${user}/projects`} className="w-full h-14  border-b-2 border-primary flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                    <Link href={`/${user}/projects`} className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white">
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconProjects />
                         </div>
                         <p className="p">Projetos </p>
                     </Link>
-                    <div className="w-full h-14  border-b-2 border-primary flex flex-row items-center px-6 hover:brightness-90 bg-white"
+                    <div className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white"
                         onClick={() => setModalGroups(true)}>
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconGroups />
@@ -47,7 +50,7 @@ export const SideMain = ({ project, user, setWantLeave }: Props) => {
                     </If>
                 </div>
                 <div className="w-full h-1/4 flex flex-col justify-end items-center" onClick={() => setWantLeave(true)}>
-                    <div className="w-full h-14  border-b-2 border-primary flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                    <div className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white">
                         <div className="w-1/3 h-full flex justify-center items-center">
                             <IconLogout />
                         </div>

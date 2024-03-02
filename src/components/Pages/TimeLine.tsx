@@ -1,3 +1,3 @@
 export const TimeLine = () => {
-    return <div>Timeline</div>
+    return <div className="mt-14">Timeline</div>
 }

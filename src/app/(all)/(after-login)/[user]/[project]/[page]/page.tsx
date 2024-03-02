@@ -12,10 +12,13 @@ export default function Pages({params}:{params:{page:number, project:number, use
     const[page, setPage] = useState<Page>()
     useEffect(() => {
         (async () => {
-            setPage(await pageService.findOne(params.page))
+            const pagePromise = await pageService.findOne(params.page)
+            console.log(pagePromise)
+            setPage(pagePromise)
+
         })()
     // eslint-disable-next-line
-    }, [])
+    }, [params.page])
 
     switch(page?.type){
         case TypeOfPage.CALENDAR:

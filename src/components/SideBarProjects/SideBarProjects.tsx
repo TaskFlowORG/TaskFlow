@@ -1,10 +1,11 @@
 
 import { Project } from "@/models";
-import { useState } from "react";
+import {  useState } from "react";
 import { If } from "../If";
 import { archiveToSrc } from "@/functions";
 import { Button } from "../Button";
 import { SideMain } from "./components";
+import { CenterModal } from "../Modal";
 
 interface Props {
     user: string;
@@ -12,19 +13,42 @@ interface Props {
 }
 export const SideBarProjects = ({ user, project }: Props) => {
 
-
+    const [modalPages, setModalPages] = useState(false);
+    const [modalGroups, setModalGroups] = useState(false);
     const [wantLeave, setWantLeave] = useState(false);
     const src = archiveToSrc(project?.picture!)
-    const leave = () => {}
+    const leave = () => { }
     return (
-        <div className='flex fixed z-50 h-full left-0 '>
             <div className='h-full flex  w-[31rem] relative '>
                 <div className='flex flex-col gap-14 pt-14 h-full p-4  bg-white shadow-blur-10 w-96 px-16' >
-            <div className="bg-red-300 w-1 h-1"></div>
+                    <div className="w-full h-1  text-primary font-alata decoration-solid">
+                        <If condition={modalGroups}>
+                            <span className="flex gap-2" onClick={() => setModalGroups(false)}>
+                                <span className="hover:underline cursor-pointer">
+                                    Main
+                                </span>
+                                /
+                                <span className="underline">
+                                    Groups
+                                </span>
+                            </span>
+                            <If condition={modalPages}>
+                                <span className="flex gap-2" onClick={() => setModalPages(false)}>
+                                    <span className="hover:underline cursor-pointer">
+                                        Main
+                                    </span>
+                                    /
+                                    <span>
+                                        Pages
+                                    </span>
+                                </span>
+                            </If>
+                        </If>
+                    </div>
                     <If condition={project != undefined}>
                         <div className="w-full h-16 flex items-center justify-around rounded-md">
                             <If condition={src != ""}>
-                                <img src={src}/>
+                                <img src={src} />
                                 <div className="bg-zinc-200 w-16 h-16 rounded-md"></div>
                             </If>
                             <div>
@@ -39,27 +63,21 @@ export const SideBarProjects = ({ user, project }: Props) => {
                             </div>
                         </div>
                     </If>
-                    <SideMain setWantLeave={setWantLeave} user={user} project={project}/>
-                    <If condition={wantLeave && project != undefined}>
-                        <>
-                            <div className="fixed top-0 right-0 bottom-0 z-40 bg-white opacity-40 left-0 cursor-default" onClick={() => setWantLeave(false)}
-                                onMouseOver={e => e.stopPropagation()} >
-                            </div>
-                            <div className="fixed bg-white shadow-blur-10 top-1/2 -translate-x-1/2 flex-col gap-16
-                                -translate-y-1/2 left-1/2 z-50 rounded-md w-[35rem] h-80 flex justify-center items-center">
+                    <SideMain setModalGroups={setModalGroups} modalGroups={modalGroups} setModalPages={setModalPages}
+                        modalPages={modalPages} setWantLeave={setWantLeave} user={user} project={project} />
+  
+                        <CenterModal condition={wantLeave} setCondition={setWantLeave} >
+
                                 <h4 className="h4 text-primary flex-wrap w-3/4 text-center">Você tem certeza de que deseja sair de sua conta?</h4>
                                 <div className="w-3/4 flex justify-between">
                                     <Button width="w-min" text="Cancelar" fnButton={() => setWantLeave(false)} />
                                     <Button width="w-min" fnButton={leave} secondary />
                                 </div>
-                            </div>
-                        </>
-                    </If>
+                        </CenterModal>
                 </div>
 
             </div>
 
-        </div>
 
     )
 
