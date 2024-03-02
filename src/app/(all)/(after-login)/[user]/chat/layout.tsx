@@ -8,10 +8,15 @@ import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
 import { getListChat, getChatLike } from "../../../../../services/http/api";
 
 export default function RootLayout({ children, params }: { children: React.ReactNode, params: { chatId: string } }) {
-
+ 
     const [listaChats, setListaChats] = useState<Chat[]>([]);
     const [abrir, setAbrir] = useState<boolean>(false);
     const [existe, setExiste] = useState<boolean>(true);
+
+
+    const handleChatClick = (chatId: number) => {
+        console.log("Chat clicado:", chatId);
+    }
 
     async function handleKeyPress(e: any) {
         if ((await getChatLike(e.target.value))) {
@@ -54,7 +59,7 @@ export default function RootLayout({ children, params }: { children: React.React
                                 <h3 className="h3">Chats</h3>
                             </div>
                             <div className={`flex justify-center duration-200  ${abrir ? "w-full" : "w-20"}`}>
-                                <div onClick={() => abrirBusca()} className={` cursor-pointer flex items-center justify-center duration-0 w-10 h-10 bg-primary 
+                                <div onClick={() => abrirBusca()} className={` cursor-pointer flex items-center justify-center  w-10 h-10 bg-primary 
                                 ${!abrir ? "rounded-full" : "rounded-l-lg"}`}>
                                     <img className=" rounded-full" src="/searchIcons/search.svg" alt="" />
                                 </div>
@@ -81,7 +86,8 @@ export default function RootLayout({ children, params }: { children: React.React
                                         picture={chat.picture}
                                         quantityUnvisualized={chat.quantityUnvisualized}
                                         lastMessage={chat.lastMessage} type={chat.type}
-                                        equals={chat.equals} />
+                                        equals={chat.equals}
+                                        onChatClick={handleChatClick} />
                                 ))}
 
                             </div>
