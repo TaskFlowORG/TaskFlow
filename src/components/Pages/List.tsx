@@ -21,7 +21,7 @@ export const ListPage = ({page }:Props) => {
             const list = []
             for (let p of  pagesPromise) {
                 for (let task of p.tasks) {
-                    if (task.task.id == tasksPromise[0].task.id && page.id != p.id) {
+                    if (task.task.id == tasksPromise[0]?.task.id && page.id != p.id) {
                         list.push(p)
                     }
                 }

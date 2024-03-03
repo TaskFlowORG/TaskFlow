@@ -24,13 +24,16 @@ export const TaskTrash = ({ task, userId }: Props) => {
 
     return (
         <>
-            <div className="flex justify-between gap-3 items-center z-50" >
-                <button className="bg-primary cursor-pointer w-8 h-8 rounded-md" onClick={() => setModalDelete(true)}>E</button>
-                <div className="truncate w-max h-full flex items-center cursor-default"
+            <div className="flex justify-between gap-3 items-center z-50 w-full">
+                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}>E</button>
+                <div className="truncate  h-full w-min flex items-center cursor-default"
                     title={`Tarefa ${task.name ?? '"Sem Nome"'} foi exluida por "${user?.name}"`}>
+                    <span className="truncate h-full w-min">
+
                     Tarefa {task.name ?? '"Sem Nome"'} foi exluida por {`"${user?.name}"`}
+                    </span>
                 </div>
-                <button className="bg-primary cursor-pointer w-8 h-8 rounded-md" onClick={redo}>R</button>
+                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}>R</button>
             </div>
             <If condition={modalDelete}>
                 <>
@@ -40,7 +43,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
                     </div>    
                     <div className="fixed bg-white shadow-blur-10 top-1/2 -translate-x-1/2 flex-col  gap-16
                                 -translate-y-1/2 left-1/2 z-[60] rounded-md w-[35rem] h-80 flex justify-center items-center">
-                        <h4 className="h4 text-primary flex-wrap w-3/4 text-center">Você tem certeza de que deseja deletar essa tarefa permanentemente?</h4>
+                        <h4 className="h4 text-primary dark:text-secondary flex-wrap w-3/4 text-center">Você tem certeza de que deseja deletar essa tarefa permanentemente?</h4>
                         <div className="flex justify-between w-3/4">
                             <Button text="Cancelar" width="w-min" fnButton={() => setModalDelete(false)} />
                             <Button text="Excluir" width="w-min" secondary fnButton={deleteTask} />

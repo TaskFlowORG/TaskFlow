@@ -15,7 +15,6 @@ interface Props {
 export const TypeOfPageComponent = ({changingType, closeModals, setChangingType, changeType, setType}:Props) => {
 
     const{theme, setTheme} = useTheme()
-
     const swiperType = (s: any) => {
         switch (s.activeIndex) {
             case 0:
@@ -40,12 +39,7 @@ export const TypeOfPageComponent = ({changingType, closeModals, setChangingType,
     }
 
     return (
-        <If condition={changingType}>
-        <>
-            <div className="fixed top-0 right-0 bottom-0 z-40 left-0  " onClick={closeModals}
-                onMouseOver={e => e.stopPropagation()} >
-            </div>
-            <div className="flex gap-3 p-2 py-3 h-max items-center absolute z-50 right-2  bg-white shadow-blur-10 rounded-md flex-col">
+            <div className="flex gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">
                 <Swiper
                     className={" p-6 max-w-[6rem] min-h-[9rem] flex justify-center ".concat(theme == "dark" ? "swiper-type-of-page-dark" : "swiper-type-of-page-light")}
                     modules={[Pagination, Navigation]}
@@ -67,17 +61,14 @@ export const TypeOfPageComponent = ({changingType, closeModals, setChangingType,
                                 </SwiperSlide>
                             );
                         })}
-                    <div className="swiper-button-prev"></div>
-                    <div className="swiper-button-next"></div>
+                    <div className="swiper-button-prev swiper-type-of-page-dark"></div>
+                    <div className="swiper-button-next swiper-type-of-page-dark"></div>
                 </Swiper>
                 <div className=" w-full flex justify-around gap-2">
-                    <Button text="Cancelar" padding="p-1" textColor="text-primary dark:text-secondary" background="bg-transparent"
-                        border="border-2 border-primary dark:border-secondary" fnButton={() => { setChangingType(false) }}
-                        rounded="rounded-sm" paddingY="py-0" textSize="12px" hover="hover:border-[#ee4444] hover:text-[#ee4444]" />
+                    <Button text="Cancelar" padding="p-1" fnButton={() => { setChangingType(false) }}
+                        rounded="rounded-sm" paddingY="py-0" textSize="12px" secondary />
                     <Button text="Concluir" padding="p-1" rounded="rounded-sm" paddingY="py-0" textSize="12px" fnButton={changeType} />
                 </div>
-            </div>
-        </>
-    </If>
+                </div>
     )
 }

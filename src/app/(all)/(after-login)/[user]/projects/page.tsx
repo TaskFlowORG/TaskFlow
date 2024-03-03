@@ -5,6 +5,7 @@ import { SVGProjectsPage } from "@/components/Shapes"
 import { getData, getListData } from "@/services/http/api";
 import { Project } from "@/models";
 import { useEffect, useState } from "react";
+import { projectService } from "@/services";
 
 export default function Projects({params}:{params:{user:string}}) {	
 
@@ -17,7 +18,7 @@ export default function Projects({params}:{params:{user:string}}) {
         })
         setWindowWidth(window.innerWidth);
         (async () => {
-            const projectsPromise = await getListData("project/user/"+params.user)
+            const projectsPromise = await projectService.findAllOfAUser(params.user)
             setProjects(projectsPromise)
         })()
     // eslint-disable-next-line
@@ -59,7 +60,7 @@ export default function Projects({params}:{params:{user:string}}) {
                     <div className="w-full lg:w-3/5 h-[70vh] flex justify-center overflow-y-scroll">
                         <div className={"justify-start grid-flow-col grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid p-6 gap-y-5 gap-x-12 h-min w-fit sm:w-1/2 lg:w-full "}>
                             {projects.map(p => {
-                                return <ProjectComponent project={p} key={p.id} col={getCol(p)} />
+                                return <ProjectComponent user={params.user} project={p} key={p.id} col={getCol(p)} />
                             })}
                         </div>
                     </div>

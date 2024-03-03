@@ -1,11 +1,10 @@
 
 import { If } from "@/components/If"
 import { IconBurguerList, IconGroups, IconLogout, IconProjects } from "@/components/icons"
-import {  } from "@/services";
 import { Project } from "@/models";
 import Link from "next/link"
-import {  useState } from "react";
 import { PageSide, SideSecondary } from "./";
+import { SideModal } from "@/components/Modal";
 
 interface Props {
     project?: Project;
@@ -25,20 +24,20 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
         <>
             <If condition={!modalGroups && !modalPages}>
                 <>
-                <div className="w-full h-full flex flex-col items-center cursor-pointer relative">
-                    <Link href={`/${user}/initial-page`} className="w-full h-14  border-b-2 border-primary-opacity  flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                <div className="w-full h-full flex flex-col items-center relative">
+                    <Link href={`/${user}/initial-page`} className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity  flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey">
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconBurguerList />
                         </div>
                         <p className="p">Página Inicial</p>
                     </Link>
-                    <Link href={`/${user}/projects`} className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                    <Link href={`/${user}/projects`} className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey">
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconProjects />
                         </div>
                         <p className="p">Projetos </p>
                     </Link>
-                    <div className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white"
+                    <div className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey"
                         onClick={() => setModalGroups(true)}>
                         <div className="w-1/4 h-full flex justify-center items-center">
                             <IconGroups />
@@ -49,8 +48,9 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                         <SideSecondary setModalPages={setModalPages} user={user} project={project} />
                     </If>
                 </div>
-                <div className="w-full h-1/4 flex flex-col justify-end items-center" onClick={() => setWantLeave(true)}>
-                    <div className="w-full h-14  border-b-2 border-primary-opacity flex flex-row items-center px-6 hover:brightness-90 bg-white">
+                <div className="w-full h-1/4 flex flex-col justify-end items-center" >
+                    <div className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity 
+                    flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey" onClick={() => setWantLeave(true)}>
                         <div className="w-1/3 h-full flex justify-center items-center">
                             <IconLogout />
                         </div>
@@ -59,11 +59,11 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                 </div>
                 </>
             </If>
-            <If condition={modalPages && project != undefined}>
-                <PageSide user={user} project={project!} />
-            </If>
-            <If condition={modalGroups && project != undefined}>
-                <PageSide user={user} project={project!} />
-            </If>
+            <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
+                <PageSide setModalPages={setModalPages} user={user} project={project!} />
+            </SideModal>
+            <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
+                <PageSide setModalPages={setModalPages}  user={user} project={project!} />
+            </SideModal>
         </>)
 }

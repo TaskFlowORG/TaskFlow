@@ -447,7 +447,7 @@ select::-ms-expand {
 .swiper-button-prev::after {
   content: "<";
   /* ou use uma imagem de seta */
-  color: #f04a94;
+  /* color: #f04a94; */
   font-size: 48px;
   font-weight: bold;
 }
@@ -456,7 +456,7 @@ select::-ms-expand {
 .swiper-button-next::after {
   content: url("../../public/arrowPink.svg");
   /* ou use uma imagem de seta */
-  color: #f04a94;
+  /* color: #f04a94; */
   font-size: 48px;
   font-weight: bold;
 }
@@ -535,12 +535,4 @@ select::-ms-expand {
   --swiper-navigation-size: 20px;
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 0px;
-}
-
-input:checked {
-  background-color: #f04a94;
-  appearance:none;
-  border-radius: 10%;
-  color:white;
-
 }

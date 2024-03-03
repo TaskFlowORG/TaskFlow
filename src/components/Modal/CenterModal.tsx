@@ -21,11 +21,13 @@ export const CenterModal = ({ children, condition, setCondition }: Props) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0, transition: { delay: 0 } }}
                         transition={{ duration: 0.1 }}
-                        className="fixed top-0 bottom-0 left-0 z-40 w-full h-screen flex justify-center items-center bg-black bg-opacity-10 backdrop-blur-[2px]"
+                        className="fixed top-0 bottom-0 left-0 z-40 w-full h-screen flex justify-center 
+                        items-center bg-black bg-opacity-10 backdrop-blur-[2px]"
 
                     >
                         <motion.div
-                            className="bg-white shadow-blur-10 flex-col gap-16 z-50 rounded-md w-[35rem] h-80 flex justify-center items-center"
+                            className="bg-white dark:bg-modal-grey shadow-blur-10 flex-col gap-16 z-50 
+                            rounded-md w-[35rem] h-80 flex justify-center items-center"
                             initial={{ transform: "scale(0)" }}
                             animate={{ transform: "scale(1)" }}
                             exit={{ transform: "scale(0)", transition: { delay: 0 } }}
