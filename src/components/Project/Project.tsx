@@ -40,7 +40,7 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   const style: Object = { gridColumn: col };
 
   return (
-    // <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)}>
+    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="w-full">
       <div
         className="min-w-full flex flex-col shadow-blur-10 gap-16 bg-white 
           dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24
@@ -77,6 +77,6 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
           </div>
         )}
       </div>
-    // </Link>
+     </Link>
   );
 };
