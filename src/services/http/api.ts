@@ -12,6 +12,7 @@ export {
   patchData,
   postTask,
   enviarMessage,
+  getChatLike
 };
 
 const axios = require("axios").default;

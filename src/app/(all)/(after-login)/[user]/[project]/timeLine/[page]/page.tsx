@@ -4,7 +4,7 @@ import { Page, Project } from "@/models"
 import { pageService, projectService } from "@/services"
 import { useEffect, useState } from "react"
 
-const timeLine = ({ params }: { params: { project: number, page: number } }) => {
+export const TimeLine = ({ params }: { params: { project: number, page: number } }) => {
     const [project, setProject] = useState<Project>()
     const [page, setPage] = useState<Page>()
 
@@ -56,5 +56,3 @@ const timeLine = ({ params }: { params: { project: number, page: number } }) => 
         </>
     )
 }
-
-export default timeLine;
