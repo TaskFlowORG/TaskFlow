@@ -48,9 +48,11 @@ export const RegisterProperty = ({ open = false, close, properties, project, pag
     return (
         <>
             {open &&
-                <div className="h-screen w-screen absolute  z-10 justify-end flex ">
-                    <div className="w-[20%] h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center">
+                <div className="h-screen w-screen   z-10 justify-end flex " >
+                    <div className="w-[80%]" onClick={()=> close()}></div>
+                    <div className="w-[20%]  h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
                         <div className="h-[15%] w-[90%] flex justify-evenly items-center">
+                            <p className="h4  bottom-8 right-5 relative text-grey-icon cursor-pointer hover:text-primary" onClick={()=> close()}>{">>"}</p>
                             <p className="h4 text-primary dark:text-secondary">Propriedades</p>
                             <div className=" flex items-center justify-center h-7 w-7  rounded-full  shadowww cursor-pointer hover:bg-primary dark:hover:bg-secondary" onClick={() => { setModalProperty(true) }}>
                                 <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
