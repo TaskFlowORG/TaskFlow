@@ -18,7 +18,7 @@ export const SideBarConfig = () => {
         <>
 
 
-            <div className={`text-contrast bg-primary  md:w-[23%] h-screen md:grid ${
+            <div className={`text-contrast bg-primary w-[23%] h-full md:grid ${
                 invisible ? "hidden" : "visible"
             }`} style={{ gridAutoRows: '25% 43% 30%' }}>
 
@@ -30,7 +30,7 @@ export const SideBarConfig = () => {
 
                     {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
 
-                        <a href="http://localhost:3000/1/user-config/personal-informations" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl ">
+                        <a href="http://localhost:3000/1/configurations/account" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl ">
                             <div className="flex  items-center gap-5  px-3 h-full">
                                 <img className="w-8 h-8" src="/img/usuario.svg" alt="" />
                                 <h4 className="h4 ">Informações Pessoais</h4>
@@ -39,7 +39,7 @@ export const SideBarConfig = () => {
 
                         {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
 
-                        <a href="http://localhost:3000/1/user-config/general-config" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl">
+                        <a href="http://localhost:3000/1/configurations/general" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl">
                             <div className="flex  items-center gap-5 h-full px-3">
                                 <img className="w-8 h-8" src="/img/configuracao.svg" alt="" />
                                 <h4 className="h4">Configurações</h4>
@@ -48,7 +48,7 @@ export const SideBarConfig = () => {
 
                         {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
 
-                        <a href="http://localhost:3000/1/user-config/notification-config" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl">
+                        <a href="http://localhost:3000/1/configurations/notifications" className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl">
                             <div className="flex  items-center gap-5 h-full  px-3">
                                 <img className="w-8 h-8" src="/img/notificacoes.svg" alt="" />
                                 <h4 className="h4">Notificações</h4>

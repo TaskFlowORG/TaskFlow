@@ -1,0 +1,1 @@
+export {ModalProperty} from "./ModalProperty"

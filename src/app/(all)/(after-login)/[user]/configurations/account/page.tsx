@@ -3,8 +3,7 @@ import { SideBarConfig } from "@/components/SideBarConfig"
 export default function UserConfigPage() {
     return (
 
-        <div className="flex">
-            <SideBarConfig></SideBarConfig>
+        <div className="flex h-full w-full">
             <PersonalInformations></PersonalInformations>
         </div>
     )

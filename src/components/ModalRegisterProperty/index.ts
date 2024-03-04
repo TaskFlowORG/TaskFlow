@@ -1,0 +1,1 @@
+export {ModalRegisterProperty} from './ModalRegisterProperty';

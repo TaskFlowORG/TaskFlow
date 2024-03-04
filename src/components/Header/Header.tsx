@@ -12,7 +12,6 @@ export const  Header  = ({setSidebarOpen}: {setSidebarOpen: (value: boolean) => 
 
 
             <div className=" w-1/4 h-full flex space-x-[48px] items-center justify-end">
-
                 <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer h-5 w-5"   />
 
                 <img src="/Assets/Language.svg" alt="" className=" cursor-pointer" width={"20px"} height={"20px"} />
