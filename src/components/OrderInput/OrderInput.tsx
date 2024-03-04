@@ -1,10 +1,10 @@
-
 import { useEffect, useState } from "react";
 import { getData, putData } from "@/services/http/api";
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";
 import { OrderedPage, Project, Property, TypeOfProperty } from "@/models";
+import { pageService } from "@/services";
 
 interface Props {
   propertiesPage: Property[];
@@ -28,7 +28,7 @@ export const OrderInput = ({ propertiesPage, orderingId, page }: Props) => {
       (property) => property.id.toString() == e.currentTarget.id
     );
     page.propertyOrdering = property as Property;
-    putData("page", page);
+    pageService.updatePropertiesOrdering(property!, page.id);
   }
 
   return (

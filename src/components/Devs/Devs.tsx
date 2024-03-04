@@ -10,19 +10,18 @@ export const Devs = () => {
       setWindowWidth(window.innerWidth);
     });
     setWindowWidth(window.innerWidth);
-    const swiperNext = document.querySelector(".swiper-button-next")
+    const swiperNext = document.querySelector(".swiper-button-next");
 
-    if (swiperNext!=null){
-      swiperNext.classList.add("ooo")
+    if (swiperNext != null) {
+      swiperNext.classList.add("ooo");
       swiperNext.addEventListener("click", (e) => {
-        console.log("bomdia")// logs `false`
-            });
+        // console.log("bomdia"); // logs `false`
+      });
     }
-
   }, []);
 
   function changeView(): number {
-    return windowWidth >= 1024 ? 3 :( windowWidth >= 768 ? 2 : 1);
+    return windowWidth >= 1024 ? 3 : windowWidth >= 768 ? 2 : 1;
   }
   const devs = [
     {
@@ -54,13 +53,16 @@ export const Devs = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-[5rem] py-10">
-      <h2 onClick={()=>{
-       console.log(document.querySelector(".swiper-button-next"))
-      }} className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
+      <h2
+        onClick={() => {
+          // console.log(document.querySelector(".swiper-button-next"));
+        }}
+        className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center "
+      >
         Conheça nossos desenvolvedores!
       </h2>
 
-      <div className="flex gap-3 P-8 h-max items-center">
+      <div className="flex gap-3 h-max items-center">
         <Swiper
           className="flex  gap-8 max-w-[340px] md:max-w-[700px]  lg:max-w-[1000px]  h-max items-center w-full justify-center"
           modules={[Navigation, Pagination, Scrollbar, A11y]}
@@ -70,8 +72,8 @@ export const Devs = () => {
             nextEl: ".swiper-button-next",
           }}
           pagination={{ clickable: true }}
-          onSwiper={(swiper:any) => console.log(swiper)}
-          onSlideChange={(swiper:any) => console.log(swiper.activeIndex)}
+          onSwiper={(swiper: any) => console.log(swiper)}
+          onSlideChange={(swiper: any) => console.log(swiper.activeIndex)}
         >
           {devs.map((slide, index) => {
             return (

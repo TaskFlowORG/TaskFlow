@@ -1,6 +1,7 @@
 "use client";
 import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
+
 import { useEffect, useState } from "react"
 import { GroupOptions } from "../GroupOptions/GroupOptions"
 
@@ -17,6 +18,7 @@ export const PermissionUser = ({ group, user, project }) => {
     };
     getLists();
   }, [group, project]);
+
 
 
   async function updatePermission(selectedValue) {

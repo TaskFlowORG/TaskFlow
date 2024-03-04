@@ -1,4 +1,4 @@
 export type FilteredProperty = {
   id:number,
-  value:any
+  value:any | any[]
 }
