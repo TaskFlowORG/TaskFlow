@@ -1,8 +1,8 @@
 export  enum TypeOfPage {
-    KANBAN,
-    CANVAS,
-    CALENDAR,
-    TABLE,
-    LIST,
-    TIMELINE
+    KANBAN = "KANBAN",
+    CANVAS = "CANVAS",
+    CALENDAR = "CALENDAR",
+    TABLE = "TABLE",
+    LIST = "LIST",
+    TIMELINE = "TIMELINE",
 }

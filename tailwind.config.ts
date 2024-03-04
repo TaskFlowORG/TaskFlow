@@ -16,6 +16,8 @@ module.exports = {
         'modal-grey': '#333333',
         'primary': 'var(--primary-color)',
         'contrast': 'var(--contrast-color)',
+        'primary-opacity':'color-mix(in srgb, var(--primary-color) 50%, white)',
+        'secondary-opacity':'color-mix(in srgb, var(--secondary-color) 50%, white)',
         'light-pink': '#f576ae',
         'secondary':'var(--secondary-color)',
           'light-orange':'#fa877a',

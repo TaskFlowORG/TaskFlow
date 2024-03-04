@@ -520,7 +520,7 @@ select::-ms-expand {
 .swiper-button-prev::after {
   content: "<";
   /* ou use uma imagem de seta */
-  color: #f04a94;
+  /* color: #f04a94; */
   font-size: 48px;
   font-weight: bold;
 }
@@ -529,7 +529,7 @@ select::-ms-expand {
 .swiper-button-next::after {
   content: url("../../public/arrowPink.svg");
   /* ou use uma imagem de seta */
-  color: #f04a94;
+  /* color: #f04a94; */
   font-size: 48px;
   font-weight: bold;
 }
@@ -570,4 +570,31 @@ select::-ms-expand {
 
 .inputRegister {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
+}
+
+
+.swiper-type-of-page-light{
+  --swiper-pagination-color: var(--primary-color);
+  --swiper-navigation-color: var(--primary-color);
+  @apply swiper-type-of-page
+}
+
+.swiper-type-of-page-dark{  
+--swiper-navigation-color: var(--secondary-color);
+  --swiper-pagination-color: var(--secondary-color);
+  @apply swiper-type-of-page
+}
+
+.swiper-type-of-page{
+  --swiper-pagination-right: 8px;
+  --swiper-pagination-bottom: 8px;
+  --swiper-pagination-bullet-size: 6px;
+  --swiper-pagination-bullet-width: 6px;
+  --swiper-pagination-bullet-height: 6px;
+  --swiper-pagination-bullet-horizontal-gap: 2px;
+  --swiper-pagination-bullet-vertical-gap: 6px;
+
+  --swiper-navigation-size: 20px;
+  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-sides-offset: 0px;
 }

@@ -9,17 +9,18 @@ import { archiveToSrc, drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
-import { getData, postTask } from "@/services/http/api";
-import page from "@/app/(all)/(before-login)/login/page";
-import { CanvasPage as CanvasPageModel, TaskCanvas } from "@/models";
+import { CanvasPage, CanvasPage as CanvasPageModel, TaskCanvas } from "@/models";
+import { pageService, taskService } from "@/services";
 
-export default function CanvasPage({
-  params,
-}: {
-  params: { page: number; user: number; project: number };
-}) {
-  const [tasks, setTasks] = useState<TaskCanvas[]>([]);
-  const [pageObj, setPageObj] = useState<CanvasPageModel>();
+interface Props{
+    user:string, 
+    page:CanvasPage
+} 
+
+
+export const Canvas = ({
+  page, user
+}: Props) => {
   const [moving, setMoving] = useState<boolean>(false);
   const elementRef = useRef<HTMLDivElement>(null);
   const { scrollX: x, scrollY: y } = useNavigationWithScroll(
@@ -34,77 +35,70 @@ export default function CanvasPage({
     moving,
     shape,
     optionsRef,
-    isErasing
+    isErasing,
+    page
   );
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (!elementRef.current) return;
     let cursor = "";
-    if (moving)
+  
+    if (moving){
       cursor =
         theme == "dark"
           ? "url('/img/grabDark.svg'), auto"
           : "url('/img/grabLight.svg'), auto";
-    else if (theme == "dark")
-      cursor = isErasing
+    }else if (theme == "dark"){
+    cursor = isErasing 
         ? "url('/img/eraserDark.svg'), auto"
         : "url('/img/pencilDark.svg'), auto";
-    else if (theme == "light")
-      cursor = isErasing
+    }else if (theme == "light"){
+    cursor = isErasing 
         ? "url('/img/eraserLight.svg'), auto"
         : "url('/img/pencilLight.svg'), auto";
-    elementRef.current.style.cursor = cursor;
-  }, [moving, theme, isErasing]);
+    }
+    if(!canvasRef || !canvasRef.current) return
+    canvasRef.current.style.cursor = cursor;
+});
+
 
   useEffect(() => {
-    updatePageAndTasks();
-    // eslint-disable-next-line
-  }, []);
-
-  async function updatePageAndTasks() {
-    const pagePromise = await getData("canvas", params.page);
-    const projectPromise = await getData("project", params.project);
-    pagePromise.project = projectPromise;
-    setPageObj(pagePromise);
-    setTasks(pagePromise.tasks);
-  }
-
-  useEffect(() => {
-    const url = pageObj?.draw.data;
+    const url = (page?.draw ?? {data:""}).data;
     const img = new Image();
     const ctx = canvasRef.current?.getContext("2d");
     if (!canvasRef.current || !url || !ctx) return;
-    img.src = "data:" + pageObj.draw.type + ";base64," + pageObj.draw.data;
+    img.src = "data:" + page!.draw.type + ";base64," + page!.draw.data;
     img.onload = function () {
       ctx.drawImage(img, 0, 0, 4000, 2000);
     };
     // eslint-disable-next-line
-  }, [tasks, pageObj]);
+  }, [page]);
   async function createTask() {
-    await postTask(params.user, params.page);
-    updatePageAndTasks();
+    await taskService.insert(page.id,user);
   }
   return (
     <div
       ref={elementRef}
       className="overflow-scroll flex justify-start items-start w-screen h-full"
     >
-      <MapOfCanvas canvas={canvasRef} x={x} y={y} page={pageObj} />
-      <div className="w-min h-min relative">
+      <MapOfCanvas canvas={canvasRef} x={x} y={y} page={page} />
+      <div className="w-min h-min relative" 
+     >
+        
         <canvas
           ref={canvasRef}
           width={4000}
           height={2000}
           className="relative w-[4000px] h-[2000px]"
         />
-        {tasks.map((t, index) => (
+        {page.tasks.map((t, index) => (
           <TaskCanvasComponent
-            task={t}
+            task={t as TaskCanvas}
             key={index}
             elementRef={elementRef}
             canvasRef={canvasRef}
-            page={pageObj}
+            page={page}
           />
         ))}
         <CanvasComponents
@@ -118,7 +112,7 @@ export default function CanvasPage({
           setShape={setShape}
           postTask={createTask}
         />
-        <img src={archiveToSrc(pageObj!.draw)} alt="" />
+        {/* <img src={archiveToSrc(page!.draw)} alt="" /> */}
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
     </div>

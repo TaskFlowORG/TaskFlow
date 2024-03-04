@@ -1,5 +1,6 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -8,17 +9,22 @@ interface Props {
 
 export const ProgressBar = ({ percent }: Props) => {
   const [percCount, setPercCount] = useState<number>(0);
-  let transform: Object = {
-    transform: "rotate(" + (percCount / 100) * 180 + "deg)",
-  };
+  const { theme } = useTheme();
+  const [color, setColor] = useState<string>("");
+  useEffect(() => {
+    (async () => {
+      setColor(theme === "dark" ? "rgb(51 51 51)" : "rgb(252 252 252)");
+    })();
+  }, [theme]);
+
+  
   const gradient: Object = {
-    border: "double 14px transparent",
-    backgroundImage:
-      "linear-gradient(white, white), radial-gradient(circle at left, #EF4996, #EF4996, #EF4996, #FF973D, #FF973D)",
-    backgroundOrigin: "border-box",
+    backgroundImage: `linear-gradient(${color},${color} ), 
+    linear-gradient(${percCount/100*180}deg, var(--primary-color) 25%, var(--secondary-color) 50%, #3c3c3c 10%)`,
+      // radial-gradient(circle at left, var(--primary-color) ${(percCount/3)*2}%, var(--secondary-color) ${percCount/3}%, #3C3C3C 50%) `,
     backgroundClip: "padding-box, border-box",
   };
-
+ // radial-gradient(circle at 105.22% 50%, var(--primary-color) 0, var(--secondary-color) 100%)
   useEffect(() => {
     function animateBar() {
       if (percCount < percent) {
@@ -32,20 +38,14 @@ export const ProgressBar = ({ percent }: Props) => {
   return (
     <div className="relative flex justify-center items-center h-full w-full">
       <div className="flex justify-center h-full items-center w-full">
-        <div className="w-min h-20 flex overflow-clip absolute top-0 bottom-0">
-          <div
-            className="h4 text-primary dark:text-secondary w-40 h-40 flex justify-center p-6 rounded-full"
-            style={gradient}
-          >
+        <div className="w-min h-20 flex overflow-clip absolute   top-0 bottom-0">
+          <div className="h4 text-primary dark:text-white w-40 h-40 flex justify-center p-6 rounded-full
+          border-[14px] border-double border-transparent bg-origin-border "
+            style={gradient}>
             {percCount}%
           </div>
-        </div>
-        <div className="w-min h-20 flex overflow-clip absolute top-0 bottom-0">
-          <div className="h-40" style={transform}>
-            <div className="h-20 overflow-clip flex justify-center ">
-              <div className="w-40 h-40 rounded-full border-[15px] border-zinc-200 dark:border-back-grey"></div>
-            </div>
-          </div>
+          <div className="h4 text-primary dark:text-white w-40 h-40 flex justify-center p-6 rounded-full
+          border-[14px] border-double border-transparent bg-origin-border absolute"/>
         </div>
       </div>
     </div>

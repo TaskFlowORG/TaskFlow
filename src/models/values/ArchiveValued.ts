@@ -10,6 +10,4 @@ export class ArchiveValued extends Value{
         super(id);
     }
 
-
-
 }

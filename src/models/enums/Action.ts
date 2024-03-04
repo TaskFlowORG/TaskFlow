@@ -1,9 +1,9 @@
 
 
 export enum Action {
-    CREATE,
-    UPDATE,
-    DELETE,
-    REDO,
-    COMPLETE
+    CREATE = "CREATE",
+    UPDATE = "UPDATE",
+    DELETE = "DELETE",
+    REDO = "REDO",
+    COMPLETE = "COMPLETE"
 }

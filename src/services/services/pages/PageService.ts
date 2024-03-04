@@ -1,10 +1,13 @@
-import { OrderedPage, Page, PagePost, Property, TaskCanvas } from "@/models";
-import { Api } from "@/services/axios";
+
+
+import { OrderedPage, Page, PagePost, Property, TaskCanvas } from '@/models';
+import { Api } from '@/services/axios';
 
 class PageService {
-  async insert(page: PagePost, subclass: string): Promise<void> {
-    await Api.post(`page/${subclass}`, page);
-  }
+    async insert(page: PagePost): Promise<Page> {
+        return (await Api.post<Page>(`page`, page)).data;
+    }
+
 
   async updateIndexesKanban(
     page: OrderedPage,
@@ -20,9 +23,13 @@ class PageService {
     return response.data;
   }
 
-  async upDate(name: string, id: number): Promise<void> {
-    await Api.patch(`page/${id}`, name);
-  }
+    async upDateName(name: string| undefined| null, id: number): Promise<void> {
+        console.log(name)
+        const config = {headers: {
+            'Content-Type': 'application/string'
+        }}
+        await Api.patch(`page/${id}`, name, config);
+    }
 
   async updateIndexes(
     page: Page,
@@ -33,15 +40,16 @@ class PageService {
     return response.data;
   }
 
-  async updateXAndY(taskPage: TaskCanvas): Promise<void> {
-    await Api.patch("page/x-and-y", taskPage);
-  }
+    async updateXAndY(taskPage: TaskCanvas): Promise<void> {
+        console.log(taskPage)
+        await Api.patch('page/x-and-y', taskPage);
+    }
 
-  async updateDraw(draw: File, id: number): Promise<void> {
-    const formData = new FormData();
-    formData.append("draw", draw);
-    await Api.patch(`page/draw/${id}`, formData);
-  }
+    async updateDraw(draw: File | Blob, id: number): Promise<void> {
+        const formData = new FormData();
+        formData.append('draw', draw);
+        await Api.patch(`page/draw/${id}`, formData);
+    }
 
   async updatePropertiesOrdering(
     property: Property,

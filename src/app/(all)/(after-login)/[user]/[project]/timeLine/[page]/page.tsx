@@ -4,6 +4,7 @@ import { Page, Project } from "@/models"
 import { pageService, projectService } from "@/services"
 import { useEffect, useState } from "react"
 
+
 export const TimeLine = ({ params }: { params: { project: number, page: number } }) => {
     const [project, setProject] = useState<Project>()
     const [page, setPage] = useState<Page>()
@@ -43,8 +44,7 @@ export const TimeLine = ({ params }: { params: { project: number, page: number }
     const [modalProperty, setModalProperty] = useState(false)
     return (
         <>
-
-            <div className="h-full w-full">
+   <div className="h-full w-full">
                 <div className=" flex items-center justify-center h-10 w-10  rounded-full  shadowww cursor-pointer bottom-10 right-10 fixed hover:bg-primary" onClick={()=> {setModalProperty(true)}}>
                     <p className="h5 text-primary h-min w-min hover:text-white">+</p>
                 </div>

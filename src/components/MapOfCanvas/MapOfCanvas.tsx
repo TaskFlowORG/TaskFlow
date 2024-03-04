@@ -1,5 +1,5 @@
 import { CanvasPage } from "@/models";
-import { patchData, putData } from "@/services/http/api";
+import { pageService } from "@/services";
 import { Blob } from "buffer";
 import {useEffect, useState } from "react";
 
@@ -25,19 +25,7 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
     })
-    
-    useEffect(() => {
-         if(!page || !canvas || !canvas.current) return 
-         const formData = new FormData();
-         
-         canvas.current.toBlob((draw) => {
-                if(draw){
-                     formData.append("draw", draw)
-                     patchData("canvas/draw/"+page.id, formData)
-                }
-            })
-    // eslint-disable-next-line
-    }, [image])
+
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
     const focusWidth = width/(4000/windowWidth)
     const focusHeight = (width/2)/(2000/windowHeight)
@@ -52,8 +40,9 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
     return (
 
         <div className="w-min h-min pointer-events-none">
-            <img src={image} className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-40 border-2 dark:border-modal-grey" width={width} height={width/2} />
-            <div className="fixed z-50 backdrop-brightness-125" style={style}>
+            <img src={image} className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
+            width={width} height={width/2} />
+            <div className="fixed z-30 backdrop-brightness-125" style={style}>
             </div>
         </div>
     )

@@ -8,7 +8,4 @@ export class TextValued extends Value {
     constructor(id:number, text:string){
         super(id);
     }
-    
-
-
 }

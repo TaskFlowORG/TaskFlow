@@ -91,6 +91,7 @@ export const ColumnKanban = ({
                     let render = false;
                     let counter = 0;
                     propsFiltered.map((prop) => {
+
                       const propertyInTask = findPropertyInTask(item, prop);
                       if (
                         multiOptionTypes.includes(propertyInTask?.property.type)

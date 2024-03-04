@@ -1,1 +1,0 @@
-export {SlideBarProjects} from './SlideBarProjects';

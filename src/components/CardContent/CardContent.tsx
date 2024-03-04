@@ -91,7 +91,7 @@ export const CardContent = ({ task, min }: Props) => {
               // <CardNumber
               //   key={property.property.id.toString()}
               //   property={property.property.name}
-              //   value={property.value.getValue()}
+              //   value={property.value.value}
               // />
               <></>
             );

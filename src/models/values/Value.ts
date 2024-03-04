@@ -6,6 +6,4 @@ export abstract class Value {
     value:any;
     constructor(id:number) {}
 
-
-    
 }

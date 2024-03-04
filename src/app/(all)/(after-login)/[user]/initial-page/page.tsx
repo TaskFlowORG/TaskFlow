@@ -4,7 +4,7 @@ import { SVGInitialPage } from "@/components/Shapes"
 import { ProjectsMainPage } from "@/components/ProjectsMainPage"
 import { InitialPageTasks } from "@/components/InitialPageTasks/InitialPageTasks"
 
-export default function InitialPage() {
+export default function InitialPage({params}:{params:{user:string}}) {
 
 
     return (
@@ -17,9 +17,9 @@ export default function InitialPage() {
                     </h1>
                     <div className={`flex w-full flex-col-reverse  flex-1 h-full pt-6 lg:pt-0 justify-start 
                     items-center gap-6 lg:flex-row lg:justify-center lg:items-start`}>
-                        <ProjectsMainPage />
+                        <ProjectsMainPage user={params.user} />
                         <div className="h-full w-2/3 lg:h-[70vh]">
-                            <InitialPageTasks />
+                            <InitialPageTasks user={params.user} />
                         </div>
                     </div>
                 </div>

@@ -1,18 +1,17 @@
 
 
 import { useTheme } from "next-themes";
-export function Header() {
+export const  Header  = ({setSidebarOpen}: {setSidebarOpen: (value: boolean) => void}) => {
     const { theme, setTheme } = useTheme()
     return (
 
 
         <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
-            <img src="/Icon.svg" alt="" className='w-12 h-12 cursor-pointer dark:grayscale dark:brightness-[60]' />
+            <img src="/Icon.svg" alt="" className='w-12 h-12 cursor-pointer dark:grayscale dark:brightness-[60]' onClick={() => setSidebarOpen(true)}/>
 
 
             <div className=" w-1/4 h-full flex space-x-[48px] items-center justify-end">
-
-                <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer" width={"20px"} height={"20px"} />
+                <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer h-5 w-5"   />
 
                 <img src="/Assets/Language.svg" alt="" className=" cursor-pointer" width={"20px"} height={"20px"} />
 

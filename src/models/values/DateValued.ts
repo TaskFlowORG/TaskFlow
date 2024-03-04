@@ -9,6 +9,4 @@ export class DateValued extends Value{
         super(id);
     }
 
-
-
 }

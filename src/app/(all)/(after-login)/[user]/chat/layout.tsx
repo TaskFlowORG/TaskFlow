@@ -48,7 +48,6 @@ export default function RootLayout({ children, params }: { children: React.React
     }
 
     return (
-
         <>
             <div className="w-full h-[80vh] lg:h-[89vh]  flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
                 <div className={`w-full lg:w-[40%]  lg:h-full justify-center`}>

@@ -4,13 +4,15 @@ import { useEffect, useState } from "react"
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
 import { Task } from "@/models";
+import { taskService } from "@/services";
 
 
-export const InitialPageTasks = () => {
+export const InitialPageTasks = ({user}:{user:string}) => {
     const [tasks, setTasks] = useState<Array<Task>>([])
     useEffect(() => {
-        //Comunicação API
-        setTasks([])
+        (async () => {
+            setTasks(await taskService.findTodaysTasks(user))
+        })()
     }, [])
 
     return (
@@ -20,13 +22,17 @@ export const InitialPageTasks = () => {
             <h4 className="h4 text-primary dark:text-white h-min">Tarefas De Hoje</h4>
             <div className="flex justify-center flex-wrap gap-5 h-96 lg:h-full w-full overflow-y-auto p-2" >
                 {
+                    tasks.length > 0? 
                     tasks.map(t => {
                         return <div className="h-min flex items-center" key={t.id}>
                             <RoundedCard>
                                 <CardContent task={t} />
                             </RoundedCard>
                         </div>
-                    })
+                    }) :
+                    <div className="w-full h-full pb-14 flex text-primary dark:text-secondary h5 justify-center items-center">
+                        Não há tarefas agendadas para hoje!
+                    </div>
                 }
             </div >
         </div >
