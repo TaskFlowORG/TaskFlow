@@ -51,8 +51,8 @@ export const Carousel = ({ change }: Props) => {
                 modules={[Navigation, Pagination, Scrollbar, A11y]}
                 slidesPerView={change()}
                 pagination={{ clickable: true }}
-                onSwiper={(swiper) => console.log(swiper)}
-                onSlideChange={(swiper) => console.log(swiper.activeIndex)}
+                onSwiper={(swiper) =>  console.log(swiper)}
+                onSlideChange={(swiper) =>  console.log(swiper.activeIndex)}
             >
                 {
                     functions.map((slide, index) => {

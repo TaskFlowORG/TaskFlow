@@ -1,5 +1,4 @@
 
-'use client'
 
 import { useTheme } from "next-themes";
 export const  Header  = ({setSidebarOpen}: {setSidebarOpen: (value: boolean) => void}) => {

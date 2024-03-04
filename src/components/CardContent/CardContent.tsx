@@ -1,5 +1,3 @@
-
-
 import { CardDate } from "./CardProperties/CardDate";
 
 import { CardTag } from "./CardProperties/CardTags";
@@ -8,7 +6,14 @@ import { CardText } from "./CardProperties/CardText";
 import { useEffect, useState } from "react";
 import { CardSelect } from "./CardProperties/CardSelect";
 import { ProgressBar } from "../ProgressBar";
-import { MultiOptionValued, Task, TaskValue, TextValued, TypeOfProperty, UniOptionValued } from "@/models";
+import {
+  MultiOptionValued,
+  Task,
+  TaskValue,
+  TextValued,
+  TypeOfProperty,
+  UniOptionValued,
+} from "@/models";
 
 interface Props {
   task: Task;
@@ -17,16 +22,19 @@ interface Props {
 export const CardContent = ({ task, min }: Props) => {
   const [properties, setProperties] = useState<TaskValue[]>([]);
 
-
   function is(property: TaskValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }
 
-
   return (
     <>
       <div className="flex justify-between">
-        <h4 style={{opacity: task.name ? 1 : 0.25}} className="h4 w-max text-black dark:text-white">{task.name ?? "Sem Nome"}</h4>
+        <h4
+          style={{ opacity: task.name ? 1 : 0.25 }}
+          className="h4 w-max text-black dark:text-white"
+        >
+          {task.name ?? "Sem Nome"}
+        </h4>
         <div className="  flex items-center relative w-16">
           <span className="w-8 h-8 rounded-full bg-primary absolute shadowww  right-8"></span>
           <span className="w-8 h-8 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
@@ -35,11 +43,10 @@ export const CardContent = ({ task, min }: Props) => {
       </div>
       <div className="flex flex-wrap gap-4 justify-between">
         {task.properties?.map((property) => {
-        
           if (is(property, TypeOfProperty.TEXT)) {
             return (
               <CardText
-              property={property.property.name}
+                property={property.property.name}
                 key={property.property.id.toString()}
                 text={(property.value as TextValued).value}
               />
@@ -57,12 +64,16 @@ export const CardContent = ({ task, min }: Props) => {
                 property={property.property.name}
                 color={(property.value as UniOptionValued).value?.color}
                 key={property.property.id.toString()}
-                value={(property.value as UniOptionValued).value?.name ?? "Não marcada"}
+                value={
+                  (property.value as UniOptionValued).value?.name ??
+                  "Não marcada"
+                }
               />
             );
-          } else if (is(property, TypeOfProperty.TAG)) {
+          } else if (is(property, TypeOfProperty.CHECKBOX)) {
             return (
               <CardTag
+                nameProperty={property.property.name}
                 key={property.property.id.toString()}
                 tags={(property.value as MultiOptionValued).value}
               />

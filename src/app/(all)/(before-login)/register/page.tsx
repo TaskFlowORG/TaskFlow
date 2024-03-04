@@ -67,7 +67,7 @@ const Page = () => {
 
   const handlebutton = () => {
     if (value >= 0 && value <= 2) {
-      console.log(getValues());
+      // console.log(getValues());
       setValue(value + 1);
     }
   };
@@ -85,7 +85,7 @@ const Page = () => {
       route.push("/login");
     } catch (err) {
       if (err instanceof ZodError) {
-        console.log(err.flatten());
+        // console.log(err.flatten());
       }
     }
   };
@@ -113,14 +113,22 @@ const Page = () => {
                 value={user.name}
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
               <Input
-              className="inputRegister"
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu sobrenome"
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
             </>
           )}
 
@@ -132,14 +140,22 @@ const Page = () => {
                 placeholder="Digite seu nome de usuário"
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
               <Input
-              className="inputRegister"
+                className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Digite seu email"
                 helperText={errors.email?.message}
                 register={{ ...register("email") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
             </>
           )}
 
@@ -152,14 +168,22 @@ const Page = () => {
                 placeholder="Digite sua senha"
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
               <Input
                 className="inputRegister"
                 image={"Assets/themelight/IconUser.svg"}
                 placeholder="Confirme sua senha"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
-                required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}              />
+                required
+                classNameInput={
+                  "w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"
+                }
+              />
             </>
           )}
 

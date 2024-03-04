@@ -151,18 +151,25 @@
   -webkit-text-stroke: 1px var(--contrast-color);
 }
 
-
 input[type="range"] {
   @apply overflow-hidden bg-zinc-300 dark:bg-back-grey h-3 rounded-full my-7 z-10;
   -webkit-appearance: none;
 }
+
+.input-number:focus ~ span {
+  @apply dark:border-zinc-400 border-zinc-500 border-2 border-r-0;
+}
+
+.input-number:focus ~ .right {
+  @apply dark:border-zinc-400 border-zinc-500 border-2 border-l-0;
+}
+
 input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
-  box-shadow: ;
 }
 input[type="range"]::-moz-range-progress {
   @apply bg-zinc-200 dark:bg-back-grey;
@@ -176,7 +183,6 @@ input[type="range"]::-ms-fill-lower {
 input[type="range"]::-ms-fill-upper {
   @apply bg-zinc-200 dark:bg-back-grey;
 }
-
 
 .shadowww {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
@@ -197,6 +203,28 @@ input[type="range"]::-ms-fill-upper {
 
 .timeline__primaryToPurple {
   background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
+}
+.input-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.input-number {
+  -moz-appearance: textfield;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  position: absolute;
+  right: 0;
+}
+
+/* Adiciona um ícone personalizado */
+input[type="date"] {
+  background-image: url("/cardContentIcons/date.svg");
+  background-size: 20px 20px;
+  background-position: calc(100% - 5px) center;
+  background-repeat: no-repeat;
+  padding-right: 25px; /* Ajuste conforme necessário */
 }
 
 .timeline__purpleTosecondary {
@@ -231,6 +259,55 @@ input[type="range"]::-ms-fill-upper {
 
 
 } */
+
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary dark:bg-secondary;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  /* Cor do preenchimento quando o botão de rádio está marcado */
+}
+input[type="checkbox"]:checked {
+  @apply bg-primary dark:bg-secondary border-none;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 15%;
+
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+input[type="checkbox"]:checked::before {
+  content: "";
+  position: absolute;
+  @apply left-1/3 top-[15%];
+  transform: rotate(45deg);
+  width: 5px;
+  height: 10px;
+
+  border: solid var(--contrast-color);
+  border-width: 0 2px 2px 0;
+}
 
 select {
   -webkit-appearance: none;
@@ -328,8 +405,8 @@ select::-ms-expand {
   }
 }
 
-*:disabled{
-  opacity:0.6
+*:disabled {
+  opacity: 0.6;
 }
 
 @keyframes toggle-slider-animation-reverse {
@@ -370,10 +447,6 @@ select::-ms-expand {
 
 .pAlata {
   @apply font-alata text-[16px];
-}
-
-.inputSombra {
-  @apply relative left-10 h-10 w-[80%] rounded-xl px-5 py-1;
 }
 
 .modalTaskwhite {
@@ -462,23 +535,17 @@ select::-ms-expand {
 }
 
 .groupGrandient {
-  background: var(
-    --Gradiente-2,
-    linear-gradient(220deg, #ef4996 7.64%, #f04fb0 42.82%, #fe7a08 122.57%)
-  );
+  @apply bg-gradient-to-r from-orange-500 to-pink-500;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .groupGrandientDark {
-  background: var(
-    --Gradiente-Direto,
-    linear-gradient(249deg, #ff973d 17.15%, #ef4996 65.33%)
-  );
+  @apply rounded-lg bg-gradient-to-r from-pink-500 to-orange-500;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .selectGroup {
-  @apply text-[#F04A94] border-2 rounded-sm  text-center
+  @apply text-[#F04A94] border-2 rounded-sm  text-center;
 }
 
 /* 
@@ -497,16 +564,11 @@ select::-ms-expand {
   width: 400px;
   height: 200px;
   background: #ad5389;
-  background: -webkit-linear-gradient(to right,
-      #3c1053,
-      #ad5389);
-  background: linear-gradient(to right,
-      #3c1053,
-      #ad5389);
+  background: -webkit-linear-gradient(to right, #3c1053, #ad5389);
+  background: linear-gradient(to right, #3c1053, #ad5389);
 }
 
-
-.inputRegister{
+.inputRegister {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 

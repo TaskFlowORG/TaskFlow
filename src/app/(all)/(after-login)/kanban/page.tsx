@@ -12,8 +12,19 @@ import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
-import { MultiOptionValued, Option, OrderedPage, Property,Select,TaskOrdered,TaskValue,TypeOfProperty, UniOptionValued } from "@/models";
-import { RegisterProperty } from "@/components/RegisterProperty";
+
+import { pageService, taskService } from "@/services";
+import {
+  MultiOptionValued,
+  Option,
+  OrderedPage,
+  Property,
+  Select,
+  TaskOrdered,
+  TaskValue,
+  TypeOfProperty,
+  UniOptionValued,
+} from "@/models";
 
 export default function Kanban() {
   const [input, setInput] = useState("");
@@ -26,81 +37,129 @@ export default function Kanban() {
 const [modalProperty, setModalProperty] = useState(false);
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 2);
-      setTasks((pg.tasks as TaskOrdered[]));
+      const pg: OrderedPage = await getPage("page", 1);
+      setTasks(pg.tasks as TaskOrdered[]);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
   }, [tasks.length, options.length, id, page?.id]);
 
-  function compararPorIndice(a: TaskOrdered, b: TaskOrdered) {
+  function separateNumbers(stringComHifen: string): [number, number] | null {
+    const separatedNumbers = stringComHifen.split("-");
+    if (separatedNumbers.length === 2) {
+      const numberOne = parseInt(separatedNumbers[0], 10);
+      const numberTwo = parseInt(separatedNumbers[1], 10);
+
+      return [numberOne, numberTwo];
+    } else {
+      return null;
+    }
+  }
+
+  function compareByIndex(a: TaskOrdered, b: TaskOrdered) {
     return a.indexAtColumn - b.indexAtColumn;
   }
 
   function indexAtColumn(tasks: TaskOrdered[]) {
-    tasks.sort(compararPorIndice);
+    tasks.sort(compareByIndex);
     return tasks;
+  }
+
+  function findDragDestinationColumn(destination: any) {
+    return options.find((option) => {
+      return option.id == destination.droppableId;
+    });
+  }
+  function findDraggedTask(taskId: number) {
+    return tasks.find((task) => {
+      return task.id == taskId;
+    })!;
+  }
+
+  function findPropertyInTask(draggedTask: TaskOrdered) {
+    return draggedTask?.task?.properties?.find((property) => {
+      return property.property.id == id;
+    })!;
+  }
+
+  function updateOptions(
+    propertyInTask: TaskValue,
+    optionId: number,
+    optionDestination: Option
+  ) {
+    return propertyInTask.value.value.filter((value: any) => {
+      return value.id != optionId && value.id != optionDestination?.id;
+    });
   }
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
+
     const { source, destination } = result;
 
-    const optionOrder = options.find((option) => {
-      return option.id == destination.droppableId;
-    });
+    const separatedNumbers = separateNumbers(result.draggableId);
+    const [numberOne, numberTwo] = separatedNumbers!;
+    let taskId = numberOne;
+    let optionId = numberTwo;
 
-    const draggedTask: TaskOrdered = tasks.find((task) => {
-      return task.id == result.draggableId;
-    })!;
+    const optionDestination = findDragDestinationColumn(destination);
+    const draggedTask: TaskOrdered = findDraggedTask(taskId!);
+    const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
 
-    const property: TaskValue = draggedTask?.task?.properties?.find(
-      (property) => {
-        return property.property.id == id;
-      }
-    )!;
-
-    property.value.value.equals(optionOrder) ?? null;
-
-    if (draggedTask) {
-      try {
-        (async () => {
-          await putData("task", draggedTask.task);
-        })();
-      } catch (e) {}
+    if (
+      [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+        propertyInTask.property.type
+      )
+    ) {
+      const updatedOptions = updateOptions(
+        propertyInTask,
+        optionId,
+        optionDestination!
+      );
+      propertyInTask.value.value =
+        [...(updatedOptions ?? []), optionDestination] ?? null;
+    } else {
+      propertyInTask.value.value = optionDestination ?? null;
     }
 
-    const updatePage = async () => {
+    const updatePageAndTask = async () => {
       try {
-        await putData(
-          `page/${draggedTask?.task?.id}/${destination.index}/${
+        if (draggedTask) {
+          console.log(page);
+          console.log(draggedTask);
+
+          await pageService.updateIndexesKanban(
+            page!,
+            draggedTask?.task?.id,
+            destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
-          }`,
-          page
-        );
+          );
+          await taskService.upDate(draggedTask.task);
+        }
+
+
       } catch (e) {}
     };
-    updatePage();
+    updatePageAndTask();
   };
 
   return (
-    <div className="w-full h-full flex flex-col dark:bg-back-grey">
-      {/* <RegisterProperty open={modalProperty} close={() => setModalProperty(false)} /> */}
-      <RegisterTaskModal open={modal} close={() => setModal(false)} listInputs={[]} />
-      <div className="flex gap-5 items-end pb-16 justify-center relative  mt-[5rem]  h-max">
+    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+      <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
           onClick={() => console.log(page)}
         >
           {page?.name}
         </h1>
-          <div className=" flex items-center justify-center h-9 w-9  rounded-full  shadowww mb-4 cursor-pointer " onClick={() => setModal(true)}>
-            <p className="p text-primary text-4xl h-min w-min">+</p>
-          </div>
-          <div className=" flex items-center justify-center h-9 w-9  rounded-full  shadowww mb-4 cursor-pointer " onClick={() => setModalProperty(true)}>
-            <p className="p text-primary text-4xl h-min w-min">+P</p>
-          </div>
+        <div
+          className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer "
+          onClick={() => setModal(true)}
+        >
+          <p className="p text-primary text-4xl h-min w-min">+</p>
+        </div>
+
         <SearchBar
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}
@@ -112,7 +171,10 @@ const [modalProperty, setModalProperty] = useState(false);
             propertiesPage={page?.properties ?? []}
           ></OrderInput>
           <FilterAdvancedInput
-            filterProps={(list) => setFilterProp(list)}
+            propsFiltered={filterProp}
+            filterProps={(listx) => {
+              setFilterProp(listx);
+            }}
             orderingId={page?.propertyOrdering.id}
             page={page}
             properties={page?.properties as Property[]}
@@ -131,12 +193,13 @@ const [modalProperty, setModalProperty] = useState(false);
                   tasks.filter((task) => {
                     return task?.task?.properties?.some((property) => {
                       return (
-                        property.property.id == id &&
-                        //se der algo errado, dar uma olhada nessa condição
-                        ((property.value instanceof UniOptionValued &&
-                        property.value?.value?.id == option?.id) || 
-                        (property.value instanceof MultiOptionValued &&
-                          property.value?.value?.find((val:Option) => val.id == option.id) != undefined))
+                        (property.property.id == id &&
+                          (property.value as UniOptionValued).value?.id ==
+                            option?.id) ||
+                        (property.property.type === TypeOfProperty.CHECKBOX &&
+                          (property.value as MultiOptionValued).value.find(
+                            (value) => value.id == option.id
+                          ))
                       );
                     });
                   })
@@ -155,10 +218,14 @@ const [modalProperty, setModalProperty] = useState(false);
               input={input}
               tasks={tasks.filter((task) => {
                 return task?.task?.properties?.some((property) => {
-                  // console.log(option,(property.value as UniOptionValued).value?.name )
                   return (
-                    property.property.id == id &&
-                    (property.value as UniOptionValued).value == null
+                    (property.property.id == id &&
+                      (property.value as UniOptionValued).value == null) ||
+                    (property.property.id == id &&
+                      [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+                        property.property.type
+                      ) &&
+                      (property.value as MultiOptionValued).value.length == 0)
                   );
                 });
               })}

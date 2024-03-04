@@ -9,6 +9,8 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
+import { useTheme } from "next-themes";
+
 interface Props {
   color?: string;
   option?: Option;
@@ -25,6 +27,22 @@ export const ColumnKanban = ({
   input,
   propsFiltered = [],
 }: Props) => {
+  const { theme } = useTheme();
+  const multiOptionTypes: TypeOfProperty[] = [
+    TypeOfProperty.TAG,
+    TypeOfProperty.CHECKBOX,
+  ];
+  const optionTypes: TypeOfProperty[] = [
+    ...multiOptionTypes,
+    TypeOfProperty.SELECT,
+    TypeOfProperty.RADIO,
+  ];
+
+  function findPropertyInTask(item: TaskOrdered, prop: FilteredProperty) {
+    return item.task.properties.find(
+      (property) => property.property.id == prop.id
+    )!;
+  }
   return (
     <div
       className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
@@ -33,10 +51,14 @@ export const ColumnKanban = ({
       <div className="flex gap-6 items-center">
         <div
           className={`w-2 h-2 rounded-full`}
-          style={{ backgroundColor: (option?.color as string) ?? "FF0000" }}
+          style={{
+            backgroundColor:
+              (option?.color as string) ??
+              (theme == "dark" ? "#FCFCFC" : "#3d3d3d"),
+          }}
         ></div>
         <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
-          {option?.name}
+          {option?.name ?? "Não marcadas"}
         </h4>
       </div>
       <div className="rounded-full h-full">
@@ -53,7 +75,8 @@ export const ColumnKanban = ({
                   flexDirection: "column",
                   gap: "24px",
                   background: snapshot.isDraggingOver
-                    ? (option?.color as string) ?? "#F04a94"
+                    ? (option?.color as string) ??
+                      (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
                     : "none",
                 }}
                 {...provided.droppableProps}
@@ -62,42 +85,59 @@ export const ColumnKanban = ({
                   if (
                     item.task?.name
                       ?.toLowerCase()
-                      .includes(input?.toLowerCase() ?? "") ||
-                    input?.toLowerCase() == "" ||
-                    input?.toLowerCase() == undefined
+                      .includes(input?.toLowerCase()!) ||
+                    input?.toLowerCase() == ""
                   ) {
-                    let render = true;
-
+                    let render = false;
+                    let counter = 0;
                     propsFiltered.map((prop) => {
-                      const propFilter = item.task?.properties.find(
-                        (property) => property.property.id == prop.id
-                      );
 
-                      // console.log(item.task?.properties)
-                      if (!(propFilter?.value.value == prop.value) && !(render == false)) {
-                        // console.log(prop.value,propFilter?.value.value)
-                        // console.log(propFilter?.value.value)
-                        render = false;
-                        if (
-                          [TypeOfProperty.SELECT, TypeOfProperty.CHECKBOX , TypeOfProperty.TAG, TypeOfProperty.RADIO ].includes(propFilter?.property.type ?? TypeOfProperty.ARCHIVE)
-                        ) {
-                          const opt: Option = propFilter?.value.value;
-                          console.log(opt);
-                          if (opt != null) {
-                            if (opt.name != null) {
-                              if (opt.name == prop.value) {
+                      const propertyInTask = findPropertyInTask(item, prop);
+                      if (
+                        multiOptionTypes.includes(propertyInTask?.property.type)
+                      ) {
+                        let localRender = false;
+                        prop.value.forEach((value: any) => {
+                          propertyInTask.value.value.forEach(
+                            (option: Option) => {
+                              if (option.name == value) {
                                 render = true;
+                                localRender = true;
+                                return;
                               }
                             }
-                          }   
+                          );
+                        });
+                        if (localRender) {
+                          counter++;
+                        }
+                      } else if (
+                        optionTypes.includes(propertyInTask?.property.type)
+                      ) {
+                        const option: Option = propertyInTask.value.value;
+                        if (option?.name == prop.value) {
+                          render = true;
+                          counter++;
+                        }
+                      } else {
+                        if (
+                          propertyInTask?.value?.value
+                            ?.toLowerCase()
+                            .includes(prop.value.toLowerCase())
+                        ) {
+                          render = true;
+                          counter++;
                         }
                       }
                     });
-                    if (render) {
+                    if (
+                      (render && counter == propsFiltered.length) ||
+                      propsFiltered.length == 0
+                    ) {
                       return (
                         <Draggable
-                          draggableId={`${item.id}`}
-                          key={`${item.id}`}
+                          draggableId={`${item.id}-${option?.id}`}
+                          key={`${item.id}${option?.id}`}
                           index={item.indexAtColumn}
                         >
                           {(provided, snapshot) => {
@@ -108,10 +148,14 @@ export const ColumnKanban = ({
                                 {...provided.dragHandleProps}
                                 style={{
                                   ...provided.draggableProps.style,
-
                                 }}
                               >
-                                <RoundedCard color={option?.color}>
+                                <RoundedCard
+                                  color={
+                                    option?.color ??
+                                    (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
+                                  }
+                                >
                                   <CardContent task={item.task as Task} />
                                 </RoundedCard>
                               </div>
