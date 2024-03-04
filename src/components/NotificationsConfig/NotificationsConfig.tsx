@@ -13,9 +13,9 @@ export const NotificationsConfig = () => {
     return (
         <>
         
-            <div className="w-full ">
+            <div className="w-full h-full">
 
-                <div className="w-full flex justify-center h-full items-center">
+                <div className="flex justify-center h-full items-center">
 
                     <div className="w-[80%] md:grid grid-cols-2 grid-rows-4 gap-10 sm:">
 
@@ -34,8 +34,7 @@ export const NotificationsConfig = () => {
                                 <h4 className="h4 text-modal-grey">Cada alteração</h4>
                                 <div className="flex items-center py-4 font-bold ">
                                     <label className="relative w-16 h-8 ml-4 mr-4">
-                                        <input type="checkbox" className="opacity-0 w-0 h-0 toggle-input"
-                                            disabled={!toggle} />
+                                        <input type="checkbox" className="opacity-0 w-0 h-0 toggle-input" disabled={!toggle} />
                                         <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
                                         before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider"></span>
                                     </label>

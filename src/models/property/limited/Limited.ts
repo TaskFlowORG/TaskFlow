@@ -4,20 +4,21 @@ import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 import { PageGet } from "@/models/page/page/PageGetDTO";
 
-@AllArgsConstructor
+// @AllArgsConstructor
 export class Limited extends Property {
     maximum!: number;
 
     constructor(
-        id: number,              
-        name: string,            
-        visible: boolean,        
-        obligatory: boolean,     
-        type: TypeOfProperty,    
-        page: PageGet[],           
-        project: ProjectGet,       
+        id: number | undefined,
+        name: string,
+        visible: boolean,
+        obligatory: boolean,
+        type: TypeOfProperty,
+        pages: PageGet[],
+        project: ProjectGet | undefined,
         maximum: number) {
-        super(id, name, visible, obligatory, type, page, project);
+        super(id, name, visible, obligatory, type, pages, project);
+        this.maximum=maximum
     }
 
 

@@ -18,6 +18,7 @@ import { useTheme } from "next-themes";
 import { SelectedArea } from "../SelectedArea/SelectedArea";
 import { set } from "react-hook-form";
 import { Pointer } from "../icons/Canvas/Pointer";
+import { TypeOfProperty } from "@/models";
 
 interface Props {
   moving: boolean;

@@ -1,6 +1,5 @@
 import { Permission, User, UserPost, UserPut, UserWithoutPermission } from "@/models";
 import { Api } from "../axios";
-import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
 
 class UserService {
 
@@ -13,19 +12,17 @@ class UserService {
     }
 
     async update(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname,
-            user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+        const userPut = new UserPut(user.username, user.name, user.surname,user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
         await Api.put("user", userPut);
     }
 
     async patch(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname,
-            user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+        const userPut = new UserPut(user.username, user.name, user.surname, user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
         await Api.patch("user", userPut);
     }
 
     async findByUsername(username:string):Promise<User>{
-        return (await Api.get<User>(`user/username/${username}`)).data;
+        return (await Api.get<User>(`user/${username}`)).data;
     }
 
     async findByUsernameAndPassword(username:string, password:string):Promise<User>{

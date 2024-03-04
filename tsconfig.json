@@ -127,7 +127,7 @@
     "**/*.tsx"
 
 , "src/app/(before-login)/layout.jsx"  ,
-"src/components/CardContent/index.js", "src/components/SearchBar/index.js", "src/app/(all)/(before-login)/loading.jsx", "src/components/Loading/index.js", "src/components/GroupOptions/GroupOptions.jsx"  ],
+"src/components/CardContent/index.js", "src/components/SearchBar/index.js", "src/app/(all)/(before-login)/loading.jsx", "src/components/Loading/index.js", "src/components/GroupOptions/GroupOptions.jsx", "src/components/Select/Select.jsx", "src/components/Select/index.js"  ],
 
   "exclude": [
     "node_modules"
