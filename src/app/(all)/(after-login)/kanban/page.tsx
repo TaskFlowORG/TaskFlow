@@ -12,6 +12,7 @@ import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
+
 import { pageService, taskService } from "@/services";
 import {
   MultiOptionValued,
@@ -33,7 +34,7 @@ export default function Kanban() {
   const [modal, setModal] = useState(false);
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
-
+const [modalProperty, setModalProperty] = useState(false);
   useEffect(() => {
     (async () => {
       const pg: OrderedPage = await getPage("page", 1);
@@ -42,7 +43,7 @@ export default function Kanban() {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  });
+  }, [tasks.length, options.length, id, page?.id]);
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
@@ -158,6 +159,7 @@ export default function Kanban() {
         >
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
+
         <SearchBar
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}

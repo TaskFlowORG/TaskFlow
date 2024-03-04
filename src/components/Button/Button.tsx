@@ -36,7 +36,8 @@ export const Button = ({
                ${textSize ? textSize : "text-[20px]"} 
                ${textColor ? textColor : "text-white"} 
                ${other ? other : " "}
-               ${font ? font : "font-alata"} whitespace-nowrap`}
+               ${font ? font : "font-alata"} whitespace-nowrap flex justify-center items-center`
+              }
       >
         {text ? text : "Confirmar"}
         

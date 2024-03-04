@@ -38,9 +38,7 @@ export const SideBarConfig = () => {
                 <h4 className="h4 ">Informações Pessoais</h4>
               </div>
             </a>
-
             {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
-
             <a
               href="http://localhost:3000/1/user-config/general-config"
               className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl"
@@ -50,9 +48,7 @@ export const SideBarConfig = () => {
                 <h4 className="h4">Configurações</h4>
               </div>
             </a>
-
             {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
-
             <a
               href="http://localhost:3000/1/user-config/notification-config"
               className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl"

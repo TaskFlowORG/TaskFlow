@@ -2,11 +2,11 @@
 'use client'
 
 import { Header } from '@/components/Header';
-import { useEffect } from 'react';
+import { ReactComponentElement, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import {useContrast} from '@/hooks/useContrast'
 
-export default function Layout({ children }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
 
   const {theme, setTheme} = useTheme()
   const {contrastColor} = useContrast()

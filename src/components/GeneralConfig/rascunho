@@ -1,13 +1,4 @@
-'use client'
-
-import { GeneralConfig } from "@/components/GeneralConfig"
-import { SideBarConfig } from "@/components/SideBarConfig"
-import { calculateOverrideValues } from "next/dist/server/font-utils";
-import { useState } from "react";
-
-export default function UserConfigPage({ params }) {
-
-  const [color, setColor] = useState('#0000FF');
+const [color, setColor] = useState('#0000FF');
 
   function changeColor(e) {
     setColor(e.target.value);
@@ -74,14 +65,12 @@ export default function UserConfigPage({ params }) {
 
   return (
 
-    <div className="flex w-full h-full">
-      <SideBarConfig></SideBarConfig>
+    <div className=" w-full h-full">
       <GeneralConfig></GeneralConfig>
       <div className="h-min flex flex-col">
-
         <div className="w-96 h-12 mt-40 bg-gradient-to-r from-primary to-secondary"></div>
         <input type="color" className="mt-24" value={color} onChange={e => changeColor(e)} />
       </div>
     </div>
+    
   )
-}

@@ -1,23 +1,13 @@
-
-import { Archive, Chat, Message } from "@/models";
+import { Chat } from "@/models"
 import { getListChat, getSingleChat } from "@/services/http/api";
 import { useEffect, useState } from "react"
 
-interface Props {
-    id: number,
-    name: string,
-    messages: Message[],
-    picture: Archive,
-    quantityUnvisualized: number,
-    lastMessage?: Message
-}
-
-export const TextContent = ({ id, name, messages, picture, quantityUnvisualized, lastMessage }:Props) => {
+export const TextContent = () => {
     const [mensagens, setMensagens] = useState<Chat[]>([])
 
     useEffect(() => {
         async function getChats() {
-            const response = await getSingleChat("private", 1, 6);
+            const response = await getSingleChat("private", "johndoeasdasd");
             setMensagens(response);
         }
         getChats();
@@ -25,12 +15,16 @@ export const TextContent = ({ id, name, messages, picture, quantityUnvisualized,
 
 
     return (
-        <div className="bg-black p-[10px] w-[100%] max-w-[250px] rounded-tr-xl">
-            {mensagens.map((mensagem) =>
-                //Tem q arrumar a key
-                <h3 key={1} className="p lg:h4 text-white">
-                    {mensagem.messages[0].value}
-                </h3>)}
+        <div className="flex">
+            <div className="bg-[#E9E7E7] w-5 h-5 rounded-bl-[100%]">
+            </div>
+            <div className="bg-[#E9E7E7] p-[10px] w-[100%] max-w-[250px] rounded-b-lg rounded-tr-lg">
+                {mensagens.map((mensagem) =>
+                    //Tem q arrumar a key
+                    <h3 key={0} className="p lg:h4 text-black">
+                        {/* {mensagem.messages[0].value} */}
+                    </h3>)}
+            </div>
         </div>
     )
 }
