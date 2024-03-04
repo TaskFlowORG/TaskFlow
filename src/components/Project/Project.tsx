@@ -32,7 +32,7 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
       }
     }
     const total = tasks.length;
-    const done = tasks.filter((t) => t.task.completed === true).length;
+    const done = tasks.filter((t) => t.task.completed === true).length
     return (done / total) * 100;
   };
 
@@ -40,11 +40,12 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   const style: Object = { gridColumn: col };
 
   return (
-    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)}>
+    // <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)}>
       <div
-        className={
-          "min-w-full flex flex-col shadow-blur-10 gap-16 bg-white dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"
-        }
+        className="min-w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+          dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24
+           hover:h-80 hover:row-span-3 hover:duration-300"
+        
         style={style}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -76,6 +77,6 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
           </div>
         )}
       </div>
-    </Link>
+    // </Link>
   );
 };

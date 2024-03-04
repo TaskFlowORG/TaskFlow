@@ -4,13 +4,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ProjectComponent } from "../Project";
 import { Project } from "@/models";
+import { projectService } from "@/services";
 
-export const ProjectsMainPage = () => {
+export const ProjectsMainPage = ({user}:{user:string}) => {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
     //Consumir api
-    setProjects([]);
+    (async () => {
+      setProjects(await projectService.findAllOfAUser(user));
+    })()
   }, []);
 
   return (
@@ -24,7 +27,7 @@ export const ProjectsMainPage = () => {
       </div>
       <div className="w-full h-full p-2  overflow-scroll flex flex-wrap gap-6">
         {projects.map((p) => {
-          return <ProjectComponent project={p} key={p.id} />;
+          return <ProjectComponent project={p} key={p.id} user={user} />;
         })}
       </div>
     </div>
