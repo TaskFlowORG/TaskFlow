@@ -1,15 +1,16 @@
 
 import { Chat, OrderedPage } from "@/models";
 import { AxiosResponse } from "axios";
+import { use } from "react";
 
 
-export { getData, getListData, putData, getListChat, getSingleChat, getPage, patchData, postTask, enviarMessage }
+export { getData, getListData, putData, getListChat, getSingleChat, getPage, patchData, postTask, enviarMessage, getChatLike }
 
 
 const axios = require("axios").default;
 
 
-async function getData(table: string, paramether: number|string) {
+async function getData(table: string, paramether: number | string) {
   return (await axios.get("http://localhost:9999/" + table + "/" + paramether)).data;
 }
 
@@ -27,10 +28,10 @@ async function getListData(table: string) {
   }
 }
 
-async function getListChat(type: string, userId: number) {
+async function getListChat(type: string, username: string) {
   try {
     const response = await axios.get(
-      "http://localhost:9999/chat/" + type + "/" + userId
+      "http://localhost:9999/chat/" + type + "/" + username
     );
     return response.data;
   } catch (error) {
@@ -38,14 +39,38 @@ async function getListChat(type: string, userId: number) {
   }
 }
 
-async function getSingleChat(type: string, userId: number, idBusca: number) {
+async function getSingleChat(type: string, username: string) {
   try {
-    const response = await axios.get(
-      "http://localhost:9999/chat/" + type + "/" + userId
-    );
-    return response.data;
+    const response = await axios.get("http://localhost:9999/chat/" + type + "/" + username);
+    const info = []
+    for (let chat of response.data) {
+      const id = chat.id
+      const name = chat.name;
+      const picture = chat.picture;
+      const messages = chat.messages;
+      const quantityUnvisualized: Number = chat.quantityUnvisualized;
+      const lastMessage = chat.lastMessage;
+      
+      if (chat.username == username) {
+       info.push(response.data)
+      }
+    }
+    return info;
   } catch (error) {
     throw error;
+  }
+}
+
+async function getChatLike(name: String) {
+  try {
+    const response = await axios.get("http://localhost:9999/chat/" + "name" + "/" + "johndoeasdasd" + "/" + name);
+    if (response.data == null) {
+      return null;
+    } else {
+      return response.data;
+    }
+  } catch (error) {
+    throw error
   }
 }
 
@@ -75,22 +100,25 @@ async function enviarMessage() {
 
 }
 
-async function postData(table:any, object:any) {
+async function postData(table: any, object: any) {
   return await axios.post("http://localhost:9999/" + table, object);
 }
 
-async function postTask(userId:any, pageId:any) {
+async function postTask(userId: any, pageId: any) {
   const retorno = await axios.post(`http://localhost:9999/task/${pageId}/${userId}`);
   return await retorno.data;
 }
-async function putData(table:any, object:any) {
+async function putData(table: any, object: any) {
   console.log(object);
   return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
 
-async function patchData(table:any, object:any) {
+async function patchData(table: any, object: any) {
   return (await axios.patch("http://localhost:9999/" + table, object)).data;
 }
-async function deleteData(table:any, id:any) {
+async function deleteData(table: any, id: any) {
   return await axios.delete("http://localhost:9999/" + table + "/" + id);
 }
+
+
+

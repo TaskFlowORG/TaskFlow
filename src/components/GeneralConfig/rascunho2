@@ -1,0 +1,19 @@
+<div className='flex w-[25%] justify-around'>
+    <div className='w-1 h-[40vh] bg-input-grey rounded-xl'></div>
+</div>
+<div>
+    <div className='flex-col flex justify-around gap-10'>
+        <div className='w-24 h-24 bg-white shadow-blur-10 rounded-md flex items-center justify-center'>
+            <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-11 h-11'></div>
+        </div>
+        <div className='w-24 h-24 bg-black rounded-md flex items-center justify-center'>
+            <div className='rounded-full bg-white w-11 h-11'></div>
+        </div>
+        <div className='w-24 h-24 bg-white shadow-blur-10 rounded-md flex items-center justify-center'>
+            <div className='rounded-full bg-back-grey w-11 h-11'></div>
+        </div>
+        <div className='w-24 h-24 bg-black rounded-md flex items-center justify-center'>
+            <div className='rounded-full bg-white w-11 h-11'></div>
+        </div>
+    </div>
+</div>
