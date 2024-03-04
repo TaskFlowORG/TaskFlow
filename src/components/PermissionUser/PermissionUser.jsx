@@ -1,139 +1,110 @@
 "use client";
 import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
-export const PermissionUser = ({ groupId, userId, projectId }) => {
-  const [user, setUser] = useState({});
+import { useEffect, useState } from "react"
+import { GroupOptions } from "../GroupOptions/GroupOptions"
+
+export const PermissionUser = ({ group, user, project }) => {
   const [selectedPermission, setSelectedPermission] = useState("");
-  const [permissions, setPermissions] = useState([]);
-  const [group, setGroup] = useState([]);
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme } = useTheme();
+  const [permissionsList, setPermissionsList] = useState([]);
+  const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     const getLists = async () => {
-      const fetchedUser = await getData("user", userId);
-      const fetchedPermissions = await getListData(
-        "group/" + groupId + "/permissions/" + projectId
-      );
-      const fetchedGroup = await getData("group", groupId);
-      setUser(fetchedUser);
-      setPermissions(fetchedPermissions);
-      setGroup(fetchedGroup);
+      const fetchedPermissions = await getListData("permission");
+      setPermissionsList(fetchedPermissions);
     };
     getLists();
-  }, [userId, groupId, projectId]);
+  }, [group, project]);
 
-  const findPermission = (selectedValue) => {
-    setSelectedPermission(selectedValue);
-    updatePermission(selectedValue);
-  };
 
-  // async function updatePermission(selectedValue) {
-  //   try {
-  //     const selectedPermission = permissions.find(permission => permission.name === selectedValue);
-  //     if (!selectedPermission) {
-  //       throw new Error('Permissão selecionada não encontrada.');
-  //     }
-  //     // console.log(selectedPermission.id)
-
-  //     const updatedUser = { ...user, permission: selectedPermission.name, permissionId: selectedPermission.id };
-  //     await putData("user/" + userId + "/" + projectId  + "/" + selectedPermission.id);
-
-  //     alert('Permissão atualizada com sucesso!');
-  //     setSelectedPermission("");
-  //   } catch (error) {
-  //     // console.log(selectedPermission)
-  //     console.error('Erro ao atualizar permissão:', error.message);
-  //     alert('Não foi possível atualizar a permissão do usuário.');
-  //   }
-  // }
 
   async function updatePermission(selectedValue) {
+    setSelectedPermission(selectedValue);
+    console.log(user)
     try {
-      const selectedPermission = permissions.find(
-        (permission) => permission.name === selectedValue
-      );
-      if (!selectedPermission) {
-        throw new Error("Permissão selecionada não encontrada.");
+      const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
+
+      if (hasPermission) {
+        alert('Este usuário já possui esta permissão.');
+      } else {
+        user.permissions = []
+        user.permissions = [...user.permissions, selectedPermission];
+
+        await putData("user", user);
+
+        alert('Permissão atualizada com sucesso!');
       }
-
-      // console.log('ID da permissão selecionada:', selectedPermission.id);
-
-      const updatedUser = {
-        ...user,
-        permission: selectedPermission.name,
-        permissionId: selectedPermission.id,
-      };
-      await putData("user", updatedUser);
-
       setSelectedPermission("");
-
-      alert("Permissão atualizada com sucesso!");
     } catch (error) {
-      console.error("Erro ao atualizar permissão:", error.message);
-      alert("Não foi possível atualizar a permissão do usuário.");
+      console.error('Erro ao atualizar permissão:', error.message);
+      alert('Não foi possível atualizar a permissão do usuário.');
     }
   }
 
-  let userIcon = null;
-  if (theme === "dark") {
-    userIcon = <img className="" src="/img/whiteIconUser.svg" alt="User" />;
-  } else {
-    userIcon = <img className="" src="/img/darkIconUser.svg" alt="User" />;
-  }
 
-  let ownerIcon = null;
-  if (theme === "dark") {
-    ownerIcon = (
-      <img className="mx-auto " src="/img/darkOwner.svg" alt="Owner" />
-    );
-  } else {
-    ownerIcon = (
-      <img className="mx-auto" src="/img/whiteOwner.svg" alt="Owner" />
-    );
-  }
+  const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
+  const ownerIcon = theme === "dark" ? <img src="/img/darkOwner.svg" alt="Owner" /> : <img src="/img/whiteOwner.svg" alt="Owner" />
+  const options = theme === "dark" ? <img src="/img/optionsGroupD.svg" /> : <img src="/img/optionsGroupL.svg" />
 
   return (
-    <div>
-      <div className="">
-        <div className="border rounded-md border-[#F04A94] relative px-4 pr-6 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-12 flex items-center justify-between">
-          <div className="flex gap-6">
-            {userIcon}
-            <p className="whitespace-nowrap dark:text-[#FCFCFC] text-black">
-              {user.name}
-            </p>
-          </div>
-          <div className="text-[#F04A94] dark:text-[#F76858] w-[120px] flex justify-between">
-            <p>|</p>
-            {group.owner && user.id === group.owner.id ? (
-              ownerIcon
-            ) : (
-              <select
-                // border-[#F04A94] dark:border-[#F76858] caso eu queira colocar borda no selec
-                className="selectGroup w-[75%] mnAlata border-none dark:text-[#F76858]"
-                name="permission"
-                id="permission"
-                value={selectedPermission}
-                onChange={(e) => findPermission(e.target.value)}
-              >
-                <option value="" disabled>
-                  Permissão
-                </option>
-                {permissions.map((permission) => (
-                  <option
-                    key={permission.id}
-                    value={permission.name}
-                    selected={user.permission === permission.name}
-                  >
-                    {permission.name}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
+    <div className="">
+      <div className="border rounded-md relative border-[#F04A94] px-4 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-10 md:h-12 lg:h-12 flex items-center justify-between">
+
+        <button className="flex justify-end" onClick={() => openModal ? setOpenModal(false) : setOpenModal(true)}>
+          {options}
+        </button>
+
+        <div className="flex gap-6 w-full">
+          {userIcon}
+          <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{user.name}</p>
+        </div>
+
+        <div className="text-[#F04A94] dark:text-[#F76858] w-36 flex justify-between ">
+          <p className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
+
+          {group.owner && user.username === group.owner.username ? (
+            <div className="flex items-center justify-center w-full">
+              {ownerIcon}
+            </div>
+
+          ) : (
+            <select
+              className='text-[#F04A94] text-center flex flex-1 w-full mnAlata border-none dark:text-[#F76858]'
+              name="permission"
+              id="permission"
+              value={selectedPermission}
+              onChange={(e) => updatePermission(e.target.value)}
+            >                
+            {/* {  console.log("user", user.username, "permision", user.permissions)
+            } */}
+              {user.permissions && user.permissions.length > 0 ? (
+                user.permissions.map((permission) => (
+                  <option key={permission.id} value="" disabled>{permission.name}</option>
+                ))
+              ) : (
+                <option value="" disabled>Permissão</option>
+              )}
+              {permissionsList.map(permission => {
+                if (permission.project.id === project.id) {
+                  return (
+                    <option key={permission.name} value={permission.name}>
+                      {permission.name}
+                    </option>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </select>
+          )}
         </div>
       </div>
+      <div>
+      </div>
+      <GroupOptions isOpen={openModal} group={group} user={user} />
     </div>
   );
 };

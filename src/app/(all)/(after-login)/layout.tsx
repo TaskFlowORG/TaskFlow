@@ -1,8 +1,8 @@
 
 'use client'
 
-import { Header } from '@/components/Header';
-import { ReactComponentElement, useEffect } from 'react';
+import { Header} from '@/components/Header';
+import { useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import {useContrast} from '@/hooks/useContrast'
 
