@@ -16,7 +16,7 @@ export function Header() {
 
             <div className=" w-1/4 h-full flex space-x-[48px] items-center justify-end">
 
-                <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer" width={"20px"} hight={"20px"} />
+                <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer" width={"20px"} height={"20px"} />
 
                 <img src="/Assets/Language.svg" alt="" className=" cursor-pointer" width={"20px"} height={"20px"} />
 

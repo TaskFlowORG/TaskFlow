@@ -13,18 +13,7 @@ import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdva
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
 import { MultiOptionValued, Option, OrderedPage, Property,Select,TaskOrdered,TaskValue,TypeOfProperty, UniOptionValued } from "@/models";
-
-//================================ Parte do Becker (Modal Cadastro Tarefa) ===============================
-const property1 = new Property(1, "Propriedade1", true, false, TypeOfProperty.TEXT,);
-const property2 = new Property(2, "Propriedade2", false, true, TypeOfProperty.NUMBER);
-//const property3 = new Property(3, "Propriedade3", true, true, TypeOfProperty.RADIO);
-const property4 = new Property(4, "Propriedade4", true, true, TypeOfProperty.DATE);
-const property5 = new Property(5, "Propriedade5", true, true, TypeOfProperty.PROGRESS);
-
-const list : Array<Property> = [];
-
-list.push(property1,property2,property4, property5);
-//==========================================================================================================
+import { RegisterProperty } from "@/components/RegisterProperty";
 
 export default function Kanban() {
   const [input, setInput] = useState("");
@@ -34,16 +23,16 @@ export default function Kanban() {
   const [modal, setModal] = useState(false);
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
-
+const [modalProperty, setModalProperty] = useState(false);
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 1);
+      const pg: OrderedPage = await getPage("page", 2);
       setTasks((pg.tasks as TaskOrdered[]));
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  });
+  }, [tasks.length, options.length, id, page?.id]);
 
   function compararPorIndice(a: TaskOrdered, b: TaskOrdered) {
     return a.indexAtColumn - b.indexAtColumn;
@@ -96,17 +85,21 @@ export default function Kanban() {
   };
 
   return (
-    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-      <RegisterTaskModal open={modal} close={() => setModal(false)} listInputs={list} />
-      <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
+    <div className="w-full h-full flex flex-col dark:bg-back-grey">
+      {/* <RegisterProperty open={modalProperty} close={() => setModalProperty(false)} /> */}
+      <RegisterTaskModal open={modal} close={() => setModal(false)} listInputs={[]} />
+      <div className="flex gap-5 items-end pb-16 justify-center relative  mt-[5rem]  h-max">
         <h1
           className="h1 text-primary whitespace-nowrap dark:text-white"
           onClick={() => console.log(page)}
         >
           {page?.name}
         </h1>
-          <div className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer " onClick={() => setModal(true)}>
+          <div className=" flex items-center justify-center h-9 w-9  rounded-full  shadowww mb-4 cursor-pointer " onClick={() => setModal(true)}>
             <p className="p text-primary text-4xl h-min w-min">+</p>
+          </div>
+          <div className=" flex items-center justify-center h-9 w-9  rounded-full  shadowww mb-4 cursor-pointer " onClick={() => setModalProperty(true)}>
+            <p className="p text-primary text-4xl h-min w-min">+P</p>
           </div>
         <SearchBar
           order={() => console.log("Ordering")}

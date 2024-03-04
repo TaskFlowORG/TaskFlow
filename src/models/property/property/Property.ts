@@ -3,25 +3,33 @@ import { PageGet } from "@/models/page/page/PageGetDTO";
 import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
 import { AllArgsConstructor } from "@/utils";
 
-@AllArgsConstructor
+
 export class Property {
-    id!: number;
+    id?: number;
     name!: string;
-    visible!: boolean;
-    obligatory!: boolean;
+    visible?: boolean;
+    obligatory?: boolean;
     type!: TypeOfProperty;
     pages!: PageGet[];
     project?: ProjectGet;
 
     constructor(
-        id: number,
+        id: number | undefined,
         name: string,
         visible: boolean,
         obligatory: boolean,
         type: TypeOfProperty,
         pages: PageGet[],
-        project: ProjectGet
-    ) {}
+        project: ProjectGet | undefined
+    ) {
+        this.id = id;
+        this.name = name;
+        this.visible = visible;
+        this.obligatory = obligatory;
+        this.type = type;
+        this.pages = pages;
+        this.project = project;
+    }
     equals(obj: any): boolean {
         if (obj instanceof Property) {
             return this.id === obj.id;

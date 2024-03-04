@@ -1,16 +1,16 @@
-import { Limited, Property, Select } from "@/models";
+import { DatePost, Limited, LimitedPost, Property, Select, SelectPost } from "@/models";
 import { Api } from "@/services/axios";
 
 class PropertyService {
-    async saveLimited(property: Limited): Promise<void> {
+    async saveLimited(property: LimitedPost): Promise<void> {
         await Api.post('property/limited', property);
     }
 
-    async saveSelect(property: Select): Promise<void> {
+    async saveSelect(property: SelectPost): Promise<void> {
         await Api.post('property/select', property);
     }
 
-    async saveDate(property: Date): Promise<void> {
+    async saveDate(property: DatePost): Promise<void> {
         await Api.post('property/date', property);
     }
 

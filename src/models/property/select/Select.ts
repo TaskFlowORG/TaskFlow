@@ -5,20 +5,21 @@ import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 import { Option } from "@/models/values/Option";
 import { PageGet } from "@/models/page/page/PageGetDTO";
 
-@AllArgsConstructor
+
 export class Select extends Property {
     options!: Option[];
-    constructor(
-        id: number,
+        constructor(
+        id: number | undefined,
         name: string,
         visible: boolean,
         obligatory: boolean,
         type: TypeOfProperty,
-        page: PageGet[],
-        project: ProjectGet,
+        page: PageGet[] ,
+        project: ProjectGet | undefined,
         options: Option[] = [],
     ) {
         super(id, name, visible, obligatory, type, page, project);
+        this.options = options;
     }
 
     equals(obj: any): boolean {

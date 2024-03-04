@@ -2,7 +2,7 @@ import { AllArgsConstructor } from "@/utils";
 import { PropertyGet } from "../property/PropertyGetDTO";
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
-@AllArgsConstructor
+
 export class LimitedGet extends PropertyGet {
     maximum!: number;
 
@@ -14,6 +14,7 @@ export class LimitedGet extends PropertyGet {
         type: TypeOfProperty,     
         maximum: number = 0) {
         super(id, name, visible, obligatory, type);
+        this.maximum = maximum;
     }
 
 
