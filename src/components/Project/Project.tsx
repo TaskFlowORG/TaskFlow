@@ -11,7 +11,7 @@ import { projectService } from "@/services";
 interface Props {
   project: Project;
   col?: number;
-  user:string
+  user: string
 }
 export const ProjectComponent = ({ project, col, user }: Props) => {
   const [groups, setGroups] = useState<Group[]>([]);
@@ -40,43 +40,38 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   const style: Object = { gridColumn: col };
 
   return (
-    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="w-full">
-      <div
-        className="min-w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="min-w-full flex flex-col shadow-blur-10 gap-16 bg-white 
           dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24
            hover:h-80 hover:row-span-3 hover:duration-300"
-        
-        style={style}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
-      >
-        <div className="flex gap-2 w-full">
-          {/* Imagem do Projeto */}
-          <div className="w-min">
-            <div className="bg-zinc-200 rounded-md w-12 h-12"></div>
-          </div>
-          <div className="w-full whitespace-nowrap overflow-hidden">
-            <h4
-              className="w-11/12 font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
-              style={!project.name ? { opacity: 0.5 } : {}}
-            >
-              {project.name ?? "Sem Nome"}
-            </h4>
-            <p
-              className="w-11/12 font-montserrat text-[12px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
-              style={!project.description ? { opacity: 0.5 } : {}}
-            >
-              {project.description ?? "Sem descrição"}
-            </p>
-          </div>
+      style={style}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}>
+      <div className="flex gap-2 w-full">
+        {/* Imagem do Projeto */}
+        <div className="w-min">
+          <div className="bg-zinc-200 rounded-md w-12 h-12"></div>
         </div>
-        {isHovering && (
-          <div className=" h-44 w-full justify-center flex flex-col gap-10">
-            <Obj objs={groups} max={4} functionObj={() => {}}></Obj>
-            <ProgressBar percent={generatePercentage()} />
-          </div>
-        )}
+        <div className="w-full whitespace-nowrap overflow-hidden">
+          <h4
+            className="w-11/12 font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
+            style={!project.name ? { opacity: 0.5 } : {}}
+          >
+            {project.name ?? "Sem Nome"}
+          </h4>
+          <p
+            className="w-11/12 font-montserrat text-[12px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
+            style={!project.description ? { opacity: 0.5 } : {}}
+          >
+            {project.description ?? "Sem descrição"}
+          </p>
+        </div>
       </div>
-     </Link>
+      {isHovering && (
+        <div className=" h-44 w-full justify-center flex flex-col gap-10">
+          <Obj objs={groups} max={4} functionObj={() => { }}></Obj>
+          <ProgressBar percent={generatePercentage()} />
+        </div>
+      )}
+    </Link>
   );
 };

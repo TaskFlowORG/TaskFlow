@@ -3,28 +3,27 @@
 import { ProjectComponent } from "@/components/Project"
 import { SVGProjectsPage } from "@/components/Shapes"
 import { getData, getListData } from "@/services/http/api";
-import { Project } from "@/models";
+import { Project, ProjectPost, User } from "@/models";
 import { useEffect, useState } from "react";
-import { projectService } from "@/services";
+import { projectService, userService } from "@/services";
+import { useRouter } from 'next/navigation'
 
-export default function Projects({params}:{params:{user:string}}) {	
-
+export default function Projects({ params }: { params: { user: string } }) {
+    const router = useRouter()
     const [windowWidth, setWindowWidth] = useState<number>(0);
     const [projects, setProjects] = useState<Project[]>([])
+    const [user, setUser] = useState<User>()
 
     useEffect(() => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
         setWindowWidth(window.innerWidth);
-        (async () => {
-            const projectsPromise = await projectService.findAllOfAUser(params.user)
-            setProjects(projectsPromise)
-        })()
-    // eslint-disable-next-line
+        setProjectsOfService()
+        // eslint-disable-next-line
     }, [])
 
-    function getCol2Xl(index:number):number {
+    function getCol2Xl(index: number): number {
         if (index % 3 == 0) {
             return 1
         } else if ((index + 1) % 3 == 0) {
@@ -32,7 +31,7 @@ export default function Projects({params}:{params:{user:string}}) {
         }
         return 2
     }
-    function getColLg(index:number):number {
+    function getColLg(index: number): number {
         if (index % 2 == 0) {
             return 1
         } else if ((index + 1) % 2 == 0) {
@@ -40,7 +39,7 @@ export default function Projects({params}:{params:{user:string}}) {
         }
         return 1
     }
-    function getCol(p:Project):number {
+    function getCol(p: Project): number {
         const index = projects.indexOf(p)
         if (windowWidth > 1440) {
             return getCol2Xl(index)
@@ -49,6 +48,25 @@ export default function Projects({params}:{params:{user:string}}) {
         }
         return 1
     }
+    const postProject = async () => {
+        await projectService.insert(new ProjectPost(undefined, undefined, undefined, user!)).then(async () => {
+            const newProject = await setProjectsOfService()
+            if (newProject) {
+                router.push(`/${params.user}/${newProject.id}`)
+            }
+        })
+
+
+    }
+    const setProjectsOfService = async (): Promise<Project | undefined> => {
+        const projectsPromise = await projectService.findAllOfAUser(params.user)
+        const newProject = projectsPromise.find(p => !projects.find(p2 => p2.id === p.id))
+        setProjects(projectsPromise)
+        const userPromise = await userService.findByUsername(params.user)
+        setUser(userPromise)
+        return newProject;
+    }
+
     return (
         <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
             <SVGProjectsPage />
@@ -59,13 +77,15 @@ export default function Projects({params}:{params:{user:string}}) {
                     </h1>
                     <div className="w-full lg:w-3/5 h-[70vh] flex justify-center overflow-y-scroll">
                         <div className={"justify-start grid-flow-col grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid p-6 gap-y-5 gap-x-12 h-min w-fit sm:w-1/2 lg:w-full "}>
-                            {projects.map(p => {
+                            {projects.sort((p1, p2) => new Date(p2.visualizedAt).getTime()-new Date(p1.visualizedAt).getTime() ).map(p => {
                                 return <ProjectComponent user={params.user} project={p} key={p.id} col={getCol(p)} />
                             })}
                         </div>
                     </div>
                 </div>
             </div>
+            <button onClick={postProject} className="rounded-full fixed bottom-10 right-10 w-10  h-10 flex justify-center items-center shadow-blur-10 bg-white 
+            text-primary dark:bg-modal-grey dark:text-secondary hover:brightness-95 cursor-pointer">+</button>
         </div>
     )
 }
