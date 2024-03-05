@@ -34,7 +34,7 @@ export default function Home({ projectId = 1 }) {
             <div className="flex lg:hidden pt-56 absolute">
                 {svgGroupMobile}
             </div>
-            <div className="flex flex-col ml-2 lg:ml-0 z-50 lg:flex-row w-1/2 mt-32 lg:justify-end">
+            <div className="flex flex-col ml-2 lg:ml-0 lg:flex-row w-1/2 mt-32 lg:justify-end">
                 <Description project={project} />
             </div>
             <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-32">
