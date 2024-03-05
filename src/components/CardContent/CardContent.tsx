@@ -31,17 +31,17 @@ export const CardContent = ({ task, min }: Props) => {
       <div className="flex justify-between">
         <h4
           style={{ opacity: task.name ? 1 : 0.25 }}
-          className="h4 w-max text-black dark:text-white"
+          className="text-[20px] font-alata w-max text-black dark:text-white"
         >
           {task.name ?? "Sem Nome"}
         </h4>
         <div className="  flex items-center relative w-16">
-          <span className="w-8 h-8 rounded-full bg-primary absolute shadowww  right-8"></span>
-          <span className="w-8 h-8 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
-          <span className="w-8 h-8 rounded-full bg-[#E41CEF] shadowww absolute right-0"></span>
+          <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>
+          <span className="w-7 h-7 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
+          <span className="w-7 h-7 rounded-full bg-[#E41CEF] shadowww absolute right-0"></span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-4 justify-between">
+      <div className="flex flex-wrap gap-1 justify-between">
         {task.properties?.map((property) => {
           if (is(property, TypeOfProperty.TEXT)) {
             return (
@@ -56,6 +56,7 @@ export const CardContent = ({ task, min }: Props) => {
               <CardDate
                 key={property.property.id.toString()}
                 date={property.value.value}
+                property={property.property.name}
               />
             );
           } else if (is(property, TypeOfProperty.SELECT)) {
