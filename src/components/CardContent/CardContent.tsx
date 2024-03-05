@@ -43,7 +43,10 @@ export const CardContent = ({ task, min }: Props) => {
       </div>
       <div className="flex flex-wrap gap-1 justify-between">
         {task.properties?.map((property) => {
-          if (is(property, TypeOfProperty.TEXT)) {
+          if (
+            is(property, TypeOfProperty.TEXT) &&
+            (property.value as TextValued).value
+          ) {
             return (
               <CardText
                 property={property.property.name}
@@ -51,7 +54,10 @@ export const CardContent = ({ task, min }: Props) => {
                 text={(property.value as TextValued).value}
               />
             );
-          } else if (is(property, TypeOfProperty.DATE)) {
+          } else if (
+            is(property, TypeOfProperty.DATE) &&
+            property.value.value
+          ) {
             return (
               <CardDate
                 key={property.property.id.toString()}
@@ -59,19 +65,22 @@ export const CardContent = ({ task, min }: Props) => {
                 property={property.property.name}
               />
             );
-          } else if (is(property, TypeOfProperty.SELECT)) {
+          } else if (
+            is(property, TypeOfProperty.SELECT) &&
+            (property.value as UniOptionValued).value?.name
+          ) {
             return (
               <CardSelect
                 property={property.property.name}
                 color={(property.value as UniOptionValued).value?.color}
                 key={property.property.id.toString()}
-                value={
-                  (property.value as UniOptionValued).value?.name ??
-                  "Não marcada"
-                }
+                value={(property.value as UniOptionValued).value?.name}
               />
             );
-          } else if (is(property, TypeOfProperty.CHECKBOX)) {
+          } else if (
+            is(property, TypeOfProperty.CHECKBOX) &&
+            (property.value as MultiOptionValued).value.length > 0
+          ) {
             return (
               <CardTag
                 nameProperty={property.property.name}
@@ -79,7 +88,21 @@ export const CardContent = ({ task, min }: Props) => {
                 tags={(property.value as MultiOptionValued).value}
               />
             );
-          } else if (is(property, TypeOfProperty.RADIO)) {
+          } else if (
+            is(property, TypeOfProperty.TAG) &&
+            (property.value as MultiOptionValued).value.length > 0
+          ) {
+            return (
+              <CardTag
+                nameProperty={property.property.name}
+                key={property.property.id.toString()}
+                tags={(property.value as MultiOptionValued).value}
+              />
+            );
+          } else if (
+            is(property, TypeOfProperty.RADIO) &&
+            property.value.value
+          ) {
             return (
               <CardRadio
                 key={property.property.id.toString()}
