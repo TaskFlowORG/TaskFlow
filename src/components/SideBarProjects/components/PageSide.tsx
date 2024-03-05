@@ -58,7 +58,6 @@ export const PageSide = ({ project, user, setModalPages }: Props) => {
                           listMerge.splice(listMerge.indexOf(page), 1);
                         }
                       }}
-                      className="w-5 h-5"
                     />
                   </If>
                   <PageComponent

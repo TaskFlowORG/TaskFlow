@@ -9,9 +9,9 @@ export class ProjectPost {
     owner!: UserGet;
 
     constructor(
-        name: string,
-        description: string,
-        deadline: Date,
+        name: string | undefined,
+        description: string | undefined,
+        deadline: Date | undefined,
         owner: UserGet,
     ) { }
 }

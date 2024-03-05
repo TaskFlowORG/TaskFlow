@@ -105,7 +105,7 @@ export const PageComponent = ({
   };
 
   return (
-    <label htmlFor={`${page.id}`} className="w-full text-modal-grey dark:text-white  ">
+    <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey dark:text-white  ">
       <div
         key={page.id}
         className={"w-full flex gap-2 text-modal-grey " +
