@@ -22,16 +22,19 @@ export const GroupOptions = ({ isOpen, group, user }) => {
                     {/* Descobrir como faz para colocar as rotas dentro do OnClick  */}
                     <button>
                         {profile}
+                        Perfil
                     </button>
-                    Perfil
+                    
                 </div>
                 <div className="flex justify-start gap-3 mn">
                     {chat}
                     Iniciar chat
                 </div>
                 <div className="flex justify-start gap-3 mn">
+                    <button onClick={deleteUser}>
                     {deleteIcon}
                     Remover
+                    </button>
                 </div>
             </div>
         </div>

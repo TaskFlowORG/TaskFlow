@@ -8,17 +8,31 @@ import { useTheme } from "next-themes";
 export const UsersList = ({ project, groupId = 1 }) => {
   const [text, setText] = useState("");
   const [users, setUsers] = useState([]);
+  const [usersGroup, setUsersGroup] = useState([]);
   const [group, setGroup] = useState({});
   const [newUser, setNewUser] = useState({});
   const [suggestedUsers, setSuggestedUsers] = useState([]);
-  const {theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedUsers = await getListData("user");
-      setUsers(fetchedUsers);
-      const fetchedGroup = await getData("group", groupId);
-      setGroup(fetchedGroup);
+      try {
+        const fetchedUsers = await getListData("user");
+        setUsers(fetchedUsers);
+        const fetchedGroup = await getData("group", groupId);
+        setGroup(fetchedGroup);
+        const groupUsers = fetchedGroup.users;
+        const ownerIndex = groupUsers.findIndex(user => user.username === fetchedGroup.owner.username);
+
+        if (ownerIndex !== -1) {
+          groupUsers.splice(ownerIndex, 1);
+          setUsersGroup([fetchedGroup.owner, ...groupUsers]);
+        } else {
+          setUsersGroup(groupUsers);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     const intervalId = setInterval(fetchData, 7000);
@@ -37,6 +51,7 @@ export const UsersList = ({ project, groupId = 1 }) => {
       alert("Usuário não encontrado");
     }
   };
+
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase();
     setText(query);
@@ -51,8 +66,6 @@ export const UsersList = ({ project, groupId = 1 }) => {
     setSuggestedUsers([]);
   };
 
-
-
   const addUser = async () => {
     if (Object.keys(newUser).length === 0) {
       alert("Adicione um usuário válido");
@@ -66,9 +79,9 @@ export const UsersList = ({ project, groupId = 1 }) => {
     }
 
     try {
-      const updatedUsersGroup = [newUser, ...group.users];
-      group.users = updatedUsersGroup
-      await putData("group", group);
+      const updatedUsersGroup = [newUser, ...usersGroup];
+      setUsersGroup(updatedUsersGroup);
+      await putData("group", { ...group, users: updatedUsersGroup });
     } catch (error) {
       console.error("Error adding user to group:", error);
     }
@@ -93,9 +106,10 @@ export const UsersList = ({ project, groupId = 1 }) => {
     </button>
   );
 
+
   return (
     <div className="flex w-full justify-center lg:justify-start dark:text-[#FCFCFFC]">
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 h-[109%] lg:w-[60%] lg:h-[75%] relative">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 h-[109%] lg:h-[80%] relative">
         <div className="flex flex-col mt-12 gap-12 justify-between">
           <div>
             <input
@@ -129,10 +143,10 @@ export const UsersList = ({ project, groupId = 1 }) => {
 
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
-            {group && group.users && group.users.map((u) => (
+          {usersGroup.map((u) => (
               <PermissionUser
                 group={group}
-                user={u}
+                userId={u.username}
                 project={project}
                 key={u.username}
               />
