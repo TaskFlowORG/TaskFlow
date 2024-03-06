@@ -47,7 +47,7 @@ export const GroupAccess = ({ name, description, project, group }) => {
 
 
     return (
-        <div className="flex gap-4 items-start">
+        <div className="flex pl-8 gap-4 items-start">
             <img className="py-4" src="/img/EllipseTest.svg" />
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
