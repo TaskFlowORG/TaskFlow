@@ -178,8 +178,8 @@ export const Kanban = () => {
         </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-        <div className="flex gap-8 justify-center w-full">
-          {options.map((option) => {
+        <div className="flex gap-8 justify-start pl-3 w-full opss max-w-[1560px] overflow-auto self-center">
+          {options?.map((option) => {
             return (
               <ColumnKanban
                 propsFiltered={filterProp}

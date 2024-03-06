@@ -107,7 +107,7 @@ export const CardContent = ({ task, min }: Props) => {
               <CardRadio
                 key={property.property.id.toString()}
                 property={property.property.name}
-                value={property.value.value}
+                value={(property.value as UniOptionValued).value?.name}
               />
             );
           } else if (is(property, TypeOfProperty.NUMBER)) {

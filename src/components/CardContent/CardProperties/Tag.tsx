@@ -14,7 +14,7 @@ export const Tag = ({ value, color, ...props }: Props) => {
           backgroundColor: color ? color : "#f04a94",
           color: generateContrast(color),
         }}
-        className="mn py-1 rounded-sm px-2 "
+        className="mn py-1 rounded-md px-2 "
         {...props}
       >
         {value}
