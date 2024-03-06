@@ -7,16 +7,18 @@ import {useState, useRef, useEffect} from "react"
 import { useTheme } from "next-themes"
 import { CanvasPage, TaskCanvas } from "@/models"
 import { pageService } from "@/services"
+import { set } from "react-hook-form"
 
 
 interface Props{
     task: TaskCanvas,
     elementRef: React.RefObject<HTMLDivElement>,
     canvasRef: React.RefObject<HTMLCanvasElement>,
-    page:CanvasPage | undefined
+    page:CanvasPage | undefined;
+    setDraggingInCanvas:(value:boolean) => void;
 }
 
-export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, canvasRef, page, setDraggingInCanvas}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -33,7 +35,10 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
         left : x,
     }
 
-    function changeXandY(e:MouseEvent){
+    function changeXandY(e:MouseEvent){ 
+
+            
+
             if(!draggableRef.current || !elementRef.current || !dragging) return  
             const offsetX = elementRef.current.scrollLeft + e.pageX - draggableRef.current.clientWidth/2
             const offsetY = elementRef.current.scrollTop + e.pageY - draggableRef.current.clientHeight/2
@@ -64,7 +69,7 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page}:Props) =
     }, [dragging])
 
     return(
-        <div className="w-min h-min p-2 absolute transition-none select-none " style={style} onMouseDown={() => setDragging(true)} ref={draggableRef} >
+        <div className="w-min h-min p-2 absolute transition-none select-none" style={style} onMouseDown={() => {setDragging(true); setDraggingInCanvas(true)}} ref={draggableRef} >
             <RoundedCard>
                 <CardContent task={task.task} />
             </RoundedCard> 
