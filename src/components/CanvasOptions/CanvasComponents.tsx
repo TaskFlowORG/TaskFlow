@@ -77,7 +77,7 @@ export const CanvasComponents = ({
           className=" -rotate-90 w-16 h-16 z-30 cursor-pointer"
           onChange={(e) => setLocalLineWidth(parseInt(e.target.value))}
         />
-        <div className="w-8 h-8 bg-transparent flex ">
+        <div className="h-12 w-10 justify-center items-center bg-transparent flex ">
           <SelectWithImage
            disabled={moving}
             list={[
