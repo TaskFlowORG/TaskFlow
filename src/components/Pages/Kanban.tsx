@@ -25,7 +25,7 @@ import {
   UniOptionValued,
 } from "@/models";
 
-import {FilterContext } from "@/utils/FilterlistContext"
+import { FilterContext } from "@/utils/FilterlistContext";
 
 export const Kanban = () => {
   const [input, setInput] = useState("");
@@ -34,8 +34,8 @@ export const Kanban = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [modal, setModal] = useState(false);
   const [page, setPage] = useState<OrderedPage | null>(null);
-   const [filter, setFilter] = useState<FilteredProperty[]>([]);
-   const [list, setList] = useState<FilteredProperty>();
+  const [filter, setFilter] = useState<FilteredProperty[]>([]);
+  const [list, setList] = useState<FilteredProperty>();
 
   useEffect(() => {
     (async () => {
@@ -108,7 +108,6 @@ export const Kanban = () => {
     const optionDestination = findDragDestinationColumn(destination);
     const draggedTask: TaskOrdered = findDraggedTask(taskId!);
     const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
-    const [list, setList] = useState<FilteredProperty | null>();
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
@@ -146,96 +145,102 @@ export const Kanban = () => {
   };
 
   return (
-    <FilterContext.Provider value={{filterProp:filter, setFilterProp: setFilter, list,setList:setList}}>
-    <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-      <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
-        <h1
-          className="h1 text-primary whitespace-nowrap dark:text-white"
-          onClick={() => console.log(page)}
-        >
-          {page?.name}
-        </h1>
-        <div
-          className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer "
-          onClick={() => setModal(true)}
-        >
-          <p className="p text-primary text-4xl h-min w-min">+</p>
-        </div>
-        <SearchBar
-          order={() => console.log("Ordering")}
-          filter={() => console.log("Filtering")}
-          search={(textInput: string) => setInput(textInput)}
-        >
-          <OrderInput
-            page={page as OrderedPage}
-            orderingId={id}
-            propertiesPage={page?.properties ?? []}
-          ></OrderInput>
+    <FilterContext.Provider
+      value={{
+        filterProp: filter,
+        setFilterProp: setFilter,
+        list,
+        setList: setList,
+      }}
+    >
+      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+        <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
+          <h1
+            className="h1 text-primary whitespace-nowrap dark:text-white"
+            onClick={() => console.log(page)}
+          >
+            {page?.name}
+          </h1>
+          <div
+            className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer "
+            onClick={() => setModal(true)}
+          >
+            <p className="p text-primary text-4xl h-min w-min">+</p>
+          </div>
+          <SearchBar
+            order={() => console.log("Ordering")}
+            filter={() => console.log("Filtering")}
+            search={(textInput: string) => setInput(textInput)}
+          >
+            <OrderInput
+              page={page as OrderedPage}
+              orderingId={id}
+              propertiesPage={page?.properties ?? []}
+            ></OrderInput>
 
-
-          <FilterAdvancedInput
-            orderingId={page?.propertyOrdering.id}
-            page={page}
-            properties={page?.properties as Property[]}
-          />
-
-
-        </SearchBar>
-      </div>
-      <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-        <div className="flex gap-8 justify-start pl-3 w-full opss max-w-[1560px] overflow-auto self-center">
-          {options?.map((option) => {
-            return (
-              <ColumnKanban
-                input={input}
-                key={`${option.id}`}
-                tasks={indexAtColumn(
-                  tasks.filter((task) => {
-                    return task?.task?.properties?.some((property) => {
-                      return (
-                        (property.property.id == id &&
-                          (property.value as UniOptionValued).value?.id ==
-                            option?.id) ||
-                        (property.property.type === TypeOfProperty.CHECKBOX &&
-                          (property.value as MultiOptionValued).value.find(
-                            (value) => value.id == option.id
-                          ))
-                      );
-                    });
-                  })
-                )}
-                propertyId={id}
-                color={option.color}
-                option={option}
-                verify={true}
-              />
-            );
-          })}
-          {
-            <ColumnKanban
-              key={0}
-              input={input}
-              tasks={tasks.filter((task) => {
-                return task?.task?.properties?.some((property) => {
-                  return (
-                    (property.property.id == id &&
-                      (property.value as UniOptionValued).value == null) ||
-                    (property.property.id == id &&
-                      [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
-                        property.property.type
-                      ) &&
-                      (property.value as MultiOptionValued).value.length == 0)
-                  );
-                });
-              })}
-              propertyId={id}
-              color="#767867"
-              option={new Option(0, "Não Marcadas", "#767867")}
+            <FilterAdvancedInput
+              orderingId={page?.propertyOrdering.id}
+              page={page}
+              properties={page?.properties as Property[]}
             />
-          }
+          </SearchBar>
         </div>
-      </DragDropContext>
-    </div>
+        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+          <div className="flex gap-8 justify-start pl-3 w-full opss max-w-[1560px] overflow-auto self-center">
+            {options?.map((option) => {
+              return (
+                <ColumnKanban
+                  input={input}
+                  key={`${option.id}`}
+                  tasks={indexAtColumn(
+                    tasks.filter((task) => {
+                      return task?.task?.properties?.some((property) => {
+                        return (
+                          (property.property.id == id &&
+                            (property.value as UniOptionValued).value?.id ==
+                              option?.id) ||
+                          ((property.property.type ===
+                            TypeOfProperty.CHECKBOX ||
+                            property.property.type === TypeOfProperty.TAG) &&
+                            (property.value as MultiOptionValued).value.find(
+                              (value) => value.id == option.id
+                            ))
+                        );
+                      });
+                    })
+                  )}
+                  propertyId={id}
+                  color={option.color}
+                  option={option}
+                  verify={true}
+                />
+              );
+            })}
+            {
+              <ColumnKanban
+                key={0}
+                input={input}
+                tasks={tasks.filter((task) => {
+                  return task?.task?.properties?.some((property) => {
+                    return (
+                      (property.property.id == id &&
+                        (property.value as UniOptionValued).value == null) ||
+                      (property.property.id == id &&
+                        [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+                          property.property.type
+                        ) &&
+                        (property.value as MultiOptionValued).value.length == 0)
+                    );
+                  });
+                })}
+                propertyId={id}
+                color="#767867"
+                option={new Option(0, "Não Marcadas", "#767867")}
+              />
+            }
+          </div>
+        </DragDropContext>
+      </div>
     </FilterContext.Provider>
   );
 };
