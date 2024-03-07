@@ -28,14 +28,12 @@ export default function Home({ projectId = 1 }) {
 
     return (
         <div className=" w-screen h-screen ">
-            <div className="flex hidden lg:flex md:flex absolute md:-bottom-36 xl: 2xl:bottom-0 lg:z-10 ">
+            <div className="flex absolute md:-bottom-36 xl: 2xl:bottom-0 lg:z-10 ">
                 {svgGroupPage}
             </div>
             {/* <div className="flex lg:hidden md:hidden pt-56 sm:pt-72  max-h-screen overflow-clip absolute">
                 {svgGroupMobile}
             </div> */}
-
-
 
             <div className="w-full  flex flex-col lg:flex-row lg:gap-32 mt-32">
               <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
