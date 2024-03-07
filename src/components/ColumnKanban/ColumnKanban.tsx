@@ -1,7 +1,7 @@
 "use client";
 
 import { RoundedCard } from "@/components/RoundedCard/RoundedCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
@@ -10,6 +10,7 @@ import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
 import { useTheme } from "next-themes";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 interface Props {
   color?: string;
@@ -18,16 +19,15 @@ interface Props {
   tasks: TaskOrdered[];
   verify?: boolean;
   input?: string;
-  propsFiltered: FilteredProperty[];
 }
 
 export const ColumnKanban = ({
   option,
   tasks,
   input,
-  propsFiltered = [],
 }: Props) => {
   const { theme } = useTheme();
+  const { filterProp, setFilterProp } = useContext(FilterContext)
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -90,7 +90,7 @@ export const ColumnKanban = ({
                   ) {
                     let render = false;
                     let counter = 0;
-                    propsFiltered.map((prop) => {
+                    filterProp.map((prop) => {
 
                       const propertyInTask = findPropertyInTask(item, prop);
                       if (
@@ -131,8 +131,8 @@ export const ColumnKanban = ({
                       }
                     });
                     if (
-                      (render && counter == propsFiltered.length) ||
-                      propsFiltered.length == 0
+                      (render && counter == filterProp.length) ||
+                      filterProp.length == 0
                     ) {
                       return (
                         <Draggable

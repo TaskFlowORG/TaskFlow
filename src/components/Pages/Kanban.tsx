@@ -5,7 +5,7 @@ import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { RoundedCard } from "@/components/RoundedCard";
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
 import { SearchBar } from "@/components/SearchBar";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { getData, getListData, getPage, putData } from "@/services/http/api";
 import { useState } from "react";
 import { OrderInput } from "@/components/OrderInput/OrderInput";
@@ -25,6 +25,8 @@ import {
   UniOptionValued,
 } from "@/models";
 
+import {FilterContext } from "@/utils/FilterlistContext"
+
 export const Kanban = () => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
@@ -32,7 +34,8 @@ export const Kanban = () => {
   const [options, setOptions] = useState<Option[]>([]);
   const [modal, setModal] = useState(false);
   const [page, setPage] = useState<OrderedPage | null>(null);
-  const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
+   const [filter, setFilter] = useState<FilteredProperty[]>([]);
+   const [list, setList] = useState<FilteredProperty>();
 
   useEffect(() => {
     (async () => {
@@ -105,6 +108,7 @@ export const Kanban = () => {
     const optionDestination = findDragDestinationColumn(destination);
     const draggedTask: TaskOrdered = findDraggedTask(taskId!);
     const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
+    const [list, setList] = useState<FilteredProperty | null>();
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
@@ -142,6 +146,7 @@ export const Kanban = () => {
   };
 
   return (
+    <FilterContext.Provider value={{filterProp:filter, setFilterProp: setFilter, list,setList:setList}}>
     <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
       <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
         <h1
@@ -166,15 +171,15 @@ export const Kanban = () => {
             orderingId={id}
             propertiesPage={page?.properties ?? []}
           ></OrderInput>
+
+
           <FilterAdvancedInput
-            propsFiltered={filterProp}
-            filterProps={(listx) => {
-              setFilterProp(listx);
-            }}
             orderingId={page?.propertyOrdering.id}
             page={page}
             properties={page?.properties as Property[]}
           />
+
+
         </SearchBar>
       </div>
       <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
@@ -182,7 +187,6 @@ export const Kanban = () => {
           {options?.map((option) => {
             return (
               <ColumnKanban
-                propsFiltered={filterProp}
                 input={input}
                 key={`${option.id}`}
                 tasks={indexAtColumn(
@@ -209,7 +213,6 @@ export const Kanban = () => {
           })}
           {
             <ColumnKanban
-              propsFiltered={filterProp}
               key={0}
               input={input}
               tasks={tasks.filter((task) => {
@@ -233,5 +236,6 @@ export const Kanban = () => {
         </div>
       </DragDropContext>
     </div>
+    </FilterContext.Provider>
   );
 };
