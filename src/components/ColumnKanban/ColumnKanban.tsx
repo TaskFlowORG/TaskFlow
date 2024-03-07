@@ -45,7 +45,7 @@ export const ColumnKanban = ({
   }
   return (
     <div
-      className="w-min min-w-[360px] pb-4 h-full max-h-[650px] overflow-hidden flex lg:flex-col gap-4"
+      className="w-min min-w-[360px]  pb-4 h-full lg:max-h-[650px]  lg:overflow-hidden flex flex-col  lg:flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -61,18 +61,15 @@ export const ColumnKanban = ({
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-      <div className="h-full none-scrollbar overflow-auto">
         <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
           {(provided, snapshot) => {
             return (
-              <div
+              <div className="none-scrollbar h-full flex lg:flex-col  lg:overflow-y-auto"
                 ref={provided.innerRef}
                 style={{
                   opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
                   borderRadius: 16,
                   padding: 16,
-                  display: "flex",
-                  flexDirection: "column",
                   gap: "24px",
                   background: snapshot.isDraggingOver
                     ? (option?.color as string) ??
@@ -171,7 +168,6 @@ export const ColumnKanban = ({
             );
           }}
         </Droppable>
-      </div>
     </div>
   );
 };

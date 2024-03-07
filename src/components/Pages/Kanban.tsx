@@ -154,7 +154,7 @@ export const Kanban = () => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
+        <div className="hidden lg:flex gap-5 items-end pb-16 justify-center relative   h-max">
           <h1
             className="h1 text-primary whitespace-nowrap dark:text-white"
             onClick={() => console.log(page)}
@@ -186,7 +186,8 @@ export const Kanban = () => {
           </SearchBar>
         </div>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          <div className="flex gap-8 justify-start pl-3 w-full opss max-w-[1560px] overflow-auto self-center">
+          // node
+          <div className="flex gap-8 justify-center lg:justify-start min-h-max  flex-col lg:flex-row pl-3 w-full opss max-w-[360px] overflow-y-auto  lg:overflow-x-auto lg:max-w-[1560px]  lg:overflow-auto self-center">
             {options?.map((option) => {
               return (
                 <ColumnKanban
