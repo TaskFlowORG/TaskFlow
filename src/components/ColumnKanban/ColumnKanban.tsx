@@ -45,7 +45,7 @@ export const ColumnKanban = ({
   }
   return (
     <div
-      className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
+      className="w-min min-w-[360px] pb-4 h-full max-h-[650px] overflow-hidden flex lg:flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -61,7 +61,7 @@ export const ColumnKanban = ({
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-      <div className="rounded-full h-full">
+      <div className="h-full none-scrollbar overflow-auto">
         <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
           {(provided, snapshot) => {
             return (

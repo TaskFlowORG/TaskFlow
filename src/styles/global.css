@@ -441,9 +441,9 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-/* ::-webkit-scrollbar {
+ .none-scrollbar::-webkit-scrollbar {
   @apply hidden;
-} */
+}
 
 
 ::-webkit-scrollbar {
