@@ -21,7 +21,7 @@ export const Obj = ({ objs = [], max, functionObj }: Props) => {
     bg-primary dark:bg-secondary -mr-4 text-white overflow-clip flex shadow-[0_0_4px_1px_rgba(0,0,0,0.1)] items-center justify-center`
 
     return (
-        <div className="flex justify-center z-20 absolute xl:right-5 lg:right-4 md:right-3 right-2  top-1 " onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+        <div className="flex justify-center z-20 absolute xl:right-5 lg:right-4 md:right-3 right-5  top-1 " onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             {
                 objs.map((o, index) => {
                     if (index == max && !isHovering) {
