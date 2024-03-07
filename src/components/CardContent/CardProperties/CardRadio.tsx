@@ -9,9 +9,13 @@ interface Props {
 export const CardRadio = ({ property, value }: Props) => {
   return (
     <div className="flex gap-2 w-max items-center">
-      <p className="p w-max text-[#797979] dark:text-white">{property}:</p>
+      <p className="text-[14px] w-max text-[#797979] dark:text-white">
+        {property}:
+      </p>
       <div className="flex gap-2">
-        <p className="p w-max text-primary dark:text-secondary">{value}</p>
+        <p className="text-[14px] w-max text-primary dark:text-secondary">
+          {value}
+        </p>
 
         <RadioIcon />
         {/* <img src="cardContentIcons/select.svg" className="dark:hidden" alt="" />
