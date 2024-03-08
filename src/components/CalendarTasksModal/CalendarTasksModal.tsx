@@ -66,7 +66,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                 })
                             }
                         </div>                        
-                        <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
+                        <div className="h-64 w-full items-center justify-center overflow-y-auto none-scrollbar flex-wrap gap-1 flex">
                             {
                                 tasks.length > 0 ?
                                     tasks.map((t) => (

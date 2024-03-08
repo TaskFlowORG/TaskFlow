@@ -93,7 +93,7 @@ export const Calendar = ({page}:Props) => {
     return (
         <div className="w-full h-full pt-20 flex justify-center items-start">
 
-            <div className="w-5/6 sm:w-min sm:h-1/2 md:h-2/3 lg:h-5/6 flex flex-col aspect-square ">
+            <div className="max-w-[80%] h-5/6 flex items-center flex-col aspect-square ">
                 <div className="h-fit w-full flex items-center">
                     <div className="h4 dark:text-white sm:text-[40px] md:text-[48px]  w-min text-primary">
                         {year}

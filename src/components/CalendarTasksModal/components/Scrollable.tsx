@@ -28,7 +28,7 @@ export const Scrollable = ({ children }: Props) => {
     }, [window, dragging])
 
     return (
-        <div className="overflow-y-auto h-min w-min select-none cursor-grab aria-pressed:cursor-grabbing " aria-pressed={dragging} ref={ref}
+        <div className="overflow-y-auto h-min w-min select-none none-scrollbar cursor-grab aria-pressed:cursor-grabbing " aria-pressed={dragging} ref={ref}
             onPointerDown={e => { setDragging(true); ref.current && setClickX(ref.current.scrollLeft) }} >
             {children}
         </div>
