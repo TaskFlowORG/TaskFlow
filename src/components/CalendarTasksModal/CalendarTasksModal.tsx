@@ -11,10 +11,11 @@ interface Props {
     modal: boolean;
     setModal: (value: boolean) => void;
     propOrd: DateProp;
+    withotTime?: boolean;
 }
 
 
-export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd }: Props) => {
+export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, withotTime }: Props) => {
 
     const pointerScroll = (elem: HTMLElement) => {
 
@@ -37,17 +38,8 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd }: P
                     {title}
                 </h5>
                 <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
-                    <If condition={!propOrd.includesHours}>
-                        <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
-                            {
-                                tasks.length > 0 ?
-                                    tasks.map((t) => (
-                                        <TaskTagCalendar t={t} key={t.task.id} />
-                                    ))
-                                    :
-                                    <p className="text-montserrat text-[24px] opacity-50">Sem Tarefas Nesse Dia...</p>
-                            }
-                        </div>
+                    <If condition={(propOrd.includesHours && !withotTime)}>
+
                         <div className="h-min w-full flex-col items-start justify-between overflow-auto flex">
                             {
                                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map((h) => {
@@ -72,6 +64,16 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd }: P
                                         </div>
                                     )
                                 })
+                            }
+                        </div>                        
+                        <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
+                            {
+                                tasks.length > 0 ?
+                                    tasks.map((t) => (
+                                        <TaskTagCalendar t={t} key={t.task.id} />
+                                    ))
+                                    :
+                                    <p className="text-montserrat text-[24px] opacity-50">Sem Tarefas Nesse Dia...</p>
                             }
                         </div>
                     </If>

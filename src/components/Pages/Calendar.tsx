@@ -133,7 +133,7 @@ export const Calendar = ({page}:Props) => {
                     Tarefas Sem Data...
                 </div>
             </div>
-            <CalendarTasksModal title="Tarefas Sem Data" modal={modal} setModal={setModal} propOrd={page.propertyOrdering as DateProp}
+            <CalendarTasksModal title="Tarefas Sem Data" modal={modal} setModal={setModal} propOrd={page.propertyOrdering as DateProp} withotTime
             tasks={tasks.filter((t) => t.task.properties.find(p => p.property.id === page.propertyOrdering?.id)?.value.value == null)} />
         </div>
     );

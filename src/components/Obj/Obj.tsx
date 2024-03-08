@@ -24,7 +24,7 @@ export const Obj = ({ objs = [], max, functionObj }: Props) => {
         <div className="flex justify-center z-20 absolute xl:right-5 lg:right-4 md:right-3 right-5  top-1 " onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
             {
                 objs.map((o, index) => {
-                    if (index == max && !isHovering) {
+                    if (index == max+1 && !isHovering) {
                         return <div className={classes} key={index}>+</div>
                     }else if(index > max && !isHovering){
                         return <></>
