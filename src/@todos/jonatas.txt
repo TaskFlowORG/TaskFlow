@@ -1,14 +1,11 @@
-Questão de responsividade da tela de canvas, o select image nao abre pra cima, tem que fazer ele receber um tamanho tambem para reutilizalo
-side bar de pages falta responsividade e acessibilidade a tema dark e light, alem  de ajustes de css e icones
-a tela calendar falta verificar as requisições e  o modal das tarefas
-em todas as paginas faltam formas de adicionar tarefas e propriedades,  dar uma olhada na responsividade e no tema darkxlight
+Questão de responsividade da tela de canvas, o select image nao abre pra cima
+side bar de pages falta responsividade 
+dar uma olhada na responsividade e no tema darkxlight
 na pagina de list tem que verificar ser as tasks estao apatecendo
 prototipar timeline
 verificar a tabela
 fazer o criar page
 
-tenho que fazer o botao de cancelar
-tenho que terminar todas as sides
 tenho que fazer a requisição de buscar grupos de um projeto
 
 responsividade do card de projeto em certo tamabnho de tela ele fica pela metade so uma das colunas (pagina de projetos)

@@ -1,5 +1,5 @@
 import { getData } from "@/services/http/api";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
 import { TextFilter } from "./TextFilter";
@@ -10,25 +10,21 @@ import { CheckboxFilter } from "./CheckboxFilter";
 import { Select as Selectt } from "@/components/Select";
 import { RadioFilter } from "./RadioFilter";
 import { TagFilter } from "./TagFilter";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 interface Props {
   properties: Property[];
   orderingId: number | undefined;
   page: Page | null;
-  filterProps: (list: any) => void;
-  propsFiltered: FilteredProperty[];
 }
 
-export const FilterAdvancedInput = ({
-  properties,
-  orderingId,
-  filterProps,
-  propsFiltered,
-}: Props) => {
+export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );
-  let filterProp: FilteredProperty[] = [];
+  const { filterProp, setFilterProp, list, setList } =
+    useContext(FilterContext);
+  let filterProperty: FilteredProperty[] = [];
 
   useEffect(() => {
     (async () => {
@@ -37,13 +33,11 @@ export const FilterAdvancedInput = ({
     })();
   }, []);
 
-  const [list, setList] = useState<FilteredProperty[]>([]);
-
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
       <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
-          const prop = propsFiltered.find((prop) => prop.id == property.id) ?? {
+          const prop = filterProp!.find((prop) => prop.id == property.id) ?? {
             value: null,
           };
 
@@ -81,21 +75,56 @@ export const FilterAdvancedInput = ({
                 options={(property as Select).options}
                 id={property.id}
                 key={property.id}
-                value={list.find((f) => f.id == property.id)?.value}
+                value={list?.value ?? []}
                 removeList={(value: string) => {
-                  const listFind = list.find((f) => f.id == property.id)!;
-                  listFind.value.splice(listFind.value.indexOf(value), 1);
-                }}
-                addList={(value: string) => {
-                  const listFind = list.find((f) => f.id == property.id);
-                  console.log(listFind, list);
-                  if (listFind) {
-                    listFind.value.push(value);
+                  if (list) {
+                    const thisProperty = filterProp.find(
+                      (item) => item.id == list.id
+                    )!;
+                    if (list?.value.includes(value)) {
+                      list.value.splice(list.value.indexOf(value), 1);
+                      if (list.value.length == 0) {
+                        filterProp.splice(filterProp.indexOf(thisProperty), 1);
+                        setFilterProp!(filterProp);
+                      }
+                      setList!(list);
+                    } else {
+                      list?.value.push(value);
+                      filterProp.splice(filterProp.indexOf(thisProperty), 1);
+                      setFilterProp!(filterProp);
+                      setFilterProp!([list!, ...filterProp]);
+                      setList!(list);
+                    }
                   } else {
-                    setList([...list, { id: property.id, value: [value] }]);
-                    console.log(list);
+                    setList!({ id: property.id, value: [value] });
+                    setFilterProp!([
+                      { id: property.id, value: [value] },
+                      ...filterProp,
+                    ]);
                   }
                 }}
+
+                // const thisProperty = filterProp?.find((item) => item.id == id);
+                // if (thisProperty) {
+                //   if (option.includes(e)) {
+                //     thisProperty.value = thisProperty.value.filter(
+                //       (option: string) => option !== e
+                //     );
+                //     if (thisProperty.value.length == 0) {
+                //       filterProp.splice(filterProp.indexOf(thisProperty), 1);
+                //       setFilterProp!(filterProp);
+                //     }
+                //   } else {
+                //     thisProperty.value = [...option, e];
+                //   }
+                // } else {
+                //   if (e) {
+                //     setFilterProp!([
+                //       ...filterProp,
+                //       { id: id, value: [e] },
+                //     ]);
+                //   }
+                // }
               />
             );
           } else if (property.type === TypeOfProperty.CHECKBOX) {
@@ -123,7 +152,7 @@ export const FilterAdvancedInput = ({
               <div key={property.id} className="w-full flex border-b-[1px] ">
                 <Selectt
                   name={property.name}
-                  id={"prop" + property.id.toString()}
+                  ids={property.id}
                   options={(property as Select).options.map(
                     (option) => option.name
                   )}
@@ -138,9 +167,9 @@ export const FilterAdvancedInput = ({
       <div className="flex w-full items-center justify-between">
         <Button
           fnButton={() => {
-            filterProps([]);
-            filterProp = [];
-            setList([]);
+            setFilterProp!([]);
+            filterProperty = [];
+            setList!(undefined);
           }}
           font="text-sm"
           padding="p-4"
@@ -149,11 +178,11 @@ export const FilterAdvancedInput = ({
           background="bg-transparent hover:bg-primary dark:hover:bg-secondary "
         />
 
-        <Button
+        {/* <Button
           font="text-base"
           padding="p-4"
           fnButton={() => {
-            filterProps([]);
+            setFilterProp!([]);
             allProperties?.map((property) => {
               if (
                 [TypeOfProperty.CHECKBOX, TypeOfProperty.RADIO].includes(
@@ -176,11 +205,11 @@ export const FilterAdvancedInput = ({
                 );
                 console.log(values.length);
                 if (values.length > 0) {
-                  filterProps([
-                    ...filterProp,
+                  setFilterProp!([
+                    ...filterProperty,
                     { id: property.id, value: values },
                   ]);
-                  filterProp.push({ id: property.id, value: values });
+                  filterProperty.push({ id: property.id, value: values });
                 }
               } else {
                 const anInput: HTMLInputElement | null = document.querySelector(
@@ -190,19 +219,22 @@ export const FilterAdvancedInput = ({
                 if (anInput?.value) {
                   console.log("Soy lista caliente");
                   console.log(list);
-                  filterProps([
-                    ...filterProp,
-                    ...list,
+                  setFilterProp!([
+                    ...filterProperty,
+                    list!,
                     { id: property.id, value: anInput.value },
                   ]);
-                  filterProp.push({ id: property.id, value: anInput.value });
+                  filterProperty.push({
+                    id: property.id,
+                    value: anInput.value,
+                  });
                 } else if (TypeOfProperty.TAG == property.type) {
-                  filterProps([...filterProp, ...list]);
+                  setFilterProp!([...filterProperty, list!]);
                 }
               }
             });
           }}
-        />
+        /> */}
       </div>
     </div>
   );

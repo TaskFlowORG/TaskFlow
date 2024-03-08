@@ -15,6 +15,7 @@ type Point = { x: number; y: number }
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw, shape:string, isErasing:boolean) => void, 
 moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:boolean, page:Page | undefined) => {
  
+  const [dragging, setDragging] = useState<boolean>(false);
   const [mouseDown, setMouseDown] = useState<boolean>(false)
   const contextRef = useRef<CanvasRenderingContext2D | null>(null)
   const prevPoint = useRef<null | Point>(null)
@@ -75,14 +76,17 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
       const rect = canvas.getBoundingClientRect()
       const x = e.clientX - rect.left
       const y = e.clientY - rect.top
-
-      if(testIfInOptions({x:e.pageX, y:e.pageY}, e)) {
+      console.log(dragging)
+      if(dragging || testIfInOptions({x:e.pageX, y:e.pageY}, e)) {
         return null
       }
       return { x, y }
     }
 
     const mouseUpHandler = (e:MouseEvent) => {
+      if(dragging){
+        setDragging(false)
+      }
       if(e.button == 1 || moving) return
       const currentPoint = computePointInCanvas(e)
       if(shape != "line") {
@@ -115,7 +119,7 @@ moving:boolean, shape:string, optionsRef:RefObject<HTMLDivElement>, isErasing:bo
         window.removeEventListener('mouseup', mouseUpHandler)
       }
 
-  }, [onDraw, shape, mouseDown, isErasing, moving])
+  }, [onDraw, shape, mouseDown, isErasing, moving, dragging])
 
-  return { clear , canvasRef}
+  return { clear , canvasRef, setDragging}
 }

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { useState, useEffect, useContext } from "react";
 
 interface Props {
   id: number;
@@ -8,10 +9,26 @@ interface Props {
 
 export const NumberFilter = ({ id, value, name }: Props) => {
   const [valued, setValued] = useState<number>();
-
+  const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     setValued(value);
   }, [value]);
+
+  function change(valueInput: number) {
+    const thisProperty = filterProp?.find((item) => item.id == id);
+    if (thisProperty) {
+      if (valueInput) {
+        filterProp.splice(filterProp.indexOf(thisProperty), 1);
+        setFilterProp!(filterProp);
+      } else {
+        thisProperty.value = valueInput;
+      }
+    } else {
+      if (valueInput) {
+        setFilterProp!([...filterProp, { id: id, value: valueInput }]);
+      }
+    }
+  }
 
   return (
     <div className="flex gap-4 w-full h-min justify-between  items-center border-b-[1px] ">
@@ -23,11 +40,17 @@ export const NumberFilter = ({ id, value, name }: Props) => {
           type="number"
           name=""
           value={valued}
-          onChange={(e) => setValued(parseInt(e.target.value))}
+          onChange={(e) => {
+            setValued(parseInt(e.target.value));
+            change(parseInt(e.target.value));
+          }}
           id={`prop${id}`}
         />
         <span
-          onClick={() => setValued(valued ? valued - 1 : -1)}
+          onClick={() => {
+            setValued(valued ? valued - 1 : -1);
+            change(valued ? valued - 1 : -1);
+          }}
           className="bg-primary dark:bg-secondary bah rounded-l-lg w-6 relative -order-1"
         >
           <p className="absolute  text-white left-1/2 top-[6px] leading-none -translate-x-1/2">
@@ -36,7 +59,10 @@ export const NumberFilter = ({ id, value, name }: Props) => {
         </span>
 
         <span
-          onClick={() => setValued(valued ? valued + 1 : 1)}
+          onClick={() => {
+            setValued(valued ? valued + 1 : 1);
+            change(valued ? valued + 1 : 1);
+          }}
           className="bg-primary dark:bg-secondary bah rounded-r-lg w-6 relative right"
         >
           <p className="absolute  text-white leading-none left-1/2 top-[6px] -translate-x-1/2">

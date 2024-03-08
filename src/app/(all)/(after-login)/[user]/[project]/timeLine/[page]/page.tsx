@@ -4,7 +4,7 @@ import { Page, Project } from "@/models";
 import { pageService, projectService } from "@/services";
 import { useEffect, useState } from "react";
 
-export default function ({
+export default function Timeline ({
   params,
 }: {
   params: { project: number; page: number };

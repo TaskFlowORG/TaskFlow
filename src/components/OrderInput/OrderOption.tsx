@@ -1,4 +1,3 @@
-
 import { Property } from "@/models";
 import Image from "next/image";
 interface OrderOptionType {
@@ -16,7 +15,7 @@ export const OrderOption = ({
     <div
       onClick={updateOrderingProperty}
       id={property.id.toString()}
-      className={`flex w-full p-2 text-center dark:bg-modal-grey  shadowww  text-black dark:text-white rounded-lg bg-[#F2F2F2] ${
+      className={`flex w-full p-2 text-center dark:bg-modal-grey  shadow-light dark:shadow-blur-10 text-black dark:text-white rounded-lg bg-[#F2F2F2] ${
         isOrderingProperty ? "justify-between" : "justify-center"
       }`}
     >

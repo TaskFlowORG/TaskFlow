@@ -12,7 +12,7 @@ export const CardTag = ({ tags, nameProperty }: Props) => {
   return (
     <>
       <div className="flex flex-col gap-2 w-full justify-center">
-        <p className="p w-max text-[#797979] dark:text-white">
+        <p className="text-[14px] w-max text-[#797979] dark:text-white">
           {nameProperty}:
         </p>
         <div className="oi w-full overflow-clip  flex gap-2 relative">

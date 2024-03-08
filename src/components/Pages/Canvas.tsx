@@ -30,7 +30,7 @@ export const Canvas = ({
   const optionsRef = useRef<HTMLDivElement>(null);
   const [shape, setShape] = useState<string>("line");
   const [isErasing, setIsErasing] = useState<boolean>(false);
-  const { clear, canvasRef } = useDraw(
+  const { clear, canvasRef, setDragging } = useDraw(
     drawLine,
     moving,
     shape,
@@ -94,6 +94,7 @@ export const Canvas = ({
         />
         {page.tasks.map((t, index) => (
           <TaskCanvasComponent
+          setDraggingInCanvas={setDragging}
             task={t as TaskCanvas}
             key={index}
             elementRef={elementRef}

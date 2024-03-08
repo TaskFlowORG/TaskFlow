@@ -1,7 +1,7 @@
 "use client";
 
 import { RoundedCard } from "@/components/RoundedCard/RoundedCard";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
@@ -10,6 +10,7 @@ import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
 import { useTheme } from "next-themes";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 interface Props {
   color?: string;
@@ -18,16 +19,15 @@ interface Props {
   tasks: TaskOrdered[];
   verify?: boolean;
   input?: string;
-  propsFiltered: FilteredProperty[];
 }
 
 export const ColumnKanban = ({
   option,
   tasks,
   input,
-  propsFiltered = [],
 }: Props) => {
   const { theme } = useTheme();
+  const { filterProp, setFilterProp } = useContext(FilterContext)
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -45,7 +45,7 @@ export const ColumnKanban = ({
   }
   return (
     <div
-      className="w-min min-w-[360px] pb-4 h-full flex lg:flex-col gap-4"
+      className="w-min min-w-[360px] pb-4 h-full max-h-[650px] overflow-hidden flex lg:flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -61,7 +61,7 @@ export const ColumnKanban = ({
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-      <div className="rounded-full h-full">
+      <div className="h-full none-scrollbar overflow-auto">
         <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
           {(provided, snapshot) => {
             return (
@@ -90,7 +90,7 @@ export const ColumnKanban = ({
                   ) {
                     let render = false;
                     let counter = 0;
-                    propsFiltered.map((prop) => {
+                    filterProp.map((prop) => {
 
                       const propertyInTask = findPropertyInTask(item, prop);
                       if (
@@ -131,8 +131,8 @@ export const ColumnKanban = ({
                       }
                     });
                     if (
-                      (render && counter == propsFiltered.length) ||
-                      propsFiltered.length == 0
+                      (render && counter == filterProp.length) ||
+                      filterProp.length == 0
                     ) {
                       return (
                         <Draggable

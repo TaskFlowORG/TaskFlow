@@ -49,7 +49,7 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
       {filter && openedFilter && children[1]}
       {search && (
         <SearchIcon
-          iconSrc={"searchIcons/search.svg"}
+          iconSrc={"/searchIcons/search.svg"}
           action={() => {
             // console.log(textInput);
             search(textInput);
@@ -59,14 +59,14 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
       )}
       {order && (
         <SearchIcon
-          iconSrc={"searchIcons/order.svg"}
+          iconSrc={"/searchIcons/order.svg"}
           open={() => change("order")}
           action={() => order()}
         />
       )}
       {filter && (
         <SearchIcon
-          iconSrc={"searchIcons/filter.svg"}
+          iconSrc={"/searchIcons/filter.svg"}
           action={() => filter()}
           open={() => change("filter")}
         />
