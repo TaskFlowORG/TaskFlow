@@ -21,7 +21,7 @@ export const ListPage = ({page }:Props) => {
             const list = []
             for (let p of  pagesPromise) {
                 for (let task of p.tasks) {
-                    if (task.task.id == tasksPromise[0]?.task.id && page.id != p.id) {
+                    if (task.task.id == tasksPromise[0]?.task.id && page.id != p.id && list.find(p1 => p1.id == p.id) == undefined) {
                         list.push(p)
                     }
                 }
@@ -39,9 +39,9 @@ export const ListPage = ({page }:Props) => {
         }
     }
 
-    function contains(p:Page,  t: TaskPage): boolean {
-        if(!p) return false
-        for (let task of p.tasks) {
+    function contains(t: TaskPage): boolean {
+        if(!page) return false
+        for (let task of page.tasks){
             if (task.task.id == t.task.id ) return true
         }
         return false
@@ -64,7 +64,7 @@ export const ListPage = ({page }:Props) => {
                 <DragDropContext onDragEnd={e => updateIndexes(e)}>
                         {
                             pages.map((p) => {
-                                return <List key={p.id} list={(page?.tasks.filter(t => contains(p, t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
+                                return <List key={p.id} list={(p?.tasks.filter(t => contains(t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
                             })
                         }
                         </DragDropContext>

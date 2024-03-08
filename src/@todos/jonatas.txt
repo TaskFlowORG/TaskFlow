@@ -11,3 +11,5 @@ tenho que fazer a requisição de buscar grupos de um projeto
 responsividade do card de projeto em certo tamabnho de tela ele fica pela metade so uma das colunas (pagina de projetos)
 
 tirar color da entidade de date (banco de dados)
+
+tem que resolver o update index, nem sempre sera orderedpage, no caso de list tem que fazer as tasks serem orderedtasks (com indexAtColumn)

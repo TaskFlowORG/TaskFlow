@@ -18,7 +18,7 @@ interface Props {
 }
 
 
-export const List = ({ list, headName, multivalued, justName, property, updateIndexes, listId }: Props) => {
+export const List = ({ list, headName, justName, property, updateIndexes, listId }: Props) => {
 
 
     function getValueOfProperty(task: TaskOrdered) {
@@ -92,14 +92,12 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
                                 <p>{headName}</p>
                             </If>
                         </div>
-                        <div className="h-full min-w-min w-full">
-
-
+                        <div className="h-5/6 overflow-y-auto none-scrollbar  min-w-min w-full">
 
                             <div className="w-full relative">
-                                {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l) => {
+                                {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l, index) => {
                                     return (
-                                        <Draggable draggableId={listId + "/" + l.id ?? ""} index={l.indexAtColumn ?? 0} key={l.id}>{
+                                        <Draggable draggableId={listId + "/" + l.id ?? ""} index={index} key={l.id}>{
                                             (provided, snapshot) => {
                                                 const propVl = getValueOfProperty(l);
                                                 return (
@@ -108,7 +106,7 @@ export const List = ({ list, headName, multivalued, justName, property, updateIn
                                                             className="bg-white dark:bg-modal-grey  border-zinc-400 dark:border-zinc-600 border-b-2 w-full"
                                                             {...provided.draggableProps}{...provided.dragHandleProps} ref={provided.innerRef}
                                                             style={snapshot.isDragging ?
-                                                                { ...provided.draggableProps.style, filter: "brightness(90%)", left: 0, position: "absolute", top: (list.indexOf(l) * 5 + "rem") } :
+                                                                { ...provided.draggableProps.style, filter: "brightness(90%)"} :
                                                                 { ...provided.draggableProps.style }}>
                                                             <If condition={justName}>
                                                                 <div className={"w-full py-4 px-3 gap-6 h-16 overflow-clip justify-start items-center flex flex-wrap truncate" +
