@@ -3,9 +3,12 @@
 import { CalendarDay } from "@/components/CaledarDay";
 import { Arrow } from "@/components/icons/";
 import { compareDates } from "@/functions";
-import { OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
+import { DateValued, OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
 import { pageService } from "@/services";
 import { useEffect, useState } from "react";
+import { CenterModal } from "../Modal";
+import { CalendarTasksModal } from "../CalendarTasksModal";
+import {Date as DateProp} from "@/models"
 
 interface Day{
     day:Date,
@@ -22,15 +25,14 @@ export const Calendar = ({page}:Props) => {
     const [tasks, setTasks] = useState<TaskOrdered[]>([])
     const [month, setMonth] = useState<number>(0)
     const [year, setYear] = useState<number>(0)
+    const [modal, setModal] = useState<boolean>(false)
 
     useEffect(() => {
             const temporaryMonth = (new Date()).getMonth() + 1
             setMonth(temporaryMonth)
             setYear((new Date()).getUTCFullYear())
             const tasksPromise = page.tasks as TaskOrdered[]
-            setTasks(tasksPromise.filter((t:TaskOrdered) => {
-                return (new Date(getPropertyValueOfOrdering(t , page.propertyOrdering)?.value.value).getMonth()+1) == temporaryMonth 
-            }))
+            setTasks(tasksPromise)
     // eslint-disable-next-line
     }, [])
 
@@ -56,6 +58,7 @@ export const Calendar = ({page}:Props) => {
         for (let i = 0; i < lastDate.getDate(); i++) {
             let date:Date = new Date(firstDate);
             date.setTime(firstDate.getTime() + (i * 24 * 60 * 60 * 1000))
+            
             days.push({ day: date, inThisMonth: true, tasks: tasks.filter(t => compareDates(new Date(getPropertyValueOfOrdering(t, page.propertyOrdering)?.value.value), date) )})
         }
         for (let i = 1; i < (7 - lastDate.getDay()); i++) {
@@ -88,9 +91,9 @@ export const Calendar = ({page}:Props) => {
     }
 
     return (
-        <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
+        <div className="w-full h-full pt-20 flex justify-center items-start">
 
-            <div className="h-full flex flex-col w-5/6 md:w-2/3 lg:w-3/5 xl:w-[45%] 2xl:w-[45%]">
+            <div className="w-5/6 sm:w-min sm:h-1/2 md:h-2/3 lg:h-5/6 flex flex-col aspect-square ">
                 <div className="h-fit w-full flex items-center">
                     <div className="h4 dark:text-white sm:text-[40px] md:text-[48px]  w-min text-primary">
                         {year}
@@ -117,9 +120,21 @@ export const Calendar = ({page}:Props) => {
                     <span className="text-back-grey dark:text-white h-6 sm:h-10 text-[1rem] font-alata sm:text-[1.5rem] text-center">QUI</span>
                     <span className="text-back-grey dark:text-white h-6 sm:h-10 text-[1rem] font-alata sm:text-[1.5rem] text-center">SEX</span>
                     <span className="text-back-grey dark:text-white h-6 sm:h-10 text-[1rem] font-alata sm:text-[1.5rem] text-center">SAB</span>
-                    {getDays().map(d=> <CalendarDay date={d} key={d.day.getDate() + ", " + d.day.getMonth() + ", " + d.day.getFullYear()} />)}
+                    {getDays().map(d=> <CalendarDay propOrd={page.propertyOrdering as DateProp} date={d} key={d.day.getDate() + ", " + d.day.getMonth() + ", " + d.day.getFullYear()} />)}
                 </div>
             </div>
+            <div className="h-full flex flex-col w-0 relative cursor-pointer">
+                <div className="font-montserrat bg-primary dark:bg-secondary text-contrast px-4 w-max h-max py-1 
+                absolute rotate-90 rounded-t-md flex justify-center items-center 
+                text-[10px]  sm:text-[10px] md:text-[12px] lg:text-[14px] xl:text-[16px] 
+                top-[7rem] sm:top-[9.5rem] md:top-[10.6rem] lg:top-[11.1rem] xl:top-[11.55rem]
+                -left-[2.8rem] md:-left-[3.3rem] lg:-left-[3.7rem] xl:-left-[4.2rem]"
+                onClick={() => setModal(true)}>
+                    Tarefas Sem Data...
+                </div>
+            </div>
+            <CalendarTasksModal title="Tarefas Sem Data" modal={modal} setModal={setModal} propOrd={page.propertyOrdering as DateProp} withotTime
+            tasks={tasks.filter((t) => t.task.properties.find(p => p.property.id === page.propertyOrdering?.id)?.value.value == null)} />
         </div>
     );
 };
