@@ -59,8 +59,8 @@ export const CanvasComponents = ({
     <div>
       <div id="tools"
         className="fixed bottom-0 flex  dark:bg-modal-grey items-center justify-around bg-input-grey rounded-t-2xl cursor-default
-        h-min w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0"
-        ref={optionsRef}
+        h-14 w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0"
+        ref={optionsRef}  
       >
         <button onClick={() => setIsErasing(!isErasing)} disabled={moving}>
           <If condition={isErasing}>

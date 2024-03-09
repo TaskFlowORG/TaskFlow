@@ -14,3 +14,5 @@ tirar color da entidade de date (banco de dados)
 
 list:tem que resolver o update index, nem sempre sera orderedpage, no caso de list tem que fazer as tasks serem orderedtasks (com indexAtColumn)
 table:fazer direito porque o scroll nao funciona
+
+O canvas precisa verificar se funciona no celular, porque eu usei mouse down e up
