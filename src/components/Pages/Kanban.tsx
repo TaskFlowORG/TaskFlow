@@ -187,8 +187,8 @@ export const Kanban = () => {
         </div>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           // node
-          <div className="flex gap-8 justify-center lg:justify-start min-h-max  flex-col lg:flex-row pl-3 w-full opss max-w-[360px] overflow-y-auto  lg:overflow-x-auto lg:max-w-[1560px]  lg:overflow-auto self-center">
-            {options?.map((option) => {
+          <div className="flex gap-8 justify-center lg:justify-start min-h-max  flex-col lg:flex-row pl-3 w-full max-w-[360px] overflow-y-auto   lg:max-w-[1560px]  lg:overflow-auto self-center">
+            {options?.map((option) => { 
               return (
                 <ColumnKanban
                   input={input}

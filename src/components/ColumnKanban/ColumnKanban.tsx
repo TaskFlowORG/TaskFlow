@@ -45,7 +45,7 @@ export const ColumnKanban = ({
   }
   return (
     <div
-      className="w-min min-w-[360px]  pb-4 h-full lg:max-h-[650px]  lg:overflow-hidden flex flex-col  lg:flex-col gap-4"
+      className="w-min min-w-[360px]  pb-4 h-full lg:max-h-[650px]   flex flex-col  lg:flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
