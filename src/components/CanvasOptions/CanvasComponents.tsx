@@ -74,7 +74,7 @@ export const CanvasComponents = ({
           max={50}
           min={2}
           value={lineWidth}
-          className=" -rotate-90 w-16 h-16 z-30 cursor-pointer"
+          className=" sm:-rotate-90 w-16 h-16 z-30 cursor-pointer"
           onChange={(e) => setLocalLineWidth(parseInt(e.target.value))}
         />
         <div className="h-12 w-10 justify-center items-center bg-transparent flex ">

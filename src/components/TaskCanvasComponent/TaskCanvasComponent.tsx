@@ -16,9 +16,10 @@ interface Props{
     canvasRef: React.RefObject<HTMLCanvasElement>,
     page:CanvasPage | undefined;
     setDraggingInCanvas:(value:boolean) => void;
+    moving:boolean;
 }
 
-export const TaskCanvasComponent = ({task, elementRef, canvasRef, page, setDraggingInCanvas}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, canvasRef, page, setDraggingInCanvas, moving}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -69,7 +70,7 @@ export const TaskCanvasComponent = ({task, elementRef, canvasRef, page, setDragg
     }, [dragging])
 
     return(
-        <div className="w-min h-min p-2 absolute transition-none select-none" style={style} onMouseDown={() => {setDragging(true); setDraggingInCanvas(true)}} ref={draggableRef} >
+        <div className="w-min h-min p-2 absolute transition-none select-none" style={style} onMouseDown={() => {setDragging(!moving); setDraggingInCanvas(!moving)}} ref={draggableRef} >
             <RoundedCard>
                 <CardContent task={task.task} />
             </RoundedCard> 

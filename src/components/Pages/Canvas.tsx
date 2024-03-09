@@ -80,7 +80,7 @@ export const Canvas = ({
   return (
     <div
       ref={elementRef}
-      className="overflow-scroll flex justify-start items-start w-screen h-full"
+      className="overflow-hidden flex justify-start items-start w-screen h-full"
     >
       <MapOfCanvas canvas={canvasRef} x={x} y={y} page={page} />
       <div className="w-min h-min relative" 
@@ -100,6 +100,7 @@ export const Canvas = ({
             elementRef={elementRef}
             canvasRef={canvasRef}
             page={page}
+            moving={moving}
           />
         ))}
         <CanvasComponents
