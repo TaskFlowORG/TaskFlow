@@ -49,7 +49,7 @@ export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) =
                     z-20 dark:border-modal-grey absolute flex  py-1 items-start ${openToTop ? `bottom-11 flex-col-reverse origin-bottom` : "top-11 flex-col origin-top"}`}>
                         {
                             list.map((item, index) => (
-                                <div key={index} className="hover:bg-zinc-200  hover:dark:bg-zinc-600 w-10 h-8   px-2 bg-white dark:bg-back-grey  "
+                                <div key={index} className="hover:bg-zinc-200  hover:dark:bg-zinc-600 w-10 h-8  flex items-center justify-center px-2 bg-white dark:bg-back-grey  "
                                     onClick={() => { onChange(item.value); setShow(false) }}>
                                     {item.image}
                                 </div>

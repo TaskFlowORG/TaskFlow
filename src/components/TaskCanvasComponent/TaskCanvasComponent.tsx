@@ -3,11 +3,9 @@
 
 import { RoundedCard } from "../RoundedCard"
 import { CardContent } from "../CardContent"
-import {useState, useRef, useEffect} from "react"
-import { useTheme } from "next-themes"
+import {useState, useRef, useEffect, MouseEvent as MouseEventReact} from "react"
 import { CanvasPage, TaskCanvas } from "@/models"
 import { pageService } from "@/services"
-import { set } from "react-hook-form"
 
 
 interface Props{
@@ -19,58 +17,51 @@ interface Props{
     moving:boolean;
 }
 
-export const TaskCanvasComponent = ({task, elementRef, canvasRef, page, setDraggingInCanvas, moving}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas, moving}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
     const[dragging, setDragging] = useState<boolean>(false)
-    const{theme, setTheme} = useTheme()
     const draggableRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {task.x = x}, [x])
-    useEffect(() => {task.y = y}, [y])
-
     const style:Object = {
-        cursor: theme == "dark"? "url('/img/grabDark.svg'), auto" : "url('/img/grabLight.svg'), auto" ,
         top : y,
         left : x,
     }
-
-    function changeXandY(e:MouseEvent){ 
-
-            
-
-            if(!draggableRef.current || !elementRef.current || !dragging) return  
-            const offsetX = elementRef.current.scrollLeft + e.pageX - draggableRef.current.clientWidth/2
-            const offsetY = elementRef.current.scrollTop + e.pageY - draggableRef.current.clientHeight/2
-    
-            if(offsetX > 0 && offsetX < 3700) {
-                setX(offsetX)
-            }
-            if(offsetY > 56 && offsetY < (2000)){
-                setY(offsetY)
-            }
-            (async () => {
-                if(!page) return
-                await pageService.updateXAndY(task)
-            })()
+    const mouseDown = (e:MouseEventReact) => {
+        if(e.button == 1) return
+        setDragging(!moving); 
+        setDraggingInCanvas(!moving)
     }
 
+    useEffect(() => {task.x = x}, [x, task])
+    useEffect(() => {task.y = y}, [y, task])
     useEffect(() => {
-        if(dragging){
-            elementRef.current?.addEventListener("mousemove", changeXandY)
-            elementRef.current?.addEventListener("mouseup", () => setDragging(false))
+        const current = elementRef.current
+        if(!current) return
+        const changeXandY = (e:MouseEvent) => { 
+            if(!draggableRef.current || !elementRef.current || !dragging) return
+            const offsetX = elementRef.current.scrollLeft + e.pageX - draggableRef.current.clientWidth/2
+            const offsetY = elementRef.current.scrollTop + e.pageY - draggableRef.current.clientHeight/2
+            if(offsetX > 0 && offsetX < 3700) setX(offsetX)
+            if(offsetY > 56 && offsetY < (2000)) setY(offsetY)
         }
+        const mouseUp = () => {
+            setDragging(false)
+            if(!page) return
+            pageService.updateXAndY(task)
+        }
+        current.addEventListener("mousemove", changeXandY)
+        current.addEventListener("mouseup", mouseUp)
         return () => {
-            elementRef.current?.removeEventListener("mousemove", changeXandY)
-            // eslint-disable-next-line
-            elementRef.current?.removeEventListener("mouseup", () => setDragging(false))
+        if(!current) return
+            current.removeEventListener("mousemove", changeXandY)
+            current.removeEventListener("mouseup", mouseUp)
         }
-    // eslint-disable-next-line
-    }, [dragging])
+    }, [dragging, elementRef, page, task])
 
     return(
-        <div className="w-min h-min p-2 absolute transition-none select-none" style={style} onMouseDown={() => {setDragging(!moving); setDraggingInCanvas(!moving)}} ref={draggableRef} >
+        <div className="w-min h-min p-2 absolute transition-none select-none cursor-[url('/img/grabLight.svg'),auto] dark:cursor-[url('/img/grabDark.svg'),auto] " 
+        style={style} onMouseDown={mouseDown} ref={draggableRef} >
             <RoundedCard>
                 <CardContent task={task.task} />
             </RoundedCard> 

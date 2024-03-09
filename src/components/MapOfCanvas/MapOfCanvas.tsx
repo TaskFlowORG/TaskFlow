@@ -1,7 +1,5 @@
 import { CanvasPage } from "@/models";
-import { pageService } from "@/services";
-import { Blob } from "buffer";
-import {useEffect, useState } from "react";
+import {useEffect, useRef, useState } from "react";
 
 interface Props{
     canvas: React.RefObject<HTMLCanvasElement>,
@@ -11,10 +9,12 @@ interface Props{
 }
 
 
-export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
-    const image = canvas?.current?.toDataURL() || ""
+export const MapOfCanvas = ({canvas, x, y}:Props) => {
     const [windowWidth, setWindowWidth] = useState<number>(0)
     const [windowHeight, setWindowHeight] = useState<number>(0)
+    const mapRef = useRef<HTMLCanvasElement>(null)
+    const mapCtx = mapRef.current?.getContext("2d")
+    const canvasCtx = canvas.current?.getContext("2d")
     
     // eslint-disable-next-line
     useEffect(() => {
@@ -25,25 +25,23 @@ export const MapOfCanvas = ({canvas, x, y, page}:Props) => {
         setWindowWidth(window.innerWidth)
         setWindowHeight(window.innerHeight)
     })
-
     const width = windowWidth > 600 ? windowWidth/6 : windowWidth/2
-    const focusWidth = width/(4000/windowWidth)
-    const focusHeight = (width/2)/(2000/windowHeight)
-    const topFocus = (((width/2)*y)/2000) + 64
-    const leftFocus = ((width*x)/4000) + 8
     const style = {
-        width:focusWidth,
-        height:focusHeight,
-        top: topFocus,
-        left: leftFocus,
+        width:width/(4000/windowWidth),
+        height:(width/2)/(2000/windowHeight),
+        top: (((width/2)*y)/2000) + 64,
+        left: ((width*x)/4000) + 8,
     }
-    return (
-
-        <div className="w-min h-min pointer-events-none">
-            <img src={image} className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
-            width={width} height={width/2} />
+    mapCtx?.clearRect(0, 0, width, width/2)
+    mapCtx?.drawImage(canvas.current as HTMLCanvasElement, 0, 0, 4000, 2000, 0, 0, width, width/2)
+  
+    return {
+        map:<div className="w-min h-min pointer-events-none">
+            <canvas className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
+            width={width} height={width/2} ref={mapRef} />
             <div className="fixed z-30 backdrop-brightness-125" style={style}>
             </div>
-        </div>
-    )
+        </div>,
+        clearMap: () => mapCtx?.clearRect(0, 0, width, width/2)
+    }
 }

@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { If } from "../If";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import {
@@ -12,13 +12,7 @@ import {
   Triangle,
 } from "../icons";
 import { MoveIcon } from "../icons/Canvas/Move";
-import { drawLine, setLineColor, setLineWidth } from "@/functions";
-import { useDraw } from "@/hooks/useDraw";
-import { useTheme } from "next-themes";
-import { SelectedArea } from "../SelectedArea/SelectedArea";
-import { set } from "react-hook-form";
 import { Pointer } from "../icons/Canvas/Pointer";
-import { TypeOfProperty } from "@/models";
 
 interface Props {
   moving: boolean;
@@ -44,14 +38,14 @@ export const CanvasComponents = ({
   postTask
 }: Props) => {
 
-  const [lineColor, setLocalLineColor] = useState<string>("#000000");
-  const [lineWidth, setLocalLineWidth] = useState<number>(2);
+  const [lineColor, setLocalLineColor] = useState<string>(localStorage.getItem("canvas_line_color") ?? "#000000");
+  const [lineWidth, setLocalLineWidth] = useState<number>(+(localStorage.getItem("canvas_line_width") ?? "2"));
 
   useEffect(() => {
-    setLineColor(lineColor);
+    localStorage.setItem("canvas_line_color", lineColor);
   }, [lineColor]);
   useEffect(() => {
-    setLineWidth(lineWidth);
+    localStorage.setItem("canvas_line_width", JSON.stringify(lineWidth));
   }, [lineWidth]);
 
 
@@ -62,7 +56,7 @@ export const CanvasComponents = ({
         h-14 w-full py-2 sm:py-6 sm:flex-col sm:rounded-l-2xl sm:rounded-r-none sm:h-[22rem] sm:w-min sm:top-14 sm:right-0"
         ref={optionsRef}  
       >
-        <button onClick={() => setIsErasing(!isErasing)} disabled={moving}>
+        <button onClick={() => {setIsErasing(!isErasing); localStorage.setItem("canvas_is_erasing", JSON.stringify(!isErasing))}} disabled={moving}>
           <If condition={isErasing}>
             <Eraser />
             <Pencil />
@@ -87,7 +81,7 @@ export const CanvasComponents = ({
               { value: "triangle", image: <Triangle /> },
             ]}
             selected={shape}
-            onChange={(s) => setShape(s)}
+            onChange={(s) => {setShape(s); localStorage.setItem("canvas_shape", s)}}
           />
         </div>
         <span
