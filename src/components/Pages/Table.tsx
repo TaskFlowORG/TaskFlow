@@ -8,25 +8,13 @@ import { pageService, projectService } from "@/services";
 
 interface Props{
     page:Page,
-    project:number
+    project:Project
 }
 
 export const Table = ({ page, project}:Props) => {
 
-    const [tasks, setTasks] = useState<TaskOrdered[]>([])
-    const [properties, setProperties] = useState<Property[]>([])
-
-    useEffect(() => {
-        (async () => {
-            const projectPromise: Project = await projectService.findOne(project)
-
-            let tasksPromise = (page).tasks
-            let propsPromise = [...( projectPromise).properties, ...(page).properties]
-            setTasks(tasksPromise as TaskOrdered[])
-            setProperties(propsPromise.filter(p => p.visible))
-        })()
-    // eslint-disable-next-line
-    }, [])
+    const [tasks, setTasks] = useState<TaskOrdered[]>(page.tasks as TaskOrdered[])
+    const [properties, setProperties] = useState<Property[]>([...project.properties, ...page.properties])
 
     async function updateIndexes(e: DropResult) {
         if(!e.draggableId || !e.destination?.index) return

@@ -1,25 +1,16 @@
-"use client";
-
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
-import { CanvasPage, OrderedPage, Page, TypeOfPage } from "@/models";
-import { pageService } from "@/services";
-import { useEffect, useState } from "react";
-import { set } from "react-hook-form";
-
-
-export default function Pages({params}:{params:{page:number, project:number, user:string}}){
-
-    const[page, setPage] = useState<Page>()
-    useEffect(() => {
-        (async () => {
-            const pagePromise = await pageService.findOne(params.page)
-            console.log(pagePromise)
-            setPage(pagePromise)
-
-        })()
-    // eslint-disable-next-line
-    }, [params.page])
-
+import { CanvasPage, OrderedPage, Page, Project, TypeOfPage, User } from "@/models";
+import { pageService, projectService, userService } from "@/services";
+interface Props {
+    page: Page,
+    project: Project,
+    user: User
+}
+   
+export default async function Pages({params}:{params:{user:string, project:number, page:number}}){
+    const page = await pageService.findOne(params.page)
+    const project = await projectService.findOne(params.project)
+    const user = await userService.findByUsername(params.user)
     switch(page?.type){
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />
@@ -28,12 +19,10 @@ export default function Pages({params}:{params:{page:number, project:number, use
         case TypeOfPage.LIST:
             return <List page={page} />
         case TypeOfPage.TABLE:
-            return <Table page={page} project={params.project} />
+            return <Table page={page} project={project} />
         case TypeOfPage.TIMELINE:
             return <TimeLine />
         case TypeOfPage.CANVAS:
-            return <Canvas page={page as CanvasPage} user={params.user} />
-    
+            return <Canvas page={page as CanvasPage} user={user} />
     }
-
 }

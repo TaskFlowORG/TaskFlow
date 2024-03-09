@@ -9,11 +9,11 @@ import { drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
 import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
 import { useTheme } from "next-themes";
-import { CanvasPage, TaskCanvas } from "@/models";
+import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";
 
 interface Props{
-    user:string, 
+    user:User, 
     page:CanvasPage
 } 
 
@@ -73,7 +73,7 @@ const updateDraw = () => {
   }, [page, canvasRef]);
 
   async function createTask() {
-    await taskService.insert(page.id,user);
+    await taskService.insert(page.id,user.username);
   }
 
   return (
