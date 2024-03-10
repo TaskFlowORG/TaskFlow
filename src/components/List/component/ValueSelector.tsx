@@ -23,7 +23,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
 }
   return (
     <If condition={justName}>
-        <div className={"w-full py-4 px-3 gap-6 h-16 justify-start items-center flex " + 
+        <div className={"w-full py-4 px-3 gap-6 h-16 select-none justify-start items-center flex " + 
          (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
             <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-200 dark:bg-zinc-600 flex flex-col text-[0.5rem] rounded-full">
                 <p >^</p>
@@ -31,7 +31,6 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             </div>
             <span className="w-full truncate">
             {l.task.name || "Sem Nome"}
-
             </span>
         </div>
         <div className="w-full py-4 px-6 h-16 overflow-clip  justify-start text-zinc-400 items-center flex flex-wrap truncate">
@@ -48,13 +47,13 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             <div>{propVl?.value.value + "%"}</div>
           </If>
           <If condition={[TypeOfProperty.SELECT,TypeOfProperty.RADIO].includes(property?.type!)}>
-            <If condition={propVl?.value.value != null} >
+            {propVl?.value.value == null ??
               <div className="p-1 rounded-md"
                 style={{ backgroundColor: propVl?.value.value.color,
                   color: generateContrast(propVl?.value.value.color),}}>
                 {propVl?.value.value.name}
               </div>
-            </If>
+            }
           </If>
           <If condition={ [TypeOfProperty.TAG, TypeOfProperty.CHECKBOX].includes(property?.type!)}>
             <div className="flex gap-1 w-min max-w-[10rem] overflow-auto">

@@ -13,14 +13,24 @@ interface Props{
 
 export const Table = ({ page, project}:Props) => {
 
+    const[scroll, setScroll] = useState<number>(0)
+
     const [tasks, setTasks] = useState<TaskOrdered[]>(page.tasks as TaskOrdered[])
     const [properties, setProperties] = useState<Property[]>([...project.properties, ...page.properties])
 
     async function updateIndexes(e: DropResult) {
-        if(!e.draggableId || !e.destination?.index) return
-        const id = e.draggableId.split("/")[1]
-        console.log(e.draggableId, e.destination?.index)
-            const pagePromise = await pageService.updateIndexes(page!, +id, e.destination?.index, )
+        if(!e.destination) return
+        const task = page.tasks.find(t => t.id == +e.draggableId)
+        page.tasks = page.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
+        if(!task) return
+        const [removed] = page.tasks.splice(e.source.index, 1);
+        page.tasks.splice(e.destination.index, 0, removed);
+        for(let task of page.tasks){
+            const t = task as TaskOrdered
+            t.indexAtColumn = page.tasks.indexOf(t)
+        }
+        setTasks(page.tasks as TaskOrdered[])
+        // pageService.update(page)
     }
 
 
@@ -38,13 +48,12 @@ export const Table = ({ page, project}:Props) => {
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
                     <div className="min-w-full h-full flex gap-1 shadow-blur-10">
-                <DragDropContext onDragEnd={e => updateIndexes(e)}>
-
-                            <List list={tasks} headName="Tasks" justName listId={ page.id ?? 0} />
+                        <DragDropContext onDragEnd={e => updateIndexes(e)} >
+                            <List list={tasks} headName="Tasks" justName listId={ page.id ?? 0} scrollY={scroll} setScrollY={setScroll} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}   listId={page.id ?? 0} /> 
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} scrollY={scroll} setScrollY={setScroll}   listId={page.id ?? 0} /> 
                             })}
-                            </DragDropContext>
+                        </DragDropContext>
                     </div>
                 </div>
             </div>
