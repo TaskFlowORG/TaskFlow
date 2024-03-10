@@ -3,8 +3,9 @@
 import { List } from "@/components/List";
 import { useEffect, useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
-import { OrderedPage, Page, TaskOrdered, TaskPage } from "@/models";
+import {  Page, TaskOrdered, TaskPage } from "@/models";
 import { pageService } from "@/services";
+import { set } from "zod";
 
 interface Props {
     page: Page
@@ -31,12 +32,20 @@ export const ListPage = ({page }:Props) => {
     // eslint-disable-next-line
     }, [])
 
-    async function updateIndexes(e: DropResult) {
-        if(!e.draggableId || !e.destination?.index) return
-        const id = e.draggableId.split("/")[1]
-        if (e.source.droppableId == e.destination?.droppableId) {
-            await pageService.updateIndexes(page, +id, e.destination?.index)
+    async function updateIndexes(e: DropResult, p:Page) {
+        if(!e.destination) return
+        const task = p.tasks.find(t => t.id == +e.draggableId)
+        p.tasks = p.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
+        if(!task) return
+        const [removed] = p.tasks.splice(e.source.index, 1);
+        p.tasks.splice(e.destination.index, 0, removed);
+        for(let task of p.tasks){
+            const t = task as TaskOrdered
+            t.indexAtColumn = p.tasks.indexOf(t)
         }
+        const pagestemp = [...pages]
+        setPages(pagestemp)
+        // pageService.update(page)
     }
 
     function contains(t: TaskPage): boolean {
@@ -60,14 +69,14 @@ export const ListPage = ({page }:Props) => {
                     </div>
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="min-w-full h-full flex gap-4">
-                <DragDropContext onDragEnd={e => updateIndexes(e)}>
+                    <div className="min-w-full h-full flex gap-4 mr-12">
                         {
                             pages.map((p) => {
-                                return <List key={p.id} list={(p?.tasks.filter(t => contains(t)) as TaskOrdered[])?? []} headName={p.name} updateIndexes={updateIndexes} justName listId={p.id} />
+                                return  <DragDropContext  key={p.id} onDragEnd={e => updateIndexes(e, p)} >
+                                 <List list={(p?.tasks.filter(t => contains(t)) as TaskOrdered[])?? []}  headName={p.name} justName listId={p.id} />
+                                </DragDropContext>
                             })
                         }
-                        </DragDropContext>
                     </div>
                 </div>
             </div>

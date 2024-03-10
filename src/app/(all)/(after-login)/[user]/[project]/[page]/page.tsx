@@ -1,11 +1,6 @@
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
-import { CanvasPage, OrderedPage, Page, Project, TypeOfPage, User } from "@/models";
+import { CanvasPage, OrderedPage,  TypeOfPage } from "@/models";
 import { pageService, projectService, userService } from "@/services";
-interface Props {
-    page: Page,
-    project: Project,
-    user: User
-}
    
 export default async function Pages({params}:{params:{user:string, project:number, page:number}}){
     const page = await pageService.findOne(params.page)

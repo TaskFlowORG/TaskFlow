@@ -40,9 +40,9 @@ export const Table = ({ page, project}:Props) => {
                     <div className="min-w-full h-full flex gap-1 shadow-blur-10">
                 <DragDropContext onDragEnd={e => updateIndexes(e)}>
 
-                            <List list={tasks} headName="Tasks" justName updateIndexes={updateIndexes} listId={ page.id ?? 0} />
+                            <List list={tasks} headName="Tasks" justName listId={ page.id ?? 0} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}  updateIndexes={updateIndexes} listId={page.id ?? 0} /> 
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false}   listId={page.id ?? 0} /> 
                             })}
                             </DragDropContext>
                     </div>
