@@ -47,11 +47,11 @@ export const Table = ({ page, project}:Props) => {
                     </div>
                 </div>
                 <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="min-w-full h-full flex gap-1 shadow-blur-10">
+                    <div className="min-w-full h-full flex gap-1 shadow-blur-10" >
                         <DragDropContext onDragEnd={e => updateIndexes(e)} >
-                            <List list={tasks} headName="Tasks" justName listId={ page.id ?? 0} scrollY={scroll} setScrollY={setScroll} />
+                            <List list={tasks} headName="Tasks" justName listId={0} scrollY={scroll} setScrollY={setScroll} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} scrollY={scroll} setScrollY={setScroll}   listId={page.id ?? 0} /> 
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} scrollY={scroll} setScrollY={setScroll}   listId={p.id} /> 
                             })}
                         </DragDropContext>
                     </div>

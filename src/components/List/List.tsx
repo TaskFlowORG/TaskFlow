@@ -1,12 +1,8 @@
 
-import { If } from "../If"
-import { generateContrast } from "@/functions"
-import { Obj } from "../Obj"
 import {  Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
-import { Option, Property, TaskOrdered, TaskValue, TypeOfProperty, UserWithoutPermission } from "@/models"
+import { Property, TaskOrdered} from "@/models"
 import { IconsSelector, ValueSelector } from "./component"
-import { useRaf } from "react-use"
-import { useEffect, useRef } from "react"
+import { useEffect, WheelEvent, useRef, useState } from "react"
 
 interface Props {
     list: Array<TaskOrdered>,
@@ -21,7 +17,7 @@ interface Props {
 
 
 export const List = ({ list, headName, justName, property, listId, scrollY, setScrollY}: Props) => {
-
+    const [mouseOver, setMouseOver] = useState<boolean>(false)
     const ref = useRef<HTMLDivElement>(null)
     function getValueOfProperty(task: TaskOrdered) {
         if (!property) return
@@ -33,12 +29,17 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
         if (scrollY != undefined && ref.current) {
             ref.current.scrollTop = scrollY
         }
-    }, [scrollY])
+    }, [scrollY, mouseOver])
 
-    const setScroll = () => {
-        if (ref.current) {
-            setScrollY!(ref.current.scrollTop)
-        }
+    const setScroll = (e:WheelEvent<HTMLDivElement>) => {
+        e.stopPropagation()
+        console.log(e)
+        if (ref.current && mouseOver) {
+            let y = ref.current.scrollTop + e.deltaY * 0.3
+            if (y < 0) y = 0
+            if (y > ref.current.scrollHeight - ref.current.clientHeight) y = ref.current.scrollHeight - ref.current.clientHeight
+            setScrollY!(y)
+        }   
     }
 
     return (
@@ -46,18 +47,18 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
         <Droppable droppableId={listId.toString()} direction="vertical">
             {(provided, snapshot) => {
                 return (
-                    <div key={listId} ref={provided.innerRef} {...provided.droppableProps} className=" min-w-[16rem]  w-full h-full
+                    <div key={listId} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-full h-full
                      p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10">
-                        <div className={`flex gap-4 p-3 h-20 w-full min-w-min items-center justify-start truncate
-                        text-modal-grey dark:text-white border-zinc-400 dark:border-zinc-600 border-b-2`}>
+                        <div className="flex gap-4 p-3 h-14 sm:h-20 w-full items-center justify-start text-modal-grey dark:text-white border-zinc-400 dark:border-zinc-600 border-b-2">
                             <IconsSelector property={property} justName={justName} />
-                            <p className={"truncate w-full" + (headName ? "":"opacity-50")}>{headName ?? "Sem Nome"}</p>
+                            <p className={"w-full truncate " + (headName ? "":"opacity-50")}>{ headName ?? "Sem Nome"}</p>
                         </div>
-                        <div className="h-5/6 overflow-y-auto none-scrollbar w-full" ref={ref} onScrollCapture={setScroll}>
+                        <div className="h-5/6 overflow-hidden none-scrollbar w-full" ref={ref}  onWheelCapture={e => setScroll(e)}
+                        onMouseLeave={() => setMouseOver(false)}  onMouseEnter={() => setMouseOver(true)}>
                             <div className="w-full relative flex flex-col">
                                 {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l, index) => {
                                     return (
-                                        <Draggable  draggableId={l.id.toString()} index={index} key={l.id}>{
+                                        <Draggable  draggableId={l.id.toString()} index={index} key={index} >{
                                             (provided, snapshot) => {
                                                 const propVl = getValueOfProperty(l);
                                                 return (<div className="relative block">

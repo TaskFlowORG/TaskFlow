@@ -6,7 +6,7 @@ export const IconsSelector = ({justName, property}:{justName:boolean, property?:
   return (
     <If condition={justName}>
       <IconTask />
-      <div>
+      <div className="w-min">
         <If condition={property?.type == TypeOfProperty.ARCHIVE}>
           <IconArchive />
         </If>

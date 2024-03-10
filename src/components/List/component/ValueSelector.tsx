@@ -1,7 +1,8 @@
 import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
+import { IconArchive } from "@/components/icons";
 import { generateContrast } from "@/functions";
-import { Property, TaskValue, TypeOfProperty, UserWithoutPermission, Option, TaskOrdered } from "@/models";
+import { Property, TaskValue, TypeOfProperty, UserWithoutPermission, Option, TaskOrdered, ArchiveValued, Archive } from "@/models";
 
 interface Props {
     justName: boolean;
@@ -23,7 +24,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
 }
   return (
     <If condition={justName}>
-        <div className={"w-full py-4 px-3 gap-6 h-16 select-none justify-start items-center flex " + 
+        <div className={"w-full py-4 px-3 gap-6 h-12 sm:h-16 select-none justify-start items-center flex " + 
          (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
             <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-200 dark:bg-zinc-600 flex flex-col text-[0.5rem] rounded-full">
                 <p >^</p>
@@ -33,22 +34,30 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             {l.task.name || "Sem Nome"}
             </span>
         </div>
-        <div className="w-full py-4 px-6 h-16 overflow-clip  justify-start text-zinc-400 items-center flex flex-wrap truncate">
+        <div className="w-full py-4 px-6 h-12 sm:h-16 overflow-y-auto justify-start text-zinc-400 items-center flex flex-wrap truncate">
           <If condition={property?.type == TypeOfProperty.ARCHIVE}>
-            <div>Archive</div>
+            {propVl?.value.value == undefined ?
+                <div className="h-full flex items-center">Sem Arquivo</div>
+                :
+                <div className="p-1 rounded-full border-1 border-zinc-300 dark:border-zinc-800">{(propVl?.value.value as Archive).name + "."+(propVl?.value.value as Archive).type}</div>
+            }
           </If>
           <If condition={property?.type == TypeOfProperty.DATE}>
-            <div>{new Date(propVl?.value.value).toLocaleDateString()}</div>
+            {propVl?.value.value == undefined ?
+                <div className="h-full flex items-center">Sem Data</div>
+                :
+                <div className="h-full flex items-center">{new Date(propVl?.value.value).toLocaleDateString()}</div>
+            }
           </If>
           <If condition={property?.type == TypeOfProperty.NUMBER}>
-            <div>{propVl?.value.value}</div>
+            <div className="h-full flex items-center">{propVl?.value.value ?? "Sem Valor"}</div>
           </If>
           <If condition={property?.type == TypeOfProperty.PROGRESS}>
-            <div>{propVl?.value.value + "%"}</div>
+            <div className="h-full flex items-center">{propVl?.value.value ? propVl?.value.value + "%":"Sem Valor"}</div>
           </If>
           <If condition={[TypeOfProperty.SELECT,TypeOfProperty.RADIO].includes(property?.type!)}>
             {propVl?.value.value == null ??
-              <div className="p-1 rounded-md"
+              <div className="p-1 rounded-md h-full items-start"
                 style={{ backgroundColor: propVl?.value.value.color,
                   color: generateContrast(propVl?.value.value.color),}}>
                 {propVl?.value.value.name}
@@ -56,7 +65,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             }
           </If>
           <If condition={ [TypeOfProperty.TAG, TypeOfProperty.CHECKBOX].includes(property?.type!)}>
-            <div className="flex gap-1 w-min max-w-[10rem] overflow-auto">
+            <div className="flex gap-1 h-full items-start w-min max-w-[10rem] overflow-auto">
               {generateList(propVl).map((opt) => {
                 return (
                   <div key={opt.id} className="p-1 rounded-md"
@@ -68,15 +77,15 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             </div>
           </If>
           <If condition={property?.type == TypeOfProperty.TEXT}>
-            <div>{propVl?.value.value}</div>
+            <div className="h-full flex items-center">{propVl?.value.value ?? "Sem valor"}</div>
           </If>
           <If condition={property?.type == TypeOfProperty.TIME}>
-            <div>
-              {!propVl?.value.value || propVl?.value.value.toString().slice(0, 8)}
+            <div className="h-full flex items-center">
+              {propVl?.value.value ? propVl?.value.value.toString().slice(0, 8) : "00:00:00"}
             </div>
           </If>
           <If condition={property?.type == TypeOfProperty.USER}>
-            <div>
+            <div className="relative">
               <Obj objs={propVl?.value.value as Array<UserWithoutPermission>}
                 max={5} functionObj={() => {}}
               />
