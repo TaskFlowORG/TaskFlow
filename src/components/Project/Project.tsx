@@ -40,9 +40,8 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   const style: Object = { gridColumn: col };
 
   return (
-    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="min-w-full flex flex-col shadow-blur-10 gap-16 bg-white 
-          dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24
-           hover:h-80 hover:row-span-3 hover:duration-300"
+    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+          dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"
       style={style}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}>

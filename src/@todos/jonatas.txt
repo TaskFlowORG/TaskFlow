@@ -1,18 +1,14 @@
-Questão de responsividade da tela de canvas, o select image nao abre pra cima
 side bar de pages falta responsividade 
-dar uma olhada na responsividade e no tema darkxlight
-na pagina de list tem que verificar ser as tasks estao apatecendo
+verificar se as paginas correspondem a dark X light
 prototipar timeline
-verificar a tabela
-fazer o criar page
 
 tenho que fazer a requisição de buscar grupos de um projeto
-
-responsividade do card de projeto em certo tamabnho de tela ele fica pela metade so uma das colunas (pagina de projetos)
-
 tirar color da entidade de date (banco de dados)
 
-list:tem que resolver o update index, nem sempre sera orderedpage, no caso de list tem que fazer as tasks serem orderedtasks (com indexAtColumn)
-table:fazer direito porque o scroll nao funciona
-
 O canvas precisa verificar se funciona no celular, porque eu usei mouse down e up
+O table falta o drag funcionar por causa do overflow
+O projects precisa ver a responsivida, tem um certo tamabnho de tela ele fica pela metade so uma das colunas
+a initial page falta so o svg de fundo que em certo tamnho tem um corto no canto superior direito
+table e list tem que ordernar o index, de certa forma ja esta pronto falta so a requisição do banco de dados
+
+Falta tambem a requisilçao de pegar tarefas com agendamento
