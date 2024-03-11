@@ -1,3 +1,4 @@
+"use client";
 
 import {  Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
 import { Property, TaskOrdered} from "@/models"
@@ -32,6 +33,7 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
     }, [scrollY, mouseOver])
 
     const setScroll = (e:WheelEvent<HTMLDivElement>) => {
+        if(!ref.current || scrollY == undefined) return
         e.stopPropagation()
         console.log(e)
         if (ref.current && mouseOver) {
@@ -44,7 +46,7 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
 
     return (
 
-        <Droppable droppableId={listId.toString()} direction="vertical">
+        <Droppable droppableId={`${listId}`}>
             {(provided, snapshot) => {
                 return (
                     <div key={listId} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-full h-full
@@ -53,22 +55,21 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
                             <IconsSelector property={property} justName={justName} />
                             <p className={"w-full truncate " + (headName ? "":"opacity-50")}>{ headName ?? "Sem Nome"}</p>
                         </div>
-                        <div className="h-5/6 overflow-hidden none-scrollbar w-full" ref={ref}  onWheelCapture={e => setScroll(e)}
+                        <div className={"h-5/6 none-scrollbar w-full "+(scrollY == undefined ? "overflow-y-auto" : "overflow-hidden")} ref={ref}  onWheelCapture={e => setScroll(e)}
                         onMouseLeave={() => setMouseOver(false)}  onMouseEnter={() => setMouseOver(true)}>
                             <div className="w-full relative flex flex-col">
                                 {list.sort((a, b) => a.indexAtColumn - b.indexAtColumn).map((l, index) => {
                                     return (
-                                        <Draggable  draggableId={l.id.toString()} index={index} key={index} >{
-                                            (provided, snapshot) => {
-                                                const propVl = getValueOfProperty(l);
+                                        <Draggable draggableId={`${l.id}`} index={index} key={index} >{
+                                            (providedDrag, snapshot) => {
                                                 return (<div className="relative block">
                                                         <div key={l.id}
                                                             className="bg-white dark:bg-modal-grey block  border-zinc-400 dark:border-zinc-600 border-b-2 w-full"
-                                                            {...provided.draggableProps}{...provided.dragHandleProps} ref={provided.innerRef}
+                                                            {...providedDrag.draggableProps}{...providedDrag.dragHandleProps} ref={providedDrag.innerRef}
                                                             style={snapshot.isDragging ?
-                                                                { ...provided.draggableProps.style, filter: "brightness(90%)", position:"absolute", top:0, left:0} :
-                                                                { ...provided.draggableProps.style }}>
-                                                            <ValueSelector l={l} justName={justName} property={property} propVl={propVl} />
+                                                                { ...providedDrag.draggableProps.style, filter: "brightness(90%)", position:"absolute", top:0, left:0} :
+                                                                { ...providedDrag.draggableProps.style }}>
+                                                            <ValueSelector l={l} justName={justName} property={property} propVl={getValueOfProperty(l)} />
                                                         </div>
                                                     </div>)}}
                                         </Draggable>)

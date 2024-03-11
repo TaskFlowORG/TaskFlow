@@ -1,10 +1,9 @@
 "use client";
 
 import { List } from "@/components/List";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { Page, Project, Property, TaskOrdered } from "@/models";
-import { pageService, projectService } from "@/services";
 
 interface Props{
     page:Page,
@@ -19,17 +18,17 @@ export const Table = ({ page, project}:Props) => {
     const [properties, setProperties] = useState<Property[]>([...project.properties, ...page.properties])
 
     async function updateIndexes(e: DropResult) {
-        if(!e.destination) return
-        const task = page.tasks.find(t => t.id == +e.draggableId)
-        page.tasks = page.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
-        if(!task) return
-        const [removed] = page.tasks.splice(e.source.index, 1);
-        page.tasks.splice(e.destination.index, 0, removed);
-        for(let task of page.tasks){
-            const t = task as TaskOrdered
-            t.indexAtColumn = page.tasks.indexOf(t)
-        }
-        setTasks(page.tasks as TaskOrdered[])
+        // if(!e.destination) return
+        // const task = page.tasks.find(t => t.id == +e.draggableId)
+        // page.tasks = page.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
+        // if(!task) return
+        // const [removed] = page.tasks.splice(e.source.index, 1);
+        // page.tasks.splice(e.destination.index, 0, removed);
+        // for(let task of page.tasks){
+        //     const t = task as TaskOrdered
+        //     t.indexAtColumn = page.tasks.indexOf(t)
+        // }
+        // setTasks(page.tasks as TaskOrdered[])
         // pageService.update(page)
     }
 
@@ -49,9 +48,9 @@ export const Table = ({ page, project}:Props) => {
                 <div className="w-full h-4/5 overflow-auto p-2">
                     <div className="min-w-full h-full flex gap-1 shadow-blur-10" >
                         <DragDropContext onDragEnd={e => updateIndexes(e)} >
-                            <List list={tasks} headName="Tasks" justName listId={0} scrollY={scroll} setScrollY={setScroll} />
+                            <List list={tasks} headName="Tasks" justName listId={9999} scrollY={scroll} setScrollY={setScroll} />
                             {properties.map((p) => {
-                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} scrollY={scroll} setScrollY={setScroll}   listId={p.id} /> 
+                                return <List list={tasks} property={p} headName={p.name} key={p.id} justName={false} scrollY={scroll} setScrollY={setScroll} listId={p.id} /> 
                             })}
                         </DragDropContext>
                     </div>
