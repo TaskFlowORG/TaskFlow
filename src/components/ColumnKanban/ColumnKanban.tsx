@@ -21,13 +21,9 @@ interface Props {
   input?: string;
 }
 
-export const ColumnKanban = ({
-  option,
-  tasks,
-  input,
-}: Props) => {
+export const ColumnKanban = ({ option, tasks, input }: Props) => {
   const { theme } = useTheme();
-  const { filterProp, setFilterProp } = useContext(FilterContext)
+  const { filterProp, setFilterProp } = useContext(FilterContext);
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -45,7 +41,7 @@ export const ColumnKanban = ({
   }
   return (
     <div
-      className="w-min min-w-[360px]  pb-4 h-full lg:max-h-[650px]   flex flex-col  lg:flex-col gap-4"
+      className="w-min min-w-[360px]  pb-4 h-full lg:max-h-[650px]   flex flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -61,113 +57,114 @@ export const ColumnKanban = ({
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-        <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
-          {(provided, snapshot) => {
-            return (
-              <div className="none-scrollbar h-full flex lg:flex-col  lg:overflow-y-auto"
-                ref={provided.innerRef}
-                style={{
-                  opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
-                  borderRadius: 16,
-                  padding: 16,
-                  gap: "24px",
-                  background: snapshot.isDraggingOver
-                    ? (option?.color as string) ??
-                      (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
-                    : "none",
-                }}
-                {...provided.droppableProps}
-              >
-                {tasks.map((item, index) => {
-                  if (
-                    item.task?.name
-                      ?.toLowerCase()
-                      .includes(input?.toLowerCase()!) ||
-                    input?.toLowerCase() == ""
-                  ) {
-                    let render = false;
-                    let counter = 0;
-                    filterProp.map((prop) => {
-
-                      const propertyInTask = findPropertyInTask(item, prop);
-                      if (
-                        multiOptionTypes.includes(propertyInTask?.property.type)
-                      ) {
-                        let localRender = false;
-                        prop.value.forEach((value: any) => {
-                          propertyInTask.value.value.forEach(
-                            (option: Option) => {
-                              if (option.name == value) {
-                                render = true;
-                                localRender = true;
-                                return;
-                              }
-                            }
-                          );
-                        });
-                        if (localRender) {
-                          counter++;
-                        }
-                      } else if (
-                        optionTypes.includes(propertyInTask?.property.type)
-                      ) {
-                        const option: Option = propertyInTask.value.value;
-                        if (option?.name == prop.value) {
-                          render = true;
-                          counter++;
-                        }
-                      } else {
-                        if (
-                          propertyInTask?.value?.value
-                            ?.toLowerCase()
-                            .includes(prop.value.toLowerCase())
-                        ) {
-                          render = true;
-                          counter++;
-                        }
-                      }
-                    });
+      <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
+        {(provided, snapshot) => {
+          return (
+            <div
+              // Se tirar o overflow tudo funfa lg:overflow-y-auto
+              className="none-scrollbar overflow-y-auto  h-full flex lg:flex-col"
+              ref={provided.innerRef}
+              style={{
+                opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
+                borderRadius: 16,
+                padding: 16,
+                gap: "24px",
+                background: snapshot.isDraggingOver
+                  ? (option?.color as string) ??
+                    (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
+                  : "none",
+              }}
+              {...provided.droppableProps}
+            >
+              {tasks.map((item, index) => {
+                if (
+                  item.task?.name
+                    ?.toLowerCase()
+                    .includes(input?.toLowerCase()!) ||
+                  input?.toLowerCase() == ""
+                ) {
+                  let render = false;
+                  let counter = 0;
+                  filterProp.map((prop) => {
+                    const propertyInTask = findPropertyInTask(item, prop);
                     if (
-                      (render && counter == filterProp.length) ||
-                      filterProp.length == 0
+                      multiOptionTypes.includes(propertyInTask?.property.type)
                     ) {
-                      return (
-                        <Draggable
-                          draggableId={`${item.id}-${option?.id}`}
-                          key={`${item.id}${option?.id}`}
-                          index={item.indexAtColumn}
-                        >
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={{
-                                  ...provided.draggableProps.style,
-                                }}
-                              >
-                                <RoundedCard
-                                  color={
-                                    option?.color ??
-                                    (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
-                                  }
-                                >
-                                  <CardContent task={item.task as Task} />
-                                </RoundedCard>
-                              </div>
-                            );
-                          }}
-                        </Draggable>
-                      );
+                      let localRender = false;
+                      prop.value.forEach((value: any) => {
+                        propertyInTask.value.value.forEach((option: Option) => {
+                          if (option.name == value) {
+                            render = true;
+                            localRender = true;
+                            return;
+                          }
+                        });
+                      });
+                      if (localRender) {
+                        counter++;
+                      }
+                    } else if (
+                      optionTypes.includes(propertyInTask?.property.type)
+                    ) {
+                      const option: Option = propertyInTask.value.value;
+                      if (option?.name == prop.value) {
+                        render = true;
+                        counter++;
+                      }
+                    } else {
+                      if (
+                        propertyInTask?.value?.value
+                          ?.toLowerCase()
+                          .includes(prop.value.toLowerCase())
+                      ) {
+                        render = true;
+                        counter++;
+                      }
                     }
+                  });
+                  if (
+                    (render && counter == filterProp.length) ||
+                    filterProp.length == 0
+                  ) {
+                    return (
+                      <Draggable
+                        draggableId={`${item.id}-${option?.id}`}
+                        key={`${item.id}${option?.id}`}
+                        index={item.indexAtColumn}
+                        
+                      >
+                        {(provided, snapshot) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                              }}
+                              id={item.task.id.toString()}
+                            >
+                              <RoundedCard
+                                color={
+                                  option?.color ??
+                                  (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
+                                }
+                              >
+                                <CardContent task={item.task as Task} />
+                              </RoundedCard>
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    );
                   }
-                })}
-                {provided.placeholder}
-              </div>
-            );
-          }}
-        </Droppable>
+                }
+              })}
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
     </div>
   );
 };

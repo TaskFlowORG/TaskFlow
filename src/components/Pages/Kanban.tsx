@@ -144,6 +144,26 @@ export const Kanban = () => {
     updatePageAndTask();
   };
 
+  const handleScroll = (direction: any) => {
+    const container = document.getElementById("scrollContainer");
+    const separatedNumbers = separateNumbers(direction.draggableId);
+    const [numberOne, numberTwo] = separatedNumbers!;
+    if (!container) return;
+    let taskId = numberOne;
+    const taskMoved = document
+      .getElementById(`${taskId}`)
+      ?.getBoundingClientRect().x;
+    taskMoved;
+    if (taskMoved! > (window.innerWidth / 5) * 4) {
+      container.scrollLeft += 360;
+    } else if (taskMoved! < (window.innerWidth / 5) * 1) {
+      container.scrollLeft -= 360;
+    } else {
+      container.scrollLeft = container.scrollLeft;
+    }
+    console.log(taskMoved);
+  };
+
   return (
     <FilterContext.Provider
       value={{
@@ -185,60 +205,70 @@ export const Kanban = () => {
             />
           </SearchBar>
         </div>
-        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          // node
-          <div className="flex gap-8 justify-center lg:justify-start min-h-max  flex-col lg:flex-row pl-3 w-full max-w-[360px] overflow-y-auto   lg:max-w-[1560px]  lg:overflow-auto self-center">
-            {options?.map((option) => { 
-              return (
+        <DragDropContext
+          onDragUpdate={(e) => handleScroll(e)}
+          onDragEnd={(result) => onDragEnd(result)}
+        >
+          {/* // node */}
+          <div
+            id="scrollContainer"
+            className="flex  justify-start min-h-max  pl-3 w-[1560px]  overflow-x-auto scroll-smooth  self-center"
+          >
+            <div className="w-min flex gap-8">
+              {options?.map((option) => {
+                return (
+                  <ColumnKanban
+                    input={input}
+                    key={`${option.id}`}
+                    tasks={indexAtColumn(
+                      tasks.filter((task) => {
+                        return task?.task?.properties?.some((property) => {
+                          return (
+                            (property.property.id == id &&
+                              (property.value as UniOptionValued).value?.id ==
+                                option?.id) ||
+                            ((property.property.type ===
+                              TypeOfProperty.CHECKBOX ||
+                              property.property.type === TypeOfProperty.TAG) &&
+                              (property.value as MultiOptionValued).value.find(
+                                (value) => value.id == option.id
+                              ))
+                          );
+                        });
+                      })
+                    )}
+                    propertyId={id}
+                    color={option.color}
+                    option={option}
+                    verify={true}
+                  />
+                );
+              })}
+              {
                 <ColumnKanban
+                  key={0}
                   input={input}
-                  key={`${option.id}`}
-                  tasks={indexAtColumn(
-                    tasks.filter((task) => {
-                      return task?.task?.properties?.some((property) => {
-                        return (
-                          (property.property.id == id &&
-                            (property.value as UniOptionValued).value?.id ==
-                              option?.id) ||
-                          ((property.property.type ===
-                            TypeOfProperty.CHECKBOX ||
-                            property.property.type === TypeOfProperty.TAG) &&
-                            (property.value as MultiOptionValued).value.find(
-                              (value) => value.id == option.id
-                            ))
-                        );
-                      });
-                    })
-                  )}
+                  tasks={tasks.filter((task) => {
+                    return task?.task?.properties?.some((property) => {
+                      return (
+                        (property.property.id == id &&
+                          (property.value as UniOptionValued).value == null) ||
+                        (property.property.id == id &&
+                          [
+                            TypeOfProperty.CHECKBOX,
+                            TypeOfProperty.TAG,
+                          ].includes(property.property.type) &&
+                          (property.value as MultiOptionValued).value.length ==
+                            0)
+                      );
+                    });
+                  })}
                   propertyId={id}
-                  color={option.color}
-                  option={option}
-                  verify={true}
+                  color="#767867"
+                  option={new Option(0, "Não Marcadas", "#767867")}
                 />
-              );
-            })}
-            {
-              <ColumnKanban
-                key={0}
-                input={input}
-                tasks={tasks.filter((task) => {
-                  return task?.task?.properties?.some((property) => {
-                    return (
-                      (property.property.id == id &&
-                        (property.value as UniOptionValued).value == null) ||
-                      (property.property.id == id &&
-                        [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
-                          property.property.type
-                        ) &&
-                        (property.value as MultiOptionValued).value.length == 0)
-                    );
-                  });
-                })}
-                propertyId={id}
-                color="#767867"
-                option={new Option(0, "Não Marcadas", "#767867")}
-              />
-            }
+              }
+            </div>
           </div>
         </DragDropContext>
       </div>
