@@ -9,10 +9,11 @@ type ModalPropertyProps = {
     property: Property;
     onClose: () => boolean;
     onClick: () => boolean;
+    deleteProperty: (property: Property) => void;
 };
 
 
-export const ModalProperty = ({ property, onClose, onClick }: ModalPropertyProps) => {
+export const ModalProperty = ({ property, onClose, onClick, deleteProperty}: ModalPropertyProps) => {
 
 
     const [open, setOpen] = useState(false);
@@ -65,7 +66,7 @@ export const ModalProperty = ({ property, onClose, onClick }: ModalPropertyProps
                     <div className="h-1/6 w-[95%] flex justify-between">
                         <button className="w-8 h-5/6 flex justify-center items-center rounded-sm"><img src="/img/trash.svg" alt="" onClick={() => { setModalDelete(true) }} /></button>
                         <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => { }} ><img src="/img/iconCorrect.svg" alt="" /></button>
-                        {ModalDelete && <ModalDeleteProperty property={property} close={() => setModalDelete(false)} />}
+                        {ModalDelete && <ModalDeleteProperty property={property} close={() => setModalDelete(false)} deleteProperty={deleteProperty} />}
                     </div>
                 </div>
 
