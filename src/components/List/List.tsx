@@ -49,7 +49,7 @@ export const List = ({ list, headName, justName, property, listId, scrollY, setS
         <Droppable droppableId={`${listId}`}>
             {(provided, snapshot) => {
                 return (
-                    <div key={listId} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-full h-full
+                    <div key={listId} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-full h-full 
                      p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10">
                         <div className="flex gap-4 p-3 h-14 sm:h-20 w-full items-center justify-start text-modal-grey dark:text-white border-zinc-400 dark:border-zinc-600 border-b-2">
                             <IconsSelector property={property} justName={justName} />

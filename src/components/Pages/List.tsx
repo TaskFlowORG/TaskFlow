@@ -34,7 +34,7 @@ export const ListPage = ({page }:Props) => {
 
     async function updateIndexes(e: DropResult, p:Page) {
         if(!e.destination) return
-        const task = p.tasks.find(t => t.id == +e.draggableId)
+        const task = p.tasks[+e.draggableId]
         p.tasks = p.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
         if(!task) return
         const [removed] = p.tasks.splice(e.source.index, 1);
@@ -68,8 +68,8 @@ export const ListPage = ({page }:Props) => {
                         <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
                     </div>
                 </div>
-                <div className="w-full h-4/5 overflow-auto p-2">
-                    <div className="min-w-full h-full flex gap-4 mr-12">
+                <div className="w-full h-4/5 overflow-auto p-2 rotate-180">
+                    <div className="min-w-full h-full flex gap-4  rotate-180">
                         {
                             pages.map((p) => {
                                 return  <DragDropContext  key={p.id} onDragEnd={e => updateIndexes(e, p)} >

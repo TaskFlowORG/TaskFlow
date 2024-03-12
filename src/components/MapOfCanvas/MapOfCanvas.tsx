@@ -15,6 +15,7 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
     const mapRef = useRef<HTMLCanvasElement>(null)
     const mapCtx = mapRef.current?.getContext("2d")
     const canvasCtx = canvas.current?.getContext("2d")
+    const [src, setSrc] = useState<string>("")
     
     // eslint-disable-next-line
     useEffect(() => {
@@ -34,14 +35,22 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
     }
     mapCtx?.clearRect(0, 0, width, width/2)
     mapCtx?.drawImage(canvas.current as HTMLCanvasElement, 0, 0, 4000, 2000, 0, 0, width, width/2)
+    useEffect(() => {
+        reloadSrc()
+    })
+
+    const reloadSrc = () => {
+        const url = canvas.current?.toDataURL() ?? ""
+        setSrc(url)
+    }
   
     return {
         map:<div className="w-min h-min pointer-events-none">
-            <canvas className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
-            width={width} height={width/2} ref={mapRef} />
+            <img className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
+            width={width} height={width/2} src={src} />
             <div className="fixed z-30 backdrop-brightness-125" style={style}>
             </div>
         </div>,
-        clearMap: () => mapCtx?.clearRect(0, 0, width, width/2)
+        clearMap: () => setSrc("")
     }
 }
