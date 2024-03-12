@@ -11,7 +11,7 @@ export const Chatt = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await getListChat("private", "johndoeasdasd");
+            const response = await getListChat("private", "jonatas");
             setChats(response);
             console.log(response);
             
@@ -21,7 +21,7 @@ export const Chatt = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await getSingleChat("private", "johndoeasdasd");
+            const response = await getSingleChat("private", "jonatas");
             setChatContent(response);
         }
         getChats();

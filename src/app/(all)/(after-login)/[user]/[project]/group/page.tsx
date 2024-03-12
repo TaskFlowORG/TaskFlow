@@ -28,7 +28,7 @@ export default function Home({ projectId = 1 }) {
 
     return (
         <div className="flex flex-col lg:flex-row w-screen h-screen lg:gap-36">
-            <div className="flex hidden lg:flex">
+            <div className="flex lg:flex">
                 {svgGroupPage}
             </div>
             <div className="flex lg:hidden pt-56 absolute">

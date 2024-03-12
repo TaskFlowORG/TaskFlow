@@ -7,7 +7,7 @@ export const TextContent = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await getSingleChat("private", "johndoeasdasd");
+            const response = await getSingleChat("private", "jonatas");
             setMensagens(response);
         }
         getChats();
