@@ -144,26 +144,6 @@ export const Kanban = () => {
     updatePageAndTask();
   };
 
-  const handleScroll = (direction: any) => {
-    const container = document.getElementById("scrollContainer");
-    const separatedNumbers = separateNumbers(direction.draggableId);
-    const [numberOne, numberTwo] = separatedNumbers!;
-    if (!container) return;
-    let taskId = numberOne;
-    const taskMoved = document
-      .getElementById(`${taskId}`)
-      ?.getBoundingClientRect().x;
-    taskMoved;
-    if (taskMoved! > (window.innerWidth / 5) * 4) {
-      container.scrollLeft += 360;
-    } else if (taskMoved! < (window.innerWidth / 5) * 1) {
-      container.scrollLeft -= 360;
-    } else {
-      container.scrollLeft = container.scrollLeft;
-    }
-    console.log(taskMoved);
-  };
-
   return (
     <FilterContext.Provider
       value={{
@@ -205,10 +185,7 @@ export const Kanban = () => {
             />
           </SearchBar>
         </div>
-        <DragDropContext
-          onDragUpdate={(e) => handleScroll(e)}
-          onDragEnd={(result) => onDragEnd(result)}
-        >
+        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           {/* // node */}
           <div
             id="scrollContainer"
