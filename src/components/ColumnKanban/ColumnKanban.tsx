@@ -62,7 +62,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
           return (
             <div
               // Se tirar o overflow tudo funfa lg:overflow-y-auto
-              className="none-scrollbar overflow-y-auto  h-full flex lg:flex-col"
+              className="none-scrollbar overflow-auto  h-full flex lg:flex-col"
               ref={provided.innerRef}
               style={{
                 opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
@@ -131,7 +131,6 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
                         draggableId={`${item.id}-${option?.id}`}
                         key={`${item.id}${option?.id}`}
                         index={item.indexAtColumn}
-                        
                       >
                         {(provided, snapshot) => {
                           return (
