@@ -25,21 +25,20 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
   return (
       
         justName ? 
-        <td className={"w-full py-4 px-3 gap-6 h-12 sm:h-16 select-none justify-start items-center flex " + 
-         (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
-            <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-200 dark:bg-zinc-600 flex flex-col text-[0.5rem] rounded-full">
+        <div className={"py-4 px-3 gap-6 h-12 sm:h-16 select-none justify-start items-center flex w-full" +  (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
+            <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-200 dark:bg-zinc-600 w-min flex flex-col text-[0.5rem] rounded-full">
                 <p >^</p>
                 <p className="rotate-180">^</p>
             </div>
-            <span className="w-full truncate">
+            <span className="w-max truncate">
             {l.task.name || "Sem Nome"}
             </span>
-        </td>
+        </div>
         :
-        <td className="w-full   py-4 px-6 h-12 sm:h-16 overflow-y-auto justify-start text-zinc-400 items-center flex flex-wrap truncate">
+        <div className="py-4 px-6 h-12 sm:h-16 overflow-y-auto justify-start  w-full text-zinc-400 items-center flex flex-wrap truncate">
           <If condition={property?.type == TypeOfProperty.ARCHIVE}>
             {propVl?.value.value == undefined ?
-                <div className="h-full w-full flex items-center">Sem Arquivo</div>
+                <div className="h-full flex items-center">Sem Arquivo</div>
                 :
                 <div className="p-1 rounded-full border-1 border-zinc-300 dark:border-zinc-800">{(propVl?.value.value as Archive).name + "."+(propVl?.value.value as Archive).type}</div>
             }
@@ -67,7 +66,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             }
           </If>
           <If condition={ [TypeOfProperty.TAG, TypeOfProperty.CHECKBOX].includes(property?.type!)}>
-            <div className="flex gap-1 h-full items-start w-min max-w-[10rem] overflow-auto">
+            <div className="flex gap-1 h-full items-start overflow-auto">
               {generateList(propVl).map((opt) => {
                 return (
                   <div key={opt.id} className="p-1 rounded-md"
@@ -93,7 +92,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
               />
             </div>
           </If>
-        </td>
+        </div>
       
   );
 };

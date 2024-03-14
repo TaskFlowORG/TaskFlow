@@ -5,7 +5,10 @@ import { Property, TypeOfProperty } from "@/models";
 export const IconsSelector = ({justName, property}:{justName:boolean, property?:Property}) => {
   return (
     <If condition={justName}>
+      <div className="w-min">
+
       <IconTask />
+      </div>
       <div className="w-min">
         <If condition={property?.type == TypeOfProperty.ARCHIVE}>
           <IconArchive />
