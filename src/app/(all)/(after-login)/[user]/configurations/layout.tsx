@@ -4,10 +4,9 @@ export default function Layout({ children }) {
     return (
         <>
 
-            <div className="flex w-full h-full">
-                <SideBarConfig></SideBarConfig>
-                {children}
-
+            <div className="flex justify-between  w-full h-full">
+                    <SideBarConfig></SideBarConfig>
+                    {children}
             </div>
 
         </>

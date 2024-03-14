@@ -1,23 +1,33 @@
 import { useState } from 'react';
-import { Select } from "@/components/Select"
+import { useTheme } from "next-themes";
 
 export const GeneralConfig = () => {
 
-    const [toggle] = useState(true);
+    const [toggle, setToggle] = useState(true);
+    const { theme, setTheme } = useTheme()
+
+    const mudarTema = () => {
+        if (!toggle) {
+            setTheme("light");
+        }
+        else {
+            setTheme("dark");
+        }
+    }
 
     return (
         <div className="w-full pt-40">
             <div className="flex justify-center h-full items-center">
-                <div className='flex-col w-[55%] h-full '>
+                <div className='flex-col w-[55%] h-full'>
                     <div className='pb-20'>
                         <p className="h2 text-secondary">Configurações</p>
                     </div>
                     <div className='flex-col w-[62.5%]'>
                         <div className='flex justify-between'>
-                            <p className="h4 text-black">Modo escuro</p>
-                            <div className="flex items-center font-bold">
-                                <label className="relative w-16 h-8 ml-4 mr-4">
-                                    <input type="checkbox" className="opacity-0 w-0 h-0 toggle-input" disabled={!toggle} />
+                            <p className="h4">Modo escuro</p>
+                            <div className="flex items-center font-bold" onClick={() => mudarTema()}>
+                                <label className="relative w-16 h-8 ml-4 mr-4" >
+                                    <input type="checkbox" className="opacity-0 w-0 h-0 toggle-input" onClick={() => setToggle(!toggle)} />
                                     <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
                                         before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider"></span>
                                 </label>
@@ -31,7 +41,7 @@ export const GeneralConfig = () => {
                     <div>
                         <div className='flex-col w-[60%]'>
                             <div className='flex justify-between'>
-                                <p className="h4 text-black">Ajustar fonte</p>
+                                <p className="h4 ">Ajustar fonte</p>
                                 <div className=" h-min w-fit relative">
                                     <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary rounded-sm text-primary text-center w-full pr-20">
                                         <option value="100% (Recomendado)" key="1" className="w-full ">100% (Recomendado)</option>
@@ -54,7 +64,7 @@ export const GeneralConfig = () => {
                     <div>
                         <div className='flex-col w-[60%]'>
                             <div className='flex justify-between'>
-                                <p className="h4 text-black">Ajustar fonte</p>
+                                <p className="h4 ">Ajustar fonte</p>
                                 <div className=" h-min w-fit relative">
                                     <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary rounded-sm text-primary text-center w-full pr-20">
                                         <option value="Português (Brasil)" key="1" className="w-full ">Português (Brasil)</option>
@@ -73,11 +83,60 @@ export const GeneralConfig = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex-col'>
 
+                <div className='flex'>
+                    <div className='flex-col flex justify-around gap-10'>
+                        <div className='flex justify-center items-center w-52 h-52 bg-white shadow-blur-10'>
+                            <div className='flex-col w-[80%] h-[80%]'>
+                                <p className='h4 text-primary pb-6'>Acessibilidade</p>
+                                <div className='flex items-center pb-8'>
+                                    <div className='bg-primary w-7 h-7'></div>
+                                    <p className='p pl-4'>Libras</p>
+                                </div>
+                                <div className='flex items-center'>
+                                    <div className='bg-primary w-7 h-7'></div>
+                                    <p className='p pl-4'>Texto para som</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex justify-center items-center w-52 h-52 bg-white shadow-blur-10'>
+                            <div className='flex-col w-[80%] h-[80%]'>
+                                <p className='h4 text-primary pb-6'>Conexões</p>
+                                <div className='flex items-center pb-8'>
+                                    <div className='bg-primary w-7 h-7'></div>
+                                    <p className='p pl-4'>Google</p>
+                                </div>
+                                <div className='flex items-center'>
+                                    <div className='bg-primary w-7 h-7'></div>
+                                    <p className='p pl-4'>Github</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex justify-center items-center w-52 h-24 bg-white shadow-blur-10'>
+                            <div className=' flex-col w-[70%] h-[55%]'>
+                                <div className='rounded-lg bg-primary w-full h-full flex items-center justify-center'>
+                                    <p className='p text-white'>Refazer Tutorial</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='flex justify-center items-center w-52 h-90 bg-white shadow-blur-10'>
+                        <div className='flex-col w-[60%] h-[90%]'>
+                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                            </div>
+                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                            </div>
+                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
+
     )
-}  
+}
