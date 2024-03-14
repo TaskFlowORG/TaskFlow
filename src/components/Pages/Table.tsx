@@ -47,7 +47,7 @@ export const TablePage = ({ page, project}:Props) => {
                     </div>
                 </div>
                 <div className="w-full h-4/5 p-2" >
-                    <div className=" h-full flex gap-1 shadow-blur-10" >
+                    <div className="h-full flex gap-1 shadow-blur-10 w-full relative overflow-x-scroll" >
                         <Table page={page} updateIndex={updateIndexes} />
                     </div>
                 </div>

@@ -19,9 +19,9 @@ export const Table = ({ page, updateIndex }: Props) => {
         }
     }, [project, page])
     return (
-        <div className="w-full px-6 bg-white dark:bg-modal-grey relative overflow-x-auto h-full flex flex-col rounded-md shadow-blur-10">
-            <main key={page.id} className="h-full max-h-full w-full flex flex-col">
-                <header className=" bg-white dark:bg-modal-grey max-w-full h-min flex ">
+        <div className=" px-6 bg-white dark:bg-modal-grey  h-full w-full flex flex-col overflow-y-scroll rounded-md shadow-blur-10">
+            <main key={page.id} className=" max-h-full flex w-full h-full flex-col">
+                <header className=" bg-white dark:bg-modal-grey h-24 w-full flex sticky top-0  left-0 ">
                     <span className="min-w-[14rem] w-full h-full bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-b-2">
                         <span className="w-full flex items-center justify-start h-full">
                             <HeaderList justName={true} name={"Tasks"} />
@@ -29,7 +29,7 @@ export const Table = ({ page, updateIndex }: Props) => {
                     </span>
                     {props.map((p) => (
                         <span key={p.id} className="min-w-[14rem] w-full h-full bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-b-2">
-                            <span className="w-full flex items-center justify-start h-full">
+                            <span className="w-full flex items-center justify-start h-full">                                
                                 <HeaderList justName={false} name={p.name} p={p} />
                             </span>
                         </span>
@@ -39,7 +39,8 @@ export const Table = ({ page, updateIndex }: Props) => {
                     <Droppable droppableId={`${page.id}`}>
                         {(provided, snapshot) => {
                             return (
-                                <div ref={provided.innerRef} {...provided.droppableProps} className="max-h-full flex flex-col w-min overflow-y-auto none-scrollbar">
+                                // se eu deixar com w-min ele vai funcionar o tamanho da linha, mas quando tiver menas colunas ele nao vai preencher a linha
+                                <div ref={provided.innerRef} {...provided.droppableProps} className="h-min flex flex-col w-full">
                                         {(page.tasks as TaskOrdered[])
                                             .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
                                             .map((l, index) => {
@@ -77,6 +78,6 @@ export const Table = ({ page, updateIndex }: Props) => {
                     </Droppable>
                 </DragDropContext>
             </main>
-        </div >
+            </div>
     )
 }

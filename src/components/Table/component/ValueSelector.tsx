@@ -45,7 +45,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
           </If>
           <If condition={property?.type == TypeOfProperty.DATE}>
             {propVl?.value.value == undefined ?
-                <div className="h-full flex items-center">Sem Data</div>
+                <p className="h-full w-min truncate flex items-center">Sem Dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                 :
                 <div className="h-full flex items-center">{new Date(propVl?.value.value).toLocaleDateString()}</div>
             }
