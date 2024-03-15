@@ -598,3 +598,51 @@ select::-ms-expand {
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 0px;
 }
+
+#configurations:checked {
+  @apply bg-primary dark:bg-secondary border-none;
+}
+#configurations{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 15%;
+
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+#configurations:checked::before {
+  content: "";
+  position: absolute;
+  @apply left-1/3 top-[15%];
+  transform: rotate(45deg);
+  width: 7px;
+  height: 14px;
+
+  border: solid var(--contrast-color);
+  border-width: 0 2px 2px 0;
+}
+
+#range[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+}
+#range[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
+}
+#range[type="range"]::-moz-range-progress {
+  @apply bg-zinc-200 dark:bg-back-grey;
+}
+#range[type="range"]::-moz-range-track {
+  @apply bg-zinc-200 dark:bg-back-grey;
+}
+#range[type="range"]::-ms-fill-lower {
+  @apply bg-zinc-200 dark:bg-back-grey;
+}
+#range[type="range"]::-ms-fill-upper {
+  @apply bg-zinc-200 dark:bg-back-grey;
+}

@@ -17,7 +17,7 @@ export const GeneralConfig = () => {
 
     return (
         <div className="w-full pt-40">
-            <div className="flex justify-center h-full items-center">
+            <div className="flex justify-center h-full items-center ">
                 <div className='flex-col w-[55%] h-full'>
                     <div className='pb-20'>
                         <p className="h2 text-secondary">Configurações</p>
@@ -42,29 +42,20 @@ export const GeneralConfig = () => {
                         <div className='flex-col w-[60%]'>
                             <div className='flex justify-between'>
                                 <p className="h4 ">Ajustar fonte</p>
-                                <div className=" h-min w-fit relative">
-                                    <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary rounded-sm text-primary text-center w-full pr-20">
-                                        <option value="100% (Recomendado)" key="1" className="w-full ">100% (Recomendado)</option>
-                                        <option value="75%" key="2" className="w-full ">75%</option>
-                                        <option value="50%" key="3" className="w-full ">50%</option>
-                                    </select>
-                                    <div className=" border-l-[2px] border-primary -z-[10] w-16 top-0 right-0 h-full absolute flex justify-center text-2xl items-center font-bold text-primary font-mono ">
-                                        <span className=" rotate-90">{">"}</span>
-                                    </div>
-                                </div>
+                                <input className='w-min-[50px] w-[300px]' type="range" id='range' />
                             </div>
                             <div className='pt-5 pb-10'>
                                 <div className='pb-5'>
                                     <p className='p'>Nessa opção você poderá alterar o tamanho da fonte padrão no site.</p>
                                 </div>
-                                <input type="range" />
+                                
                             </div>
                         </div>
                     </div>
                     <div>
                         <div className='flex-col w-[60%]'>
                             <div className='flex justify-between'>
-                                <p className="h4 ">Ajustar fonte</p>
+                                <p className="h4 ">Idioma</p>
                                 <div className=" h-min w-fit relative">
                                     <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary rounded-sm text-primary text-center w-full pr-20">
                                         <option value="Português (Brasil)" key="1" className="w-full ">Português (Brasil)</option>
@@ -86,33 +77,41 @@ export const GeneralConfig = () => {
 
                 <div className='flex'>
                     <div className='flex-col flex justify-around gap-10'>
-                        <div className='flex justify-center items-center w-52 h-52 bg-white shadow-blur-10'>
+                        <div className='flex justify-center items-center w-64 h-64 bg-white shadow-blur-10'>
                             <div className='flex-col w-[80%] h-[80%]'>
-                                <p className='h4 text-primary pb-6'>Acessibilidade</p>
+                            <div className='flex justify-center items-center'>
+                                    <p className='h4 text-primary pb-6'>Acessibilidade</p>
+                                </div>
                                 <div className='flex items-center pb-8'>
-                                    <div className='bg-primary w-7 h-7'></div>
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
                                     <p className='p pl-4'>Libras</p>
                                 </div>
-                                <div className='flex items-center'>
-                                    <div className='bg-primary w-7 h-7'></div>
+                                <div className='flex items-center pb-8'>
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
                                     <p className='p pl-4'>Texto para som</p>
+                                </div>
+                                <div className='flex items-center'>
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
+                                    <p className='p pl-4'>Descriçao de tarefas</p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-center items-center w-52 h-52 bg-white shadow-blur-10'>
-                            <div className='flex-col w-[80%] h-[80%]'>
-                                <p className='h4 text-primary pb-6'>Conexões</p>
+                        <div className='flex justify-center items-center w-64 h-52 bg-white shadow-blur-10'>
+                            <div className='flex flex-col w-[80%] h-[80%] '>
+                                <div className='flex justify-center items-center'>
+                                    <p className='h4 text-primary pb-6'>Conexões</p>
+                                </div>
                                 <div className='flex items-center pb-8'>
-                                    <div className='bg-primary w-7 h-7'></div>
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
                                     <p className='p pl-4'>Google</p>
                                 </div>
                                 <div className='flex items-center'>
-                                    <div className='bg-primary w-7 h-7'></div>
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
                                     <p className='p pl-4'>Github</p>
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-center items-center w-52 h-24 bg-white shadow-blur-10'>
+                        <div className='flex justify-center items-center w-64 h-24 bg-white shadow-blur-10'>
                             <div className=' flex-col w-[70%] h-[55%]'>
                                 <div className='rounded-lg bg-primary w-full h-full flex items-center justify-center'>
                                     <p className='p text-white'>Refazer Tutorial</p>
@@ -120,18 +119,21 @@ export const GeneralConfig = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex justify-center items-center w-52 h-90 bg-white shadow-blur-10'>
-                        <div className='flex-col w-[60%] h-[90%]'>
-                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
-                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                    <div className='flex justify-center items-center w-44 h-90 bg-white shadow-blur-10'>
+                        <div className='flex flex-col justify-between w-[55%] h-[87%]'>
+                            <div className='rounded-lg w-full h-[11vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[5.5vh] h-[5.5vh]'></div>
                             </div>
-                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
-                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                            <div className='rounded-lg w-full h-[11vh] bg-back-grey shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-secondary w-[5.5vh] h-[5.5vh]'></div>
                             </div>
-                            <div className='rounded-lg w-full h-[13vh] bg-white shadow-blur-10 flex justify-center items-center'>
-                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[7vh] h-[7vh]'></div>
+                            <div className='rounded-lg w-full h-[11vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[5.5vh] h-[5.5vh]'></div>
                             </div>
-                            
+                            <div className='rounded-lg w-full h-[11vh] bg-white shadow-blur-10 flex justify-center items-center'>
+                                <div className='rounded-full bg-gradient-to-r from-[#AA19C1] via-[#E100F4] to-[#FF7A00] w-[5.5vh] h-[5.5vh]'></div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

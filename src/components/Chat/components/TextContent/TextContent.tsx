@@ -1,5 +1,5 @@
 import { Chat } from "@/models"
-import { getListChat, getSingleChat } from "@/services/http/api";
+import { chatService } from "@/services"
 import { useEffect, useState } from "react"
 
 export const TextContent = () => {
@@ -7,8 +7,10 @@ export const TextContent = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await getSingleChat("private", "jonatas");
+            const response = await chatService.findByName("jonatas", "beck");
             setMensagens(response);
+            console.log(response);
+            
         }
         getChats();
     }, []);
@@ -22,7 +24,7 @@ export const TextContent = () => {
                 {mensagens.map((mensagem) =>
                     //Tem q arrumar a key
                     <h3 key={0} className="p lg:h4 text-black">
-                        {/* {mensagem.messages[0].value} */}
+                         {mensagem.messages[0].value} 
                     </h3>)}
             </div>
         </div>

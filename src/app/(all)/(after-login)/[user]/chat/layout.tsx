@@ -29,7 +29,7 @@ export default function RootLayout({ children, params }: { children: React.React
             }
 
         } else {
-            const response = await getListChat("private", "johndoeasdasd");
+            const response = await getListChat("private", "jonatas");
             setListaChats(response);
         }
     }
@@ -37,7 +37,7 @@ export default function RootLayout({ children, params }: { children: React.React
     useEffect(() => {
         async function buscarChats() {
             //Implementar a busca de id do usuário logado
-            const response = await getListChat("private", "johndoeasdasd");
+            const response = await getListChat("private", "jonatas");
             setListaChats(response);
         }
         buscarChats();

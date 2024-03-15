@@ -2,27 +2,17 @@
 
 import { ChatContent } from "./components/ChatContent";
 import { useState, useEffect } from "react";
-import { getListChat, getSingleChat } from "../../services/http/api";
+import { chatService } from "@/services";
 import { Chat } from "@/models";
 
 export const Chatt = () => {
-    const [chats, setChats] = useState<Chat[]>([]);
     const [chatContent, setChatContent] = useState<Chat[]>([]);
 
     useEffect(() => {
         async function getChats() {
-            const response = await getListChat("private", "jonatas");
-            setChats(response);
-            console.log(response);
-            
-        }
-        getChats();
-    }, []);
-
-    useEffect(() => {
-        async function getChats() {
-            const response = await getSingleChat("private", "jonatas");
+            const response = await chatService.findByName("private", "jonatas");
             setChatContent(response);
+            console.log(response);
         }
         getChats();
     }, []);
