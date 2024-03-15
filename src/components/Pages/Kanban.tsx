@@ -153,7 +153,7 @@ export const Kanban = () => {
         setList: setList,
       }}
     >
-      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
         <div className="hidden lg:flex gap-5 items-end pb-16 justify-center relative   h-max">
           <h1
             className="h1 text-primary whitespace-nowrap dark:text-white"
@@ -185,8 +185,7 @@ export const Kanban = () => {
             />
           </SearchBar>
         </div>
-        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          {/* // node */}
+        {/* <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollContainer"
             className="flex  justify-start min-h-max  pl-3 w-[1560px]  overflow-x-auto scroll-smooth  self-center"
@@ -246,6 +245,65 @@ export const Kanban = () => {
                 />
               }
             </div>
+          </div>
+        </DragDropContext> */}
+
+        <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+          <div
+            id="scrollKanban"
+            className="flex gap-8  justify-start bah  pl-3 w-[1560px] overflow-x-auto  self-center"
+          >
+            {options?.map((option) => {
+              return (
+                <ColumnKanban
+                  input={input}
+                  key={`${option.id}`}
+                  tasks={indexAtColumn(
+                    tasks.filter((task) => {
+                      return task?.task?.properties?.some((property) => {
+                        return (
+                          (property.property.id == id &&
+                            (property.value as UniOptionValued).value?.id ==
+                              option?.id) ||
+                          ((property.property.type ===
+                            TypeOfProperty.CHECKBOX ||
+                            property.property.type === TypeOfProperty.TAG) &&
+                            (property.value as MultiOptionValued).value.find(
+                              (value) => value.id == option.id
+                            ))
+                        );
+                      });
+                    })
+                  )}
+                  propertyId={id}
+                  color={option.color}
+                  option={option}
+                  verify={true}
+                />
+              );
+            })}
+            {
+              <ColumnKanban
+                key={0}
+                input={input}
+                tasks={tasks.filter((task) => {
+                  return task?.task?.properties?.some((property) => {
+                    return (
+                      (property.property.id == id &&
+                        (property.value as UniOptionValued).value == null) ||
+                      (property.property.id == id &&
+                        [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+                          property.property.type
+                        ) &&
+                        (property.value as MultiOptionValued).value.length == 0)
+                    );
+                  });
+                })}
+                propertyId={id}
+                color="#767867"
+                option={new Option(0, "Não Marcadas", "#767867")}
+              />
+            }
           </div>
         </DragDropContext>
       </div>
