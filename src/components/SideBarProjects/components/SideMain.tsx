@@ -1,10 +1,11 @@
-
 import { If } from "@/components/If"
 import { IconBurguerList, IconGroups, IconLogout, IconProjects } from "@/components/icons"
 import { Project } from "@/models";
 import Link from "next/link"
 import { PageSide, SideSecondary } from "./";
 import { SideModal } from "@/components/Modal";
+import { GroupSide } from "./GroupSide";
+
 
 interface Props {
     project?: Project;
@@ -16,7 +17,13 @@ interface Props {
     setModalGroups: (value: boolean) => void;
 }
 
+
 export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
+
+
+
+
+
 
     return (
         <>
@@ -47,7 +54,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                     </If>
                 </div>
                 <div className="w-full h-1/4 flex flex-col justify-end items-center" >
-                    <div className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity 
+                    <div className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity
                     flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey" onClick={() => setWantLeave(true)}>
                         <div className="w-1/3 h-full flex justify-center items-center">
                             <IconLogout />
@@ -57,12 +64,13 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                 </div>
                 </>
             </If>
-            <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
-                <PageSide setModalPages={setModalPages} user={user} project={project!}/>
+            {/* <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
+                <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
+             */}
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-               <PageSide setModalPages={setModalGroups}  user={user} project={project!}/>
-               {/* {console.log("")} */}
+                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
             </SideModal>
         </>)
 }
+
