@@ -7,9 +7,15 @@ interface Props {
   property: any;
   value: string;
   color: string;
+  showNameProperty: boolean;
 }
 
-export const CardSelect = ({ property, value, color }: Props) => {
+export const CardSelect = ({
+  property,
+  value,
+  showNameProperty,
+  color,
+}: Props) => {
   const { theme, setTheme } = useTheme();
 
   const styled_P: CSSProperties = {
@@ -19,9 +25,12 @@ export const CardSelect = ({ property, value, color }: Props) => {
   };
   return (
     <div className="flex gap-2 w-max items-center">
-      <p className="text-[14px] w-max text-[#797979] dark:text-white">
-        {property}:
-      </p>
+      {showNameProperty && (
+        <p className="text-[14px] w-max text-[#797979] dark:text-white">
+          {property}:
+        </p>
+      )}
+
       <div className="flex gap-2">
         <p style={styled_P} className="text-[14px] w-max">
           {value}

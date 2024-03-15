@@ -49,6 +49,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardText
+                showNameProperty={false}
                 property={property.property.name}
                 key={property.property.id.toString()}
                 text={(property.value as TextValued).value}
@@ -60,6 +61,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardDate
+                showNameProperty={false}
                 key={property.property.id.toString()}
                 date={property.value.value}
                 property={property.property.name}
@@ -71,6 +73,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardSelect
+                showNameProperty={false}
                 property={property.property.name}
                 color={(property.value as UniOptionValued).value?.color}
                 key={property.property.id.toString()}
@@ -83,6 +86,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardTag
+                showNameProperty={false}
                 nameProperty={property.property.name}
                 key={property.property.id.toString()}
                 tags={(property.value as MultiOptionValued).value}
@@ -94,6 +98,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardTag
+                showNameProperty={false}
                 nameProperty={property.property.name}
                 key={property.property.id.toString()}
                 tags={(property.value as MultiOptionValued).value}
@@ -105,6 +110,7 @@ export const CardContent = ({ task, min }: Props) => {
           ) {
             return (
               <CardRadio
+                showNameProperty={false}
                 key={property.property.id.toString()}
                 property={property.property.name}
                 value={(property.value as UniOptionValued).value?.name}
@@ -113,7 +119,8 @@ export const CardContent = ({ task, min }: Props) => {
           } else if (is(property, TypeOfProperty.NUMBER)) {
             return (
               // <CardNumber
-              //   key={property.property.id.toString()}
+              //   showNameProperty={fafalse}
+              // key={property.property.id.toString()}
               //   property={property.property.name}
               //   value={property.value.value}
               // />
