@@ -2,10 +2,10 @@
 
 import { compareDates } from "@/functions";
 import { useEffect, useState } from "react";
-import { If } from "../If";
-import { Obj } from "../Obj";
+import { If } from "../../../If";
+import { Obj } from "../../../Obj";
 import { Date as DateProp, TaskPage } from "@/models";
-import { CalendarTasksModal } from "../CalendarTasksModal";
+import { CalendarTasksModal } from "./CalendarTasksModal";
 
 interface Props {
     date: Day

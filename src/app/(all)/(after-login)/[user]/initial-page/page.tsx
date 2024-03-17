@@ -1,8 +1,8 @@
 
 
 import { SVGInitialPage } from "@/components/Shapes"
-import { ProjectsMainPage } from "@/components/ProjectsMainPage"
-import { InitialPageTasks } from "@/components/InitialPageTasks/InitialPageTasks"
+import { ProjectsMainPage } from "@/components/InitialAndProjectsPage"
+import { InitialPageTasks } from "@/components/InitialAndProjectsPage/InitialPageTasks"
 
 export default function InitialPage({params}:{params:{user:string}}) {
 

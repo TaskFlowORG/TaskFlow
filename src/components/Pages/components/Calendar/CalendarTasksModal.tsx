@@ -1,9 +1,9 @@
 import { Date as DateProp, TaskPage } from "@/models";
-import { CenterModal } from "../Modal";
-import { If } from "../If";
+import { CenterModal } from "../../../Modal";
+import { If } from "../../../If";
 import { useRef } from "react";
-import { TaskTagCalendar } from "./components";
-import { Scrollable } from "./components/Scrollable";
+import { TaskTagCalendar } from "./TaskTagCalendar";
+import { Scrollable } from "./Scrollable";
 
 interface Props {
     title: string;

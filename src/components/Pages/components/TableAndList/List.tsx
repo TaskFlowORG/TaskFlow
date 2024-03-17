@@ -2,9 +2,9 @@
 
 import {  DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
 import { Page, Property, TaskOrdered} from "@/models"
-import { ValueSelector } from "./"
+import { ValueSelector } from ".."
 import { useEffect, WheelEvent, useRef, useState } from "react"
-import { PageTypeIcons } from "../../icons";
+import { PageTypeIcons } from "../../../icons";
 import { HeaderList } from "./HeaderList";
 
 interface Props {

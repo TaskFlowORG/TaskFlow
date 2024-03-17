@@ -1,6 +1,5 @@
-import { register } from "module";
-import { ComponentProps, PointerEventHandler, useEffect, useRef, useState } from "react";
-import { set } from "react-hook-form";
+
+import {  useEffect, useRef, useState } from "react";
 
 
 interface Props {

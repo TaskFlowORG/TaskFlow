@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { TaskCanvasComponent } from "@/components/TaskCanvasComponent/TaskCanvasComponent";
+import { TaskCanvasComponent } from "./components";
 import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
-import { MapOfCanvas } from "@/components/MapOfCanvas/MapOfCanvas";
-import { CanvasComponents } from "@/components/CanvasOptions/CanvasComponents";
+import { MapOfCanvas } from "./components";
+import { CanvasComponents } from "./components";
 import { drawLine } from "@/functions";
 import { useDraw } from "@/hooks/useDraw";
-import { SelectedArea } from "@/components/SelectedArea/SelectedArea";
+import { SelectedArea } from "./components";
 import { useTheme } from "next-themes";
 import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";

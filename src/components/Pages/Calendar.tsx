@@ -1,13 +1,10 @@
 'use client'
 
-import { CalendarDay } from "@/components/CaledarDay";
+import { CalendarDay, CalendarTasksModal } from "./components";
 import { Arrow } from "@/components/icons/";
 import { compareDates } from "@/functions";
-import { DateValued, OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
-import { pageService } from "@/services";
+import {OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
 import { useEffect, useState } from "react";
-import { CenterModal } from "../Modal";
-import { CalendarTasksModal } from "../CalendarTasksModal";
 import {Date as DateProp} from "@/models"
 
 interface Day{

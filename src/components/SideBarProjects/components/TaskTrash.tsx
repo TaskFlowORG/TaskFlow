@@ -1,8 +1,8 @@
 import { Action, Task } from "@/models"
 import { taskService } from "@/services"
 import { useState } from "react"
-import { If } from "../If"
-import { Button } from "../Button"
+import { If } from "../../If"
+import { Button } from "../../Button"
 
 interface Props {
     task: Task

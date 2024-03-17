@@ -1,11 +1,11 @@
 
-import { If } from "../If";
-import { Button } from "../Button";
+import { If } from "../../If";
+import { Button } from "../../Button";
 import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { useTheme } from "next-themes";
 import { TypeOfPage } from "@/models";
-import { PageTypeIcons } from "../icons";
+import { PageTypeIcons } from "../../icons";
 interface Props {
     changingType:boolean;
     closeModals: ()=>void;

@@ -1,1 +1,0 @@
-export { List } from "../Pages/components/List";

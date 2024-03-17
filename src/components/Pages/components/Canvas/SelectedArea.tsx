@@ -1,7 +1,7 @@
 "use client";
 
 import { LegacyRef, useEffect, useState } from "react";
-import { If } from "../If";
+import { If } from "../../../If";
 import { setTimeout } from "timers";
 
 export const SelectedArea = ({

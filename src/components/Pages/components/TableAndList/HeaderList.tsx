@@ -1,5 +1,5 @@
 import { Page, Property, TaskValue } from "@/models";
-import { IconsSelector } from ".";
+import { IconsSelector } from "..";
 
 interface Props {
     name: string;

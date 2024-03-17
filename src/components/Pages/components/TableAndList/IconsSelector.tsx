@@ -3,11 +3,11 @@ import { IconArchive, IconCalendar, IconCheckbox, IconClock, IconNumber, IconPro
 import { Page, Property, TypeOfProperty } from "@/models";
 
 export const IconsSelector = ({page, property}:{page?:Page, property?:Property}) => {
-  return (
-    <If condition={page != undefined}>
+  return  page ? 
       <div className="min-w-[3rem] h-min w-min min-h-[3rem]">
-      <PageTypeIcons type={page!.type} />
+        <PageTypeIcons type={page!.type} />
       </div>
+      :
       <div className="w-min">
         <If condition={property?.type == TypeOfProperty.ARCHIVE}>
           <IconArchive />
@@ -43,6 +43,4 @@ export const IconsSelector = ({page, property}:{page?:Page, property?:Property})
           <IconUser />
         </If>
       </div>
-    </If>
-  );
-};
+    }

@@ -1,6 +1,6 @@
 'use client'
 
-import { ProjectComponent } from "@/components/Project"
+import { ProjectComponent } from "@/components/InitialAndProjectsPage"
 import { SVGProjectsPage } from "@/components/Shapes"
 import { getData, getListData } from "@/services/http/api";
 import { Project, ProjectPost, User } from "@/models";

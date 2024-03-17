@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ProjectComponent } from "../Project";
+import { ProjectComponent } from "./";
 import { Project } from "@/models";
 import { projectService } from "@/services";
 

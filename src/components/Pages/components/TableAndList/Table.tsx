@@ -1,7 +1,7 @@
 "use client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
 import { Page, Property, TaskOrdered } from "@/models"
-import { ValueSelector } from "."
+import { ValueSelector } from ".."
 import { useRef, useContext, useState, useEffect } from "react"
 import { HeaderList } from "./HeaderList";
 import { ProjectContext } from "@/utils/ContextProject";

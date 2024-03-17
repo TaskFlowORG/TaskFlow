@@ -1,6 +1,6 @@
 import { If } from "@/components/If";
 import { LocalModal } from "@/components/Modal";
-import { TaskTrash } from "@/components/TaskTrash";
+import { TaskTrash } from "./TaskTrash";
 import { IconDashboard, IconPages, IconTrashBin } from "@/components/icons";
 import { Project, Task } from "@/models";
 import { taskService } from "@/services";

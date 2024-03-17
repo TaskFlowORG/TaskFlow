@@ -1,6 +1,6 @@
 import { Page, PagePost, Project, TypeOfPage, TypeOfProperty } from "@/models";
 import { useEffect, useRef, useState } from "react";
-import { If } from "../If";
+import { If } from "../../If";
 import { pageService } from "@/services";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
@@ -22,11 +22,11 @@ import "swiper/css/effect-flip";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { useTheme } from "next-themes";
-import { Button } from "../Button";
+import { Button } from "../../Button";
 import Link from "next/link";
-import { TypeOfPageComponent } from "../TypeOfPageComponent";
-import { LocalModal } from "../Modal";
-import { PageTypeIcons } from "../icons/Pages/PageTypeIcons";
+import { TypeOfPageComponent } from "./TypeOfPageComponent";
+import { LocalModal } from "../../Modal";
+import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
 
 interface Props {
   page: Page;

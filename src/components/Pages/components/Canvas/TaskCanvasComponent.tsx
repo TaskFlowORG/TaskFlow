@@ -1,8 +1,8 @@
 'use client'
 
 
-import { RoundedCard } from "../RoundedCard"
-import { CardContent } from "../CardContent"
+import { RoundedCard } from "../../../RoundedCard"
+import { CardContent } from "../../../CardContent"
 import {useState, useRef, useEffect, MouseEvent as MouseEventReact} from "react"
 import { CanvasPage, TaskCanvas } from "@/models"
 import { pageService } from "@/services"

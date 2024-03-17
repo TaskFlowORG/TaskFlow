@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useState } from "react";
-import { If } from "../If";
-import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
+import { If } from "../../../If";
+import { SelectWithImage } from "../../../SelectWithImage/SelectwithImage";
 import {
   AddTask,
   Broom,
@@ -10,9 +10,9 @@ import {
   Pencil,
   Square,
   Triangle,
-} from "../icons";
-import { MoveIcon } from "../icons/Canvas/Move";
-import { Pointer } from "../icons/Canvas/Pointer";
+} from "../../../icons";
+import { MoveIcon } from "../../../icons/Canvas/Move";
+import { Pointer } from "../../../icons/Canvas/Pointer";
 
 interface Props {
   moving: boolean;

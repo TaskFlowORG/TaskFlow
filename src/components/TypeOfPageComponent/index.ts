@@ -1,1 +1,0 @@
-export { TypeOfPageComponent } from './TypeOfPageComponent';
