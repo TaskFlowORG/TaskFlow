@@ -26,7 +26,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
   return (
       
         justName ? 
-        <div className={"py-4 px-3 gap-6 h-12 sm:h-16 select-none justify-start items-center flex w-[98%]" +  (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
+        <div className={"py-4 px-3 ml-4 gap-6 h-12 sm:h-16 select-none justify-start items-center flex w-[98%]" +  (l.task.name ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500") } >
             <div className="bg-zinc-200 p-[0.35rem] text-white dark:text-zinc-200 dark:bg-zinc-600 w-min flex flex-col text-[0.5rem] rounded-full">
                 <p >^</p>
                 <p className="rotate-180">^</p>
@@ -36,7 +36,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             </span>
         </div>
         :
-        <div className="flex p text-zinc-600 dark:text-zinc-200 gap-4 p-3 h-14 w-[98%] items-center justify-start ">
+        <div className={"flex p ml-4 gap-4 p-3 h-14 w-[90%] items-center justify-start " +  (propVl?.value.value ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500")}>
           <If condition={property?.type == TypeOfProperty.ARCHIVE}>
             {propVl?.value.value == undefined ?
                 <div className="h-min w-min truncate">Sem Arquivo</div>
