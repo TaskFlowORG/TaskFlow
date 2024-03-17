@@ -30,3 +30,5 @@ export { IconSelect } from "./TypeOfProperties/Select";
 export { IconTag } from "./TypeOfProperties/Tag";
 export { IconText } from "./TypeOfProperties/Text";
 export { IconUser } from "./TypeOfProperties/User";
+
+export { PageTypeIcons } from "./Pages/PageTypeIcons";

@@ -5,6 +5,7 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import { useTheme } from "next-themes";
 import { TypeOfPage } from "@/models";
+import { PageTypeIcons } from "../icons";
 interface Props {
     changingType:boolean;
     closeModals: ()=>void;
@@ -50,13 +51,14 @@ export const TypeOfPageComponent = ({changingType, closeModals, setChangingType,
                     }}
                     onSlideChange={swiperType}
                     pagination={{ clickable: true }}>
-                    {[{ title: "Kanban", image: "" }, { title: "Calendar", image: "" }, { title: "TimeLine", image: "" }, { title: "Lista", image: "" }, { title: "Tabela", image: "" }, { title: "Canvas", image: "" }]
+                    {[{ title: TypeOfPage.KANBAN, image: "" }, { title: TypeOfPage.CALENDAR, image: "" }, { title: TypeOfPage.TIMELINE, image: "" }, 
+                    { title: TypeOfPage.LIST, image: "" }, { title: TypeOfPage.TABLE, image: "" }, { title: TypeOfPage.CANVAS, image: "" }]
                         .map((slide) => {
                             return (
-                                <SwiperSlide key={slide.title} className="">
+                                <SwiperSlide key={`${slide.title}`} className="">
                                     <div className="h-32 flex items-center flex-col whitespace-nowrap gap-6 ">
                                         {slide.title}
-                                        <img src={slide.image} className="w-12 h-12 " />
+                                        <PageTypeIcons type={slide.title} />
                                     </div>
                                 </SwiperSlide>
                             );

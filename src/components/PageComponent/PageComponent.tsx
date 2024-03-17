@@ -26,6 +26,7 @@ import { Button } from "../Button";
 import Link from "next/link";
 import { TypeOfPageComponent } from "../TypeOfPageComponent";
 import { LocalModal } from "../Modal";
+import { PageTypeIcons } from "../icons/Pages/PageTypeIcons";
 
 interface Props {
   page: Page;
@@ -120,7 +121,7 @@ export const PageComponent = ({
           className=" w-full flex gap-2 "
         >
           <If condition={!merging || pageMerging}>
-            <img src="/img/arquivo.svg" className="h-7 w-7 rounded-md" />
+            <PageTypeIcons type={page.type} />
           </If>
           <div className="bg-input-grey dark:bg-back-grey text-start font-alata rounded-md h-7 px-4 py-px w-full hover:brightness-95">
             <div

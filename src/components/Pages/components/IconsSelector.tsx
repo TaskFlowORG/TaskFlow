@@ -1,13 +1,12 @@
 import { If } from "@/components/If";
-import { IconArchive, IconCalendar, IconCheckbox, IconClock, IconNumber, IconProgress, IconRadio, IconSelect, IconTag, IconTask, IconText, IconUser } from "@/components/icons";
-import { Property, TypeOfProperty } from "@/models";
+import { IconArchive, IconCalendar, IconCheckbox, IconClock, IconNumber, IconProgress, IconRadio, IconSelect, IconTag, IconTask, IconText, IconUser, PageTypeIcons } from "@/components/icons";
+import { Page, Property, TypeOfProperty } from "@/models";
 
-export const IconsSelector = ({justName, property}:{justName:boolean, property?:Property}) => {
+export const IconsSelector = ({page, property}:{page?:Page, property?:Property}) => {
   return (
-    <If condition={justName}>
-      <div className="w-min">
-
-      <IconTask />
+    <If condition={page != undefined}>
+      <div className="min-w-[3rem] h-min w-min min-h-[3rem]">
+      <PageTypeIcons type={page!.type} />
       </div>
       <div className="w-min">
         <If condition={property?.type == TypeOfProperty.ARCHIVE}>

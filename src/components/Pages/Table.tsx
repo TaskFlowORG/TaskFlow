@@ -4,7 +4,7 @@ import { List } from "@/components/List";
 import {  useState } from "react";
 import { DragDropContext, DropResult } from "@hello-pangea/dnd";
 import { Page, Project, Property, TaskOrdered } from "@/models";
-import { Table } from "@/components/Table";
+import { Table } from "./components/Table";
 
 interface Props{
     page:Page,
@@ -12,27 +12,6 @@ interface Props{
 }
 
 export const TablePage = ({ page, project}:Props) => {
-
-    const[scroll, setScroll] = useState<number>(0)
-
-    const [tasks, setTasks] = useState<TaskOrdered[]>(page.tasks as TaskOrdered[])
-    const [properties, setProperties] = useState<Property[]>([...project.properties, ...page.properties])
-
-    async function updateIndexes(e: DropResult) {
-        if(!e.destination) return
-        const task = page.tasks.find(t => t.id == +e.draggableId)
-        page.tasks = page.tasks.sort((a, b) => (a as TaskOrdered).indexAtColumn - (b as TaskOrdered).indexAtColumn)
-        if(!task) return
-        const [removed] = page.tasks.splice(e.source.index, 1);
-        page.tasks.splice(e.destination.index, 0, removed);
-        for(let task of page.tasks){
-            const t = task as TaskOrdered
-            t.indexAtColumn = page.tasks.indexOf(t)
-        }
-        setTasks(page.tasks as TaskOrdered[])
-        // pageService.update(page)
-    }
-
 
     return (
         <div className="w-screen h-full pt-20 flex flex-col justify-start items-center">
@@ -48,7 +27,7 @@ export const TablePage = ({ page, project}:Props) => {
                 </div>
                 <div className="w-full h-4/5 p-2" >
                     <div className="h-full flex gap-1 shadow-blur-10 w-full relative overflow-x-scroll" >
-                        <Table page={page} updateIndex={updateIndexes} />
+                        <Table page={page} updateIndex={()=> console.log("Update Indexes")} />
                     </div>
                 </div>
             </div>

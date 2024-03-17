@@ -1,9 +1,9 @@
 "use client";
 import { DragDropContext, Draggable, Droppable, DropResult } from "@hello-pangea/dnd"
 import { Page, Property, TaskOrdered } from "@/models"
-import { ValueSelector } from "./component"
+import { ValueSelector } from "."
 import { useRef, useContext, useState, useEffect } from "react"
-import { HeaderList } from "./component/HeaderList";
+import { HeaderList } from "./HeaderList";
 import { ProjectContext } from "@/utils/ContextProject";
 interface Props {
     page: Page,
@@ -24,13 +24,13 @@ export const Table = ({ page, updateIndex }: Props) => {
                 <header className=" bg-white dark:bg-modal-grey h-24 w-full flex sticky top-0  left-0 ">
                     <span className="min-w-[14rem] w-full h-full bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-b-2">
                         <span className="w-full flex items-center justify-start h-full">
-                            <HeaderList justName={true} name={"Tasks"} />
+                            <HeaderList name={"Tasks"} />
                         </span>
                     </span>
                     {props.map((p) => (
                         <span key={p.id} className="min-w-[14rem] w-full h-full bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-b-2">
                             <span className="w-full flex items-center justify-start h-full">                                
-                                <HeaderList justName={false} name={p.name} p={p} />
+                                <HeaderList name={p.name} p={p} />
                             </span>
                         </span>
                     ))}
