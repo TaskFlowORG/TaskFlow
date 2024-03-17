@@ -42,7 +42,7 @@ export const ListPage = ({ page }: Props) => {
   }
 
   return (
-    <TableOrList name={page.name} isList>
+    <TableOrList name={page.name}>
       {pages.map((p) => {
         return (
           <List

@@ -8,6 +8,7 @@ export const IconsSelector = ({page, property}:{page?:Page, property?:Property})
         <PageTypeIcons type={page!.type} />
       </div>
       :
+      property ?
       <div className="w-min">
         <If condition={property?.type == TypeOfProperty.ARCHIVE}>
           <IconArchive />
@@ -43,4 +44,6 @@ export const IconsSelector = ({page, property}:{page?:Page, property?:Property})
           <IconUser />
         </If>
       </div>
+      :
+      <IconTask />
     }

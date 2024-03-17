@@ -22,7 +22,7 @@ export const List = ({ list, page}: Props) => {
         <Droppable droppableId={`${page.id}`}>
             {(provided, snapshot) => {
                 return (
-                    <div key={page.id} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-full h-full 
+                    <div key={page.id} ref={provided.innerRef} {...provided.droppableProps}  className=" min-w-[16rem] w-min h-full 
                      p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10">
                         <HeaderList page={page} name={page.name} />
                         <div className={"h-5/6 none-scrollbar w-full overflow-y-auto"}>
