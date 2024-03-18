@@ -27,6 +27,7 @@ import Link from "next/link";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
 import { LocalModal } from "../../Modal";
 import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
+import { SideBarButton } from "./SideBarButton";
 
 interface Props {
   page: Page;
@@ -109,47 +110,14 @@ export const PageComponent = ({
     <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey dark:text-white  ">
       <div
         key={page.id}
-        className={"w-full flex gap-2 text-modal-grey " +
-          (merging ? " pointer-events-none" : "cursor-pointer")}
+        className={"w-full flex gap-2 text-modal-grey "}
         onMouseOver={() => setTruncate(true)}
         onMouseLeave={() => setTruncate(modal)}
       >
-        <Link href={!renaiming && !merging
-              ? "/" + username + "/" + project.id + "/" + page.id
-              : "#"
-          }
-          className=" w-full flex gap-2 "
-        >
-          <If condition={!merging || pageMerging}>
-            <PageTypeIcons type={page.type} />
-          </If>
-          <div className="bg-input-grey dark:bg-back-grey text-start font-alata rounded-md h-7 px-4 py-px w-full hover:brightness-95">
-            <div
-              ref={inputRef}
-              className={
-                "appearance-none cursor-pointer bg-transparent w-full outline-none truncate text-modal-grey dark:text-white  " +
-                (!page.name ? "opacity-50" : "")
-              }
-              onBlur={saveNewName}
-              onKeyDown={saveNewName}
-              suppressContentEditableWarning={true}
-              contentEditable={renaiming}
-            >
-              {page.name ?? "Sem Nome"}
-            </div>
-          </div>
-        </Link>
-        <If condition={truncate && !merging}>
-          <div
-            className="bg-input-grey dark:bg-back-grey h-full rounded-full flex flex-col p-1  gap-px w-4 hover:brightness-95"
-            onClick={openModal}
-            ref={ref}
-          >
-            <div className="bg-white dark:bg-zinc-800 w-[0.35rem] h-[0.35rem] rounded-full brightness-[90%]"></div>
-            <div className="bg-white dark:bg-zinc-800 w-[0.35rem] h-[0.35rem] rounded-full brightness-[90%]"></div>
-            <div className="bg-white dark:bg-zinc-800 w-[0.35rem] h-[0.35rem] rounded-full brightness-[90%]"></div>
-          </div>
-        </If>
+
+        <SideBarButton icon={<PageTypeIcons type={page.type} />} text={page.name} editable={renaiming} textRef={inputRef}
+        truncate={truncate && !merging} truncateRef={ref} fnTruncate={openModal} fnSecondary={saveNewName} pointerEventsNone={merging} 
+        link={!renaiming && !merging ? "/" + username + "/" + project.id + "/" + page.id : undefined} />
         <span className="bg-input-grey dark:bg-back-grey">
           <LocalModal
             condition={modal}

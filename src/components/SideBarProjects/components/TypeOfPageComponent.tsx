@@ -56,9 +56,13 @@ export const TypeOfPageComponent = ({changingType, closeModals, setChangingType,
                         .map((slide) => {
                             return (
                                 <SwiperSlide key={`${slide.title}`} className="">
-                                    <div className="h-32 flex items-center flex-col whitespace-nowrap gap-6 ">
-                                        {slide.title}
+                                    <div className="h-32 flex items-center text-modal-grey dark:text-white flex-col whitespace-nowrap gap-6 ">
+                                        {(slide.title[0].toUpperCase() + slide.title.substring(1).toLowerCase())}
+                                        <div className="w-14 h-14">
                                         <PageTypeIcons type={slide.title} />
+                                            </div>
+
+                                
                                     </div>
                                 </SwiperSlide>
                             );
@@ -67,9 +71,9 @@ export const TypeOfPageComponent = ({changingType, closeModals, setChangingType,
                     <div className="swiper-button-next swiper-type-of-page-dark"></div>
                 </Swiper>
                 <div className=" w-full flex justify-around gap-2">
-                    <Button text="Cancelar" padding="p-1" fnButton={() => { setChangingType(false) }}
+                    <Button text="Cancelar" padding="p-1" rounded="rounded-sm" paddingY="py-0" textSize="12px" fnButton={() => { setChangingType(false) }}/>
+                    <Button text="Concluir" padding="p-1" fnButton={() => {changeType(); setChangingType(false)}} 
                         rounded="rounded-sm" paddingY="py-0" textSize="12px" secondary />
-                    <Button text="Concluir" padding="p-1" rounded="rounded-sm" paddingY="py-0" textSize="12px" fnButton={changeType} />
                 </div>
                 </div>
     )
