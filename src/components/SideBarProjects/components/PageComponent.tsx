@@ -28,6 +28,8 @@ import { TypeOfPageComponent } from "./TypeOfPageComponent";
 import { LocalModal } from "../../Modal";
 import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
 import { SideBarButton } from "./SideBarButton";
+import { AnimatePresence, motion } from "framer-motion";
+import { useClickAway } from "react-use";
 
 interface Props {
   page: Page;
@@ -64,14 +66,6 @@ export const PageComponent = ({
   }, [merging]);
 
   const openModal = () => {
-    if (ref.current) {
-      setY(ref.current.getBoundingClientRect().top);
-      setX(
-        ref.current.getBoundingClientRect().left +
-          ref.current.getBoundingClientRect().width +
-          5
-      );
-    }
     setModal(true);
   };
 
@@ -106,6 +100,11 @@ export const PageComponent = ({
     setChangingType(false);
   };
 
+  useClickAway(ref, () => {
+    setModal(false);
+    setTruncate(false);
+  });
+
   return (
     <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey dark:text-white  ">
       <div
@@ -116,30 +115,21 @@ export const PageComponent = ({
       >
 
         <SideBarButton icon={<PageTypeIcons type={page.type} />} text={page.name} editable={renaiming} textRef={inputRef}
-        truncate={truncate && !merging} truncateRef={ref} fnTruncate={openModal} fnSecondary={saveNewName} pointerEventsNone={merging} 
+        openOptions={truncate && !merging} openOptionsRef={ref} fnOpenOptions={openModal} fnSecondary={saveNewName} pointerEventsNone={merging} 
         link={!renaiming && !merging ? "/" + username + "/" + project.id + "/" + page.id : undefined} />
-        <span className="bg-input-grey dark:bg-back-grey">
-          <LocalModal
-            condition={modal}
-            setCondition={(value) => {
-              setModal(value);
-              setTruncate(false);
-            }}
-            y={y}
-            x={x}
-          >
-            <div className="font-alata text-[14px] p-4 flex w-full justify-center items-center rounded-md">
+        <AnimatePresence initial={false} mode="wait">
+        {
+          !modal ??
+
+        <motion.span className="bg-input-grey dark:bg-back-grey" >
+            <div className="font-alata text-[14px] p-4 flex w-48 justify-center items-center bg-red-200 rounded-md">
               <div className="flex flex-col w-full text-modal-grey dark:text-white ">
-                <button
-                  className="w-max flex gap-3 bg-input-grey dark:bg-back-grey    text-[12px]"
-                  onClick={excludePage}
-                >
+                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey text-[12px]" onClick={excludePage}>
                   <span>[]</span>
                   <span>|</span>
                   <span>Excluir</span>
                 </button>
-                <button
-                  className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
+                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
                   onClick={() => {
                     setRenaiming(true);
                     setModal(false);
@@ -150,8 +140,7 @@ export const PageComponent = ({
                   <span>|</span>
                   <span>Renomear</span>
                 </button>
-                <button
-                  className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
+                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
                   onClick={() => {
                     setPageMerging(page);
                     setModal(false);
@@ -162,8 +151,7 @@ export const PageComponent = ({
                   <span>|</span>
                   <span>Conectar</span>
                 </button>
-                <button
-                  className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
+                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
                   onClick={() => {
                     setChangingType(true);
                     setModal(false);
@@ -175,8 +163,10 @@ export const PageComponent = ({
                 </button>
               </div>
             </div>
-          </LocalModal>
-        </span>
+        </motion.span>
+
+        }
+          </AnimatePresence>
         <span className="bg-white dark:bg-modal-grey">
           <LocalModal condition={changingType} setCondition={setChangingType} y={y} x={x}>
             <TypeOfPageComponent

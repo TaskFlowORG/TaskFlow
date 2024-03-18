@@ -27,12 +27,8 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
             <If condition={!modalGroups && !modalPages}>
                 <>
                 <div className="w-full h-full flex flex-col items-center relative">
-                    <Link href={`/${user}/initial-page`} className="w-full ">
-                        <SideBarButton icon={<IconBurguerList />} text="Página Inicial" />
-                    </Link>
-                    <Link href={`/${user}/projects`} className="w-full ">
-                    <SideBarButton icon={<IconProjects />} text="Projetos" />
-                    </Link>
+                    <SideBarButton icon={<IconBurguerList />} link={`/${user}/initial-page`} text="Página Inicial" />
+                    <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects` }/>
                     <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
                     <If condition={project != undefined}>
                         <SideSecondary setModalPages={setModalPages} user={user} project={project} />

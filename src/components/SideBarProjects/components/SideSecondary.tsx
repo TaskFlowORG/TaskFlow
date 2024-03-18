@@ -26,9 +26,7 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
   }, [modalTrash]);
   return (
     <>
-      <Link className="w-full" href={`/${user}/${project?.id}`}>
-        <SideBarButton icon={<IconDashboard />} text="Dashboard" />
-      </Link>
+      <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`}/>
       <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Páginas" />
       <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira">
         <LocalModal condition={modalTrash} setCondition={setModalTrash}>

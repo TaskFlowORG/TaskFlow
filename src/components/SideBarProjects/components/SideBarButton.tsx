@@ -1,4 +1,5 @@
 import { If } from "@/components/If";
+import { Arrow } from "@/components/icons";
 import Link from "next/link";
 import { ComponentProps } from "react";
 
@@ -10,11 +11,11 @@ interface Props {
   fnSecondary?: (e: any) => void;
   editable?: boolean;
   textRef?: React.RefObject<HTMLParagraphElement>;
-  truncate?: boolean;
-  fnTruncate?: () => void;
-  truncateRef?: React.RefObject<HTMLDivElement>;
+  openOptions?: boolean;
+  fnOpenOptions?: () => void;
+  openOptionsRef?: React.RefObject<HTMLDivElement>;
   link?: string;
-  pointerEventsNone?:boolean
+  pointerEventsNone?: boolean;
 }
 
 export const SideBarButton = ({
@@ -25,40 +26,48 @@ export const SideBarButton = ({
   fnSecondary,
   editable,
   textRef,
-  truncate,
-  fnTruncate,
-  truncateRef,
-    link,
-    pointerEventsNone
+  openOptions,
+  fnOpenOptions,
+  openOptionsRef,
+  link,
+  pointerEventsNone,
 }: Props) => {
   return (
-    <div className={"h-14 w-full relative border-b-2 border-primary-opacity dark:border-secondary-opacity " + 
-    (editable ? "cursor-text": "cursor-pointer") + (pointerEventsNone ? " pointer-events-none":"")} onClick={fnClick}>
+    <div
+      className={ "h-14 w-full relative border-b-2 flex flex-col border-primary-opacity dark:border-secondary-opacity " +
+        (editable ? "cursor-text" : "cursor-pointer") +
+        (pointerEventsNone ? " pointer-events-none" : "")
+      }
+      onClick={fnClick}
+    >
       <div className="flex w-full h-full justify-between items-center hover:brightness-95 dark:hover:brightness-110">
-      <Link href={link ?? "#"} className="w-full h-full flex flex-row items-center px-6  bg-white dark:bg-modal-grey " >
-        <div className="w-1/4 h-8 flex justify-center items-center">
-          {icon}
-        </div>
-        <p
-          className="p text-modal-grey dark:text-white truncate outline-none"
-          onBlur={fnSecondary}
-          onKeyDown={fnSecondary}
-          suppressContentEditableWarning={true}
-          contentEditable={editable}
-          ref={editable ? textRef : undefined}
+        <Link
+          href={link ?? "#"}
+          className="w-full h-full flex flex-row items-center px-6  bg-white dark:bg-modal-grey "
         >
-          {text ?? "Sem Nome"}
-        </p>
-      </Link>
-        <If condition={truncate != undefined && truncate}>
-          <div
-            className="bg-zinc-200 dark:bg-zinc-800 justify-center h-full rounded-sm flex flex-col p-1  gap-2 w-4 hover:brightness-95"
-            onClick={fnTruncate}
-            ref={truncateRef}
+          <div className="w-1/4 h-8 flex justify-center items-center">
+            {icon}
+          </div>
+          <p
+            className="p text-modal-grey dark:text-white openOptions outline-none"
+            onBlur={fnSecondary}
+            onKeyDown={fnSecondary}
+            suppressContentEditableWarning={true}
+            contentEditable={editable}
+            ref={editable ? textRef : undefined}
           >
-            <div className="bg-white dark:bg-zinc-300 aspect-square w-2 rounded-full"></div>
-            <div className="bg-white dark:bg-zinc-300 aspect-square w-2 rounded-full"></div>
-            <div className="bg-white dark:bg-zinc-300 aspect-square w-2 rounded-full"></div>
+            {text ?? "Sem Nome"}
+          </p>
+        </Link>
+        <If condition={openOptions != undefined && openOptions}>
+          <div className="justify-center h-full flex flex-col bg-white dark:bg-modal-grey">
+            <span
+              className="rotate-90 h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey hover:brightness-90"
+              onClick={fnOpenOptions}
+              ref={openOptionsRef}
+            >
+              <Arrow />
+            </span>
           </div>
         </If>
       </div>
