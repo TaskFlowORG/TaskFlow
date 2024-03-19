@@ -11,10 +11,9 @@ import { projectService } from "@/services";
 import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   project: Project;
-  col?: number;
   user: string
 }
-export const ProjectComponent = ({ project, col, user }: Props) => {
+export const ProjectComponent = ({ project, user }: Props) => {
   const [groups, setGroups] = useState<Group[]>([]);
 
   useEffect(() => {
@@ -38,13 +37,11 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   };
 
   const [isHovering, setIsHovering] = useState<boolean>(false);
-  const style: Object = { gridColumn: col };
 
   return (
     
     <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
-    dark:bg-modal-grey p-6 rounded-md h-min ` + (isHovering ? "row-span-3": "row-span-1") }
-    style={style}
+    dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
