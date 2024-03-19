@@ -66,6 +66,7 @@ export default function Projects({ params }: { params: { user: string } }) {
         setUser(userPromise)
         return newProject;
     }
+    // separar em tres, duas e uma lista vai ser a melhor opção, cansei de me estressar com isso, vou fazer isso depois
 
     return (
         <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
@@ -76,7 +77,7 @@ export default function Projects({ params }: { params: { user: string } }) {
                         Projetos
                     </h1>
                     <div className="w-full lg:w-3/5 h-[70vh] flex justify-center none-scrollbar overflow-y-scroll">
-                        <div className={"justify-start grid-flow-col grid-cols-1  lg:grid-cols-2 2xl:grid-cols-3 grid p-6 gap-y-5 gap-x-12 h-min w-fit sm:w-1/2 lg:w-full "}>
+                        <div className={"justify-start grid-flow-col grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 grid p-6 gap-y-5 gap-x-12 h-min w-fit sm:w-1/2 lg:w-full "}>
                             {projects.sort((p1, p2) => new Date(p2.visualizedAt).getTime()-new Date(p1.visualizedAt).getTime() ).map(p => {
                                 return <ProjectComponent user={params.user} project={p} key={p.id} col={getCol(p)} />
                             })}

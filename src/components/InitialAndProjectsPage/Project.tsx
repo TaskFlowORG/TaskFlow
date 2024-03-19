@@ -8,6 +8,7 @@ import { set } from "zod";
 import { Group, Project } from "@/models";
 import Link from "next/link";
 import { projectService } from "@/services";
+import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   project: Project;
   col?: number;
@@ -40,9 +41,10 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
   const style: Object = { gridColumn: col };
 
   return (
-    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className="w-full flex flex-col shadow-blur-10 gap-16 bg-white 
-          dark:bg-modal-grey duration-0 p-6 rounded-md overflow-clip h-24 hover:h-80 hover:row-span-3 hover:duration-300"
-      style={style}
+    
+    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+    dark:bg-modal-grey p-6 rounded-md h-min ` + (isHovering ? "row-span-3": "row-span-1") }
+    style={style}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
@@ -65,12 +67,22 @@ export const ProjectComponent = ({ project, col, user }: Props) => {
           </p>
         </div>
       </div>
-      {isHovering && (
-        <div className=" h-44 w-full justify-center flex flex-col gap-10">
-          <Obj objs={groups} max={4} functionObj={() => { }}></Obj>
-          <ProgressBar percent={generatePercentage()} />
-        </div>
-      )}
+      <AnimatePresence initial={false} mode="wait">
+      {isHovering && 
+    <motion.div className="w-full justify-center overflow-clip flex flex-col gap-10"
+        initial={{ height: 0 }}
+        // 11rem
+        animate={{ height: "150px" }}
+         exit={{ transition:{delay:0.1, duration:0.1}, height: 0 }}
+         transition={{ duration: 0.1 }}
+        >
+          <>
+        <Obj objs={groups} max={4} functionObj={() => { }}></Obj>
+        <ProgressBar percent={generatePercentage()} />
+          </>
+      </motion.div >
+      }
+      </AnimatePresence> 
     </Link>
   );
 };
