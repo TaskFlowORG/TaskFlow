@@ -251,7 +251,8 @@ export const Kanban = () => {
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollKanban"
-            className="flex gap-8  justify-start bah  pl-3 w-[1560px] overflow-x-auto  self-center"
+            // Da um salve nesse overflow-y-auto aí mano
+            className="md:flex gap-8  mb-32 justify-start bah flex-col  md:flex-row pl-3 w-[90%] md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px] overflow-y-auto none-scrollbar md:overflow-x-auto  self-center"
           >
             {options?.map((option) => {
               return (

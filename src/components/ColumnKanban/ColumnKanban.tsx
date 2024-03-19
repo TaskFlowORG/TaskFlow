@@ -5,7 +5,12 @@ import { useContext, useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import {
+  Direction,
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
@@ -22,6 +27,7 @@ interface Props {
 }
 
 export const ColumnKanban = ({ option, tasks, input }: Props) => {
+  const [direction, setDirection] = useState<Direction>("vertical");
   const { theme } = useTheme();
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const multiOptionTypes: TypeOfProperty[] = [
@@ -34,6 +40,12 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
     TypeOfProperty.RADIO,
   ];
 
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setDirection("horizontal");
+    }
+  }, []);
+
   function findPropertyInTask(item: TaskOrdered, prop: FilteredProperty) {
     return item.task.properties.find(
       (property) => property.property.id == prop.id
@@ -42,7 +54,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
 
   return (
     <div
-      className="w-min min-w-[360px] flex-grow  pb-4 h-full lg:max-h-[650px]   flex flex-col gap-4"
+      className="w-min min-w-[360px] flex-grow  h-min pb-4 md:h-full md:max-h-[650px] self-center   flex  flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -58,17 +70,22 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-      <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
+      <Droppable
+        direction={direction}
+        droppableId={`${option?.id}`}
+        key={`${option?.id}`}
+      >
         {(provided, snapshot) => {
           return (
             <div
               // Se tirar o overflow tudo funfa lg:overflow-y-auto
-              className="none-scrollbar"
+              // cuidado aqui com o overflow-auto
+              className="none-scrollbar overflow-auto max-w-[360px]"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
               <div
-                className="none-scrollbar  flex h-full  rounded-lg flex-col"
+                className="none-scrollbar  flex md:min-h-[200px] min-w-[360px] w-max h-max rounded-lg  md:flex-col"
                 style={{
                   opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
                   borderRadius: 16,
