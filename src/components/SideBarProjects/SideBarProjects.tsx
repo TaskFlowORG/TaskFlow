@@ -16,7 +16,7 @@ export const SideBarProjects = ({ user, project }: Props) => {
   const [wantLeave, setWantLeave] = useState(false);
   const leave = () => {};
   return (
-    <div className="max-h-screen h-full flex pt-1 relative">
+    <div className="max-h-screen h-full flex  relative">
       <div className="flex flex-col  max-h-screen gap-14 pt-28 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-96 px-16">
         <If condition={project != undefined}>
           <ProjectInformations project={project} />

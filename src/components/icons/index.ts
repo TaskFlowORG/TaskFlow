@@ -32,3 +32,7 @@ export { IconText } from "./TypeOfProperties/Text";
 export { IconUser } from "./TypeOfProperties/User";
 
 export { PageTypeIcons } from "./Pages/PageTypeIcons";
+
+export { ConectPage } from "./PageOtpions/ConectPage";
+export {  EditIcon} from "./PageOtpions/Edit";
+export { ChangeType } from "./PageOtpions/ChangeType";

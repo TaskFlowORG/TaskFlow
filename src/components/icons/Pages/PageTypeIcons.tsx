@@ -10,7 +10,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
     switch (type) {
         case TypeOfPage.CALENDAR:
             return (
-                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="stroke-none text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
                         <rect width="110" height="110" rx="5" />
                         <rect x="18" y="25.5" width="74" height="15" rx="2" fill={color} />
                         <rect x="24" y="20" width="6" height="14" rx="2" fill={color} />
@@ -54,7 +54,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
             )
         case TypeOfPage.CANVAS:
             return (
-                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="text-input-grey dark:text-back-grey">
+                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" xmlns="http://www.w3.org/2000/svg" className="stroke-none text-input-grey dark:text-back-grey">
                         <rect width="110" height="110" rx="5"/>
                         <path d="M93.3462 31.4227C93.5082 30.5486 92.9257 29.6354 92.0827 29.4417L86.9174 28.111C86.0827 27.8725 85.2303 28.4161 85.0684 29.2903L84.2954 
                         33.4003L92.5732 35.5328M79.343 60.1922C79.297 60.4411 79.3471 60.6982 79.4833 60.9116L82.094 65.0052C82.391 65.4708 83.0092 65.6075 83.4749 
@@ -68,7 +68,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
                     </svg>)
         case TypeOfPage.KANBAN:
             return (
-                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="stroke-none text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
                         <rect width="110" height="110" rx="5"/>
                         <rect x="15" y="20" width="25" height="49" rx="2" fill={color}/>
                         <rect x="42.5" y="20" width="25" height="70" rx="2" fill={color}/>
@@ -87,7 +87,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
             )
         case TypeOfPage.LIST:
             return (
-                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="text-input-grey dark:text-back-grey"  xmlns="http://www.w3.org/2000/svg">
+                    <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="stroke-none text-input-grey dark:text-back-grey"  xmlns="http://www.w3.org/2000/svg">
                         <rect width="110" height="110" rx="5"/>
                         <rect x="16" y="20.5" width="34" height="12" rx="1" fill={color} />
                         <rect x="16" y="36" width="34" height="7" rx="1" fill={color} />
@@ -106,7 +106,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
                     </svg>)
         case TypeOfPage.TABLE:
             return (
-                <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
+                <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="stroke-none text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
                     <rect width="110" height="110" rx="5"/>
                     <rect x="18" y="20" width="74" height="12" rx="2" fill={color}/>
                     <rect x="18" y="36" width="22" height="7" rx="1" fill={color}/>
@@ -132,7 +132,7 @@ export const PageTypeIcons = ({type}:{type:TypeOfPage}) => {
             
         case TypeOfPage.TIMELINE:
             return (
-                <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
+                <svg width="100%" height="100%" viewBox="0 0 110 110" fill="currentColor" className="stroke-none text-input-grey dark:text-back-grey" xmlns="http://www.w3.org/2000/svg">
                     <rect width="110" height="110" rx="5" />
                     <rect x="45.5" y="26" width="51" height="4" rx="2" fill={color}/>
                     <rect x="49.5" y="38" width="47" height="4" rx="2" fill={color}/>

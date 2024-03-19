@@ -30,6 +30,9 @@ import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
 import { SideBarButton } from "./SideBarButton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
+import { ButtonPageOption } from "./ButtonPageOption";
+import { IconTrash } from "@/components/icons/ModalPropertys/Trash";
+import { ChangeType, ConectPage, EditIcon, IconTrashBin } from "@/components/icons";
 
 interface Props {
   page: Page;
@@ -106,69 +109,74 @@ export const PageComponent = ({
   });
 
   return (
-    <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey dark:text-white  ">
+    <label
+      htmlFor={`${page.id}`}
+      className="w-full flex-1 text-modal-grey dark:text-white  "
+    >
       <div
         key={page.id}
         className={"w-full flex gap-2 text-modal-grey "}
         onMouseOver={() => setTruncate(true)}
         onMouseLeave={() => setTruncate(modal)}
       >
-
-        <SideBarButton icon={<PageTypeIcons type={page.type} />} text={page.name} editable={renaiming} textRef={inputRef}
-        openOptions={truncate && !merging} openOptionsRef={ref} fnOpenOptions={openModal} fnSecondary={saveNewName} pointerEventsNone={merging} 
-        link={!renaiming && !merging ? "/" + username + "/" + project.id + "/" + page.id : undefined} />
-        <AnimatePresence initial={false} mode="wait">
-        {
-          !modal ??
-
-        <motion.span className="bg-input-grey dark:bg-back-grey" >
-            <div className="font-alata text-[14px] p-4 flex w-48 justify-center items-center bg-red-200 rounded-md">
-              <div className="flex flex-col w-full text-modal-grey dark:text-white ">
-                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey text-[12px]" onClick={excludePage}>
-                  <span>[]</span>
-                  <span>|</span>
-                  <span>Excluir</span>
-                </button>
-                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
-                  onClick={() => {
-                    setRenaiming(true);
-                    setModal(false);
-                    setTruncate(false);
-                  }}
-                >
-                  <span>[]</span>
-                  <span>|</span>
-                  <span>Renomear</span>
-                </button>
-                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
-                  onClick={() => {
-                    setPageMerging(page);
-                    setModal(false);
-                    setMerging(true);
-                  }}
-                >
-                  <span>[]</span>
-                  <span>|</span>
-                  <span>Conectar</span>
-                </button>
-                <button className="w-max flex gap-3 bg-input-grey dark:bg-back-grey hover:text-zinc-500  text-[12px]"
-                  onClick={() => {
-                    setChangingType(true);
-                    setModal(false);
-                  }}
-                >
-                  <span>[]</span>
-                  <span>|</span>
-                  <span>Mudar Tipo</span>
-                </button>
-              </div>
-            </div>
-        </motion.span>
-
-        }
-          </AnimatePresence>
+        <SideBarButton
+          icon={<PageTypeIcons type={page.type} />}
+          text={page.name}
+          renaming={renaiming}
+          textRef={inputRef}
+          openOptions={modal}
+          openOptionsRef={ref}
+          fnOpenOptions={openModal}
+          fnRename={saveNewName}
+          pointerEventsNone={merging}
+          isHovering={truncate && !renaiming && !merging}
+          link={
+            !renaiming && !merging
+              ? "/" + username + "/" + project.id + "/" + page.id
+              : undefined
+          }
+        >
+          <div className="flex flex-col w-full px-8 items-start  gap-2 text-modal-grey dark:text-white ">
+            <ButtonPageOption
+              fnButton={excludePage}
+              icon={<IconTrashBin />}
+              text="Excluir"
+            />
+            <ButtonPageOption
+              fnButton={() => {
+                setRenaiming(true);
+                setModal(false);
+                setTruncate(false);
+              }}
+              icon={<EditIcon />}
+              text="Renomear"
+            />
+            <ButtonPageOption
+              fnButton={() => {
+                setPageMerging(page);
+                setModal(false);
+                setMerging(true);
+              }}
+              icon={<ConectPage />}
+              text="Conectar"
+            />
+            <ButtonPageOption
+              fnButton={() => {
+                setChangingType(true);
+                setModal(false);
+              }}
+              icon={<ChangeType />}
+              text="Mudar Tipo"
+            />
+          </div>
+        </SideBarButton>
         <span className="bg-white dark:bg-modal-grey">
-          <LocalModal condition={changingType} setCondition={setChangingType} y={y} x={x}>
+          <LocalModal
+            condition={changingType}
+            setCondition={setChangingType}
+            y={y}
+            x={x}
+          >
             <TypeOfPageComponent
               changingType={changingType}
               closeModals={() => {

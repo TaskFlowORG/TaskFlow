@@ -28,8 +28,9 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
     <>
       <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`}/>
       <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Páginas" />
-      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira">
-        <LocalModal condition={modalTrash} setCondition={setModalTrash}>
+      <div className="relative w-full">
+      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira"/>
+      <LocalModal condition={modalTrash} setCondition={setModalTrash}>
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-min w-80 text-primary dark:text-secondary h5 p-4">
               <p className="p flex flex-wrap text-center items-center h-min w-3/4 ">
@@ -52,7 +53,7 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
             </span>
           </If>
         </LocalModal>
-      </SideBarButton>
+      </div>
     </>
   );
 };
