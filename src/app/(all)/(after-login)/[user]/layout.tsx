@@ -30,7 +30,7 @@ export default function Layout({ children, params }: { children: React.ReactNode
     <>
       <ProjectContext.Provider value={{ project, setProject }}>
         <Header setSidebarOpen={setOpenSideBar}></Header>
-        <main className='w-full h-full flex flex-col items-center justify-start'>
+        <main className='w-screen h-full flex flex-col items-center justify-start'>
           <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
                 <SideBarProjects user={params.user} project={project} />
           </SideModal>

@@ -1,7 +1,7 @@
 import { DatePost, LimitedPost, Page, Project, PropertyPost, SelectPost, TypeOfProperty } from "@/models";
 import { Input } from "../Input";
 import { Select } from "../Select";
-import { SelectedArea } from "../SelectedArea/SelectedArea";
+import { SelectedArea } from "../Pages/components/Canvas/SelectedArea";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
 import { useEffect, useState } from "react";
