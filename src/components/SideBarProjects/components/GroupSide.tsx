@@ -11,12 +11,11 @@ interface Props {
 }
 
 export const GroupSide = ({ project, user, setModalGroups }: Props) => {
-    const [groups, setGroups] = useState<Group[]>([]); 
+    const [groups, setGroups] = useState<Group[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(project.id)
                 const fetchedGroups = await getListData("project/" + project.id + "/groups");
                 setGroups(fetchedGroups);
             } catch (error) {
@@ -26,9 +25,7 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
         };
 
         fetchData();
-    }, [project.id]); 
-
-   
+    }, [project.id]);
 
     return (
         <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-16">
@@ -37,10 +34,15 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
             <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8">
                 <div className="flex items-start h-[95%] w-full overflow-y-auto">
                     <div className="flex flex-col gap-3 items-start max-w-full h-min w-full">
-                        {groups.map((group) => (
-                           <div key={group.id}>{group.name}</div>
+                        {Array.isArray(groups) && groups.map((group) => (
+                            <div className="flex flex-row w-full gap-2">
+                            <img src="/img/miniGroup.svg" className="h-5 w-5 rounded-md" />
+                            <div key={group.id} className="bg-input-grey dark:bg-back-grey text-start font-alata rounded-md h-7 px-4 py-px w-full hover:brightness-95">{group.name}</div>
+                            </div>
                         ))}
+
                     </div>
+                    
                 </div>
             </div>
         </span>

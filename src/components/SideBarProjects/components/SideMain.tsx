@@ -21,10 +21,6 @@ interface Props {
 export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
 
 
-
-
-
-
     return (
         <>
             <If condition={!modalGroups && !modalPages}>
@@ -64,10 +60,10 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                 </div>
                 </>
             </If>
-            {/* <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
+            <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
-             */}
+            
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
             </SideModal>
