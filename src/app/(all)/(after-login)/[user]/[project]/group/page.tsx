@@ -1,10 +1,10 @@
 "use client";
 
-import { Description } from "@/components/Description";
+import { Description } from "@/components/Description/Description";
 import { SVGGroupPageD } from "@/components/SVGGroupPageDark/SVGGroupPageD";
 import { SVGGroupPageL } from "@/components/SVGGroupPageLight/SVGGroupPageL";
 import { SVGGroupMobileL } from "@/components/SVGGroupMobileL/SVGGroupMobileL"
-import { UsersList } from "@/components/UsersList";
+import { UsersList} from "@/components/UsersList/UsersList";
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
 import { SVGGroupMobileD } from "@/components/SVGGroupMobileD/SVGGroupMobileD";

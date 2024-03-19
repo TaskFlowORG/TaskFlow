@@ -1,9 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { getListData, putData } from '@/services/http/api';
+import { Project } from '@/models';
 
-export const GroupAccess = ({ name, description, project, group }) => {
-    const [permissions, setPermissions] = useState([]);
-    const [selectedPermission, setSelectedPermission] = useState("");
+interface Permission {
+    id: string;
+    name: string;
+    project: Project
+}
+
+
+interface Group {
+    permissions: Permission[];
+}
+
+interface Props {
+    name: string;
+    description: string;
+    project: Project;
+    group: Group;
+}
+
+export const GroupAccess: React.FC<Props> = ({ name, description, project, group }) => {
+    const [permissions, setPermissions] = useState<Permission[]>([]);
+    const [selectedPermission, setSelectedPermission] = useState<string>("");
 
     useEffect(() => {
         const getLists = async () => {
@@ -13,12 +32,12 @@ export const GroupAccess = ({ name, description, project, group }) => {
         getLists();
     }, [group]);
 
-    const findPermission = (selectedValue) => {
+    const findPermission = async (selectedValue: string) => {
         setSelectedPermission(selectedValue);
         updatePermission(selectedValue);
     };
 
-    async function updatePermission(selectedValue) {
+    const updatePermission = async (selectedValue: string) => {
         try {
             const selectedPermission = permissions.find(permission => permission.name === selectedValue);
             if (!selectedPermission) {
@@ -39,12 +58,11 @@ export const GroupAccess = ({ name, description, project, group }) => {
                 setSelectedPermission("");
                 alert('Permissão atualizada com sucesso!');
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Erro ao atualizar permissão:', error.message);
             alert('Não foi possível atualizar a permissão do grupo.');
         }
     }
-
 
     return (
         <div className="flex pl-8 gap-4 items-start">
