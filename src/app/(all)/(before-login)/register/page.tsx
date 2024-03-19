@@ -8,7 +8,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterShape } from "@/components/RegisterShape";
+// import { RegisterShape } from "@/components/RegisterShape";
 import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
@@ -92,7 +92,7 @@ const Page = () => {
 
   return (
     <div className="h-5/6 w-screen flex justify-center items-center">
-      <RegisterShape />
+      {/* <RegisterShape /> */}
       <div
         className={
           "h-[60%] w-[80%] 1.5xl:w-[30%] 2xl:w-1/4  md:w-[45%] sm:w-[80%]  shadow-blur-10 rounded-md flex justify-center items-center bg-white dark:bg-modal-grey "
@@ -227,8 +227,8 @@ const Page = () => {
               </div>
             )}
           </div>
-          <div className="w-[75%] flex justify-center">
-            <p className={"font-alata text-sm"}>Já possui uma conta?</p>
+          <div className="flex justify-center">
+            <p className={"font-alata text-sm "}>Já possui uma conta?</p>
             <p
               className="font-alata text-sm underline text-secondary hover:cursor-pointer hover:text-light-orange"
               onClick={() => {
