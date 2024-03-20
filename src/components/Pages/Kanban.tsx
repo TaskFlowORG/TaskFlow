@@ -154,19 +154,22 @@ export const Kanban = () => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
-        <div className="hidden lg:flex gap-5 items-end pb-16 justify-center relative   h-max">
-          <h1
-            className="h1 text-primary whitespace-nowrap dark:text-white"
-            onClick={() => console.log(page)}
-          >
-            {page?.name}
-          </h1>
-          <div
-            className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer "
-            onClick={() => setModal(true)}
-          >
-            <p className="p text-primary text-4xl h-min w-min">+</p>
+        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
+          <div className="flex gap-4 items-center">
+            <h1
+              className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
+              onClick={() => console.log(page)}
+            >
+              {page?.name}
+            </h1>
+            <div
+              className=" flex items-center justify-center h-9 w-9 rounded-full shadowww  cursor-pointer "
+              onClick={() => setModal(true)}
+            >
+              <p className="p text-primary text-4xl h-min w-min">+</p>
+            </div>
           </div>
+
           <SearchBar
             order={() => console.log("Ordering")}
             filter={() => console.log("Filtering")}
