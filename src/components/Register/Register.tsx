@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter} from "next/router"; 
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,17 +9,42 @@ import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
 
-const schema = z.object({
-  name: z.string().min(3, { message: "Nome deve conter no mínimo 3 caracteres" }).max(20, { message: "Nome deve conter no máximo 20 caracteres" }),
-  surname: z.string().min(3, { message: "Sobrenome deve conter no mínimo 3 caracteres" }).max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
-  username: z.string().min(3, { message: "Nome de usuário deve conter no mínimo 3 caracteres" }).max(20, { message: "Nome de usuário deve conter no máximo 20 caracteres" }),
-  email: z.string().email({ message: "Email inválido" }),
-  password: z.string().min(6, { message: "Senha deve conter no mínimo 6 caracteres" }).max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
-  confirmPassword: z.string().min(6, { message: "Senha deve conter no mínimo 6 caracteres" }).max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
-}).refine(
-  values => values.password === values.confirmPassword,
-  { message: "Senha não coincide", path: ["confirmPassword"] }
-);
+const schema = z
+    .object({
+        name: z
+            .string()
+            .min(3, { message: "Nome deve conter no mínimo 3 caracteres" })
+            .max(20, { message: "Nome deve conter no máximo 20 caracteres" }),
+        surname: z
+            .string()
+            .min(3, { message: "Sobrenome deve conter no mínimo 3 caracteres" })
+            .max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
+        username: z
+            .string()
+            .min(3, { message: "Nome de usuário deve conter no mínimo 3 caracteres" })
+            .max(20, {
+                message: "Nome de usuário deve conter no máximo 20 caracteres",
+            }),
+        email: z.string().email({ message: "Email inválido" }),
+        password: z
+            .string()
+            .min(6, { message: "Senha deve conter no mínimo 6 caracteres" })
+            .max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
+        confirmPassword: z
+            .string()
+            .min(6, { message: "Senha deve conter no mínimo 6 caracteres" })
+            .max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
+    })
+    .refine(
+        (values) => {
+            return values.password === values.confirmPassword;
+        },
+        {
+            message: "Senha não coincide",
+            path: ["confirmPassword"],
+        }
+    );
+
 type FormData = z.infer<typeof schema>;
 
 interface UserData {
@@ -29,7 +56,6 @@ interface UserData {
 }
 
 export const Register = () => {
-  const router = useRouter();
   const [step, setStep] = useState(0);
   const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
     resolver: zodResolver(schema)
@@ -50,7 +76,6 @@ export const Register = () => {
   const onSubmit = async (data: UserData) => {
     try {
       await userService.insert(new UserPost(data.username, data.name, data.surname, data.password));
-      router.push("/login");
     } catch (err) {
       if (err instanceof ZodError) {
         console.error(err.errors);
@@ -59,8 +84,10 @@ export const Register = () => {
   };
 
   return (
-    <div className="flex h-screen justify-center items-center">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex items-center flex-col w-full max-w-md p-8 bg-white rounded-md shadow-md">
+    <div className="flex h-5/6 w-screen absolute justify-center items-center">
+            <div className="flex items-center flex-col h-1/2 w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+                <h4 className="h4">Registar</h4>
+            <form onSubmit={handleSubmit(onSubmit)} className="flex w-full h-full flex-col justify-center ">
         {step === 0 && (
           <>
             <Input
@@ -68,12 +95,19 @@ export const Register = () => {
               placeholder="Digite seu nome"
               helperText={errors.name?.message}
               register={register("name")}
+              classNameInput={
+                ""
+              }
+              className=""
             />
             <Input
               image={"/img/IconUser.svg"}
               placeholder="Digite seu sobrenome"
               helperText={errors.surname?.message}
               register={register("surname")}
+              classNameInput={
+                ""
+              }
             />
           </>
         )}
@@ -85,12 +119,18 @@ export const Register = () => {
               placeholder="Digite seu nome de usuário"
               helperText={errors.username?.message}
               register={register("username")}
+              classNameInput={
+                ""
+              }
             />
             <Input
               image={"/img/IconUser.svg"}
               placeholder="Digite seu email"
               helperText={errors.email?.message}
               register={register("email")}
+              classNameInput={
+                ""
+              }
             />
           </>
         )}
@@ -103,12 +143,18 @@ export const Register = () => {
               placeholder="Digite sua senha"
               helperText={errors.password?.message}
               register={register("password")}
+              classNameInput={
+                ""
+              }
             />
             <Input
               image={"/img/IconUser.svg"}
               placeholder="Confirme sua senha"
-              helperText={errors.confirmPassword?.message}
-              register={register("confirmPassword")}
+              helperText={errors.password?.message}
+              register={register("password")}
+              classNameInput={
+                ""
+              }
             />
           </>
         )}
@@ -131,9 +177,11 @@ export const Register = () => {
                     )}
                 </div>
                 <p className="mt-2 text-sm">
-                    Já possui uma conta? <span className="text-blue-500 cursor-pointer" onClick={() => router.push("/login")}>Entrar</span>
+                    Já possui uma conta? 
                 </p>
             </form>
+        </div>
+      
         </div>
     );
 };
