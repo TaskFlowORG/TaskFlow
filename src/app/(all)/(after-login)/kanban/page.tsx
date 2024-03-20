@@ -12,7 +12,6 @@ import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
-
 import { pageService, taskService } from "@/services";
 import {
   MultiOptionValued,
@@ -34,7 +33,7 @@ export default function Kanban() {
   const [modal, setModal] = useState(false);
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filterProp, setFilterProp] = useState<FilteredProperty[]>([]);
-const [modalProperty, setModalProperty] = useState(false);
+
   useEffect(() => {
     (async () => {
       const pg: OrderedPage = await getPage("page", 1);
@@ -43,7 +42,7 @@ const [modalProperty, setModalProperty] = useState(false);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  }, [tasks.length, options.length, id, page?.id]);
+  });
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
@@ -128,6 +127,7 @@ const [modalProperty, setModalProperty] = useState(false);
         if (draggedTask) {
           console.log(page);
           console.log(draggedTask);
+          await taskService.upDate(draggedTask.task);
 
           await pageService.updateIndexesKanban(
             page!,
@@ -135,10 +135,7 @@ const [modalProperty, setModalProperty] = useState(false);
             destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
           );
-          await taskService.upDate(draggedTask.task);
         }
-
-
       } catch (e) {}
     };
     updatePageAndTask();
@@ -159,7 +156,6 @@ const [modalProperty, setModalProperty] = useState(false);
         >
           <p className="p text-primary text-4xl h-min w-min">+</p>
         </div>
-
         <SearchBar
           order={() => console.log("Ordering")}
           filter={() => console.log("Filtering")}

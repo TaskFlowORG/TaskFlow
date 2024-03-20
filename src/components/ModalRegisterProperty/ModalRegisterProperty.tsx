@@ -1,14 +1,12 @@
 import { DatePost, LimitedPost, Page, Project, PropertyPost, SelectPost, TypeOfProperty } from "@/models";
 import { Input } from "../Input";
-import { Select } from "../Select";
-import { SelectedArea } from "../SelectedArea/SelectedArea";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
-import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
+import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText, IconTrashBin } from "../icons";
 import { useEffect, useState } from "react";
 import { set, useForm } from "react-hook-form";
 import { ZodError, object, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { propertyService } from "@/services";
+import { IconSave } from "../icons/Slidebarprojects/IconSave";
 
 type ModalRegisterPropertyProps = {
     open: boolean;
@@ -23,7 +21,6 @@ const schema = z.object({
     name: z.string().nonempty("Nome da propriedade não pode ser vazio")
         .min(3, "Nome da propriedade deve ter no mínimo 3 caracteres")
         .max(50, "Nome da propriedade deve ter no máximo 50 caracteres")
-
 })
 
 export const ModalRegisterProperty = ({ open, close, page, project, postProperty}: ModalRegisterPropertyProps) => {
@@ -71,17 +68,17 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                                 setSelected(value as TypeOfProperty)
                                 console.log(value.toString())
                             }} />
-                        <Input register={{ ...register("name") }} value={object.name} classNameInput={" p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
+                        <Input register={{ ...register("name") }} value={object.name} classNameInput={"bg-transparent p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
 
                     </div>
                 </div>
                 <div className="h-1/6 w-[95%] flex justify-between">
-                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm"><img src="/img/trash.svg" alt="" onClick={()=>{close()}}/></button>
+                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm dark:stroke-secondary" onClick={()=>{close()}}><IconTrashBin/></button>
                     <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
                         postProperty(getValues().name, selected)
                         close()
                      
-                    }} ><img src="/img/iconCorrect.svg" alt="" /></button>
+                    }} ><IconSave/></button>
                 </div>
             </div>}
         </>

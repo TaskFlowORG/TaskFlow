@@ -11,7 +11,7 @@ export const ModalDeleteProperty = ({ property, close , deleteProperty}: ModalDe
     return (
 
         <>
-            <div className="h-screen w-screen absolute  z-10 top-0 right-0  bottom-0 items-center justify-center flex backdrop-blur-sm">
+            <div className="h-screen w-screen  fixed  z-10 top-0 right-0  bottom-0 items-center justify-center flex backdrop-blur-sm">
 
                 <div className="w-[30%] h-[40%] bg-white flex flex-col justify-center items-center rounded-sm  dark:bg-modal-grey shadow-blur-20">
                     <div className="h-[60%] w-[90%] flex flex-col ">

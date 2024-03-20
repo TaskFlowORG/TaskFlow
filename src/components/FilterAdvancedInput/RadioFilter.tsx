@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 interface Props {
   id: number;
@@ -10,12 +11,25 @@ interface Props {
 
 export const RadioFilter = ({ name, id, value, options }: Props) => {
   const [selectedOption, setSelectedOption] = useState(value);
-
+  const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     setSelectedOption(value ?? "oi");
   }, [value]);
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
+    const thisProperty = filterProp?.find((item) => item.id == id);
+    if (thisProperty) {
+      if (!event.target.value) {
+        filterProp.splice(filterProp.indexOf(thisProperty), 1);
+        setFilterProp!(filterProp);
+      } else {
+        thisProperty.value = event.target.value;
+      }
+    } else {
+      if (event.target.value) {
+        setFilterProp!([...filterProp, { id: id, value: event.target.value }]);
+      }
+    }
   };
 
   return (
@@ -47,7 +61,7 @@ export const RadioFilter = ({ name, id, value, options }: Props) => {
             type="radio"
             id="oi"
             className="custom-radio"
-            value={"oi"}
+            value={""}
             name="radioGroup"
             checked={"oi" == selectedOption}
             onChange={handleOptionChange}

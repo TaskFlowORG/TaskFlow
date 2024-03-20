@@ -1,9 +1,16 @@
 
 import { DatePost, LimitedPost, Page, Project, Property, SelectPost, TypeOfProperty } from "@/models";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ModalRegisterProperty } from "../ModalRegisterProperty";
-import { ModalProperty } from "../ModalProperty/ModalProperty";
+
 import { propertyService } from "@/services";
+import { set } from "react-hook-form";
+import { SideBarButton } from "../SideBarProjects/components/SideBarButton";
+import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
+import { ModalDeleteProperty } from "../ModalDeleteProperty";
+import { InputCheckbox } from "../Properties/InputCheckbox";
+import { useClickAway } from "react-use";
+import { ModalProperty } from "../ModalProperty/ModalProperty";
 
 type RegisterPropertyProps = {
     properties: Property[],
@@ -12,31 +19,26 @@ type RegisterPropertyProps = {
 }
 
 export const RegisterProperty = ({ properties, project, page }: RegisterPropertyProps) => {
-
+    const [propertiesArray, setPropertiesArray] = useState<Property[]>(properties)
     useEffect(() => {
-        console.log(properties)
+        console.log(propertiesArray)
     }
-        , [properties])
+        , [propertiesArray])
 
     const postProperty = async (name: string, selected: TypeOfProperty) => {
         try {
-            let propertyObj = null;
-
+            let propertyObj;
             if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
-                propertyObj = new LimitedPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000);
-                propertyService.saveLimited(propertyObj)
+                propertyObj = await propertyService.saveLimited(new LimitedPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000));
             } else if ([TypeOfProperty.CHECKBOX, TypeOfProperty.TAG, TypeOfProperty.RADIO, TypeOfProperty.SELECT].includes(selected)) {
-                propertyObj = new SelectPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!)
-                propertyService.saveSelect(propertyObj)
+                propertyObj = await propertyService.saveSelect(new SelectPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!))
 
             } else {
-                propertyObj = new DatePost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black")
-                propertyService.saveDate(propertyObj)
+                propertyObj = await propertyService.saveDate(new DatePost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black"))
             }
+            console.log(propertyObj)
 
-            if (propertyObj != null) {
-                properties.push(propertyObj as Property)
-            }
+            setPropertiesArray([...propertiesArray, propertyObj])
 
         } catch (error) {
             console.log(error)
@@ -44,18 +46,26 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     }
 
+
+
     const deleteProperty = async (property: Property) => {
         try {
-            console.log(properties, "antes")
             propertyService.delete(property.id)
-            properties.includes(property) && properties.splice(properties.indexOf(property), 1)
-            console.log(properties, "depois")
+            let list = [...propertiesArray];
+
+            propertiesArray.includes(property) && list.splice(properties.indexOf(property), 1)
+            setPropertiesArray(list)
+
         } catch (error) {
             console.log(error)
         }
     }
     const [modalProperty, setModalProperty] = useState(false)
 
+ 
+
+    
+    
     return (
         <>
             <div className="w-full h-full flex justify-end">
@@ -67,12 +77,13 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
                             <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
                         </div>
                     </div>
-                    <div className="h-[85%] w-[70%] flex flex-col items-center gap-5">
+                    <div className="h-[85%] w-72 flex flex-col items-center gap-5">
                         <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false) }} />
-                        <div className="w-full gap-5 h-full flex flex-col overflow-scroll">
-                            {properties.map((property) => {
+                        <div className="w-full  h-full flex flex-col overflow-y-scroll none-scrollbar">
+                            {propertiesArray.map((property,index) => {
+                               
                                 return (
-                                    <ModalProperty property={property} onClose={() => { return false }} onClick={() => { return true }}  deleteProperty={deleteProperty}/>
+                                    <ModalProperty key={index} property={property} deleteProperty={deleteProperty}/>
                                 )
                             })}
                         </div>
