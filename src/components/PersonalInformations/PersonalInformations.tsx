@@ -18,7 +18,7 @@ export const PersonalInformations = () => {
 
     useEffect(() => {
         async function getUser() {
-            const response = await userService.findByUsername("luka");
+            const response = await userService.findByUsername("jonatas");
             setUser(response);
         }
         getUser();
@@ -30,26 +30,26 @@ export const PersonalInformations = () => {
 
     const salvarAlterações = async () => {
         const user = new User(
-            (await userService.findByUsername("luka")).username,
-            name || (await userService.findByUsername("luka")).name,
-            surname || (await userService.findByUsername("luka")).surname,
-            address || (await userService.findByUsername("luka")).address,
-            mail || (await userService.findByUsername("luka")).mail,
-            phone || (await userService.findByUsername("luka")).phone,
-            desc || (await userService.findByUsername("luka")).description,
-            (await userService.findByUsername("luka")).points,
-            (await userService.findByUsername("luka")).configuration,
-            (await userService.findByUsername("luka")).permissions,
+            (await userService.findByUsername("jonatas")).username,
+            name || (await userService.findByUsername("jonatas")).name,
+            surname || (await userService.findByUsername("jonatas")).surname,
+            address || (await userService.findByUsername("jonatas")).address,
+            mail || (await userService.findByUsername("jonatas")).mail,
+            phone || (await userService.findByUsername("jonatas")).phone,
+            desc || (await userService.findByUsername("jonatas")).description,
+            (await userService.findByUsername("jonatas")).points,
+            (await userService.findByUsername("jonatas")).configuration,
+            (await userService.findByUsername("jonatas")).permissions,
         );
         userService.patch(user);
     }
 
     return (
         <>
-            <div className=" flex pt-40 justify-center w-full ">
-                <div className="flex flex-col h-48 gap-10">
+            <div className="absolute flex flex-col justify-center w-full h-[70%] items-center">
+                <div className="flex flex-col gap-10">
                     <div className="flex gap-10 ">
-                        <div className="h-full relative">
+                        <div className="h-full ">
                             <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 w-48 h-48">
                                 <img className="rounded-full" src="{user.picture}" alt="" />
                                 <label className=" border-secondary border-2 rounded-full p-2 bg-white w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">

@@ -3,7 +3,7 @@ import { SideBarConfig } from "@/components/SideBarConfig"
 export default function UserConfigPage() {
     return (
 
-        <div className=" h-full w-full">
+        <div className=" h-full relative w-full">
             <PersonalInformations></PersonalInformations>
         </div>
     )

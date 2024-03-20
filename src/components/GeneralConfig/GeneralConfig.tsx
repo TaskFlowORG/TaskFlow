@@ -16,7 +16,7 @@ export const GeneralConfig = () => {
     }
 
     return (
-        <div className="flex w-[80%] h-[80%] pt-32">
+        <div className="flex w-[80%] h-[80%]">
             <div className='flex '>
                 <div className='flex flex-col justify-between'>
                     <div className='flex'>
@@ -25,7 +25,7 @@ export const GeneralConfig = () => {
                         </div>
                     </div>
                     <div className='w-full'>
-                        <div className='flex flex-col '>
+                        <div className='flex flex-col'>
                             <div className='flex justify-between'>
                                 <p className="h4">Modo escuro</p>
                                 <div className="flex items-center font-bold" onClick={() => mudarTema()}>
@@ -47,7 +47,6 @@ export const GeneralConfig = () => {
                             </div>
                             <div className='pt-5 pb-10 w-[95%]'>
                                 <p className='p'>Nessa opção você poderá alterar o tamanho da fonte padrão no site.</p>
-
                             </div>
                         </div>
                         <div className='flex flex-col '>

@@ -15,7 +15,7 @@ export const NotificationsConfig = () => {
         
             <div className="w-full h-full">
 
-                <div className="flex justify-center h-full items-center">
+                <div className="flex justify-center h-full">
 
                     <div className="w-[80%] md:grid grid-cols-2 grid-rows-4 gap-10 sm:">
 
