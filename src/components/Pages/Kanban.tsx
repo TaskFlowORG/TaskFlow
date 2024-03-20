@@ -252,7 +252,7 @@ export const Kanban = () => {
           <div
             id="scrollKanban"
             // Da um salve nesse overflow-y-auto aí mano
-            className="md:flex gap-8  mb-32 justify-start bah flex-col  md:flex-row pl-3 w-[90%] md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px] overflow-y-auto none-scrollbar md:overflow-x-auto  self-center"
+            className="flex gap-8 justify-start bah flex-row pl-3 w-[90%] md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px]  h-full mb-6 overflow-x-auto  self-center"
           >
             {options?.map((option) => {
               return (

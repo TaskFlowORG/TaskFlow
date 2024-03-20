@@ -54,7 +54,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
 
   return (
     <div
-      className="w-min min-w-[360px] flex-grow  h-min pb-4 md:h-full md:max-h-[650px] self-center   flex  flex-col gap-4"
+      className="w-min min-w-[360px] flex-grow   pb-4 h-full md:h-[650px] self-center   flex  flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -71,7 +71,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
         </h4>
       </div>
       <Droppable
-        direction={direction}
+        direction={"vertical"}
         droppableId={`${option?.id}`}
         key={`${option?.id}`}
       >
@@ -80,12 +80,12 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
             <div
               // Se tirar o overflow tudo funfa lg:overflow-y-auto
               // cuidado aqui com o overflow-auto
-              className="none-scrollbar overflow-auto max-w-[360px]"
+              className="none-scrollbar  max-w-[360px]"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
               <div
-                className="none-scrollbar  flex md:min-h-[200px] min-w-[360px] w-max h-max rounded-lg  md:flex-col"
+                className="none-scrollbar  flex min-h-[200px] min-w-[360px] w-max h-max rounded-lg  flex-col"
                 style={{
                   opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
                   borderRadius: 16,

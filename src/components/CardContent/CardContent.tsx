@@ -1,3 +1,4 @@
+"use client";
 import { CardDate } from "./CardProperties/CardDate";
 
 import { CardTag } from "./CardProperties/CardTags";
