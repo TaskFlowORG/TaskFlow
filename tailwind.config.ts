@@ -27,6 +27,7 @@ module.exports = {
         'input-toggle-grey': '#E0E0E0'
       },
       screens: {
+        smm: '360px',
         '1.5xl': '1440px',
         '3xl': '1792px',
         '4xl': '1792px',

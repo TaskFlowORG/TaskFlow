@@ -6,7 +6,6 @@ import { set } from "zod";
 export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObject<HTMLDivElement>) => {
     const [mouseDown, setMouseDown] = useState(false)
     const [prevX, setPrevX] = useState(0);
-    const [oldCursor, setOldCursor] = useState('')
     const [prevY, setPrevY] = useState(0);
     const{theme, setTheme} = useTheme()
     const [scrollX, setScrollX] = useState(0);
@@ -21,9 +20,8 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
             setMouseDown(true)
             setPrevX(elementRef.current?.scrollLeft + e.pageX);
             setPrevY(elementRef.current?.scrollTop + e.pageY);
-            setOldCursor(getComputedStyle(elementRef.current).cursor)
-            elementRef.current.style.cursor = "url('"+(theme == "dark" ? "/img/grabDark.svg" : "/img/grabLight.svg")+"'), auto"
         }
+
         const handleMouseMove = (e:MouseEvent) => {
             if(!mouseDown) return
             if(!elementRef.current) return
@@ -36,7 +34,6 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
 
             const deltaX =  elementRef.current?.scrollLeft + difX;
             const deltaY =  elementRef.current?.scrollTop + difY;
-
             elementRef.current?.scrollTo({left:deltaX, top:deltaY})
 
         }
@@ -48,7 +45,6 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
         const handeMouseUp = (e:MouseEvent) => {
             if(e.button != 1  && !moving) return
             if(!elementRef.current) return
-            elementRef.current.style.cursor = oldCursor
             setMouseDown(false)
             setPrevX(elementRef.current?.scrollLeft + e.pageX);
             setPrevY(elementRef.current?.scrollTop + e.pageY);
@@ -69,5 +65,5 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
         }
     }, [elementRef, mouseDown, theme,moving])
 
-    return { scrollX, scrollY }
+    return { scrollX, scrollY, grabbing:mouseDown }
 }

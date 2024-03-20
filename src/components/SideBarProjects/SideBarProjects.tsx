@@ -16,8 +16,8 @@ export const SideBarProjects = ({ user, project }: Props) => {
   const [wantLeave, setWantLeave] = useState(false);
   const leave = () => {};
   return (
-    <div className="max-h-screen h-full flex pt-1 relative">
-      <div className="flex flex-col  max-h-screen gap-14 pt-28 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-16">
+    <div className="max-h-screen h-full flex  relative">
+      <div className="flex flex-col  max-h-screen gap-14 pt-28 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-96 px-16">
         <If condition={project != undefined}>
           <ProjectInformations project={project} />
           <div className="w-full h-16 flex items-center justify-between">
@@ -44,16 +44,18 @@ export const SideBarProjects = ({ user, project }: Props) => {
         />
 
         <CenterModal condition={wantLeave} setCondition={setWantLeave}>
-          <h4 className="h4 text-primary dark:text-secondary flex-wrap w-3/4 text-center">
-            Você tem certeza de que deseja sair de sua conta?
-          </h4>
-          <div className="w-3/4 flex justify-between">
-            <Button
-              width="w-min"
-              text="Cancelar"
-              fnButton={() => setWantLeave(false)}
-            />
-            <Button width="w-min" fnButton={leave} secondary />
+          <div className="w-full h-80 flex flex-col items-center justify-around">
+            <h4 className="h4 text-primary  dark:text-secondary flex-wrap w-3/4 text-center">
+              Você tem certeza de que deseja sair de sua conta?
+            </h4>
+            <div className="w-3/4 flex justify-between">
+              <Button
+                width="w-min"
+                text="Cancelar"
+                fnButton={() => setWantLeave(false)}
+              />
+              <Button width="w-min" fnButton={leave} secondary />
+            </div>
           </div>
         </CenterModal>
       </div>

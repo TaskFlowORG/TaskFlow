@@ -38,7 +38,7 @@ export default function Layout({
     <>
       <ProjectContext.Provider value={{ project, setProject }}>
         <Header setSidebarOpen={setOpenSideBar}></Header>
-        <main className="w-full h-full flex flex-col items-center justify-start overflow-hidden">
+        <main className='w-screen h-full flex flex-col items-center justify-start'>
           <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
             <SideBarProjects user={params.user} project={project} />
           </SideModal>

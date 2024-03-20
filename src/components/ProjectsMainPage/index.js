@@ -1,1 +1,0 @@
-export { ProjectsMainPage } from "./ProjectsMainPage";

@@ -1,1 +1,0 @@
-export {SelectedArea} from './SelectedArea';
