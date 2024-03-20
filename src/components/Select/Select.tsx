@@ -1,20 +1,36 @@
 "use client";
 
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
+import { FilterContext } from "@/utils/FilterlistContext";
 interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
-  name:string
+  name: string;
+  ids: number;
 }
 
-export const Select = ({ options,name, ...props }: SelectProps) => {
+export const Select = ({ options, name, ids, ...props }: SelectProps) => {
   const [selectedOption, setSelectedOption] = useState("");
+  const { filterProp, setFilterProp } = useContext(FilterContext);
 
   useEffect(() => {
     setSelectedOption(props.value?.toString() ?? "");
   }, [props.value]);
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
+    const thisProperty = filterProp?.find((item) => item.id == ids);
+    if (thisProperty) {
+      if (!event.target.value) {
+        filterProp.splice(filterProp.indexOf(thisProperty), 1);
+        setFilterProp!(filterProp);
+      } else {
+        thisProperty.value = event.target.value;
+      }
+    } else {
+      if (event.target.value) {
+        setFilterProp!([...filterProp, { id: ids, value: event.target.value }]);
+      }
+    }
     // const select = document.querySelector(`#prop${id}`)
     // // console.log(select.value)
   };

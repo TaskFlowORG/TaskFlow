@@ -61,9 +61,9 @@ export const RegisterProperty = ({ open = false, close, properties, project, pag
                         <div className="h-[85%] w-[70%] flex flex-col items-center gap-5">
                             <ModalRegisterProperty open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false) }} />
                             <div className="w-full gap-5 h-full flex flex-col overflow-scroll">
-                                {properties.map((property) => {
+                                {properties.map((property, index) => {
                                     return (
-                                        <ModalProperty property={property} onClose={() => { return false }} onClick={() => { return true }} />
+                                        <ModalProperty key={index} property={property} onClose={() => { return false }} onClick={() => { return true }} />
                                     )
                                 })}
                             </div>

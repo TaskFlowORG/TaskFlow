@@ -441,8 +441,26 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-::-webkit-scrollbar {
+ .none-scrollbar::-webkit-scrollbar {
   @apply hidden;
+}
+
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* largura do scroll */
+}
+
+/* Define a cor do fundo do scroll */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+/* Define a cor do thumb (a alça do scroll) */
+.bah::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  background: var(--primary-color);
 }
 
 .pAlata {
@@ -572,20 +590,19 @@ select::-ms-expand {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
-
-.swiper-type-of-page-light{
+.swiper-type-of-page-light {
   --swiper-pagination-color: var(--primary-color);
   --swiper-navigation-color: var(--primary-color);
-  @apply swiper-type-of-page
+  @apply swiper-type-of-page;
 }
 
-.swiper-type-of-page-dark{  
---swiper-navigation-color: var(--secondary-color);
+.swiper-type-of-page-dark {
+  --swiper-navigation-color: var(--secondary-color);
   --swiper-pagination-color: var(--secondary-color);
-  @apply swiper-type-of-page
+  @apply swiper-type-of-page;
 }
 
-.swiper-type-of-page{
+.swiper-type-of-page {
   --swiper-pagination-right: 8px;
   --swiper-pagination-bottom: 8px;
   --swiper-pagination-bullet-size: 6px;
@@ -597,4 +614,10 @@ select::-ms-expand {
   --swiper-navigation-size: 20px;
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 0px;
+}
+
+.shadow-light {
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 }
