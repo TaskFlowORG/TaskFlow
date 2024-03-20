@@ -11,24 +11,24 @@ import { SVGGroupMobileD } from "@/components/SVGGroupMobileD/SVGGroupMobileD";
 import { getData} from "@/services/http/api";
 
 
-export default function Home({ projectId = 1 }) {
+export default function Home({ params }:{params:{project:number}}) {
     const { theme, setTheme } = useTheme();
     const [project, setProject] = useState({})
 
     useEffect(() => {
         const fetchData = async () => {
-            const fetchedProject = await getData("project", projectId)
+            const fetchedProject = await getData("project", params.project)
             setProject(fetchedProject)
         }
         fetchData();
-    }, []);
+    }, [params.project]);
 
     const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL />;
     const svgGroupMobile = theme === "dark" ? <SVGGroupMobileD/> : <SVGGroupMobileL />;
 
     return (
         <div className="flex flex-col lg:flex-row w-screen h-screen lg:gap-36">
-            <div className="flex hidden lg:flex">
+            <div className=" hidden lg:flex">
                 {svgGroupPage}
             </div>
             <div className="flex lg:hidden pt-56 absolute">
