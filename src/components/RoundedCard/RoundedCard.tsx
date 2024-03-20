@@ -28,7 +28,6 @@ export const RoundedCard = ({
       borderColor: dark ? dark : color ?? "#f76858",
     };
   }
-  
 
   return (
     <div
