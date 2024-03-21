@@ -5,6 +5,7 @@ import { use } from "react";
 export {
   getData,
   getListData,
+  postData,
   putData,
   getListChat,
   getSingleChat,
@@ -125,6 +126,7 @@ async function putData(table: any, object: any) {
 
   return (await axios.put("http://localhost:9999/" + table, object)).data;
 }
+
 
 async function patchData(table: any, object: any) {
   return (await axios.patch("http://localhost:9999/" + table, object)).data;
