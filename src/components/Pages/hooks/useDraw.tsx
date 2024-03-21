@@ -1,9 +1,4 @@
-import  {
-  RefObject,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { pageService } from "@/services";
 import { Page } from "@/models";
 
@@ -11,22 +6,19 @@ type Draw = {
   ctx: CanvasRenderingContext2D;
   currentPoint: Point;
   prevPoint: Point | null;
-  button:boolean
+  button: boolean;
 };
 
 type Point = { x: number; y: number };
 
 export const useDraw = (
-  onDraw: (
-    { ctx, currentPoint, prevPoint }: Draw
-  ) => void,
+  onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void,
   moving: boolean,
   page: Page | undefined
 ) => {
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const prevPoint = useRef<null | Point>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  
 
   const clear = () => {
     const canvas = canvasRef.current;
@@ -44,7 +36,6 @@ export const useDraw = (
 
   useEffect(() => {
     const shape = localStorage.getItem("canvas_shape") ?? "line";
-    const isErasing = localStorage.getItem("canvas_is_erasing") === "true";
 
     const handlerLine = (e: MouseEvent) => {
       if (shape == "line") {
@@ -52,9 +43,13 @@ export const useDraw = (
         const currentPoint = computePointInCanvas(e);
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx || !currentPoint) return;
-        onDraw(
-          { ctx, currentPoint, prevPoint: prevPoint.current, button:e.button == 0}
-        );
+        // console.log(e.buttons);
+        onDraw({
+          ctx,
+          currentPoint,
+          prevPoint: prevPoint.current,
+          button: e .buttons == 1,
+        });
         if (!currentPoint) return;
         prevPoint.current = currentPoint;
       }
@@ -78,33 +73,49 @@ export const useDraw = (
     };
 
     const mouseUpHandler = (e: MouseEvent) => {
-
       if (e.button == 1 || moving) return;
       const currentPoint = computePointInCanvas(e);
       if (shape != "line") {
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx || !currentPoint) return;
-        onDraw(
-          { ctx, currentPoint: currentPoint, prevPoint: prevPoint.current, button:e.button == 0}
-        );
+        onDraw({
+          ctx,
+          currentPoint: currentPoint,
+          prevPoint: prevPoint.current,
+          button: e.buttons == 1,
+        });
       } else {
         prevPoint.current = null;
       }
       setMouseDown(false);
     };
+
+    if (window.matchMedia("(any-pointer: coarse)").matches) {
+      canvasRef.current?.addEventListener("pointermove", handlerLine);
+      canvasRef.current?.addEventListener("pointerup", mouseUpHandler);
+      canvasRef.current?.addEventListener("pointerdown", handlerOtherShape);
+    } else {
+      canvasRef.current?.addEventListener("mousemove", handlerLine);
+      canvasRef.current?.addEventListener("mouseup", mouseUpHandler);
+      canvasRef.current?.addEventListener("mousedown", handlerOtherShape);
+      canvasRef.current?.addEventListener("contextmenu", (e) =>
+        e.preventDefault()
+      );
+    }
+
     // Add event listeners
-    canvasRef.current?.addEventListener("mousemove", handlerLine);
-    canvasRef.current?.addEventListener("mouseup", mouseUpHandler);
-    canvasRef.current?.addEventListener("mousedown", handlerOtherShape);
-    canvasRef.current?.addEventListener("contextmenu", (e) =>
-      e.preventDefault()
-    );
 
     // Remove event listeners
     return () => {
-      canvasRef.current?.removeEventListener("mousedown", handlerOtherShape);
-      canvasRef.current?.removeEventListener("mousemove", handlerLine);
-      canvasRef.current?.removeEventListener("mouseup", mouseUpHandler);
+      if (window.matchMedia("(any-pointer: coarse)").matches) {
+        canvasRef.current?.removeEventListener("pointerdown", handlerOtherShape);
+        canvasRef.current?.removeEventListener("pointermove", handlerLine);
+        canvasRef.current?.removeEventListener("pointerup", mouseUpHandler);
+      }else{
+        canvasRef.current?.removeEventListener("mousedown", handlerOtherShape);
+        canvasRef.current?.removeEventListener("mousemove", handlerLine);
+        canvasRef.current?.removeEventListener("mouseup", mouseUpHandler);
+      }
     };
   }, [onDraw, mouseDown, moving]);
 

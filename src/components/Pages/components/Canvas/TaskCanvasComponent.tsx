@@ -48,18 +48,28 @@ export const TaskCanvasComponent = ({task, elementRef, page, moving}:Props) => {
             if(!page) return
             pageService.updateXAndY(task)
         }
-        current.addEventListener("mousemove", changeXandY)
-        current.addEventListener("mouseup", mouseUp)
+        if (window.matchMedia("(any-pointer: coarse)").matches) {
+            current.addEventListener("pointerup", mouseUp)
+            current.addEventListener("pointermove", changeXandY)
+        }else{
+            current.addEventListener("mouseup", mouseUp)
+            current.addEventListener("mousemove", changeXandY)
+        }
         return () => {
         if(!current) return
+        if (window.matchMedia("(any-pointer: coarse)").matches) {
+            current.removeEventListener("pointermove", changeXandY)
+            current.removeEventListener("pointerup", mouseUp)
+        }else{
             current.removeEventListener("mousemove", changeXandY)
             current.removeEventListener("mouseup", mouseUp)
+        }
         }
     }, [dragging, elementRef, page, task])
 
     return(
         <div className="w-min h-min p-2 absolute transition-none select-none cursor-[url('/img/grabLight.svg'),auto] dark:cursor-[url('/img/grabDark.svg'),auto] " 
-        style={style} onMouseDown={mouseDown} ref={draggableRef} >
+        style={style} onMouseDown={mouseDown} onPointerDown={mouseDown} ref={draggableRef} >
             <RoundedCard>
                 <CardContent task={task.task} />
             </RoundedCard> 
