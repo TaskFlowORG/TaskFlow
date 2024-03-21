@@ -41,19 +41,10 @@ import { useContext, useEffect, useState } from "react"
     }
 
 
-    const [modalProperty, setModalProperty] = useState(false)
+   
     return (
       <>
-        <div className="h-full w-full">
-          <div className=" flex items-center justify-center h-10 w-10  rounded-full  shadowww cursor-pointer bottom-10 right-10 fixed hover:bg-primary" onClick={() => { setModalProperty(true) }}>
-            <p className="h5 text-primary h-min w-min hover:text-white" onClick={() => setModalProperty(true)}>+</p>
-          </div>
-          <SideModal condition={modalProperty} setCondition={setModalProperty} right>
-            <RegisterProperty project={project!} properties={project?.properties ?? []} />
-          </SideModal>
-
-
-        </div>
+       
 
       </>
     )
