@@ -13,6 +13,11 @@ export const SearchIcon = ({ iconSrc, action, open }: Props) => {
 
             open()
             
-        } }> <img src={iconSrc} alt="ícon of searchbar" /></span>
+        } }> 
+        <span className="w-full h-full relative m-3">
+
+        <Image fill src={iconSrc} alt="ícon of searchbar" />
+        </span>
+        </span>
     )
 }

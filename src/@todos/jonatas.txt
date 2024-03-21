@@ -24,3 +24,4 @@ table e list tem que ordernar o index, fazer de forma reutilizavel para o luka
 Falta tambem a requisilçao de pegar tarefas com agendamento
 
 Falta todos os detalhs da projects e initial page
+

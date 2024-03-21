@@ -1,3 +1,4 @@
+import Image from "next/image"
 
 
 export const Loading = () => {
@@ -7,7 +8,7 @@ export const Loading = () => {
     return (
         <div className="w-screen h-screen bg-white dark:bg-back-grey  fixed flex justify-center items-center  ">
             <div className="relative invert dark:invert-0 opacity-25 dark:opacity-50">
-                <img src="/Icon.svg" alt="" className='w-28 h-28' />
+                <Image width={112} height={112} src="/Icon.svg" alt="Logo" />
                 <div className="w-[2.30rem] aspect-square bg-white absolute top-0 animate-custom-pulse  right-[1.45rem] -z-10" style={style}></div>
                 <div className="w-9 aspect-square bg-white absolute top-9 right-1 animate-custom-pulse  animation-delay-800 -z-10" style={style}></div>
                 <div className="w-3 aspect-square bg-white absolute top-[4.4rem]  animate-custom-pulse animation-delay-600  right-[1.80rem] -z-10" style={style}></div>

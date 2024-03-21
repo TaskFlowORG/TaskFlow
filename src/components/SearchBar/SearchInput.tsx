@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface Props {
   setTextField: (textField: string) => any;
   action: () => any;
@@ -7,10 +9,12 @@ export const SearchInput = ({ setTextField, action }: Props) => {
   return (
     <div className="w-4/5  flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
       <div className="gap-4 flex  ">
-        <img
+        <Image
           src="/search.svg"
-          alt=""
-          className="w-6 h-6 self-center "
+          alt="search"
+          height={24}
+          width={24}
+          className="self-center"
           onClick={() => action()}
         />
         <p>|</p>
@@ -18,6 +22,7 @@ export const SearchInput = ({ setTextField, action }: Props) => {
       <input
         type="text"
         id="textSearch"
+        
         className="w-full h-full outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
         onKeyUp={action()}
         onChange={(e) => {
@@ -25,8 +30,8 @@ export const SearchInput = ({ setTextField, action }: Props) => {
         }}
       />
       <div className="gap-3 flex">
-        <img src="/keyboard.svg" className="w-6 h-6 self-center " alt="" />
-        <img src="/voice.svg" className="w-6 h-6 self-center " alt="" />
+        <Image src="/keyboard.svg" className="self-center " alt="keyboard"  width={24} height={24}/>
+        <Image src="/voice.svg" className="self-center " alt="voice"   width={24} height={24} />
       </div>
     </div>
   );

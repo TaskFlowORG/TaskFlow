@@ -1,5 +1,7 @@
 import { If } from "@/components/If";
-import { IconArchive, IconCalendar, IconCheckbox, IconClock, IconNumber, IconProgress, IconRadio, IconSelect, IconTag, IconTask, IconText, IconUser, PageTypeIcons } from "@/components/icons";
+import { IconArchive, IconCalendar, IconCheckbox, IconClock, 
+  IconNumber, IconProgress, IconRadio, IconSelect, IconTag, 
+  IconTask, IconText, IconUser, PageTypeIcons } from "@/components/icons";
 import { Page, Property, TypeOfProperty } from "@/models";
 
 export const IconsSelector = ({page, property}:{page?:Page, property?:Property}) => {

@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 export const HeadlineImage = () => {
     return (
         <div className="relative hidden lg:flex items-center justify-center gap-4 h-full ">
@@ -6,7 +8,9 @@ export const HeadlineImage = () => {
                 <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary"></div>
                 <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary"></div>
             </div>
-            <img src="landing.svg" className="z-[-1]  1.5xl:w-[550px] w-[400px]" alt="" />
+            <span className="z-[-1] 1.5xl:w-[550px] w-[400px]">
+                <Image fill src="landing.svg" alt="images" />
+            </span>
         </div>
     )
 }

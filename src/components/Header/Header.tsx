@@ -1,22 +1,23 @@
 
 
 import { useTheme } from "next-themes";
+import Image from "next/image";
 export const  Header  = ({setSidebarOpen}: {setSidebarOpen: (value: boolean) => void}) => {
     const { theme, setTheme } = useTheme()
     return (
 
 
         <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
-            <img src="/Icon.svg" alt="" className='w-12 h-12 cursor-pointer dark:grayscale dark:brightness-[60]' onClick={() => setSidebarOpen(true)}/>
+            <Image src="/Icon.svg" alt="Logo" width={48} height={48} className='cursor-pointer dark:grayscale dark:brightness-[60]' onClick={() => setSidebarOpen(true)}/>
 
 
             <div className=" w-1/4 h-full flex space-x-[48px] items-center justify-end">
-                <img src="/Assets/themeLight/notification.svg" alt="" className="dark:invert  cursor-pointer h-5 w-5"   />
+                <Image width={20} height={20} src="/Assets/themeLight/notification.svg" alt="Notification" className="dark:invert  cursor-pointer"   />
 
-                <img src="/Assets/Language.svg" alt="" className=" cursor-pointer" width={"20px"} height={"20px"} />
+                <Image width={20} height={20} src="/Assets/Language.svg" alt="Language Switcher-pt-BR" className=" cursor-pointer" />
 
-                <img src="/moon.svg" className="dark:hidden  cursor-pointer" alt="" onClick={() => setTheme("dark")} />
-                <img src="/sun.svg" className="hidden dark:flex  cursor-pointer" alt="" onClick={() => setTheme("light")} />
+                <Image width={20} height={20} src="/moon.svg" className="dark:hidden  cursor-pointer" alt="Theme Switcher-Moon" onClick={() => setTheme("dark")} />
+                <Image width={20} height={20} src="/sun.svg" className="hidden dark:flex  cursor-pointer" alt="Theme Switcher-Sun" onClick={() => setTheme("light")} />
 
                 <svg width="26" height="29" viewBox="0 0 26 29" className=" text-primary dark:text-white " fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <g id="Profile">

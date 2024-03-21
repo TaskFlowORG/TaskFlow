@@ -3,27 +3,28 @@
 import { RoundedCard } from '@/components/RoundedCard';
 import { LandingPageCardContent } from '@/components/CardContent';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export const Default = () => {
 
 
     const functions = [
         {
-            img: "project.jpg",
+            img: "/project.jpg",
             color: "#F04A94",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Projetos",
             dark: "#FF871A"
         },
         {
-            img: "moon.svg",
+            img: "/moon.svg",
             color: "#EA35BE",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Tarefas",
             dark: "#D7541C"
         },
         {
-            img: "language.svg",
+            img: "/language.svg",
             color: "#E41CEF",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Propriedades",
@@ -32,11 +33,11 @@ export const Default = () => {
 
     ]
 
-    const [image, setImage] = useState<string>("project.jpg")
+    const [image, setImage] = useState<string>("/project.jpg")
 
     return (
-        <div className="flex gap-16 p-8">
-            <div className="flex flex-col gap-12 xl:w-[550px]  1.5xl:w-[700px] ">
+        <div className="flex gap-16 p-8 h-full w-min ">
+            <div className="flex flex-col gap-12 w-min xl:w-max h-min ">
                 {
                     functions.map((card, index) => {
                         return (
@@ -47,8 +48,8 @@ export const Default = () => {
                     })
                 }
             </div>
-            <div className='w-full'>
-                <img src={image} alt="" className='w-full' />
+            <div className='relative  w-[550px] 1.5xl:w-[700px] h-full '>
+                    <Image src={image} fill alt="How Works" objectFit='cover' layout='fill' objectPosition='center' />
             </div>
         </div>
     )
