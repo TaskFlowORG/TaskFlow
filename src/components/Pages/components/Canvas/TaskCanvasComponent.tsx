@@ -13,11 +13,10 @@ interface Props{
     elementRef: React.RefObject<HTMLDivElement>,
     canvasRef: React.RefObject<HTMLCanvasElement>,
     page:CanvasPage | undefined;
-    setDraggingInCanvas:(value:boolean) => void;
     moving:boolean;
 }
 
-export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas, moving}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, page, moving}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -30,7 +29,6 @@ export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas
     const mouseDown = (e:MouseEventReact) => {
         if(e.button == 1) return
         setDragging(!moving); 
-        setDraggingInCanvas(!moving)
     }
 
     useEffect(() => {task.x = x}, [x, task])

@@ -1,9 +1,3 @@
-PARA DIA 19/03:                                                                        |
-Arrumar a pagina de projects para separar os projetos em listas separadas              |
-Criar a requisição da initial page de tasks                                            |
-----------------------------------------------------------------------------------------
-
-
 side bar de pages falta ajustes de tamanho e padronização
 verificar se as paginas correspondem a dark X light
 prototipar timeline

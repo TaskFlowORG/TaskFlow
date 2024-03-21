@@ -1,6 +1,6 @@
 'use client'
 
-import { compareDates } from "@/functions";
+import { compareDates } from "../../functions";
 import { useEffect, useState } from "react";
 import { If } from "../../../If";
 import { Obj } from "../../../Obj";

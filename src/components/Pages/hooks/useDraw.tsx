@@ -6,33 +6,27 @@ import  {
 } from "react";
 import { pageService } from "@/services";
 import { Page } from "@/models";
-import { drawLine } from "@/functions";
 
 type Draw = {
   ctx: CanvasRenderingContext2D;
   currentPoint: Point;
   prevPoint: Point | null;
+  button:boolean
 };
 
 type Point = { x: number; y: number };
 
 export const useDraw = (
   onDraw: (
-    { ctx, currentPoint, prevPoint }: Draw,
-    shape: string,
-    isErasing: boolean
+    { ctx, currentPoint, prevPoint }: Draw
   ) => void,
   moving: boolean,
-  shape: string,
-  optionsRef: RefObject<HTMLDivElement>,
-  isErasing: boolean,
   page: Page | undefined
 ) => {
-  const [dragging, setDragging] = useState<boolean>(false);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const prevPoint = useRef<null | Point>(null);
-  const [tool, setTool] = useState<boolean>(isErasing);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
 
   const clear = () => {
     const canvas = canvasRef.current;
@@ -48,15 +42,10 @@ export const useDraw = (
     });
   };
 
-  function testIfInOptions(point: Point, e: MouseEvent): boolean {
-    const { x: x, y: y } = point;
-    if (!optionsRef) return false;
-    const rect = optionsRef.current?.getBoundingClientRect();
-    if (!rect) return false;
-    return x >= rect.x && y <= rect.y + rect.height && y >= rect.y;
-  }
-
   useEffect(() => {
+    const shape = localStorage.getItem("canvas_shape") ?? "line";
+    const isErasing = localStorage.getItem("canvas_is_erasing") === "true";
+
     const handlerLine = (e: MouseEvent) => {
       if (shape == "line") {
         if (!mouseDown || moving) return;
@@ -64,9 +53,7 @@ export const useDraw = (
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx || !currentPoint) return;
         onDraw(
-          { ctx, currentPoint, prevPoint: prevPoint.current },
-          shape,
-          tool
+          { ctx, currentPoint, prevPoint: prevPoint.current, button:e.button == 0}
         );
         if (!currentPoint) return;
         prevPoint.current = currentPoint;
@@ -75,7 +62,6 @@ export const useDraw = (
 
     const handlerOtherShape = (e: MouseEvent) => {
       if (e.button == 1 || moving) return;
-      setTool(e.button == 0 ? isErasing : !isErasing);
       setMouseDown(true);
       const currentPoint = computePointInCanvas(e);
       if (!currentPoint) return;
@@ -88,26 +74,18 @@ export const useDraw = (
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      console.log(dragging);
-      if (dragging || testIfInOptions({ x: e.pageX, y: e.pageY }, e)) {
-        return null;
-      }
       return { x, y };
     };
 
     const mouseUpHandler = (e: MouseEvent) => {
-      if (dragging) {
-        setDragging(false);
-      }
+
       if (e.button == 1 || moving) return;
       const currentPoint = computePointInCanvas(e);
       if (shape != "line") {
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx || !currentPoint) return;
         onDraw(
-          { ctx, currentPoint: currentPoint, prevPoint: prevPoint.current },
-          shape,
-          tool
+          { ctx, currentPoint: currentPoint, prevPoint: prevPoint.current, button:e.button == 0}
         );
       } else {
         prevPoint.current = null;
@@ -116,7 +94,7 @@ export const useDraw = (
     };
     // Add event listeners
     canvasRef.current?.addEventListener("mousemove", handlerLine);
-    window.addEventListener("mouseup", mouseUpHandler);
+    canvasRef.current?.addEventListener("mouseup", mouseUpHandler);
     canvasRef.current?.addEventListener("mousedown", handlerOtherShape);
     canvasRef.current?.addEventListener("contextmenu", (e) =>
       e.preventDefault()
@@ -126,9 +104,9 @@ export const useDraw = (
     return () => {
       canvasRef.current?.removeEventListener("mousedown", handlerOtherShape);
       canvasRef.current?.removeEventListener("mousemove", handlerLine);
-      window.removeEventListener("mouseup", mouseUpHandler);
+      canvasRef.current?.removeEventListener("mouseup", mouseUpHandler);
     };
-  }, [onDraw, shape, mouseDown, isErasing, moving, dragging]);
+  }, [onDraw, mouseDown, moving]);
 
-  return { clear, canvasRef, setDragging };
+  return { clear, canvasRef };
 };
