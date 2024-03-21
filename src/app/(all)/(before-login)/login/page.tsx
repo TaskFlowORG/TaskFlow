@@ -1,12 +1,17 @@
-import { Login } from "@/components/Login";
+"use client"
 
+import { Login } from "@/components/Login";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+    const { theme, setTheme } = useTheme();
+
+    const imgLogin = theme === "light" ? <img src="/img/themeLight/Login.png"/> : <img src="/img/themeDark/Login.png"/>;
 
       return (
         <div className="w-full h-full ">
             <div className="fixed z-[-1] bottom-0 right-0 hidden md:flex">
-                <img src="/img/themeLight/Login.png"/>
+                {imgLogin}
             </div>
             <div className="flex fixed z-50 top-1 md:left-1/2 hidden md:flex">
                 <img src="/img/MiddleRegister.png"/>

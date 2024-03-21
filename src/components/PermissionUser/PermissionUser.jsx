@@ -7,7 +7,7 @@ import { GroupOptions } from "../GroupOptions/GroupOptions"
 export const PermissionUser = ({ group, userId, project }) => {
   const [user, setUser] = useState({})
   const [selectedPermission, setSelectedPermission] = useState("");
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme } = useTheme();
   const [permissionsList, setPermissionsList] = useState([]);
   const [openModal, setOpenModal] = useState(false)
 
