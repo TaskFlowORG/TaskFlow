@@ -1,10 +1,24 @@
-
-
+"use client"
 import { SVGInitialPage } from "@/components/Shapes"
-import { ProjectsMainPage } from "@/components/InitialAndProjectsPage"
-import { InitialPageTasks } from "@/components/InitialAndProjectsPage/InitialPageTasks"
+import { ProjectsMainPage, InitialPageTasks} from "@/components/InitialAndProjectsPage"
+import {  } from "@/components/InitialAndProjectsPage"
+import { projectService, taskService } from "@/services"
+import { useEffect, useState } from "react"
+import { Project } from "@/models"
+import { Task } from "@/models"
 
 export default function InitialPage({params}:{params:{user:string}}) {
+    const [projects, setProjects] = useState<Project[]>([])
+    const [tasks, setTasks] = useState<Task[]>([])
+
+    useEffect(() => {
+        (async () => {
+            const projectsTemp = await projectService.findAllOfAUser(params.user)
+            setProjects(projectsTemp)
+            const tasks = await taskService.findTodaysTasks(params.user)
+            setTasks(tasks)
+        })()
+    }, [])
 
 
     return (
@@ -17,9 +31,9 @@ export default function InitialPage({params}:{params:{user:string}}) {
                     </h1>
                     <div className={`flex w-full flex-col  flex-1 h-full pt-6 lg:pt-0 justify-start 
                     items-center gap-6 lg:flex-row lg:justify-center lg:items-start`}>
-                        <ProjectsMainPage user={params.user} />
+                        <ProjectsMainPage projects={projects} user={params.user} />
                         <div className="h-full w-2/3 lg:h-[70vh] flex">
-                            <InitialPageTasks user={params.user} />
+                            <InitialPageTasks tasks={tasks}/>
                         </div>
                     </div>
                 </div>

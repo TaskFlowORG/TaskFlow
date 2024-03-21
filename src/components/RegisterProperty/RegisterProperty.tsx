@@ -76,6 +76,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
                         <div className=" flex items-center justify-center h-7 w-7  rounded-full  shadowww cursor-pointer hover:bg-primary dark:hover:bg-secondary" onClick={() => { setModalProperty(true) }}>
                             <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
                         </div>
+
                     </div>
                     <div className="h-[85%] w-72 flex flex-col items-center gap-5">
                         <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false) }} />

@@ -1,17 +1,17 @@
-export { IconsSelector } from "./TableAndList/IconsSelector";
-export { ValueSelector } from "./TableAndList/ValueSelector";
+export { IconsSelector } from "./tableAndList/IconsSelector";
+export { ValueSelector } from "./tableAndList/ValueSelector";
 
 //===============Calendar===================
-export { CalendarDay } from "./Calendar/CalendarDay";
-export {CalendarTasksModal} from "./Calendar/CalendarTasksModal";
+export { CalendarDay } from "./calendar/CalendarDay";
+export {CalendarTasksModal} from "./calendar/CalendarTasksModal";
 
 //===============Canvas===================
-export { CanvasComponents } from "./Canvas/CanvasComponents";
-export { MapOfCanvas } from "./Canvas/MapOfCanvas";
-export { SelectedArea } from "./Canvas/SelectedArea";
-export { TaskCanvasComponent } from "./Canvas/TaskCanvasComponent";
+export { CanvasComponents } from "./canvas/CanvasComponents";
+export { MapOfCanvas } from "./canvas/MapOfCanvas";
+export { SelectedArea } from "./canvas/SelectedArea";
+export { TaskCanvasComponent } from "./canvas/TaskCanvasComponent";
 
 //===============Table and List===================
-export { List } from "./TableAndList/List";
-export { Table } from "./TableAndList/Table";
-export { TableOrList } from "./TableAndList/TableOrList";
+export { List } from "./tableAndList/List";
+export { Table } from "./tableAndList/Table";
+export { TableOrList } from "./tableAndList/TableOrList";

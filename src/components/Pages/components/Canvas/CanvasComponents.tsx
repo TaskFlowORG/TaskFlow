@@ -106,11 +106,6 @@ export const CanvasComponents = ({
             <MoveIcon />
           </If>
         </button>
-        <button 
-         disabled={moving}
-         onClick={postTask}>
-          <AddTask />
-        </button>
       </div>
     </div>
   );

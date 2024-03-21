@@ -63,7 +63,7 @@ export const SideBarButton = ({
             {icon}
           </div>
           <p
-            className="p text-modal-grey truncate w-36 dark:text-white  outline-none"
+            className={"p text-modal-grey w-36 dark:text-white openOptions outline-none none-scrollbar " + (renaming ? "overflow-x-auto whitespace-nowrap" : " truncate ")}
             onBlur={fnRename}
             onKeyDown={fnRename}
             suppressContentEditableWarning={true}
