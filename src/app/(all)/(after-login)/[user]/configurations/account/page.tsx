@@ -1,9 +1,8 @@
 import { PersonalInformations } from "@/components/PersonalInformations"
-import { SideBarConfig } from "@/components/SideBarConfig"
 export default function UserConfigPage() {
     return (
 
-        <div className=" h-full relative w-full">
+        <div className=" h-[60%]  w-full flex items-center">
             <PersonalInformations></PersonalInformations>
         </div>
     )

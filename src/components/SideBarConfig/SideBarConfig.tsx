@@ -1,6 +1,4 @@
-"use client";
-
-// Adicione importações necessárias no início do arquivo
+"use client"
 
 import React from 'react';
 import { User } from "@/models";
@@ -38,14 +36,14 @@ export const SideBarConfig = ({ user }: Props) => {
   }, []);
 
   return (
-    <div className={`absolute z-[1]  h-full ${extendida ? "w-[16%]" : "w-[6%]"}`}>
-      <div id="sideBar" className={` gap-72 h-full overflow-hidden text-contrast bg-primary grid ${extendida ? 'w-[100%]' : 'w-20'}`}>
-        <div className="flex justify-center h-10  row-start-1 row-end-2 pt-20   ">
+    <div className={`absolute z-[1]  h-full ${extendida ? "w-[17.5%]" : "w-[6%]"}`}>
+      <div id="sideBar" className={` gap-72 h-full overflow-hidden text-contrast bg-primary grid ${extendida ? 'w-full' : 'w-20'}`}>
+        <div id='pageName' className="px-12 flex h-10  row-start-1 row-end-2 pt-20">
           <h3 className={`h3 whitespace-nowrap ${!extendida ? 'invisible' : 'visible'}`}>Perfil de usuário</h3>
         </div>
         <div className="w-full  h-full row-start-2 row-end-3 flex flex-col justify-center ">
-          <div className="w-full flex px-2.5 flex-col items-center gap-8">
-            <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Minha conta" />
+          <div className="w-full flex px-3 flex-col items-center gap-8">
+            <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
             <NavItem extendida={extendida} href={`/${user}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
             <NavItem extendida={extendida} href={`/${user}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
           </div>
