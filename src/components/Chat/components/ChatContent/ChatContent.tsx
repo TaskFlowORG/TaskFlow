@@ -2,6 +2,7 @@ import { TextContent } from "../TextContent/TextContent"
 import { Chat } from "@/models"
 import { useState, useEffect } from "react"
 import { getSingleChat, enviarMessage } from "@/services/http/api"
+import Image from "next/image"
 
 
 export const ChatContent = ({ name, messages }: Chat) => {
@@ -59,14 +60,20 @@ export const ChatContent = ({ name, messages }: Chat) => {
                             <input value={mensagem} onChange={pegarMensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                         </div>
                         <button className="w-[10%] h-full">
-                            <img className="w-[50%] h-[50%]" src="/img/audio.svg" alt="" />
+                            <span className="relative w-[50%] h-[50%]">
+                            <Image fill src="/img/audio.svg" alt="Audio" />
+                            </span>
                         </button>
                         <button className="h-full">
-                            <img className="w-[70%] h-[70%]" src="/img/arquivo.svg" alt="" />
+                            <span className="relative w-[70%] h-[70%]" >
+                            <Image fill src="/img/arquivo.svg" alt="Annex" />
+                            </span>
                         </button>
                     </div>
                     <button onClick={() => enviarMensagem()} className="bg-primary w-[20%] lg:w-[6%] rounded-lg flex justify-center items-center">
-                        <img className="w-[50%] h-[50%] lg:w-[60%] lg:h-[60%]" src="/img/enviar.svg" alt="" />
+                        <span className="relative w-[50%] h-[50%] lg:w-[60%] lg:h-[60%]">
+                            <Image fill src="/img/enviar.svg" alt="Send" />
+                        </span>
                     </button>
                 </div>
             </div>

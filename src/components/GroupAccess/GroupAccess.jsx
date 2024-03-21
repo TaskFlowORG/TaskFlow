@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getListData, putData } from '@/services/http/api';
+import Image from 'next/image';
 
 export const GroupAccess = ({ name, description, project, group }) => {
     const [permissions, setPermissions] = useState([]);
@@ -48,7 +49,7 @@ export const GroupAccess = ({ name, description, project, group }) => {
 
     return (
         <div className="flex gap-4 items-start">
-            <img className="py-4" src="/img/EllipseTest.svg" />
+            <Image className="py-4" width={84} height={84} alt="Group Image" src="/img/EllipseTest.svg" />
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <h3 className="pAlata text-[#333] dark:text-[#FCFCFC]">{name}</h3>

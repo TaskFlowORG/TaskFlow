@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import { Chats } from "../../../../../components/Chat/components/Chats"
 import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
 import { getListChat, getChatLike } from "../../../../../services/http/api";
+import Image from "next/image";
 
 export default function RootLayout({ children, params }: { children: React.ReactNode, params: { chatId: string } }) {
  
@@ -58,9 +59,11 @@ export default function RootLayout({ children, params }: { children: React.React
                                 <h3 className="h3">Chats</h3>
                             </div>
                             <div className={`flex justify-center duration-200  ${abrir ? "w-full" : "w-20"}`}>
-                                <div onClick={() => abrirBusca()} className={` cursor-pointer flex items-center justify-center  w-10 h-10 bg-primary 
+                                <div onClick={() => abrirBusca()} className={` cursor-pointer flex items-center justify-center  p-2  w-10 h-10 bg-primary 
                                 ${!abrir ? "rounded-full" : "rounded-l-lg"}`}>
-                                    <img className=" rounded-full" src="/searchIcons/search.svg" alt="" />
+                                    <span className="w-full h-full relative">
+                                    <Image fill src="/searchIcons/search.svg" alt="search" />
+                                    </span>
                                 </div>
                                 <div className={`w-[80%]  ${abrir ? "visible" : "hidden"}`}>
                                     <input onChange={handleKeyPress} className="w-full h-full bg-primary  rounded-r-lg text-white outline-none px-4" type="text" />

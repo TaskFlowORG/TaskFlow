@@ -1,9 +1,11 @@
 'use client'
 
+import { archiveToSrc } from "@/functions";
 import { Chat } from "@/models";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export const Chats = ({ id, name, lastMessage, onChatClick }: Chat & { onChatClick: (chatId: number) => void }) => {
+export const Chats = ({ id, name, lastMessage, onChatClick, picture }: Chat & { onChatClick: (chatId: number) => void }) => {
   //const hour = new Date(lastMessage.dateTime).getHours();
   //const minutes = new Date(lastMessage.dateTime).getMinutes();
   //const total = hour + ":" + minutes;
@@ -23,7 +25,7 @@ export const Chats = ({ id, name, lastMessage, onChatClick }: Chat & { onChatCli
         style={{ gridTemplateColumns: "20% 55% 25%" }}>
         <div className="flex items-center pl-2">
           <div className=" col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary border-2">
-            <img src="{picture}" alt="" />
+            <Image src={archiveToSrc(picture)} alt="Chat Image" />
           </div>
         </div>
         <div className=" col-start-2 col-end-3 flex flex-col justify-center items-start">
