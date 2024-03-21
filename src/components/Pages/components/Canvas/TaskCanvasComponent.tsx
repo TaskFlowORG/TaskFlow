@@ -13,11 +13,10 @@ interface Props{
     elementRef: React.RefObject<HTMLDivElement>,
     canvasRef: React.RefObject<HTMLCanvasElement>,
     page:CanvasPage | undefined;
-    setDraggingInCanvas:(value:boolean) => void;
     moving:boolean;
 }
 
-export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas, moving}:Props) => { 
+export const TaskCanvasComponent = ({task, elementRef, page, moving}:Props) => { 
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
@@ -30,7 +29,6 @@ export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas
     const mouseDown = (e:MouseEventReact) => {
         if(e.button == 1) return
         setDragging(!moving); 
-        setDraggingInCanvas(!moving)
     }
 
     useEffect(() => {task.x = x}, [x, task])
@@ -50,18 +48,28 @@ export const TaskCanvasComponent = ({task, elementRef, page, setDraggingInCanvas
             if(!page) return
             pageService.updateXAndY(task)
         }
-        current.addEventListener("mousemove", changeXandY)
-        current.addEventListener("mouseup", mouseUp)
+        if (window.matchMedia("(any-pointer: coarse)").matches) {
+            current.addEventListener("pointerup", mouseUp)
+            current.addEventListener("pointermove", changeXandY)
+        }else{
+            current.addEventListener("mouseup", mouseUp)
+            current.addEventListener("mousemove", changeXandY)
+        }
         return () => {
         if(!current) return
+        if (window.matchMedia("(any-pointer: coarse)").matches) {
+            current.removeEventListener("pointermove", changeXandY)
+            current.removeEventListener("pointerup", mouseUp)
+        }else{
             current.removeEventListener("mousemove", changeXandY)
             current.removeEventListener("mouseup", mouseUp)
+        }
         }
     }, [dragging, elementRef, page, task])
 
     return(
         <div className="w-min h-min p-2 absolute transition-none select-none cursor-[url('/img/grabLight.svg'),auto] dark:cursor-[url('/img/grabDark.svg'),auto] " 
-        style={style} onMouseDown={mouseDown} ref={draggableRef} >
+        style={style} onMouseDown={mouseDown} onPointerDown={mouseDown} ref={draggableRef} >
             <RoundedCard>
                 <CardContent task={task.task} />
             </RoundedCard> 

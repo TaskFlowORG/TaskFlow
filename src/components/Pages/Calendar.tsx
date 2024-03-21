@@ -2,7 +2,7 @@
 
 import { CalendarDay, CalendarTasksModal } from "./components";
 import { Arrow } from "@/components/icons/";
-import { compareDates } from "@/functions";
+import { compareDates } from "./functions";
 import {OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
 import { useEffect, useState } from "react";
 import {Date as DateProp} from "@/models"

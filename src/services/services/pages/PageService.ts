@@ -24,7 +24,7 @@ class PageService {
   }
 
     async upDateName(name: string| undefined| null, id: number): Promise<void> {
-        console.log(name)
+        // console.log(name)
         const config = {headers: {
             'Content-Type': 'application/string'
         }}
@@ -41,7 +41,7 @@ class PageService {
   }
 
     async updateXAndY(taskPage: TaskCanvas): Promise<void> {
-        console.log(taskPage)
+        // console.log(taskPage)
         await Api.patch('page/x-and-y', taskPage);
     }
 
