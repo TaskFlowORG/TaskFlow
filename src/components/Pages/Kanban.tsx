@@ -39,7 +39,7 @@ export const Kanban = () => {
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 1);
+      const pg: OrderedPage = await getPage("page", 2);
       setTasks(pg.tasks as TaskOrdered[]);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);

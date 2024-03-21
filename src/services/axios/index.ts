@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const urls =[
     'http://localhost:9999/',
-    'https://7b8a0bd34e74ea57c22a1c533fbdf190.serveo.net/',
+    'https://2434f7541461c13eb29ca4d3b64ad09b.serveo.net/',
 ]
 
 export const Api = axios.create({
