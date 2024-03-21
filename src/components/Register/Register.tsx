@@ -75,8 +75,6 @@ export const Register = () => {
     }
   };
 
-
-
   const onSubmit = async (data: UserData) => {
     try {
       const { username, name, surname, password, mail } = data;
@@ -91,9 +89,9 @@ export const Register = () => {
 
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center">
-      <div className="flex items-center flex-col h-1/2 w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4">Registar</h4>
-        <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex flex-col items-center  justify-between">
+      <div className="flex items-center flex-col md:h-1/2 lg:w-1/4 md:w-1/2 w-10/12 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+        <h4 className="h4 py-3 md:py-0">Registar</h4>
+        <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex flex-col items-center justify-between">
           {step === 0 && (
             <>
               <Input
@@ -186,7 +184,7 @@ export const Register = () => {
               </button>
             )}
           </div>
-          <p className="mt-2 text-sm font-alata text-sm underline text-[#282828] hover:cursor-pointer hover:text-light-orange">
+          <p className="mt-2 text-sm font-alata underline text-[#282828] hover:cursor-pointer hover:text-light-orange">
             Já possui uma conta?
           </p>
         </form>
