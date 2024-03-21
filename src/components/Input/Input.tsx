@@ -1,6 +1,7 @@
 import React, { forwardRef, useId } from "react";
 import { InputHTMLAttributes } from "react";
 import * as S from './style';
+import Image from "next/image";
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     image?: string;
@@ -25,7 +26,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', 
         <>
             <S.Container $haserror={hasError} className={className}>
                 {label && <label className="w-1/6 flex justify-center items-center" htmlFor={inputId}>{label}</label>}
-                <img src={image} alt="" />
+                <span className="relative w-6 h-8">
+                <Image fill src={image} alt="icone" />
+
+                </span>
+                
                 <S.Input className={classNameInput} type={type} id={inputId}   {...register} placeholder={placeholder} {...props}
 
                     required={required} />

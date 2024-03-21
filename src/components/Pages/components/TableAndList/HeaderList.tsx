@@ -1,4 +1,4 @@
-import { Page, Property, TaskValue } from "@/models";
+import { Page, Property } from "@/models";
 import { IconsSelector } from "./IconsSelector";
 
 interface Props {

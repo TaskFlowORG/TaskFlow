@@ -4,6 +4,7 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 import { RoundedCard } from '@/components/RoundedCard';
 import { LandingPageCardContent } from '@/components/CardContent';
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 
 interface Props {
@@ -12,25 +13,25 @@ interface Props {
 
 export const Carousel = ({ change }: Props) => {
 
-    const [image, setImage] = useState<string>("project.jpg")
+    const [image, setImage] = useState<string>("/project.jpg")
 
     const functions = [
         {
-            img: "project.jpg",
+            img: "/project.jpg",
             color: "#F04A94",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Projetos",
             dark: "#FF871A"
         },
         {
-            img: "moon.svg",
+            img: "/moon.svg",
             color: "#EA35BE",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Tarefas",
             dark: "#D7541C"
         },
         {
-            img: "language.svg",
+            img: "/language.svg",
             color: "#E41CEF",
             text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
             title: "Propriedades",
@@ -71,8 +72,8 @@ export const Carousel = ({ change }: Props) => {
 
             </Swiper>
 
-            <div className='w-full p-8'>
-                <img src={image} alt="" className='w-full' />
+            <div className='relative  h-[550px] 1.5xl:h-[700px] w-[500px] md:w-5/6'>
+                    <Image src={image} fill alt="How Works" objectFit='cover' layout='fill' objectPosition='start' />
             </div>
         </>
     )
