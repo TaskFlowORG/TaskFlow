@@ -68,8 +68,12 @@ type FormData = z.infer<typeof schema>;
                             </div>
 
                             <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
+
+
+
                             onClick={() =>  console.log(getValues())}
                             >Enviar</button>
+
                         </div>
                     </div>
                 </div>

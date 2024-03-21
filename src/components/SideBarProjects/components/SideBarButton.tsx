@@ -41,6 +41,8 @@ export const SideBarButton = ({
   pointerEventsNone,
   isHovering
 }: Props) => {
+
+  
   return (
     <div
       className={ `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
