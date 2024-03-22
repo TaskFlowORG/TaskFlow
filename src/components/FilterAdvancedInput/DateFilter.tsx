@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { useState, useEffect, useContext } from "react";
 
 interface DateProps {
   id: number;
@@ -8,6 +9,7 @@ interface DateProps {
 
 export const DateFilter = ({ name, value, id }: DateProps) => {
   const [valued, setValued] = useState("");
+  const { filterProp, setFilterProp } = useContext(FilterContext);
 
   useEffect(() => {
     setValued(value ?? "");
@@ -21,7 +23,25 @@ export const DateFilter = ({ name, value, id }: DateProps) => {
         type="date"
         value={valued}
         placeholder="Insira uma data"
-        onChange={(e) => setValued(e.target.value)}
+        onChange={(e) => {
+          setValued(e.target.value);
+          const thisProperty = filterProp?.find((item) => item.id == id);
+          if (thisProperty) {
+            if (!e.target.value) {
+              filterProp.splice(filterProp.indexOf(thisProperty), 1);
+              setFilterProp!(filterProp);
+            } else {
+              thisProperty.value = e.target.value;
+            }
+          } else {
+            if (e.target.value) {
+              setFilterProp!([
+                ...filterProp,
+                { id: id, value: e.target.value },
+              ]);
+            }
+          }
+        }}
         name=""
         id={`prop${id}`}
       />
