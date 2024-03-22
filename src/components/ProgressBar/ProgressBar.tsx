@@ -20,7 +20,7 @@ export const ProgressBar = ({ percent }: Props) => {
   
   const gradient: Object = {
     backgroundImage: `linear-gradient(${color},${color} ), 
-    linear-gradient(${percCount/100*180}deg, var(--primary-color) 25%, var(--secondary-color) 50%, #3c3c3c 10%)`,
+    linear-gradient(${percCount/100*180}deg, var(--primary-color) 25%, var(--secondary-color) 50%, ${theme == "dark"?"#3c3c3c":"rgb(242, 242, 242)"} 10%)`,
       // radial-gradient(circle at left, var(--primary-color) ${(percCount/3)*2}%, var(--secondary-color) ${percCount/3}%, #3C3C3C 50%) `,
     backgroundClip: "padding-box, border-box",
   };

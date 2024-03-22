@@ -2,7 +2,7 @@ export const IconTrashBin = () => {
 
     return (
         <>
-            <svg width="25" height="25 " viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg" className="stroke-primary dark:stroke-secondary">
+            <svg  viewBox="0 0 14 17" fill="none" xmlns="http://www.w3.org/2000/svg" className=" w-full h-full max-h-6">
                 <path d="M12.7778 6.25L11.3369 14.7595C11.2782 15.107 11.1033 15.4219 10.8431 15.6488C10.5829 15.8757 10.2539 16 9.91417 16H4.08583C3.74606 16 3.41715 15.8757 3.15693 15.6488C2.89671 15.4219 2.72184 15.107 2.66306 14.7595L1.22222 6.25M13.5 4H9.4375M9.4375 4V2.5C9.4375 2.10218 9.28532 1.72064 9.01443 1.43934C8.74355 1.15804 8.37615 1 7.99306 1H6.00694C5.62385 1 5.25645 1.15804 4.98557 1.43934C4.71468 1.72064 4.5625 2.10218 4.5625 2.5V4M9.4375 4H4.5625M0.5 4H4.5625"  strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} />
             </svg>
 

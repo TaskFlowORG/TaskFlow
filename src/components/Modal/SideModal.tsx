@@ -16,7 +16,7 @@ export const SideModal = ({ children, condition, setCondition, right }: Props) =
     return (
         <AnimatePresence mode="wait" initial={false} >
             {condition &&
-                <><div className="fixed top-0 bottom-0 right-0 left-0 z-40"/>
+                <>
                     <motion.div
                         initial={right?{right:-500}:{left:-500}}
                         animate={right?{right:0}:{left:0}}

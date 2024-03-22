@@ -34,8 +34,8 @@ export const PermissionUser = ({ group, userId, project }) => {
       if (hasPermission) {
         alert('Este usuário já possui esta permissão.');
       } else {
-          user.permissions = [];
-  
+        user.permissions = [];
+
         user.permissions = [...user.permissions, selectedPermission];
 
         await putData("user", user);
@@ -55,6 +55,10 @@ export const PermissionUser = ({ group, userId, project }) => {
   const ownerIcon = theme === "dark" ? <img src="/img/darkOwner.svg" alt="Owner" /> : <img src="/img/whiteOwner.svg" alt="Owner" />
   const options = theme === "dark" ? <img src="/img/optionsGroupD.svg" /> : <img src="/img/optionsGroupL.svg" />
 
+  const fullName = `${user.name} ${user.surname}`;
+
+  const displayFullName = fullName.length > 13 ? `${fullName.slice(0, 13)}...` : fullName;
+
   return (
     <div className="">
       <div className="border rounded-md relative border-[#F04A94] px-4 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-10 md:h-12 lg:h-12 flex items-center justify-between">
@@ -65,7 +69,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
         <div className="flex gap-6 w-full ml-2">
           {userIcon}
-          <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{user.name}</p>
+          <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
 
         <div className="text-[#F04A94] dark:text-[#F76858] w-36 flex justify-between ">
@@ -83,7 +87,7 @@ export const PermissionUser = ({ group, userId, project }) => {
               id="permission"
               value={selectedPermission}
               onChange={(e) => updatePermission(e.target.value)}
-            >   
+            >
               {user.permissions && user.permissions.length > 0 ? (
                 user.permissions.map((permission) => (
                   <option key={permission.id} value="" disabled>{permission.name}</option>
