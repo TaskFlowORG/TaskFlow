@@ -8,6 +8,7 @@ import { Button } from "@/components/Button";
 import { LocalModal } from "@/components/Modal";
 import { ProjectInformations } from "./ProjectInformations";
 import { Navigate } from "./Navigate";
+import { any } from "zod";
 
 interface Props {
   project: Project;
@@ -15,7 +16,7 @@ interface Props {
   setModalPages: (value: boolean) => void;
 }
 
-export const PageSide = ({ project, user, setModalPages }: Props) => {
+export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:any={}) => {
   const [pageMerging, setPageMerging] = useState<Page>();
   const [listMerge, setListMerge] = useState<Page[]>([]);
   const [modal, setModal] = useState(false);
