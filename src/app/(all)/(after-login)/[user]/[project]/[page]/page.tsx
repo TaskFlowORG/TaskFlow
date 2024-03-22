@@ -16,7 +16,7 @@ export default async function Pages({params}:{params:{user:string, project:numbe
         case TypeOfPage.TABLE:
             return <Table page={page} project={project} />
         case TypeOfPage.TIMELINE:
-            return <TimeLine />
+            return <TimeLine page={page} />
         case TypeOfPage.CANVAS:
             return <Canvas page={page as CanvasPage} user={user} />
     }
