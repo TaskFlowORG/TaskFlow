@@ -41,6 +41,8 @@ export const SideBarButton = ({
   pointerEventsNone,
   isHovering
 }: Props) => {
+
+  
   return (
     <div
       className={ `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
@@ -52,16 +54,16 @@ export const SideBarButton = ({
       }
       onClick={fnClick}
     >
-      <div className="flex h-14 w-full  justify-between items-center ">
+      <div className="flex h-14 w-full  justify-between items-center " title={text}>
         <Link
           href={link ?? "#"}
-          className="h-full w-min flex gap-4 flex-row items-center px-6   "
+          className="h-full w-full flex gap-4 flex-row items-center px-6   "
         >
           <div className="w-8 h-8 flex justify-center items-center stroke-primary dark:stroke-secondary">
             {icon}
           </div>
           <p
-            className="p text-modal-grey truncate dark:text-white openOptions outline-none"
+            className={"p text-modal-grey w-36 dark:text-white openOptions outline-none none-scrollbar " + (renaming ? "overflow-x-auto whitespace-nowrap" : " truncate ")}
             onBlur={fnRename}
             onKeyDown={fnRename}
             suppressContentEditableWarning={true}

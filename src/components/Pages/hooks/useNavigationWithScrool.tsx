@@ -51,6 +51,16 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
             setScrollX(elementRef.current?.scrollLeft)
             setScrollY(elementRef.current?.scrollTop)
         }
+        if (window.matchMedia("(any-pointer: coarse)").matches) {
+            elementRef.current?.addEventListener("pointerdown", handleMouseDown)
+            elementRef.current?.addEventListener("pointermove", handleMouseMove)
+            window.addEventListener("pointerup", handeMouseUp)
+        }else{
+            elementRef.current?.addEventListener("mousedown", handleMouseDown)
+            elementRef.current?.addEventListener("mousemove", handleMouseMove)
+            window.addEventListener("mouseup", handeMouseUp)
+            elementRef.current?.addEventListener("wheel", whileWheel)
+        }
 
         elementRef.current?.addEventListener("mousedown", handleMouseDown)
         elementRef.current?.addEventListener("mousemove", handleMouseMove)
@@ -58,10 +68,16 @@ export const useNavigationWithScroll = (moving:boolean, elementRef:React.RefObje
         elementRef.current?.addEventListener("wheel", whileWheel)
 
         return () => {
-            elementRef.current?.removeEventListener("mousedown", handleMouseDown)
-            elementRef.current?.removeEventListener("mousemove", handleMouseMove)
-            window.removeEventListener("mouseup", handeMouseUp)
-            elementRef.current?.removeEventListener("wheel", whileWheel)
+            if (window.matchMedia("(any-pointer: coarse)").matches) {
+                elementRef.current?.removeEventListener("pointerdown", handleMouseDown)
+                elementRef.current?.removeEventListener("pointermove", handleMouseMove)
+                window.removeEventListener("pointerup", handeMouseUp)
+            }else{
+                elementRef.current?.removeEventListener("mousedown", handleMouseDown)
+                elementRef.current?.removeEventListener("mousemove", handleMouseMove)
+                window.removeEventListener("mouseup", handeMouseUp)
+                elementRef.current?.removeEventListener("wheel", whileWheel)
+            }
         }
     }, [elementRef, mouseDown, theme,moving])
 

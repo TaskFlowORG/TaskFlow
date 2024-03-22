@@ -4,22 +4,24 @@ type Draw = {
   ctx: CanvasRenderingContext2D;
   currentPoint: Point;
   prevPoint: Point | null;
+  button:boolean;
 };
 
 export function drawLine(
-  { prevPoint, currentPoint, ctx }: Draw,
-  shape: string,
-  isErasing: boolean
+  { prevPoint, currentPoint, ctx, button}:Draw,
 ) {
   let lineWidth = +(localStorage.getItem("canvas_line_width") ?? "2");
   let lineColor = localStorage.getItem("canvas_line_color") ?? "#000000";
+  const shape = localStorage.getItem("canvas_shape") ?? "line";
+  let isErasing = localStorage.getItem("canvas_is_erasing") === "true";
+
   let { x: currX, y: currY } = currentPoint;
   let { x: prevX, y: prevY } = prevPoint ?? currentPoint;
   //Diference because the size of cursor
   prevY += 20;
   currY += 20;
 
-  if (isErasing) {
+  if (button ? isErasing : !isErasing) {
     ctx.globalCompositeOperation = "destination-out";
   } else {
     ctx.globalCompositeOperation = "source-over";

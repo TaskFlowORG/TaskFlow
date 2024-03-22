@@ -36,3 +36,5 @@ export { PageTypeIcons } from "./Pages/PageTypeIcons";
 export { ConectPage } from "./PageOtpions/ConectPage";
 export {  EditIcon} from "./PageOtpions/Edit";
 export { ChangeType } from "./PageOtpions/ChangeType";
+
+export {IconMenuTaskProperty} from "./IconMenuTaskProperty/IconMenuTaskProperty"

@@ -458,7 +458,7 @@ select::-ms-expand {
 }
 
 /* Define a cor do thumb (a alça do scroll) */
-::-webkit-scrollbar-thumb {
+.bah::-webkit-scrollbar-thumb {
   border-radius: 7px;
   background: var(--primary-color);
 }

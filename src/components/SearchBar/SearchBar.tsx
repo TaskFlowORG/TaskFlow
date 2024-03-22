@@ -34,7 +34,7 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
   }
 
   return (
-    <div className="justify-end w-[45rem] relative mb-3 flex gap-2 ">
+    <div className="justify-end  relative mb-3 flex gap-2 ">
       {search && openedSearch && (
         <SearchInput
           action={() => {

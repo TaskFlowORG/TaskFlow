@@ -5,9 +5,14 @@ interface Props {
 
 export const SearchInput = ({ setTextField, action }: Props) => {
   return (
-    <div className="w-4/5 flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
-      <div className="gap-4 flex ">
-        <img src="/search.svg" alt="" onClick={() => action()} />
+    <div className="w-4/5  flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
+      <div className="gap-4 flex  ">
+        <img
+          src="/search.svg"
+          alt=""
+          className="w-6 h-6 self-center "
+          onClick={() => action()}
+        />
         <p>|</p>
       </div>
       <input
@@ -20,8 +25,8 @@ export const SearchInput = ({ setTextField, action }: Props) => {
         }}
       />
       <div className="gap-3 flex">
-        <img src="/keyboard.svg" alt="" />
-        <img src="/voice.svg" className="pr-2" alt="" />
+        <img src="/keyboard.svg" className="w-6 h-6 self-center " alt="" />
+        <img src="/voice.svg" className="w-6 h-6 self-center " alt="" />
       </div>
     </div>
   );
