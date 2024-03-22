@@ -2,8 +2,8 @@ import { pageService } from "@/services";
 import { useState } from "react";
 import { Page, PagePost, Project, TypeOfPage } from "@/models";
 import { If } from "@/components/If";
-import { TypeOfPageComponent } from "@/components/TypeOfPageComponent";
-import { PageComponent } from "@/components/PageComponent";
+import { TypeOfPageComponent } from "./TypeOfPageComponent";
+import { PageComponent } from "./PageComponent";
 import { Button } from "@/components/Button";
 import { LocalModal } from "@/components/Modal";
 import { ProjectInformations } from "./ProjectInformations";
@@ -35,12 +35,12 @@ export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:
     await pageService.insert(new PagePost("Nova Página", type, project));
   };
   return (
-    <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-16">
+    <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey  w-96 px-16">
         <Navigate modalPages setCondition={setModalPages} />
       <ProjectInformations project={project} />
       <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8     ">
-        <div className=" flex items-start  h-[95%] w-full overflow-y-auto">
-          <div className="flex flex-col gap-3 items-start max-w-full h-min w-full">
+        <div className=" flex items-start  h-[95%] w-full overflow-y-auto none-scrollbar">
+          <div className="flex flex-col  items-start max-w-full h-min w-full">
             {project?.pages.map((page) => {
               return (
                 <div
@@ -59,7 +59,6 @@ export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:
                           listMerge.splice(listMerge.indexOf(page), 1);
                         }
                       }}
-                      className="w-5 h-5"
                     />
                   </If>
                   <PageComponent
@@ -77,11 +76,11 @@ export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:
             })}
           </div>
         </div>
-        <div className="h-min relative">
+        <div className="h-min relative w-full">
           <If condition={merging}>
-            <div className="flex">
+            <div className="flex justify-between w-full">
               <Button
-                width="w-64"
+                width="w-32"
                 text="Cancelar"
                 fnButton={() => {
                   setListMerge([]);
@@ -93,7 +92,7 @@ export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:
                 textSize="font-[14re]"
               />
               <Button
-                width="w-64"
+                width="w-32"
                 text="Conectar"
                 fnButton={merge}
                 padding="p-2"

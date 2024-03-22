@@ -8,26 +8,27 @@ import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
 import { getData} from "@/services/http/api";
 
-export default function Home({ projectId = 1 }) {
+export default function Home({ params }:{params:{project:number}}) {
+
     const { theme, setTheme } = useTheme();
     const [project, setProject] = useState({})
 
     useEffect(() => {
         const fetchData = async () => {
-            const fetchedProject = await getData("project", projectId)
+            const fetchedProject = await getData("project", params.project)
             setProject(fetchedProject)
         }
         fetchData();
-    }, []);
+    }, [params.project]);
 
     const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL />;
 
     return (
+
         <div className=" w-screen h-screen ">
             <div className="flex absolute md:-bottom-36 xl: 2xl:bottom-0 lg:z-10 ">
                 {svgGroupPage}
             </div>
-
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
 
               <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
