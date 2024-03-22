@@ -15,3 +15,9 @@ export { TaskCanvasComponent } from "./canvas/TaskCanvasComponent";
 export { List } from "./tableAndList/List";
 export { Table } from "./tableAndList/Table";
 export { TableOrList } from "./tableAndList/TableOrList";
+
+//===============TimeLine===================
+export { BackSquare } from "./timeLine/BackSquare";
+export { TaskLegend } from "./timeLine/TasksLegend";
+export { TasksInTimeline } from "./timeLine/TasksInTimeline";
+export {TimeLineHeader} from "./timeLine/TimeLineHeader";
