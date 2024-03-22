@@ -22,7 +22,8 @@ export const Table = ({ page, updateIndex }: Props) => {
   const [props, setProps] = useState<Property[]>([]);
   useEffect(() => {
     if (project) {
-      setProps([...project.properties, ...page.properties]);
+      const list=[...project.properties, ...page.properties]
+      setProps(list.filter(p => p.visible));
     }
   }, [project, page]);
 
