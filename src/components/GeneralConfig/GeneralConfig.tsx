@@ -19,7 +19,7 @@ export const GeneralConfig = () => {
         <div className="flex w-[80%] h-[80%]">
             <div className='flex flex-col justify-between'>
                 <div className='flex justify-start'>
-                    <p className='h2'>Configurações</p>
+                    <p className='h2 dark:text-secondary'>Configurações</p>
                 </div>
                 <div className='w-[90%] flex flex-col'>
                     <div className='flex justify-between'>

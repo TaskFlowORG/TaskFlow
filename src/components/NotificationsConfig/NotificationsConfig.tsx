@@ -12,8 +12,8 @@ export const NotificationsConfig = () => {
     const InputConfig = ({ title, description }: { title: string, description: string }) => (
         <div className={` ${toggle ? "opacity-100" : "opacity-50"}`}>
             <div className="w-full flex items-center justify-between row-start-3 ">
-                <h4 className="h4 text-modal-grey">{title}</h4>
-                <div className="flex items-center py-4 font-bold ">
+                <h4 className="h4 text-modal-grey dark:text-white">{title}</h4>
+                <div className="flex items-center py-4 font-bold">
                     <label className="relative w-16 h-8 ml-4 mr-4">
                         <input type="checkbox" className=" hidden toggle-input" disabled={!toggle} />
                         <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
