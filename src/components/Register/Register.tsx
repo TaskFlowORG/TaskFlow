@@ -1,7 +1,6 @@
 
 'use client'
 import React, { useState } from "react";
-import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,8 +8,8 @@ import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
 import { useTheme } from "next-themes";
-import { If } from "@/components/If"
 import { ProgressBar } from "./ProgressBar";
+import { useRouter } from 'next/navigation';
 
 const schema = z
   .object({
@@ -48,9 +47,7 @@ const schema = z
     }
   );
 
-
 type FormData = z.infer<typeof schema>;
-
 
 interface UserData {
   name: string;
@@ -69,8 +66,7 @@ export const Register = () => {
   });
   const [user, setUser] = useState({} as FormData);
   const { theme, setTheme } = useTheme();
-
-
+  const router = useRouter();
 
   const handleNextStep = () => {
     if (step < 2) {
@@ -90,6 +86,7 @@ export const Register = () => {
     try {
       const { username, name, surname, password, mail } = data;
       await userService.insert(new UserPost(username, name, surname, password, mail));
+      router.push("/login");
     } catch (err) {
       if (err instanceof ZodError) {
         console.error(err.errors);
@@ -101,23 +98,16 @@ export const Register = () => {
   const iconMail = theme === "light" ? "/img/themeLight/mail.svg" : "/img/themeDark/mail.svg";
   const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
 
-  let showProgress: number =0;
+  const color = theme === "light" ? "#F04A94" : "#F76858";
 
-  const progress = (number: number) => {
-    showProgress = number;
-  }
-
-  progress(1);
-  
   return (
-      <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-          <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-              <h4 className="h4 leading-6 md:py-0">Registar</h4>
-              <ProgressBar step={step} />
+    <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+      <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+        <h4 className="h4 leading-6 md:py-0">Registar</h4>
+        <ProgressBar step={step} color={color}/>
         <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex flex-col items-center justify-between">
           {step === 0 && (
             <>
-              {progress(1)}
               <Input
                 className="inputRegister"
                 image={iconUser}
@@ -145,7 +135,6 @@ export const Register = () => {
 
           {step === 1 && (
             <>
-              {progress(2)}
               <Input
                 className="inputRegister"
                 image={iconUser}
@@ -169,10 +158,8 @@ export const Register = () => {
             </>
           )}
 
-
           {step === 2 && (
             <>
-              {progress(3)}
               <Input
                 className="inputRegister"
                 image={iconPassword}
@@ -208,12 +195,12 @@ export const Register = () => {
               </button>
             )}
             {step === 2 && (
-              <button type="submit" className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] ">
+                <button type="submit" className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC]">
                 Entrar
               </button>
             )}
           </div>
-          <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]">
+          <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]" onClick={() => router.push("/login")}>
             Já possui uma conta?
           </p>
         </form>
@@ -221,7 +208,3 @@ export const Register = () => {
     </div>
   );
 };
-
-
-
-

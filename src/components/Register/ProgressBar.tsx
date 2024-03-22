@@ -2,12 +2,13 @@ import React from "react";
 
 interface ProgressBarProps {
   step: number;
+  color: string;
 }
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({ step }) => {
+export const ProgressBar: React.FC<ProgressBarProps> = ({ step, color }) => {
     const progressBarStyle = {
         width: `${(step + 1) * 33}%`,
-        backgroundColor: step === 0 ? "#F04A94" : "#XXXXXX", 
+        backgroundColor: color, 
         
       };
     

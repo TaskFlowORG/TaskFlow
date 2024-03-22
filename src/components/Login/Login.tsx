@@ -1,11 +1,10 @@
 "use client";
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
 
 const schema = z
     .object({
@@ -20,7 +19,6 @@ const schema = z
             .min(6, { message: "Senha deve conter no minimo 6 caracteres" })
             .max(20, { message: "Senha deve conter no maximo 20 caracteres" }),
     })
-
 
 type FormData = z.infer<typeof schema>;
 
@@ -70,7 +68,7 @@ export const Login = () => {
 
                     <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
                         onClick={() => console.log(getValues())}
-                    >Enviar</button>
+                    >Entrar</button>
                 </div>
             </div>
         </div>
