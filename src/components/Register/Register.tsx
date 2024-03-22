@@ -9,6 +9,8 @@ import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
 import { useTheme } from "next-themes";
+import { If } from "@/components/If"
+import { ProgressBar } from "./ProgressBar";
 
 const schema = z
   .object({
@@ -95,19 +97,27 @@ export const Register = () => {
     }
   }
 
-
-
   const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
   const iconMail = theme === "light" ? "/img/themeLight/mail.svg" : "/img/themeDark/mail.svg";
   const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
 
+  let showProgress: number =0;
+
+  const progress = (number: number) => {
+    showProgress = number;
+  }
+
+  progress(1);
+  
   return (
-    <div className="flex h-5/6 w-screen absolute justify-center items-center  text-[#333] dark:text-[#FCFCFC]">
-      <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4 py-3 md:py-0">Registar</h4>
+      <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+          <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+              <h4 className="h4 leading-6 md:py-0">Registar</h4>
+              <ProgressBar step={step} />
         <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex flex-col items-center justify-between">
           {step === 0 && (
             <>
+              {progress(1)}
               <Input
                 className="inputRegister"
                 image={iconUser}
@@ -135,6 +145,7 @@ export const Register = () => {
 
           {step === 1 && (
             <>
+              {progress(2)}
               <Input
                 className="inputRegister"
                 image={iconUser}
@@ -161,6 +172,7 @@ export const Register = () => {
 
           {step === 2 && (
             <>
+              {progress(3)}
               <Input
                 className="inputRegister"
                 image={iconPassword}
@@ -206,8 +218,6 @@ export const Register = () => {
           </p>
         </form>
       </div>
-
-
     </div>
   );
 };
