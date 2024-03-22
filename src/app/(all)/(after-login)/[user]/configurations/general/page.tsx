@@ -1,11 +1,16 @@
 'use client'
 
+"use client"
+
 import { GeneralConfig } from "@/components/GeneralConfig"
-import { SideBarConfig } from "@/components/SideBarConfig"
-import { calculateOverrideValues } from "next/dist/server/font-utils";
-import { useState } from "react";
+import { ConfigContext } from "@/utils";
+import { useContext, useEffect } from "react";
 
 export default function UserConfigPage() {
+  const { setTitle } = useContext<any>(ConfigContext);
+  useEffect(() => {
+      setTitle('Configurações');
+  }, []);
   return(
     <div className="flex items-center justify-center h-full w-full">
       <GeneralConfig />

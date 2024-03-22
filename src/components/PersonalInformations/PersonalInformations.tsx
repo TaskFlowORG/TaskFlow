@@ -3,6 +3,7 @@
 import { ChangeEventHandler, SetStateAction, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
 import { User } from "@/models";
+import Image from "next/image";
 
 export const PersonalInformations = () => {
     const [user, setUser] = useState<User | null>(null);
@@ -29,7 +30,13 @@ export const PersonalInformations = () => {
             const file = photoInputRef.current.files[0];
             const reader = new FileReader();
             reader.onload = () => {
+                if (file.size > 1000000) {
+                    alert("A imagem deve ter no máximo 1MB");
+                    return;
+                }
+                console.log(file.size);
                 setPhotoUrl(reader.result as string);
+
             };
             reader.readAsDataURL(file);
         }
@@ -57,14 +64,14 @@ export const PersonalInformations = () => {
 
     return (
         <div className=" flex flex-col justify-center w-full h-full items-center">
-            <div className="flex flex-col gap-10">
-                <div className="flex gap-10">
+            <div className="flex flex-col justify-center items-center gap-10 w-full">
+                <div className="flex gap-10 w-[60%]">
                     <div className="h-full">
                         <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 w-48 h-48">
                             {photoUrl ? (
-                                <img className="rounded-full w-full h-full" src={photoUrl} alt="" />
+                                <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
                             ) : (
-                                <img className="rounded-full" alt="" />
+                                <Image fill className="rounded-full" src="" alt="foto"/>
                             )}
                             <label className="border-secondary border-2 rounded-full p-2 bg-white w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">
                                 <img className="w-full h-[80%]" src="/img/imagem.svg" alt="" />
@@ -86,7 +93,7 @@ export const PersonalInformations = () => {
                         </div>
                         <div className="flex items-center gap-2">
                             {editingAddress ? (
-                                <InputFieldConfig type={"text"} id={"address"} label={""} value={address} onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)} placeholder={user?.address || ""} ></InputFieldConfig>
+                                <InputFieldConfig type={"text"} id={"address"} label={""} value={address} onChange={(e: { target: { value: SetStateAction<string> } }) => setAddress(e.target.value)} placeholder={user?.address || ""} ></InputFieldConfig>
                             ) : (
                                 <p className="text-modal-grey">{user?.address}</p>
                             )}
@@ -106,8 +113,9 @@ export const PersonalInformations = () => {
                         <InputFieldConfig type={"tel"} id={"phone"} label={"Telefone"} value={phone} onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)} placeholder={user?.phone || ""} ></InputFieldConfig>
                         <label className="px-6 flex flex-col w-[200%]">
                             Descrição <textarea
-                                className={` resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[20vh] pl-4 focus:outline-none`}
+                                className={` resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
                                 id="desc"
+
                                 value={desc}
                                 spellCheck={true}
                                 onChange={(e: { target: { value: SetStateAction<string> } }) => setDesc(e.target.value)}
