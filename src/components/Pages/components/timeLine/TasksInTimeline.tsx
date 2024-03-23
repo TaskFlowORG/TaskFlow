@@ -1,15 +1,20 @@
 import { Property, Task, TimeValued } from "@/models";
+import { useEffect, useRef } from "react";
 
 export const TasksInTimeline = ({
   tasks,
   propOrdering,
   interval,
   widthOfInterval,
+  scrollY,
+  setScrollY,
 }: {
   tasks: Task[];
   propOrdering: Property;
   interval: number;
   widthOfInterval: number;
+  scrollY: number;
+  setScrollY: (y: number) => void;
 }) => {
   const calcMarginLeft = (start: Date) => {
     const date = new Date(start);
@@ -33,7 +38,8 @@ export const TasksInTimeline = ({
     if (!propVl.starts) return "00";
     if (!propVl.ends) return "00";
     const index = propVl.starts.indexOf(start);
-    const dateEnd = new Date(propVl.ends[index]);
+    let dateEnd = new Date(propVl.ends[index]);
+    if(!dateEnd) dateEnd = new Date();
     const hoursEnd = dateEnd.getHours();
     const minutesEnd = dateEnd.getMinutes();
     const secondsEnd = dateEnd.getSeconds();
@@ -42,15 +48,25 @@ export const TasksInTimeline = ({
       ((totalSecondsEnd - totalSeconds) / interval) * widthOfInterval
     }px`;
   };
+
+  useEffect(() => {
+    if(ref.current)
+    ref.current.scrollTop = scrollY;
+  }, [scrollY]);
+
+  const handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
+    setScrollY(scrollY + e.deltaY);
+  }
+
+  const ref = useRef<HTMLDivElement>(null);
   return (
-    // <div className="w-full h-full overflow-y-scroll">
-      <div className=" overflow-y-auto  w-full h-full pt-9 ">
+      <div className="h-min w-min flex flex-col" ref={ref}>
         {tasks.map((task, index) => {
           const propVl = task.properties.find(
             (prop) => prop.property.id === propOrdering.id
           )?.value as TimeValued;
           return (
-            <div key={index} className="h-8 w-min flex justify-start my-1 relative">
+            <div key={index} className="h-8 my-[2px] relative flex bg-green-300" style={{width:24*60*60/interval*widthOfInterval}} >
               {propVl?.starts?.map((start, index) => {
                 return (
                   <div
@@ -59,7 +75,7 @@ export const TasksInTimeline = ({
                     style={{
                       backgroundColor: propVl.color,
                       marginLeft: calcMarginLeft(start),
-                      width: calcWidth(start, task),
+                      minWidth: calcWidth(start, task),
                     }}
                   />
                 );
@@ -68,6 +84,6 @@ export const TasksInTimeline = ({
           );
         })}
       </div>
-    // </div>
+
   );
 };

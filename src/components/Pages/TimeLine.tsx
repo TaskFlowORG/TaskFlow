@@ -1,8 +1,14 @@
 "use client";
 
 import { Page, Property, Task, TypeOfProperty } from "@/models";
-import { useEffect, useState } from "react";
-import { BackSquare, TaskLegend, TasksInTimeline, TimeLineHeader } from "./components";
+import { useEffect, useRef, useState } from "react";
+import {
+  BackSquare,
+  TaskLegend,
+  TasksInTimeline,
+  TimeLineHeader,
+} from "./components";
+import { set } from "zod";
 
 export const TimeLine = ({ page }: { page: Page }) => {
   //in seconds
@@ -412,6 +418,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
       ],
     },
   ];
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     setIntervals();
@@ -426,12 +433,10 @@ export const TimeLine = ({ page }: { page: Page }) => {
     setListOfIntervals(intervals);
   };
 
-
-
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     if (e.altKey) {
-      e.stopPropagation();
       e.preventDefault();
+      e.stopPropagation();
       if (e.deltaY > 0) {
         let intervalTemp;
         if (interval > 60) intervalTemp = interval + 60;
@@ -448,10 +453,16 @@ export const TimeLine = ({ page }: { page: Page }) => {
     }
     setIntervals();
   };
+  const ref = useRef<HTMLDivElement>(null);
+  const [scrolling, setScrolling] = useState(false);
+
+  useEffect(() => {
+    if (ref.current && !scrolling) ref.current.scrollTop = scrollY;
+  }, [scrollY]);
 
   return (
     <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
-      <div className="h-full flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-14">
+      <div className="h-full relative flex flex-col w-full px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-14">
         <div className="h-min w-full flex items-center justify-between">
           <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
             {page.name ?? "Sem Nome"}
@@ -461,18 +472,48 @@ export const TimeLine = ({ page }: { page: Page }) => {
             <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
           </div>
         </div>
-        <div className="relative w-full flex h-full">
-          <div className="w-full h-4/5 p-2 flex">
-            <div className="flex w-full h-full gap-2" onWheelCapture={handleWheel}>
-              <TaskLegend tasks={tasks as Task[]} propOrdering={propertyOrdering as Property}/>
-              <div className="w-full p-4  flex flex-col col-span-4 relative overflow-x-auto ">
-                <TimeLineHeader interval={interval} listOfIntervals={listOfIntervals} widthOfInterval={widthOfInterval} />
-                <TasksInTimeline interval={interval} propOrdering={propertyOrdering as Property} tasks={tasks as Task[]} widthOfInterval={widthOfInterval} />
+        <div className=" w-full h-[58%] flex p-2 gap-2 relative z-10 ">
+          <div className="w-full h-full flex gap-2">
+            <div className="w-56 h-full flex flex-col">
+              <h5 className="h4 h-10 flex items-center justify-center  text-primary w-full ">
+                Tarefas
+              </h5>
+              <TaskLegend
+                tasks={tasks as Task[]}
+                propOrdering={propertyOrdering as Property}
+                scrollY={scrollY}
+                setScrollY={setScrollY}
+              />
+            </div>
+            <div className="h-full flex pl-4 w-full">
+              <div className="w-full h-full flex overflow-x-auto">
+                <div className="flex w-min h-full relative">
+                  <TimeLineHeader
+                    interval={interval}
+                    listOfIntervals={listOfIntervals}
+                    widthOfInterval={widthOfInterval}
+                  />
+                  <div
+                    className="flex h-full w-min pt-12 overflow-y-auto none-scrollbar"
+                    ref={ref}
+                    onScrollCapture={e => {setScrollY(scrollY + e.currentTarget.scrollTop);setScrolling(true);}}
+                    onWheelCapture={handleWheel}
+                  >
+                    <TasksInTimeline
+                      interval={interval}
+                      propOrdering={propertyOrdering as Property}
+                      tasks={tasks as Task[]}
+                      widthOfInterval={widthOfInterval}
+                      scrollY={scrollY}
+                      setScrollY={setScrollY}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <BackSquare />
         </div>
+        <BackSquare />
       </div>
     </div>
   );

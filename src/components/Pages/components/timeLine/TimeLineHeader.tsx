@@ -39,7 +39,7 @@ export const TimeLineHeader = ({
   };
 
   return (
-    <div className="w-min h-full min-w-full overflow-y-auto flex absolute top-0 left-0 p-4">
+    <div className="w-min h-full min-w-full flex absolute">
       {listOfIntervals.map((interval, index) => {
         return (
           <div
@@ -49,7 +49,8 @@ export const TimeLineHeader = ({
           >
             <div
               style={{ width: widthOfInterval }}
-              className=" flex whitespace-nowrap justify-center border-b-2 h-9 border-primary"
+              className=" flex whitespace-nowrap justify-center py-2
+               bg-white absolute z-20 border-b-2 h-12 border-primary"
             >
               {formatInterval(interval)}
             </div>
