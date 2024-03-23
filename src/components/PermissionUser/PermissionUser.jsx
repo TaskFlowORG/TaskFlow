@@ -49,8 +49,6 @@ export const PermissionUser = ({ group, userId, project }) => {
     }
   }
 
-
-
   const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
   const ownerIcon = theme === "dark" ? <img src="/img/darkOwner.svg" alt="Owner" /> : <img src="/img/whiteOwner.svg" alt="Owner" />
   const options = theme === "dark" ? <img src="/img/optionsGroupD.svg" /> : <img src="/img/optionsGroupL.svg" />

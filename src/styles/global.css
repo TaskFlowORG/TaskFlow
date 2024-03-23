@@ -143,6 +143,10 @@
   --contrast-color: #fcfcfc;
 }
 
+.m14 {
+  @apply text-sm font-montserrat;
+}
+
 .mn {
   @apply font-montserrat text-[12px];
 }
