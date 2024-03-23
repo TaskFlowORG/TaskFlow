@@ -31,7 +31,6 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
     }, [project.id]);
 
 
-
     return (
         <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-16">
             <Navigate modalPages setCondition={setModalGroups} />
@@ -48,7 +47,6 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                                     </button>
                                 </div>
                             ))}
-
                     </div>
                 </div>
             </div>
