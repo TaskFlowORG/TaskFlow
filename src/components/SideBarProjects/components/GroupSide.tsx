@@ -41,9 +41,9 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                     
                             {Array.isArray(groups) && groups.map((group, index) => (
                                 <div className="">
-                                    <button className="flex flex-col justify-between" onClick={() => router.push("/1/"+group.id +"/group")}>
+                                    <button className="w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
+       dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110" onClick={() => router.push("/1/"+group.id +"/group")}>
                                     <GroupUnique group={group} />
-                                    <div className="flex"><img src="/img/themeLight/line.svg" /> </div>
                                     </button>
                                 </div>
                             ))}
