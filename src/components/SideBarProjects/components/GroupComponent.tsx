@@ -3,7 +3,7 @@ import { Group } from "@/models"
 interface Props {
     group: Group
 }
-export const GroupUnique = ({ group }: Props) => {
+export const GroupComponent = ({ group }: Props) => {
 
     const description = group.description;
 

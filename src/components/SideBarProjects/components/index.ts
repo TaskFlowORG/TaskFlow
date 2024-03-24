@@ -1,2 +1,2 @@
 
-export{ SideMain } from "./SideMain";
+export { SideMain } from "./SideMain";

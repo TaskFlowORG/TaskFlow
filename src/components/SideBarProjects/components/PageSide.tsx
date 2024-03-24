@@ -16,7 +16,7 @@ interface Props {
   setModalPages: (value: boolean) => void;
 }
 
-export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:any={}) => {
+export const PageSide = ({ project, user, setModalPages }: Props, { typeOfModal }: any = {}) => {
   const [pageMerging, setPageMerging] = useState<Page>();
   const [listMerge, setListMerge] = useState<Page[]>([]);
   const [modal, setModal] = useState(false);
@@ -36,7 +36,7 @@ export const PageSide = ({ project, user, setModalPages }: Props, {typeOfModal}:
   };
   return (
     <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey  w-96 px-16">
-        <Navigate modalPages setCondition={setModalPages} />
+      <Navigate modalPages setCondition={setModalPages} />
       <ProjectInformations project={project} />
       <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8     ">
         <div className=" flex items-start  h-[95%] w-full overflow-y-auto none-scrollbar">

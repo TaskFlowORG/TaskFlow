@@ -3,7 +3,7 @@ import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
 import { useState, useEffect } from "react";
 import { getData, getListData } from "@/services/http/api";
-import { GroupUnique } from "./GroupUnique";
+import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -38,15 +38,15 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
             <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8">
                 <div className="flex items-start h-[95%] w-full overflow-y-auto">
                     <div className="flex flex-col gap-3 items-start max-w-full h-min w-full">
-                    
-                            {Array.isArray(groups) && groups.map((group, index) => (
-                                <div className="">
-                                    <button className="w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
-       dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110" onClick={() => router.push("/1/"+group.id +"/group")}>
-                                    <GroupUnique group={group} />
-                                    </button>
-                                </div>
-                            ))}
+
+                        {Array.isArray(groups) && groups.map((group, index) => (
+                            <div className="">
+                                <button className="w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
+       dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110" onClick={() => router.push("/1/" + group.id + "/group")}>
+                                    <GroupComponent group={group} />
+                                </button>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
