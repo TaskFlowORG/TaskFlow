@@ -39,7 +39,7 @@ export const TimeLineHeader = ({
   };
 
   return (
-    <div className="w-min h-full min-w-full flex absolute">
+    <div className="w-min h-full min-w-full flex absolute pl-[0.4rem]">
       {listOfIntervals.map((interval, index) => {
         return (
           <div

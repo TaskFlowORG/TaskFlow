@@ -26,7 +26,7 @@ export const CenterModal = ({ children, condition, setCondition }: Props) => {
 
                     >
                         <motion.div
-                            className="bg-white dark:bg-modal-grey shadow-blur-10 flex-col gap-16 z-50 
+                            className="bg-white dark:bg-modal-grey shadow-blur-10 flex-col gap-16 z-[90] 
                             rounded-md w-[35rem] h-min flex justify-center items-center"
                             initial={{ transform: "scale(0)" }}
                             animate={{ transform: "scale(1)" }}

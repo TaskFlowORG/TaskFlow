@@ -22,7 +22,7 @@ export const LocalModal = ({ children, condition, setCondition, right, y, x, bot
             {condition &&
                 <>
                     <motion.div
-                        className={"bg-inherit shadow-blur-10 flex z-40 rounded-md w-min " + 
+                        className={"bg-inherit shadow-blur-10 flex z-[80] rounded-md w-min " + 
                         (!x && right ? 
                             "right-[105%] " + (bottom? "origin-bottom-right" : "origin-top-right") 
                             : 

@@ -35,10 +35,10 @@ export const TasksInTimeline = ({
     const propVl = task.properties.find(
       (prop) => prop.property.id === propOrdering.id
     )?.value as TimeValued;
-    if (!propVl.starts) return "00";
-    if (!propVl.ends) return "00";
-    const index = propVl.starts.indexOf(start);
-    let dateEnd = new Date(propVl.ends[index]);
+    if (!propVl.value.starts) return "00";
+    if (!propVl.value.ends) return "00";
+    const index = propVl.value.starts.indexOf(start);
+    let dateEnd = new Date(propVl.value.ends[index]);
     if(!dateEnd) dateEnd = new Date();
     const hoursEnd = dateEnd.getHours();
     const minutesEnd = dateEnd.getMinutes();
@@ -52,7 +52,7 @@ export const TasksInTimeline = ({
   const {theme} = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   return (
-      <div className="h-min w-min flex flex-col box-border pl-px" ref={ref} >
+      <div className="h-min w-min flex flex-col box-border " ref={ref} >
         {tasks.map((task, index) => {
           const propVl = task.properties.find(
             (prop) => prop.property.id === propOrdering.id
@@ -60,8 +60,8 @@ export const TasksInTimeline = ({
           return (
             <div key={index} className="h-8 my-[2px] relative flex " style={{width:24*60*60/interval*widthOfInterval}} >
               
-              { propVl.starts &&
-              propVl?.starts.filter(start => compareDates(new Date(start), new Date(date))).map((start, index) => {
+              { propVl.value.starts &&
+              propVl?.value.starts.filter(start => compareDates(new Date(start), new Date(date))).map((start, index) => {
                 return (
                   <div
                     key={index}

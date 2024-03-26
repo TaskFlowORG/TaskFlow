@@ -92,7 +92,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
               />
             </div>
             <div className="h-full flex w-3/5 sm:w-4/5 p-2">
-              <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content ">
+              <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content z-50 ">
                 <div className="flex w-min h-full relative">
                   <TimeLineHeader
                     interval={interval}
