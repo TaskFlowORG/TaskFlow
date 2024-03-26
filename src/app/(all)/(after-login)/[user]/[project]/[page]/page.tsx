@@ -10,7 +10,7 @@ export default async function Pages({params}:{params:{user:string, project:numbe
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />
         case TypeOfPage.KANBAN:
-            return <Kanban />
+            return <Kanban user={user} />
         case TypeOfPage.LIST:
             return <List page={page} />
         case TypeOfPage.TABLE:
