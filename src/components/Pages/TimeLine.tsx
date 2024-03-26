@@ -9,6 +9,8 @@ import {
   TimeLineHeader,
 } from "./components";
 import { set } from "zod";
+import { InputCalendar } from "../InputCalendar";
+import { IconCalendar } from "../icons";
 
 export const TimeLine = ({ page }: { page: Page }) => {
   //in seconds
@@ -68,7 +70,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
           <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
             {page.name ?? "Sem Nome"}
           </div>
-          <div className="w-min flex">
+          <div className="w-min flex ">
             <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
             <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
           </div>
@@ -76,7 +78,9 @@ export const TimeLine = ({ page }: { page: Page }) => {
         <div className=" w-full h-[65%] flex flex-col">
           <div className="w-full h-min flex justify-end">
             {/* Não consigo mudar o icone do input de data */}
-            <input className=" bg-primary text-contrast dark:bg-secondary h-8 z-10 text-montserrat p-2 rounded-t-md" onChange={e =>setDate(e.target.value)} type="date" value={date} />
+            <div className=" bg-primary text-contrast dark:bg-secondary h-8 z-10 text-montserrat p-2 relative rounded-t-md">
+              <InputCalendar value={date} setValue={setDate} icon={<IconCalendar contrast />} />
+            </div>
           </div>
           <div className="w-full h-full flex relative">
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">

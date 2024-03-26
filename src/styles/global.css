@@ -196,6 +196,7 @@ input[type="range"]::-ms-fill-upper {
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -215,16 +216,8 @@ input[type="range"]::-ms-fill-upper {
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
-  right: 0;
-}
-
-/* Adiciona um ícone personalizado */
-input[type="date"] {
-  background-image: url("/cardContentIcons/date.svg");
-  background-size: 20px 20px;
-  background-position: calc(100% - 5px) center;
-  background-repeat: no-repeat;
-  padding-right: 25px; /* Ajuste conforme necessário */
+  z-index:15;
+  right: 0.5rem;
 }
 
 .timeline__purpleTosecondary {
