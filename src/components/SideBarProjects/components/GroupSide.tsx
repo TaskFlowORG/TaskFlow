@@ -37,12 +37,12 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
             <ProjectInformations project={project} />
             <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8">
                 <div className="flex items-start h-[95%] w-full overflow-y-auto">
-                    <div className="flex flex-col gap-3 items-start max-w-full h-min w-full">
+                    <div className="flex flex-col items-start max-w-full h-min w-full">
 
                         {Array.isArray(groups) && groups.map((group, index) => (
                             <div className="">
-                                <button className="w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
-       dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110" onClick={() => router.push("/1/" + group.id + "/group")}>
+                                <button className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
+                                 dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110" onClick={() => router.push("/1/" + group.id + "/group")}>
                                     <GroupComponent group={group} />
                                 </button>
                             </div>

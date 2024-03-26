@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getListData, putData } from '@/services/http/api';
+import { getData, getListData, putData } from '@/services/http/api';
 import { Project } from '@/models';
+import { boolean, set } from 'zod';
 
 interface Permission {
     id: string;
@@ -23,6 +24,8 @@ interface Props {
 export const GroupAccess: React.FC<Props> = ({ name, description, project, group }) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const [selectedPermission, setSelectedPermission] = useState<string>("");
+    const [isEnable, setIsEnable] = useState(false); // Estado para controlar se o input está habilitado
+    const [newName, setNewName] = useState('');
 
     useEffect(() => {
         const getLists = async () => {
@@ -64,13 +67,38 @@ export const GroupAccess: React.FC<Props> = ({ name, description, project, group
         }
     }
 
+     const handleButton = () =>{
+         if(isEnable){
+            setIsEnable(false);
+         } else{
+            setIsEnable(true);
+         }
+     }
+
+    const updateTheNameOfAGroup = (name: any) => {
+        group.name = newName;
+    }
+
     return (
         <div className="flex pl-8 gap-4 items-start">
-            <img className="py-4" src="/img/EllipseTest.svg" />
+            <img className="rounded-full w-24 h-24" src='/img/EllipseTest.svg' />
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
-                    <h3 className="pAlata text-[#333] dark:text-[#FCFCFC]">{name}</h3>
-                    <p className="mn whitespace-pre-wrap w-72 lg:w-[403px] md:w-[403px] text-[#333] dark:invert">{description}</p>
+                    <input
+                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC]"
+                        type="text"
+                        value={isEnable ? newName : name}
+                        onChange={(e) => updateTheNameOfAGroup(setNewName(e.target.value))}
+                        disabled={!isEnable}
+                    />
+
+                    <input
+                        className="mn whitespace-pre-wrap w-72 lg:w-[403px] md:w-[403px] text-[#333] dark:text-[#FCFCFC]"
+                        type="text"
+                        value={description}
+                        defaultValue={description + "..."}
+                        disabled={!isEnable}
+                    />
                 </div>
                 <div className="flex justify-end">
                     <select
@@ -100,7 +128,10 @@ export const GroupAccess: React.FC<Props> = ({ name, description, project, group
                             }
                         })}
                     </select>
+
                 </div>
+                <button className="flex self-end w-5 h-5"> <img src='/img/editar.svg' onClick={() => setIsEnable(true)} /> </button>
+
             </div>
         </div >
     )
