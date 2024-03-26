@@ -5,16 +5,12 @@ export const TasksInTimeline = ({
   tasks,
   propOrdering,
   interval,
-  widthOfInterval,
-  scrollY,
-  setScrollY,
+  widthOfInterval
 }: {
   tasks: Task[];
   propOrdering: Property;
   interval: number;
   widthOfInterval: number;
-  scrollY: number;
-  setScrollY: (y: number) => void;
 }) => {
   const calcMarginLeft = (start: Date) => {
     const date = new Date(start);
@@ -49,24 +45,16 @@ export const TasksInTimeline = ({
     }px`;
   };
 
-  useEffect(() => {
-    if(ref.current)
-    ref.current.scrollTop = scrollY;
-  }, [scrollY]);
-
-  const handleScroll = (e: React.WheelEvent<HTMLDivElement>) => {
-    setScrollY(scrollY + e.deltaY);
-  }
 
   const ref = useRef<HTMLDivElement>(null);
   return (
-      <div className="h-min w-min flex flex-col" ref={ref}>
+      <div className="h-min w-min flex flex-col" ref={ref} >
         {tasks.map((task, index) => {
           const propVl = task.properties.find(
             (prop) => prop.property.id === propOrdering.id
           )?.value as TimeValued;
           return (
-            <div key={index} className="h-8 my-[2px] relative flex bg-green-300" style={{width:24*60*60/interval*widthOfInterval}} >
+            <div key={index} className="h-8 my-[2px] relative flex " style={{width:24*60*60/interval*widthOfInterval}} >
               {propVl?.starts?.map((start, index) => {
                 return (
                   <div

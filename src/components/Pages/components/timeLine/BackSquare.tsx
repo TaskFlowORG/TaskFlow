@@ -1,12 +1,8 @@
 export const BackSquare = () => {
     return (
-      <div className="w-full h-4/5 flex p-2 absolute  top-28 left-0  px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 ">
-        <div className="w-full h-4/5 p-2 flex ">
-            <div className="flex w-full h-full  gap-2">
-              <div className="bg-white min-w-[14rem] h-full shadow-blur-10 -z-10"></div>
-              <div className=" bg-white w-full col-span-4 shadow-blur-10 -z-30"></div>
+            <div className="flex w-full h-full absolute top-0 left-0 -z-10 gap-2">
+              <div className="bg-white w-2/5 sm:w-1/5 h-full shadow-blur-10"></div>
+              <div className=" bg-white w-3/5 sm:w-4/5 col-span-4 shadow-blur-10 "></div>
             </div>
-          </div>
-      </div>
     );
 }

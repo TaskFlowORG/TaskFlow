@@ -54,7 +54,7 @@ export const TimeLineHeader = ({
             >
               {formatInterval(interval)}
             </div>
-            <div className="absolute h-full border-r-2 w-0 border-dashed border-zinc-00 " />
+            <div className="absolute h-full border-r-2 w-0 border-dashed border-zinc-00 z-30" />
           </div>
         );
       })}

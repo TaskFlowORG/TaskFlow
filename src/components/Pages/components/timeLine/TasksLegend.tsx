@@ -13,11 +13,9 @@ export const TaskLegend = ({
   setScrollY: (y: number) => void;
 }) => {
 
-  const [scrolling, setScrolling] = useState(false);
-
 
   useEffect(() => {
-    if (ref.current && !scrolling) ref.current.scrollTop = scrollY;
+    if (ref.current) ref.current.scrollTop = scrollY;
   }, [scrollY]);
 
 
@@ -25,10 +23,12 @@ export const TaskLegend = ({
 
   return (
     <div
-      className=" h-full w-full pt-[0.65rem] overflow-y-auto none-scrollbar "
+      className=" h-full w-full overflow-y-auto none-scrollbar pb-2"
       ref={ref}
-      onScrollCapture={e => {setScrollY(scrollY + e.currentTarget.scrollTop); setScrolling(true)}}
+      onScrollCapture={e => {setScrollY(e.currentTarget.scrollTop)}}
     >
+      <div className="w-full h-min">
+
       {tasks.map((task, index) => {
         const propVl = task.properties.find(
           (prop) => prop.property.id === propOrdering.id
@@ -36,10 +36,10 @@ export const TaskLegend = ({
         return (
           <div
             key={index}
-            className="h-8 w-full px-6 gap-2 bg-green-200 flex justify-start my-1 items-center"
+            className="h-8 w-full md:px-6 gap-2 flex justify-start my-1 items-center"
           >
             <div
-              className="h-full aspect-square rounded-md w-min"
+              className="md:h-full aspect-square rounded-md w-min"
               style={{
                 backgroundColor: propVl?.color ?? "#f04a94",
               }}
@@ -50,6 +50,7 @@ export const TaskLegend = ({
           </div>
         );
       })}
+      </div>
     </div>
   );
 };
