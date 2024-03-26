@@ -1,17 +1,20 @@
 import { Property, Task, TimeValued } from "@/models";
 import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
+import { compareDates } from "../../functions";
 
 export const TasksInTimeline = ({
   tasks,
   propOrdering,
   interval,
-  widthOfInterval
+  widthOfInterval,
+  date
 }: {
   tasks: Task[];
   propOrdering: Property;
   interval: number;
   widthOfInterval: number;
+  date: string;
 }) => {
   const calcMarginLeft = (start: Date) => {
     const date = new Date(start);
@@ -56,7 +59,9 @@ export const TasksInTimeline = ({
           )?.value as TimeValued;
           return (
             <div key={index} className="h-8 my-[2px] relative flex " style={{width:24*60*60/interval*widthOfInterval}} >
-              {propVl?.starts?.map((start, index) => {
+              
+              { propVl.starts &&
+              propVl?.starts.filter(start => compareDates(new Date(start), new Date(date))).map((start, index) => {
                 return (
                   <div
                     key={index}

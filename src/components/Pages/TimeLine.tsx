@@ -55,6 +55,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
     setIntervals();
   };
   const ref = useRef<HTMLDivElement>(null);
+  const[date, setDate] = useState<string>(new Date().toISOString().split("T")[0]);
 
   useEffect(() => {
     if (ref.current) ref.current.scrollTop = scrollY;
@@ -72,9 +73,13 @@ export const TimeLine = ({ page }: { page: Page }) => {
             <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
           </div>
         </div>
-        <div className=" w-full h-[75%] flex">
+        <div className=" w-full h-[65%] flex flex-col">
+          <div className="w-full h-min flex justify-end">
+            {/* Não consigo mudar o icone do input de data */}
+            <input className=" bg-primary text-contrast dark:bg-secondary h-8 z-10 text-montserrat p-2 rounded-t-md" onChange={e =>setDate(e.target.value)} type="date" value={date} />
+          </div>
           <div className="w-full h-full flex relative">
-            <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2">
+            <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">
               <h5 className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
               flex items-center justify-center  text-primary w-full dark:text-secondary">
                 Tarefas
@@ -104,6 +109,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
                       interval={interval}
                       propOrdering={(page as OrderedPage).propertyOrdering}
                       tasks={page.tasks.map((t) => t.task)}
+                      date={date}
                       widthOfInterval={widthOfInterval}
                     />
                   </div>

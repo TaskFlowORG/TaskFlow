@@ -25,7 +25,7 @@ export const TaskLegend = ({
 
   return (
     <div
-      className=" h-full w-full overflow-y-hidden none-scrollbar pb-2"
+      className=" h-full w-full overflow-y-hidden none-scrollbar pb-2 z-10"
       ref={ref}
       onWheel={e => {setScrollY(e.currentTarget.scrollTop + e.deltaY )}}
     >
