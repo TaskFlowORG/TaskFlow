@@ -4,7 +4,6 @@ import { Group, Project } from '@/models';
 import { boolean, set } from 'zod';
 import { PermissionGet } from '@/models/project/permission/PermissionGetDTO';
 import { groupService, permissionService } from '@/services';
-import { ButtonGroup } from '../ButtonGroup';
 import { useTheme } from 'next-themes';
 
 interface Permission {
