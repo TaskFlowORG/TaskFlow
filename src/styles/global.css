@@ -441,10 +441,9 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
- .none-scrollbar::-webkit-scrollbar {
+.none-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
-
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -620,4 +619,10 @@ select::-ms-expand {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-comment {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }
