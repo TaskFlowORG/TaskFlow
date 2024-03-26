@@ -24,13 +24,16 @@ export const GroupOptions = ({ isOpen, group, user }) => {
                         {profile}
                     </button>
                     Perfil
+                    
                 </div>
                 <div className="flex justify-start gap-3 mn">
                     {chat}
                     Iniciar chat
                 </div>
                 <div className="flex justify-start gap-3 mn">
+                    <button onClick={deleteUser}>
                     {deleteIcon}
+                    </button>
                     Remover
                 </div>
             </div>

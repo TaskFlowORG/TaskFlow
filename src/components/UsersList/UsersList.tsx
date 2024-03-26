@@ -1,24 +1,53 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { PermissionUser } from "../PermissionUser/PermissionUser";
 import { getData, getListData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 
-export const UsersList = ({ project, groupId = 1 }) => {
-  const [text, setText] = useState("");
-  const [users, setUsers] = useState([]);
-  const [group, setGroup] = useState({});
-  const [newUser, setNewUser] = useState({});
-  const [suggestedUsers, setSuggestedUsers] = useState([]);
-  const {theme, setTheme } = useTheme();
+interface User {
+  username: string;
+}
+
+interface Group {
+  users: User[];
+  owner: User;
+}
+
+interface Project {
+}
+
+interface Props {
+  project: Project;
+  groupId?: number;
+}
+
+export const UsersList: React.FC<Props> = ({ project, groupId = 1 }) => {
+  const [text, setText] = useState<string>("");
+  const [users, setUsers] = useState<User[]>([]);
+  const [usersGroup, setUsersGroup] = useState<User[]>([]);
+  const [group, setGroup] = useState<Group>({ users: [], owner: { username: "" } });
+  const [newUser, setNewUser] = useState<User>({ username: "" });
+  const [suggestedUsers, setSuggestedUsers] = useState<User[]>([]);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
-      const fetchedUsers = await getListData("user");
-      setUsers(fetchedUsers);
-      const fetchedGroup = await getData("group", groupId);
-      setGroup(fetchedGroup);
+      try {
+        const fetchedUsers = await getListData("user");
+        setUsers(fetchedUsers);
+        const fetchedGroup = await getData("group", groupId);
+        setGroup(fetchedGroup);
+        const groupUsers = fetchedGroup.users;
+        const ownerIndex = groupUsers.findIndex((user: User) => user.username === fetchedGroup.owner.username);
+
+        if (ownerIndex !== -1) {
+          groupUsers.splice(ownerIndex, 1);
+          setUsersGroup([fetchedGroup.owner, ...groupUsers]);
+        } else {
+          setUsersGroup(groupUsers);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
 
     const intervalId = setInterval(fetchData, 7000);
@@ -37,7 +66,8 @@ export const UsersList = ({ project, groupId = 1 }) => {
       alert("Usuário não encontrado");
     }
   };
-  const handleSearchChange = (event) => {
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setText(query);
     const filteredUsers = users.filter((user) =>
@@ -46,12 +76,10 @@ export const UsersList = ({ project, groupId = 1 }) => {
     setSuggestedUsers(filteredUsers);
   };
 
-  const handleUserSelect = (user) => {
+  const handleUserSelect = (user: User) => {
     setText(user.username);
     setSuggestedUsers([]);
   };
-
-
 
   const addUser = async () => {
     if (Object.keys(newUser).length === 0) {
@@ -66,17 +94,17 @@ export const UsersList = ({ project, groupId = 1 }) => {
     }
 
     try {
-      const updatedUsersGroup = [newUser, ...group.users];
-      group.users = updatedUsersGroup
-      await putData("group", group);
+      const updatedUsersGroup = [newUser, ...usersGroup];
+      setUsersGroup(updatedUsersGroup);
+      await putData("group", { ...group, users: updatedUsersGroup });
     } catch (error) {
       console.error("Error adding user to group:", error);
     }
 
-    setNewUser({});
+    setNewUser({ username: "" });
   };
 
-  const combinedOnChange = (e) => {
+  const combinedOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     handleSearchChange(e);
     setText(e.target.value);
   };
@@ -94,9 +122,9 @@ export const UsersList = ({ project, groupId = 1 }) => {
   );
 
   return (
-    <div className="flex w-full justify-center lg:justify-start dark:text-[#FCFCFFC]">
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 h-[109%] lg:w-[60%] lg:h-[75%] relative">
-        <div className="flex flex-col mt-12 gap-12 justify-between">
+    <div className="flex w-full justify-center h-full lg:justify-start dark:text-[#FCFCFFC]">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
+        <div className="flex flex-col gap-12 justify-between">
           <div>
             <input
               className="pAlata relative left-8 lg:left-12 h-10 w-[80%] rounded-xl px-5"
@@ -111,7 +139,7 @@ export const UsersList = ({ project, groupId = 1 }) => {
               type="button"
               onClick={findUser}
             >
-              <img className="" src="/img/search.svg" />
+              <img className="" src="/img/search.svg" alt="Search" />
             </button>
             {suggestedUsers.length > 0 && (
               <ul className="absolute z-10 bg-white dark:bg-[#333] border border-gray-300 dark:border-gray-700 w-full mt-2 rounded-md overflow-hidden shadow-md">
@@ -126,13 +154,12 @@ export const UsersList = ({ project, groupId = 1 }) => {
                 ))}
               </ul>
             )}
-
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
-            {group && group.users && group.users.map((u) => (
+            {usersGroup.map((u) => (
               <PermissionUser
                 group={group}
-                user={u}
+                userId={u.username}
                 project={project}
                 key={u.username}
               />

@@ -2,6 +2,8 @@ import { AllArgsConstructor } from "@/utils";
 import { LogGet } from "../log/LogGetDTO";
 import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
 import { MessageGet } from "@/models/chat/message/MessageGetDTO";
+import { Message } from "@/models";
+
 
 @AllArgsConstructor
 export class TaskGet {

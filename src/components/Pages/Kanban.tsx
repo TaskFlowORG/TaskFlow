@@ -26,9 +26,15 @@ import {
 } from "@/models";
 
 import { FilterContext } from "@/utils/FilterlistContext";
+import { TaskModal } from "../TaskModal";
+import { UserGet } from "@/models/user/user/UserGetDTO";
+type UserLogged = {
+  user:UserGet
+}
 
-export const Kanban = () => {
+export const Kanban = ({user}:UserLogged) => {
   const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
@@ -154,6 +160,7 @@ export const Kanban = () => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
+        <TaskModal task={tasks[0]} setIsOpen={setIsOpen} isOpen={isOpen} user={user} />
         <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
           <div className="flex gap-4 items-center">
             <h1
@@ -166,7 +173,12 @@ export const Kanban = () => {
               className=" flex items-center justify-center h-9 w-9 rounded-full shadowww  cursor-pointer "
               onClick={() => setModal(true)}
             >
-              <p className="p text-primary text-4xl h-min w-min">+</p>
+              <p
+                className="p text-primary text-4xl h-min w-min"
+                onClick={() => setIsOpen(true)}
+              >
+                +
+              </p>
             </div>
           </div>
 
