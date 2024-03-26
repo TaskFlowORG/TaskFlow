@@ -9,8 +9,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-br" className="w-screen h-screen overflow-auto ">
-      <body className="w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start">
+    <html lang="pt-br" className="w-screen h-screen overflow-auto " >
+      <body className="w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start" >
         <Providers>
           <ThemeSwitcher />
           {children}
