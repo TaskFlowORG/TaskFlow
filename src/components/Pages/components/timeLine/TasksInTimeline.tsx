@@ -1,4 +1,5 @@
 import { Property, Task, TimeValued } from "@/models";
+import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
 
 export const TasksInTimeline = ({
@@ -45,10 +46,10 @@ export const TasksInTimeline = ({
     }px`;
   };
 
-
+  const {theme} = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   return (
-      <div className="h-min w-min flex flex-col" ref={ref} >
+      <div className="h-min w-min flex flex-col box-border pl-px" ref={ref} >
         {tasks.map((task, index) => {
           const propVl = task.properties.find(
             (prop) => prop.property.id === propOrdering.id
@@ -61,7 +62,7 @@ export const TasksInTimeline = ({
                     key={index}
                     className="h-full rounded-md absolute top-0 left-0"
                     style={{
-                      backgroundColor: propVl.color,
+                      backgroundColor: propVl?.color ?? (theme == "dark" ? "var(--secondary-color)":"var(--primary-color)"),
                       marginLeft: calcMarginLeft(start),
                       minWidth: calcWidth(start, task),
                     }}

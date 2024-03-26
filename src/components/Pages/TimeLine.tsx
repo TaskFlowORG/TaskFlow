@@ -1,6 +1,6 @@
 "use client";
 
-import { Page, Property, Task, TypeOfProperty } from "@/models";
+import { OrderedPage, Page, Property, Task, TypeOfProperty } from "@/models";
 import { useEffect, useRef, useState } from "react";
 import {
   BackSquare,
@@ -15,409 +15,6 @@ export const TimeLine = ({ page }: { page: Page }) => {
   const [interval, setInterval] = useState<number>(60 * 60);
   const [widthOfInterval, setWidthOfInterval] = useState<number>(150);
   const [listOfIntervals, setListOfIntervals] = useState<number[]>([]);
-
-  const propertyOrdering = { id: 1 };
-  const tasks = [
-    {
-      name: "Tarefa 1",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#aa3322",
-            starts: ["2022-01-01T00:00:00", "2022-01-01T03:00:00"],
-            ends: ["2022-01-01T01:00:00", "2022-01-01T04:00:00"],
-            value: {
-              time: 12123,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-    {
-      name: "Tarefa 2ljjdklfjgklsklgjsdfklkdjgs",
-      properties: [
-        {
-          property: {
-            id: 1,
-            type: TypeOfProperty.TIME,
-          },
-          value: {
-            color: "#029334",
-            starts: ["2022-01-01T02:00:00", "2022-01-01T05:00:00"],
-            ends: ["2022-01-01T04:00:00", "2022-01-01T06:00:00"],
-            value: {
-              time: 131,
-            },
-          },
-        },
-      ],
-    },
-  ];
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -450,6 +47,10 @@ export const TimeLine = ({ page }: { page: Page }) => {
         setInterval(intervalTemp < 2 ? 2 : intervalTemp);
         // setWidthOfInterval((prev) => prev * 2);
       }
+    }else{
+      e.stopPropagation();
+      if(ref.current)
+      setScrollY(ref.current?.scrollTop + e.deltaY);
     }
     setIntervals();
   };
@@ -461,7 +62,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
 
   return (
     <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
-      <div className="h-full relative flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-14">
+      <div className="h-full relative flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-10">
         <div className="h-min w-full flex items-center justify-between">
           <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
             {page.name ?? "Sem Nome"}
@@ -474,34 +75,35 @@ export const TimeLine = ({ page }: { page: Page }) => {
         <div className=" w-full h-[75%] flex">
           <div className="w-full h-full flex relative">
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2">
-              <h5 className="text-[18px] h-[3.2rem] md:text-[24px] text-alata flex items-center justify-center  text-primary w-full ">
+              <h5 className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
+              flex items-center justify-center  text-primary w-full dark:text-secondary">
                 Tarefas
               </h5>
               <TaskLegend
-                tasks={tasks as Task[]}
-                propOrdering={propertyOrdering as Property}
+                tasks={page.tasks.map((t) => t.task)}
+                propOrdering={(page as OrderedPage).propertyOrdering}
                 scrollY={scrollY}
                 setScrollY={setScrollY}
               />
             </div>
             <div className="h-full flex w-3/5 sm:w-4/5 p-2">
-              <div className="w-full h-full flex overflow-x-auto pl-2">
+              <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content ">
                 <div className="flex w-min h-full relative">
                   <TimeLineHeader
                     interval={interval}
                     listOfIntervals={listOfIntervals}
                     widthOfInterval={widthOfInterval}
-                  />
+                    />
                   <div
-                    className="flex h-full w-min pt-12 overflow-y-auto none-scrollbar"
+                    className="flex h-full w-min pt-12 overflow-y-hidden  none-scrollbar"
+                      onWheelCapture={handleWheel}
+                      onScroll={(e) => {setScrollY(e.currentTarget.scrollTop)}}
                     ref={ref}
-                    onScrollCapture={e => {setScrollY(e.currentTarget.scrollTop)}}
-                    onWheelCapture={handleWheel}
                   >
                     <TasksInTimeline
                       interval={interval}
-                      propOrdering={propertyOrdering as Property}
-                      tasks={tasks as Task[]}
+                      propOrdering={(page as OrderedPage).propertyOrdering}
+                      tasks={page.tasks.map((t) => t.task)}
                       widthOfInterval={widthOfInterval}
                     />
                   </div>
