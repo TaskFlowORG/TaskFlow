@@ -55,7 +55,14 @@ export const Table = ({ page, updateIndex }: Props) => {
                 {...provided.droppableProps}
                   className="overflow-y-auto none-scrollbar h-[87%] relative w-full">
                   <div className="w-full h-min">
-                    {(page.tasks as TaskOrdered[])
+                    {page.tasks.length == 0 ?
+                    
+                     <div className="w-full h- flex justify-center items-center">
+                        Não Existem Tasks Nessa Página
+                     </div>
+                    :
+                    
+                    (page.tasks as TaskOrdered[])
                       .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
                       .map((l, index) => {
                         return (

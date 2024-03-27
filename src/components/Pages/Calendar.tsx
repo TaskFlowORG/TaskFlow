@@ -19,7 +19,7 @@ interface Props  {
 
 export const Calendar = ({page}:Props) => {
 
-    const [tasks, setTasks] = useState<TaskOrdered[]>([])
+    const [tasks, setTasks] = useState<TaskOrdered[]>(page.tasks as TaskOrdered[])
     const [month, setMonth] = useState<number>(0)
     const [year, setYear] = useState<number>(0)
     const [modal, setModal] = useState<boolean>(false)

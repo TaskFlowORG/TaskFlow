@@ -1,9 +1,10 @@
 "use client";
 
 import { List, TableOrList } from "./components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Page, TaskOrdered, TaskPage } from "@/models";
 import { pageService } from "@/services";
+import { ProjectContext } from "@/contexts";
 
 interface Props {
   page: Page;
@@ -11,10 +12,12 @@ interface Props {
 
 export const ListPage = ({ page }: Props) => {
   const [pages, setPages] = useState<Page[]>([]);
+  const {project} = useContext(ProjectContext)
 
   useEffect(() => {
     (async () => {
-      const pagesPromise: Page[] = await pageService.findAll();
+      const pagesPromise = project?.pages
+      if(!pagesPromise) return
       let tasksPromise = page.tasks;
       const list = [];
       for (let p of pagesPromise) {

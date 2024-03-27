@@ -44,6 +44,7 @@ export const PageComponent = ({
   const [y, setY] = useState<number>(0);
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     setTruncate(false);
   }, [merging]);
@@ -54,6 +55,7 @@ export const PageComponent = ({
 
   const excludePage = () => {
     pageService.delete(page.id);
+    project.pages.splice(project.pages.indexOf(page), 1);
     setModal(false);
     setTruncate(false);
   };
@@ -90,16 +92,8 @@ export const PageComponent = ({
 
 
   return (
-    <label
-      htmlFor={`${page.id}`}
-      className="w-full flex-1 text-modal-grey dark:text-white  "
-    >
-      <div
-        key={page.id}
-        className={"w-full flex gap-2 text-modal-grey "}
-        onMouseOver={() => setTruncate(true)}
-        onMouseLeave={() => setTruncate(modal)}
-      >
+    <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey h-min dark:text-white">
+      <div key={page.id} className={"w-full flex gap-2 text-modal-grey h-min "} onMouseOver={() => setTruncate(true)} onMouseLeave={() => setTruncate(modal)}>
         <SideBarButton
           icon={<PageTypeIcons type={page.type} />}
           text={page.name}
@@ -115,49 +109,16 @@ export const PageComponent = ({
             !renaiming && !merging
               ? "/" + username + "/" + project.id + "/" + page.id
               : undefined
-          }
-        >
+          }>
           <div className="flex flex-col w-full px-8 items-start  gap-2 text-modal-grey dark:text-white ">
-            <ButtonPageOption
-              fnButton={excludePage}
-              icon={<IconTrashBin />}
-              text="Excluir"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setRenaiming(true);
-                setModal(false);
-                setTruncate(false);
-              }}
-              icon={<EditIcon />}
-              text="Renomear"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setPageMerging(page);
-                setModal(false);
-                setMerging(true);
-              }}
-              icon={<ConectPage />}
-              text="Conectar"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setChangingType(true);
-                setModal(false);
-              }}
-              icon={<ChangeType />}
-              text="Mudar Tipo"
-            />
+            <ButtonPageOption fnButton={excludePage} icon={<IconTrashBin />} text="Excluir"/>
+            <ButtonPageOption fnButton={() => { setRenaiming(true); setModal(false); setTruncate(false);}} icon={<EditIcon />} text="Renomear"/>
+            <ButtonPageOption fnButton={() => { setPageMerging(page); setModal(false); setMerging(true); }} icon={<ConectPage />} text="Conectar"/>
+            <ButtonPageOption fnButton={() => { setChangingType(true); setModal(false); }} icon={<ChangeType />} text="Mudar Tipo" />
           </div>
         </SideBarButton>
         <span className="bg-white dark:bg-modal-grey">
-          <LocalModal
-            condition={changingType}
-            setCondition={setChangingType}
-            y={y}
-            x={x}
-          >
+          <LocalModal condition={changingType} setCondition={setChangingType} y={y} x={x} >
             <TypeOfPageComponent
               changingType={changingType}
               closeModals={() => {
