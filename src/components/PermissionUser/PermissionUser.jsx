@@ -110,6 +110,9 @@ export const PermissionUser = ({ group, userId, project }) => {
       </div>
       <div>
       </div>
+      {/* <LocalModal condition={openModal} setCondition={setOpenModal} bottom className="top-10">
+      <GroupOptions isOpen={openModal} group={group} user={user} />
+      </LocalModal> */}
       <GroupOptions isOpen={openModal} group={group} user={user} />
     </div>
   );

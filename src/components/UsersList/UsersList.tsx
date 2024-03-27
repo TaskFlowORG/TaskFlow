@@ -18,16 +18,17 @@ interface Project {
 interface Props {
   project: Project;
   groupId?: number;
+  userId?: number
 }
 
-export const UsersList: React.FC<Props> = ({ project, groupId = 1 }) => {
+export const UsersList: React.FC<Props> = ({ project, groupId = 1, userId = 1 }) => {
   const [text, setText] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [usersGroup, setUsersGroup] = useState<User[]>([]);
   const [group, setGroup] = useState<Group>({ users: [], owner: { username: "" } });
   const [newUser, setNewUser] = useState<User>({ username: "" });
   const [suggestedUsers, setSuggestedUsers] = useState<User[]>([]);
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme} = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {

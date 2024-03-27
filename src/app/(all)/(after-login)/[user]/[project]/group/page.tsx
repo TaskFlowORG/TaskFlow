@@ -7,19 +7,22 @@ import { UsersList} from "@/components/UsersList/UsersList";
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
 import { getData} from "@/services/http/api";
+import { ProjectContext } from "@/utils/ContextProject";
+import { Project } from "@/models";
 
 export default function Home({ params }:{params:{project:number}}) {
 
     const { theme, setTheme } = useTheme();
+    // const {project}: any = ProjectContext;
     const [project, setProject] = useState({})
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const fetchedProject = await getData("project", params.project)
-            setProject(fetchedProject)
-        }
-        fetchData();
-    }, [params.project]);
+     useEffect(() => {
+         const fetchData = async () => {
+             const fetchedProject = await getData("project", params.project)
+             setProject(fetchedProject)
+         }
+         fetchData();
+     }, [params.project]);
 
     const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL />;
 

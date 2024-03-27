@@ -136,7 +136,8 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                 <div className=''>
             {isEnable ? (
                     <div className='flex justify-between'>
-                        <button className="font-alata text-sm rounded z-50 w-20 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => setIsEnable(false)}>Cancelar</button>
+                        <button className="font-alata text-sm rounded z-50 w-20 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => {setIsEnable(false), setNewName(group.name,
+                            ), setNewDescription(group.description)}}>Cancelar</button>
                         <button className="font-alata text-sm rounded z-50 w-16 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                     </div>
                 ) : 
