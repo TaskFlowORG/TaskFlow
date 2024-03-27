@@ -12,7 +12,7 @@ import { Page, Property, TaskOrdered } from "@/models";
 import { ValueSelector } from "..";
 import { useRef, useContext, useState, useEffect, MouseEvent } from "react";
 import { HeaderList } from "./HeaderList";
-import { ProjectContext } from "@/utils/ContextProject";
+import { ProjectContext } from "@/contexts";
 interface Props {
   page: Page;
   updateIndex: (e: DropResult) => void;

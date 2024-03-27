@@ -4,8 +4,8 @@ import { Api } from "../axios";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 
 class ProjectService {
-    async insert(project: ProjectPost): Promise<void> {
-        await Api.post("project", project);
+    async insert(project: ProjectPost): Promise<Project> {
+        return (await Api.post<Project>("project", project)).data;
     }
 
     async updatePicture(picture: File, id: number): Promise<void> {

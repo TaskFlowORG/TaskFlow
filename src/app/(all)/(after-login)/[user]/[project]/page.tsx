@@ -1,5 +1,5 @@
 "use client"
-import { ProjectContext } from "@/utils/ContextProject"
+import { ProjectContext } from "@/contexts"
 import { useContext } from "react"
 
 export default function Dashboard({params}:{params:{project:number}})  {

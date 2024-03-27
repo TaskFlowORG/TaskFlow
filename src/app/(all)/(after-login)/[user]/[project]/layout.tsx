@@ -2,7 +2,7 @@
 'use client'
 
 import { useContext, useEffect, useState } from 'react';
-import { ProjectContext } from '@/utils/ContextProject';
+import { ProjectContext } from '@/contexts';
 import { projectService } from '@/services';
 import { SideModal } from '@/components/Modal/SideModal';
 import { RegisterProperty } from '@/components/RegisterProperty';
@@ -21,6 +21,7 @@ export default function Layout({ params, children } : Props ){
     (async () => {
       const projectPromise = await projectService.findOne(params.project)
       setProject!(projectPromise)
+      projectService.setVisualizedNow(projectPromise)
     })()
   }, [params.project])  
 

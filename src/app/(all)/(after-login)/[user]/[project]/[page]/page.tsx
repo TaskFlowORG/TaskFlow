@@ -1,11 +1,27 @@
+"use client"
+
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
-import { CanvasPage, OrderedPage,  TypeOfPage } from "@/models";
+import { ProjectContext } from "@/contexts";
+import { CanvasPage, OrderedPage,  Page,  TypeOfPage, User } from "@/models";
 import { pageService, projectService, userService } from "@/services";
+import { log } from "console";
+import { useContext, useEffect, useState } from "react";
    
-export default async function Pages({params}:{params:{user:string, project:number, page:number}}){
-    const page = await pageService.findOne(params.page)
-    const project = await projectService.findOne(params.project)
-    const user = await userService.findByUsername(params.user)
+export default function Pages({params}:{params:{user:string, project:number, page:number}}){
+    const {project} = useContext(ProjectContext)
+    const [page, setPage] = useState<Page | undefined>(project?.pages.find(p => p.id == params.page))
+    const [user, setUser] = useState<User>()
+    useEffect(() => {
+        (async () => {
+            setUser(await userService.findByUsername(params.user))
+        })()
+    }, [params.user])
+    
+    useEffect(() => {
+        setPage(project?.pages.find(p => p.id == params.page))
+    }, [params.page, project, project?.pages])
+    
+    if(!user) return <></>
     switch(page?.type){
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />

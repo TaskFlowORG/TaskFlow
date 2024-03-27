@@ -12,7 +12,7 @@ import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";
 
 interface Props{
-    user:User, 
+    user?:User, 
     page:CanvasPage
 } 
 
@@ -72,7 +72,8 @@ const updateDraw = () => {
   }, [page, canvasRef]);
 
   async function createTask() {
-    await taskService.insert(page.id,user.username);
+    if (!user) return;
+    await taskService.insert(page.id, user.username);
   }
 
   return (

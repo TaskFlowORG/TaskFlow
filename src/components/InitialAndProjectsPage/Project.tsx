@@ -40,7 +40,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
 
   return (
     
-    <Link href={`/${user}/${project.id}`} onClick={() => projectService.setVisualizedNow(project)} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+    <Link href={`/${user}/${project.id}`} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
     dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}>

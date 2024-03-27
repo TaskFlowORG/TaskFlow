@@ -1,37 +1,17 @@
 import { Page, PagePost, Project, TypeOfPage, TypeOfProperty } from "@/models";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { If } from "../../If";
 import { pageService } from "@/services";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  EffectCards,
-  EffectCoverflow,
-  Thumbs,
-  Controller,
-  HashNavigation,
-  Manipulation,
-  Parallax,
-  Virtual,
-} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-flip";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { useTheme } from "next-themes";
-import { Button } from "../../Button";
-import Link from "next/link";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
 import { LocalModal } from "../../Modal";
 import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
 import { SideBarButton } from "./SideBarButton";
-import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
 import { ButtonPageOption } from "./ButtonPageOption";
-import { IconTrash } from "@/components/icons/ModalPropertys/Trash";
 import { ChangeType, ConectPage, EditIcon, IconTrashBin } from "@/components/icons";
 
 interface Props {
@@ -107,6 +87,7 @@ export const PageComponent = ({
     setModal(false);
     setTruncate(false);
   });
+
 
   return (
     <label
