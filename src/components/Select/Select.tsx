@@ -7,15 +7,16 @@ interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
   name: string;
   ids: number;
+  value:string;
 }
 
-export const Select = ({ options, name, ids, ...props }: SelectProps) => {
+export const Select = ({ options, name, value, ids }: SelectProps) => {
   const [selectedOption, setSelectedOption] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
   useEffect(() => {
-    setSelectedOption(props.value?.toString() ?? "");
-  }, [props.value]);
+    setSelectedOption(value?.toString() ?? "");
+  }, [value]);
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
     const thisProperty = filterProp?.find((item) => item.id == ids);
@@ -45,7 +46,7 @@ export const Select = ({ options, name, ids, ...props }: SelectProps) => {
       <div className=" relative">
         <select
           className="appearance-none bg-transparent p-1 text-sm outline-none border-[2px] border-primary dark:border-secondary rounded-lg text-primary dark:text-secondary text-center w-full h-min pr-20"
-          {...props}
+          // {...props}
           value={selectedOption}
           onChange={handleOptionChange}
           // onChange={e => change(e.target.value)} defaultValue={defaultValue}

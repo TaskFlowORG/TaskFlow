@@ -4,10 +4,16 @@ import { useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
-import { Message, TaskOrdered } from "@/models";
+import { Message, Select, TaskOrdered, TypeOfProperty } from "@/models";
+import { Select as Selectt } from "@/components/Select";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 import { taskService } from "@/services";
 import { MessageGet } from "@/models/chat/message/MessageGetDTO";
+import { CheckboxProp, NumberProp, SelectProp, TagProp } from "./PropertyTask";
+import { DateProp } from "./PropertyTask/DateProp";
+import { RadioProp } from "./PropertyTask/RadioProp";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { FilteredProperty } from "@/types/FilteredProperty";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -17,12 +23,17 @@ type isOpenBro = {
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
+  const [filter, setFilter] = useState<FilteredProperty[]>([]);
+  const [list, setList] = useState<FilteredProperty>();
   const [input, setInput] = useState("");
   // const [url, setUrl] = useState("");
   // async function findImage() {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
   //   setUrl(bah);
   // }
+
+  console.log(filter);
+  console.log(list);
 
   async function sendComment() {
     let comment: MessageGet = {
@@ -93,20 +104,78 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             {task?.task.properties.map((prop) => {
               return (
                 <div key={prop.id} className="bg-white flex flex-col">
-                  {JSON.stringify(prop.property.name)}
                   <div className="flex gap-8 w-full">
                     <span>C</span>
-                    <div className="flex-1 flex justify-between bg-purple-400">
-                      <div className="flex gap-8">
-                        <span>I</span>
-                        <p className="font-montserrat text-[16px]">
-                          {prop.property.name}
-                        </p>
+                    <FilterContext.Provider
+                      value={{
+                        filterProp: filter,
+                        setFilterProp: setFilter,
+                        list,
+                        setList: setList,
+                      }}
+                    >
+                      <div className="flex flex-col gap-2 flex-1 bg-green-400">
+                        <div className="flex-1 flex justify-between bg-purple-400">
+                          <div className="flex gap-8">
+                            <span>I</span>
+                            <p className="font-montserrat text-[16px]">
+                              {prop.property.name}
+                            </p>
+                          </div>
+                          {([
+                            TypeOfProperty.SELECT,
+                            TypeOfProperty.ARCHIVE,
+                            TypeOfProperty.DATE,
+                            TypeOfProperty.NUMBER,
+                          ].includes(prop.property.type) &&
+                            TypeOfProperty.SELECT == prop.property.type && (
+                              <Selectt
+                                name={prop.property.name}
+                                ids={prop.property.id}
+                                options={(prop.property as Select).options.map(
+                                  (option) => option.name
+                                )}
+                                value={prop.value.value.name}
+                              />
+                            )) ||
+                            (TypeOfProperty.NUMBER == prop.property.type && (
+                              <NumberProp id={prop.property.id}></NumberProp>
+                            )) ||
+                            (TypeOfProperty.DATE == prop.property.type && (
+                              <DateProp id={prop.property.id}></DateProp>
+                            ))}
+                        </div>
+                        {([
+                          TypeOfProperty.CHECKBOX,
+                          TypeOfProperty.TAG,
+                          TypeOfProperty.RADIO,
+                        ].includes(prop.property.type) &&
+                          TypeOfProperty.RADIO == prop.property.type && (
+                            <RadioProp
+                              value={prop.value.value?.name}
+                              id={prop.property.id}
+                              options={(prop.property as Select).options}
+                            />
+                          )) ||
+                          (prop.property.type == TypeOfProperty.CHECKBOX && (
+                            <CheckboxProp
+                              options={(prop.property as Select).options}
+                              id={prop.property.id}
+                              value={prop?.value.value?.map(
+                                (value: any) => value.name
+                              )}
+                            ></CheckboxProp>
+                          )) ||
+                          (prop.property.type == TypeOfProperty.TAG && (
+                            <TagProp
+                              options={(prop.property as Select).options}
+                              value={prop?.value.value?.map(
+                                (value: any) => value.name
+                              )}
+                            ></TagProp>
+                          ))}
                       </div>
-                      <div className="bg-red-600 flex-1 flex justify-end">
-                        a
-                      </div>
-                    </div>
+                    </FilterContext.Provider>
                   </div>
                 </div>
               );
