@@ -1,4 +1,4 @@
-import { MouseEventHandler, SetStateAction, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import { useTheme } from "next-themes";
 import { Obj } from '../Obj';
 import { userService } from '@/services';
@@ -6,7 +6,7 @@ import { userService } from '@/services';
 export const GeneralConfig = () => {
 
     const [toggle, setToggle] = useState(true);
-    const[color, setColor] = useState<string>("#00ff00")
+    const [color, setColor] = useState<string>("#00ff00")
     const { theme, setTheme } = useTheme();
 
     const mudarTema = () => {
@@ -17,12 +17,12 @@ export const GeneralConfig = () => {
         }
     };
 
-    const functionBall =(value:Object) => {
-        if(value == "+"){
-            
+    const functionBall = (value: Object) => {
+        if (value == "+") {
+
         }
-        else{
-            setColor(value as string) 
+        else {
+            setColor(value as string)
         }
     }
 
@@ -38,10 +38,10 @@ export const GeneralConfig = () => {
                             <p className='h3 dark:text-white'>Configurações Gerais </p>
                         </div>
                         <div className='w-full'>
-                            <InputFieldConfig type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} onClickTema={() => mudarTema() }  onClickSet={() => setToggle(!toggle)}/>
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={null} onClickSet={null} />
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={null} onClickSet={null} />
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={null} onClickSet={null} />
+                            <InputFieldConfig type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} onClickTema={() => mudarTema()} onClickSet={() => setToggle(!toggle)} />
+                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
+                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
+                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
                         </div>
                     </div>
                     <div className='w-[95%]'>
@@ -87,10 +87,10 @@ export const GeneralConfig = () => {
                                     <p className="h4">Tipo de propriedade data</p>
                                     <div className="flex items-center font-bold">
                                         <div className="h-min w-fit relative">
-                                            <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary rounded-sm text-primary text-center w-full pr-[7vh]">
+                                            <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary dark:border-secondary rounded-sm text-primary dark:text-secondary text-center w-full pr-[7vh]">
                                                 <option value="Português (Brasil)" key="1" className="w-full ">Selected</option>
                                             </select>
-                                            <div className=" border-l-[2px] border-primary -z-[10] w-16 top-0 right-0 h-full absolute flex justify-center text-2xl items-center font-bold text-primary font-mono ">
+                                            <div className=" border-l-[2px] border-primary dark:border-secondary -z-[10] w-16 top-0 right-0 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
                                                 <span className=" rotate-90">{">"}</span>
                                             </div>
                                         </div>
@@ -107,9 +107,18 @@ export const GeneralConfig = () => {
                                         <Obj objs={["#ff0000", "#ff0000", "#ff0000", "#ff0000", "+"]} max={2} functionObj={functionBall} color />
                                     </div>
                                 </div>
-                                <div className=' '>
+                                <div className=''>
                                     <p className='p'>Escolha sua cor principal, nós geraremos uma cor secundária para você!</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div className='h-fit flex items-center justify-between'>
+                            <div className='w-[70%] flex flex-col'>
+                                <p className='h3 dark:text-white '>Refazer Tutorial </p>
+                                <p className='p'>Compreenda perfeitamente todas as funcionalidaades dentro de nosso aplicativo, aproveitando ao máximo seu uso!</p>
+                            </div>
+                            <div className='bg-primary dark:bg-secondary w-48 h-12 rounded-md flex items-center justify-center'>
+                                <p className='p'>Refazer Tutorial</p>
                             </div>
                         </div>
                     </div>
@@ -119,7 +128,7 @@ export const GeneralConfig = () => {
     );
 };
 
-export const InputFieldConfig = ({ type, label, value, onClickTema, onClickSet }: { type: string, label: string, value: string, onClickTema: MouseEventHandler<HTMLInputElement>|null, onClickSet: MouseEventHandler<HTMLInputElement>|null }) => (
+export const InputFieldConfig = ({ type, label, value, onClickTema, onClickSet }: { type: string, label: string, value: string, onClickTema: MouseEventHandler<HTMLInputElement>, onClickSet: MouseEventHandler<HTMLInputElement> }) => (
     <>
         <div className='flex justify-between'>
             <p className="h4">{label}</p>
