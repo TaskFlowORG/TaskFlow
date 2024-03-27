@@ -9,7 +9,7 @@ export class    SimpleUserGet {
     name!: string;
     surname!: string;
     address?: string;
-    //picture?: Archive;
+    picture?: Archive;
     mail!: string;
     phone?: string;
     description?: string;

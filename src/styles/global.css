@@ -430,7 +430,7 @@ select::-ms-expand {
 }
 
 .toggle-input:checked + .toggle-slider {
-  background-color: #f76858;
+  @apply bg-primary dark:bg-secondary ;
 }
 
 .toggleIn {
