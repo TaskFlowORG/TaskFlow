@@ -1,29 +1,51 @@
-import { MouseEventHandler, useState } from 'react';
+import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 import { Obj } from '../Obj';
 import { userService } from '@/services';
+import Cookies from 'js-cookie';
+import { User, UserPut } from '@/models';
 
 export const GeneralConfig = () => {
 
     const [toggle, setToggle] = useState(true);
     const [color, setColor] = useState<string>("#00ff00")
-    const { theme, setTheme } = useTheme();
+    const {theme, setTheme } = useTheme();
+    const [libras, setLibras] = useState<boolean>();
+    const [user, setUser] = useState<User>();
 
-    const mudarTema = () => {
-        if (!toggle) {
-            setTheme("light");
-        } else {
-            setTheme("dark");
-        }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const usuario = await userService.findByUsername("Marquardt")
+                setUser(usuario)
+                setLibras(usuario.configuration.libras)
+                
+            } catch (error) {
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const functionBall = (value: Object) => {
         if (value == "+") {
-
         }
         else {
             setColor(value as string)
         }
+    }
+
+    const updateBack = async (e:ChangeEvent<HTMLInputElement>) => {
+        setLibras(e.target.checked);
+        Cookies.set('libras', e.target.checked.toString());
+        const configuration = (await userService.findByUsername("Marquardt")).configuration
+        configuration.libras = e.target.checked;
+        const updatedUser = new UserPut(
+            (await userService.findByUsername("Marquardt")).username,
+            undefined, undefined, undefined, undefined, undefined, undefined,
+            configuration
+        );
+        userService.patch(updatedUser);
     }
 
     return (
@@ -31,6 +53,7 @@ export const GeneralConfig = () => {
             <div className='w-fit px-2'>
                 <p className='h2 text-primary dark:text-secondary'>Configurações</p>
             </div>
+
             <div className='w-full h-full flex items-center justify-center'>
                 <div className='grid grid-cols-2'>
                     <div className='w-[95%] '>
@@ -52,7 +75,7 @@ export const GeneralConfig = () => {
                             </div>
                             <div className='flex justify-between w-[40%]'>
                                 <div className='flex items-center'>
-                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' checked={libras} onChange={updateBack} />
                                     <p className='p pl-4'>Libras</p>
                                 </div>
                                 <div className='flex items-center'>
@@ -73,7 +96,7 @@ export const GeneralConfig = () => {
                                         <label className="relative w-16 h-8 ml-4 mr-2" >
                                             <input type={'checkbox'} className="opacity-0 w-0 h-0 toggle-input" onClick={() => { setToggle(!toggle); }} />
                                             <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
-                                        before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider">
+                                            before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider">
                                             </span>
                                         </label>
                                     </div>
