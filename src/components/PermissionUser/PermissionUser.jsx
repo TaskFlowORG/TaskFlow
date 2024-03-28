@@ -55,7 +55,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
   const fullName = `${user.name} ${user.surname}`;
 
-  const displayFullName = fullName.length > 13 ? `${fullName.slice(0, 13)}...` : fullName;
+  const displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
 
   return (
     <div className="">

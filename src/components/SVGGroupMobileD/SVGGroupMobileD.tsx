@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 export const SVGGroupMobileD = () => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="538" height="807" viewBox="0 0 538 807" fill="none">

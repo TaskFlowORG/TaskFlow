@@ -6,14 +6,14 @@ import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
 export class GroupPost {
     name?: string;                             
     description?: string;                    
-    permissions!: PermissionGet[];                   
+    permissions?: PermissionGet[] | null;                   
     owner!: UserGet;                    
-    users!: UserGet[];                
+    users?: UserGet[];                
 
     constructor(
         name: string,
         description: string,
-        permissions: PermissionGet[],
+        permissions: PermissionGet[] | null,
         owner: UserGet,
         users: UserGet[],
     ) { }

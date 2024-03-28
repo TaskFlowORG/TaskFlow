@@ -97,7 +97,7 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                         disabled={!isEnable}
                     />
                     <input
-                        className="mn whitespace-pre-wrap w-72 lg:w-[403px] md:w-[403px] text-[#333] dark:text-[#FCFCFC]"
+                        className="mn whitespace-pre-wrap w-72 md:w-[403px] text-[#333] dark:text-[#FCFCFC]"
                         type="text"
                         value={isEnable ? newDescription : group.description}
                         onChange={(e) => setNewDescription(e.target.value)}
@@ -136,13 +136,13 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                 <div className=''>
             {isEnable ? (
                     <div className='flex justify-between'>
-                        <button className="font-alata text-sm rounded z-50 w-20 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => {setIsEnable(false), setNewName(group.name,
+                        <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => {setIsEnable(false), setNewName(group.name,
                             ), setNewDescription(group.description)}}>Cancelar</button>
-                        <button className="font-alata text-sm rounded z-50 w-16 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
+                        <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                     </div>
                 ) : 
                     <div className="flex justify-end">
-                        <button className='z-50'> <img src={button} onClick={() => setIsEnable(true)} /> </button>
+                        <button className='z-30'> <img src={button} onClick={() => setIsEnable(true)} /> </button>
                     </div>
                 }
             </div>
