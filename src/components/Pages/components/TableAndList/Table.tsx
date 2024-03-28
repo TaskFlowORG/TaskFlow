@@ -54,14 +54,14 @@ export const Table = ({ page, updateIndex }: Props) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                   className="overflow-y-auto none-scrollbar h-[87%] relative w-full">
-                  <div className="w-full h-min">
                     {page.tasks.length == 0 ?
                     
-                     <div className="w-full h- flex justify-center items-center">
-                        Não Existem Tasks Nessa Página
-                     </div>
-                    :
-                    
+                    <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center pt-64">
+                       Não Existem Tasks Nessa Página
+                    </div>
+                   :
+                  <div className="w-full h-min">
+                    {
                     (page.tasks as TaskOrdered[])
                       .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
                       .map((l, index) => {
@@ -109,7 +109,7 @@ export const Table = ({ page, updateIndex }: Props) => {
                           </Draggable>
                         );
                       })}
-                  </div>
+                  </div>}
                   {provided.placeholder}
                 </div>
           );

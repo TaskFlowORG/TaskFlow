@@ -18,10 +18,17 @@ export default function Pages({params}:{params:{user:string, project:number, pag
     }, [params.user])
     
     useEffect(() => {
-        setPage(project?.pages.find(p => p.id == params.page))
+        const pageTemp = project?.pages.find(p => p.id == params.page)
+        setPage(pageTemp)
     }, [params.page, project, project?.pages])
+
     
     if(!user) return <></>
+    if(!page) return (
+        <div className="h3 text-primary dark:text-secondary w-full h-full flex justify-center items-center">
+            Essa página não existe ou não pertence a esse projeto!
+        </div>
+    )
     switch(page?.type){
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />

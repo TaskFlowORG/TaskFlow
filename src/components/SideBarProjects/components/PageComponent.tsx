@@ -65,6 +65,7 @@ export const PageComponent = ({
       console.log(inputRef.current?.textContent);
       pageService.upDateName(inputRef.current?.textContent ?? null, page.id);
       setRenaiming(false);
+      page.name = inputRef.current?.textContent ?? page.name;
     }
   };
 
@@ -78,8 +79,11 @@ export const PageComponent = ({
     const pagePromise = await pageService.insert(
       new PagePost(page.name, type, project)
     );
+    project.pages.splice(project.pages.indexOf(page), 1);
+    project.pages.push(pagePromise);
     pageService.merge([pagePromise], page.id);
     pageService.delete(page.id);
+
     setTruncate(false);
     setModal(false);
     setChangingType(false);

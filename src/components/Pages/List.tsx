@@ -46,7 +46,12 @@ export const ListPage = ({ page }: Props) => {
 
   return (
     <TableOrList name={page.name}>
-      {pages.map((p) => {
+      
+      {
+      pages.length == 0 ? 
+      <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center pt-64">Nenhuma pagina se conectou com essa!</div>
+      :
+      pages.map((p) => {
         return (
           <List
             key={p.id}
