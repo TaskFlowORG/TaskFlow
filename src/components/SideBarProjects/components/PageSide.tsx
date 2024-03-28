@@ -1,5 +1,5 @@
 import { pageService } from "@/services";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, use, useContext, useState } from "react";
 import { Page, PagePost, Project, TypeOfPage } from "@/models";
 import { If } from "@/components/If";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
@@ -10,6 +10,7 @@ import { ProjectInformations } from "./ProjectInformations";
 import { Navigate } from "./Navigate";
 import { any } from "zod";
 import { ProjectContext } from "@/contexts";
+import { useRouter } from "next/navigation";
 
 interface Props {
   project: Project;
@@ -27,6 +28,7 @@ export const PageSide = (
   const [type, setType] = useState<TypeOfPage>(TypeOfPage.KANBAN);
   const [merging, setMerging] = useState(false);
   const { setProject } = useContext(ProjectContext);
+  const route = useRouter();
 
   const merge = () => {
     console.log(listMerge, pageMerging);
@@ -35,11 +37,13 @@ export const PageSide = (
     setMerging(false);
     setPageMerging(undefined);
   };
-
+  
   const insert = async () => {
-    project.pages.push(
-      await pageService.insert(new PagePost("Nova Página", type, project))
-    );
+    const page = await pageService.insert(new PagePost("Nova Página", type, project))
+    const projectTemp = {...project};
+    projectTemp.pages.push(page)
+    setProject!(projectTemp)
+    route.push(`/${user}/${project.id}/${page.id}`);
   };
 
   const changeInput = (e: ChangeEvent<HTMLInputElement>, page: Page) => {

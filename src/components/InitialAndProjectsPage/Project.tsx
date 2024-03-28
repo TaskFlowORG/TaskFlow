@@ -5,12 +5,12 @@ import { ProgressBar } from "../ProgressBar";
 import { Obj } from "../Obj";
 import { getListData } from "@/services/http/api";
 import { set } from "zod";
-import { Group, Project } from "@/models";
+import { Group, Project, ProjectSimple } from "@/models";
 import Link from "next/link";
 import { projectService } from "@/services";
 import { AnimatePresence, motion } from "framer-motion";
 interface Props {
-  project: Project;
+  project: ProjectSimple;
   user: string
 }
 export const ProjectComponent = ({ project, user }: Props) => {
@@ -24,26 +24,12 @@ export const ProjectComponent = ({ project, user }: Props) => {
     // eslint-disable-next-line
   }, []);
 
-  const generatePercentage = (): number => {
-    const tasks = [];
-    for (let page of project.pages) {
-      for (let task of page.tasks) {
-        tasks.push(task);
-      }
-    }
-    const total = tasks.length;
-    const done = tasks.filter((t) => t.task.completed === true).length
-    return (done / total) * 100;
-  };
-
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
   return (
     
     <Link href={`/${user}/${project.id}`} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
-    dark:bg-modal-grey p-6 rounded-md h-min `}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}>
+    dark:bg-modal-grey p-6 rounded-md h-min `} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div className="flex gap-2 w-full">
         {/* Imagem do Projeto */}
         <div className="w-min">
@@ -75,7 +61,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
         >
           <>
         <Obj objs={groups} max={4} functionObj={() => { }}></Obj>
-        <ProgressBar percent={generatePercentage()} />
+        <ProgressBar percent={project.progress} />
           </>
       </motion.div >
       }

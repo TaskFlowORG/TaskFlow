@@ -13,6 +13,8 @@ import { SideBarButton } from "./SideBarButton";
 import { useClickAway } from "react-use";
 import { ButtonPageOption } from "./ButtonPageOption";
 import { ChangeType, ConectPage, EditIcon, IconTrashBin } from "@/components/icons";
+import { ProjectContext } from "@/contexts";
+import { set } from "zod";
 
 interface Props {
   page: Page;
@@ -44,6 +46,7 @@ export const PageComponent = ({
   const [y, setY] = useState<number>(0);
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
+  const {setProject} = useContext(ProjectContext);
 
   useEffect(() => {
     setTruncate(false);
@@ -55,7 +58,9 @@ export const PageComponent = ({
 
   const excludePage = () => {
     pageService.delete(page.id);
-    project.pages.splice(project.pages.indexOf(page), 1);
+    const projectTemp = { ...project };
+    projectTemp.pages.splice(project.pages.indexOf(page), 1);
+    setProject!(projectTemp);
     setModal(false);
     setTruncate(false);
   };
@@ -79,8 +84,11 @@ export const PageComponent = ({
     const pagePromise = await pageService.insert(
       new PagePost(page.name, type, project)
     );
-    project.pages.splice(project.pages.indexOf(page), 1);
-    project.pages.push(pagePromise);
+
+    const projectTemp = { ...project };
+    projectTemp.pages.splice(project.pages.indexOf(page), 1);
+    projectTemp.pages.push(pagePromise);
+    setProject!(projectTemp);
     pageService.merge([pagePromise], page.id);
     pageService.delete(page.id);
 

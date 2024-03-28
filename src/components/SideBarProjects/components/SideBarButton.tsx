@@ -53,13 +53,13 @@ export const SideBarButton = ({
         
       }
       onClick={fnClick}>
-      <div className="flex h-14 w-full  justify-between items-center " title={text}>
+      <div className="flex h-14 w-min justify-between items-center " title={text}>
         <Link href={link ?? "#"} className="h-full w-full flex gap-4 flex-row items-center px-6">
           <div className="w-12 h-12 flex justify-center items-center stroke-primary dark:stroke-secondary">
             {icon}
           </div>
           <p
-            className={"p text-modal-grey w-full dark:text-white openOptions outline-none none-scrollbar " + 
+            className={"p text-modal-grey w-[6.5rem] dark:text-white openOptions outline-none none-scrollbar " + 
             (renaming ? "overflow-x-auto whitespace-nowrap" : " truncate ")}
             onBlur={fnRename}
             onKeyDown={fnRename}
@@ -70,7 +70,7 @@ export const SideBarButton = ({
           </p>
         </Link>
         <If condition={isHovering != undefined && isHovering}>
-          <div className="justify-center h-full w-min  flex flex-col">
+          <div className="justify-center h-full w-8  flex flex-col">
             <span
               className={"h-8 w-8 p-2 mr-2 rounded-full rotate-90  bg-white dark:bg-modal-grey " +
               (openOptions ? "":" hover:brightness-95")}

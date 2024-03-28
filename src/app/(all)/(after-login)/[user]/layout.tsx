@@ -3,7 +3,7 @@
 import { Header } from "@/components/Header";
 import { useEffect, useRef, useState } from "react";
 import { useContrast } from "@/hooks/useContrast";
-import { Project } from "@/models";
+import { Project, ProjectSimple } from "@/models";
 import { SideBarProjects } from "@/components/SideBarProjects";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { SideModal } from "@/components/Modal";
@@ -20,7 +20,7 @@ export default function Layout({
   params: { project: number; user: string };
 }) {
   const [project, setProject] = useState<Project>();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ProjectSimple[]>([]);
   const { contrastColor } = useContrast();
   const [openSideBar, setOpenSideBar] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -42,6 +42,11 @@ export default function Layout({
       setProjects(await projectService.findAllOfAUser(params.user));
     })();
   }, [params.user]);
+
+  useEffect(() => {
+    if(!project) return
+      projectService.setVisualizedNow(project)
+  }, [project]);
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>

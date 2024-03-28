@@ -20,6 +20,7 @@ export default function Pages({params}:{params:{user:string, project:number, pag
     useEffect(() => {
         const pageTemp = project?.pages.find(p => p.id == params.page)
         setPage(pageTemp)
+        console.log(pageTemp)
     }, [params.page, project, project?.pages])
 
     

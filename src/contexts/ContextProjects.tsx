@@ -1,10 +1,10 @@
     "use client"
-    import { Project } from "@/models";
+    import { Project, ProjectSimple } from "@/models";
     import { createContext, useCallback, useContext, useState } from "react";
 
     type ProjectsContext = {
-        projects?: Project[];
-        setProjects?: (projects: Project[]) => void;
+        projects?: ProjectSimple[];
+        setProjects?: (projects: ProjectSimple[]) => void;
     }
     // eslint-disable-next-line react-hooks/rules-of-hooks
     export const ProjectsContext = createContext<ProjectsContext>({});

@@ -3,7 +3,7 @@
 import { ProjectComponent } from "@/components/InitialAndProjectsPage";
 import { SVGProjectsPage } from "@/components/Shapes";
 import { getData, getListData } from "@/services/http/api";
-import { Project, ProjectPost, User } from "@/models";
+import { Project, ProjectPost, ProjectSimple, User } from "@/models";
 import { useContext, useEffect, useState } from "react";
 import { projectService, userService } from "@/services";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ export default function Projects({ params }: { params: { user: string } }) {
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects, setProjects } = useContext(ProjectsContext);
   const [user, setUser] = useState<User>();
-  const [listOfLists, setListOfLists] = useState<Project[][]>([]);
+  const [listOfLists, setListOfLists] = useState<ProjectSimple[][]>([]);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -23,6 +23,9 @@ export default function Projects({ params }: { params: { user: string } }) {
     });
     setWindowWidth(window.innerWidth);
     generateList(projects);
+    (async () => {
+      setUser(await userService.findByUsername(params.user));
+    })()
     // eslint-disable-next-line
   }, [projects]);
 
@@ -31,8 +34,8 @@ export default function Projects({ params }: { params: { user: string } }) {
     // eslint-disable-next-line
   }, [windowWidth]);
 
-  const generateList = (projects?: Project[]) => {
-    const listOfLists: Project[][] = [];
+  const generateList = (projects?: ProjectSimple[]) => {
+    const listOfLists: ProjectSimple[][] = [];
     const quantity =
       window.innerWidth > 1440 ? 3 : window.innerWidth > 1024 ? 2 : 1;
     for (let i = 0; i < quantity; i++) {
@@ -51,6 +54,10 @@ export default function Projects({ params }: { params: { user: string } }) {
     const newProject = await projectService.insert(
       new ProjectPost(undefined, undefined, undefined, user!)
     );
+      const projectsTemp = [...projects!];
+      projectsTemp.push(newProject);
+      setProjects!(projectsTemp);
+
     router.push(`/${params.user}/${newProject.id}`);
   };
   // separar em tres, duas e uma lista vai ser a melhor opção, cansei de me estressar com isso, vou fazer isso depois

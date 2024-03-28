@@ -30,7 +30,7 @@ export const TaskLegend = ({
       }}
     >
       {tasks.length == 0 ? (
-        <div className="h5 flex-col text-primary dark:text-secondary flex-warp text-center h-full w-full flex items-center  pt-64">
+        <div className="h5 flex-col text-primary dark:text-secondary flex-warp text-center h-full w-full flex items-center justify-center">
           <p>
             Não Existem Tasks 
           </p>

@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { ProjectComponent } from "./";
-import { Project } from "@/models";
+import { Project, ProjectSimple } from "@/models";
 
-export const ProjectsMainPage = ({projects, user}:{projects?:Project[], user:string}) => {
+export const ProjectsMainPage = ({projects, user}:{projects?:ProjectSimple[], user:string}) => {
 
   return (
     <div className="w-2/3 lg:w-1/3 flex flex-col gap-5 lg:h-[70vh]">

@@ -42,6 +42,7 @@ export const Calendar = ({page}:Props) => {
         return null;
     }
     function getDays():Array<Day> {
+        if(!tasks) return[]
         const lastDate:Date = new Date(year, month, 0)
         const firstDate:Date = new Date(year, month - 1)
         const days:Array<Day> = [];
