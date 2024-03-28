@@ -3,14 +3,22 @@
 import { ComponentProps, useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { twMerge } from "tailwind-merge";
 interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
   name: string;
   ids: number;
-  value:string;
+  value: string;
+  isInModal?: boolean;
 }
 
-export const Select = ({ options, name, value, ids }: SelectProps) => {
+export const Select = ({
+  options,
+  name,
+  value,
+  ids,
+  isInModal = false,
+}: SelectProps) => {
   const [selectedOption, setSelectedOption] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
@@ -38,10 +46,16 @@ export const Select = ({ options, name, value, ids }: SelectProps) => {
 
   // useState(() => {
   // }, [defaultValue, options])
+  const styleWithBorder = twMerge(
+    "flex justify-between pb-2 h-min relative items-center gap-4 w-full",
+    isInModal ? "justify-end w-max" : ""
+  );
 
   return (
-    <div className="flex justify-between pb-2 h-min relative items-center gap-4 w-full">
-      <p>{name}</p>
+    <div className={styleWithBorder}>
+      {!isInModal && (
+        <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+      )}
       {/* aqui embaixo é w-fit */}
       <div className=" relative">
         <select

@@ -1,17 +1,29 @@
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   options: Option[];
   name: string;
   id: number;
   value: string[];
+  isInModal?: boolean;
 }
 
-export const CheckboxFilter = ({ options, name, id, value }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+export const CheckboxFilter = ({
+  options,
+  name,
+  id,
+  value,
+  isInModal = false,
+}: Props) => {
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const style = twMerge(
+    "flex w-full ",
+    isInModal ? "flex-wrap gap-x-4" : "flex-col"
+  );
   useEffect(() => {
     setSelectedOptions(value ?? []);
   }, [value]);
@@ -20,7 +32,7 @@ export const CheckboxFilter = ({ options, name, id, value }: Props) => {
     return selectedOptions.includes(optionName);
   }
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOptionChange = (event:any) => {
     const optionName = event.target.value;
     if (selectedOptions.includes(optionName)) {
       setSelectedOptions(
@@ -55,25 +67,31 @@ export const CheckboxFilter = ({ options, name, id, value }: Props) => {
 
   return (
     <div className="text-black dark:text-white pb-2 border-b-[1px]  ">
-      <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
-      {options.map((option, index) => (
-        <div key={index} className="flex gap-1 items-center">
-          <input
-            type="checkbox"
-            id={`prop${id}_${index}`}
-            value={option.name}
-            className="custom-checkbox"
-            checked={isChecked(option.name)}
-            onChange={handleOptionChange}
-          />
-          <label
-            className="text-black dark:text-white"
-            htmlFor={`prop${id}_${index}`}
-          >
-            {option.name}
-          </label>
-        </div>
-      ))}
+      {!isInModal && (
+        <p className=" text-black dark:text-white whitespace-nowrap font-montserrat">
+          {name}:
+        </p>
+      )}
+      <div className={style}>
+        {options.map((option, index) => (
+          <div key={index} className="flex gap-1 items-center">
+            <input
+              type="checkbox"
+              id={`prop${id}_${index}`}
+              value={option.name}
+              className="custom-checkbox"
+              checked={isChecked(option.name)}
+              onChange={handleOptionChange}
+            />
+            <label
+              className="text-black dark:text-white"
+              htmlFor={`prop${id}_${index}`}
+            >
+              {option.name}
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

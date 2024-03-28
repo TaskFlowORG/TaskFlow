@@ -25,7 +25,7 @@ export const TagFilter = ({
 
   useEffect(() => {
     setOption(value);
-    console.log(value);
+    // console.log(value);
   }, [value]);
 
   return (

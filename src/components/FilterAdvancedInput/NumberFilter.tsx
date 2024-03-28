@@ -1,18 +1,24 @@
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   id: number;
   name: string;
   value: number;
+  isInModal?: boolean;
 }
 
-export const NumberFilter = ({ id, value, name }: Props) => {
+export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
   const [valued, setValued] = useState<number>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     setValued(value);
   }, [value]);
+  const styleWithBorder = twMerge(
+    "flex gap-4 w-full h-min justify-between  items-center ",
+    !isInModal ? "border-b-[1px]" : "justify-end w-max"
+  );
 
   function change(valueInput: number) {
     const thisProperty = filterProp?.find((item) => item.id == id);
@@ -31,8 +37,8 @@ export const NumberFilter = ({ id, value, name }: Props) => {
   }
 
   return (
-    <div className="flex gap-4 w-full h-min justify-between  items-center border-b-[1px] ">
-      <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+    <div className={styleWithBorder}>
+      {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
       <div className="flex py-2">
         <input
           className=" input-number  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-sm"

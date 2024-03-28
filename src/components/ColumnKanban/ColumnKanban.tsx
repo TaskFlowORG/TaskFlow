@@ -85,7 +85,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
               {...provided.droppableProps}
             >
               <div
-                className="none-scrollbar  flex min-h-[200px] min-w-[360px] w-max h-max rounded-lg  flex-col"
+                className="none-scrollbar  flex min-h-[200px] w-[360px] h-max rounded-lg  flex-col"
                 style={{
                   opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
                   borderRadius: 16,

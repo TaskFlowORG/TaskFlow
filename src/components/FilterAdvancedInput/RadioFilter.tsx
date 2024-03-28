@@ -1,17 +1,29 @@
 import { useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   id: number;
   name: string;
   value?: string;
   options: Option[];
+  isInModal?: boolean;
 }
 
-export const RadioFilter = ({ name, id, value, options }: Props) => {
+export const RadioFilter = ({
+  name,
+  id,
+  value,
+  options,
+  isInModal = false,
+}: Props) => {
   const [selectedOption, setSelectedOption] = useState(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const style = twMerge(
+    "flex w-full ",
+    isInModal ? "flex-wrap gap-x-4" : "flex-col"
+  );
   useEffect(() => {
     setSelectedOption(value ?? "oi");
   }, [value]);
@@ -34,8 +46,10 @@ export const RadioFilter = ({ name, id, value, options }: Props) => {
 
   return (
     <div className="text-black dark:text-white pb-2 border-b-[1px] ">
-      <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
-      <div className="flex w-full flex-col">
+      {!isInModal && (
+        <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+      )}
+      <div className={style}>
         {options.map((option, index) => (
           <div key={index} className="flex gap-1 items-center">
             <input

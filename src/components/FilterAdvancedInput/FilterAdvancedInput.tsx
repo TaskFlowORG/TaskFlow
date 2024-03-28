@@ -11,6 +11,7 @@ import { Select as Selectt } from "@/components/Select";
 import { RadioFilter } from "./RadioFilter";
 import { TagFilter } from "./TagFilter";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { LocalModal } from "../Modal";
 
 interface Props {
   properties: Property[];
@@ -40,6 +41,7 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
           const prop = filterProp!.find((prop) => prop.id == property.id) ?? {
             value: null,
           };
+          
 
           if (property.type === TypeOfProperty.TEXT) {
             return (

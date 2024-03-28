@@ -4,7 +4,7 @@ import { useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
-import { Message, Select, TaskOrdered, TypeOfProperty } from "@/models";
+import { Message, Select, TaskOrdered, TypeOfProperty, Option } from "@/models";
 import { Select as Selectt } from "@/components/Select";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 import { taskService } from "@/services";
@@ -14,6 +14,11 @@ import { DateProp } from "./PropertyTask/DateProp";
 import { RadioProp } from "./PropertyTask/RadioProp";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { FilteredProperty } from "@/types/FilteredProperty";
+import { NumberFilter } from "../FilterAdvancedInput/NumberFilter";
+import { DateFilter } from "../FilterAdvancedInput/DateFilter";
+import { RadioFilter } from "../FilterAdvancedInput/RadioFilter";
+import { CheckboxFilter } from "../FilterAdvancedInput/CheckboxFilter";
+import { TagFilter } from "../FilterAdvancedInput/TagFilter";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -33,7 +38,49 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // }
 
   console.log(filter);
-  console.log(list);
+  // console.log(list);
+
+  async function updateTask() {
+    filter.forEach(async (value) => {
+      let updateProp =
+        task?.task?.properties?.find((prop) => prop.property.id == value.id) ??
+        null;
+      if (updateProp) {
+        if (
+          [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
+            updateProp.property.type
+          )
+        ) {
+          let updatedValue = (updateProp.property as Select).options.find(
+            (value2) => value.value == value2.name
+          );
+          updateProp.value.value = updatedValue;
+        } else if (
+          [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
+            updateProp.property.type
+          )
+        ) {
+          console.log(value.value);
+          // let updatedValue = (updateProp.property as Select).options.filter(
+          //   (value2) => value.value.find((value3: any) => value2 == value3)
+          // );
+          // updateProp.value.value = updatedValue;
+         let updatedValue =  (updateProp.property as Select).options.filter(option => value.value.includes(option.name))
+         updateProp.value.value = updatedValue;
+        } else if (TypeOfProperty.DATE == updateProp.property.type) {
+          console.log(value);
+          let bah = new Date().getHours();
+          let bah2 = new Date().getMinutes();
+          updateProp.value.value = value.value + "T" + bah + ":" + bah2;
+        } else {
+          updateProp.value.value = value.value;
+        }
+
+        await taskService.upDate(task.task);
+        console.log(updateProp);
+      }
+    });
+  }
 
   async function sendComment() {
     let comment: MessageGet = {
@@ -114,11 +161,11 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                         setList: setList,
                       }}
                     >
-                      <div className="flex flex-col gap-2 flex-1 bg-green-400">
-                        <div className="flex-1 flex justify-between bg-purple-400">
+                      <div className="flex flex-col  gap-2 flex-1 bg-green-400">
+                        <div className="flex-1 flex items-center  justify-between bg-purple-400">
                           <div className="flex gap-8">
                             <span>I</span>
-                            <p className="font-montserrat text-[16px]">
+                            <p className="font-montserrat text-[16px] whitespace-nowrap">
                               {prop.property.name}
                             </p>
                           </div>
@@ -130,6 +177,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                           ].includes(prop.property.type) &&
                             TypeOfProperty.SELECT == prop.property.type && (
                               <Selectt
+                                isInModal
                                 name={prop.property.name}
                                 ids={prop.property.id}
                                 options={(prop.property as Select).options.map(
@@ -139,10 +187,20 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               />
                             )) ||
                             (TypeOfProperty.NUMBER == prop.property.type && (
-                              <NumberProp id={prop.property.id}></NumberProp>
+                              <NumberFilter
+                                isInModal
+                                id={prop.property.id}
+                                name={prop.property.name}
+                                value={prop.value.value}
+                              />
                             )) ||
                             (TypeOfProperty.DATE == prop.property.type && (
-                              <DateProp id={prop.property.id}></DateProp>
+                              <DateFilter
+                                isInModal
+                                id={prop.property.id}
+                                name={prop.property.name}
+                                value={prop.value.value}
+                              />
                             ))}
                         </div>
                         {([
@@ -151,31 +209,75 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                           TypeOfProperty.RADIO,
                         ].includes(prop.property.type) &&
                           TypeOfProperty.RADIO == prop.property.type && (
-                            <RadioProp
+                            <RadioFilter
+                              isInModal={true}
+                              name={prop.property.name}
                               value={prop.value.value?.name}
                               id={prop.property.id}
                               options={(prop.property as Select).options}
                             />
                           )) ||
                           (prop.property.type == TypeOfProperty.CHECKBOX && (
-                            <CheckboxProp
+                            <CheckboxFilter
+                              isInModal
+                              name={prop.property.name}
                               options={(prop.property as Select).options}
                               id={prop.property.id}
-                              value={prop?.value.value?.map(
-                                (value: any) => value.name
-                              )}
-                            ></CheckboxProp>
+                              value={prop.value.value.map((value:any) => value.name)}
+                            />
                           )) ||
                           (prop.property.type == TypeOfProperty.TAG && (
-                            <TagProp
+                            <TagFilter
+                              id={prop.property.id}
+                              name={prop.property.name}
+                              addList={() => console.log("a")}
+                              removeList={(value: string) => {
+                                if (list) {
+                                  const thisProperty = filter.find(
+                                    (item) => item.id == list.id
+                                  )!;
+                                  if (list?.value.includes(value)) {
+                                    list.value.splice(
+                                      list.value.indexOf(value),
+                                      1
+                                    );
+                                    if (list.value.length == 0) {
+                                      filter.splice(
+                                        filter.indexOf(thisProperty),
+                                        1
+                                      );
+                                      setFilter!(filter);
+                                    }
+                                    setList!(list);
+                                  } else {
+                                    list?.value.push(value);
+                                    filter.splice(
+                                      filter.indexOf(thisProperty),
+                                      1
+                                    );
+                                    setFilter!(filter);
+                                    setFilter!([list!, ...filter]);
+                                    setList!(list);
+                                  }
+                                } else {
+                                  setList!({
+                                    id: prop.property.id,
+                                    value: [value],
+                                  });
+                                  setFilter!([
+                                    { id: prop.property.id, value: [value] },
+                                    ...filter,
+                                  ]);
+                                }
+                              }}
                               options={(prop.property as Select).options}
-                              value={prop?.value.value?.map(
-                                (value: any) => value.name
-                              )}
-                            ></TagProp>
+                              value={list?.value ?? []}
+                            />
                           ))}
                       </div>
                     </FilterContext.Provider>
+
+                    <button onClick={() => updateTask()}>Clickme</button>
                   </div>
                 </div>
               );

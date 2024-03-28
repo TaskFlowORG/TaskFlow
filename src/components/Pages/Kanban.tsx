@@ -29,10 +29,10 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 type UserLogged = {
-  user:UserGet
-}
+  user: UserGet;
+};
 
-export const Kanban = ({user}:UserLogged) => {
+export const Kanban = ({ user }: UserLogged) => {
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
@@ -159,8 +159,13 @@ export const Kanban = ({user}:UserLogged) => {
         setList: setList,
       }}
     >
-      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
-        <TaskModal task={tasks[0]} setIsOpen={setIsOpen} isOpen={isOpen} user={user} />
+      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+        <TaskModal
+          task={tasks[0]}
+          setIsOpen={setIsOpen}
+          isOpen={isOpen}
+          user={user}
+        />
         <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
           <div className="flex gap-4 items-center">
             <h1
