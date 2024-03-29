@@ -47,8 +47,8 @@ export const Select = ({
   // useState(() => {
   // }, [defaultValue, options])
   const styleWithBorder = twMerge(
-    "flex justify-between pb-2 h-min relative items-center gap-4 w-full",
-    isInModal ? "justify-end w-max" : ""
+    "flex justify-between  h-min relative items-center gap-4 w-full",
+    isInModal ? "justify-end w-max" : "pb-2"
   );
 
   return (

@@ -29,9 +29,9 @@ export const TagFilter = ({
   }, [value]);
 
   return (
-    <div>
+    <div className="">
       <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
-      <div className="flex gap-4 overflow-scroll">
+      <div className="flex gap-4 overflow-x-auto w-full max-w-[360px] ">
         {options.map((opt, index) => {
           if (value?.find((value) => opt?.name == value)) {
             return (

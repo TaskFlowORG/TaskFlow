@@ -29,10 +29,11 @@ export const CheckboxFilter = ({
   }, [value]);
 
   function isChecked(optionName: string) {
-    return selectedOptions.includes(optionName);
+    // console.log(selectedOptions.includes(optionName))
+    return selectedOptions?.includes(optionName);
   }
 
-  const handleOptionChange = (event:any) => {
+  const handleOptionChange = (event: any) => {
     const optionName = event.target.value;
     if (selectedOptions.includes(optionName)) {
       setSelectedOptions(
@@ -84,7 +85,7 @@ export const CheckboxFilter = ({
               onChange={handleOptionChange}
             />
             <label
-              className="text-black dark:text-white"
+              className="text-black font-montserrat text-[14px] dark:text-white"
               htmlFor={`prop${id}_${index}`}
             >
               {option.name}

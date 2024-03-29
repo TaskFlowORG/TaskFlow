@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
@@ -9,7 +9,13 @@ import { Select as Selectt } from "@/components/Select";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 import { taskService } from "@/services";
 import { MessageGet } from "@/models/chat/message/MessageGetDTO";
-import { CheckboxProp, NumberProp, SelectProp, TagProp } from "./PropertyTask";
+import {
+  CheckboxProp,
+  NumberProp,
+  SelectProp,
+  SwitchIcon,
+  TagProp,
+} from "./PropertyTask";
 import { DateProp } from "./PropertyTask/DateProp";
 import { RadioProp } from "./PropertyTask/RadioProp";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -19,6 +25,9 @@ import { DateFilter } from "../FilterAdvancedInput/DateFilter";
 import { RadioFilter } from "../FilterAdvancedInput/RadioFilter";
 import { CheckboxFilter } from "../FilterAdvancedInput/CheckboxFilter";
 import { TagFilter } from "../FilterAdvancedInput/TagFilter";
+import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
+import { ProgressFilter } from "../FilterAdvancedInput/ProgressFilter";
+import { IconsSelector } from "../Pages/components";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -37,6 +46,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   //   setUrl(bah);
   // }
 
+  useEffect(() => {
+    const allProperties = task?.task.properties;
+  }, []);
+
   console.log(filter);
   // console.log(list);
 
@@ -51,10 +64,14 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             updateProp.property.type
           )
         ) {
-          let updatedValue = (updateProp.property as Select).options.find(
-            (value2) => value.value == value2.name
-          );
-          updateProp.value.value = updatedValue;
+          if (value.value != "oi") {
+            let updatedValue = (updateProp.property as Select).options.find(
+              (option) => value.value == option.name
+            );
+            updateProp.value.value = updatedValue;
+          } else {
+            updateProp.value.value = [];
+          }
         } else if (
           [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
             updateProp.property.type
@@ -65,13 +82,15 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           //   (value2) => value.value.find((value3: any) => value2 == value3)
           // );
           // updateProp.value.value = updatedValue;
-         let updatedValue =  (updateProp.property as Select).options.filter(option => value.value.includes(option.name))
-         updateProp.value.value = updatedValue;
+          let updatedValue = (updateProp.property as Select).options.filter(
+            (option) => value.value.includes(option.name)
+          );
+          updateProp.value.value = updatedValue;
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
-          let bah = new Date().getHours();
-          let bah2 = new Date().getMinutes();
-          updateProp.value.value = value.value + "T" + bah + ":" + bah2;
+          let hours = new Date().getHours();
+          let minutes = new Date().getMinutes();
+          updateProp.value.value = value.value + "T" + hours + ":" + minutes;
         } else {
           updateProp.value.value = value.value;
         }
@@ -80,6 +99,16 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         console.log(updateProp);
       }
     });
+  }
+
+  function change(prop: TaskValueGet): boolean {
+    if (!filter.find((value) => prop.id == value.id)) {
+      filter.push({
+        id: prop.property.id,
+        value: prop.value.value.map((option: any) => option.name),
+      });
+    }
+    return true;
   }
 
   async function sendComment() {
@@ -146,13 +175,20 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           </div>
         </div>
         <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
-        <div className="w-full max-w-[547px]">
-          <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah bg-black w-full">
+        <div className="w-full max-w-[547px] ">
+          {/* bg-black */}
+          <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4   w-full">
             {task?.task.properties.map((prop) => {
+              const propert = filter!.find(
+                (propert) => propert.id == prop.id
+              ) ?? {
+                value: null,
+              };
               return (
                 <div key={prop.id} className="bg-white flex flex-col">
-                  <div className="flex gap-8 w-full">
-                    <span>C</span>
+                  <div className="flex gap-8 w-full items-center">
+                    <img src="/config.svg" alt="" />
+                    {/* <span>C</span> */}
                     <FilterContext.Provider
                       value={{
                         filterProp: filter,
@@ -161,10 +197,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                         setList: setList,
                       }}
                     >
-                      <div className="flex flex-col  gap-2 flex-1 bg-green-400">
-                        <div className="flex-1 flex items-center  justify-between bg-purple-400">
-                          <div className="flex gap-8">
-                            <span>I</span>
+                      <div className="flex flex-col justify-center  gap-2 flex-1">
+                        <div className="flex-1 flex items-center  justify-between ">
+                          <div className="flex gap-3">
+                            <IconsSelector property={prop.property} />
                             <p className="font-montserrat text-[16px] whitespace-nowrap">
                               {prop.property.name}
                             </p>
@@ -174,6 +210,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                             TypeOfProperty.ARCHIVE,
                             TypeOfProperty.DATE,
                             TypeOfProperty.NUMBER,
+                            TypeOfProperty.PROGRESS,
                           ].includes(prop.property.type) &&
                             TypeOfProperty.SELECT == prop.property.type && (
                               <Selectt
@@ -194,12 +231,21 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 value={prop.value.value}
                               />
                             )) ||
+                            (TypeOfProperty.PROGRESS == prop.property.type && (
+                              <ProgressFilter
+                                percent={22}
+                                isInModal
+                                id={prop.property.id}
+                                name={prop.property.name}
+                                value={prop.value.value}
+                              />
+                            )) ||
                             (TypeOfProperty.DATE == prop.property.type && (
                               <DateFilter
                                 isInModal
                                 id={prop.property.id}
                                 name={prop.property.name}
-                                value={prop.value.value}
+                                value={propert.value ?? ""}
                               />
                             ))}
                         </div>
@@ -212,20 +258,21 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                             <RadioFilter
                               isInModal={true}
                               name={prop.property.name}
-                              value={prop.value.value?.name}
+                              value={propert.value ?? ""}
                               id={prop.property.id}
                               options={(prop.property as Select).options}
                             />
                           )) ||
-                          (prop.property.type == TypeOfProperty.CHECKBOX && (
-                            <CheckboxFilter
-                              isInModal
-                              name={prop.property.name}
-                              options={(prop.property as Select).options}
-                              id={prop.property.id}
-                              value={prop.value.value.map((value:any) => value.name)}
-                            />
-                          )) ||
+                          (prop.property.type == TypeOfProperty.CHECKBOX &&
+                            change(prop) && (
+                              <CheckboxFilter
+                                isInModal
+                                name={prop.property.name}
+                                options={(prop.property as Select).options}
+                                id={prop.property.id}
+                                value={propert.value ?? []}
+                              />
+                            )) ||
                           (prop.property.type == TypeOfProperty.TAG && (
                             <TagFilter
                               id={prop.property.id}
@@ -271,18 +318,17 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 }
                               }}
                               options={(prop.property as Select).options}
-                              value={list?.value ?? []}
+                              value={propert.value ?? []}
                             />
                           ))}
                       </div>
                     </FilterContext.Provider>
-
-                    <button onClick={() => updateTask()}>Clickme</button>
                   </div>
                 </div>
               );
             })}
           </div>
+          <button onClick={() => updateTask()}>Clickme</button>
         </div>
       </div>
 

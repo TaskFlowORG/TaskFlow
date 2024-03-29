@@ -62,7 +62,7 @@ export const RadioFilter = ({
               onChange={handleOptionChange}
             />
             <label
-              className="text-black dark:text-white "
+              className="text-black font-montserrat text-[14px] dark:text-white "
               htmlFor={`prop${id}_${index}`}
             >
               {option.name}
@@ -75,12 +75,15 @@ export const RadioFilter = ({
             type="radio"
             id="oi"
             className="custom-radio"
-            value={""}
+            value={"oi"}
             name="radioGroup"
             checked={"oi" == selectedOption}
             onChange={handleOptionChange}
           />
-          <label className="text-black dark:text-white" htmlFor="oi">
+          <label
+            className="text-black font-montserrat text-[14px] dark:text-white"
+            htmlFor="oi"
+          >
             {"Qualquer"}
           </label>
         </div>
