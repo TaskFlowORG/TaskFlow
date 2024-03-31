@@ -8,6 +8,9 @@ import { useContext, useEffect, useState } from "react";
 import { projectService, userService } from "@/services";
 import { useRouter } from "next/navigation";
 import { ProjectsContext } from "@/contexts";
+import { LocalModal } from "@/components/Modal";
+import { RangeInput } from "@/components/RangeInput";
+import { InputNumber } from "@/components/Properties/InputNumber";
 
 export default function Projects({ params }: { params: { user: string } }) {
   const router = useRouter();
@@ -25,7 +28,7 @@ export default function Projects({ params }: { params: { user: string } }) {
     generateList(projects);
     (async () => {
       setUser(await userService.findByUsername(params.user));
-    })()
+    })();
     // eslint-disable-next-line
   }, [projects]);
 
@@ -43,10 +46,16 @@ export default function Projects({ params }: { params: { user: string } }) {
     }
     let count = 0;
     console.log(projects);
-    projects?.forEach((project) => {
-      listOfLists[count].push(project);
-      count = count === quantity - 1 ? 0 : count + 1;
-    });
+    projects
+      ?.filter((p) => {
+        const progressIsOk = progress < 0 || p.progress >= progress;
+        const ownerIsOk = isOwner === undefined || isOwner && p.owner?.username === user?.username || !isOwner && p.owner?.username !== user?.username;
+        return progressIsOk && ownerIsOk;
+      })
+      .forEach((project) => {
+        listOfLists[count].push(project);
+        count = count === quantity - 1 ? 0 : count + 1;
+      });
     setListOfLists(listOfLists);
   };
 
@@ -54,22 +63,78 @@ export default function Projects({ params }: { params: { user: string } }) {
     const newProject = await projectService.insert(
       new ProjectPost(undefined, undefined, undefined, user!)
     );
-      const projectsTemp = [...projects!];
-      projectsTemp.push(newProject);
-      setProjects!(projectsTemp);
+    const projectsTemp = [...projects!];
+    projectsTemp.push(newProject);
+    setProjects!(projectsTemp);
 
     router.push(`/${params.user}/${newProject.id}`);
   };
-  // separar em tres, duas e uma lista vai ser a melhor opção, cansei de me estressar com isso, vou fazer isso depois
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [progress, setProgress] = useState(-1);
+  const [isOwner, setIsOwner] = useState<boolean>();
+
+  const cleanFilter = () => {
+    setProgress(-1);
+  };
+
+  useEffect(() => {
+    generateList(projects);
+  }, [progress, isOwner]);
   return (
     <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
       <SVGProjectsPage />
       <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
         <div className="flex items-center flex-col w-full h-4/5">
-          <h1 className="h2 sm:text-[68px] sm:w-3/5 w-full stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
-            Projetos
-          </h1>
+          <div className=" w-full justify-between items-center flex sm:text-[68px] sm:w-3/5 stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
+            <h1 className="h2">Projetos</h1>
+            <div className="w-min h-min relative">
+              <div
+                className="w-12 h-12 bg-white dark:bg-back-grey rounded-full text-[16px] flex justify-center items-center"
+                onClick={() => setIsModalOpen((prev) => !prev)}
+              >
+                F
+              </div>
+              <LocalModal
+                right
+                condition={isModalOpen}
+                setCondition={setIsModalOpen}
+              >
+                <div className="h-72 w-56 p-4 rounded-md text-[16px] overflow-y-auto bg-input-grey dark:bg-modal-grey">
+                  <button onClick={cleanFilter}>Limpar</button>
+                  <div className="flex flex-col gap-2">
+                    <span className="flex justify-between">
+                      <p>Progresso</p>
+                      <span className="flex gap-1">
+                        <input
+                          type="number"
+                          value={progress < 0 ? 0 : progress}
+                          onChange={(e) => setProgress(+e.target.value)}
+                          className="w-12 text-end appearance-none"
+                        />
+                        <p>%</p>
+                      </span>
+                    </span>
+                    <RangeInput
+                      range={progress}
+                      step={0.01}
+                      setRange={setProgress}
+                      max={100}
+                    />
+                  </div>
+                  <div>
+                    <p>Dono/Membro</p>
+                    <input onChange={e => setIsOwner(undefined)} defaultChecked type="radio" name="filterOwner" id="all" />
+                    <label htmlFor="all">Todos</label>
+                    <input onChange={e => setIsOwner(true)} type="radio" name="filterOwner" id="owner" />
+                    <label htmlFor="owner">Dono</label>
+                    <input onChange={e => setIsOwner(false)} type="radio" name="filterOwner" id="member" />
+                    <label htmlFor="member">Membro</label>
+                  </div>
+                </div>
+              </LocalModal>
+            </div>
+          </div>
           <div className="w-full lg:w-3/5 h-[70vh] flex justify-center none-scrollbar overflow-y-scroll">
             <div
               className={

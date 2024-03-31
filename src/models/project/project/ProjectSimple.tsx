@@ -13,6 +13,7 @@ export class ProjectSimple {
     picture?:Archive;
     progress!:number;
     groups?:Group[];
+    owner?:SimpleUserGet;
 
     constructor(
         id:number,
