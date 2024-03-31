@@ -260,7 +260,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 isInModal
                                 id={prop.property.id}
                                 name={prop.property.name}
-                                value={prop.value.value ?? ""}
+                                value={prop.value?.value}
                               />
                             ))}
                         </div>

@@ -26,11 +26,14 @@ export const RadioFilter = ({
   );
   useEffect(() => {
     setSelectedOption(value ?? "oi");
-  }, [value]);
+  }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
     const thisProperty = filterProp?.find((item) => item.id == id);
-    if (thisProperty) {
+    if (event.target.value == "oi" && thisProperty && !isInModal) {
+      setSelectedOption(event.target.value);
+      filterProp.splice(filterProp.indexOf(thisProperty), 1);
+    } else if (thisProperty) {
+      setSelectedOption(event.target.value);
       if (!event.target.value) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
         setFilterProp!(filterProp);
