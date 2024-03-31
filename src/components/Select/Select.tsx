@@ -24,19 +24,21 @@ export const Select = ({
 
   useEffect(() => {
     setSelectedOption(value?.toString() ?? "");
-  }, [value]);
+  }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
-    setSelectedOption(event.target.value);
+    // setSelectedOption(event.target.value);
     const thisProperty = filterProp?.find((item) => item.id == ids);
     if (thisProperty) {
-      if (!event.target.value) {
+      setSelectedOption(event.target.value);
+      if (event.target.value == "oi" && !isInModal) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
         setFilterProp!(filterProp);
       } else {
         thisProperty.value = event.target.value;
       }
     } else {
-      if (event.target.value) {
+      if (event.target.value != "oi") {
+        setSelectedOption(event.target.value);
         setFilterProp!([...filterProp, { id: ids, value: event.target.value }]);
       }
     }
@@ -65,7 +67,7 @@ export const Select = ({
           onChange={handleOptionChange}
           // onChange={e => change(e.target.value)} defaultValue={defaultValue}
         >
-          <option className="w-full text-center" value="">
+          <option className="w-full text-center" value="oi">
             Selecione...
           </option>
           {options.map((o: any, index) => {

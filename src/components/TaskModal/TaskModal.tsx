@@ -47,9 +47,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   //   setUrl(bah);
   // }
 
-  useEffect(() => {
-    const allProperties = task?.task.properties;
-  }, []);
+
 
   console.log(filter);
   // console.log(list);
@@ -226,7 +224,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 options={(prop.property as Select).options.map(
                                   (option) => option.name
                                 )}
-                                value={prop.value.value?.name}
+                                value={prop.value.value?.name ?? "oi"}
                               />
                             )) ||
                             (TypeOfProperty.NUMBER == prop.property.type && (
