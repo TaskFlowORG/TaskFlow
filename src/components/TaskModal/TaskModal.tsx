@@ -28,6 +28,7 @@ import { TagFilter } from "../FilterAdvancedInput/TagFilter";
 import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
 import { ProgressFilter } from "../FilterAdvancedInput/ProgressFilter";
 import { IconsSelector } from "../Pages/components";
+import { Button } from "../Button";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -220,7 +221,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 options={(prop.property as Select).options.map(
                                   (option) => option.name
                                 )}
-                                value={prop.value.value.name}
+                                value={prop.value.value?.name}
                               />
                             )) ||
                             (TypeOfProperty.NUMBER == prop.property.type && (
@@ -256,11 +257,11 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                         ].includes(prop.property.type) &&
                           TypeOfProperty.RADIO == prop.property.type && (
                             <RadioFilter
-                              isInModal={true}
+                              isInModal
                               name={prop.property.name}
-                              value={propert.value ?? ""}
                               id={prop.property.id}
                               options={(prop.property as Select).options}
+                              value={prop.value.value?.name}
                             />
                           )) ||
                           (prop.property.type == TypeOfProperty.CHECKBOX &&
@@ -328,7 +329,25 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               );
             })}
           </div>
-          <button onClick={() => updateTask()}>Clickme</button>
+          <div className="flex gap-4 justify-end items-center">
+            <Button
+              font="font-alata"
+              textSize="text-base"
+              text="Cancelar"
+              secondary={true}
+              fnButton={updateTask}
+              paddingY="py-1  "
+              padding="p-4"
+            />
+            <Button
+              font="font-alata"
+              textSize="text-base"
+              text="Salvar alterações"
+              fnButton={updateTask}
+              paddingY="py-1"
+              padding="p-4"
+            />
+          </div>
         </div>
       </div>
 
