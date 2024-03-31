@@ -26,7 +26,7 @@ export const CheckboxFilter = ({
   );
   useEffect(() => {
     setSelectedOptions(value ?? []);
-  }, [value]);
+  }, [value, filterProp, setFilterProp]);
 
   function isChecked(optionName: string) {
     // console.log(selectedOptions.includes(optionName))
@@ -37,7 +37,7 @@ export const CheckboxFilter = ({
     const optionName = event.target.value;
     if (selectedOptions.includes(optionName)) {
       setSelectedOptions(
-        selectedOptions.filter((option) => option !== optionName)
+        selectedOptions.filter((option) => option !== optionName) ?? []
       );
     } else {
       setSelectedOptions([...selectedOptions, optionName]);
@@ -46,6 +46,7 @@ export const CheckboxFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
+        console.log("Passaro a mão ni mim aqui ein");
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
         );
@@ -54,6 +55,7 @@ export const CheckboxFilter = ({
           setFilterProp!(filterProp);
         }
       } else {
+        console.log("Passaro a mão ni mim");
         thisProperty.value = [...selectedOptions, optionName];
       }
     } else {

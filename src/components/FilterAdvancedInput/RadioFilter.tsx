@@ -25,7 +25,12 @@ export const RadioFilter = ({
     isInModal ? "flex-wrap gap-x-4" : "flex-col"
   );
   useEffect(() => {
-    setSelectedOption(value ?? "oi");
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop) {
+      setSelectedOption(prop.value);
+    } else {
+      setSelectedOption(value?.toString() ?? "oi");
+    }
   }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
     const thisProperty = filterProp?.find((item) => item.id == id);

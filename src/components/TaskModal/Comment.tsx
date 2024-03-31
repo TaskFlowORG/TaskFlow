@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 type CommentType = {
   sender: SimpleUserGet;
   value: string;
-  date: string;
+  date?: string;
   user: UserGet;
 };
 
@@ -49,7 +49,7 @@ export const Comment = ({ value, sender, date, user }: CommentType) => {
 
         <p className="text-[12px] font-montserrat text-[#343434]">
           {!(user.username == sender.username) ? sender?.username : "Você"} -{" "}
-          {formatarHorario(date)}
+          {formatarHorario(date ?? "N/a")}
         </p>
       </div>
     </div>

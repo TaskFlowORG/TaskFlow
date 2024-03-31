@@ -23,7 +23,12 @@ export const Select = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
   useEffect(() => {
-    setSelectedOption(value?.toString() ?? "");
+    const prop = filterProp.find((bah) => ids == bah.id);
+    if (prop) {
+      setSelectedOption(prop.value);
+    } else {
+      setSelectedOption(value?.toString() ?? "oi");
+    }
   }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
     // setSelectedOption(event.target.value);

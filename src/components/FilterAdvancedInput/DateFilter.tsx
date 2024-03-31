@@ -1,5 +1,6 @@
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface DateProps {
   id: number;
@@ -17,6 +18,11 @@ export const DateFilter = ({
   const [valued, setValued] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
+  const style = twMerge(
+    "flex gap-4 w-full items-center border-b-[1px]  pb-2",
+    isInModal ? " p-0 border-none pl-[160px]" : " "
+  );
+
   useEffect(() => {
     const splitTimestamp: string[] = value?.split("T");
     const prop = filterProp.find((bah) => id == bah.id);
@@ -30,7 +36,7 @@ export const DateFilter = ({
   }, [value, setFilterProp, filterProp]);
 
   return (
-    <div className="flex gap-4 w-full items-center justify-between border-b-[1px]  pb-2">
+    <div className={style}>
       {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
       <input
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
