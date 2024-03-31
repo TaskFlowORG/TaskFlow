@@ -39,7 +39,7 @@ type isOpenBro = {
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
-  const [list, setList] = useState<FilteredProperty>();
+  const [list, setList] = useState<FilteredProperty | null>();
   const [input, setInput] = useState("");
   // const [url, setUrl] = useState("");
   // async function findImage() {
@@ -100,6 +100,8 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         console.log(updateProp);
       }
     });
+    setList(undefined);
+    setFilter([]);
   }
 
   function change(prop: TaskValueGet): boolean {
@@ -186,7 +188,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                 value: null,
               };
               return (
-                <div key={prop.id} className="bg-white flex flex-col">
+                <div
+                  key={prop.id}
+                  className="bg-white dark:bg-modal-grey flex flex-col"
+                >
                   <div className="flex gap-8 w-full items-center">
                     <img src="/config.svg" alt="" />
                     {/* <span>C</span> */}
@@ -194,12 +199,12 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                       value={{
                         filterProp: filter,
                         setFilterProp: setFilter,
-                        list,
+                        list: list ?? undefined,
                         setList: setList,
                       }}
                     >
                       <div className="flex flex-col justify-center  gap-2 flex-1">
-                        <div className="flex-1 flex items-center  justify-between ">
+                        <div className="flex-1 flex items-center   justify-between ">
                           <div className="flex gap-3">
                             <IconsSelector property={prop.property} />
                             <p className="font-montserrat text-[16px] whitespace-nowrap">
@@ -241,12 +246,21 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 value={prop.value.value}
                               />
                             )) ||
+                            (TypeOfProperty.PROGRESS == prop.property.type && (
+                              <RadioFilter
+                                isInModal
+                                name={prop.property.name}
+                                id={prop.property.id}
+                                options={(prop.property as Select).options}
+                                value={prop.value.value?.name ?? "oi"}
+                              />
+                            )) ||
                             (TypeOfProperty.DATE == prop.property.type && (
                               <DateFilter
                                 isInModal
                                 id={prop.property.id}
                                 name={prop.property.name}
-                                value={propert.value ?? ""}
+                                value={prop.value.value ?? ""}
                               />
                             ))}
                         </div>
@@ -261,7 +275,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               name={prop.property.name}
                               id={prop.property.id}
                               options={(prop.property as Select).options}
-                              value={prop.value.value?.name}
+                              value={prop.value.value?.name ?? "oi"}
                             />
                           )) ||
                           (prop.property.type == TypeOfProperty.CHECKBOX &&
@@ -335,7 +349,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               textSize="text-base"
               text="Cancelar"
               secondary={true}
-              fnButton={updateTask}
+              fnButton={() => {
+                setList(undefined);
+                setFilter([]);
+              }}
               paddingY="py-1  "
               padding="p-4"
             />

@@ -41,12 +41,11 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
           const prop = filterProp!.find((prop) => prop.id == property.id) ?? {
             value: null,
           };
-          
 
           if (property.type === TypeOfProperty.TEXT) {
             return (
               <TextFilter
-                value={prop.value}
+                value={prop.value ?? ""}
                 key={property.id}
                 name={property.name}
                 id={property.id}
@@ -57,7 +56,7 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
               <DateFilter
                 name={property.name}
                 id={property.id}
-                value={prop?.value}
+                value={prop?.value ?? ""}
                 key={property.id}
               />
             );

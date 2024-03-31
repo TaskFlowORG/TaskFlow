@@ -19,11 +19,15 @@ export const DateFilter = ({
 
   useEffect(() => {
     const splitTimestamp: string[] = value?.split("T");
-    if (splitTimestamp) {
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop && isInModal) {
+      const splitTimestamp: string[] = prop.value?.split("T");
+      setValued(splitTimestamp[0] ?? "");
+    } else if (splitTimestamp) {
       const datePart: string = splitTimestamp[0];
       setValued(datePart ?? "");
     }
-  }, [value]);
+  }, [value, setFilterProp, filterProp]);
 
   return (
     <div className="flex gap-4 w-full items-center justify-between border-b-[1px]  pb-2">
