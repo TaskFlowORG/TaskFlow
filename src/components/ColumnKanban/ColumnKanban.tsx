@@ -24,9 +24,10 @@ interface Props {
   tasks: TaskOrdered[];
   verify?: boolean;
   input?: string;
+  openModal?: (task:TaskOrdered)=> void
 }
 
-export const ColumnKanban = ({ option, tasks, input }: Props) => {
+export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
   const [direction, setDirection] = useState<Direction>("vertical");
   const { theme } = useTheme();
   const { filterProp, setFilterProp } = useContext(FilterContext);
@@ -165,6 +166,7 @@ export const ColumnKanban = ({ option, tasks, input }: Props) => {
                                   ...provided.draggableProps.style,
                                 }}
                                 id={item.task.id.toString()}
+                                onClick={()=> openModal!(item)}
                               >
                                 <RoundedCard
                                   color={

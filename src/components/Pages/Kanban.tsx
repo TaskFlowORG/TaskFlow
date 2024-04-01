@@ -42,6 +42,7 @@ export const Kanban = ({ user }: UserLogged) => {
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
+  const [selectedTask, setSelectedTask] = useState<TaskOrdered>();
 
   useEffect(() => {
     (async () => {
@@ -52,6 +53,11 @@ export const Kanban = ({ user }: UserLogged) => {
       setPage(pg);
     })();
   });
+
+  function openModal(task: TaskOrdered) {
+    setIsOpen(true);
+    setSelectedTask(task);
+  }
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
@@ -161,7 +167,7 @@ export const Kanban = ({ user }: UserLogged) => {
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
         <TaskModal
-          task={tasks[0]}
+          task={selectedTask!}
           setIsOpen={setIsOpen}
           isOpen={isOpen}
           user={user}
@@ -278,6 +284,7 @@ export const Kanban = ({ user }: UserLogged) => {
               return (
                 <ColumnKanban
                   input={input}
+                  openModal={openModal}
                   key={`${option.id}`}
                   tasks={indexAtColumn(
                     tasks.filter((task) => {
@@ -306,6 +313,7 @@ export const Kanban = ({ user }: UserLogged) => {
             {
               <ColumnKanban
                 key={0}
+                openModal={openModal}
                 input={input}
                 tasks={tasks.filter((task) => {
                   return task?.task?.properties?.some((property) => {

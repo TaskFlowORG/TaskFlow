@@ -13,7 +13,12 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
   const [valued, setValued] = useState<number>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
-    setValued(value);
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop) {
+      setValued(prop.value ?? "");
+    } else  {
+      setValued(value ?? "");
+    }
   }, [value]);
   const styleWithBorder = twMerge(
     "flex gap-4 w-full h-min justify-between  items-center ",

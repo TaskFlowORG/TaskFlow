@@ -75,7 +75,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             updateProp.property.type
           )
         ) {
-          console.log(value.value);
+          // console.log(value.value);
           // let updatedValue = (updateProp.property as Select).options.filter(
           //   (value2) => value.value.find((value3: any) => value2 == value3)
           // );
@@ -94,7 +94,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         }
 
         await taskService.upDate(task.task);
-        console.log(updateProp);
+        // console.log(updateProp);
       }
     });
     setList(undefined);
@@ -293,11 +293,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   name={prop.property.name}
                                   options={(prop.property as Select).options}
                                   id={prop.property.id}
-                                  value={
-                                    prop.value.value.map(
-                                      (item: any) => item.name
-                                    ) ?? []
-                                  }
+                                  value={propert.value}
                                 />
                               )) ||
                             (prop.property.type == TypeOfProperty.TAG && (
