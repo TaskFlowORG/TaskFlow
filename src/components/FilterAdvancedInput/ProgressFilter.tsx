@@ -29,7 +29,7 @@ export const ProgressFilter = ({
   const [localPercent, setLocalPercent] = useState<number>(+value);
 
   function changePercent(number: number) {
-    console.log(number, percent);
+    // console.log(number, percent);
     setLocalPercent(number);
   }
   return (
@@ -55,7 +55,7 @@ export const ProgressFilter = ({
           // onMouseLeave={() => setDrag(false)}
         >
           {list.map((item) => {
-            console.log(list);
+            // console.log(list);
             return (
               <div
                 key={item}

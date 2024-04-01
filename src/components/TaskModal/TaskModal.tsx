@@ -293,9 +293,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   name={prop.property.name}
                                   options={(prop.property as Select).options}
                                   id={prop.property.id}
-                                  value={prop.value.value.map(
-                                    (option: any) => option.name
-                                  )}
+                                  value={propert.value}
                                 />
                               )) ||
                             (prop.property.type == TypeOfProperty.TAG && (

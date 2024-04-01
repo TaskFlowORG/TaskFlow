@@ -8,7 +8,7 @@ class TaskService {
     }
 
     async upDate(task: Task): Promise<void> {
-        await Api.put('task', task);
+       await Api.put('task', task);
     }
 
     async patch(task: Task): Promise<void> {

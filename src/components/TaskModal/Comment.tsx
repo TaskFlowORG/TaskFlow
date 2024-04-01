@@ -22,6 +22,7 @@ export const Comment = ({ value, sender, date, user }: CommentType) => {
   function formatarHorario(data: string): string {
     // Convertendo a string de data para o tipo Date
     const dataObj = new Date(data);
+    // console.log(dataObj);
 
     // Obtendo as partes da hora
     const horas = pad(dataObj.getHours());
@@ -49,7 +50,7 @@ export const Comment = ({ value, sender, date, user }: CommentType) => {
 
         <p className="text-[12px] font-montserrat text-[#343434]">
           {!(user.username == sender.username) ? sender?.username : "Você"} -{" "}
-          {formatarHorario(date ?? "N/a")}
+          {formatarHorario(date!)}
         </p>
       </div>
     </div>
