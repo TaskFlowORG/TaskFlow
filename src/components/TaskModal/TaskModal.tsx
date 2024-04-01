@@ -293,7 +293,9 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   name={prop.property.name}
                                   options={(prop.property as Select).options}
                                   id={prop.property.id}
-                                  value={propert.value}
+                                  value={prop.value.value.map(
+                                    (option: any) => option.name
+                                  )}
                                 />
                               )) ||
                             (prop.property.type == TypeOfProperty.TAG && (
@@ -375,7 +377,16 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               padding="p-4"
             />
           </div>
+          <div className="bg-input-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
+            <p className="font-montserrat text-base">
+              Adicionar propriedade para tarefa
+            </p>
+            <img src="/addProp.svg" alt="" />
+          </div>
           <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+          <div className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary">
+            <img src="/trash.svg" alt="" width={18} height={18} />
+          </div>
         </div>
       </div>
 
