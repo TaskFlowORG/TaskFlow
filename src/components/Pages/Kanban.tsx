@@ -46,7 +46,7 @@ export const Kanban = ({ user }: UserLogged) => {
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 1);
+      const pg: OrderedPage = await getPage("page", 4);
       setTasks(pg.tasks as TaskOrdered[]);
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
@@ -143,13 +143,13 @@ export const Kanban = ({ user }: UserLogged) => {
           console.log(page);
           console.log(draggedTask);
           await taskService.upDate(draggedTask.task);
-
           await pageService.updateIndexesKanban(
             page!,
             draggedTask?.task?.id,
             destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
           );
+          
         }
       } catch (e) {}
     };
