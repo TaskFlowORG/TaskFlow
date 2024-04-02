@@ -7,7 +7,7 @@ interface Props {
     groupId?: number;
 }
 
-export const Description: React.FC<Props> = ({ project, groupId = 1 }) => {
+export const Description: React.FC<Props> = ({ project, groupId }) => {
     const [groups, setGroups] = useState<any[]>([]);
     const [group, setGroup] = useState<any>({});
 
@@ -16,7 +16,7 @@ export const Description: React.FC<Props> = ({ project, groupId = 1 }) => {
             try {
                 const fetchedGroups = await getListData("group");
                 setGroups(fetchedGroups);
-                const fetchedGroup = await getData("group", groupId);
+                const fetchedGroup = await getData("group", Number(groupId));
                 setGroup(fetchedGroup);
             } catch (error) {
                 console.error("Error fetching data:", error);
@@ -30,7 +30,7 @@ export const Description: React.FC<Props> = ({ project, groupId = 1 }) => {
         <div>
             {
                 groups.map((g) => {
-                    if (g.id === groupId) {
+                    if (g.id === Number(groupId)) {
                         return <GroupAccess key={g.id} name={g.name} description={g.description} project={project} group={g} />
                     }
                     return null;

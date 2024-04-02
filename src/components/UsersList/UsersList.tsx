@@ -21,7 +21,7 @@ interface Props {
   userId?: number
 }
 
-export const UsersList: React.FC<Props> = ({ project, groupId = 1, userId = 1 }) => {
+export const UsersList: React.FC<Props> = ({ project, groupId, userId = 1 }) => {
   const [text, setText] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [usersGroup, setUsersGroup] = useState<User[]>([]);
@@ -35,7 +35,8 @@ export const UsersList: React.FC<Props> = ({ project, groupId = 1, userId = 1 })
       try {
         const fetchedUsers = await getListData("user");
         setUsers(fetchedUsers);
-        const fetchedGroup = await getData("group", groupId);
+        console.log("oii", Number(groupId))
+        const fetchedGroup = await getData("group", Number(groupId));
         setGroup(fetchedGroup);
         const groupUsers = fetchedGroup.users;
         const ownerIndex = groupUsers.findIndex((user: User) => user.username === fetchedGroup.owner.username);
@@ -123,7 +124,7 @@ export const UsersList: React.FC<Props> = ({ project, groupId = 1, userId = 1 })
   );
 
   return (
-    <div className="flex w-full justify-center h-full lg:justify-start dark:text-[#FCFCFFC]">
+    <div className="flex w-full justify-center h-full lg:justify-start">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
         <div className="flex flex-col gap-12 justify-between">
           <div>

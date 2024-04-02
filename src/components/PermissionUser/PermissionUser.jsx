@@ -59,7 +59,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
   return (
     <div className="">
-      <div className="border rounded-md relative border-[#F04A94] px-4 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-[#F76858] h-10 md:h-12 lg:h-12 flex items-center justify-between">
+      <div className="border rounded-md relative border-primary px-4 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-secondary h-10 md:h-12 lg:h-12 flex items-center justify-between">
 
         <button className="flex justify-end" onClick={() => openModal ? setOpenModal(false) : setOpenModal(true)}>
           {options}
@@ -70,7 +70,7 @@ export const PermissionUser = ({ group, userId, project }) => {
           <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
 
-        <div className="text-[#F04A94] dark:text-[#F76858] w-36 flex justify-between ">
+        <div className="text-primary dark:text-secondary w-36 flex justify-between ">
           <p className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
 
           {group.owner && user.username === group.owner.username ? (
@@ -80,7 +80,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
           ) : (
             <select
-              className='text-[#F04A94] text-center flex flex-1 w-full mnAlata border-none dark:text-[#F76858]'
+              className='text-primary text-center flex flex-1 w-full mnAlata border-none dark:text-secondary'
               name="permission"
               id="permission"
               value={selectedPermission}

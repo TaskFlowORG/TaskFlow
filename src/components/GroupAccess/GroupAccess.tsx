@@ -106,7 +106,7 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                 </div>
                 <div className="flex justify-end">
                     <select
-                        className='flex mr-6 text-[#F04A94] dark:text-[#F76858] text-center w-[35%] ml-4 mnAlata  border-2 rounded-sm border-[#F04A94] dark:border-[#F76858]'
+                        className='flex mr-6 text-primary dark:text-secondary text-center w-[35%] ml-4 mnAlata border-2 rounded-sm border-primary dark:border-secondary'
                         name="permission"
                         id="permission"
                         value={selectedPermission}
@@ -136,9 +136,9 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                 <div className=''>
             {isEnable ? (
                     <div className='flex justify-between'>
-                        <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => {setIsEnable(false), setNewName(group.name,
+                        <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => {setIsEnable(false), setNewName(group.name,
                             ), setNewDescription(group.description)}}>Cancelar</button>
-                        <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
+                        <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                     </div>
                 ) : 
                     <div className="flex justify-end">
