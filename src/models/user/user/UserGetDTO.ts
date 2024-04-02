@@ -11,11 +11,11 @@ export class UserGet {
     username!: string;
     name!: string;
     surname!: string;
-    address?: string;
+    address!: string;
     picture?: Archive;
     mail!: string;
-    phone?: string;
-    description?: string;
+    phone!: string;
+    description!: string;
     points!: number;
     configuration!: Configuration;
     permissions!: PermissionGet[];

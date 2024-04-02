@@ -16,7 +16,7 @@ class UserService {
         await Api.put("user", userPut);
     }
 
-    async patch(user:User):Promise<void>{
+    async patch(user:UserPut):Promise<void>{
         const userPut = new UserPut(user.username, user.name, user.surname, user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
         await Api.patch("user", userPut);
     }

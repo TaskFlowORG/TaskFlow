@@ -1,17 +1,19 @@
-import { ChangeEvent, MouseEventHandler, useEffect, useState } from 'react';
-import { useTheme } from "next-themes";
-import { Obj } from '../Obj';
-import { userService } from '@/services';
 import Cookies from 'js-cookie';
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import { useTheme } from "next-themes";
+import { userService } from '@/services';
 import { User, UserPut } from '@/models';
+import { Obj } from '../Obj';
 
 export const GeneralConfig = () => {
 
     const [toggle, setToggle] = useState(true);
-    const [color, setColor] = useState<string>("#00ff00")
-    const {theme, setTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
+    const [themeToggle, setThemeToggle] = useState<boolean>(false);
     const [libras, setLibras] = useState<boolean>();
+    const [textToSound, setTextToSound] = useState<boolean>();
     const [user, setUser] = useState<User>();
+    const [color, setColor] = useState<string>("#00ff00")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -19,13 +21,14 @@ export const GeneralConfig = () => {
                 const usuario = await userService.findByUsername("Marquardt")
                 setUser(usuario)
                 setLibras(usuario.configuration.libras)
-                
+                setTextToSound(usuario.configuration.textToSound)
+                setThemeToggle(theme === "dark");
             } catch (error) {
             }
         };
 
         fetchData();
-    }, []);
+    }, [theme]);
 
     const functionBall = (value: Object) => {
         if (value == "+") {
@@ -35,17 +38,28 @@ export const GeneralConfig = () => {
         }
     }
 
-    const updateBack = async (e:ChangeEvent<HTMLInputElement>) => {
-        setLibras(e.target.checked);
-        Cookies.set('libras', e.target.checked.toString());
-        const configuration = (await userService.findByUsername("Marquardt")).configuration
-        configuration.libras = e.target.checked;
-        const updatedUser = new UserPut(
-            (await userService.findByUsername("Marquardt")).username,
-            undefined, undefined, undefined, undefined, undefined, undefined,
-            configuration
-        );
-        userService.patch(updatedUser);
+    const updateBack = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.id == "libras") {
+            setLibras(e.target.checked);
+            Cookies.set('libras', e.target.checked.toString());
+            const configuration = (await userService.findByUsername("Marquardt")).configuration
+            configuration.libras = e.target.checked;
+            const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
+            userService.patch(updatedUser);
+        }
+        if (e.target.id == "textToSound") {
+            setTextToSound(e.target.checked);
+            Cookies.set('textToSound', e.target.checked.toString());
+            const configuration = (await userService.findByUsername("Marquardt")).configuration
+            configuration.textToSound = e.target.checked;
+            const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
+            userService.patch(updatedUser);
+        }
+        if (e.target.id == "theme") {
+            setThemeToggle(e.target.checked);
+            setTheme(e.target.checked ? "dark" : "light");
+            Cookies.set('theme', e.target.checked ? "dark" : "light");
+        }
     }
 
     return (
@@ -61,10 +75,10 @@ export const GeneralConfig = () => {
                             <p className='h3 dark:text-white'>Configurações Gerais </p>
                         </div>
                         <div className='w-full'>
-                            <InputFieldConfig type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} onClickTema={() => mudarTema()} onClickSet={() => setToggle(!toggle)} />
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
-                            <InputFieldConfig type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} onClickTema={() => { }} onClickSet={() => { }} />
+                            <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} checked={themeToggle} onChange={updateBack} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                         </div>
                     </div>
                     <div className='w-[95%]'>
@@ -75,11 +89,11 @@ export const GeneralConfig = () => {
                             </div>
                             <div className='flex justify-between w-[40%]'>
                                 <div className='flex items-center'>
-                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' checked={libras} onChange={updateBack} />
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='libras' checked={libras} onChange={updateBack} />
                                     <p className='p pl-4'>Libras</p>
                                 </div>
                                 <div className='flex items-center'>
-                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='configurations' />
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='textToSound' checked={textToSound} onChange={updateBack} />
                                     <p className='p pl-4'>Texto para som</p>
                                 </div>
                             </div>
@@ -138,7 +152,7 @@ export const GeneralConfig = () => {
                         <div className='h-fit flex items-center justify-between'>
                             <div className='w-[70%] flex flex-col'>
                                 <p className='h3 dark:text-white '>Refazer Tutorial </p>
-                                <p className='p'>Compreenda perfeitamente todas as funcionalidaades dentro de nosso aplicativo, aproveitando ao máximo seu uso!</p>
+                                <p className='p'>Compreenda perfeitamente todas as funcionalidades dentro de nosso aplicativo, aproveitando ao máximo seu uso!</p>
                             </div>
                             <div className='bg-primary dark:bg-secondary w-48 h-12 rounded-md flex items-center justify-center'>
                                 <p className='p'>Refazer Tutorial</p>
@@ -151,14 +165,14 @@ export const GeneralConfig = () => {
     );
 };
 
-export const InputFieldConfig = ({ type, label, value, onClickTema, onClickSet }: { type: string, label: string, value: string, onClickTema: MouseEventHandler<HTMLInputElement>, onClickSet: MouseEventHandler<HTMLInputElement> }) => (
+export const InputFieldConfig = ({ id, type, label, value, onChange, checked }: { id: string, type: string, label: string, value: string, onChange: ChangeEventHandler<HTMLInputElement>, checked: boolean }) => (
     <>
         <div className='flex justify-between'>
             <p className="h4">{label}</p>
-            <div className="flex items-center font-bold" onClick={onClickTema}>
+            <div className="flex items-center font-bold">
                 <label className="relative w-16 h-8 ml-4 mr-2" >
-                    <input type={type} className="opacity-0 w-0 h-0 toggle-input" onClick={onClickSet} />
-                    <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
+                    <input id={id} type={type} className="opacity-0 w-0 h-0 toggle-input" onChange={onChange} checked={checked} />
+                    <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all duration-300 before:content-[' '] 
                                         before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider">
                     </span>
                 </label>

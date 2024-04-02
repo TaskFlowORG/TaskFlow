@@ -2,11 +2,11 @@
 
 import { ChangeEventHandler, SetStateAction, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
-import { User } from "@/models";
+import { User, UserPut } from "@/models";
 import Image from "next/image";
 
 export const PersonalInformations = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User>();
     const [editingAddress, setEditingAddress] = useState(false);
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
@@ -14,14 +14,20 @@ export const PersonalInformations = () => {
     const [mail, setMail] = useState("");
     const [phone, setPhone] = useState("");
     const [desc, setDesc] = useState("");
-    const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+    const [photoUrl, setPhotoUrl] = useState<string>();
     const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
     const photoInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         async function getUser() {
-            const response = await userService.findByUsername("Marquardt");
-            setUser(response);
+            const usuario = await userService.findByUsername("Marquardt");
+            setUser(usuario);
+            setName(usuario.name)
+            setSurname(usuario.surname)
+            setAddress(usuario.address)
+            setMail(usuario.mail)
+            setPhone(usuario.phone)
+            setDesc(usuario.description)
         }
         getUser();
     }, []);
@@ -55,18 +61,7 @@ export const PersonalInformations = () => {
     }
 
     const saveChanges = async () => {
-        const updatedUser = new User(
-            (await userService.findByUsername("Marquardt")).username,
-            name || (await userService.findByUsername("Marquardt")).name,
-            surname || (await userService.findByUsername("Marquardt")).surname,
-            address || (await userService.findByUsername("Marquardt")).address,
-            mail || (await userService.findByUsername("Marquardt")).mail,
-            phone || (await userService.findByUsername("Marquardt")).phone,
-            desc || (await userService.findByUsername("Marquardt")).description,
-            (await userService.findByUsername("Marquardt")).points,
-            (await userService.findByUsername("Marquardt")).configuration,
-            (await userService.findByUsername("Marquardt")).permissions
-        );
+        const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, name, surname, address, mail, phone, desc, undefined, undefined)
         userService.patch(updatedUser);
     };
 
@@ -99,7 +94,7 @@ export const PersonalInformations = () => {
 
                     <div className="flex flex-col h-full justify-center gap-4 text-modal-grey ">
                         <div className="overflow-auto">
-                            <h2 className="h2 text-modal-grey dark:text-white">{user?.name} {user?.surname}</h2>
+                            <h2 className="h2 text-modal-grey dark:text-white">{name} {surname}</h2>
                         </div>
                         <div className="flex items-center gap-2">
                             {editingAddress ? (
