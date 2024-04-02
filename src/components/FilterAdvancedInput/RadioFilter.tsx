@@ -29,12 +29,12 @@ export const RadioFilter = ({
     if (prop) {
       setSelectedOption(prop.value);
     } else {
-      setSelectedOption(value?.toString() ?? "oi");
+      setSelectedOption(value?.toString() ?? "244a271c-ab15-4620-b4e2-a24c92fe4042");
     }
   }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
     const thisProperty = filterProp?.find((item) => item.id == id);
-    if (event.target.value == "oi" && thisProperty && !isInModal) {
+    if (event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" && thisProperty && !isInModal) {
       setSelectedOption(event.target.value);
       filterProp.splice(filterProp.indexOf(thisProperty), 1);
     } else if (thisProperty) {
@@ -81,16 +81,16 @@ export const RadioFilter = ({
         <div className="flex gap-1 items-center">
           <input
             type="radio"
-            id="oi"
+            id="244a271c-ab15-4620-b4e2-a24c92fe4042"
             className="custom-radio"
-            value={"oi"}
+            value={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
             name="radioGroup"
-            checked={"oi" == selectedOption}
+            checked={"244a271c-ab15-4620-b4e2-a24c92fe4042" == selectedOption}
             onChange={handleOptionChange}
           />
           <label
             className="text-black font-montserrat text-[14px] dark:text-white"
-            htmlFor="oi"
+            htmlFor="244a271c-ab15-4620-b4e2-a24c92fe4042"
           >
             {"Qualquer"}
           </label>

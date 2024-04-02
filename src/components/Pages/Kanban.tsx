@@ -28,13 +28,14 @@ import {
 import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
 import { UserGet } from "@/models/user/user/UserGetDTO";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 type UserLogged = {
   user: UserGet;
 };
 
 export const Kanban = ({ user }: UserLogged) => {
   const [input, setInput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
@@ -42,21 +43,25 @@ export const Kanban = ({ user }: UserLogged) => {
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
-  const [selectedTask, setSelectedTask] = useState<TaskOrdered>();
+  // const [selectedTask, setSelectedTask] = useState<TaskOrdered>();
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 4);
-      setTasks(pg.tasks as TaskOrdered[]);
+      const pg: OrderedPage = await getPage("page", 1);
+      setTasks(
+        (pg.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
+      );
       setOptions((pg.propertyOrdering as Select).options);
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  });
+  }, []);
+
+  const {setSelectedTask, setIsOpen} = useContext(TaskModalContext)
 
   function openModal(task: TaskOrdered) {
-    setIsOpen(true);
-    setSelectedTask(task);
+    setIsOpen!(true);
+    setSelectedTask!(task.task);
   }
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
@@ -149,7 +154,6 @@ export const Kanban = ({ user }: UserLogged) => {
             destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
           );
-          
         }
       } catch (e) {}
     };
@@ -166,12 +170,7 @@ export const Kanban = ({ user }: UserLogged) => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <TaskModal
-          task={selectedTask!}
-          setIsOpen={setIsOpen}
-          isOpen={isOpen}
-          user={user}
-        />
+
         <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
           <div className="flex gap-4 items-center">
             <h1
@@ -186,7 +185,7 @@ export const Kanban = ({ user }: UserLogged) => {
             >
               <p
                 className="p text-primary text-4xl h-min w-min"
-                onClick={() => setIsOpen(true)}
+                onClick={() => setIsOpen!(true)}
               >
                 +
               </p>

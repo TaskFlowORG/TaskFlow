@@ -4,7 +4,14 @@ import { useEffect, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
-import { Message, Select, TaskOrdered, TypeOfProperty, Option } from "@/models";
+import {
+  Message,
+  Select,
+  TaskOrdered,
+  TypeOfProperty,
+  Option,
+  Task,
+} from "@/models";
 import { Select as Selectt } from "@/components/Select";
 import { UserGet } from "@/models/user/user/UserGetDTO";
 import { taskService } from "@/services";
@@ -34,7 +41,7 @@ import { TextFilter } from "../FilterAdvancedInput/TextFilter";
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
-  task: TaskOrdered;
+  task: Task;
   user: UserGet;
 };
 
@@ -42,6 +49,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty | null>();
   const [input, setInput] = useState("");
+  const [taskName, setTaskName] = useState("");
   // const [url, setUrl] = useState("");
   // async function findImage() {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
@@ -51,18 +59,27 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // console.log(filter);
   // console.log(list);
 
+  useEffect(() => {
+    setTaskName(task?.name ?? "");
+  }, [task?.name]);
+
+  async function updateNameTask(e: any) {
+    task.name = e.target.value;
+    setTaskName(e.target.value);
+    await taskService.upDate(task);
+  }
+
   async function updateTask() {
     filter.forEach(async (value) => {
       let updateProp =
-        task?.task?.properties?.find((prop) => prop.property.id == value.id) ??
-        null;
+        task?.properties?.find((prop) => prop.property.id == value.id) ?? null;
       if (updateProp) {
         if (
           [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
             updateProp.property.type
           )
         ) {
-          if (value.value != "oi") {
+          if (value.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {
             let updatedValue = (updateProp.property as Select).options.find(
               (option) => value.value == option.name
             );
@@ -88,17 +105,31 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           console.log(value);
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
-          updateProp.value.value = value.value + "T" + hours + ":" + minutes;
+          updateProp.value.value =
+            value.value +
+            "T" +
+            ((hours as number) < 10 ? "0" + hours : hours) +
+            ":" +
+            ((minutes as number) < 10 ? "0" + minutes : minutes);
+          console.log(updateProp.value.value);
         } else {
-          updateProp.value.value = value.value;
+          updateProp.value.value =
+            updateProp.property.type == TypeOfProperty.NUMBER
+              ? parseFloat(value.value)
+              : value.value;
         }
-
-        await taskService.upDate(task.task);
+        console.log(task);
+        await taskService.upDate(task);
         // console.log(updateProp);
       }
     });
     setList(undefined);
     setFilter([]);
+  }
+
+  async function deleteTask() {
+    taskService.delete(task.id, "jonatas");
+    setIsOpen(false);
   }
 
   function change(prop: TaskValueGet): boolean {
@@ -116,8 +147,8 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       sender: user,
       value: input,
     };
-    task.task.comments.push(comment);
-    await taskService.upDate(task.task);
+    task.comments.push(comment);
+    await taskService.upDate(task);
     setInput("");
   }
   return (
@@ -128,9 +159,16 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     >
       <div className="flex gap-[102px]  w-full h-full">
         <div className="flex flex-col gap-12 w-[453px]">
-          <h3 className="h3 whitespace-nowrap">
-            {task?.task.name ?? "Sem nome"}
-          </h3>
+          <div className="flex gap-4 items-center">
+            <input
+              className="h3 whitespace-nowrap bg-white outline-none"
+              placeholder="Sem nome"
+              value={taskName}
+              onChange={(e) => updateNameTask(e)}
+            ></input>
+            <p>change</p>
+          </div>
+
           <div className="flex flex-col w-full gap-6">
             <div className="flex gap-0 w-full">
               <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary rounded-t-lg">
@@ -144,7 +182,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             </div>
             <div className=" flex flex-col gap-6">
               <div className="flex flex-col gap-6 max-h-[442px] overflow-auto pr-8 bah">
-                {task?.task.comments.map((comment, index) => {
+                {task?.comments.map((comment, index) => {
                   return (
                     <Comment
                       user={user}
@@ -178,8 +216,8 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         <div className="w-full max-w-[547px] flex flex-col gap-6">
           <div className="w-full max-w-[547px] ">
             {/* bg-black */}
-            <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4   w-full">
-              {task?.task.properties.map((prop) => {
+            <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4 w-full">
+              {task?.properties.map((prop) => {
                 const propert = filter!.find(
                   (propert) => propert.id == prop.id
                 ) ?? {
@@ -224,7 +262,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   options={(
                                     prop.property as Select
                                   ).options.map((option) => option.name)}
-                                  value={prop.value.value?.name ?? "oi"}
+                                  value={
+                                    prop.value.value?.name ??
+                                    "244a271c-ab15-4620-b4e2-a24c92fe4042"
+                                  }
                                 />
                               )) ||
                               (TypeOfProperty.NUMBER == prop.property.type && (
@@ -238,21 +279,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               (TypeOfProperty.PROGRESS ==
                                 prop.property.type && (
                                 <ProgressFilter
-                                  percent={22}
                                   isInModal
                                   id={prop.property.id}
                                   name={prop.property.name}
                                   value={prop.value?.value}
-                                />
-                              )) ||
-                              (TypeOfProperty.PROGRESS ==
-                                prop.property.type && (
-                                <RadioFilter
-                                  isInModal
-                                  name={prop.property.name}
-                                  id={prop.property.id}
-                                  options={(prop.property as Select).options}
-                                  value={prop.value.value?.name ?? "oi"}
                                 />
                               )) ||
                               (TypeOfProperty.DATE == prop.property.type && (
@@ -283,7 +313,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 name={prop.property.name}
                                 id={prop.property.id}
                                 options={(prop.property as Select).options}
-                                value={prop.value.value?.name ?? "oi"}
+                                value={
+                                  prop.value.value?.name ??
+                                  "244a271c-ab15-4620-b4e2-a24c92fe4042"
+                                }
                               />
                             )) ||
                             (prop.property.type == TypeOfProperty.CHECKBOX &&
@@ -382,7 +415,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             <img src="/addProp.svg" alt="" />
           </div>
           <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
-          <div className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary">
+          <div
+            className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
+            onClick={deleteTask}
+          >
             <img src="/trash.svg" alt="" width={18} height={18} />
           </div>
         </div>

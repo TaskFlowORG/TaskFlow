@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { useContext, useEffect, useState } from "react";
 
 type Props = {
   isInModal?: boolean;
   id: number;
   name: string;
-  value: string;
-  percent: number;
+  value: number;
 };
 
 export const ProgressFilter = ({
@@ -13,10 +13,11 @@ export const ProgressFilter = ({
   id,
   name,
   value,
-  percent,
 }: Props) => {
   const [list, setList] = useState<number[]>([]);
+  const [valued, setValued] = useState<number>();
   const [drag, setDrag] = useState<boolean>();
+  const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     const lista = [];
     for (let i = 0; i <= 100; i++) {
@@ -24,14 +25,30 @@ export const ProgressFilter = ({
     }
     setList(lista);
     window.addEventListener("mouseup", () => setDrag(false));
-  }, [percent]);
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop) {
+      setValued(prop.value ?? "");
+    } else {
+      setValued(value ?? "");
+    }
+  }, [value, filterProp, setFilterProp]);
 
-  const [localPercent, setLocalPercent] = useState<number>(+value);
-
-  function changePercent(number: number) {
-    // console.log(number, percent);
-    setLocalPercent(number);
+  function change(valueInput: number) {
+    const thisProperty = filterProp?.find((item) => item.id == id);
+    if (thisProperty) {
+      if (valueInput) {
+        filterProp.splice(filterProp.indexOf(thisProperty), 1);
+        setFilterProp!(filterProp);
+      } else {
+        thisProperty.value = valueInput;
+      }
+    } else {
+      if (valueInput) {
+        setFilterProp!([...filterProp, { id: id, value: valueInput }]);
+      }
+    }
   }
+
   return (
     <div>
       {!isInModal && (
@@ -43,9 +60,12 @@ export const ProgressFilter = ({
           step={0.01}
           name=""
           className="p-1 pb-0 text-end input-number outline-none cursor-pointer"
-          value={localPercent + ""}
+          value={valued}
           id=""
-          onChange={(e) => setLocalPercent(parseFloat(e.target.value))}
+          onChange={(e) => {
+            setValued(parseFloat(e.target.value));
+            change(parseFloat(e.target.value));
+          }}
         />
         <div
           className="h-2 w-full flex select-none drag rounded-full overflow-clip"
@@ -63,14 +83,19 @@ export const ProgressFilter = ({
                 style={{
                   width: `1%`,
 
-                  backgroundColor: item < localPercent ? "#f04a94" : "#BABABA",
+                  backgroundColor:
+                    item < valued! ? "#f04a94" : "#BABABA",
                 }}
                 onMouseOver={() => {
                   if (drag) {
-                    setLocalPercent(item);
+                    setValued(item);
+                    change(item);
                   }
                 }}
-                onClick={() => changePercent(item)}
+                onClick={() => {
+                  setValued(item);
+                  change(item);
+                }}
               ></div>
             );
           })}

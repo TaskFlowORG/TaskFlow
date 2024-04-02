@@ -6,6 +6,7 @@ import {  SideSecondary } from "./SideSecondary";
 import {  PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
 import { GroupSide } from "./GroupSide";
+import { SideBarButton } from "./SideBarButton";
 
 
 

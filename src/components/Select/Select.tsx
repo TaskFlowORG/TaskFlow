@@ -27,7 +27,7 @@ export const Select = ({
     if (prop) {
       setSelectedOption(prop.value);
     } else {
-      setSelectedOption(value?.toString() ?? "oi");
+      setSelectedOption(value?.toString() ?? "244a271c-ab15-4620-b4e2-a24c92fe4042");
     }
   }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
@@ -35,14 +35,14 @@ export const Select = ({
     const thisProperty = filterProp?.find((item) => item.id == ids);
     if (thisProperty) {
       setSelectedOption(event.target.value);
-      if (event.target.value == "oi" && !isInModal) {
+      if (event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" && !isInModal) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
         setFilterProp!(filterProp);
       } else {
         thisProperty.value = event.target.value;
       }
     } else {
-      if (event.target.value != "oi") {
+      if (event.target.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {
         setSelectedOption(event.target.value);
         setFilterProp!([...filterProp, { id: ids, value: event.target.value }]);
       }
@@ -72,7 +72,7 @@ export const Select = ({
           onChange={handleOptionChange}
           // onChange={e => change(e.target.value)} defaultValue={defaultValue}
         >
-          <option className="w-full text-center" value="oi">
+          <option className="w-full text-center" value="244a271c-ab15-4620-b4e2-a24c92fe4042">
             Selecione...
           </option>
           {options.map((o: any, index) => {
