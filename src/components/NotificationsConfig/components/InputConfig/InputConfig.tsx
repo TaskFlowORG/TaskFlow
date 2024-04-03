@@ -1,6 +1,6 @@
 import { ChangeEventHandler } from "react";
 
-export const InputConfig = ({ id, type, title, description, onChange, checked }: { id: string, type: string, title: string, description: string, onChange: ChangeEventHandler<HTMLInputElement>, checked: boolean }) => (
+export const InputConfig = ({ id, type, title, description, onChange, checked, notifications }: { id: string, type: string, title: string, description: string, onChange: ChangeEventHandler<HTMLInputElement>, checked: boolean, notifications:boolean }) => (
     <div className={` ${notifications ? "opacity-100" : "opacity-50"}`}>
         <div className="w-full flex items-center justify-between row-start-3 ">
             <h4 className="h4 text-modal-grey dark:text-white">{title}</h4>

@@ -1,9 +1,8 @@
-"use client"
-
-import { ChangeEventHandler, SetStateAction, useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { SetStateAction, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
 import { User, UserPut } from "@/models";
-import Image from "next/image";
+import { InputFieldConfig } from "./components/InputFieldConfig";
 
 export const PersonalInformations = () => {
     const [user, setUser] = useState<User>();
@@ -62,7 +61,7 @@ export const PersonalInformations = () => {
     }
 
     const saveChanges = async () => {
-        const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, name, surname, address, mail, phone, desc, undefined, undefined)
+        const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, name, surname, address, mail, phone, desc, user!.configuration, undefined)
         userService.patch(updatedUser);
     };
 
@@ -144,24 +143,6 @@ export const PersonalInformations = () => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
-
-const InputFieldConfig = ({ id, label, type, value, onChange, placeholder }: { id: string, label: string, type: string, value: string, onChange: ChangeEventHandler<HTMLInputElement>, placeholder: string }) => {
-
-    return (
-        <div className="px-6 w-full">
-            <label className="flex flex-col w-full dark:text-white">
-                {label} <input
-                    className={`shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full pl-4 focus:outline-none h-12`}
-                    id={id}
-                    type={type}
-                    value={value}
-                    onChange={onChange}
-                    placeholder={placeholder}
-                />
-            </label>
         </div>
     )
 }
