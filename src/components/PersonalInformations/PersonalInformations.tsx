@@ -20,7 +20,7 @@ export const PersonalInformations = () => {
 
     useEffect(() => {
         async function getUser() {
-            const usuario = await userService.findByUsername("Marquardt");
+            const usuario = await userService.findByUsername("jonatas");
             setUser(usuario);
             setName(usuario.name)
             setSurname(usuario.surname)
@@ -54,6 +54,7 @@ export const PersonalInformations = () => {
     };
 
     const deleteUser = (username: string) => {
+        //nao vai ficar assim
         var sla = confirm("Tem certeza que deseja excluir sua conta? Esta ação é irreversível.");
         if (sla == true) {
             userService.delete(username);
@@ -61,7 +62,7 @@ export const PersonalInformations = () => {
     }
 
     const saveChanges = async () => {
-        const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, name, surname, address, mail, phone, desc, undefined, undefined)
+        const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, name, surname, address, mail, phone, desc, undefined, undefined)
         userService.patch(updatedUser);
     };
 
@@ -136,7 +137,7 @@ export const PersonalInformations = () => {
                     </div>
                 </div>
                 <div className="absolute bottom-5 right-0  flex-row-reverse px-6 flex items-center w-[37%]">
-                    <div onClick={() => deleteUser("Marquardt")} onMouseEnter={() => { setExtenderBotaoDel(true) }} onMouseLeave={() => { setExtenderBotaoDel(false) }}
+                    <div onClick={() => deleteUser("jonatas")} onMouseEnter={() => { setExtenderBotaoDel(true) }} onMouseLeave={() => { setExtenderBotaoDel(false) }}
                         className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel ? "w-[30%] bg-primary" : "w-10"}`}>
                         <Image width={25} height={25} className="" src="/img/Trash.svg" alt="excluir"></Image>
                         {extenderBotaoDel ? <p className="whitespace-nowrap p">Deletar conta</p> : null}

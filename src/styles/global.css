@@ -295,7 +295,7 @@ input[type="checkbox"] {
   border: 2px solid #ccc;
   outline: none;
   position: relative;
-}
+} 
 
 input[type="checkbox"]:checked::before {
   content: "";

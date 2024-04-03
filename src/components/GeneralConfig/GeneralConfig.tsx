@@ -8,7 +8,7 @@ import { Obj } from '../Obj';
 export const GeneralConfig = () => {
 
     const [toggle, setToggle] = useState(true);
-    const { theme, setTheme } = useTheme();
+    const {theme, setTheme} = useTheme();
     const [themeToggle, setThemeToggle] = useState<boolean>(false);
     const [libras, setLibras] = useState<boolean>();
     const [textToSound, setTextToSound] = useState<boolean>();
@@ -18,7 +18,7 @@ export const GeneralConfig = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const usuario = await userService.findByUsername("Marquardt")
+                const usuario = await userService.findByUsername("jonatas")
                 setUser(usuario)
                 setLibras(usuario.configuration.libras)
                 setTextToSound(usuario.configuration.textToSound)
@@ -38,21 +38,26 @@ export const GeneralConfig = () => {
         }
     }
 
+    const speak = (text:string) => {
+        const utterance = new SpeechSynthesisUtterance(text);
+        speechSynthesis.speak(utterance);
+    };
+
     const updateBack = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.id == "libras") {
             setLibras(e.target.checked);
             Cookies.set('libras', e.target.checked.toString());
-            const configuration = (await userService.findByUsername("Marquardt")).configuration
+            const configuration = (await userService.findByUsername("jonatas")).configuration
             configuration.libras = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
+            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
             userService.patch(updatedUser);
         }
         if (e.target.id == "textToSound") {
             setTextToSound(e.target.checked);
             Cookies.set('textToSound', e.target.checked.toString());
-            const configuration = (await userService.findByUsername("Marquardt")).configuration
+            const configuration = (await userService.findByUsername("jonatas")).configuration
             configuration.textToSound = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("Marquardt")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
+            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
             userService.patch(updatedUser);
         }
         if (e.target.id == "theme") {
@@ -66,6 +71,7 @@ export const GeneralConfig = () => {
         <div className="w-[80%] h-[80%]">
             <div className='w-fit px-2'>
                 <p className='h2 text-primary dark:text-secondary'>Configurações</p>
+                
             </div>
 
             <div className='w-full h-full flex items-center justify-center'>
@@ -76,7 +82,7 @@ export const GeneralConfig = () => {
                         </div>
                         <div className='w-full'>
                             <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} checked={themeToggle} onChange={updateBack} />
-                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => speak("felipe, mundo!")} />
                             <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                             <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                         </div>

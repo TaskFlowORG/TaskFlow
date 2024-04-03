@@ -8,10 +8,10 @@ export class UserPut {
     username!: string;
     name!: string;
     surname!: string;
-    address?: string;
+    address!: string;
     mail!: string;
-    phone?: string;
-    description?: string;
+    phone!: string;
+    description!: string;
     configuration!: Configuration ; 
     permissions!: PermissionGet[];
 
