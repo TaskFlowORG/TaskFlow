@@ -28,8 +28,8 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
             try {
                 const fetchedGroups = await getListData("project/" + project.id + "/groups");
                 const fetchedUser = await userService.findByUsername("heloisa")
-                const fetchedPermissions = await permissionService.findAll();
-                setPermissions(fetchedPermissions);
+                // const fetchedPermissions = await permissionService.findAll();
+                // setPermissions(fetchedPermissions);
                 setGroups(fetchedGroups);
                 setOwner(fetchedUser)
             } catch (error) {
@@ -72,12 +72,11 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 </button> */}
                 <div className="flex items-start h-[95%] w-full overflow-y-auto">
                     <div className="flex flex-col items-start max-w-full h-min w-full">
-
                         <div className="max-w-full h-min w-full pt-2">
                             {Array.isArray(groups) && groups.map((group, index) => (
                                 <div className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
-                                    <button onClick={() => router.push("/1/" + project.id + "/group/" + group.id)}>
+                                    <button onClick={() => router.push( "/heloisa" + "/" + project.id + "/group/" + group.id)}>
                                         <GroupComponent group={group} />
                                     </button>
                                 </div>
