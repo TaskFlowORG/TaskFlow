@@ -1,14 +1,15 @@
 import Cookies from 'js-cookie';
-import { ChangeEvent, ChangeEventHandler, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 import { userService } from '@/services';
-import { User, UserPut } from '@/models';
+import { Configuration, User, UserPut } from '@/models';
 import { Obj } from '../Obj';
+import { InputFieldConfig } from './components/InputFieldConfig';
 
 export const GeneralConfig = () => {
 
     const [toggle, setToggle] = useState(true);
-    const {theme, setTheme} = useTheme();
+    const { theme, setTheme } = useTheme();
     const [themeToggle, setThemeToggle] = useState<boolean>(false);
     const [libras, setLibras] = useState<boolean>();
     const [textToSound, setTextToSound] = useState<boolean>();
@@ -38,32 +39,33 @@ export const GeneralConfig = () => {
         }
     }
 
-    const speak = (text:string) => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        speechSynthesis.speak(utterance);
-    };
+    //Testando alguma forma de fazer o text to speech
+    //const speak = (text:string) => {
+    //    const utterance = new SpeechSynthesisUtterance(text);
+    //    speechSynthesis.speak(utterance);
+    //};
 
-    const updateBack = async (e: ChangeEvent<HTMLInputElement>) => {
-        if (e.target.id == "libras") {
-            setLibras(e.target.checked);
-            Cookies.set('libras', e.target.checked.toString());
-            const configuration = (await userService.findByUsername("jonatas")).configuration
-            configuration.libras = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
+    const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
+        if (e.target.id == id) {
+            switch (id) {
+                case 'libras':
+                    setLibras(e.target.checked);
+                    Cookies.set('libras', e.target.checked.toString());
+                    break;
+                case 'textToSound':
+                    setTextToSound(e.target.checked);
+                    Cookies.set('textToSound', e.target.checked.toString());
+                    break;
+                case 'theme':
+                    if (e.target.id == "theme") {
+                        setThemeToggle(e.target.checked);
+                        setTheme(e.target.checked ? "dark" : "light");
+                    }
+            }
+            const configuration: Configuration = (await userService.findByUsername("jonatas")).configuration;
+            configuration[id] = e.target.checked;
+            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration);
             userService.patch(updatedUser);
-        }
-        if (e.target.id == "textToSound") {
-            setTextToSound(e.target.checked);
-            Cookies.set('textToSound', e.target.checked.toString());
-            const configuration = (await userService.findByUsername("jonatas")).configuration
-            configuration.textToSound = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration)
-            userService.patch(updatedUser);
-        }
-        if (e.target.id == "theme") {
-            setThemeToggle(e.target.checked);
-            setTheme(e.target.checked ? "dark" : "light");
-            Cookies.set('theme', e.target.checked ? "dark" : "light");
         }
     }
 
@@ -71,9 +73,7 @@ export const GeneralConfig = () => {
         <div className="w-[80%] h-[80%]">
             <div className='w-fit px-2'>
                 <p className='h2 text-primary dark:text-secondary'>Configurações</p>
-                
             </div>
-
             <div className='w-full h-full flex items-center justify-center'>
                 <div className='grid grid-cols-2'>
                     <div className='w-[95%] '>
@@ -81,8 +81,8 @@ export const GeneralConfig = () => {
                             <p className='h3 dark:text-white'>Configurações Gerais </p>
                         </div>
                         <div className='w-full'>
-                            <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} checked={themeToggle} onChange={updateBack} />
-                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => speak("felipe, mundo!")} />
+                            <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} checked={themeToggle} onChange={(e) => updateBack(e, 'theme')} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                             <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                             <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                         </div>
@@ -95,11 +95,11 @@ export const GeneralConfig = () => {
                             </div>
                             <div className='flex justify-between w-[40%]'>
                                 <div className='flex items-center'>
-                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='libras' checked={libras} onChange={updateBack} />
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='libras' checked={libras} onChange={(e) => updateBack(e, 'libras')} />
                                     <p className='p pl-4'>Libras</p>
                                 </div>
                                 <div className='flex items-center'>
-                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='textToSound' checked={textToSound} onChange={updateBack} />
+                                    <input type="checkbox" className=' min-w-[2.2vh] min-h-[2.2vh] w-full h-full' id='textToSound' checked={textToSound} onChange={(e) => updateBack(e, 'textToSound')} />
                                     <p className='p pl-4'>Texto para som</p>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@ export const GeneralConfig = () => {
                                         </label>
                                     </div>
                                 </div>
-                                <div className=' '>
+                                <div>
                                     <p className='p'>Visualizar nome de propriedades em todas as tarefas, ao invés do seu valor também</p>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@ export const GeneralConfig = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className=' '>
+                                <div>
                                     <p className='p'>Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”.</p>
                                 </div>
                             </div>
@@ -168,32 +168,4 @@ export const GeneralConfig = () => {
                 </div>
             </div>
         </div>
-    );
-};
-
-export const InputFieldConfig = ({ id, type, label, value, onChange, checked }: { id: string, type: string, label: string, value: string, onChange: ChangeEventHandler<HTMLInputElement>, checked: boolean }) => (
-    <>
-        <div className='flex justify-between'>
-            <p className="h4">{label}</p>
-            <div className="flex items-center font-bold">
-                <label className="relative w-16 h-8 ml-4 mr-2" >
-                    <input id={id} type={type} className="opacity-0 w-0 h-0 toggle-input" onChange={onChange} checked={checked} />
-                    <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all duration-300 before:content-[' '] 
-                                        before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider">
-                    </span>
-                </label>
-            </div>
-        </div>
-        <div className=' pt-3 pb-10'>
-            <p className='p'>{value}</p>
-        </div>
-    </>
-);
-
-export const Title = ({ title }: { title: string }) => (
-    <>
-        <div className='flex justify-between'>
-            <p className='h4'>{title}</p>
-        </div>
-    </>
-);
+    )}
