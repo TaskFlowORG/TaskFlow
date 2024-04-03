@@ -5,10 +5,10 @@ import { Archive } from "@/models/others/Archive";
 
 @AllArgsConstructor
 export class MessageGet {
-    id!: number;                   
+    id?: number;                   
     value!: string;                
     sender!: SimpleUserGet;        
-    dateCreate!: Date;             
+    dateCreate?: Date;             
     dateUpdate?: Date;             
     destinations?: DestinationGet[];
     annex?: Archive;               
@@ -17,7 +17,7 @@ export class MessageGet {
         dateUpdate: Date, destinations: DestinationGet[], annex: Archive) {}
 
 
-    equals(obj: any): boolean {
+    equals?(obj: any): boolean {
         return obj instanceof MessageGet && obj.id === this.id;
     }
 }

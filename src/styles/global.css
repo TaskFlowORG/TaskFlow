@@ -196,6 +196,7 @@ input[type="range"]::-ms-fill-upper {
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -215,16 +216,8 @@ input[type="range"]::-ms-fill-upper {
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
-  right: 0;
-}
-
-/* Adiciona um ícone personalizado */
-input[type="date"] {
-  background-image: url("/cardContentIcons/date.svg");
-  background-size: 20px 20px;
-  background-position: calc(100% - 5px) center;
-  background-repeat: no-repeat;
-  padding-right: 25px; /* Ajuste conforme necessário */
+  z-index:15;
+  right: 0.5rem;
 }
 
 .timeline__purpleTosecondary {
@@ -441,8 +434,25 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-::-webkit-scrollbar {
+.none-scrollbar::-webkit-scrollbar {
   @apply hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px; /* largura do scroll */
+}
+
+/* Define a cor do fundo do scroll */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+/* Define a cor do thumb (a alça do scroll) */
+::-webkit-scrollbar-thumb {
+  border-radius: 7px;
+  background: var(--primary-color);
 }
 
 .pAlata {
@@ -572,20 +582,19 @@ select::-ms-expand {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
-
-.swiper-type-of-page-light{
+.swiper-type-of-page-light {
   --swiper-pagination-color: var(--primary-color);
   --swiper-navigation-color: var(--primary-color);
-  @apply swiper-type-of-page
+  @apply swiper-type-of-page;
 }
 
-.swiper-type-of-page-dark{  
---swiper-navigation-color: var(--secondary-color);
+.swiper-type-of-page-dark {
+  --swiper-navigation-color: var(--secondary-color);
   --swiper-pagination-color: var(--secondary-color);
-  @apply swiper-type-of-page
+  @apply swiper-type-of-page;
 }
 
-.swiper-type-of-page{
+.swiper-type-of-page {
   --swiper-pagination-right: 8px;
   --swiper-pagination-bottom: 8px;
   --swiper-pagination-bullet-size: 6px;
@@ -627,22 +636,14 @@ select::-ms-expand {
   border-width: 0 2px 2px 0;
 }
 
-#range[type="range"]::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
+.shadow-light {
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 }
-#range[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
-}
-#range[type="range"]::-moz-range-progress {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-#range[type="range"]::-moz-range-track {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-#range[type="range"]::-ms-fill-lower {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-#range[type="range"]::-ms-fill-upper {
-  @apply bg-zinc-200 dark:bg-back-grey;
+
+.shadow-comment {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }

@@ -1,5 +1,6 @@
 import { AllArgsConstructor } from "@/utils";
 import { Value } from "./Value";
+import { Interval } from "./Interval";
 
 type Duration = {
     hours: number;
@@ -9,11 +10,14 @@ type Duration = {
 
 @AllArgsConstructor
 export class TimeValued extends Value {
-    value!: Duration;
+    value!: Interval;
+    color?: string;
+    ends?:Date[];
+    starts?:Date[];
 
-    constructor(id: number, time: Duration) {
+    constructor(id: number, value: Interval, color:string, ends:Date[], starts:Date[]) {
         super(id);
-        this.value = time;
+        this.value = value;
     }
 
 }

@@ -12,7 +12,6 @@ interface Props {
 export default function Layout({ children, user }: { children: React.ReactNode, user: Props }) {
     const [pageTitle, setPageTitle] = useState<string>('')
 
-
     return (
         <>
         <ConfigContext.Provider value={{ title: pageTitle, setTitle: setPageTitle }}>

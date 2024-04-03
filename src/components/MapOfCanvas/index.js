@@ -1,1 +1,0 @@
-import {MapOfCanvas} from "./MapOfCanvas"
