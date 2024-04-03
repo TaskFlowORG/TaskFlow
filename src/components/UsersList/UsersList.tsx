@@ -155,7 +155,7 @@ export const UsersList: React.FC<Props> = ({ project, groupId}) => {
               </ul>
             )}
           </div>
-          <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6  " >
+          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6  " >
             {usersGroup.map((u) => (
               <PermissionUser
                 group={group}

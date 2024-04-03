@@ -35,7 +35,7 @@ export const PageSide = ({ project, user, setModalPages }: Props, { typeOfModal 
     await pageService.insert(new PagePost("Nova Página", type, project));
   };
   return (
-    <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey w-96 px-16">
+    <span className="flex flex-col max-h-screen gap-14 pt-[4.5rem] h-full p-4 bg-white dark:bg-modal-grey  w-96 px-16">
       <Navigate modalPages setCondition={setModalPages} />
       <ProjectInformations project={project} />
       <div className="flex flex-col w-72 justify-center items-center h-4/6 gap-8     ">
