@@ -94,6 +94,8 @@ export const PermissionUser = ({ group, userId, project }) => {
                 <option value="" disabled>Permissão</option>
               )}
               {permissionsList.map(permission => {
+                console.log("user", permission.project.id)
+                console.log("user p", project.id)
                 if (permission.project.id === project.id) {
                   return (
                     <option key={permission.name} value={permission.name}>

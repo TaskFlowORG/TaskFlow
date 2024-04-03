@@ -15,18 +15,18 @@ import { GroupGet } from "@/models/user/group/GroupGetDTO";
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { theme, setTheme } = useTheme();
     // const {project}: any = ProjectContext;
-    const [project, setProject] = useState({})
+    const [project, setProject] = useState<Project>();
     const [groups, setGroups] = useState<GroupGet[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const project = projectService.findOne(params.project)
-            console.log("eii", params.group)
+            const fetchedProject = await projectService.findOne(params.project)
+            setProject(fetchedProject)
         }
         fetchData();
     }, [params.project]);
 
-    const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL />;
+    const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL/>;
 
     return (
 

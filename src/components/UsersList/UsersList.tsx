@@ -18,10 +18,9 @@ interface Project {
 interface Props {
   project: Project;
   groupId?: number;
-  userId?: number
 }
 
-export const UsersList: React.FC<Props> = ({ project, groupId, userId = 1 }) => {
+export const UsersList: React.FC<Props> = ({ project, groupId}) => {
   const [text, setText] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [usersGroup, setUsersGroup] = useState<User[]>([]);
@@ -35,7 +34,6 @@ export const UsersList: React.FC<Props> = ({ project, groupId, userId = 1 }) => 
       try {
         const fetchedUsers = await getListData("user");
         setUsers(fetchedUsers);
-        console.log("oii", Number(groupId))
         const fetchedGroup = await getData("group", Number(groupId));
         setGroup(fetchedGroup);
         const groupUsers = fetchedGroup.users;

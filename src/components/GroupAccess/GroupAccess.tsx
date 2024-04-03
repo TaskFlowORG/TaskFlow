@@ -13,8 +13,6 @@ interface Permission {
 }
 
 interface Props {
-    name: string;
-    description: string;
     project: Project;
     group: Group;
 }
@@ -121,6 +119,9 @@ export const GroupAccess: React.FC<Props> = ({project, group }) => {
                         )}
 
                         {permissions.map(permission => {
+                            console.log("group", permission.project.id)
+                            console.log("group", project.id)
+
                             if (permission.project.id === project.id) {
                                 return (
                                     <option className='flex justify-center' key={permission.name} value={permission.name}>

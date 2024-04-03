@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react"
 import { getListData, getData } from "@/services/http/api";
 import { GroupAccess } from "../GroupAccess/GroupAccess";
+import { Group, Project } from "@/models";
 
 interface Props {
-    project: any; // Altere para o tipo correto, se possível
+    project: Project;
     groupId?: number;
 }
 
-export const Description: React.FC<Props> = ({ project, groupId }) => {
-    const [groups, setGroups] = useState<any[]>([]);
-    const [group, setGroup] = useState<any>({});
+export const Description: React.FC<Props> = ({ project, groupId}) => {
+    const [groups, setGroups] = useState<Group[]>([]);
+    const [group, setGroup] = useState<Group[]>();
 
     useEffect(() => {
         const getList = async () => {
@@ -31,7 +32,7 @@ export const Description: React.FC<Props> = ({ project, groupId }) => {
             {
                 groups.map((g) => {
                     if (g.id === Number(groupId)) {
-                        return <GroupAccess key={g.id} name={g.name} description={g.description} project={project} group={g} />
+                        return <GroupAccess key={g.id} project={project} group={g} />
                     }
                     return null;
                 })
