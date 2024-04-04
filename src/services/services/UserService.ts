@@ -33,9 +33,9 @@ class UserService {
         return (await Api.get<User>(`user/email/${email}/${password}`)).data;
     }
 
-    async upDatePicture(picture:File, username:string):Promise<void>{
+    async upDatePicture(picture?:File, username?:string):Promise<void>{
         const formData = new FormData();
-        formData.append('picture', picture);
+        formData.append('picture', picture ?? new Blob());
         await Api.patch(`user/picture/${username}`, formData);
     }
 

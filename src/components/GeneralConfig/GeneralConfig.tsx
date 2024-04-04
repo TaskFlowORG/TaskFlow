@@ -2,19 +2,29 @@ import Cookies from 'js-cookie';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 import { userService } from '@/services';
-import { Configuration, User, UserPut } from '@/models';
+import { Configuration, Language, User, UserPut } from '@/models';
 import { Obj } from '../Obj';
 import { InputFieldConfig } from './components/InputFieldConfig';
 
 export const GeneralConfig = () => {
 
+    const [user, setUser] = useState<User>();
     const [toggle, setToggle] = useState(true);
     const { theme, setTheme } = useTheme();
     const [themeToggle, setThemeToggle] = useState<boolean>(false);
     const [libras, setLibras] = useState<boolean>();
     const [textToSound, setTextToSound] = useState<boolean>();
-    const [user, setUser] = useState<User>();
+    const [fontSize, setFontSize] = useState<number>();
+    const [language, setLanguage] = useState<Language>();
     const [color, setColor] = useState<string>("#00ff00")
+    
+    //Falta implementar no BackEnd ainda
+    
+    //const [googleAgendas, setGoogleAgendas] = useState<boolean>();
+    //Visualização de nome de propriedades em todas as tarefas
+    //Tipo de propriedade data
+    //Refazer tutorial
+    //Tutorial avançado? não é bem configuracao mas deixa ai pra lembrar dps
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,6 +34,9 @@ export const GeneralConfig = () => {
                 setLibras(usuario.configuration.libras)
                 setTextToSound(usuario.configuration.textToSound)
                 setThemeToggle(theme === "dark");
+                setFontSize(usuario.configuration.fontSize)
+                setLanguage(usuario.configuration.language)
+                //setGoogleAgendas(usuario.configuration.googleAgendas)
             } catch (error) {
             }
         };
@@ -57,10 +70,8 @@ export const GeneralConfig = () => {
                     Cookies.set('textToSound', e.target.checked.toString());
                     break;
                 case 'theme':
-                    if (e.target.id == "theme") {
-                        setThemeToggle(e.target.checked);
-                        setTheme(e.target.checked ? "dark" : "light");
-                    }
+                    setThemeToggle(e.target.checked);
+                    setTheme(e.target.checked ? "dark" : "light");
             }
             const configuration: Configuration = (await userService.findByUsername("jonatas")).configuration;
             configuration[id] = e.target.checked;
@@ -82,9 +93,9 @@ export const GeneralConfig = () => {
                         </div>
                         <div className='w-full'>
                             <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol."} checked={themeToggle} onChange={(e) => updateBack(e, 'theme')} />
-                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
-                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
-                            <InputFieldConfig id={"??"} type={"checkbox"} label={"??"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"??"} type={"checkbox"} label={"Google Agendas"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"language"} type={"checkbox"} label={"Idioma"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
+                            <InputFieldConfig id={"fontSize"} type={"checkbox"} label={"Tamanho da fonte"} value={"Lorem ipsum dolor sit amet consectetur. Ut varius purus proin a. Euismod placerat tortor ultrices at odio dolor turpis vitae."} checked={false} onChange={() => { }} />
                         </div>
                     </div>
                     <div className='w-[95%]'>
@@ -156,16 +167,20 @@ export const GeneralConfig = () => {
                             </div>
                         </div>
                         <div className='h-fit flex items-center justify-between'>
-                            <div className='w-[70%] flex flex-col'>
-                                <p className='h3 dark:text-white '>Refazer Tutorial </p>
+                            <div className='w-[50%] flex flex-col'>
+                                <p className='h3 dark:text-white '>Tutorial </p>
                                 <p className='p'>Compreenda perfeitamente todas as funcionalidades dentro de nosso aplicativo, aproveitando ao máximo seu uso!</p>
                             </div>
-                            <div className='bg-primary dark:bg-secondary w-48 h-12 rounded-md flex items-center justify-center'>
-                                <p className='p'>Refazer Tutorial</p>
+                            <div className='bg-primary dark:bg-secondary w-44 h-12 rounded-md flex items-center justify-center'>
+                                <p className='p text-white '>Refazer Tutorial</p>
+                            </div>
+                            <div className='bg-primary dark:bg-secondary w-44 h-12 rounded-md flex items-center justify-center'>
+                                <p className='p text-white '>Tutorial Avançado</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )}
+    )
+}
