@@ -83,8 +83,10 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const button = theme === "light" ? '/img/themeLight/edit.svg' : '/img/editar.svg';
 
     return (
-        <div className="flex pl-8 gap-4 items-start">
-            <div className="z-20 rounded-full w-24 h-24 bg-cyan-500"></div>
+        <div className="flex pl-8  gap-4 items-start">
+            <div>
+                <div className="z-20 rounded-full w-24 h-24 bg-cyan-500"></div>
+            </div>
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
@@ -102,7 +104,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         disabled={!isEnable}
                     />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex md:justify-end">
                     <select
                         className='flex mr-6 text-primary dark:text-secondary text-center w-[35%] ml-4 mnAlata border-2 rounded-sm border-primary dark:border-secondary'
                         name="permission"
@@ -141,7 +143,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                             <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                         </div>
                     ) :
-                        <div className="flex justify-end">
+                        <div className="flex px-48 md:px-0 md:justify-end">
                             <button className='z-30' onClick={() => setIsEnable(true)}>
                                 <div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor" className="text-primary dark:text-secondary">

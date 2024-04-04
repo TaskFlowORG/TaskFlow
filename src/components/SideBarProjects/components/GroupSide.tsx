@@ -72,7 +72,7 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 }
             }
 
-            const newGroup = new GroupPost(name, description, permissions, fetchedUser, []);
+            const newGroup = new GroupPost(name, description, groupPermission, fetchedUser, []);
             await groupService.insert(newGroup);
 
         } catch (error) {
