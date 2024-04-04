@@ -23,14 +23,16 @@ export const PopUpModal = ({
 }: Props) => {
 
 
+
+   const { setInPage, pageId } = useContext(PageContext);
+  const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
+
   async function createTask(){
     setCondition(false);
     setIsOpen!(true);
     let task:Task = (await taskService.insert(pageId!, user!))
     setSelectedTask!(task!)
   } 
-   const { setInPage, pageId } = useContext(PageContext);
-  const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
 
   return (
     <LocalModal condition={condition} right setCondition={setCondition}>

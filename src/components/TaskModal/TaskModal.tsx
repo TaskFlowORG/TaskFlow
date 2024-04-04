@@ -64,6 +64,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   }, [task?.name]);
 
   async function updateNameTask(e: any) {
+    task["completed"];
     task.name = e.target.value;
     setTaskName(e.target.value);
     await taskService.upDate(task);
@@ -92,15 +93,17 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             updateProp.property.type
           )
         ) {
-          // console.log(value.value);
+          console.log(value.value);
           // let updatedValue = (updateProp.property as Select).options.filter(
           //   (value2) => value.value.find((value3: any) => value2 == value3)
           // );
           // updateProp.value.value = updatedValue;
           let updatedValue = (updateProp.property as Select).options.filter(
-            (option) => value.value.includes(option.name)
+            (option) => value.value?.includes(option.name)
           );
+          console.log(updatedValue);
           updateProp.value.value = updatedValue;
+          console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
           let hours = new Date().getHours();
@@ -113,16 +116,13 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             ((minutes as number) < 10 ? "0" + minutes : minutes);
           console.log(updateProp.value.value);
         } else {
-          updateProp.value.value =
-            updateProp.property.type == TypeOfProperty.NUMBER
-              ? parseFloat(value.value)
-              : value.value;
+          updateProp.value.value = value.value;
         }
-        console.log(task);
-        await taskService.upDate(task);
-        // console.log(updateProp);
       }
     });
+    await taskService.upDate(task);
+    console.log(task);
+
     setList(undefined);
     setFilter([]);
   }
@@ -136,7 +136,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     if (!filter.find((value) => prop.id == value.id)) {
       filter.push({
         id: prop.property.id,
-        value: prop.value.value.map((option: any) => option.name),
+        value: prop.value.value?.map((option: any) => option.name),
       });
     }
     return true;
@@ -146,6 +146,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     let comment: MessageGet = {
       sender: user,
       value: input,
+      dateCreate: new Date(),
     };
     task.comments.push(comment);
     await taskService.upDate(task);
@@ -155,7 +156,11 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     <CenterModal
       stylesTailwind={"w-[1306px] shadow-blur-10 p-12"}
       condition={isOpen}
-      setCondition={setIsOpen}
+      setCondition={() => {
+        setIsOpen(false);
+        setList(undefined);
+        setFilter([]);
+      }}
     >
       <div className="flex gap-[102px]  w-full h-full">
         <div className="flex flex-col gap-12 w-[453px]">
@@ -182,7 +187,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             </div>
             <div className=" flex flex-col gap-6">
               <div className="flex flex-col gap-6 max-h-[442px] overflow-auto pr-8 bah">
-                {task?.comments.map((comment, index) => {
+                {task?.comments?.map((comment, index) => {
                   return (
                     <Comment
                       user={user}
@@ -403,7 +408,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               font="font-alata"
               textSize="text-base"
               text="Salvar alterações"
-              fnButton={updateTask}
+              fnButton={() => updateTask()}
               paddingY="py-1"
               padding="p-4"
             />

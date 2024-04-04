@@ -35,17 +35,20 @@ export const CheckboxFilter = ({
 
   const handleOptionChange = (event: any) => {
     const optionName = event.target.value;
-    if (selectedOptions.includes(optionName)) {
-      setSelectedOptions(
-        selectedOptions.filter((option) => option !== optionName) ?? []
-      );
-    } else {
-      setSelectedOptions([...selectedOptions, optionName]);
-    }
+    // if (selectedOptions.includes(optionName)) {
+    //   setSelectedOptions(
+    //     selectedOptions.filter((option) => option !== optionName) ?? []
+    //   );
+    // } else {
+    //   setSelectedOptions([...selectedOptions, optionName]);
+    // }
 
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
+      setSelectedOptions(
+        selectedOptions.filter((option) => option !== optionName) ?? []
+      );
         console.log("Passaro a mão ni mim aqui ein");
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
@@ -55,6 +58,7 @@ export const CheckboxFilter = ({
           setFilterProp!(filterProp);
         }
       } else {
+        setSelectedOptions([...selectedOptions, optionName]);
         console.log("Passaro a mão ni mim");
         thisProperty.value = [...selectedOptions, optionName];
       }
