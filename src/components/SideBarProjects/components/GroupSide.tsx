@@ -30,17 +30,13 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 const fetchedGroups = await getListData("project/" + project.id + "/groups");
                 const fetchedUser = await userService.findByUsername("heloisa")
                 const fetchedPermissions = await permissionService.findAll();
-                // const permissionArray: Permission[] = [];
-
-                // fetchedPermissions.map(p => {
-                //     if (p.project === project) {
-                //         permissionArray.push(p);
-                //     }
-                // });
-
-                // setPermissions(permissionArray);
-
-                setPermissions(fetchedPermissions);
+                const permissionArray: Permission[] = [];
+                fetchedPermissions.map(p => {
+                    if (p.project === project) {
+                        permissionArray.push(p);
+                    }
+                });
+                setPermissions(permissionArray);
                 setGroups(fetchedGroups);
                 setOwner(fetchedUser)
             } catch (error) {
@@ -103,8 +99,8 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                         </div>
                     </div>
                 </div>
-                <div className="h-min relative w-full flex justify-center">
-                    <button className="h-10 w-64 rounded-lg  bg-primary dark:bg-secondary text-white font-alata hover:brightness-110" onClick={() => addNewGroup()}> Adicionar Grupo</button>
+                <div className="h-min relative w-full flex justify-center pt-4">
+                    <button className="h-10 w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110" onClick={() => addNewGroup()}> Adicionar Grupo</button>
                 </div>
             </div>
         </span>

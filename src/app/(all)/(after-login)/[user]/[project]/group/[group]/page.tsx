@@ -6,8 +6,6 @@ import { SVGGroupPageL } from "@/components/SVGGroupPageLight/SVGGroupPageL";
 import { UsersList } from "@/components/UsersList/UsersList";
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
-import { getData } from "@/services/http/api";
-import { ProjectContext } from "@/utils/ContextProject";
 import { Group, Project } from "@/models";
 import { groupService, projectService } from "@/services";
 import { GroupGet } from "@/models/user/group/GroupGetDTO";
