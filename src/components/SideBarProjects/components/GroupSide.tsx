@@ -30,13 +30,16 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 const fetchedGroups = await getListData("project/" + project.id + "/groups");
                 const fetchedUser = await userService.findByUsername("heloisa")
                 const fetchedPermissions = await permissionService.findAll();
-                const permissionArray: Permission[] = [];
-                fetchedPermissions.map(p => {
-                    if (p.project === project) {
-                        permissionArray.push(p);
-                    }
-                });
-                setPermissions(permissionArray);
+                // const permissionArray: Permission[] = [];
+
+                // fetchedPermissions.map(p => {
+                //     if (p.project === project) {
+                //         permissionArray.push(p);
+                //     }
+                // });
+
+                // setPermissions(permissionArray);
+                setPermissions(fetchedPermissions);
                 setGroups(fetchedGroups);
                 setOwner(fetchedUser)
             } catch (error) {
@@ -72,7 +75,7 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 }
             }
 
-            const newGroup = new GroupPost(name, description, groupPermission, fetchedUser, []);
+            const newGroup = new GroupPost(name, description, permissions, fetchedUser, []);
             await groupService.insert(newGroup);
 
         } catch (error) {
