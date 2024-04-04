@@ -59,6 +59,11 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // console.log(filter);
   // console.log(list);
 
+  useEffect(()=>{
+    setList(undefined);
+    setFilter([]);
+  },[])
+
   useEffect(() => {
     setTaskName(task?.name ?? "");
   }, [task?.name]);
@@ -101,6 +106,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           let updatedValue = (updateProp.property as Select).options.filter(
             (option) => value.value?.includes(option.name)
           );
+          await taskService.upDate(task);
           console.log(updatedValue);
           updateProp.value.value = updatedValue;
           console.log(updateProp);
@@ -158,8 +164,6 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       condition={isOpen}
       setCondition={() => {
         setIsOpen(false);
-        setList(undefined);
-        setFilter([]);
       }}
     >
       <div className="flex gap-[102px]  w-full h-full">

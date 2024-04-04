@@ -55,9 +55,9 @@ export const Kanban = ({ user }: UserLogged) => {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  }, []);
+  },[]);
 
-  const {setSelectedTask, setIsOpen} = useContext(TaskModalContext)
+  const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
   function openModal(task: TaskOrdered) {
     setIsOpen!(true);
@@ -170,7 +170,6 @@ export const Kanban = ({ user }: UserLogged) => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-
         <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
           <div className="flex gap-4 items-center">
             <h1
