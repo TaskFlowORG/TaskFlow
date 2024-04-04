@@ -6,6 +6,7 @@ import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {signIn} from "next-auth/react";
 
 const schema = z
     .object({
@@ -69,7 +70,16 @@ type FormData = z.infer<typeof schema>;
                             </div>
 
                             <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
-                            onClick={() => // console.log(getValues())}
+                            onClick={() =>signIn(
+                                "credentials",{
+                                    username: getValues("username"),
+                                    password:   getValues("password"),
+                                    redirect: true,
+                                    callbackUrl: `/${getValues("username")}` 
+                                    
+                                }
+                            
+                            )}
                             >Enviar</button>
                         </div>
                     </div>

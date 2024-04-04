@@ -7,7 +7,7 @@ import { AllArgsConstructor } from "@/utils";
 
 @AllArgsConstructor
 export class UserGet {
-
+    id !: number;
     username!: string;
     name!: string;
     surname!: string;
@@ -20,7 +20,7 @@ export class UserGet {
     configuration!: Configuration;
     permissions!: PermissionGet[];
 
-    constructor(username: string, name: string, surname: string, address: string, picture: Archive, mail: string, phone: string,
+    constructor(id:number ,username: string, name: string, surname: string, address: string, picture: Archive, mail: string, phone: string,
         description: string, points: number,
         configuration: Configuration, permissions: PermissionGet[]) { }
     equals = (obj: any) => {

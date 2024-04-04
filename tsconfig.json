@@ -141,7 +141,7 @@
     "src/components/Loading/index.js", 
     "src/components/GroupOptions/GroupOptions.jsx", 
     "src/components/Select/Select.jsx", 
-    "src/components/Select/index.js"  ],
+    "src/components/Select/index.js", "src/app/api/auth/[...nextauth]/route.js"  ],
 
 
   "exclude": [

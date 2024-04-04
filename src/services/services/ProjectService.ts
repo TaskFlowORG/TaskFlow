@@ -28,10 +28,10 @@ class ProjectService {
         await Api.patch("project", projectPut);
     }
 
-    async findOne(id: number): Promise<Project> {
-        const response = await Api.get<Project>(`project/${id}`);
-        return response.data;
-    }
+        async findOne(id: number): Promise<Project> {
+            const response = await Api.get<Project>(`project/${id}?projectId=1`, {withXSRFToken: true, withCredentials:true});
+            return response.data;
+        }
 
     async findAll(): Promise<Project[]> {
         const response = await Api.get<Project[]>("project");
