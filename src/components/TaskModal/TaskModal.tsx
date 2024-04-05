@@ -50,6 +50,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [list, setList] = useState<FilteredProperty | null>();
   const [input, setInput] = useState("");
   const [taskName, setTaskName] = useState("");
+  const [commentsTask, setCommentsTask] = useState<MessageGet[]>([]);
   // const [url, setUrl] = useState("");
   // async function findImage() {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
@@ -59,26 +60,31 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // console.log(filter);
   // console.log(list);
 
-  useEffect(()=>{
+  useEffect(() => {
     setList(undefined);
     setFilter([]);
-  },[])
+  }, []);
 
   useEffect(() => {
     setTaskName(task?.name ?? "");
   }, [task?.name]);
 
+  useEffect(() => {
+    setCommentsTask(task?.comments ?? []);
+  }, [deleteComment, updateComment]);
+
   async function updateNameTask(e: any) {
-    task["completed"];
     task.name = e.target.value;
     setTaskName(e.target.value);
     await taskService.upDate(task);
   }
 
   async function updateTask() {
+    console.log(filter);
     filter.forEach(async (value) => {
       let updateProp =
         task?.properties?.find((prop) => prop.property.id == value.id) ?? null;
+      console.log(updateProp?.value);
       if (updateProp) {
         if (
           [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
@@ -98,7 +104,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             updateProp.property.type
           )
         ) {
-          console.log(value.value);
+          // console.log(value.value);
           // let updatedValue = (updateProp.property as Select).options.filter(
           //   (value2) => value.value.find((value3: any) => value2 == value3)
           // );
@@ -106,10 +112,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           let updatedValue = (updateProp.property as Select).options.filter(
             (option) => value.value?.includes(option.name)
           );
-          await taskService.upDate(task);
-          console.log(updatedValue);
+          // console.log(updatedValue);
           updateProp.value.value = updatedValue;
-          console.log(updateProp);
+          // console.log(updateProp);
+          // await taskService.upDate(task);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
           let hours = new Date().getHours();
@@ -147,6 +153,26 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     }
     return true;
   }
+  async function updateComment(commentId: number, updatedValue: string) {
+    let comment = task.comments[commentId];
+    if (comment) {
+      comment.value = updatedValue;
+      comment.dateUpdate = new Date();
+      console.log(updatedValue);
+      console.log(task);
+      let taskUpdated = await taskService.upDate(task);
+      setCommentsTask(taskUpdated.comments);
+    }
+  }
+
+  async function deleteComment(commentId: number) {
+    let comment = task.comments[commentId];
+    if (comment) {
+      task.comments.splice(task.comments.indexOf(comment), 1);
+      let taskUpdated = await taskService.upDate(task);
+      setCommentsTask(taskUpdated.comments);
+    }
+  }
 
   async function sendComment() {
     let comment: MessageGet = {
@@ -154,7 +180,12 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       value: input,
       dateCreate: new Date(),
     };
-    task.comments.push(comment);
+    if (task.comments) {
+      task.comments.push(comment);
+    } else {
+      task.comments = [comment];
+    }
+
     await taskService.upDate(task);
     setInput("");
   }
@@ -190,13 +221,17 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               </button>
             </div>
             <div className=" flex flex-col gap-6">
-              <div className="flex flex-col gap-6 max-h-[442px] overflow-auto pr-8 bah">
-                {task?.comments?.map((comment, index) => {
+              <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
+                {commentsTask?.map((comment, index) => {
                   return (
                     <Comment
+                      updatedComment={updateComment}
+                      commentId={index}
+                      deleteComment={deleteComment}
                       user={user}
                       sender={comment.sender}
                       value={comment.value}
+                      updatedAt={comment.dateUpdate?.toString() ?? undefined}
                       date={comment.dateCreate?.toString()}
                       key={index}
                     ></Comment>
@@ -328,8 +363,8 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 }
                               />
                             )) ||
-                            (prop.property.type == TypeOfProperty.CHECKBOX &&
-                              change(prop) && (
+                            (prop.property.type == TypeOfProperty.CHECKBOX
+                               && (
                                 <CheckboxFilter
                                   isInModal
                                   name={prop.property.name}

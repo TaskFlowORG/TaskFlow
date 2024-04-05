@@ -46,9 +46,9 @@ export const CheckboxFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
-      setSelectedOptions(
-        selectedOptions.filter((option) => option !== optionName) ?? []
-      );
+        setSelectedOptions(
+          selectedOptions.filter((option) => option !== optionName) ?? []
+        );
         console.log("Passaro a mão ni mim aqui ein");
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
@@ -63,6 +63,7 @@ export const CheckboxFilter = ({
         thisProperty.value = [...selectedOptions, optionName];
       }
     } else {
+      console.log("Aqui não deveria vir")
       if (optionName) {
         setFilterProp!([
           ...filterProp,
