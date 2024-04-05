@@ -28,12 +28,11 @@ export default function Layout({
       //setTheme(theme)
       //document.documentElement.style.setProperty('--primary-color', await color);
       //document.documentElement.style.setProperty('--secondary-color', await color);
-      document.documentElement.style.setProperty(
-        "--contrast-color",
-        contrastColor
-      );
-    })();
-  });
+      document.documentElement.style.setProperty('--contrast-color', contrastColor);
+    })()
+  })
+
+
   return (
     <>
       <ProjectContext.Provider value={{ project, setProject }}>

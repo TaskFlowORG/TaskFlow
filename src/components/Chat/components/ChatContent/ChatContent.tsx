@@ -1,7 +1,7 @@
 import { TextContent } from "../TextContent/TextContent"
 import { Chat } from "@/models"
 import { useState, useEffect } from "react"
-import { getSingleChat, enviarMessage } from "@/services/http/api"
+import { chatService } from "@/services"
 
 
 export const ChatContent = ({ name, messages }: Chat) => {
