@@ -16,9 +16,10 @@ export const PersonalInformations = () => {
     const [mail, setMail] = useState("");
     const [phone, setPhone] = useState("");
     const [desc, setDesc] = useState("");
-    const [photo, setPhoto] = useState<File>();
     const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
     const [deletarModal, setDeletarModal] = useState(false);
+
+    const [photo, setPhoto] = useState<File>();
     const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
     const [photoUrl, setPhotoUrl] = useState<string>("");
 

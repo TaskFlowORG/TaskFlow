@@ -29,25 +29,15 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
   }, []);
 
   return (
-    <div className={`absolute z-[1] h-full ${extendida ? "w-[17.5%]" : "w-[6%]"}`}>
-      <div id="sideBar" className={`gap-72 h-full overflow-hidden text-contrast bg-primary dark:bg-modal-grey grid ${extendida ? 'w-full' : 'w-20'}`}>
-        <div id='pageName' className={`duration-0 flex items-center justify-center pt-28 h-10 w-full ${!extendida ? 'invisible ' : '  visible'}`}>
-          <h3 className={` h3 w-[80%] text-center `}>{pageTitle}</h3>
+    <div id='sideBar' className={`bg-primary overflow-hidden dark:bg-modal-grey sm:absolute fixed z-[1] inset-x-0 bottom-0 sm:h-full h-fit flex text-contrast sm:justify-normal justify-center w-full ${extendida ? "sm:w-[21rem]" : "sm:w-20"}`}>
+      <div className={`flex flex-col duration-300 `}>
+        <div className={`duration-0 flex justify-center pt-20 w-full ${extendida ? 'sm:visible invisible' : 'hidden sm:opacity-0 sm:flex '}`}>
+          <h3 className={`h3 w-[80%] text-center `}>{pageTitle}</h3>
         </div>
-        <div className={`px-[24px] h-full flex  ${extendida ? "w-full" : "w-20"}`}>
-          <div className="w-full flex justify-center flex-col items-center gap-8">
-            <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
-            <NavItem extendida={extendida} href={`/${user}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
-            <NavItem extendida={extendida} href={`/${user}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
-          </div>
-        </div>
-        <div className={`px-[24px] h-full flex  ${extendida ? "w-full" : "w-20"}`}>
-          <button className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl">
-            <div className="flex items-center gap-5 h-full">
-              <img className="w-6 h-6" src="/img/sair.svg" alt="" />
-              <h4 className={`duration-0 ${!extendida ? 'invisible' : 'h4 visible'}`}>Sair</h4>
-            </div>
-          </button>
+        <div className="w-full h-full flex justify-center sm:flex-col items-center gap-8">
+          <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
+          <NavItem extendida={extendida} href={`/${user}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
+          <NavItem extendida={extendida} href={`/${user}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
         </div>
       </div>
     </div>
@@ -57,9 +47,9 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
 const NavItem = ({ extendida, href, icon, text }: { extendida: boolean; href: string; icon: string; text: string }) => (
   <div className={`w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl`}>
     <Link href={href}>
-      <div className="flex items-center gap-5 h-full">
+      <div className="flex items-center gap-5 h-full px-6">
         <img className="w-7 h-8" src={icon} alt="" />
-        <h4 className={`duration-0 whitespace-nowrap ${extendida ? 'h4 visible' : 'hidden'}`}>{text}</h4>
+        <h4 className={`duration-0 whitespace-nowrap ${extendida ? 'h4 sm:block hidden' : 'hidden'}`}>{text}</h4>
       </div>
     </Link>
   </div>

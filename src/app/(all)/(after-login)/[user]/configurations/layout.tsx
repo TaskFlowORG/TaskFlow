@@ -15,7 +15,7 @@ export default function Layout({ children, user }: { children: React.ReactNode, 
     return (
         <>
         <ConfigContext.Provider value={{ title: pageTitle, setTitle: setPageTitle }}>
-            <div className="relative flex w-full h-full">
+            <div className="w-full h-full">
                 <SideBarConfig user={user} pageTitle={pageTitle}></SideBarConfig>
                 {children}
             </div>
