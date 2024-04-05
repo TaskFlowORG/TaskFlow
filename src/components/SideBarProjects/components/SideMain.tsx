@@ -29,7 +29,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                         <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} />
                         <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
                         <If condition={project != undefined}>
-                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                            <SideSecondary setModalPages={setModalPages} user={user} project={project} setModalGroups={setModalGroups} modalGroups={modalGroups} />
                         </If>
                     </div>
                     <div className="w-full h-1/4 flex flex-col justify-end items-center" >
@@ -49,7 +49,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} />
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={true} />
             </SideModal>
         </>)
 }

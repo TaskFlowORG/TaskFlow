@@ -14,13 +14,14 @@ interface Props {
     project: Project;
     user: string;
     setModalGroups: (value: boolean) => void;
+    global: boolean
 }
 
 
-export const GroupSide = ({ project, user, setModalGroups }: Props) => {
+export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const [groups, setGroups] = useState<Group[]>([]);
     const [newGroup, setNewGroup] = useState<GroupPost>();
-    const [owner, setOwner] = useState<UserGet>();
+    const [owner, setOwner] = useState<User>();
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
@@ -28,7 +29,22 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
         const fetchData = async () => {
             try {
                 const fetchedGroups = await getListData("project/" + project.id + "/groups");
-                const fetchedUser = await userService.findByUsername("heloisa")
+
+                const groupsArray: Group[] = []
+                fetchedGroups.map(g => {
+                    if (g.user == user) {
+                        groupsArray.push(g)
+
+                    }
+                })
+                console.log(groupsArray)
+                if (global == true) {
+                    console.log("user")
+                    setGroups(groupsArray)
+                } else if (global == false) {
+                    console.log("project")
+                    setGroups(fetchedGroups)
+                }
                 const fetchedPermissions = await permissionService.findAll();
                 // const permissionArray: Permission[] = [];
 
@@ -38,44 +54,46 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 //     }
                 // });
 
-                // setPermissions(permissionArray);
                 setPermissions(fetchedPermissions);
                 setGroups(fetchedGroups);
-                setOwner(fetchedUser)
+               
             } catch (error) {
                 console.error("Error fetching groups:", error);
             }
             console.log(groups)
+            
         };
-
+        
         fetchData();
     }, [project.id]);
 
+    setOwner(user)
     const addNewGroup = async () => {
         const name: string = "Nome do grupo";
         const description: string = "Descrição do grupo";
         let groupPermission: PermissionGet[] = [];
 
         try {
-            const fetchedUser = await userService.findByUsername("heloisa");
-            if (!fetchedUser) {
-                console.error("Owner não está definido!");
-                return;
-            }
+            // const fetchedUser = await userService.findByUsername("heloisa");
+            // if (!fetchedUser) {
+            //     console.error("Owner não está definido!");
+            //     return;
+            // }
 
             let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
 
-            if (deleteCreatePermission) {
+            if (!(deleteCreatePermission)) {
                 const newPermission = new PermissionPost("Permissão", TypePermission.READ, project);
                 await permissionService.insert(newPermission);
                 deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
-            } else {
+            }else {
                 if (deleteCreatePermission) {
                     groupPermission.push(deleteCreatePermission);
                 }
             }
 
-            const newGroup = new GroupPost(name, description, permissions, fetchedUser, []);
+
+            const newGroup = new GroupPost(name, description, permissions, user, []);
             await groupService.insert(newGroup);
 
         } catch (error) {
