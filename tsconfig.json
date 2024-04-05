@@ -141,7 +141,9 @@
     "src/components/Loading/index.ts", 
     "src/components/GroupOptions/GroupOptions.jsx", 
     "src/components/Select/Select.jsx", 
-    "src/components/Select/index.js", "src/components/GroupAccess/GroupAccess.tsx"  ],
+    "src/components/Select/index.js", "src/app/api/auth/[...nextauth]/route.js", 
+    "src/components/GroupAccess/GroupAccess.tsx"  ],
+
 
 
   "exclude": [

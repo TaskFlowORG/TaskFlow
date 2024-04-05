@@ -28,10 +28,10 @@ class ProjectService {
         return response.data;
     }
 
-    async findOne(id: number): Promise<Project> {
-        const response = await Api.get<Project>(`project/${id}`);
-        return response.data;
-    }
+        async findOne(id: number): Promise<Project> {
+            const response = await Api.get<Project>(`project/${id}?projectId=1`, {withXSRFToken: true, withCredentials:true});
+            return response.data;
+        }
 
     async findAllOfAUser(): Promise<ProjectSimple[]> {
         const response = await Api.get<ProjectSimple[]>("project/my");
