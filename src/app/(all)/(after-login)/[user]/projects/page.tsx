@@ -24,7 +24,7 @@ export default function Projects({ params }: { params: { user: string } }) {
     setWindowWidth(window.innerWidth);
     generateList(projects);
     (async () => {
-      setUser(await userService.findByUsername(params.user));
+      setUser(await userService.findLogged());
     })()
     // eslint-disable-next-line
   }, [projects]);
@@ -52,7 +52,7 @@ export default function Projects({ params }: { params: { user: string } }) {
 
   const postProject = async () => {
     const newProject = await projectService.insert(
-      new ProjectPost(undefined, undefined, undefined, user!)
+      new ProjectPost(undefined, undefined )
     );
       const projectsTemp = [...projects!];
       projectsTemp.push(newProject);

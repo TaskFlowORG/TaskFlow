@@ -1,6 +1,10 @@
+"use client";
+
 import { Permission, User, UserPost, UserPut } from "@/models";
 import { Api } from "../axios";
 import { OtherUser } from "@/models";
+import { UserDetails } from "@/models/user/user/UserDetails";
+import { deserialize } from "v8";
 
 class UserService {
 
@@ -60,6 +64,21 @@ class UserService {
         return response.data;
     }
 
+    deserializeCookies = (headers: any) => {
+        const cookies = headers['set-cookie'];
+        if (cookies) {
+            cookies.forEach((cookie: string) => {
+                console.log("lskjdfkj")
+                const [name, value] = cookie.split(';')[0].split('=');
+                document.cookie = `${name}=${value}; path=/`;
+                const [expires, maxAge] = cookie.split(';');
+                if (expires) {
+                    document.cookie = `${name}=${value}; expires=${expires.split('=')[1]}; path=/`;
+                }
+            });
+        }
+    }
 }
+
 
 export const userService = new UserService();

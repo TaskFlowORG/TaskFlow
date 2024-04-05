@@ -39,13 +39,13 @@ export default function Layout({
   });
   useEffect(() => {
     (async () => {
-      setProjects(await projectService.findAllOfAUser(params.user));
+      setProjects(await projectService.findAllOfAUser());
     })();
   }, [params.user]);
 
   useEffect(() => {
     if(!project) return
-      projectService.setVisualizedNow(project)
+      projectService.setVisualizedNow(project.id)
   }, [project]);
 
   return (

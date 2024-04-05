@@ -15,7 +15,7 @@
     "@react-pdf/renderer": "^3.4.2",
     "@types/react-beautiful-dnd": "^13.1.7",
     "axios": "^1.6.2",
-    "framer-motion": "^11.0.8",
+    "framer-motion": "^11.0.25",
     "next": "14.0.2",
     "next-themes": "^0.2.1",
     "node": "^21.1.0",

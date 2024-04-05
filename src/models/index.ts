@@ -2,24 +2,24 @@ export { Chat as Chat} from "./chat/chat/Chat";
 // export { Chat as ChatPost} from "./chat/chat/@Chat";
 
 
-export { ChatGroup as ChatGroup } from "./chat/chat-group/ChatGroup";
+export { ChatGroup } from "./chat/chat-group/ChatGroup";
 export { ChatGroupPost } from "./chat/chat-group/ChatGroupPost";
 
-export { ChatPrivate as ChatPrivate } from "./chat/chat-private/ChatPrivate";
+export { ChatPrivate } from "./chat/chat-private/ChatPrivate";
 export { ChatPrivatePost } from "./chat/chat-private/ChatPrivatePost";
 // export { ChatPrivate } from "./chat/chat-private/ChatPrivate";
 
-export { Group as Group } from "./user/group/Group";
+export { Group } from "./user/group/Group";
 export { GroupPost } from "./user/group/GroupPostDTO";
 export { GroupPut } from "./user/group/GroupPutDTO";
 
-export { User as User } from "./user/user/User";
+export { User } from "./user/user/User";
 export { UserPost } from "./user/user/UserPostDTO";
 export { UserPut } from "./user/user/UserPutDTO";
 export {OtherUser} from "./user/user/OtherUser";
 
-export { MessageAAAAAAAA as MessagePostPutAAAAAAA } from "./chat/message/MessagePost";
-export { Message as Message } from "./chat/message/Message";
+export { MessagePost } from "./chat/message/MessagePost";
+export { Message } from "./chat/message/Message";
 
 // export {Destination} from "./chat/destination/Destination";
 export { Destination as Destination} from "./chat/destination/Destination";
@@ -36,7 +36,7 @@ export { Theme } from "./enums/Theme";
 export { Archive } from "./others/Archive";
 export { Configuration } from "./others/Configuration";
 
-export { CanvasPage as CanvasPage} from "./page/canvas-page/CanvasPage";
+export { CanvasPage} from "./page/canvas-page/CanvasPage";
 // export { CanvasPage as CanvasPagePut } from "./page/canvas-page/CanvasPage";
 
 export { Page as Page } from "./page/page/Page";
@@ -55,29 +55,29 @@ export { ProjectPost } from "./project/project/ProjectPost";
 export { ProjectPut } from "./project/project/ProjectPut";
 export {ProjectSimple} from "./project/project/ProjectSimple";
 
-export { Date as Date} from "./property/date/Date";
-export { Date as DatePost } from "./property/date/DatePost";
+export {  Date} from "./property/date/Date";
+export {  DatePost } from "./property/date/DatePost";
 
-export { Limited as LimitedPost} from "./property/limited/LimitedPost";
-export { Limited as Limited} from "./property/limited/Limited";
+export { LimitedPost} from "./property/limited/LimitedPost";
+export {  Limited} from "./property/limited/Limited";
 
-export { Property as PropertyPost} from "./property/property/PropertyPost";
-export { Property as Property} from "./property/property/PropertyDTO";
+export {  PropertyPost} from "./property/property/PropertyPost";
+export {  Property} from "./property/property/Property";
 
-export { Select as SelectPost} from "./property/select/SelectPost";
-export { Select as Select } from "./property/select/Select";
+export { SelectPost } from "./property/select/SelectPost";
+export { Select  } from "./property/select/Select";
 
 // export { TaskCanvas} from "./relations/task-canvas/TaskCanvas";
-export { TaskCanvas as TaskCanvas } from "./relations/task-canvas/TaskCanvas";
+export { TaskCanvas } from "./relations/task-canvas/TaskCanvas";
 
 // export { TaskPage } from "./relations/task-page/TaskPage";
-export { TaskPage as TaskPage } from "./relations/task-page/TaskPage";
+export { TaskPage  } from "./relations/task-page/TaskPage";
 
 // export { TaskOrdered } from "./relations/task-ordered/TaskOrdered";
-export { TaskOrdered as TaskOrdered } from "./relations/task-ordered/TaskOrdered";
+export { TaskOrdered} from "./relations/task-ordered/TaskOrdered";
 
-export { TaskValue as TaskValue } from "./relations/task-value/TaskValue";
-// export { TaskValue } from "./relations/task-value/TaskValue";
+export { PropertyValue  } from "./relations/property-value/PropertyValue";
+// export { PropertyValue } from "./relations/property-value/PropertyValue";
 
 // export { Task as TaskPut} from "./task/task/Task";
 export { Task as Task } from "./task/task/Task";

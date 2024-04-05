@@ -1,5 +1,5 @@
  
-import { Property } from "@/models";
+import { Property } from "../property/Property";
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
 

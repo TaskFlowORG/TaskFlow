@@ -13,7 +13,7 @@ export default function Pages({params}:{params:{user:string, project:number, pag
     const [user, setUser] = useState<User>()
     useEffect(() => {
         (async () => {
-            setUser(await userService.findByUsername(params.user))
+            setUser(await userService.findLogged())
         })()
     }, [params.user])
     

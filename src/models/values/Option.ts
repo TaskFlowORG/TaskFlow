@@ -1,12 +1,8 @@
  
 
-@AllArgsConstructor
+
 export class Option {
-    id!: number;
-    name!: string;
-    color!: string;
-  
-    constructor(id: number, name: string, color: string) {}
+    constructor(public id: number, public name: string, public color: string) {}
 
     equals(obj: any): boolean {
         if (obj instanceof Option) {

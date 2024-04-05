@@ -34,7 +34,7 @@ class ProjectService {
     }
 
     async findAllOfAUser(): Promise<ProjectSimple[]> {
-        const response = await Api.get<ProjectSimple[]>("project/me-owner");
+        const response = await Api.get<ProjectSimple[]>("project/my");
         return response.data;
     }
 

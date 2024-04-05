@@ -6,6 +6,8 @@ import VLibras from "vlibras-nextjs";
 import '@/styles/global.css';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
+import { userService } from "@/services";
+import { UserDetails } from "@/models/user/user/UserDetails";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     const [libras, setLibras] = useState(false);
@@ -13,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     useEffect(() => {
         setLibras(Cookies.getJSON("libras"));
     }, [Cookies.getJSON("libras")])
+
 
     return (
         <html lang="pt-br" className="w-screen h-screen">

@@ -13,7 +13,7 @@ export default function Dashboard({ params }: { params: { project: number, user:
   const [user, setUser ] = useState<User>();
     useEffect(() => {
         (async () => {
-            const user = await userService.findByUsername(params.user);
+            const user = await userService.findLogged();
             setUser(user);
         })();
     }, []);

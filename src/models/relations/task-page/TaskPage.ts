@@ -5,7 +5,7 @@ export class TaskPage {
 
     constructor(
         public id: number,
-        public tasks: Task,
+        public task: Task,
     ) { }
     
 

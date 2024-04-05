@@ -1,9 +1,6 @@
  
 
-@AllArgsConstructor
-export abstract class Value {
-    id!:number;
-    value:any;
-    constructor(id:number) {}
 
+export abstract class Value {
+    constructor(public id:number, public value:any) {}
 }

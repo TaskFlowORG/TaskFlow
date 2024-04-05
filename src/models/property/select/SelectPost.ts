@@ -1,12 +1,12 @@
- 
-import { Property } from "../property/PropertyPost";
+
 import { Project } from "@/models/project/project/Project";
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 import { Option } from "@/models/values/Option";
 import { Page } from "@/models/page/page/Page";
+import { PropertyPost } from "../property/PropertyPost";
 
 
-export class Select extends Property {
+export class SelectPost extends PropertyPost {
         constructor(
             public id: number,
             public name: string,
@@ -21,6 +21,6 @@ export class Select extends Property {
         }
 
     equals(obj: any): boolean {
-        return obj instanceof Select && obj.id === this.id;
+        return obj instanceof SelectPost && obj.id === this.id;
     }
 }

@@ -1,12 +1,12 @@
  
 import { Value } from "./Value";
 
-@AllArgsConstructor
+
 export class DateValued extends Value{
 
     value!:Date;
-    constructor(id:number, dateTime:Date){
-        super(id);
+    constructor(public id:number, public dateTime:Date){
+        super(id, dateTime);
     }
 
 }

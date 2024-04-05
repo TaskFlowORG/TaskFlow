@@ -1,10 +1,10 @@
 import { User } from "@/models";
-import { SimpleUser } from "@/models/user/user/SimpleUser";
+import { OtherUser } from "@/models/user/user/OtherUser";
 import { User } from "@/models/user/user/User";
 import { twMerge } from "tailwind-merge";
 
 type CommentType = {
-  sender: SimpleUser;
+  sender: OtherUser;
   value: string;
   date: string;
   user: User;

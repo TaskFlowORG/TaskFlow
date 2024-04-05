@@ -1,14 +1,13 @@
 "use client"
 
 import { archiveToSrc } from "@/functions";
-import { Group, TaskPage, User } from "@/models";
-import { SimpleUser } from "@/models/user/user/SimpleUser";
+import { Group, OtherUser, TaskPage, User } from "@/models";
 import Link from "next/link";
 import { ComponentProps, useState } from "react";
 
 
 interface Props{
-    objs: Group[] | User[] | SimpleUser[]| TaskPage[] | string[],
+    objs: Group[] | User[] | OtherUser[]| TaskPage[] | string[],
     max: number,
     functionObj: (o: Object) => void;
     color?:boolean;
@@ -32,7 +31,7 @@ export const Obj = ({ objs = [], max, functionObj, color }: Props) => {
                     }else {
                         if(o instanceof TaskPage){
                             return <div className={classes} key={index} title={o.task.name ?? "Sem Nome"}></div>
-                        }else if (o instanceof User || o instanceof SimpleUser) {
+                        }else if (o instanceof User || o instanceof OtherUser) {
                             return <div className={classes} key={index} title={o.name ?? "Sem Nome"}> {o.picture && <img src={archiveToSrc(o.picture)} />}</div>
                         }else if (o instanceof Group){
                             return <div className={classes} key={index} title={(o as Group).name ?? "Sem Nome"}>{(o as Group).picture && <img src={archiveToSrc((o as Group).picture)} />}</div>

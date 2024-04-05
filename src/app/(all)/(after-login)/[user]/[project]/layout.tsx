@@ -21,7 +21,7 @@ export default function Layout({ params, children } : Props ){
     (async () => {
       const projectPromise = await projectService.findOne(params.project)
       setProject!(projectPromise)
-      projectService.setVisualizedNow(projectPromise)
+      projectService.setVisualizedNow(projectPromise.id)
     })()
   }, [params.project])  
 
