@@ -2,18 +2,17 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { TaskCanvasComponent } from "./components";
-import { useNavigationWithScroll } from "@/hooks/useNavigationWithScrool";
+import { useNavigationWithScroll, useDraw } from "./hooks";
 import { MapOfCanvas } from "./components";
 import { CanvasComponents } from "./components";
-import { drawLine } from "@/functions";
-import { useDraw } from "@/hooks/useDraw";
+import { drawLine } from "./functions";
 import { SelectedArea } from "./components";
 import { useTheme } from "next-themes";
 import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";
 
 interface Props{
-    user:User, 
+    user?:User, 
     page:CanvasPage
 } 
 
@@ -26,10 +25,18 @@ export const Canvas = ({page, user}: Props) => {
   const optionsRef = useRef<HTMLDivElement>(null);
   const [shape, setShape] = useState<string>(localStorage.getItem("canvas_shape") ?? "line");
   const [isErasing, setIsErasing] = useState<boolean>(localStorage.getItem("canvas_is_erasing") === "true" ? true : false);
-  const { clear, canvasRef, setDragging } = useDraw( drawLine, moving, shape, optionsRef, isErasing, page);
+  const { clear, canvasRef } = useDraw( drawLine , moving, page);
   const {map, clearMap} = MapOfCanvas({canvas:canvasRef, x:x, y:y, page:page})
   const { theme } = useTheme();
-
+const updateDraw = () => {
+  if (!page || !canvasRef || !canvasRef.current) return;
+  canvasRef.current.toBlob((draw) => {
+    if (draw) {
+      pageService.updateDraw(draw, page.id);
+    }
+  });
+  setTimeout(updateDraw, 5000);
+}
   useEffect(() => {
     if (!elementRef.current) return;
     let cursor = "";
@@ -49,17 +56,9 @@ export const Canvas = ({page, user}: Props) => {
     if(!canvasRef || !canvasRef.current) return
     canvasRef.current.style.cursor = cursor;
     updateDraw();
-});
+}, [canvasRef, isErasing, moving, theme, grabbing]);
 
-const updateDraw = () => {
-  if (!page || !canvasRef || !canvasRef.current) return;
-  canvasRef.current.toBlob((draw) => {
-    if (draw) {
-      pageService.updateDraw(draw, page.id);
-    }
-  });
-  setTimeout(updateDraw, 5000);
-}
+
 
   useEffect(() => {
     const url = (page?.draw ?? {data:""}).data;
@@ -73,7 +72,8 @@ const updateDraw = () => {
   }, [page, canvasRef]);
 
   async function createTask() {
-    await taskService.insert(page.id,user.username);
+    if (!user) return;
+    await taskService.insert(page.id, user.username);
   }
 
   return (
@@ -82,7 +82,7 @@ const updateDraw = () => {
       <div className="w-min h-min relative">
         <canvas ref={canvasRef} width={4000} height={2000} className="relative w-[4000px] h-[2000px]"/>
         {page.tasks.map((t, index) => (
-          <TaskCanvasComponent setDraggingInCanvas={setDragging} task={t as TaskCanvas}
+          <TaskCanvasComponent task={t as TaskCanvas}
             key={index} elementRef={elementRef} canvasRef={canvasRef}
             page={page} moving={moving}
           />

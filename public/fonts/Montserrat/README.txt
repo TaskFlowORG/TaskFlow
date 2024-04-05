@@ -32,7 +32,7 @@ in those cases you can use the static font files for Montserrat:
   Montserrat/static/Montserrat-ExtraBoldItalic.ttf
   Montserrat/static/Montserrat-BlackItalic.ttf
 
-Get started
+ started
 -----------
 
 1. Install the font files you want to use

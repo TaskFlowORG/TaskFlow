@@ -1,53 +1,45 @@
-import { DatePost, Limited, LimitedPost, Property, Select, SelectPost } from "@/models";
+import { Date, DatePost, Limited, LimitedPost, Property, Select, SelectPost } from "@/models";
 import { Api } from "@/services/axios";
 
 class PropertyService {
-    async saveLimited(property: LimitedPost): Promise<void> {
-        await Api.post('property/limited', property);
+    async saveLimited(projectId: number, property: LimitedPost): Promise<Limited> {
+       return (await Api.post(`property/project/${projectId}/limited`, property)).data;
     }
 
-    async saveSelect(property: SelectPost): Promise<void> {
-        await Api.post('property/select', property);
+    async saveSelect(projectId: number, property: SelectPost): Promise<Select> {
+        return (await Api.post(`property/project/${projectId}/select`, property)).data;
     }
 
-    async saveDate(property: DatePost): Promise<void> {
-        await Api.post('property/date', property);
+    async saveDate(projectId: number, property: DatePost): Promise<Date> {
+        return (await Api.post(`property/project/${projectId}/date`, property)).data;
     }
 
-    async updateLimited(property: Limited): Promise<void> {
-        await Api.put('property/limited', property);
+    async updateLimited(projectId: number, property: Limited): Promise<void> {
+        await Api.put(`property/project/${projectId}/limited`, property);
     }
 
-    async updateSelect(property: Select): Promise<void> {
-        await Api.put('property/select', property);
+    async updateSelect(projectId: number, property: Select): Promise<void> {
+        await Api.put(`property/project/${projectId}/select`, property);
     }
 
-    async updateDate(property: Date): Promise<void> {
-        await Api.put('property/date', property);
+    async updateDate(projectId: number, property: Date): Promise<void> {
+        await Api.put(`property/project/${projectId}/date`, property);
     }
 
-    async patchLimited(property: Limited): Promise<void> {
-        await Api.patch('property/limited', property);
+    async patchLimited(projectId: number, property: Limited): Promise<void> {
+        await Api.patch(`property/project/${projectId}/limited`, property);
     }
 
-    async patchSelect(property: Select): Promise<void> {
-        await Api.patch('property/select', property);
+    async patchSelect(projectId: number, property: Select): Promise<void> {
+        await Api.patch(`property/project/${projectId}/select`, property);
     }
 
-    async patchDate(property: Date): Promise<void> {
-        await Api.patch('property/date', property);
+    async patchDate(projectId: number, property: Date): Promise<void> {
+        await Api.patch(`property/project/${projectId}/date`, property);
     }
 
-    async findOne(id: number): Promise<Property> {
-        return (await Api.get<Property>(`property/${id}`)).data;
-    }
-
-    async findAll(): Promise<Property[]> {
-        return (await Api.get<Property[]>('property')).data;
-    }
-
-    async delete(id: number): Promise<void> {
-        await Api.delete(`property/${id}`);
+    async delete(projectId: number, id: number): Promise<void> {
+        await Api.delete(`property/project/${projectId}/${id}`);
     }
 }
 

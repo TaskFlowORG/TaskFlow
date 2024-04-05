@@ -5,7 +5,12 @@ import { useContext, useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
-import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
+import {
+  Direction,
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
@@ -21,13 +26,10 @@ interface Props {
   input?: string;
 }
 
-export const ColumnKanban = ({
-  option,
-  tasks,
-  input,
-}: Props) => {
+export const ColumnKanban = ({ option, tasks, input }: Props) => {
+  const [direction, setDirection] = useState<Direction>("vertical");
   const { theme } = useTheme();
-  const { filterProp, setFilterProp } = useContext(FilterContext)
+  const { filterProp, setFilterProp } = useContext(FilterContext);
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -38,14 +40,21 @@ export const ColumnKanban = ({
     TypeOfProperty.RADIO,
   ];
 
+  useEffect(() => {
+    if (window.innerWidth < 1024) {
+      setDirection("horizontal");
+    }
+  }, []);
+
   function findPropertyInTask(item: TaskOrdered, prop: FilteredProperty) {
     return item.task.properties.find(
       (property) => property.property.id == prop.id
     )!;
   }
+
   return (
     <div
-      className="w-min min-w-[360px] pb-4 h-full max-h-[650px] overflow-hidden flex lg:flex-col gap-4"
+      className="w-min min-w-[360px] flex-grow   pb-4 h-full md:h-[650px] self-center   flex  flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -61,25 +70,32 @@ export const ColumnKanban = ({
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>
-      <div className="h-full none-scrollbar overflow-auto">
-        <Droppable droppableId={`${option?.id}`} key={`${option?.id}`}>
-          {(provided, snapshot) => {
-            return (
+      <Droppable
+        direction={"vertical"}
+        droppableId={`${option?.id}`}
+        key={`${option?.id}`}
+      >
+        {(provided, snapshot) => {
+          return (
+            <div
+              // Se tirar o overflow tudo funfa lg:overflow-y-auto
+              // cuidado aqui com o overflow-auto
+              className="none-scrollbar  max-w-[360px]"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
               <div
-                ref={provided.innerRef}
+                className="none-scrollbar  flex min-h-[200px] min-w-[360px] w-max h-max rounded-lg  flex-col"
                 style={{
                   opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
                   borderRadius: 16,
                   padding: 16,
-                  display: "flex",
-                  flexDirection: "column",
                   gap: "24px",
                   background: snapshot.isDraggingOver
                     ? (option?.color as string) ??
                       (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
                     : "none",
                 }}
-                {...provided.droppableProps}
               >
                 {tasks.map((item, index) => {
                   if (
@@ -91,7 +107,6 @@ export const ColumnKanban = ({
                     let render = false;
                     let counter = 0;
                     filterProp.map((prop) => {
-
                       const propertyInTask = findPropertyInTask(item, prop);
                       if (
                         multiOptionTypes.includes(propertyInTask?.property.type)
@@ -149,6 +164,7 @@ export const ColumnKanban = ({
                                 style={{
                                   ...provided.draggableProps.style,
                                 }}
+                                id={item.task.id.toString()}
                               >
                                 <RoundedCard
                                   color={
@@ -166,12 +182,13 @@ export const ColumnKanban = ({
                     }
                   }
                 })}
-                {provided.placeholder}
               </div>
-            );
-          }}
-        </Droppable>
-      </div>
+
+              {provided.placeholder}
+            </div>
+          );
+        }}
+      </Droppable>
     </div>
   );
 };

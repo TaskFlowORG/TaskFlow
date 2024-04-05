@@ -1,16 +1,18 @@
-import { AllArgsConstructor } from "@/utils";
+import { UserDetails } from "./UserDetails";
 
-@AllArgsConstructor
 export class UserPost {
 
-    username!: string;
-    name!: string;
-    surname!: string;
-    password!: string;
 
-    constructor(username: string, name: string, surname: string, password: string) {}
+
+
+    constructor(
+        public userDetailsEntity: UserDetails,    
+        public name: string,
+        public surname: string,
+        public mail: string,
+    ) {}
     
     equals = (obj: any) => {
-        return obj instanceof UserPost && obj.username === this.username;
+        return obj instanceof UserPost && obj.userDetailsEntity.username === this.userDetailsEntity.username;
     }
 }

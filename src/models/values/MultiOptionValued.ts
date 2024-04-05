@@ -1,13 +1,11 @@
-import { AllArgsConstructor } from "@/utils";
+ 
 import { Value } from "./Value";
 import { Option } from "./Option";
 
-@AllArgsConstructor
-export class MultiOptionValued extends Value{
-    value!:Option[]
 
-    constructor(id:number, option:Option[]){
-        super(id);
+export class MultiOptionValued extends Value{
+    constructor(public id:number, public option:Option[]){
+        super(id, option);
     }
 
 }

@@ -196,6 +196,7 @@ input[type="range"]::-ms-fill-upper {
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -215,16 +216,8 @@ input[type="range"]::-ms-fill-upper {
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
-  right: 0;
-}
-
-/* Adiciona um ícone personalizado */
-input[type="date"] {
-  background-image: url("/cardContentIcons/date.svg");
-  background-size: 20px 20px;
-  background-position: calc(100% - 5px) center;
-  background-repeat: no-repeat;
-  padding-right: 25px; /* Ajuste conforme necessário */
+  z-index:15;
+  right: 0.5rem;
 }
 
 .timeline__purpleTosecondary {
@@ -295,7 +288,7 @@ input[type="checkbox"] {
   border: 2px solid #ccc;
   outline: none;
   position: relative;
-}
+} 
 
 input[type="checkbox"]:checked::before {
   content: "";
@@ -430,7 +423,7 @@ select::-ms-expand {
 }
 
 .toggle-input:checked + .toggle-slider {
-  background-color: #f76858;
+  @apply bg-primary dark:bg-secondary ;
 }
 
 .toggleIn {
@@ -441,10 +434,9 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
- .none-scrollbar::-webkit-scrollbar {
+.none-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
-
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -616,8 +608,42 @@ select::-ms-expand {
   --swiper-navigation-sides-offset: 0px;
 }
 
+#configurations:checked {
+  @apply bg-primary dark:bg-secondary border-none;
+}
+#configurations{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 15%;
+
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+#configurations:checked::before {
+  content: "";
+  position: absolute;
+  @apply left-1/3 top-[15%];
+  transform: rotate(45deg);
+  width: 7px;
+  height: 14px;
+
+  border: solid var(--contrast-color);
+  border-width: 0 2px 2px 0;
+}
+
 .shadow-light {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+}
+
+.shadow-comment {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }

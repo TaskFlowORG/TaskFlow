@@ -1,12 +1,16 @@
-
 import { If } from "@/components/If"
 import { IconBurguerList, IconGroups, IconLogout, IconProjects } from "@/components/icons"
 import { Project } from "@/models";
 import Link from "next/link"
-import {  SideSecondary } from "./SideSecondary";
-import {  PageSide } from "./PageSide";
+import { SideSecondary } from "./SideSecondary";
+import { PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
+import { GroupSide } from "./GroupSide";
 import { SideBarButton } from "./SideBarButton";
+import { useContext } from "react";
+import { ProjectContext } from "@/contexts";
+
+
 
 interface Props {
     project?: Project;
@@ -18,32 +22,35 @@ interface Props {
     setModalGroups: (value: boolean) => void;
 }
 
+
 export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
-
-
+    const { setProject } = useContext(ProjectContext)
 
     return (
         <>
             <If condition={!modalGroups && !modalPages}>
-                <>
-                <div className="w-full h-full flex flex-col items-center relative">
-                    <SideBarButton icon={<IconBurguerList />} link={`/${user}/initial-page`} text="Página Inicial" />
-                    <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects` }/>
-                    <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
-                    <If condition={project != undefined}>
-                        <SideSecondary setModalPages={setModalPages} user={user} project={project} />
-                    </If>
+                <div className="h-full flex flex-col justify-between">
+
+                    <div className="w-full h-min flex flex-col items-center relative">
+                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text="Página Inicial" fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
+                        <If condition={project != undefined}>
+                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                        </If>
+                    </div>
+                    <div className="w-full h-min flex flex-col justify-end items-center" >
+                        <SideBarButton icon={<IconLogout />} text="Logout" fnClick={() => setWantLeave(true)} />
+                    </div>
                 </div>
-                <div className="w-full h-1/4 flex flex-col justify-end items-center" >
-                    <SideBarButton icon={<IconLogout />} text="Logout" fnClick={() => setWantLeave(true)} />
-                </div>
-                </>
-            </If>
+        </If >
             <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
+            
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <PageSide setModalPages={setModalPages}  user={user} project={project!} />
+                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
             </SideModal>
         </>)
 }
+

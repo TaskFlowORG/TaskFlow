@@ -26,9 +26,15 @@ import {
 } from "@/models";
 
 import { FilterContext } from "@/utils/FilterlistContext";
+import { TaskModal } from "../TaskModal";
+import { User } from "@/models/user/user/User";
+type UserLogged = {
+  user:User
+}
 
-export const Kanban = () => {
+export const Kanban = ({user}:UserLogged) => {
   const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
@@ -153,20 +159,29 @@ export const Kanban = () => {
         setList: setList,
       }}
     >
-      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <div className="flex gap-5 items-end pb-16 justify-center relative   h-max">
-          <h1
-            className="h1 text-primary whitespace-nowrap dark:text-white"
-            onClick={() => console.log(page)}
-          >
-            {page?.name}
-          </h1>
-          <div
-            className=" flex items-center justify-center h-9 w-9 rounded-full shadowww mb-4 cursor-pointer "
-            onClick={() => setModal(true)}
-          >
-            <p className="p text-primary text-4xl h-min w-min">+</p>
+      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
+        <TaskModal task={tasks[0]} setIsOpen={setIsOpen} isOpen={isOpen} user={user} />
+        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
+          <div className="flex gap-4 items-center">
+            <h1
+              className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
+              onClick={() => console.log(page)}
+            >
+              {page?.name}
+            </h1>
+            <div
+              className=" flex items-center justify-center h-9 w-9 rounded-full shadowww  cursor-pointer "
+              onClick={() => setModal(true)}
+            >
+              <p
+                className="p text-primary text-4xl h-min w-min"
+                onClick={() => setIsOpen(true)}
+              >
+                +
+              </p>
+            </div>
           </div>
+
           <SearchBar
             order={() => console.log("Ordering")}
             filter={() => console.log("Filtering")}
@@ -185,8 +200,75 @@ export const Kanban = () => {
             />
           </SearchBar>
         </div>
+        {/* <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
+          <div
+            id="scrollContainer"
+            className="flex  justify-start min-h-max  pl-3 w-[1560px]  overflow-x-auto scroll-smooth  self-center"
+          >
+            <div className="w-min flex gap-8">
+              {options?.map((option) => {
+                return (
+                  <ColumnKanban
+                    input={input}
+                    key={`${option.id}`}
+                    tasks={indexAtColumn(
+                      tasks.filter((task) => {
+                        return task?.task?.properties?.some((property) => {
+                          return (
+                            (property.property.id == id &&
+                              (property.value as UniOptionValued).value?.id ==
+                                option?.id) ||
+                            ((property.property.type ===
+                              TypeOfProperty.CHECKBOX ||
+                              property.property.type === TypeOfProperty.TAG) &&
+                              (property.value as MultiOptionValued).value.find(
+                                (value) => value.id == option.id
+                              ))
+                          );
+                        });
+                      })
+                    )}
+                    propertyId={id}
+                    color={option.color}
+                    option={option}
+                    verify={true}
+                  />
+                );
+              })}
+              {
+                <ColumnKanban
+                  key={0}
+                  input={input}
+                  tasks={tasks.filter((task) => {
+                    return task?.task?.properties?.some((property) => {
+                      return (
+                        (property.property.id == id &&
+                          (property.value as UniOptionValued).value == null) ||
+                        (property.property.id == id &&
+                          [
+                            TypeOfProperty.CHECKBOX,
+                            TypeOfProperty.TAG,
+                          ].includes(property.property.type) &&
+                          (property.value as MultiOptionValued).value.length ==
+                            0)
+                      );
+                    });
+                  })}
+                  propertyId={id}
+                  color="#767867"
+                  option={new Option(0, "Não Marcadas", "#767867")}
+                />
+              }
+            </div>
+          </div>
+        </DragDropContext> */}
+
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          <div className="flex gap-8 justify-start pl-3 w-full opss max-w-[1560px] overflow-auto self-center">
+          <div
+            id="scrollKanban"
+            // Da um salve nesse overflow-y-auto aí mano
+            className="flex gap-8 justify-start bah flex-row pl-3 w-[90%] md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px]  h-full mb-6 overflow-x-auto  self-center"
+          >
             {options?.map((option) => {
               return (
                 <ColumnKanban
