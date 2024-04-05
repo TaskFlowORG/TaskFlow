@@ -3,60 +3,50 @@ import { Api } from "../axios";
 
 class GroupService {
 
-    async insert(group: GroupPost): Promise<void> {
-        await Api.post("group", group);
+    async insert(group: GroupPost): Promise<Group> {
+        const response = await Api.post<Group>("group", group);
+        return response.data;
     }
 
-    async update(group: Group): Promise<void> {
-        const groupPut = new GroupPut(group.id, group.name ?? "", group.description ?? "", group.permissions, group.users)
-        await Api.put("group", groupPut);
+    async update(group: GroupPut, groupId: number): Promise<Group> {
+        const response = await Api.put<Group>(`group/${groupId}`, group);
+        return response.data;
     }
 
-    async patch(group: Group): Promise<void> {
-        const groupPut = new GroupPut(group.id, group.name ?? "", group.description ?? "", group.permissions, group.users)
-        await Api.patch("group", groupPut);
+    async patch(group: GroupPut, groupId: number): Promise<Group> {
+        const response = await Api.patch<Group>(`group/${groupId}`, group);
+        return response.data;
     }
 
-    async updateUser(user: User, groupId: number): Promise<void> {
-        await Api.put(`group/user/${groupId}`, user);
+    async findOne(groupId: number): Promise<Group> {
+        const response = await Api.get<Group>(`group/${groupId}`);
+        return response.data;
     }
 
-    async findOne(id: number): Promise<Group> {
-        return (await Api.get<Group>(`group/${id}`)).data;
+    async findGroupsByUser(): Promise<Group[]> {
+        const response = await Api.get<Group[]>("group");
+        return response.data;
     }
 
-    async findAll(): Promise<Group[]> {
-        return (await Api.get<Group[]> ("group")).data;
+    async findGroupsByAProject(projectId: number): Promise<Group[]> {
+        const response = await Api.get<Group[]>(`group/project/${projectId}`);
+        return response.data;
     }
 
-    async findGroupsByUser(userId: string): Promise<Group[]> {
-        return (await Api.get<Group[]>(`group/user/${userId}`)).data;
+    async delete(groupId: number): Promise<void> {
+        await Api.delete(`group/${groupId}`);
     }
 
-    async findGroupsOfAProject(projectId: number): Promise<Group[]> {
-        return( await Api.get<Group[]>(`group/project/${projectId}`)).data;
-    }
-
-    async findPermissionOfAGroupInAProject(groupId: number, projectId: number): Promise<Permission> {
-        return (await Api.get<Permission>(`group/${groupId}/${projectId}`)).data;
-    }
-
-    async findAllPermissionsOfAGroupInAProject(groupId: number, projectId: number): Promise<Permission[]> {
-        return (await Api.get<Permission[]>(`group/${groupId}/permissions/${projectId}`)).data;
-    }
-
-    async delete(id: number): Promise<void> {
-        await Api.delete(`group/${id}`);
-    }
-
-    async updatePicture(picture: File, id: number): Promise<void> {
+    async updatePicture(picture: File, groupId: number): Promise<Group> {
         const formData = new FormData();
         formData.append("picture", picture);
-        await Api.patch(`group/picture/${id}`, formData);
+        const response = await Api.patch<Group>(`group/${groupId}/picture`, formData);
+        return response.data;
     }
 
-    async updateOwner(newOwner: User, projectId: number): Promise<void> {
-        await Api.patch(`group/change-owner/${projectId}`, newOwner);
+    async updateOwner(newOwner: User, groupId: number): Promise<Group> {
+        const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner);
+        return response.data;
     }
 }
 

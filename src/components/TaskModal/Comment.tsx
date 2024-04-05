@@ -1,13 +1,13 @@
 import { User } from "@/models";
-import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { SimpleUser } from "@/models/user/user/SimpleUser";
+import { User } from "@/models/user/user/User";
 import { twMerge } from "tailwind-merge";
 
 type CommentType = {
-  sender: SimpleUserGet;
+  sender: SimpleUser;
   value: string;
   date: string;
-  user: UserGet;
+  user: User;
 };
 
 export const Comment = ({ value, sender, date, user }: CommentType) => {

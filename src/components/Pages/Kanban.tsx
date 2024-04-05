@@ -27,9 +27,9 @@ import {
 
 import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { User } from "@/models/user/user/User";
 type UserLogged = {
-  user:UserGet
+  user:User
 }
 
 export const Kanban = ({user}:UserLogged) => {

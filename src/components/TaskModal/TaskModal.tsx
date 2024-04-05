@@ -5,15 +5,15 @@ import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
 import { Message, TaskOrdered } from "@/models";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { User } from "@/models/user/user/User";
 import { taskService } from "@/services";
-import { MessageGet } from "@/models/chat/message/MessageGetDTO";
+import { Message } from "@/models/chat/message/Message";
 
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
   task: TaskOrdered;
-  user: UserGet;
+  user: User;
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
@@ -25,7 +25,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // }
 
   async function sendComment() {
-    let comment: MessageGet = {
+    let comment: Message = {
       sender: user,
       value: input,
     };

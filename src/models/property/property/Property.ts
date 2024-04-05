@@ -1,35 +1,15 @@
-import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
-import { PageGet } from "@/models/page/page/PageGetDTO";
-import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
-import { AllArgsConstructor } from "@/utils";
-
+import { TypeOfProperty } from "@/models";
+ 
 
 export class Property {
-    id?: number;
-    name!: string;
-    visible?: boolean;
-    obligatory?: boolean;
-    type!: TypeOfProperty;
-    pages!: PageGet[];
-    project?: ProjectGet;
 
     constructor(
-        id: number | undefined,
-        name: string,
-        visible: boolean,
-        obligatory: boolean,
-        type: TypeOfProperty,
-        pages: PageGet[],
-        project: ProjectGet | undefined
-    ) {
-        this.id = id;
-        this.name = name;
-        this.visible = visible;
-        this.obligatory = obligatory;
-        this.type = type;
-        this.pages = pages;
-        this.project = project;
-    }
+        public id: number,
+        public name: string,
+        public type: TypeOfProperty,
+        public visible: boolean,
+        public obligatory: boolean
+    ) { }
     equals(obj: any): boolean {
         if (obj instanceof Property) {
             return this.id === obj.id;
