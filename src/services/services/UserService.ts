@@ -11,13 +11,13 @@ class UserService {
         return (await Api.get<Permission>(`user/${username}/${projectId}`)).data;
     }
 
-    async update(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname,user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+    async update(user:User, adress:string):Promise<void>{
+        const userPut = new UserPut(user.username, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
         await Api.put("user", userPut);
     }
 
-    async patch(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname, user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+    async patch(user:UserPut):Promise<void>{
+        const userPut = new UserPut(user.username, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
         await Api.patch("user", userPut);
     }
 

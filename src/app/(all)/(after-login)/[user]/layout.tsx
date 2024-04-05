@@ -47,6 +47,7 @@ export default function Layout({
     if(!project) return
       projectService.setVisualizedNow(project)
   }, [project]);
+
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
