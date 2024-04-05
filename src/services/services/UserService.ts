@@ -9,49 +9,49 @@ import { deserialize } from "v8";
 class UserService {
 
     async insert(user:UserPost):Promise<User>{
-        const response = await Api.post<User>("user", user);
+        const response = await Api.post<User>("user", user, {withCredentials: true});
         return response.data;
     }
     async update(user:User):Promise<User>{
         const userPut = new UserPut(user.id, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
-        const response = await Api.put<User>("user", userPut);
+        const response = await Api.put<User>("user", userPut, {withCredentials: true});
         return response.data;
     }
 
     async patch(user:User):Promise<User>{
         const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
-        const response = await Api.patch<User>("user", userPut);
+        const response = await Api.patch<User>("user", userPut, {withCredentials: true});
         return response.data;
     }
 
     async findByUsername(username:string):Promise<OtherUser>{
-        return (await Api.get<OtherUser>(`user/${username}`)).data;
+        return (await Api.get<OtherUser>(`user/${username}`, {withCredentials: true})).data;
     }
 
     async findLogged():Promise<User>{
-        return (await Api.get<User>(`user/logged`)).data;
+        return (await Api.get<User>(`user/logged`, {withCredentials: true})).data;
     }
 
 
     async upDatePicture(picture:File, username:string):Promise<User>{
         const formData = new FormData();
         formData.append('picture', picture);
-        const response = await Api.patch<User>(`user/picture/${username}`, formData);
+        const response = await Api.patch<User>(`user/picture/${username}`, formData, {withCredentials: true});
         return response.data;
     }
 
     async upDatePassword( username:string,  password:string):Promise<User> {
-        const response = await Api.patch<User>(`user/password/${username}`, password);
+        const response = await Api.patch<User>(`user/password/${username}`, password, {withCredentials: true});
         return response.data;
     }
 
     async delete(username:string):Promise<User>{
-        const response = await Api.delete<User>(`user/${username}`);
+        const response = await Api.delete<User>(`user/${username}`, {withCredentials: true});
         return response.data;
     }
 
     async updatePassword(username: string, password: string): Promise<User> {
-        const response = await Api.patch<User>(`password/${username}`, password);
+        const response = await Api.patch<User>(`password/${username}`, password, {withCredentials: true});
         return response.data;
     }
 
@@ -60,23 +60,8 @@ class UserService {
     }
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
-        const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission);
+        const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, {withCredentials: true});
         return response.data;
-    }
-
-    deserializeCookies = (headers: any) => {
-        const cookies = headers['set-cookie'];
-        if (cookies) {
-            cookies.forEach((cookie: string) => {
-                console.log("lskjdfkj")
-                const [name, value] = cookie.split(';')[0].split('=');
-                document.cookie = `${name}=${value}; path=/`;
-                const [expires, maxAge] = cookie.split(';');
-                if (expires) {
-                    document.cookie = `${name}=${value}; expires=${expires.split('=')[1]}; path=/`;
-                }
-            });
-        }
     }
 }
 

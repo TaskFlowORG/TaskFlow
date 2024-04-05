@@ -3,27 +3,27 @@ import { Api } from '@/services/axios';
 
 class ChatService {
     async saveGroup(chat: ChatGroupPost): Promise<ChatGroup> {
-        const response = await Api.post<ChatGroup>('chat/group', chat);
+        const response = await Api.post<ChatGroup>('chat/group', chat, {withCredentials: true});
         return response.data;
     }
 
     async savePrivate(chat: ChatPrivatePost): Promise<ChatPrivate> {
-        const response = await Api.post<ChatPrivate>('chat/private', chat);
+        const response = await Api.post<ChatPrivate>('chat/private', chat, {withCredentials: true});
         return response.data;
     }
 
     async upDateToVisualized(chatId: number): Promise<Chat> {
-        const response = await Api.patch<Chat>(`chat/visualized/${chatId}`);
+        const response = await Api.patch<Chat>(`chat/visualized/${chatId}`, {withCredentials: true});
         return response.data;
     }
 
     async findAllPrivate(): Promise<ChatPrivate[]> {
-        const response = await Api.get<ChatPrivate[]>('chat/private');
+        const response = await Api.get<ChatPrivate[]>('chat/private', {withCredentials: true});
         return response.data;
     }
 
     async findAllGroup(): Promise<ChatGroup[]> {
-        const response = await Api.get<ChatGroup[]>('chat/group');
+        const response = await Api.get<ChatGroup[]>('chat/group', {withCredentials: true});
         return response.data;
     }
 
@@ -37,7 +37,7 @@ class ChatService {
             formData.append('annex', annex);
         }
         formData.append('message', JSON.stringify(message));
-        const response = await Api.patch<Message>(`chat/${chatId}`, formData);
+        const response = await Api.patch<Message>(`chat/${chatId}`, formData, {withCredentials: true});
         return response.data;
     }
 }

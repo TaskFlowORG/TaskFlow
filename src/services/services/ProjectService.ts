@@ -34,7 +34,7 @@ class ProjectService {
         }
 
     async findAllOfAUser(): Promise<ProjectSimple[]> {
-        const response = await Api.get<ProjectSimple[]>("project/my");
+        const response = await Api.get<ProjectSimple[]>("project/my", {withCredentials: true});
         return response.data;
     }
 
@@ -43,7 +43,7 @@ class ProjectService {
     }
 
     async updateOwner(newOwner: User, projectId: number): Promise<Project> {
-        const response = await Api.patch<Project>(`project/${projectId}/change-owner`, newOwner);
+        const response = await Api.patch<Project>(`project/${projectId}/change-owner`, newOwner, {withCredentials: true});
         return response.data;
     }
 }

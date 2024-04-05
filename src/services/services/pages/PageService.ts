@@ -5,37 +5,39 @@ import { Api } from '@/services/axios';
 
 class PageService {
   async insert(projectId: number, page: PagePost): Promise<Page> {
-    return (await Api.post<Page>(`page/project/${projectId}`, page)).data;
+    return (await Api.post<Page>(`page/project/${projectId}`, page, {withCredentials: true})).data;
   }
 
   async updateName(projectId: number, name: string| undefined| null, id: number): Promise<Page> {
-    return (await Api.patch<Page>(`page/${id}/project/${projectId}`, { name })).data;
+    return (await Api.patch<Page>(`page/${id}/project/${projectId}`,  name , {withCredentials: true, headers:{
+      'Content-Type': 'application/string'
+    }})).data;
   }
 
   async updateXAndY(projectId: number, taskPage: TaskCanvas): Promise<TaskCanvas> {
-    return (await Api.patch<TaskCanvas>(`page/x-and-y/project/${projectId}`, taskPage)).data;
+    return (await Api.patch<TaskCanvas>(`page/x-and-y/project/${projectId}`, taskPage, {withCredentials: true})).data;
   }
 
   async updateDraw(projectId: number, draw: File | Blob, id: number): Promise<Page> {
     const formData = new FormData();
     formData.append('draw', draw);
-    return (await Api.patch<Page>(`page/draw/${id}/project/${projectId}`, formData)).data;
+    return (await Api.patch<Page>(`page/draw/${id}/project/${projectId}`, formData, {withCredentials: true})).data;
   }
 
   async updateTaskPage(projectId: number, taskPage: TaskCanvas): Promise<TaskPage> {
-    return (await Api.patch<TaskCanvas>(`page/task-page/project/${projectId}`, taskPage)).data;
+    return (await Api.patch<TaskCanvas>(`page/task-page/project/${projectId}`, taskPage, {withCredentials: true})).data;
   }
 
   async updatePropertiesOrdering(projectId: number, property: Property, id: number): Promise<Page> {
-    return (await Api.patch<Page>(`page/prop-ordering/${id}/project/${projectId}`, property)).data;
+    return (await Api.patch<Page>(`page/prop-ordering/${id}/project/${projectId}`, property, {withCredentials: true})).data;
   }
 
   async delete(projectId: number, id: number): Promise<void> {
-    await Api.delete(`page/${id}/project/${projectId}`);
+    await Api.delete(`page/${id}/project/${projectId}`, {withCredentials: true});
   }
 
   async merge(projectId: number, pages: Page[], id: number): Promise<Page[]> {
-    return (await Api.patch<Page[]>(`page/merge/${id}/project/${projectId}`, pages)).data;
+    return (await Api.patch<Page[]>(`page/merge/${id}/project/${projectId}`, pages, {withCredentials: true})).data;
   }
 }
 
