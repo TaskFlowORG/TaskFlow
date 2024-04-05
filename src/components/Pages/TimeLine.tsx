@@ -75,7 +75,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
             <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
           </div>
         </div>
-        <div className=" w-full h-[65%] flex flex-col">
+        <div className=" w-full h-[75%] flex flex-col">
           <div className="w-full h-min flex justify-end">
             {/* Não consigo mudar o icone do input de data */}
             <div className=" bg-primary text-contrast dark:bg-secondary h-8 z-10 text-montserrat p-2 relative rounded-t-md">
@@ -97,7 +97,8 @@ export const TimeLine = ({ page }: { page: Page }) => {
             </div>
             <div className="h-full flex w-3/5 sm:w-4/5 p-2">
               <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content z-50 ">
-                <div className="flex w-min h-full relative">
+                <div className="flex w-min h-full relative"
+                  onWheelCapture={handleWheel}>
                   <TimeLineHeader
                     interval={interval}
                     listOfIntervals={listOfIntervals}
@@ -105,9 +106,8 @@ export const TimeLine = ({ page }: { page: Page }) => {
                     />
                   <div
                     className="flex h-full w-min pt-12 overflow-y-hidden  none-scrollbar"
-                      onWheelCapture={handleWheel}
                       onScroll={(e) => {setScrollY(e.currentTarget.scrollTop)}}
-                    ref={ref}
+                      ref={ref}
                   >
                     <TasksInTimeline
                       interval={interval}

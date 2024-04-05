@@ -2,10 +2,11 @@
 import { Project, ProjectPost, ProjectPut, User } from "@/models";
 import { Api } from "../axios";
 import { UserGet } from "@/models/user/user/UserGetDTO";
+import { ProjectSimple } from "@/models/project/project/ProjectSimple";
 
 class ProjectService {
-    async insert(project: ProjectPost): Promise<void> {
-        await Api.post("project", project);
+    async insert(project: ProjectPost): Promise<ProjectSimple> {
+        return (await Api.post<ProjectSimple>("project", project)).data;
     }
 
     async updatePicture(picture: File, id: number): Promise<void> {
@@ -38,8 +39,8 @@ class ProjectService {
         return response.data;
     }
 
-    async findAllOfAUser(userId: string): Promise<Project[]> {
-        const response = await Api.get<Project[]>(`project/user/${userId}`);
+    async findAllOfAUser(userId: string): Promise<ProjectSimple[]> {
+        const response = await Api.get<ProjectSimple[]>(`project/user/${userId}`);
         return response.data;
     }
 

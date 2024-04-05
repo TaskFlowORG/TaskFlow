@@ -11,10 +11,11 @@ interface Props {
     setModal: (value: boolean) => void;
     propOrd: DateProp;
     withotTime?: boolean;
+    notDay?: boolean;
 }
 
 
-export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, withotTime }: Props) => {
+export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, withotTime, notDay }: Props) => {
 
     const pointerScroll = (elem: HTMLElement) => {
 
@@ -72,7 +73,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                         <TaskTagCalendar t={t} key={t.task.id} />
                                     ))
                                     :
-                                    <p className="text-montserrat text-[24px] opacity-50">Sem Tarefas Nesse Dia...</p>
+                                    <p className="text-montserrat text-[24px] opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
                             }
                         </div>
                     </If>
