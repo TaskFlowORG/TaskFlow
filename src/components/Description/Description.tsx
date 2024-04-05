@@ -2,20 +2,22 @@ import { useEffect, useState } from "react"
 import { getListData, getData } from "@/services/http/api";
 import { GroupAccess } from "../GroupAccess/GroupAccess";
 import { Group, Project } from "@/models";
+import { groupService } from "@/services";
 
 interface Props {
+    user: string
     project: Project;
     groupId?: number;
 }
 
-export const Description: React.FC<Props> = ({ project, groupId}) => {
+export const Description: React.FC<Props> = ({user, project, groupId}) => {
     const [groups, setGroups] = useState<Group[]>([]);
     const [group, setGroup] = useState<Group[]>();
 
     useEffect(() => {
         const getList = async () => {
             try {
-                const fetchedGroups = await getListData("group");
+                const fetchedGroups = await groupService.findGroupsByUser(user);
                 setGroups(fetchedGroups);
                 const fetchedGroup = await getData("group", Number(groupId));
                 setGroup(fetchedGroup);

@@ -39,11 +39,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     };
 
     const updatePermission = async (selectedValue: string) => {
+        console.log(selectedValue)
+        console.log(permissions)
         try {
             const selectedPermission = permissions.find(permission => permission.name === selectedValue);
             if (!selectedPermission) {
                 throw new Error('Permissão selecionada não encontrada.');
             }
+
             const hasPermission = group.permissions.some(permission => permission.name === selectedPermission.name);
 
             if (hasPermission) {

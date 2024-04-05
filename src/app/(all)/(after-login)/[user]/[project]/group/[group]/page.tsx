@@ -35,7 +35,7 @@ export default function Home({ params }: { params: { user: string, project: numb
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
 
                 <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
-                    <Description project={project} groupId={params.group}/>
+                    <Description project={project} user={params.user} groupId={params.group}/>
                 </div>
 
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
