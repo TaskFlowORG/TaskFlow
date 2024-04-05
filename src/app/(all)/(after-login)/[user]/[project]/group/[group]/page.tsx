@@ -13,7 +13,7 @@ import { GroupGet } from "@/models/user/group/GroupGetDTO";
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { theme, setTheme } = useTheme();
     // const {project}: any = ProjectContext;
-    const [project, setProject] = useState<Project>();
+    const [project, setProject] = useState<Project | undefined>();
     const [groups, setGroups] = useState<GroupGet[]>([]);
 
     useEffect(() => {
@@ -35,11 +35,12 @@ export default function Home({ params }: { params: { user: string, project: numb
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
 
                 <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
-                    <Description project={project} user={params.user} groupId={params.group}/>
+                {project && <Description project={project} user={params.user} groupId={params.group} />}
+
                 </div>
 
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    <UsersList project={project} groupId={params.group} />
+                    {project && <UsersList project={project} groupId={params.group} />}
                 </div>
 
             </div>
