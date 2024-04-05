@@ -27,6 +27,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const postProperty = async (name: string, selected: TypeOfProperty) => {
         try {
+            console.log(name)
             let propertyObj;
             if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
                 propertyObj = await propertyService.saveLimited(new LimitedPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000));
@@ -36,8 +37,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
             } else {
                 propertyObj = await propertyService.saveDate(new DatePost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black"))
             }
-            console.log(propertyObj)
-
+            
             setPropertiesArray([...propertiesArray, propertyObj])
 
         } catch (error) {
