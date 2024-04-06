@@ -11,25 +11,19 @@ import { projectService } from "@/services";
 import { AnimatePresence, motion } from "framer-motion";
 interface Props {
   project: ProjectSimple;
-  user: string
+  user: string;
 }
 export const ProjectComponent = ({ project, user }: Props) => {
-  const [groups, setGroups] = useState<Group[]>([]);
-
-  useEffect(() => {
-    // (async () => {
-    //   const groupsPromise = []
-    //   setGroups(groupsPromise)
-    // })()
-    // eslint-disable-next-line
-  }, []);
-
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
   return (
-    
-    <Link href={`/${user}/${project.id}`} className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
-    dark:bg-modal-grey p-6 rounded-md h-min `} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+    <Link
+      href={`/${user}/${project.id}`}
+      className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+    dark:bg-modal-grey p-6 rounded-md h-min `}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
       <div className="flex gap-2 w-full">
         {/* Imagem do Projeto */}
         <div className="w-min">
@@ -51,21 +45,24 @@ export const ProjectComponent = ({ project, user }: Props) => {
         </div>
       </div>
       <AnimatePresence initial={false} mode="wait">
-      {isHovering && 
-    <motion.div className="w-full justify-center overflow-clip flex flex-col gap-10"
-        initial={{ height: 0 }}
-        // 11rem
-        animate={{ height: "150px" }}
-         exit={{ transition:{delay:0.1, duration:0.1}, height: 0 }}
-         transition={{ duration: 0.1 }}
-        >
-          <>
-        <Obj objs={groups} max={4} functionObj={() => { }}></Obj>
-        <ProgressBar percent={project.progress} />
-          </>
-      </motion.div >
-      }
-      </AnimatePresence> 
+        {isHovering && (
+          <motion.div
+            className="w-full justify-center overflow-clip flex flex-col gap-10"
+            initial={{ height: 0 }}
+            // 11rem
+            animate={{ height: "150px" }}
+            exit={{ transition: { delay: 0.1, duration: 0.1 }, height: 0 }}
+            transition={{ duration: 0.1 }}
+          >
+            <div className=" w-full justify-center">
+              <span className="relative w-42">
+                <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
+              </span>
+            </div>
+            <ProgressBar percent={project.progress} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Link>
   );
 };

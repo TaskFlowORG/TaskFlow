@@ -15,9 +15,13 @@ export const NotificationIcon = (props: { type: TypeOfNotification }) => {
             return <IconLock />
         case TypeOfNotification.POINTS:
             return <IconStar />
-        case TypeOfNotification.SCHEDULE, TypeOfNotification.DEADLINE:
+        case TypeOfNotification.SCHEDULE:
             return <IconCalendar />;
-        case TypeOfNotification.CHAT, TypeOfNotification.COMMENT:
+        case TypeOfNotification.DEADLINE :
+            return <IconCalendar />;
+        case TypeOfNotification.CHAT:
+            return <IconChat />
+        case TypeOfNotification.COMMENT:
             return <IconChat />
     }
 }
