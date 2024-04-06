@@ -1,15 +1,17 @@
 "use client";
 
 import { Header } from "@/components/Header";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useContrast } from "@/hooks/useContrast";
-import { Project, ProjectSimple } from "@/models";
+import { Project, ProjectSimple, Theme } from "@/models";
 import { SideBarProjects } from "@/components/SideBarProjects";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { SideModal } from "@/components/Modal";
 import { useClickAway } from "react-use";
 import Projects from "./projects/page";
-import { projectService } from "@/services";
+import { projectService, userService } from "@/services";
+import { UserContext } from "@/contexts/UserContext";
+import { useTheme } from "next-themes";
 
 //UseClickAway Hook
 export default function Layout({
@@ -24,19 +26,31 @@ export default function Layout({
   const { contrastColor } = useContrast();
   const [openSideBar, setOpenSideBar] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const { setTheme, theme } = useTheme();
+  const {user, setUser} = useContext(UserContext);
 
   useEffect(() => {
     (async () => {
-      //const theme = await Promise
-      //setTheme(theme)
-      //document.documentElement.style.setProperty('--primary-color', await color);
-      //document.documentElement.style.setProperty('--secondary-color', await color);
+      if(!user) return;
+      setTheme(user.configuration.theme.toLowerCase());
+      document.documentElement.style.setProperty('--primary-color', user.configuration.primaryColor);
+      document.documentElement.style.setProperty('--secondary-color', user.configuration.secondaryColor);
       document.documentElement.style.setProperty(
         "--contrast-color",
         contrastColor
       );
     })();
-  });
+  },[user] );
+
+  useEffect(() => {
+    (async () => {
+      if(!user || !setUser) return;
+      user.configuration.theme = Theme[theme?.toUpperCase() as keyof typeof Theme];
+      const userTemp = await userService.update(user);
+      setUser(userTemp);
+     })();
+  } , [theme]);
+
   useEffect(() => {
     (async () => {
       setProjects(await projectService.findAllOfAUser());
@@ -47,6 +61,14 @@ export default function Layout({
     if(!project) return
       projectService.setVisualizedNow(project.id)
   }, [project]);
+
+  useEffect(() => {
+    (async () => {
+      if(!setUser) return;
+      const loggedUser = await userService.findLogged();
+      setUser(loggedUser);
+    })();
+  }, []);
 
   return (
     <>

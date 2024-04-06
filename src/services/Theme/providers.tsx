@@ -16,6 +16,6 @@ export default function Providers({ children } : { children: React.ReactNode}) {
         return <>{children}</>
     }
     return (
-        <ThemeProvider defaultTheme='light' attribute='class'>{children}</ThemeProvider>
+        <ThemeProvider defaultTheme='light' attribute='class' >{children}</ThemeProvider>
     )
 }

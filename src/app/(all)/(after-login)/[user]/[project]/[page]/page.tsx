@@ -2,21 +2,15 @@
 
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
 import { ProjectContext } from "@/contexts";
+import { UserContext } from "@/contexts/UserContext";
 import { CanvasPage, OrderedPage,  Page,  TypeOfPage, User } from "@/models";
-import { pageService, projectService, userService } from "@/services";
 import { log } from "console";
 import { useContext, useEffect, useState } from "react";
    
 export default function Pages({params}:{params:{user:string, project:number, page:number}}){
     const {project} = useContext(ProjectContext)
     const [page, setPage] = useState<Page | undefined>(project?.pages.find(p => p.id == params.page))
-    const [user, setUser] = useState<User>()
-    useEffect(() => {
-        (async () => {
-            setUser(await userService.findLogged())
-        })()
-    }, [params.user])
-    
+    const {user} = useContext(UserContext);
     useEffect(() => {
         const pageTemp = project?.pages.find(p => p.id == params.page)
         setPage(pageTemp)

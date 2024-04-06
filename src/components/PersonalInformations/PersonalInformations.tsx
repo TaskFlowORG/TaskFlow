@@ -1,35 +1,24 @@
 import Image from "next/image";
-import { SetStateAction, useEffect, useRef, useState } from "react";
+import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
 import { User, UserPut } from "@/models";
 import { InputFieldConfig } from "./components/InputFieldConfig";
+import { UserContext } from "@/contexts/UserContext";
+import { archiveToSrc } from "@/functions";
 
 export const PersonalInformations = () => {
-    const [user, setUser] = useState<User>();
+    const {user, setUser} = useContext(UserContext);
     const [editingAddress, setEditingAddress] = useState(false);
-    const [name, setName] = useState("");
-    const [surname, setSurname] = useState("");
-    const [address, setAddress] = useState("");
-    const [mail, setMail] = useState("");
-    const [phone, setPhone] = useState("");
-    const [desc, setDesc] = useState("");
-    const [photoUrl, setPhotoUrl] = useState<string>();
+    const [name, setName] = useState(user ? user.name : "");
+    const [surname, setSurname] = useState(user ? user.surname : "");
+    const [address, setAddress] = useState(user ? user.address : "");
+    const [mail, setMail] = useState(user ? user.mail : "");
+    const [phone, setPhone] = useState(user ? user.phone : "");
+    const [desc, setDesc] = useState(user ? user.description : "");
+    const [photoUrl, setPhotoUrl] = useState<string>(user ? archiveToSrc(user.picture): "");
     const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
     const photoInputRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        async function getUser() {
-            const usuario = await userService.findByUsername("jonatas");
-            setUser(usuario);
-            setName(usuario.name)
-            setSurname(usuario.surname)
-            setAddress(usuario.address)
-            setMail(usuario.mail)
-            setPhone(usuario.phone)
-            setDesc(usuario.description)
-        }
-        getUser();
-    }, []);
 
     const handlePhotoChange = () => {
         if (photoInputRef.current?.files && photoInputRef.current.files.length > 0) {
@@ -61,8 +50,24 @@ export const PersonalInformations = () => {
     }
 
     const saveChanges = async () => {
-        const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, name, surname, address, mail, phone, desc, user!.configuration, undefined)
-        userService.patch(updatedUser);
+        if (!user || !setUser) return;
+        let updatedUser = new User(
+            user.id,
+            user.username,
+            name,
+            surname,
+            address,
+            user.picture,
+            mail,
+            phone,
+            desc,
+            user.points,
+            user.configuration,
+            user.permissions,
+            user.notifications
+        );
+        updatedUser = await userService.update(updatedUser);
+        setUser(updatedUser);
     };
 
     return (

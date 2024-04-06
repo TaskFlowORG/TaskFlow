@@ -1,28 +1,25 @@
 import Cookies from 'js-cookie';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { useTheme } from "next-themes";
 import { userService } from '@/services';
 import { Configuration, User, UserPut } from '@/models';
 import { Obj } from '../Obj';
 import { InputFieldConfig } from './components/InputFieldConfig';
+import { UserContext } from '@/contexts/UserContext';
 
 export const GeneralConfig = () => {
 
+    const {user, setUser} = useContext(UserContext);
     const [toggle, setToggle] = useState(true);
     const { theme, setTheme } = useTheme();
     const [themeToggle, setThemeToggle] = useState<boolean>(false);
-    const [libras, setLibras] = useState<boolean>();
-    const [textToSound, setTextToSound] = useState<boolean>();
-    const [user, setUser] = useState<User>();
+    const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
+    const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
     const [color, setColor] = useState<string>("#00ff00")
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const usuario = await userService.findByUsername("jonatas")
-                setUser(usuario)
-                setLibras(usuario.configuration.libras)
-                setTextToSound(usuario.configuration.textToSound)
                 setThemeToggle(theme === "dark");
             } catch (error) {
             }
@@ -46,6 +43,7 @@ export const GeneralConfig = () => {
     //};
 
     const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
+        if(!user || !setUser) return;
         if (e.target.id == id) {
             switch (id) {
                 case 'libras':
@@ -62,10 +60,11 @@ export const GeneralConfig = () => {
                         setTheme(e.target.checked ? "dark" : "light");
                     }
             }
-            const configuration: Configuration = (await userService.findByUsername("jonatas")).configuration;
+            const configuration: Configuration = user.configuration;
             configuration[id] = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration);
-            userService.patch(updatedUser);
+            user.configuration = configuration;
+            const updatedUser = await userService.patch(user);
+            setUser(updatedUser);
         }
     }
 

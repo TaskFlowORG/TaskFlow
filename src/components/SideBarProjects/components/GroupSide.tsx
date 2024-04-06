@@ -35,9 +35,9 @@ export const GroupSide = ({ project, user, setModalGroups }: Props) => {
                 <div className="flex items-start h-[95%] w-full overflow-y-auto">
                     <div className="flex flex-col gap-3 items-start max-w-full h-min w-full">
                         {Array.isArray(groups) && groups.map((group) => (
-                            <div className="flex flex-row w-full gap-2">
+                            <div key={group.id} className="flex flex-row w-full gap-2">
                             <img src="/img/miniGroup.svg" className="h-5 w-5 rounded-md" />
-                            <div key={group.id} className="bg-input-grey dark:bg-back-grey text-start font-alata rounded-md h-7 px-4 py-px w-full hover:brightness-95">{group.name}</div>
+                            <div  className="bg-input-grey dark:bg-back-grey text-start font-alata rounded-md h-7 px-4 py-px w-full hover:brightness-95">{group.name}</div>
                             </div>
                         ))}
 

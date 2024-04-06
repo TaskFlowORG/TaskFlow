@@ -1,3 +1,4 @@
+import { Notification } from "@/models/Notification";
 import { Archive } from "@/models/others/Archive";
 import { Configuration } from "@/models/others/Configuration";
 import { Permission } from "@/models/project/permission/Permission";

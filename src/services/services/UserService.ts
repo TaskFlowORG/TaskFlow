@@ -3,9 +3,7 @@
 import { Permission, User, UserPost, UserPut } from "@/models";
 import { Api } from "../axios";
 import { OtherUser } from "@/models";
-import { UserDetails } from "@/models/user/user/UserDetails";
-import { deserialize } from "v8";
-
+import { use } from "react";
 class UserService {
 
     async insert(user:UserPost):Promise<User>{
@@ -13,13 +11,13 @@ class UserService {
         return response.data;
     }
     async update(user:User):Promise<User>{
-        const userPut = new UserPut(user.id, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
+        const userPut = new UserPut(user.id, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.notifications);
         const response = await Api.put<User>("user", userPut, {withCredentials: true});
         return response.data;
     }
 
     async patch(user:User):Promise<User>{
-        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
+        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.notifications);
         const response = await Api.patch<User>("user", userPut, {withCredentials: true});
         return response.data;
     }
@@ -56,11 +54,15 @@ class UserService {
     }
 
     async findAll(): Promise<OtherUser[]> {
-        return (await Api.get<OtherUser[]>(`user`)).data;
+        return (await Api.get<OtherUser[]>(`user`, {withCredentials:true})).data;
     }
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
         const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, {withCredentials: true});
+        return response.data;
+    }
+    async visualizeNotifications(): Promise<User> {
+        const response = await Api.patch<User>(`user/visualize-notifications`, {withCredentials: true});
         return response.data;
     }
 }

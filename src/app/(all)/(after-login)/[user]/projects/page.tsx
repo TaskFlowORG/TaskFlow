@@ -2,10 +2,9 @@
 
 import { ProjectComponent } from "@/components/InitialAndProjectsPage";
 import { SVGProjectsPage } from "@/components/Shapes";
-import { getData, getListData } from "@/services/http/api";
 import { Project, ProjectPost, ProjectSimple, User } from "@/models";
 import { useContext, useEffect, useState } from "react";
-import { projectService, userService } from "@/services";
+import { projectService } from "@/services";
 import { useRouter } from "next/navigation";
 import { ProjectsContext } from "@/contexts";
 
@@ -13,7 +12,6 @@ export default function Projects({ params }: { params: { user: string } }) {
   const router = useRouter();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects, setProjects } = useContext(ProjectsContext);
-  const [user, setUser] = useState<User>();
   const [listOfLists, setListOfLists] = useState<ProjectSimple[][]>([]);
 
   useEffect(() => {
@@ -23,10 +21,6 @@ export default function Projects({ params }: { params: { user: string } }) {
     });
     setWindowWidth(window.innerWidth);
     generateList(projects);
-    (async () => {
-      setUser(await userService.findLogged());
-    })()
-    // eslint-disable-next-line
   }, [projects]);
 
   useEffect(() => {

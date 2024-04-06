@@ -1,5 +1,5 @@
  
-import { Project } from "next/dist/build/swc";
+import { Project } from "@/models";
 import { PropertyPost } from "../property/PropertyPost";
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 import { Page } from "@/models/page/page/Page";

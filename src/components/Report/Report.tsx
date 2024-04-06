@@ -8,11 +8,6 @@ import {
   StyleSheet,
   Font,
   Image,
-  Svg,
-  Path,
-  Defs,
-  RadialGradient,
-  Stop,
   PDFDownloadLink,
   PDFViewer,
 } from "@react-pdf/renderer";

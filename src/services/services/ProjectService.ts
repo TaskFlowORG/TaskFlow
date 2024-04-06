@@ -29,7 +29,7 @@ class ProjectService {
     }
 
         async findOne(id: number): Promise<Project> {
-            const response = await Api.get<Project>(`project/${id}?projectId=1`, {withXSRFToken: true, withCredentials:true});
+            const response = await Api.get<Project>(`project/${id}?projectId=1`, { withCredentials:true});
             return response.data;
         }
 
