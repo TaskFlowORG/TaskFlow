@@ -36,9 +36,9 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
         </div>
         <div className={`px-[24px] h-full flex  ${extendida ? "w-full" : "w-20"}`}>
           <div className="w-full flex justify-center flex-col items-center gap-8">
-            <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
-            <NavItem extendida={extendida} href={`/${user}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
-            <NavItem extendida={extendida} href={`/${user}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
+            <NavItem extendida={extendida} href={`/${user.username}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
+            <NavItem extendida={extendida} href={`/${user.username}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
+            <NavItem extendida={extendida} href={`/${user.username}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
           </div>
         </div>
         <div className={`px-[24px] h-full flex  ${extendida ? "w-full" : "w-20"}`}>

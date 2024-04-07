@@ -14,14 +14,17 @@ export const Header = ({
 }) => {
   const { theme, setTheme } = useTheme();
   const { user, setUser } = useContext(UserContext);
-  const [showNotification, setShowNotification] = useState(false);    
-  const [thereAreNotifications, setThereAreNotifications] = 
-    useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+  const [thereAreNotifications, setThereAreNotifications] = useState(false);
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
 
   useEffect(() => {
     if (!user?.notifications) return;
-    setThereAreNotifications(user?.notifications.find((notification) => !notification.visualized) ? true : false);
+    setThereAreNotifications(
+      user?.notifications.find((notification) => !notification.visualized)
+        ? true
+        : false
+    );
     setNotifications(user?.notifications);
     console.log(user?.notifications);
   }, [user]);
@@ -73,7 +76,7 @@ export const Header = ({
         />
 
         <div className="w-min h-min relative">
-          <Link href={`${user?.username}/configurations/account`} >
+          <Link href={`/${user?.username}/configurations/account`}>
             <svg
               width="26"
               height="29"
@@ -92,28 +95,43 @@ export const Header = ({
             </svg>
           </Link>
           <div className="absolute bottom-0 right-0">
-            
-          <div className={`cursor-pointer border-2 border-white dark:border-modal-grey w-4 h-4 
-         rounded-full ` + (thereAreNotifications ?" bg-secondary dark:bg-primary " : " bg-secondary-opacity dark:bg-primary-opacity ")}
-          onClick={() => setShowNotification(true)}></div>
-            <LocalModal condition={showNotification} setCondition={closeModal} right >
-                <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-72">
-                    {
-                      notifications.map((notification, index) => {
-                        return (
-                          <span  key={index} className="w-full flex flex-col justify-between  gap-2 px-4 items-center bg-white dark:bg-modal-grey hover:brightness-95 ">
-                            <Notification notification={notification} fnClick={closeModal} />
-                            {
-                              index < notifications.length - 1 ?
-                              <div className="w-[90%] bg-primary h-px" />
-                              :
-                              <div className="w-[90%] bg-transparent h-px" />
-                            }
-                          </span>
-                        )
-                      })
-                    }
-                </div>
+            {notifications.length > 0 && (
+              <div
+                className={
+                  `cursor-pointer border-2 border-white dark:border-modal-grey w-4 h-4 
+         rounded-full ` +
+                  (thereAreNotifications
+                    ? " bg-secondary dark:bg-primary "
+                    : " bg-secondary-opacity dark:bg-primary-opacity ")
+                }
+                onClick={() => setShowNotification(true)}
+              ></div>
+            )}
+            <LocalModal
+              condition={showNotification}
+              setCondition={closeModal}
+              right
+            >
+              <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-72">
+                {notifications.map((notification, index) => {
+                  return (
+                    <span
+                      key={index}
+                      className="w-full flex flex-col justify-between  gap-2 px-4 items-center bg-white dark:bg-modal-grey hover:brightness-95 "
+                    >
+                      <Notification
+                        notification={notification}
+                        fnClick={closeModal}
+                      />
+                      {index < notifications.length - 1 ? (
+                        <div className="w-[90%] bg-primary h-px" />
+                      ) : (
+                        <div className="w-[90%] bg-transparent h-px" />
+                      )}
+                    </span>
+                  );
+                })}
+              </div>
             </LocalModal>
           </div>
         </div>

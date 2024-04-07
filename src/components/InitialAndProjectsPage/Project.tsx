@@ -9,17 +9,21 @@ import { Group, Project, ProjectSimple } from "@/models";
 import Link from "next/link";
 import { projectService } from "@/services";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 interface Props {
   project: ProjectSimple;
   user: string;
 }
 export const ProjectComponent = ({ project, user }: Props) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
+  const router = useRouter();
+  
 
   return (
     <Link
       href={`/${user}/${project.id}`}
-      className={`w-full flex flex-col shadow-blur-10 gap-16 bg-white 
+      className={`w-full flex flex-col shadow-blur-10 gap-8 static z-0 bg-white 
     dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
@@ -47,19 +51,20 @@ export const ProjectComponent = ({ project, user }: Props) => {
       <AnimatePresence initial={false} mode="wait">
         {isHovering && (
           <motion.div
-            className="w-full justify-center overflow-clip flex flex-col gap-10"
+            className="w-full items-center relative overflow-y-clip flex flex-col"
             initial={{ height: 0 }}
             // 11rem
             animate={{ height: "150px" }}
             exit={{ transition: { delay: 0.1, duration: 0.1 }, height: 0 }}
             transition={{ duration: 0.1 }}
           >
-            <div className=" w-full justify-center">
-              <span className="relative w-42">
-                <Obj objs={project.groups} max={4} functionObj={() => {}}></Obj>
-              </span>
+              <div className=" absolute flex w-full h-10 z-10">
+                <Obj objs={project.groups} max={4} functionObj={o => router.push(`/${user}/${project.id}/group/${(o as SimpleGroup).id}`)} mawWidth="w-full" isGroup></Obj>
             </div>
+            <div className="mt-12">
             <ProgressBar percent={project.progress} />
+
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

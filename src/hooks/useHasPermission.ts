@@ -4,13 +4,21 @@ import { Permission, Project, TypePermission } from "@/models";
 import { useContext, useEffect, useState } from "react";
 import { set } from "zod";
 
-export const useHasPermission = (action: 'read' | 'create' | 'delete' | 'update'): boolean => {
+export const 
+
+
+useHasPermission = (action: 'read' | 'create' | 'delete' | 'update'): boolean => {
     const { user } = useContext(UserContext);
     const { project } = useContext(ProjectContext);
     const [sucess, setSucess] = useState<boolean>(false);
     useEffect(() => {
-        if (!user || !project){
+        
+        if (!user){
             setSucess(false);
+            return;
+        }
+        if (!project){
+            setSucess(true);
             return;
         }
         const permission = user.permissions.find((p) => p.project.id === project.id);
