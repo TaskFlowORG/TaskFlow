@@ -30,19 +30,20 @@ const schema = z
     mail: z.string().email({ message: "Email inválido" }),
     password: z
       .string()
-      .min(8, { message: "Senha deve conter no mínimo 6 caracteres" })
-      .max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
+      .min(8, 'A senha deve ter pelo menos 8 caracteres.')
+      .regex(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula.')
+      .regex(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula.')
+      .regex(/[0-9]/, 'A senha deve conter pelo menos um número.')
+      .regex(/[^a-zA-Z0-9]/, 'A senha deve conter pelo menos um caractere especial.'),
     confirmPassword: z
-      .string()
-      .min(8, { message: "Senha deve conter no minimo 6 caracteres" })
-      .max(20, { message: "Senha deve conter no maximo 20 caracteres" }),
+      .string(),
   })
   .refine(
     (values) => {
       return values.password === values.confirmPassword;
     },
     {
-      message: "Senha não coincide",
+      message: "Senhas não coincidem.",
       path: ["confirmPassword"],
     }
   );
@@ -103,9 +104,9 @@ export const Register = () => {
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
       <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4 leading-6 md:py-0">Registar</h4>
+        <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
-        <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex flex-col items-center justify-between">
+        <form onSubmit={handleSubmit(onSubmit)} className="h-4/5 w-4/5 flex py-3 md:py-0 flex-col items-center justify-between">
           {step === 0 && (
             <>
               <Input
@@ -174,6 +175,7 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconPassword}
                 placeholder="Confirme sua senha"
+                type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
                 required

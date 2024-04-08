@@ -11,13 +11,13 @@ class UserService {
         return (await Api.get<Permission>(`user/${username}/${projectId}`)).data;
     }
 
-    async update(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname,user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+    async update(user:User, adress:string):Promise<void>{
+        const userPut = new UserPut(user.username, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
         await Api.put("user", userPut);
     }
 
-    async patch(user:User):Promise<void>{
-        const userPut = new UserPut(user.username, user.name, user.surname, user.address ?? "", user.mail, user.phone ?? "", user.description ?? "", user.configuration, user.permissions);
+    async patch(user:UserPut):Promise<void>{
+        const userPut = new UserPut(user.username, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions);
         await Api.patch("user", userPut);
     }
 
@@ -33,9 +33,9 @@ class UserService {
         return (await Api.get<User>(`user/email/${email}/${password}`)).data;
     }
 
-    async upDatePicture(picture:File, username:string):Promise<void>{
+    async upDatePicture(picture?:File, username?:string):Promise<void>{
         const formData = new FormData();
-        formData.append('picture', picture);
+        formData.append('picture', picture ?? new Blob());
         await Api.patch(`user/picture/${username}`, formData);
     }
 

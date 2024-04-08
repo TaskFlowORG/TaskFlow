@@ -5,7 +5,7 @@ export class Archive {
     id!: number;
     name!: string;
     type!: string;
-    data!: number[]
+    data!: Uint8Array
 
     constructor(id: number, name: string, type: string, data: number[]) {}
 

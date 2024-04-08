@@ -12,6 +12,7 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { Task, TaskOrdered, User } from "@/models";
 import { TaskModal } from "@/components/TaskModal";
 
+
 interface Props {
   params: { project: number; user: string };
   children: React.ReactNode;
@@ -31,6 +32,7 @@ export default function Layout({ params, children }: Props) {
       const projectPromise = await projectService.findOne(params.project);
       setProject!(projectPromise);
       console.log(params);
+        projectService.setVisualizedNow(projectPromise)
       const user = await userService.findByUsername(params.user)
       console.log(user)
       setUser(user)
@@ -72,6 +74,7 @@ export default function Layout({ params, children }: Props) {
             >
               +
             </p>
+
           </div>
 
           <SideModal
@@ -84,7 +87,6 @@ export default function Layout({ params, children }: Props) {
               properties={project?.properties ?? []}
             />
           </SideModal>
-
           {children}
         </div>
         </TaskModalContext.Provider>

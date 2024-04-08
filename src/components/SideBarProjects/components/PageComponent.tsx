@@ -1,38 +1,20 @@
 import { Page, PagePost, Project, TypeOfPage, TypeOfProperty } from "@/models";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { If } from "../../If";
 import { pageService } from "@/services";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Scrollbar,
-  A11y,
-  EffectCards,
-  EffectCoverflow,
-  Thumbs,
-  Controller,
-  HashNavigation,
-  Manipulation,
-  Parallax,
-  Virtual,
-} from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-flip";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { useTheme } from "next-themes";
-import { Button } from "../../Button";
-import Link from "next/link";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
 import { LocalModal } from "../../Modal";
 import { PageTypeIcons } from "../../icons/Pages/PageTypeIcons";
 import { SideBarButton } from "./SideBarButton";
-import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
 import { ButtonPageOption } from "./ButtonPageOption";
-import { IconTrash } from "@/components/icons/ModalPropertys/Trash";
 import { ChangeType, ConectPage, EditIcon, IconTrashBin } from "@/components/icons";
+import { ProjectContext } from "@/contexts";
+import { set } from "zod";
 
 interface Props {
   page: Page;
@@ -64,6 +46,8 @@ export const PageComponent = ({
   const [y, setY] = useState<number>(0);
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
+  const {setProject} = useContext(ProjectContext);
+
   useEffect(() => {
     setTruncate(false);
   }, [merging]);
@@ -74,6 +58,9 @@ export const PageComponent = ({
 
   const excludePage = () => {
     pageService.delete(page.id);
+    const projectTemp = { ...project };
+    projectTemp.pages.splice(project.pages.indexOf(page), 1);
+    setProject!(projectTemp);
     setModal(false);
     setTruncate(false);
   };
@@ -83,6 +70,7 @@ export const PageComponent = ({
       console.log(inputRef.current?.textContent);
       pageService.upDateName(inputRef.current?.textContent ?? null, page.id);
       setRenaiming(false);
+      page.name = inputRef.current?.textContent ?? page.name;
     }
   };
 
@@ -96,8 +84,14 @@ export const PageComponent = ({
     const pagePromise = await pageService.insert(
       new PagePost(page.name, type, project)
     );
+
+    const projectTemp = { ...project };
+    projectTemp.pages.splice(project.pages.indexOf(page), 1);
+    projectTemp.pages.push(pagePromise);
+    setProject!(projectTemp);
     pageService.merge([pagePromise], page.id);
     pageService.delete(page.id);
+
     setTruncate(false);
     setModal(false);
     setChangingType(false);
@@ -108,17 +102,10 @@ export const PageComponent = ({
     setTruncate(false);
   });
 
+
   return (
-    <label
-      htmlFor={`${page.id}`}
-      className="w-full flex-1 text-modal-grey dark:text-white  "
-    >
-      <div
-        key={page.id}
-        className={"w-full flex gap-2 text-modal-grey "}
-        onMouseOver={() => setTruncate(true)}
-        onMouseLeave={() => setTruncate(modal)}
-      >
+    <label htmlFor={`${page.id}`} className="w-full flex-1 text-modal-grey h-min dark:text-white">
+      <div key={page.id} className={"w-full flex gap-2 text-modal-grey h-min "} onMouseOver={() => setTruncate(true)} onMouseLeave={() => setTruncate(modal)}>
         <SideBarButton
           icon={<PageTypeIcons type={page.type} />}
           text={page.name}
@@ -134,49 +121,16 @@ export const PageComponent = ({
             !renaiming && !merging
               ? "/" + username + "/" + project.id + "/" + page.id
               : undefined
-          }
-        >
+          }>
           <div className="flex flex-col w-full px-8 items-start  gap-2 text-modal-grey dark:text-white ">
-            <ButtonPageOption
-              fnButton={excludePage}
-              icon={<IconTrashBin />}
-              text="Excluir"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setRenaiming(true);
-                setModal(false);
-                setTruncate(false);
-              }}
-              icon={<EditIcon />}
-              text="Renomear"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setPageMerging(page);
-                setModal(false);
-                setMerging(true);
-              }}
-              icon={<ConectPage />}
-              text="Conectar"
-            />
-            <ButtonPageOption
-              fnButton={() => {
-                setChangingType(true);
-                setModal(false);
-              }}
-              icon={<ChangeType />}
-              text="Mudar Tipo"
-            />
+            <ButtonPageOption fnButton={excludePage} icon={<IconTrashBin />} text="Excluir"/>
+            <ButtonPageOption fnButton={() => { setRenaiming(true); setModal(false); setTruncate(false);}} icon={<EditIcon />} text="Renomear"/>
+            <ButtonPageOption fnButton={() => { setPageMerging(page); setModal(false); setMerging(true); }} icon={<ConectPage />} text="Conectar"/>
+            <ButtonPageOption fnButton={() => { setChangingType(true); setModal(false); }} icon={<ChangeType />} text="Mudar Tipo" />
           </div>
         </SideBarButton>
         <span className="bg-white dark:bg-modal-grey">
-          <LocalModal
-            condition={changingType}
-            setCondition={setChangingType}
-            y={y}
-            x={x}
-          >
+          <LocalModal condition={changingType} setCondition={setChangingType} y={y} x={x} >
             <TypeOfPageComponent
               changingType={changingType}
               closeModals={() => {

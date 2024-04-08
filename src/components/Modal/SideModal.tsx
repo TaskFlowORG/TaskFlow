@@ -23,7 +23,7 @@ export const SideModal = ({ children, condition, setCondition, right }: Props) =
                         exit={{transition: { delay: 0.1 }, ...(right?{right:-500}:{left:-500}) }}
                         transition={{ duration: 0.1 }} 
                         ref={ref}
-                        className="fixed top-0 bottom-0 z-50 flex items-center justify-start h-screen  w-[31rem] "
+                        className="fixed top-0 bottom-0 z-[70] flex items-center justify-start h-screen  w-[31rem] "
                     >
                         {children}
                     </motion.div>

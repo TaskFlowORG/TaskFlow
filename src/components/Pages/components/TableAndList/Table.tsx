@@ -12,7 +12,7 @@ import { Page, Property, TaskOrdered } from "@/models";
 import { ValueSelector } from "..";
 import { useRef, useContext, useState, useEffect, MouseEvent } from "react";
 import { HeaderList } from "./HeaderList";
-import { ProjectContext } from "@/utils/ContextProject";
+import { ProjectContext } from "@/contexts";
 interface Props {
   page: Page;
   updateIndex: (e: DropResult) => void;
@@ -54,8 +54,15 @@ export const Table = ({ page, updateIndex }: Props) => {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
                   className="overflow-y-auto none-scrollbar h-[87%] relative w-full">
+                    {page.tasks.length == 0 ?
+                    
+                    <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center pt-64">
+                       Não Existem Tasks Nessa Página
+                    </div>
+                   :
                   <div className="w-full h-min">
-                    {(page.tasks as TaskOrdered[])
+                    {
+                    (page.tasks as TaskOrdered[])
                       .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
                       .map((l, index) => {
                         return (
@@ -102,7 +109,7 @@ export const Table = ({ page, updateIndex }: Props) => {
                           </Draggable>
                         );
                       })}
-                  </div>
+                  </div>}
                   {provided.placeholder}
                 </div>
           );

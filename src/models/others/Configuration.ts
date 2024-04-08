@@ -32,4 +32,6 @@ export class Configuration {
     equals = (obj: any) => {
         return obj instanceof Configuration && obj.id === this.id;
     }
+    
+    [key: string]: any;
 }

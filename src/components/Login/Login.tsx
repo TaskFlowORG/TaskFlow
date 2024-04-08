@@ -5,6 +5,8 @@ import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {authentication } from "@/services/services/Authentication";
+import { UserLogin } from '@/models/user/user/UserLogin';
 
 const schema = z
     .object({
@@ -37,6 +39,17 @@ export const Login = () => {
     });
     const route = useRouter();
     
+    const onSubmit = async (data: FormData) => {
+        try {
+            await authentication.login(new UserLogin(data.username, data.password));
+            route.push("/home");
+        } catch (error) {
+            if (error instanceof ZodError) {
+                console.log(error.errors);
+            }
+        }
+    }
+
     return (
         <div className="h-[85%] w-screen flex justify-center items-center">
 
@@ -67,7 +80,7 @@ export const Login = () => {
                     </div>
 
                     <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
-                        onClick={() => console.log(getValues())}
+                        onClick={() => onSubmit(getValues())}
                     >Entrar</button>
                 </div>
             </div>

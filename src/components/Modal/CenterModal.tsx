@@ -34,6 +34,7 @@ export const CenterModal = ({
             transition={{ duration: 0.1 }}
             className="fixed top-0 bottom-0 left-0 z-40 w-full h-screen flex justify-center 
                         items-center bg-black bg-opacity-10 backdrop-blur-[2px]"
+
           >
             <motion.div
               className={style}
