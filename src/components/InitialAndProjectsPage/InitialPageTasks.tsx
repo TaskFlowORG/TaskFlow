@@ -3,12 +3,11 @@ import { useTranslation } from "next-i18next";
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
 import { Task } from "@/models";
+import { useEffect } from "react";
 
 
 export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
-
-    const {t} = useTranslation()
-
+    
     return (
         <div className="flex-col justify-start h-full w-full gap-8 py-4 p-7
          items-center flex bg-white dark:bg-modal-grey rounded-sm shadow-blur-10">

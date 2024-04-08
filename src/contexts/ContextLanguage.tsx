@@ -27,6 +27,7 @@ export const LanguageProvider = ({ children }:{children:React.ReactNode}) => {
 
   useEffect(() => {
     let lang = 'en';
+    console.log(user?.configuration?.language)
     if (user?.configuration?.language) {
       lang = languageToString(user.configuration.language);
     }else{
@@ -34,7 +35,7 @@ export const LanguageProvider = ({ children }:{children:React.ReactNode}) => {
     }
     console.log(i18n)
     changeLanguage(lang);
-  }, [user, i18n]);
+  }, [user]);
 
   // Função para alterar o idioma
   const changeLanguage = (lang: string) => {

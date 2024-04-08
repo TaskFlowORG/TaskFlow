@@ -12,6 +12,7 @@ import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import { IconArchive } from "../icons";
+import Image from "next/image";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -25,9 +26,7 @@ export const Header = ({
   const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
   
 
-  useEffect(() => {
 
-  }, [user]);
 
   useEffect(() => {
     if (!user?.notifications) return;
@@ -49,6 +48,7 @@ export const Header = ({
     user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
     const updatedUser = await userService.patch(user)
     setUser(updatedUser);
+    console.log(value);
   }
 
   const closeModal = () => {
@@ -76,11 +76,15 @@ export const Header = ({
           className=" select-none dark:invert  cursor-pointer h-5 w-5"
         />
 
-        <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
-        list={[{ value:Language.PORTUGUESE, image:<IconArchive />}, 
-        { value:Language.ENGLISH, image:<IconArchive />}, 
-        { value:Language.SPANISH, image:<IconArchive />}]} />
+        <div className="w-10 h-min  " >
 
+        <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
+        list={[{ value:Language.PORTUGUESE, image:<Image  alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" />}, 
+        { value:Language.ENGLISH, image:<Image  alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" />}, 
+        { value:Language.SPANISH, image:<Image  alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" />}]} />
+
+
+        </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">
           <Link href={`/${user?.username}/configurations/account`}>
