@@ -15,6 +15,7 @@ type ModalRegisterPropertyProps = {
     page?: Page;
     postProperty: (name: string, selected: TypeOfProperty) => void;
 
+
 }
 
 const schema = z.object({

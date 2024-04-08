@@ -1,4 +1,4 @@
-import { DatePost, Limited, LimitedPost, Property, Select, SelectPost } from "@/models";
+import { Date, DatePost, Limited, LimitedPost, Property, Select, SelectPost } from "@/models";
 import { Api } from "@/services/axios";
 
 class PropertyService {

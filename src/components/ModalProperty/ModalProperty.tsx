@@ -3,7 +3,7 @@ import { useClickAway } from "react-use";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
 import { SideBarButton } from "../SideBarProjects/components/SideBarButton";
-import { Property, TypeOfProperty } from "@/models";
+import { Date, Limited, Property, PropertyPost, Select, TypeOfProperty } from "@/models";
 import {
   IconText,
   IconArchive,
@@ -16,20 +16,44 @@ import {
   IconTrashBin,
 } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
+import { useForm } from "react-hook-form";
+import { propertyService } from "@/services";
+import { DateGet } from "@/models/property/date/DateGetDTO";
+import { Input } from "../Input";
 
 type ModalPropertyProps = {
   property: Property;
   deleteProperty: (property: Property) => void;
+  upDateProperties: (property: Property, getValues: any) => void;
 };
 
 export const ModalProperty = ({
   property,
   deleteProperty,
+  upDateProperties,
 }: ModalPropertyProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const [ModalDelete, setModalDelete] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
+
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      visible: true,
+      obligatory: false,
+      maximum: 0,
+      pastDate: false,
+      schedule: false,
+      hours: false,
+      deadline: false,
+    },
+  });
+
   useClickAway(ref, () => setOpenOptions(false));
   const fnReturnImageProperty = (type: string) => {
     switch (type) {
@@ -56,51 +80,36 @@ export const ModalProperty = ({
 
   const fnReturnCheckbox = () => {
     if (
-      [
-        TypeOfProperty.TIME,
-        TypeOfProperty.USER,
-        TypeOfProperty.ARCHIVE,
-        TypeOfProperty.NUMBER,
-        TypeOfProperty.PROGRESS,
-        TypeOfProperty.TEXT,
-      ].includes(property.type)
+      [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
     ) {
       return (
-        <InputCheckbox
-          register={undefined}
-          className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-          label="Máximo"
-        />
+    <Input register={{...register("maximum")}} type="number" classNameInput={""} />
       );
     } else if (
-      [
-        TypeOfProperty.CHECKBOX,
-        TypeOfProperty.TAG,
-        TypeOfProperty.RADIO,
-        TypeOfProperty.SELECT,
-      ].includes(property.type)
+      [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)
     ) {
       return <p>SELECT</p>;
     } else {
       return (
         <>
           <InputCheckbox
-            register={undefined}
+            register={{ ...register("pastDate") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
             label="Pode ser data passada"
           />
           <InputCheckbox
-            register={undefined}
+            register={{ ...register("schedule") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
             label="Incluir agendamento"
-          /> 
+          />
           <InputCheckbox
-            register={undefined}
+            register={{ ...register("hours") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
             label="Incluir horas"
           />
           <InputCheckbox
-            register={undefined}
+            register={{ ...register("deadline") }}
+            
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
             label="Prazo final"
           />
@@ -108,6 +117,7 @@ export const ModalProperty = ({
       );
     }
   };
+ 
   return (
     <div
       key={property.id}
@@ -125,24 +135,23 @@ export const ModalProperty = ({
       >
         <div className="w-full h-full flex flex-col justify-center items-center dark:bg-modal-grey">
           <div className="h-full w-full flex justify-between px-6 flex-wrap items-center ">
-             {fnReturnCheckbox()}
+            {fnReturnCheckbox()}
             <InputCheckbox
-              register={undefined }
+              register={{ ...register("visible") }}
               className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
               label="Visible"
             ></InputCheckbox>
             <InputCheckbox
-              register={undefined}
+              register={{ ...register("obligatory") }}
               className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
               label="Obligatory"
             ></InputCheckbox>
-           
           </div>
           <div className=" h-min pb-2 w-[95%] flex justify-between">
             <button
               className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
               onClick={() => {
-                setModalDelete(true);
+               deleteProperty(property);
               }}
             >
               {" "}
@@ -150,7 +159,9 @@ export const ModalProperty = ({
             </button>
             <button
               className="w-8 h-5/6 flex justify-center items-center rounded-sm"
-              onClick={() => {}}
+              onClick={() => {
+                upDateProperties(property, getValues());
+              }}
             >
               <IconSave />
             </button>
