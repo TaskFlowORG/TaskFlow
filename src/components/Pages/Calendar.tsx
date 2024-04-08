@@ -19,7 +19,7 @@ interface Props  {
 
 export const Calendar = ({page}:Props) => {
 
-    const [tasks, setTasks] = useState<TaskOrdered[]>([])
+    const [tasks, setTasks] = useState<TaskOrdered[]>(page.tasks as TaskOrdered[])
     const [month, setMonth] = useState<number>(0)
     const [year, setYear] = useState<number>(0)
     const [modal, setModal] = useState<boolean>(false)
@@ -42,6 +42,7 @@ export const Calendar = ({page}:Props) => {
         return null;
     }
     function getDays():Array<Day> {
+        if(!tasks) return[]
         const lastDate:Date = new Date(year, month, 0)
         const firstDate:Date = new Date(year, month - 1)
         const days:Array<Day> = [];
@@ -129,7 +130,7 @@ export const Calendar = ({page}:Props) => {
                 </div>
             </div>
             <CalendarTasksModal title="Tarefas Sem Data" modal={modal} setModal={setModal} propOrd={page.propertyOrdering as DateProp} withotTime
-            tasks={tasks.filter((t) => t.task.properties.find(p => p.property.id === page.propertyOrdering?.id)?.value.value == null)} />
+            tasks={tasks.filter((t) => t.task.properties.find(p => p.property.id === page.propertyOrdering?.id)?.value.value == null)} notDay />
         </div>
     );
 };

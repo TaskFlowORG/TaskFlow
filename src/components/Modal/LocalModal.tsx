@@ -32,7 +32,7 @@ export const LocalModal = ({ children, condition, setCondition, right, y, x, bot
                         exit={{ transform: "scale(0)", transition: { delay: 0 } }}
                         transition={{ duration: 0.1 }}
                         ref={ref}
-                        style={y? {top: y, position:"fixed", left:x} : {...(bottom?{bottom: 0}:{top:0}), position:"absolute"}}
+                        style={y? {top: y, position:"fixed", left:x} : {...(bottom?{bottom: 10}:{top:0}), position:"absolute"}}
                     >
                         {children}
                     </motion.div>

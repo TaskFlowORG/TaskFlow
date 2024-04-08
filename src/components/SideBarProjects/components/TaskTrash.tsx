@@ -30,7 +30,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
                     title={`Tarefa ${task.name ?? '"Sem Nome"'} foi exluida por "${user?.name}"`}>
                     <span className="truncate h-full w-min">
 
-                    Tarefa {task.name ?? '"Sem Nome"'} foi exluida por {`"${user?.name}"`}
+                        Tarefa {task.name ?? '"Sem Nome"'} foi exluida por {`"${user?.name}"`}
                     </span>
                 </div>
                 <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}>R</button>
@@ -40,7 +40,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
 
                     <div className="fixed top-0 right-0 bottom-0 z-[60] bg-white opacity-40 left-0 cursor-default" onClick={() => setModalDelete(false)}
                         onMouseOver={e => e.stopPropagation()} >
-                    </div>    
+                    </div>
                     <div className="fixed bg-white shadow-blur-10 top-1/2 -translate-x-1/2 flex-col  gap-16
                                 -translate-y-1/2 left-1/2 z-[60] rounded-md w-[35rem] h-80 flex justify-center items-center">
                         <h4 className="h4 text-primary dark:text-secondary flex-wrap w-3/4 text-center">Você tem certeza de que deseja deletar essa tarefa permanentemente?</h4>

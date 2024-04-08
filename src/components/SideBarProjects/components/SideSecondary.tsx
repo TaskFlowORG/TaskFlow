@@ -1,22 +1,26 @@
 import { If } from "@/components/If";
-import { LocalModal } from "@/components/Modal";
+import { LocalModal, SideModal } from "@/components/Modal";
 import { TaskTrash } from "./TaskTrash";
-import { IconDashboard, IconPages, IconTrashBin } from "@/components/icons";
+import { IconDashboard, IconGroups, IconPages, IconTrashBin } from "@/components/icons";
 import { Project, Task } from "@/models";
 import { taskService } from "@/services";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SideBarButton } from "./SideBarButton";
+import { GroupSide } from "./GroupSide";
 
 interface Props {
   user: string;
   project?: Project;
   setModalPages: (value: boolean) => void;
+  setModalGroups: (value: boolean) => void;
+  modalGroups: boolean;
 }
 
-export const SideSecondary = ({ user, project, setModalPages }: Props) => {
+export const SideSecondary = ({ user, project, setModalPages, setModalGroups, modalGroups }: Props) => {
   const [tasksTrash, setTasksTrash] = useState<Task[]>([]);
   const [modalTrash, setModalTrash] = useState(false);
+ 
   useEffect(() => {
     if (!project || !modalTrash) return;
     (async () => {
@@ -26,11 +30,12 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
   }, [modalTrash]);
   return (
     <>
-      <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`}/>
-      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Páginas" />
+      <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`} />
+      <SideBarButton icon={<IconPages />} fnClick={() => { setModalPages(true) }} text="Páginas" />
+      <SideBarButton icon={<IconGroups />} text="Grupos do projeto" fnClick={() => setModalGroups(true)} />
       <div className="relative w-full">
-      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira"/>
-      <LocalModal condition={modalTrash} setCondition={setModalTrash}>
+        <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira" />
+        <LocalModal condition={modalTrash} setCondition={setModalTrash}>
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-min w-80 text-primary dark:text-secondary h5 p-4">
               <p className="p flex flex-wrap text-center items-center h-min w-3/4 ">
@@ -53,6 +58,9 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
             </span>
           </If>
         </LocalModal>
+        <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={false}/>
+            </SideModal>
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import { Table, TableOrList } from "./components";
 
 interface Props {
   page: Page;
-  project: Project;
+  project?: Project;
 }
 
 export const TablePage = ({ page, project }: Props) => {
