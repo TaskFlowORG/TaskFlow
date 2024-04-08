@@ -52,7 +52,7 @@ export const Kanban = ({ user }: UserLogged) => {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  },[]);
+  }, []);
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 

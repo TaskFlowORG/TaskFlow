@@ -54,8 +54,8 @@ const textValuePropertyPassesFilter = (
   property: FilteredProperty,
   propertyInTask: TaskValueGet
 ): number => {
-  return propertyInTask.value.value
-    .toLowerCase()
+  return propertyInTask.value?.value
+    ?.toLowerCase()
     .includes(property.value.toLowerCase())
     ? counter + 1
     : counter;
@@ -74,7 +74,6 @@ export function showTask(task: Task, context: FilterContextType): boolean {
   const multiOptionTypes = [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG];
   const uniOptionTypes = [TypeOfProperty.SELECT, TypeOfProperty.RADIO];
   const textTypes = [TypeOfProperty.TEXT, TypeOfProperty.DATE];
-  console.log(task);
   if (isValueMatchingInput(task.name ?? "", input!)) {
     let counter = 0;
     filterProp.forEach((prop) => {
