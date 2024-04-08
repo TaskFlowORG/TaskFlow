@@ -60,6 +60,31 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // console.log(filter);
   // console.log(list);
 
+
+  function arraysAreEqual(arr1:any, arr2:any) {
+    // Se os comprimentos dos arrays forem diferentes, eles são definitivamente diferentes
+    if (arr1.length !== arr2.length) {
+      return false;
+    }
+    
+    // Verifica cada elemento dos arrays
+    for (let i = 0; i < arr1.length; i++) {
+      // Se um elemento for diferente em qualquer posição, os arrays são diferentes
+      if (arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    
+    // Se chegarmos até aqui, os arrays são iguais
+    return true;
+  }
+
+
+
+
+
+
+
   useEffect(() => {
     setList(undefined);
     setFilter([]);
@@ -67,11 +92,19 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
   useEffect(() => {
     setTaskName(task?.name ?? "");
+
   }, [task?.name]);
 
-  useEffect(() => {
-    setCommentsTask(task?.comments ?? []);
-  }, [deleteComment, updateComment]);
+useEffect(() => {
+  setCommentsTask((prevComments) => {
+    const newComments = task?.comments ?? [];
+    if (!arraysAreEqual(prevComments, newComments)) {
+      return newComments;
+    }
+    return prevComments;
+  });
+}, [task?.comments, deleteComment, updateComment]);
+
 
   async function updateNameTask(e: any) {
     task.name = e.target.value;
@@ -112,6 +145,9 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           let updatedValue = (updateProp.property as Select).options.filter(
             (option) => value.value?.includes(option.name)
           );
+          console.log("Sou o valor atualizado");
+          
+          console.log(updatedValue)
           // console.log(updatedValue);
           updateProp.value.value = updatedValue;
           // console.log(updateProp);
@@ -262,11 +298,6 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             {/* bg-black */}
             <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4 w-full">
               {task?.properties.map((prop) => {
-                const propert = filter!.find(
-                  (propert) => propert.id == prop.id
-                ) ?? {
-                  value: null,
-                };
                 return (
                   <div
                     key={prop.id}
@@ -289,6 +320,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               <IconsSelector property={prop.property} />
                               <p className="font-montserrat text-[16px] whitespace-nowrap">
                                 {prop.property.name}
+                                {JSON.stringify(prop.value.value)}
                               </p>
                             </div>
                             {([
@@ -370,7 +402,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   name={prop.property.name}
                                   options={(prop.property as Select).options}
                                   id={prop.property.id}
-                                  value={propert.value}
+                                  value={prop.value.value?.map((option:any) => option.name)}
                                 />
                               )) ||
                             (prop.property.type == TypeOfProperty.TAG && (
@@ -418,7 +450,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   }
                                 }}
                                 options={(prop.property as Select).options}
-                                value={propert.value ?? []}
+                                value={prop.value.value?.map((option:any) => option.name) ?? []}
                               />
                             ))}
                         </div>

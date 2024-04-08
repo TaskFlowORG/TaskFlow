@@ -47,7 +47,7 @@ export const Kanban = ({ user }: UserLogged) => {
 
   useEffect(() => {
     (async () => {
-      const pg: OrderedPage = await getPage("page", 1);
+      const pg: OrderedPage = await getPage("page", 4);
       setTasks(
         (pg.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
       );

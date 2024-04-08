@@ -24,9 +24,6 @@ export const CheckboxFilter = ({
     "flex w-full ",
     isInModal ? "flex-wrap gap-x-4" : "flex-col"
   );
-  useEffect(() => {
-    setSelectedOptions(value ?? []);
-  }, [value, filterProp, setFilterProp]);
 
   function isChecked(optionName: string) {
     // console.log(selectedOptions.includes(optionName))
@@ -35,6 +32,7 @@ export const CheckboxFilter = ({
 
   const handleOptionChange = (event: any) => {
     const optionName = event.target.value;
+    console.log("Me clicaro");
     // if (selectedOptions.includes(optionName)) {
     //   setSelectedOptions(
     //     selectedOptions.filter((option) => option !== optionName) ?? []
@@ -46,32 +44,47 @@ export const CheckboxFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
+
+
         setSelectedOptions(
           selectedOptions.filter((option) => option !== optionName) ?? []
         );
+        console.log(selectedOptions.filter((option) => option !== optionName))
         console.log("Passaro a mão ni mim aqui ein");
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
         );
         if (thisProperty.value.length == 0) {
-          filterProp.splice(filterProp.indexOf(thisProperty), 1);
-          setFilterProp!(filterProp);
+          thisProperty.value = []
         }
+        setFilterProp!(filterProp);
+
+
+
       } else {
         setSelectedOptions([...selectedOptions, optionName]);
-        console.log("Passaro a mão ni mim");
+        console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
       }
     } else {
-      console.log("Aqui não deveria vir")
       if (optionName) {
+        setSelectedOptions([...(value ?? []) , optionName]);
         setFilterProp!([
           ...filterProp,
-          { id: id, value: [event.target.value] },
+          { id: id, value: [...(value ?? []) , optionName] },
         ]);
       }
     }
   };
+
+  useEffect(() => {
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop) {
+      setSelectedOptions(prop.value);
+    } else {
+      setSelectedOptions(value ?? []);
+    }
+  }, [value, setFilterProp, filterProp]);
 
   return (
     <div className="text-black dark:text-white pb-2 border-b-[1px]  ">
