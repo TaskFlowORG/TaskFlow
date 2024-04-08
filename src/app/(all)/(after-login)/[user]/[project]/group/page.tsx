@@ -24,9 +24,9 @@ export default function Home({ params }:{params:{project:number}}) {
     const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL />;
 
     return (
-
         <div className=" w-screen h-screen ">
             <div className="flex absolute md:-bottom-36 xl: 2xl:bottom-0 lg:z-10 ">
+
                 {svgGroupPage}
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">

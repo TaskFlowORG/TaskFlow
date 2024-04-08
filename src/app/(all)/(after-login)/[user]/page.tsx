@@ -3,18 +3,17 @@ import { SVGInitialPage } from "@/components/Shapes"
 import { ProjectsMainPage, InitialPageTasks} from "@/components/InitialAndProjectsPage"
 import {  } from "@/components/InitialAndProjectsPage"
 import { projectService, taskService } from "@/services"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Project } from "@/models"
 import { Task } from "@/models"
+import { ProjectsContext } from "@/contexts"
 
 export default function InitialPage({params}:{params:{user:string}}) {
-    const [projects, setProjects] = useState<Project[]>([])
+    const {projects} = useContext(ProjectsContext);
     const [tasks, setTasks] = useState<Task[]>([])
 
     useEffect(() => {
         (async () => {
-            const projectsTemp = await projectService.findAllOfAUser(params.user)
-            setProjects(projectsTemp)
             const tasks = await taskService.findTodaysTasks(params.user)
             setTasks(tasks)
         })()

@@ -96,6 +96,7 @@ export const useDraw = (
       canvasRef.current?.addEventListener("pointerdown", handlerOtherShape);
     } else {
       canvasRef.current?.addEventListener("mousemove", handlerLine);
+      canvasRef.current?.addEventListener("mouseleave", mouseUpHandler);
       canvasRef.current?.addEventListener("mouseup", mouseUpHandler);
       canvasRef.current?.addEventListener("mousedown", handlerOtherShape);
       canvasRef.current?.addEventListener("contextmenu", (e) =>
@@ -115,6 +116,7 @@ export const useDraw = (
         canvasRef.current?.removeEventListener("mousedown", handlerOtherShape);
         canvasRef.current?.removeEventListener("mousemove", handlerLine);
         canvasRef.current?.removeEventListener("mouseup", mouseUpHandler);
+        canvasRef.current?.removeEventListener("mouseleave", mouseUpHandler);
       }
     };
   }, [onDraw, mouseDown, moving]);

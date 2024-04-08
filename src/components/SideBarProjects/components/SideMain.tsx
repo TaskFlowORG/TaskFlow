@@ -2,10 +2,13 @@ import { If } from "@/components/If"
 import { IconBurguerList, IconGroups, IconLogout, IconProjects } from "@/components/icons"
 import { Project } from "@/models";
 import Link from "next/link"
-import {  SideSecondary } from "./SideSecondary";
-import {  PageSide } from "./PageSide";
+import { SideSecondary } from "./SideSecondary";
+import { PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
 import { GroupSide } from "./GroupSide";
+import { SideBarButton } from "./SideBarButton";
+import { useContext } from "react";
+import { ProjectContext } from "@/contexts";
 
 
 
@@ -21,33 +24,26 @@ interface Props {
 
 
 export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
-
+    const { setProject } = useContext(ProjectContext)
 
     return (
         <>
             <If condition={!modalGroups && !modalPages}>
-                <>
-                <div className="w-full h-full flex flex-col items-center relative">
-                    <SideBarButton icon={<IconBurguerList />} link={`/${user}/initial-page`} text="Página Inicial" />
-                    <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects` }/>
-                    <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
-                    <If condition={project != undefined}>
-                        <SideSecondary setModalPages={setModalPages} user={user} project={project} />
-                    </If>
-                </div>
-                <div className="w-full h-1/4 flex flex-col justify-end items-center" >
+                <div className="h-full flex flex-col justify-between">
 
-                    <div className="w-full h-14 cursor-pointer  border-b-2 border-primary-opacity dark:border-secondary-opacity
-                    flex flex-row items-center px-6 hover:brightness-90 bg-white dark:bg-modal-grey" onClick={() => setWantLeave(true)}>
-                        <div className="w-1/3 h-full flex justify-center items-center">
-                            <IconLogout />
-                        </div>
-                        <p className="p">Logout</p>
+                    <div className="w-full h-min flex flex-col items-center relative">
+                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text="Página Inicial" fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
+                        <If condition={project != undefined}>
+                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                        </If>
                     </div>
-
+                    <div className="w-full h-min flex flex-col justify-end items-center" >
+                        <SideBarButton icon={<IconLogout />} text="Logout" fnClick={() => setWantLeave(true)} />
+                    </div>
                 </div>
-                </>
-            </If>
+        </If >
             <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>

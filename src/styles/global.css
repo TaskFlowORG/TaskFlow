@@ -288,7 +288,7 @@ input[type="checkbox"] {
   border: 2px solid #ccc;
   outline: none;
   position: relative;
-}
+} 
 
 input[type="checkbox"]:checked::before {
   content: "";
@@ -423,7 +423,7 @@ select::-ms-expand {
 }
 
 .toggle-input:checked + .toggle-slider {
-  background-color: #f76858;
+  @apply bg-primary dark:bg-secondary ;
 }
 
 .toggleIn {
@@ -606,6 +606,34 @@ select::-ms-expand {
   --swiper-navigation-size: 20px;
   --swiper-navigation-top-offset: 50%;
   --swiper-navigation-sides-offset: 0px;
+}
+
+#configurations:checked {
+  @apply bg-primary dark:bg-secondary border-none;
+}
+#configurations{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 15%;
+
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+#configurations:checked::before {
+  content: "";
+  position: absolute;
+  @apply left-1/3 top-[15%];
+  transform: rotate(45deg);
+  width: 7px;
+  height: 14px;
+
+  border: solid var(--contrast-color);
+  border-width: 0 2px 2px 0;
 }
 
 .shadow-light {

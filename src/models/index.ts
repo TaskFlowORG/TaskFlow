@@ -53,6 +53,7 @@ export { PermissionPut } from "./project/permission/PermissionPutDTO";
 export { ProjectGet as Project } from "./project/project/ProjectGetDTO";
 export { ProjectPost } from "./project/project/ProjectPostDTO";
 export { ProjectPut } from "./project/project/ProjectPutDTO";
+export {ProjectSimple} from "./project/project/ProjectSimple";
 
 export { DateGet as Date} from "./property/date/DateGetDTO";
 export { Date as DatePost } from "./property/date/Date";
