@@ -5,6 +5,7 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 export class ProjectSimple {
 
+
     constructor(
         public id: number,
         public name: string,
