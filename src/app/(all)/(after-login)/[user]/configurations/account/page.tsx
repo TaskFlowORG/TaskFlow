@@ -11,7 +11,7 @@ export default function UserConfigPage() {
     }, []);
 
     return (
-        <div className="h-[60%] w-full flex items-center">
+        <div className="w-full h-full">
             <PersonalInformations />
             
         </div>
