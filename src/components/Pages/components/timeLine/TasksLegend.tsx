@@ -1,4 +1,5 @@
 import { Property, Task, TimeValued } from "@/models";
+import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 
@@ -18,6 +19,7 @@ export const TaskLegend = ({
   }, [scrollY]);
 
   const { theme } = useTheme();
+  const {t} = useTranslation();
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -53,14 +55,14 @@ export const TaskLegend = ({
                   className=" smm:h-full sm:h-0 md:h-full aspect-square rounded-md w-min"
                   style={{
                     backgroundColor:
-                      propVl?.color ??
+                      propVl?.value.color ??
                       (theme == "dark"
                         ? "var(--secondary-color)"
                         : "var(--primary-color)"),
                   }}
                 />
                 <span className="max-w-full w-min h-min sm:text-center truncate font-montserrat text-[12px]">
-                  {task.name ?? "Sem Nome"}
+                  {task.name ?? t("withoutname")}
                 </span>
               </div>
             );

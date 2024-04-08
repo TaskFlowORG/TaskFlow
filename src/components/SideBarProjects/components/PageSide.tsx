@@ -11,6 +11,7 @@ import { Navigate } from "./Navigate";
 import { any } from "zod";
 import { ProjectContext } from "@/contexts";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   project: Project;
@@ -28,18 +29,19 @@ export const PageSide = (
   const [type, setType] = useState<TypeOfPage>(TypeOfPage.KANBAN);
   const [merging, setMerging] = useState(false);
   const { setProject } = useContext(ProjectContext);
+  const {t} = useTranslation();
   const route = useRouter();
 
   const merge = () => {
     console.log(listMerge, pageMerging);
-    pageService.merge(listMerge, pageMerging!.id);
+    pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);
     setPageMerging(undefined);
   };
   
   const insert = async () => {
-    const page = await pageService.insert(new PagePost("Nova Página", type, project))
+    const page = await pageService.insert(project.id, new PagePost("Nova Página", type, project))
     const projectTemp = {...project};
     projectTemp.pages.push(page)
     setProject!(projectTemp)
@@ -89,7 +91,7 @@ export const PageSide = (
             <div className="flex justify-between w-full h-full">
               <Button
                 width="w-32"
-                text="Cancelar"
+                text={t("conect")}
                 padding="p-2"
                 paddingY="p-1"
                 textSize="font-[14rem]"
@@ -101,7 +103,7 @@ export const PageSide = (
               />
               <Button
                 width="w-32"
-                text="Conectar"
+                text={t("conect")}
                 fnButton={merge}
                 padding="p-2"
                 paddingY="p-1"
@@ -111,7 +113,7 @@ export const PageSide = (
             </div>
             <Button
               width="w-64 "
-              text="Adicionar Página"
+              text={t("add-page")}
               fnButton={() => setModal(true)}
               padding="p-2"
               paddingY="p-1"

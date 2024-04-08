@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { TaskCanvasComponent } from "./components";
 import { useNavigationWithScroll, useDraw } from "./hooks";
 import { MapOfCanvas } from "./components";
@@ -10,6 +10,7 @@ import { SelectedArea } from "./components";
 import { useTheme } from "next-themes";
 import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";
+import { ProjectContext } from "@/contexts";
 
 interface Props{
     user?:User, 
@@ -27,12 +28,13 @@ export const Canvas = ({page, user}: Props) => {
   const [isErasing, setIsErasing] = useState<boolean>(localStorage.getItem("canvas_is_erasing") === "true" ? true : false);
   const { clear, canvasRef } = useDraw( drawLine , moving, page);
   const {map, clearMap} = MapOfCanvas({canvas:canvasRef, x:x, y:y, page:page})
+  const {project} = useContext(ProjectContext);
   const { theme } = useTheme();
 const updateDraw = () => {
-  if (!page || !canvasRef || !canvasRef.current) return;
+  if (!page || !canvasRef || !canvasRef.current || !project) return;
   canvasRef.current.toBlob((draw) => {
     if (draw) {
-      pageService.updateDraw(draw, page.id);
+      pageService.updateDraw(project.id, draw, page.id);
     }
   });
   setTimeout(updateDraw, 5000);

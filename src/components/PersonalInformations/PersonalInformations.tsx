@@ -1,92 +1,153 @@
-"use client";
-
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
-import { User } from "@/models";
+import { User, UserPut } from "@/models";
+import { InputFieldConfig } from "./components/InputFieldConfig";
+import { UserContext } from "@/contexts/UserContext";
+import { archiveToSrc } from "@/functions";
 
 export const PersonalInformations = () => {
+    const {user, setUser} = useContext(UserContext);
+    const [editingAddress, setEditingAddress] = useState(false);
+    const [name, setName] = useState(user ? user.name : "");
+    const [surname, setSurname] = useState(user ? user.surname : "");
+    const [address, setAddress] = useState(user ? user.address : "");
+    const [mail, setMail] = useState(user ? user.mail : "");
+    const [phone, setPhone] = useState(user ? user.phone : "");
+    const [desc, setDesc] = useState(user ? user.description : "");
+    const [photoUrl, setPhotoUrl] = useState<string>(user ? archiveToSrc(user.picture): "");
+    const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
+    const photoInputRef = useRef<HTMLInputElement>(null);
 
-    const [user, setUser] = useState<User>();
 
-    useEffect(() => {
-        async function getUser() {
-                const response = await userService.findByUsername("marquardt");
-                setUser(response);
+    const handlePhotoChange = () => {
+        if (photoInputRef.current?.files && photoInputRef.current.files.length > 0) {
+            const file = photoInputRef.current.files[0];
+            const reader = new FileReader();
+            reader.onload = () => {
+                if (file.size > 1000000) {
+                    alert("A imagem deve ter no máximo 1MB");
+                    return;
+                }
+                console.log(file.size);
+                setPhotoUrl(reader.result as string);
+
+            };
+            reader.readAsDataURL(file);
         }
-        getUser();
-    }, []);
-
-    const salvarAlterações = async () => {
-        
     };
 
-return (
-    <>
-        <div className=" flex pt-40 justify-center w-full ">
-            <div className="flex flex-col h-48 gap-10">
-                <div className="flex gap-10 ">
-                    <div className="h-full relative">
+    const toggleEditingAddress = () => {
+        setEditingAddress(!editingAddress);
+    };
+
+    const deleteUser = (username: string) => {
+        //nao vai ficar assim
+        var sla = confirm("Tem certeza que deseja excluir sua conta? Esta ação é irreversível.");
+        if (sla == true) {
+            userService.delete(username);
+        }
+    }
+
+    const saveChanges = async () => {
+        if (!user || !setUser) return;
+        let updatedUser = new User(
+            user.id,
+            user.username,
+            name,
+            surname,
+            address,
+            user.picture,
+            mail,
+            phone,
+            desc,
+            user.points,
+            user.configuration,
+            user.permissions,
+            user.notifications
+        );
+        updatedUser = await userService.update(updatedUser);
+        setUser(updatedUser);
+    };
+
+    return (
+        <div className=" flex flex-col justify-center w-full h-full items-center">
+            <div className="flex flex-col justify-center items-center gap-10 w-full ">
+                <div className="flex gap-10 w-[60%] ">
+                    <div className="h-full">
                         <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 w-48 h-48">
-                            <img className="rounded-full" src="{user.picture}" alt="" />
-                            <label className=" border-secondary border-2 rounded-full p-2 bg-white w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">
-                                <img className="w-full h-[80%]" src="/img/imagem.svg" alt="" />
-                                <input className="opacity-0 w-full h-full absolute top-0 left-0" type="file" accept="image/*" />
+                            {photoUrl ? (
+                                <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
+                            ) : (
+                                null
+                            )}
+                            <label className="border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">
+                                <div className="flex items-center justify-center w-full h-full">
+                                    <Image width={30} height={30} src="/img/imagem.svg" alt="" />
+                                </div>
+                                <input
+                                    ref={photoInputRef}
+                                    id="photo"
+                                    className="opacity-0 w-full h-full absolute top-0 left-0"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handlePhotoChange}
+                                />
                             </label>
                         </div>
                     </div>
 
-                    <div className="flex flex-col h-full justify-center gap-4 text-modal-grey">
-                        <div className=" overflow-auto">
-                            <h2 className="h2">{user?.name} {user?.surname}</h2>
+                    <div className="flex flex-col h-full justify-center gap-4 text-modal-grey ">
+                        <div className="overflow-auto">
+                            <h2 className="h2 text-modal-grey dark:text-white">{name} {surname}</h2>
                         </div>
                         <div className="flex items-center gap-2">
-                            <p className="p">{user?.address}</p>
-                            <button>
+                            {editingAddress ? (
+                                <InputFieldConfig type={"text"} id={"address"} label={""} value={address} onChange={(e: { target: { value: SetStateAction<string> } }) => setAddress(e.target.value)} placeholder={user?.address || ""} ></InputFieldConfig>
+                            ) : (
+                                <p className="text-modal-grey dark:text-white">{user?.address}</p>
+                            )}
+                            <button onClick={toggleEditingAddress}>
                                 <div>
-                                    <img src="/img/editar.svg" alt="" />
+                                    <Image width={25} height={25} src="/img/editar.svg" alt="" />
                                 </div>
                             </button>
                         </div>
                     </div>
                 </div>
-                <div className=" flex justify-center" >
-                    <div className="grid grid-cols-2 grid-rows-4 gap-10 absolute text-modal-grey p">
-                        <div className="row-start-1 px-6  ">
-                            <label className="flex flex-col ">
-                                Nome <input  className=" shadow-blur-10   bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none " type="text" placeholder={user?.name} />
-                            </label>
-                        </div>
-                        <div className="row-start-1 px-6 ">
-                            <label className="flex flex-col">
-                                Surname <input  className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user?.surname} />
-                            </label>
-                        </div>
-                        <div className="row-start-2  px-6 ">
-                            <label className="flex flex-col">
-                                Email <input className="shadow-blur-10  bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user?.mail} />
-                            </label>
-                        </div>
-                        <div className="row-start-2  px-6 ">
-                            <label className="flex flex-col">
-                                Telefone <input className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-72  pl-4 focus:outline-none" type="text" placeholder={user?.phone} />
-                            </label>
-                        </div>
-                        <div className="row-start-3  px-6  col-span-2">
-                            <label className="flex flex-col">
-                                Descrição <input  className="shadow-blur-10 bg-input-grey-opacity border-2  border-input-grey border-opacity-[70%]  rounded-md  h-12 w-full  pl-4 focus:outline-none" type="text" placeholder={user?.description} />
-                            </label>
-                        </div>
-                        <div className="row-start-4  px-6 ">
-                            <div>
-                                <button className="h4 w-60  drop-shadow-xl  h-12 rounded-md bg-primary text-contrast" onClick={() => salvarAlterações()}>Salvar alteraçoes</button>
+                <div className="flex justify-center">
+                    <div className="w-[60%] grid grid-cols-2 grid-rows-4 absolute text-modal-grey p ">
+                        <InputFieldConfig type={"text"} id={"name"} label={"Nome"} value={name} onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)} placeholder={user?.name || ""} ></InputFieldConfig>
+                        <InputFieldConfig type={"text"} id={"surname"} label={"Sobrenome"} value={surname} onChange={(e: { target: { value: SetStateAction<string> } }) => setSurname(e.target.value)} placeholder={user?.surname || ""} ></InputFieldConfig>
+                        <InputFieldConfig type={"mail"} id={"mail"} label={"Email"} value={mail} onChange={(e: { target: { value: SetStateAction<string> } }) => setMail(e.target.value)} placeholder={user?.mail || ""} ></InputFieldConfig>
+                        <InputFieldConfig type={"tel"} id={"phone"} label={"Telefone"} value={phone} onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)} placeholder={user?.phone || ""} ></InputFieldConfig>
+                        <label className="px-6 flex flex-col w-[200%]">
+                            Descrição <textarea
+                                className={`dark:text-white resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
+                                id="desc"
+
+                                value={desc}
+                                spellCheck={true}
+                                onChange={(e: { target: { value: SetStateAction<string> } }) => setDesc(e.target.value)}
+                                placeholder={user?.description || ""}
+                            />
+                        </label>
+                        <div className="row-start-4 flex">
+                            <div className="px-6 flex items-center">
+                                <button className=" h4 w-60 drop-shadow-xl h-12 rounded-md bg-primary dark:bg-secondary text-contrast" onClick={saveChanges}>Salvar alterações</button>
                             </div>
                         </div>
+
+                    </div>
+                </div>
+                <div className="absolute bottom-5 right-0  flex-row-reverse px-6 flex items-center w-[37%]">
+                    <div onClick={() => deleteUser("jonatas")} onMouseEnter={() => { setExtenderBotaoDel(true) }} onMouseLeave={() => { setExtenderBotaoDel(false) }}
+                        className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel ? "w-[30%] bg-primary" : "w-10"}`}>
+                        <Image width={25} height={25} className="" src="/img/Trash.svg" alt="excluir"></Image>
+                        {extenderBotaoDel ? <p className="whitespace-nowrap p">Deletar conta</p> : null}
                     </div>
                 </div>
             </div>
         </div>
-
-
-    </>
-)
+    )
 }

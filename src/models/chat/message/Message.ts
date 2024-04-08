@@ -1,18 +1,22 @@
-import { AllArgsConstructor } from "@/utils";
-import { DestinationGet } from "../destination/DestinationGetDTO";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+ 
+import { Destination } from "../destination/Destination";
+import { Archive } from "@/models/others/Archive";
+import { OtherUser } from "@/models/user/user/OtherUser";
 
-@AllArgsConstructor
 export class Message {
-    id!: number;
-    value!: string;
-    sender!: UserGet;
-    destinations?: DestinationGet[];
+    constructor(
+        public id: number,
+        public value: string,
+        public sender: OtherUser,
+        public dateCreate: Date,
+        public destinations: Destination[],
+        public dateUpdate?: Date,
+        public annex?: Archive
+    ) {}
 
-    constructor(id: number, value: string, sender: UserGet,  destinations: DestinationGet[]) {}
 
-
-    equals(obj: any): boolean {
+    equals?(obj: any): boolean {
         return obj instanceof Message && obj.id === this.id;
     }
 }
+

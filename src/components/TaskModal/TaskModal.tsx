@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
 import { Message, TaskOrdered } from "@/models";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { User } from "@/models/user/user/User";
 import { taskService } from "@/services";
-import { MessageGet } from "@/models/chat/message/MessageGetDTO";
+import { Message } from "@/models/chat/message/Message";
+import { useTranslation } from "next-i18next";
+import { ProjectContext } from "@/contexts";
 
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
   task: TaskOrdered;
-  user: UserGet;
+  user: User;
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
@@ -23,16 +25,20 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
   //   setUrl(bah);
   // }
+  const {project} = useContext(ProjectContext)
 
   async function sendComment() {
-    let comment: MessageGet = {
+    let comment: Message = {
       sender: user,
       value: input,
     };
     task.task.comments.push(comment);
-    await taskService.upDate(task.task);
+    if(!project) return;
+    await taskService.upDate(task.task, project.id);
     setInput("");
   }
+  const {t} = useTranslation();
+
   return (
     <CenterModal
       stylesTailwind={"w-[1306px] shadow-blur-10 p-12"}
@@ -42,7 +48,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       <div className="flex gap-[102px]  w-full h-full">
         <div className="flex flex-col gap-12 w-[453px]">
           <h3 className="h3 whitespace-nowrap">
-            {task?.task.name ?? "Sem nome"}
+            {task?.task.name ?? t("withoutname")}
           </h3>
           <div className="flex flex-col w-full gap-6">
             <div className="flex gap-0 w-full">

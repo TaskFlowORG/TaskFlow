@@ -3,16 +3,17 @@ import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
 import { IconArchive } from "@/components/icons";
 import { generateContrast } from "@/functions";
-import { Property, TaskValue, TypeOfProperty, UserWithoutPermission, Option, TaskOrdered, ArchiveValued, Archive } from "@/models";
+import { Property, PropertyValue, TypeOfProperty, OtherUser, Option, TaskOrdered, ArchiveValued, Archive } from "@/models";
+import { useTranslation } from "next-i18next";
 
 interface Props {
     justName: boolean;
     property?: Property;
-    propVl?: TaskValue;
+    propVl?: PropertyValue;
     l: TaskOrdered;
 }
 export const ValueSelector = ({justName, property, propVl, l}:Props) => {
-function generateList(value: TaskValue | null | undefined): Array<Option> {
+function generateList(value: PropertyValue | null | undefined): Array<Option> {
     let list = new Array<Option>
     if (!value) return list
     if (value.property.type == TypeOfProperty.CHECKBOX || value.property.type == TypeOfProperty.TAG) {
@@ -23,6 +24,8 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
     }
     return list
 }
+const {t} = useTranslation();
+
   return (
       
         justName ? 
@@ -32,7 +35,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
                 <p className="rotate-180">^</p>
             </div>  
             <span className="w-min truncate">
-            {l.task.name || "Sem Nome"}
+            {l.task.name ||t("withoutname")}
             </span>
         </div>
         :
@@ -54,10 +57,10 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             }
           </If>
           <If condition={property?.type == TypeOfProperty.NUMBER}>
-            <div className="h-min w-min truncate">{propVl?.value.value ?? "Sem Valor"}</div>
+            <div className="h-min w-min truncate">{propVl?.value.value ?? t("withoutvalue")}</div>
           </If>
           <If condition={property?.type == TypeOfProperty.PROGRESS}>
-            <div className="h-min w-min truncate">{propVl?.value.value ? propVl?.value.value + "%":"Sem Valor"}</div>
+            <div className="h-min w-min truncate">{propVl?.value.value ? propVl?.value.value + "%":t("withoutvalue")}</div>
           </If>
           <If condition={[TypeOfProperty.SELECT,TypeOfProperty.RADIO].includes(property?.type!)}>
             {propVl?.value.value == null ??
@@ -73,7 +76,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
             </div>
           </If>
           <If condition={property?.type == TypeOfProperty.TEXT}>
-            <div className="h-min w-min truncate">{propVl?.value.value ?? "Sem valor"}</div>
+            <div className="h-min w-min truncate">{propVl?.value.value ??  t("withoutvalue")}</div>
           </If>
           <If condition={property?.type == TypeOfProperty.TIME}>
             <div className="h-min w-min truncate">
@@ -82,7 +85,7 @@ function generateList(value: TaskValue | null | undefined): Array<Option> {
           </If>
           <If condition={property?.type == TypeOfProperty.USER}>
             <div className="relative w-full h-min">
-              <Obj objs={propVl?.value.value as Array<UserWithoutPermission>}
+              <Obj objs={propVl?.value.value as Array<OtherUser>}
                 max={5} functionObj={() => {}}
               />
             </div>
