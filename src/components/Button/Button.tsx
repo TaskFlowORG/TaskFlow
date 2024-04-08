@@ -43,7 +43,7 @@ export const Button = ({
               ${rounded ? rounded : "rounded-lg"} 
                ${background ? background : !secondary ? "bg-primary dark:bg-secondary" : "bg-transparent "} 
                ${textSize ? textSize : "text-[20px]"} 
-               ${textColor ? textColor : !secondary ? "text-white" : "text-secondary dark:text-primary"} 
+               ${textColor ? textColor : !secondary ? "text-contrast" : "text-secondary dark:text-primary"} 
                ${other ? other : " "} 
                ${font ? font : "font-alata"} whitespace-nowrap 
                ${hover ? hover: !secondary ? "hover:brightness-110":"hover:bg-secondary text-secondary hover:text-contrast hover:border-contrast  dark:hover:bg-primary dark:text-primary dark:hover:text-contrast"} 

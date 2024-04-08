@@ -13,7 +13,9 @@ export class ProjectSimple {
         public picture: Archive,
         public progress: number,
         public groups: SimpleGroup[],
-        public owner: OtherUser
+        public owner: OtherUser,
+        public qttyPages: number,
+        public qttyProperties: number,
     ) {}
     
     equals = (obj: any) => {
