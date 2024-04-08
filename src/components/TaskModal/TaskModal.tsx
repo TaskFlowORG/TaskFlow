@@ -320,7 +320,6 @@ useEffect(() => {
                               <IconsSelector property={prop.property} />
                               <p className="font-montserrat text-[16px] whitespace-nowrap">
                                 {prop.property.name}
-                                {JSON.stringify(prop.value.value)}
                               </p>
                             </div>
                             {([

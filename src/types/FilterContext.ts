@@ -5,6 +5,6 @@ export type FilterContextType = {
   setFilterProp?: (filterProp: FilteredProperty[]) => void;
   list?: FilteredProperty ;
   setList?: (filterProp: FilteredProperty | undefined) => void;
-  input: string;
+  input?: string;
   setInput?: (value:string) => void;
 }

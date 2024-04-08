@@ -75,7 +75,7 @@ export function showTask(task: Task, context: FilterContextType): boolean {
   const uniOptionTypes = [TypeOfProperty.SELECT, TypeOfProperty.RADIO];
   const textTypes = [TypeOfProperty.TEXT, TypeOfProperty.DATE];
   console.log(task);
-  if (isValueMatchingInput(task.name ?? "", input)) {
+  if (isValueMatchingInput(task.name ?? "", input!)) {
     let counter = 0;
     filterProp.forEach((prop) => {
       const propertyInTask = findPropertyInTask(task, prop);

@@ -36,7 +36,7 @@ const [columnTasks, setTasks] = useState<TaskOrdered[]>([])
 
   useEffect(()=>{
 setTasks(tasks ?? [])
-  },[])
+  },[tasks])
 
   return (
     <div
