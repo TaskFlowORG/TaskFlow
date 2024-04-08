@@ -4,17 +4,14 @@ import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
 
 export class LimitedGet extends PropertyGet {
-    maximum!: number;
-
     constructor(
-        id: number,              
-        name: string,            
-        visible: boolean,        
-        obligatory: boolean,     
-        type: TypeOfProperty,     
-        maximum: number = 0) {
+        public id: number,              
+        public name: string,            
+        public visible: boolean,        
+        public obligatory: boolean,     
+        public type: TypeOfProperty,     
+        public maximum: number = 0) {
         super(id, name, visible, obligatory, type);
-        this.maximum = maximum;
     }
 
 
