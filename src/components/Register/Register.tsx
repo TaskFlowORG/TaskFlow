@@ -30,19 +30,20 @@ const schema = z
     mail: z.string().email({ message: "Email inválido" }),
     password: z
       .string()
-      .min(8, { message: "Senha deve conter no mínimo 6 caracteres" })
-      .max(20, { message: "Senha deve conter no máximo 20 caracteres" }),
+      .min(8, 'A senha deve ter pelo menos 8 caracteres.')
+      .regex(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula.')
+      .regex(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula.')
+      .regex(/[0-9]/, 'A senha deve conter pelo menos um número.')
+      .regex(/[^a-zA-Z0-9]/, 'A senha deve conter pelo menos um caractere especial.'),
     confirmPassword: z
-      .string()
-      .min(8, { message: "Senha deve conter no minimo 6 caracteres" })
-      .max(20, { message: "Senha deve conter no maximo 20 caracteres" }),
+      .string(),
   })
   .refine(
     (values) => {
       return values.password === values.confirmPassword;
     },
     {
-      message: "Senha não coincide",
+      message: "Senhas não coincidem.",
       path: ["confirmPassword"],
     }
   );
@@ -174,6 +175,7 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconPassword}
                 placeholder="Confirme sua senha"
+                type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
                 required

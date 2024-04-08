@@ -12,7 +12,7 @@ import { CanvasPage, TaskCanvas, User } from "@/models";
 import { pageService, taskService } from "@/services";
 
 interface Props{
-    user:User, 
+    user?:User, 
     page:CanvasPage
 } 
 
@@ -28,7 +28,15 @@ export const Canvas = ({page, user}: Props) => {
   const { clear, canvasRef } = useDraw( drawLine , moving, page);
   const {map, clearMap} = MapOfCanvas({canvas:canvasRef, x:x, y:y, page:page})
   const { theme } = useTheme();
-
+const updateDraw = () => {
+  if (!page || !canvasRef || !canvasRef.current) return;
+  canvasRef.current.toBlob((draw) => {
+    if (draw) {
+      pageService.updateDraw(draw, page.id);
+    }
+  });
+  setTimeout(updateDraw, 5000);
+}
   useEffect(() => {
     if (!elementRef.current) return;
     let cursor = "";
@@ -48,17 +56,9 @@ export const Canvas = ({page, user}: Props) => {
     if(!canvasRef || !canvasRef.current) return
     canvasRef.current.style.cursor = cursor;
     updateDraw();
-});
+}, [canvasRef, isErasing, moving, theme, grabbing]);
 
-const updateDraw = () => {
-  if (!page || !canvasRef || !canvasRef.current) return;
-  canvasRef.current.toBlob((draw) => {
-    if (draw) {
-      pageService.updateDraw(draw, page.id);
-    }
-  });
-  setTimeout(updateDraw, 5000);
-}
+
 
   useEffect(() => {
     const url = (page?.draw ?? {data:""}).data;
@@ -72,7 +72,8 @@ const updateDraw = () => {
   }, [page, canvasRef]);
 
   async function createTask() {
-    await taskService.insert(page.id,user.username);
+    if (!user) return;
+    await taskService.insert(page.id, user.username);
   }
 
   return (

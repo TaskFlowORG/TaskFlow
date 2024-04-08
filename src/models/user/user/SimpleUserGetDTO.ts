@@ -16,8 +16,9 @@ export class    SimpleUserGet {
     points!: number;
     configuration!: Configuration ; 
     
+    //Adicionar a foto denovo depois
     constructor(username: string, name: string, surname: string, address: string, 
-        picture: Archive, mail: string, phone: string, description: string, points: number, 
+        mail: string, phone: string, description: string, points: number, 
         configuration: Configuration) {}
 
     equals = (obj: any) => {
