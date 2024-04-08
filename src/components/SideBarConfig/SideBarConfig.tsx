@@ -31,8 +31,8 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
   return (
     <div id='sideBar' className={`bg-primary overflow-hidden dark:bg-modal-grey lg:absolute fixed z-[1] inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-full ${extendida ? "lg:w-[21rem]" : "lg:w-20"}`}>
       <div className={`flex flex-col duration-300 `}>
-        <div className={`duration-0 justify-center pt-20 h-20 w-full hidden lg:flex ${extendida ? 'lg:visible' : 'lg:invisible '}`}>
-          <h3 className={`h3 w-[80%] text-center `}>{pageTitle}</h3>
+        <div className={`duration-0 h-20 pt-32 w-full hidden lg:flex justify-center items-center ${extendida ? 'lg:visible' : 'lg:invisible '}`}>
+          <h3 className={`h3 w-[80%] text-center`}>{pageTitle}</h3>
         </div>
         <div className="w-full h-full flex justify-center lg:flex-col items-center gap-8">
           <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />

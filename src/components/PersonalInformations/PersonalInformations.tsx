@@ -129,11 +129,11 @@ export const PersonalInformations = () => {
                         </div>
                     </div>
                 </div>
-                <div className="z-[3] absolute lg:bottom-5 bottom-24 right-0  flex-row-reverse px-6 flex items-center w-[37%]">
+                <div className="z-[3] absolute lg:bottom-5 bottom-[6.5rem] right-0  flex-row-reverse px-6 flex items-center lg:w-[37%]">
                     <div onClick={() => setDeletarModal(true)} onMouseEnter={() => { setExtenderBotaoDel(true) }} onMouseLeave={() => { setExtenderBotaoDel(false) }}
-                        className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel ? "w-[30%] bg-primary dark:bg-secondary" : "w-10"}`}>
+                        className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel ? "lg:w-[30%] lg:bg-primary lg:dark:bg-secondary" : "w-10"}`}>
                         <Image width={25} height={25} className="" src="/img/Trash.svg" alt="excluir"></Image>
-                        {extenderBotaoDel ? <p className="whitespace-nowrap p">Deletar conta</p> : null}
+                        {extenderBotaoDel ? <p className="whitespace-nowrap p lg:block hidden">Deletar conta</p> : null}
                     </div>
                     <CenterModal condition={deletarModal} setCondition={setDeletarModal}  >
                         <DeleteAccountModal close={() => setDeletarModal(false)} deleteUser={() => userService.delete("jonatas")} />
