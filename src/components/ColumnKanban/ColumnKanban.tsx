@@ -16,6 +16,7 @@ import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
 
 import { useTheme } from "next-themes";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { showTask } from "../Pages/functions";
 
 interface Props {
   color?: string;
@@ -30,7 +31,7 @@ interface Props {
 export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
   const [direction, setDirection] = useState<Direction>("vertical");
   const { theme } = useTheme();
-  const { filterProp } = useContext(FilterContext);
+  const context = useContext(FilterContext);
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -99,94 +100,38 @@ export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
                 }}
               >
                 {tasks.map((item, index) => {
-                  if (
-                    item.task?.name
-                      ?.toLowerCase()
-                      .includes(input?.toLowerCase()!) ||
-                    input?.toLowerCase() == ""
-                  ) {
-                    let render = false;
-                    let counter = 0;
-                    filterProp.map((prop) => {
-                      const propertyInTask = findPropertyInTask(item, prop);
-                      if (
-                        multiOptionTypes.includes(propertyInTask?.property.type)
-                      ) {
-                        if (prop.value.length > 0) {
-                          let localRender = false;
-                          prop.value.forEach((value: any) => {
-                            propertyInTask.value.value.forEach(
-                              (option: Option) => {
-                                if (option.name == value) {
-                                  render = true;
-                                  localRender = true;
-                                  return;
+                  if (showTask(item.task, context)) {
+                    return (
+                      <Draggable
+                        draggableId={`${item.id}-${option?.id}`}
+                        key={`${item.id}${option?.id}`}
+                        index={item.indexAtColumn}
+                      >
+                        {(provided, snapshot) => {
+                          return (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              style={{
+                                ...provided.draggableProps.style,
+                              }}
+                              id={item.task.id.toString()}
+                              onClick={() => openModal!(item)}
+                            >
+                              <RoundedCard
+                                color={
+                                  option?.color ??
+                                  (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
                                 }
-                              }
-                            );
-                          });
-                          if (localRender) {
-                            counter++;
-                          }
-                        } else {
-                          render = true;
-                          counter++;
-                        }
-                      } else if (
-                        optionTypes.includes(propertyInTask?.property.type)
-                      ) {
-                        const option: Option = propertyInTask.value.value;
-                        if (option?.name == prop.value) {
-                          render = true;
-                          counter++;
-                        }
-                      } else {
-                        if (
-                          propertyInTask?.value?.value
-                            ?.toLowerCase()
-                            .includes(prop.value.toLowerCase())
-                        ) {
-                          render = true;
-                          counter++;
-                        }
-                      }
-                    });
-                    if (
-                      (render && counter == filterProp.length) ||
-                      filterProp.length == 0
-                    ) {
-                      return (
-                        <Draggable
-                          draggableId={`${item.id}-${option?.id}`}
-                          key={`${item.id}${option?.id}`}
-                          index={item.indexAtColumn}
-                        >
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                style={{
-                                  ...provided.draggableProps.style,
-                                }}
-                                id={item.task.id.toString()}
-                                onClick={() => openModal!(item)}
                               >
-                                <RoundedCard
-                                  color={
-                                    option?.color ??
-                                    (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
-                                  }
-                                >
-                                  <CardContent task={item.task as Task} />
-                                </RoundedCard>
-                              </div>
-                            );
-                          }}
-                        </Draggable>
-                      );
-                    }
+                                <CardContent task={item.task as Task} />
+                              </RoundedCard>
+                            </div>
+                          );
+                        }}
+                      </Draggable>
+                    );
                   }
                 })}
               </div>

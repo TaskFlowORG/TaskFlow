@@ -4,7 +4,7 @@
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { RoundedCard } from "@/components/RoundedCard";
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
-import { SearchBar } from "@/components/SearchBar";
+import { SearchBar, SearchInput } from "@/components/SearchBar";
 import { useContext, useEffect } from "react";
 import { getData, getListData, getPage, putData } from "@/services/http/api";
 import { useState } from "react";
@@ -55,7 +55,7 @@ export const Kanban = ({ user }: UserLogged) => {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  });
+  }, []);
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -167,10 +167,12 @@ export const Kanban = ({ user }: UserLogged) => {
         setFilterProp: setFilter,
         list,
         setList: setList,
+        input: input,
+        setInput: setInput,
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
+        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center  pb-4 max-w-[1560px] relative   h-max">
           <div className="flex gap-4 items-center">
             <h1
               className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
@@ -178,35 +180,17 @@ export const Kanban = ({ user }: UserLogged) => {
             >
               {page?.name}
             </h1>
-            <div
-              className=" flex items-center justify-center h-9 w-9 rounded-full shadowww  cursor-pointer "
-              onClick={() => setModal(true)}
-            >
-              <p
-                className="p text-primary text-4xl h-min w-min"
-                onClick={() => setIsOpen!(true)}
-              >
-                +
-              </p>
-            </div>
           </div>
 
-          <SearchBar
-            order={() => console.log("Ordering")}
-            filter={() => console.log("Filtering")}
-            search={(textInput: string) => setInput(textInput)}
-          >
+          <SearchBar order filter search>
+            <SearchInput />
             <OrderInput
               page={page as OrderedPage}
               orderingId={id}
               propertiesPage={page?.properties ?? []}
             ></OrderInput>
 
-            <FilterAdvancedInput
-              orderingId={page?.propertyOrdering.id}
-              page={page}
-              properties={page?.properties as Property[]}
-            />
+            <FilterAdvancedInput properties={page?.properties as Property[]} />
           </SearchBar>
         </div>
         {/* <DragDropContext onDragEnd={(result) => onDragEnd(result)}>

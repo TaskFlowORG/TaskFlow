@@ -15,11 +15,9 @@ import { LocalModal } from "../Modal";
 
 interface Props {
   properties: Property[];
-  orderingId: number | undefined;
-  page: Page | null;
 }
 
-export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
+export const FilterAdvancedInput = ({ properties }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );

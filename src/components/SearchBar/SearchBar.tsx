@@ -4,22 +4,19 @@ import { ReactElement, ReactNode, useState } from "react";
 import { OrderInput } from "../OrderInput";
 
 interface Props {
-  order?: () => any;
-  search: (textInput: string) => any;
-  filter?: () => any;
+  order?: boolean;
+  search?: boolean;
+  filter?: boolean;
   children: ReactElement[] | ReactNode[];
 }
-export const SearchBar = ({ order, search, filter, children }: Props) => {
+export const SearchBar = ({ order =  false, search = false, filter = false, children }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
-  const [textInput, setTextInput] = useState("");
 
   function change(bar: string) {
     if (bar == "search") {
       setOpenedSearch(!openedSearch);
-      setTextInput("");
-      search("");
       setOpenedFilter(false);
       setOpenedOrder(false);
     } else if (bar == "filter") {
@@ -34,26 +31,13 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
   }
 
   return (
-    <div className="justify-end  relative mb-3 flex gap-2 ">
-      {search && openedSearch && (
-        <SearchInput
-          action={() => {
-            // console.log(textInput);
-            search(textInput);
-          }}
-          setTextField={(newText: string) => setTextInput(newText)}
-        />
-      )}
-
-      {order && openedOrder && children[0]}
-      {filter && openedFilter && children[1]}
+    <div className="justify-end w-3/5 items-center  relative  h-full flex gap-2 ">
+      {search && openedSearch && children[0]}
+      {order && openedOrder && children[1]}
+      {filter && openedFilter && children[2]}
       {search && (
         <SearchIcon
           iconSrc={"/searchIcons/search.svg"}
-          action={() => {
-            // console.log(textInput);
-            search(textInput);
-          }}
           open={() => change("search")}
         />
       )}
@@ -61,13 +45,12 @@ export const SearchBar = ({ order, search, filter, children }: Props) => {
         <SearchIcon
           iconSrc={"/searchIcons/order.svg"}
           open={() => change("order")}
-          action={() => order()}
         />
       )}
       {filter && (
         <SearchIcon
           iconSrc={"/searchIcons/filter.svg"}
-          action={() => filter()}
+
           open={() => change("filter")}
         />
       )}
