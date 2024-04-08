@@ -7,6 +7,11 @@ import { Notification as NotificationModel } from "@/models/Notification";
 import { Notification } from "../Notification";
 import { log } from "console";
 import { userService } from "@/services";
+import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
+import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
+import { languageToString } from "@/functions/selectLanguage";
+import { Language } from "@/models";
+import { IconArchive } from "../icons";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -17,6 +22,12 @@ export const Header = ({
   const [showNotification, setShowNotification] = useState(false);
   const [thereAreNotifications, setThereAreNotifications] = useState(false);
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
+  const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
+  
+
+  useEffect(() => {
+
+  }, [user]);
 
   useEffect(() => {
     if (!user?.notifications) return;
@@ -26,8 +37,19 @@ export const Header = ({
         : false
     );
     setNotifications(user?.notifications);
-    console.log(user?.notifications);
+    if(!user) {
+      setLang(navigator.language)
+    }else{
+      setLang(languageToString(user.configuration.language));
+    }
   }, [user]);
+
+  const changeLanguage = async  (value: string) => {
+    if (!setUser || !user) return;
+    user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
+    const updatedUser = await userService.patch(user)
+    setUser(updatedUser);
+  }
 
   const closeModal = () => {
     setShowNotification(false);
@@ -54,27 +76,12 @@ export const Header = ({
           className=" select-none dark:invert  cursor-pointer h-5 w-5"
         />
 
-        <img
-          src="/Assets/Language.svg"
-          alt=""
-          className=" select-none  cursor-pointer"
-          width={"20px"}
-          height={"20px"}
-        />
+        <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
+        list={[{ value:Language.PORTUGUESE, image:<IconArchive />}, 
+        { value:Language.ENGLISH, image:<IconArchive />}, 
+        { value:Language.SPANISH, image:<IconArchive />}]} />
 
-        <img
-          src="/moon.svg"
-          className=" select-none dark:hidden  cursor-pointer"
-          alt=""
-          onClick={() => setTheme("dark")}
-        />
-        <img
-          src="/sun.svg"
-          className=" select-none hidden dark:flex  cursor-pointer"
-          alt=""
-          onClick={() => setTheme("light")}
-        />
-
+        <IconSwitcherTheme />
         <div className="w-min h-min relative">
           <Link href={`/${user?.username}/configurations/account`}>
             <svg

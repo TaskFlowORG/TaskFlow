@@ -20,21 +20,24 @@ interface Props {
     setModalPages: (value: boolean) => void;
     modalGroups: boolean;
     setModalGroups: (value: boolean) => void;
+    modalProjectGroups: boolean;
+    setModalProjectGroups: (value: boolean) => void;
 }
 
 
-export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
+export const SideMain = ({ project, user, setWantLeave, modalGroups, 
+    modalPages, setModalGroups, setModalPages, setModalProjectGroups, modalProjectGroups }: Props) => {
     const { setProject } = useContext(ProjectContext)
 
     return (
-        <>
+        <div className="w-full h-full overflow-y-auto none-scrollbar">
             <If condition={!modalGroups && !modalPages}>
                 <div className="h-full flex flex-col justify-between">
 
                     <div className="w-full h-min flex flex-col items-center relative">
-                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text="Página Inicial" fnClick={() => setProject && setProject(undefined)} />
-                        <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
-                        <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
+                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text="Initial Page" fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconProjects />} text="Projects" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconGroups />} text="Groups" fnClick={() => setModalGroups(true)} />
                         <If condition={project != undefined}>
                             <SideSecondary setModalPages={setModalPages} user={user} project={project} />
                         </If>
@@ -51,6 +54,10 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
             </SideModal>
-        </>)
+
+            <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
+                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
+            </SideModal>
+        </div>)
 }
 

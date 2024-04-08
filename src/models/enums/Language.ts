@@ -1,7 +1,7 @@
 export  enum Language {
-    ENGLISH,
-    SPANISH,
-    PORTUGUESE,
+    ENGLISH = "ENGLISH",
+    SPANISH = "SPANISH",
+    PORTUGUESE = "PORTUGUESE",
 
     //ADD MORE
 }

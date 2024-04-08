@@ -1,7 +1,7 @@
 import { If } from "@/components/If";
 import { LocalModal } from "@/components/Modal";
 import { TaskTrash } from "./TaskTrash";
-import { IconDashboard, IconPages, IconTrashBin } from "@/components/icons";
+import { IconDashboard, IconGroups, IconPages, IconTrashBin } from "@/components/icons";
 import { Project, Task } from "@/models";
 import { taskService } from "@/services";
 import Link from "next/link";
@@ -27,9 +27,10 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
   return (
     <>
       <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`}/>
-      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Páginas" />
+      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Pages" />
+      <SideBarButton icon={<IconGroups />} fnClick={() => {setModalPages(true)}} text="Project Groups" />
       <div className="relative w-full">
-      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Lixeira"/>
+      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Trash"/>
       <LocalModal condition={modalTrash} setCondition={setModalTrash}>
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-min w-80 text-primary dark:text-secondary h5 p-4">
