@@ -29,12 +29,12 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
   }, []);
 
   return (
-    <div id='sideBar' className={`bg-primary overflow-hidden dark:bg-modal-grey sm:absolute fixed z-[1] inset-x-0 bottom-0 sm:h-full h-fit flex text-contrast sm:justify-normal justify-center w-full ${extendida ? "sm:w-[21rem]" : "sm:w-20"}`}>
+    <div id='sideBar' className={`bg-primary overflow-hidden dark:bg-modal-grey lg:absolute fixed z-[1] inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-full ${extendida ? "lg:w-[21rem]" : "lg:w-20"}`}>
       <div className={`flex flex-col duration-300 `}>
-        <div className={`duration-0 flex justify-center pt-20 w-full ${extendida ? 'sm:visible invisible' : 'hidden sm:opacity-0 sm:flex '}`}>
+        <div className={`duration-0 justify-center pt-20 h-20 w-full hidden lg:flex ${extendida ? 'lg:visible' : 'lg:invisible '}`}>
           <h3 className={`h3 w-[80%] text-center `}>{pageTitle}</h3>
         </div>
-        <div className="w-full h-full flex justify-center sm:flex-col items-center gap-8">
+        <div className="w-full h-full flex justify-center lg:flex-col items-center gap-8">
           <NavItem extendida={extendida} href={`/${user}/configurations/account`} icon="/img/whiteIconUser.svg" text="Informações pessoais" />
           <NavItem extendida={extendida} href={`/${user}/configurations/general`} icon="/img/configuracao.svg" text="Configurações" />
           <NavItem extendida={extendida} href={`/${user}/configurations/notifications`} icon="/img/notificacoes.svg" text="Notificações" />
@@ -49,7 +49,7 @@ const NavItem = ({ extendida, href, icon, text }: { extendida: boolean; href: st
     <Link href={href}>
       <div className="flex items-center gap-5 h-full px-6">
         <img className="w-7 h-8" src={icon} alt="" />
-        <h4 className={`duration-0 whitespace-nowrap ${extendida ? 'h4 sm:block hidden' : 'hidden'}`}>{text}</h4>
+        <h4 className={`duration-0 whitespace-nowrap ${extendida ? 'h4 lg:block hidden' : 'hidden'}`}>{text}</h4>
       </div>
     </Link>
   </div>

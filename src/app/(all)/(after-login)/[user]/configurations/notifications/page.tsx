@@ -10,7 +10,6 @@ export default function UserConfigPage() {
         setTitle('Notificações');
     }, []);
 
-    
     return (
 
         <div className="h-full w-full">

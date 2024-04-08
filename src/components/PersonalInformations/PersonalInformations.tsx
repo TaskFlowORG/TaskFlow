@@ -48,8 +48,9 @@ export const PersonalInformations = () => {
 
     const saveChanges = async () => {
         const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, name, surname, address, mail, phone, desc, user!.configuration, undefined)
-        userService.upDatePicture(photo, user?.username);
         userService.patch(updatedUser);
+        //Precisa corrigir para o put de user receber uma imagem junto
+        //userService.upDatePicture(photo, updatedUser.username)
     };
 
     useEffect(() => {
@@ -66,13 +67,13 @@ export const PersonalInformations = () => {
 
     return (
 
-        <div className=" flex flex-col justify-center w-full h-full items-center">
-            <div className="flex flex-col justify-center items-center gap-10 w-full ">
-                <div className="flex gap-10 w-[60%] ">
+        <div className=" flex w-full h-full items-center">
+            <div className="flex flex-col justify-start items-center gap-10 w-full h-[57rem] py-20">
+                <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
                     <div className="h-full">
-                        <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 w-48 h-48">
+                        <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
                             <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
-                            <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey w-12 h-12 absolute -right-1 bottom-3 cursor-pointer">
+                            <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-1 bottom-3 cursor-pointer">
                                 <div className="flex items-center justify-center w-full h-full">
                                     <Image width={30} height={30} src="/img/imagem.svg" alt="" />
                                 </div>
@@ -87,9 +88,9 @@ export const PersonalInformations = () => {
                             </label>
                         </div>
                     </div>
-                    <div className="flex flex-col h-full justify-center item gap-4 text-modal-grey ">
-                        <div className="overflow-auto">
-                            <h2 className="h2 text-modal-grey dark:text-white">{name} {surname}</h2>
+                    <div className="flex flex-col w-full h-full justify-center item gap-4 text-modal-grey ">
+                        <div className="overflow-auto lg:text-[48px] text-[24px] font-alata">
+                            <h2 className=" text-modal-grey dark:text-white">{name} {surname}</h2>
                         </div>
                         <div className="flex">
                             {editingAddress ? (<InputFieldConfig type="text" id="address" label="" value={address} placeholder={address}
@@ -105,13 +106,13 @@ export const PersonalInformations = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-center">
-                    <div className="w-[60%] grid grid-cols-2 grid-rows-4 absolute text-modal-grey p ">
+                <div className="flex justify-center w-full h-full">
+                    <div className="lg:w-[60%] w-full h-full lg:grid lg:grid-cols-2 lg:grid-rows-4 flex flex-col justify-between text-modal-grey p">
                         <InputFieldConfig type={"text"} id={"name"} label={"Nome"} value={name} onChange={(e: { target: { value: SetStateAction<string> } }) => setName(e.target.value)} placeholder={user?.name || ""} ></InputFieldConfig>
                         <InputFieldConfig type={"text"} id={"surname"} label={"Sobrenome"} value={surname} onChange={(e: { target: { value: SetStateAction<string> } }) => setSurname(e.target.value)} placeholder={user?.surname || ""} ></InputFieldConfig>
                         <InputFieldConfig type={"mail"} id={"mail"} label={"Email"} value={mail} onChange={(e: { target: { value: SetStateAction<string> } }) => setMail(e.target.value)} placeholder={user?.mail || ""} ></InputFieldConfig>
                         <InputFieldConfig type={"tel"} id={"phone"} label={"Telefone"} value={phone} onChange={(e: { target: { value: SetStateAction<string> } }) => setPhone(e.target.value)} placeholder={user?.phone || ""} ></InputFieldConfig>
-                        <label className="px-6 flex flex-col w-[200%]">
+                        <label className="px-6 flex flex-col lg:w-[200%] w-full text-modal-grey dark:text-white">
                             Descrição <textarea
                                 className={`dark:text-white resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
                                 id="desc"
@@ -122,13 +123,13 @@ export const PersonalInformations = () => {
                             />
                         </label>
                         <div className="row-start-4 flex">
-                            <div className="px-6 flex items-center">
+                            <div className="px-6 flex items-center h-20">
                                 <button className=" h4 w-60 drop-shadow-xl h-12 rounded-md bg-primary dark:bg-secondary text-contrast" onClick={saveChanges}>Salvar alterações</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="absolute bottom-5 right-0  flex-row-reverse px-6 flex items-center w-[37%]">
+                <div className="z-[3] absolute lg:bottom-5 bottom-24 right-0  flex-row-reverse px-6 flex items-center w-[37%]">
                     <div onClick={() => setDeletarModal(true)} onMouseEnter={() => { setExtenderBotaoDel(true) }} onMouseLeave={() => { setExtenderBotaoDel(false) }}
                         className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel ? "w-[30%] bg-primary dark:bg-secondary" : "w-10"}`}>
                         <Image width={25} height={25} className="" src="/img/Trash.svg" alt="excluir"></Image>
