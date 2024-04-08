@@ -579,7 +579,7 @@ select::-ms-expand {
   --swiper-pagination-bullet-vertical-gap: 6px;
 
   --swiper-navigation-size: 20px;
-  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-top-offset: 55%;
   --swiper-navigation-sides-offset: 0px;
 }
 

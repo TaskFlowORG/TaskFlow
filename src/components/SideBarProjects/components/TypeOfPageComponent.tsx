@@ -72,17 +72,17 @@ export const TypeOfPageComponent = ({
         ].map((slide) => {
           return (
             <SwiperSlide key={`${slide.title}`} className="">
-              <div className="h-32 flex items-center text-modal-grey dark:text-white flex-col whitespace-nowrap gap-6 ">
-               <p className="w-full text-center whitespace-pre-wrap">{t(slide.title.toLowerCase())}</p> 
+              <div className="h-32 flex items-center text-modal-grey dark:text-white flex-col whitespace-nowrap gap-1 ">
+               <p className="w-full text-center h-12 flex items-center justify-center  whitespace-pre-wrap">{t(slide.title.toLowerCase())}</p> 
                 <div className="w-14 h-14">
-                  <PageTypeIcons type={t(slide.title.toLowerCase())} />
+                  <PageTypeIcons type={t(slide.title)} />
                 </div>
               </div>
             </SwiperSlide>
           );
         })}
-        <div className="swiper-button-prev swiper-type-of-page-dark"></div>
-        <div className="swiper-button-next swiper-type-of-page-dark"></div>
+        <div className={"swiper-button-prev "+ (theme == "dark" ? "swiper-type-of-page-dark" : "swiper-type-of-page-light")}></div>
+        <div className={"swiper-button-next "+ (theme == "dark"? "swiper-type-of-page-dark" : "swiper-type-of-page-light")}></div>
       </Swiper>
       <div className=" w-full flex justify-around gap-2">
         <Button

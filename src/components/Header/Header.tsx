@@ -69,21 +69,18 @@ export const Header = ({
         onClick={() => setSidebarOpen(true)}
       />
 
-      <div className=" w-1/4 h-full flex space-x-[48px] items-center justify-end">
+      <div className=" w-full h-full flex space-x-[48px] items-center justify-end">
         <img
           src="/Assets/themeLight/notification.svg"
           alt=""
           className=" select-none dark:invert  cursor-pointer h-5 w-5"
         />
 
-        <div className="w-10 h-min  " >
-
-        <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
-        list={[{ value:Language.PORTUGUESE, image:<Image  alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" />}, 
-        { value:Language.ENGLISH, image:<Image  alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" />}, 
-        { value:Language.SPANISH, image:<Image  alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" />}]} />
-
-
+        <div className="w-10 h-min hidden sm:block" >
+          <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
+          list={[{ value:Language.PORTUGUESE, image:<Image  alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" />}, 
+          { value:Language.ENGLISH, image:<Image  alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" />}, 
+          { value:Language.SPANISH, image:<Image  alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" />}]} />
         </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">

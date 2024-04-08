@@ -10,7 +10,6 @@ interface Props extends React.HTMLAttributes<HTMLDivElement>{
     right?: boolean;
     y?: number;
     x?: number;
-    //thats in percentage
     bottom?: boolean;
 }
 export const LocalModal = ({ children, condition, setCondition, right, y, x, bottom }: Props) => {
@@ -32,13 +31,13 @@ export const LocalModal = ({ children, condition, setCondition, right, y, x, bot
             {condition &&
                 <>
                     <motion.div
-                        className={style}
                         initial={{ transform: "scale(0, 0)" }}
                         animate={{ transform: "scale(1,1)" }}
                         exit={{ transform: "scale(0)", transition: { delay: 0 } }}
                         transition={{ duration: 0.1 }}
                         ref={ref}
                         style={y? {top: y, position:"fixed", left:x} : {...(bottom?{bottom: 10}:{top:0}), position:"absolute"}}
+                        className={style}
                     >
                         {children}
                     </motion.div>

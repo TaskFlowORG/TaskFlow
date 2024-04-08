@@ -14,6 +14,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { useTheme } from "next-themes";
 import Joyride from "react-joyride";
 import { Loading } from "@/components/Loading";
+import { steps } from "@/utils/tutorial";
 
 //UseClickAway Hook
 export default function Layout({
@@ -72,22 +73,11 @@ export default function Layout({
     })();
   }, []);
 
-  const steps = [
-    {
-      target: ".header",
-      content: "This is the header, you can click here to open the sidebar",
-    },
-    {
-      target: ".projects",
-      content: "This is the project list, you can click on a project to open it",
-    },
-  ]
   if(!user) return <Loading/>
-
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-        <Joyride  steps={steps} showProgress />
+        <Joyride  steps={steps.steps} showProgress />
         <ProjectContext.Provider value={{ project, setProject }}>
           <Header setSidebarOpen={setOpenSideBar}></Header>
           <main className="w-screen h-full flex flex-col items-center justify-start">

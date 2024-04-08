@@ -73,8 +73,8 @@ export default function Projects({ params }: { params: { user: string } }) {
       <SVGProjectsPage />
       <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
         <div className="flex items-center flex-col w-full h-4/5">
-          <div className=" w-full justify-between items-center flex sm:text-[68px] sm:w-3/5 stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
-            <h1 className="h2">{t("projects")}</h1>
+          <div className=" w-full justify-between items-center flex sm:text-[68px] sm:w-3/5  text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
+            <h1 className="h2 stroke-text-white">{t("projects")}</h1>
             <div className="w-min h-min relative">
               <div
                 className="w-12 h-12 p-3 bg-white dark:bg-back-grey rounded-full flex justify-center items-center"

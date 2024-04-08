@@ -52,7 +52,8 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
     );
   }, [progress, qttyPages, qttyProperties, qttyGroups, isOwner]);
   return (
-    <div className="h-min w-60 p-4 rounded-md text-[16px] overflow-y-auto bg-input-grey dark:bg-modal-grey">
+    <div className="h-min w-60 p-4 rounded-md text-[16px] overflow-y-auto 
+    bg-input-grey dark:bg-modal-grey text-modal-grey dark:text-white">
       <div className="flex flex-col gap-2">
         <SectionFilter
           number={progress}
