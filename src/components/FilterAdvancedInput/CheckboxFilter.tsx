@@ -33,14 +33,6 @@ export const CheckboxFilter = ({
   const handleOptionChange = (event: any) => {
     const optionName = event.target.value;
     console.log("Me clicaro");
-    // if (selectedOptions.includes(optionName)) {
-    //   setSelectedOptions(
-    //     selectedOptions.filter((option) => option !== optionName) ?? []
-    //   );
-    // } else {
-    //   setSelectedOptions([...selectedOptions, optionName]);
-    // }
-
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {

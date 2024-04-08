@@ -407,50 +407,11 @@ useEffect(() => {
                               )) ||
                             (prop.property.type == TypeOfProperty.TAG && (
                               <TagFilter
-                                id={prop.property.id}
-                                name={prop.property.name}
-                                addList={() => console.log("a")}
-                                removeList={(value: string) => {
-                                  if (list) {
-                                    const thisProperty = filter.find(
-                                      (item) => item.id == list.id
-                                    )!;
-                                    if (list?.value.includes(value)) {
-                                      list.value.splice(
-                                        list.value.indexOf(value),
-                                        1
-                                      );
-                                      if (list.value.length == 0) {
-                                        filter.splice(
-                                          filter.indexOf(thisProperty),
-                                          1
-                                        );
-                                        setFilter!(filter);
-                                      }
-                                      setList!(list);
-                                    } else {
-                                      list?.value.push(value);
-                                      filter.splice(
-                                        filter.indexOf(thisProperty),
-                                        1
-                                      );
-                                      setFilter!(filter);
-                                      setFilter!([list!, ...filter]);
-                                      setList!(list);
-                                    }
-                                  } else {
-                                    setList!({
-                                      id: prop.property.id,
-                                      value: [value],
-                                    });
-                                    setFilter!([
-                                      { id: prop.property.id, value: [value] },
-                                      ...filter,
-                                    ]);
-                                  }
-                                }}
-                                options={(prop.property as Select).options}
-                                value={prop.value.value?.map((option:any) => option.name) ?? []}
+                              isInModal
+                              name={prop.property.name}
+                              options={(prop.property as Select).options}
+                              id={prop.property.id}
+                              value={prop.value.value?.map((option:any) => option.name)}
                               />
                             ))}
                         </div>
