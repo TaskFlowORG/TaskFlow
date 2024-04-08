@@ -1,5 +1,5 @@
 import { getData } from "@/services/http/api";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
 import { TextFilter } from "./TextFilter";
@@ -11,17 +11,25 @@ import { Select as Selectt } from "@/components/Select";
 import { RadioFilter } from "./RadioFilter";
 import { TagFilter } from "./TagFilter";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { LocalModal } from "../Modal";
+import { useClickAway } from "react-use";
 
 interface Props {
   properties: Property[];
-  orderingId: number | undefined;
-  page: Page | null;
+  setIsModalOpen:(boolean:boolean)=> void
 }
 
-export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
+
+
+export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );
+
+  const ref = useRef(null);
+useClickAway(ref, () => setIsModalOpen(false));
+
+
   const { filterProp, setFilterProp, list, setList } =
     useContext(FilterContext);
   let filterProperty: FilteredProperty[] = [];
@@ -34,7 +42,7 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
+    <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg" ref={ref}>
       <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
           const prop = filterProp!.find((prop) => prop.id == property.id) ?? {
@@ -44,7 +52,7 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
           if (property.type === TypeOfProperty.TEXT) {
             return (
               <TextFilter
-                value={prop.value}
+                value={prop.value ?? ""}
                 key={property.id}
                 name={property.name}
                 id={property.id}
@@ -55,7 +63,7 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
               <DateFilter
                 name={property.name}
                 id={property.id}
-                value={prop?.value}
+                value={prop?.value ?? ""}
                 key={property.id}
               />
             );
@@ -71,60 +79,11 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
           } else if (property.type === TypeOfProperty.TAG) {
             return (
               <TagFilter
-                name={property.name}
-                options={(property as Select).options}
-                id={property.id}
-                key={property.id}
-                value={list?.value ?? []}
-                removeList={(value: string) => {
-                  if (list) {
-                    const thisProperty = filterProp.find(
-                      (item) => item.id == list.id
-                    )!;
-                    if (list?.value.includes(value)) {
-                      list.value.splice(list.value.indexOf(value), 1);
-                      if (list.value.length == 0) {
-                        filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                        setFilterProp!(filterProp);
-                      }
-                      setList!(list);
-                    } else {
-                      list?.value.push(value);
-                      filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                      setFilterProp!(filterProp);
-                      setFilterProp!([list!, ...filterProp]);
-                      setList!(list);
-                    }
-                  } else {
-                    setList!({ id: property.id, value: [value] });
-                    setFilterProp!([
-                      { id: property.id, value: [value] },
-                      ...filterProp,
-                    ]);
-                  }
-                }}
-
-                // const thisProperty = filterProp?.find((item) => item.id == id);
-                // if (thisProperty) {
-                //   if (option.includes(e)) {
-                //     thisProperty.value = thisProperty.value.filter(
-                //       (option: string) => option !== e
-                //     );
-                //     if (thisProperty.value.length == 0) {
-                //       filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                //       setFilterProp!(filterProp);
-                //     }
-                //   } else {
-                //     thisProperty.value = [...option, e];
-                //   }
-                // } else {
-                //   if (e) {
-                //     setFilterProp!([
-                //       ...filterProp,
-                //       { id: id, value: [e] },
-                //     ]);
-                //   }
-                // }
+              key={property.id}
+              name={property.name}
+              options={(property as Select).options}
+              id={property.id}
+              value={prop.value}
               />
             );
           } else if (property.type === TypeOfProperty.CHECKBOX) {

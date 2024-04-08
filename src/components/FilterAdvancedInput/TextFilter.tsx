@@ -1,23 +1,36 @@
 import { useState, useEffect, useContext } from "react";
 import { Input } from "../Input";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   id: number;
   name: string;
   value: string;
+  isInModal?: boolean;
 }
 
-export const TextFilter = ({ id, name, value }: Props) => {
+export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [valued, setValued] = useState("");
 
   useEffect(() => {
-    setValued(value ?? "");
-  }, [value]);
+    const prop = filterProp.find((bah) => id == bah.id);
+    if (prop){
+      setValued(prop.value)
+    } else {
+      setValued(value ?? "");
+    }
+  }, [value, setFilterProp, filterProp]);
+
+  const style = twMerge(
+    "flex gap-4 w-full items-center border-b-[1px]  pb-2",
+    isInModal ? " p-0 border-none pl-4" : " "
+  );
+
   return (
-    <div className="flex gap-4 w-full items-center border-b-[1px]  pb-2">
-      <p className=" text-black dark:text-white">{name}:</p>
+    <div className={style}>
+      {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
 
       <input
         className="flex-1 py-1 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
@@ -30,6 +43,7 @@ export const TextFilter = ({ id, name, value }: Props) => {
             if (!e.target.value) {
               filterProp.splice(filterProp.indexOf(thisProperty), 1);
               setFilterProp!(filterProp);
+              thisProperty.value = e.target.value;
             } else {
               thisProperty.value = e.target.value;
             }

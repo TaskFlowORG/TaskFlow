@@ -20,9 +20,7 @@ interface Props {
   task: Task;
   min?: boolean;
 }
-export const CardContent = ({ task, min }: Props) => {
-  const [properties, setProperties] = useState<TaskValue[]>([]);
-
+export const CardContent = ({ task }: Props) => {
   function is(property: TaskValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }
@@ -42,7 +40,7 @@ export const CardContent = ({ task, min }: Props) => {
           <span className="w-7 h-7 rounded-full bg-[#E41CEF] shadowww absolute right-0"></span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-1 justify-between">
+      <div className="flex flex-wrap gap-1 w-full justify-between">
         {task.properties?.map((property) => {
           if (
             is(property, TypeOfProperty.TEXT) &&
