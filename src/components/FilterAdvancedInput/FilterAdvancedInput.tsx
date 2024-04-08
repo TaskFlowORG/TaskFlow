@@ -1,5 +1,5 @@
 import { getData } from "@/services/http/api";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
 import { TextFilter } from "./TextFilter";
@@ -12,15 +12,24 @@ import { RadioFilter } from "./RadioFilter";
 import { TagFilter } from "./TagFilter";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { LocalModal } from "../Modal";
+import { useClickAway } from "react-use";
 
 interface Props {
   properties: Property[];
+  setIsModalOpen:(boolean:boolean)=> void
 }
 
-export const FilterAdvancedInput = ({ properties }: Props) => {
+
+
+export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );
+
+  const ref = useRef(null);
+useClickAway(ref, () => setIsModalOpen(false));
+
+
   const { filterProp, setFilterProp, list, setList } =
     useContext(FilterContext);
   let filterProperty: FilteredProperty[] = [];
@@ -33,7 +42,7 @@ export const FilterAdvancedInput = ({ properties }: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg">
+    <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg" ref={ref}>
       <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
           const prop = filterProp!.find((prop) => prop.id == property.id) ?? {

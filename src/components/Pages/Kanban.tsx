@@ -41,6 +41,7 @@ export const Kanban = ({ user }: UserLogged) => {
   const [page, setPage] = useState<OrderedPage | null>(null);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
+  const [openedOrder, setOpenedOrder] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -52,7 +53,7 @@ export const Kanban = ({ user }: UserLogged) => {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  }, []);
+  });
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -184,15 +185,13 @@ export const Kanban = ({ user }: UserLogged) => {
             </h1>
           </div>
 
-          <SearchBar order filter search>
-            <SearchInput />
-            <OrderInput
-              page={page as OrderedPage}
-              orderingId={id}
-              propertiesPage={page?.properties ?? []}
-            ></OrderInput>
-
-            <FilterAdvancedInput properties={page?.properties as Property[]} />
+          <SearchBar
+            order
+            filter
+            search
+            page={page as OrderedPage}
+            properties={page?.properties as Property[]}
+          >
           </SearchBar>
         </div>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>

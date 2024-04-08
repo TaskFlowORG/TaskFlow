@@ -1,8 +1,14 @@
 import { FilterContext } from "@/utils/FilterlistContext";
-import { useContext } from "react";
-
+import { useContext, useRef } from "react";
+import { useClickAway } from "react-use";
+// type Props = {
+//   setIsModalOpen:(boolean:boolean)=>void
+// }
 
 export const SearchInput = () => {
+
+  // const ref = useRef(null);
+  // useClickAway(ref, () => setIsModalOpen(false));
   const {setInput} = useContext(FilterContext);
   return (
     <div className="w-full h-full flex-1 flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">

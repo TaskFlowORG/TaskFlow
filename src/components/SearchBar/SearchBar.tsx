@@ -1,23 +1,35 @@
 import { SearchIcon } from "./SearchIcon";
 import { SearchInput } from "./SearchInput";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useContext, useState } from "react";
 import { OrderInput } from "../OrderInput";
+import { FilterAdvancedInput } from "../FilterAdvancedInput/FilterAdvancedInput";
+import page from "@/app/(all)/(before-login)/page";
+import { OrderedPage, Property } from "@/models";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 interface Props {
   order?: boolean;
   search?: boolean;
   filter?: boolean;
-  children: ReactElement[] | ReactNode[];
+  // openedOrder?: boolean;
+  // setOpenedOrder: (a: boolean) => void;
+  properties: Property[];
+  page?: OrderedPage;
+  // children: ReactElement[] | ReactNode[];
 }
 export const SearchBar = ({
   order = false,
   search = false,
   filter = false,
-  children,
+  // openedOrder,
+  // setOpenedOrder,
+  properties,
+  page,
 }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
+  const {setInput} = useContext(FilterContext);
 
   function change(bar: string) {
     if (bar == "search") {
@@ -37,9 +49,22 @@ export const SearchBar = ({
 
   return (
     <div className="justify-end w-3/5 items-center  relative  h-full flex gap-2 ">
-      {search && openedSearch && children[0]}
-      {order && openedOrder && children[1]}
-      {filter && openedFilter && children[2]}
+      {search && openedSearch && <SearchInput/>}
+      {order && openedOrder && (
+        <OrderInput
+          setIsModalOpen={setOpenedOrder}
+          page={page!}
+          orderingId={page?.propertyOrdering.id}
+          propertiesPage={properties}
+        ></OrderInput>
+      )}
+      {filter && openedFilter && (
+        <FilterAdvancedInput properties={properties}   
+        setIsModalOpen={setOpenedFilter}         
+        // isModalOpen={openedFilter}
+        // setIsModalOpen={setOpenedFilter} />
+        />
+      )}
       {search && (
         <SearchIcon
           iconSrc={"/searchIcons/search.svg"}
@@ -50,7 +75,7 @@ export const SearchBar = ({
       {order && (
         <SearchIcon
           iconSrc={"/searchIcons/order.svg"}
-          open={() => change("order")}
+          open={() => {change("order"); setInput!("") }}
           acessibilityLabel="Ícone de ordenação"
         />
       )}
