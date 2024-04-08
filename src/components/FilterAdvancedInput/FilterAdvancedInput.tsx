@@ -72,60 +72,11 @@ export const FilterAdvancedInput = ({ properties, orderingId }: Props) => {
           } else if (property.type === TypeOfProperty.TAG) {
             return (
               <TagFilter
-                name={property.name}
-                options={(property as Select).options}
-                id={property.id}
-                key={property.id}
-                value={list?.value ?? []}
-                removeList={(value: string) => {
-                  if (list) {
-                    const thisProperty = filterProp.find(
-                      (item) => item.id == list.id
-                    )!;
-                    if (list?.value.includes(value)) {
-                      list.value.splice(list.value.indexOf(value), 1);
-                      if (list.value.length == 0) {
-                        filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                        setFilterProp!(filterProp);
-                      }
-                      setList!(list);
-                    } else {
-                      list?.value.push(value);
-                      filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                      setFilterProp!(filterProp);
-                      setFilterProp!([list!, ...filterProp]);
-                      setList!(list);
-                    }
-                  } else {
-                    setList!({ id: property.id, value: [value] });
-                    setFilterProp!([
-                      { id: property.id, value: [value] },
-                      ...filterProp,
-                    ]);
-                  }
-                }}
-
-                // const thisProperty = filterProp?.find((item) => item.id == id);
-                // if (thisProperty) {
-                //   if (option.includes(e)) {
-                //     thisProperty.value = thisProperty.value.filter(
-                //       (option: string) => option !== e
-                //     );
-                //     if (thisProperty.value.length == 0) {
-                //       filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                //       setFilterProp!(filterProp);
-                //     }
-                //   } else {
-                //     thisProperty.value = [...option, e];
-                //   }
-                // } else {
-                //   if (e) {
-                //     setFilterProp!([
-                //       ...filterProp,
-                //       { id: id, value: [e] },
-                //     ]);
-                //   }
-                // }
+              key={property.id}
+              name={property.name}
+              options={(property as Select).options}
+              id={property.id}
+              value={prop.value}
               />
             );
           } else if (property.type === TypeOfProperty.CHECKBOX) {

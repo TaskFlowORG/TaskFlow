@@ -24,13 +24,13 @@ interface Props {
   tasks: TaskOrdered[];
   verify?: boolean;
   input?: string;
-  openModal?: (task:TaskOrdered)=> void
+  openModal?: (task: TaskOrdered) => void;
 }
 
 export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
   const [direction, setDirection] = useState<Direction>("vertical");
   const { theme } = useTheme();
-  const { filterProp, setFilterProp } = useContext(FilterContext);
+  const { filterProp } = useContext(FilterContext);
   const multiOptionTypes: TypeOfProperty[] = [
     TypeOfProperty.TAG,
     TypeOfProperty.CHECKBOX,
@@ -112,19 +112,24 @@ export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
                       if (
                         multiOptionTypes.includes(propertyInTask?.property.type)
                       ) {
-                        let localRender = false;
-                        prop.value.forEach((value: any) => {
-                          propertyInTask.value.value.forEach(
-                            (option: Option) => {
-                              if (option.name == value) {
-                                render = true;
-                                localRender = true;
-                                return;
+                        if (prop.value.length > 0) {
+                          let localRender = false;
+                          prop.value.forEach((value: any) => {
+                            propertyInTask.value.value.forEach(
+                              (option: Option) => {
+                                if (option.name == value) {
+                                  render = true;
+                                  localRender = true;
+                                  return;
+                                }
                               }
-                            }
-                          );
-                        });
-                        if (localRender) {
+                            );
+                          });
+                          if (localRender) {
+                            counter++;
+                          }
+                        } else {
+                          render = true;
                           counter++;
                         }
                       } else if (
@@ -166,7 +171,7 @@ export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
                                   ...provided.draggableProps.style,
                                 }}
                                 id={item.task.id.toString()}
-                                onClick={()=> openModal!(item)}
+                                onClick={() => openModal!(item)}
                               >
                                 <RoundedCard
                                   color={
