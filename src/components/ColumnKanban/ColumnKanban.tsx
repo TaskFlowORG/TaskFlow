@@ -28,35 +28,19 @@ interface Props {
   openModal?: (task: TaskOrdered) => void;
 }
 
-export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
-  const [direction, setDirection] = useState<Direction>("vertical");
+export const ColumnKanban = ({ option, tasks, openModal }: Props) => {
   const { theme } = useTheme();
   const context = useContext(FilterContext);
-  const multiOptionTypes: TypeOfProperty[] = [
-    TypeOfProperty.TAG,
-    TypeOfProperty.CHECKBOX,
-  ];
-  const optionTypes: TypeOfProperty[] = [
-    ...multiOptionTypes,
-    TypeOfProperty.SELECT,
-    TypeOfProperty.RADIO,
-  ];
+  const {filterProp, setFilterProp, input} = context
+const [columnTasks, setTasks] = useState<TaskOrdered[]>([])
 
-  useEffect(() => {
-    if (window.innerWidth < 1024) {
-      setDirection("horizontal");
-    }
-  }, []);
-
-  function findPropertyInTask(item: TaskOrdered, prop: FilteredProperty) {
-    return item.task.properties.find(
-      (property) => property.property.id == prop.id
-    )!;
-  }
+  useEffect(()=>{
+setTasks(tasks ?? [])
+  },[])
 
   return (
     <div
-      className="w-min min-w-[360px] flex-grow   pb-4 h-full md:h-[650px] self-center   flex  flex-col gap-4"
+      className="w-min min-w-[360px] flex-grow pt-8   pb-4 h-full md:h-[650px] self-start   flex  flex-col gap-4"
       key={`${option?.id}`}
     >
       <div className="flex gap-6 items-center">
@@ -99,7 +83,7 @@ export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
                     : "none",
                 }}
               >
-                {tasks.map((item, index) => {
+                {columnTasks.map((item) => {
                   if (showTask(item.task, context)) {
                     return (
                       <Draggable
@@ -107,7 +91,7 @@ export const ColumnKanban = ({ option, tasks, input, openModal }: Props) => {
                         key={`${item.id}${option?.id}`}
                         index={item.indexAtColumn}
                       >
-                        {(provided, snapshot) => {
+                        {(provided) => {
                           return (
                             <div
                               ref={provided.innerRef}

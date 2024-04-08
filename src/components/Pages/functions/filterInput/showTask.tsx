@@ -6,7 +6,6 @@ import { Option } from "@/models";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
 
-
 const findPropertyInTask = (
   task: Task,
   prop: FilteredProperty
@@ -45,7 +44,7 @@ const uniValuePropertyPassesFilter = (
   property: FilteredProperty,
   propertyInTask: TaskValueGet
 ): number => {
-  return (propertyInTask.value.value as Option).name == property.value
+  return (propertyInTask.value.value as Option)?.name == property.value
     ? counter + 1
     : counter;
 };
@@ -55,17 +54,27 @@ const textValuePropertyPassesFilter = (
   property: FilteredProperty,
   propertyInTask: TaskValueGet
 ): number => {
-  return propertyInTask?.value?.value
-    ?.toLowerCase()
+  return propertyInTask.value.value
+    .toLowerCase()
     .includes(property.value.toLowerCase())
     ? counter + 1
     : counter;
+};
+
+const numberValuePropertyPassesFilter = (
+  counter: number,
+  property: FilteredProperty,
+  propertyInTask: TaskValueGet
+): number => {
+  return propertyInTask.value.value == property.value ? counter + 1 : counter;
 };
 
 export function showTask(task: Task, context: FilterContextType): boolean {
   const { filterProp, input } = context;
   const multiOptionTypes = [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG];
   const uniOptionTypes = [TypeOfProperty.SELECT, TypeOfProperty.RADIO];
+  const textTypes = [TypeOfProperty.TEXT, TypeOfProperty.DATE];
+  console.log(task);
   if (isValueMatchingInput(task.name ?? "", input)) {
     let counter = 0;
     filterProp.forEach((prop) => {
@@ -74,8 +83,14 @@ export function showTask(task: Task, context: FilterContextType): boolean {
         counter = multiValuePropertyPassesFilter(counter, prop, propertyInTask);
       } else if (uniOptionTypes.includes(propertyInTask?.property.type)) {
         counter = uniValuePropertyPassesFilter(counter, prop, propertyInTask);
-      } else {
+      } else if (textTypes.includes(propertyInTask?.property.type)) {
         counter = textValuePropertyPassesFilter(counter, prop, propertyInTask);
+      } else {
+        counter = numberValuePropertyPassesFilter(
+          counter,
+          prop,
+          propertyInTask
+        );
       }
     });
     if (hasPassedFilters(counter, filterProp.length)) {

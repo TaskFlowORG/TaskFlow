@@ -52,7 +52,7 @@ export const Kanban = ({ user }: UserLogged) => {
       setId(pg.propertyOrdering.id);
       setPage(pg);
     })();
-  }, []);
+  });
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -145,11 +145,16 @@ export const Kanban = ({ user }: UserLogged) => {
           console.log(page);
           console.log(draggedTask);
           await taskService.upDate(draggedTask.task);
-          await pageService.updateIndexesKanban(
+          let paged = await pageService.updateIndexesKanban(
             page!,
             draggedTask?.task?.id,
             destination.index,
             destination.droppableId != source.droppableId ? 1 : 0
+          );
+          setTasks(
+            (paged.tasks as TaskOrdered[]).filter(
+              (task) => task.task.deleted == false
+            )
           );
         }
       } catch (e) {}

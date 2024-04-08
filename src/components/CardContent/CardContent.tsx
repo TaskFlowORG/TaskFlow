@@ -20,9 +20,7 @@ interface Props {
   task: Task;
   min?: boolean;
 }
-export const CardContent = ({ task, min }: Props) => {
-  const [properties, setProperties] = useState<TaskValue[]>([]);
-
+export const CardContent = ({ task }: Props) => {
   function is(property: TaskValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }

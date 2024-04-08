@@ -9,7 +9,12 @@ interface Props {
   filter?: boolean;
   children: ReactElement[] | ReactNode[];
 }
-export const SearchBar = ({ order =  false, search = false, filter = false, children }: Props) => {
+export const SearchBar = ({
+  order = false,
+  search = false,
+  filter = false,
+  children,
+}: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
@@ -39,18 +44,20 @@ export const SearchBar = ({ order =  false, search = false, filter = false, chil
         <SearchIcon
           iconSrc={"/searchIcons/search.svg"}
           open={() => change("search")}
+          acessibilityLabel="Ícone de pesquisa"
         />
       )}
       {order && (
         <SearchIcon
           iconSrc={"/searchIcons/order.svg"}
           open={() => change("order")}
+          acessibilityLabel="Ícone de ordenação"
         />
       )}
       {filter && (
         <SearchIcon
           iconSrc={"/searchIcons/filter.svg"}
-
+          acessibilityLabel="Ícone de filtragem"
           open={() => change("filter")}
         />
       )}
