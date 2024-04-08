@@ -10,6 +10,7 @@ import { CenterModal } from "../Modal";
 import { ProjectInformations } from "./components/ProjectInformations";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   user: string;
@@ -21,6 +22,7 @@ export const SideBarProjects = ({ user, project }: Props) => {
   const [modalGroups, setModalGroups] = useState(false);
   const [modalProjectGroups, setModalProjectGroups] = useState(false);
   const [wantLeave, setWantLeave] = useState(false);
+  const{t} = useTranslation()
   const leave = () => {
     Cookies.remove("JWT");
     router.push("/login");
@@ -58,12 +60,12 @@ export const SideBarProjects = ({ user, project }: Props) => {
         <CenterModal condition={wantLeave} setCondition={setWantLeave}>
           <div className="w-full h-80 flex flex-col items-center justify-around">
             <h4 className="h4 text-primary  dark:text-secondary flex-wrap w-3/4 text-center">
-              Você tem certeza de que deseja sair de sua conta?
+              {t("want-leave")}
             </h4>
             <div className="w-3/4 flex justify-between">
               <Button
                 width="w-min"
-                text="Cancelar"
+                text={t("cancel")}
                 fnButton={() => setWantLeave(false)}
               />
               <Button width="w-min" fnButton={leave} secondary />

@@ -1,6 +1,7 @@
 import { archiveToSrc } from "@/functions";
 import { OtherUser, TaskPage } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import { useTranslation } from "next-i18next";
 
 interface SelectTypeObjProps {
   isTaskPage?: boolean;
@@ -23,6 +24,8 @@ export const SelectTypeObj = ({
   o,
   functionObj,
 }: SelectTypeObjProps) => {
+  const {t} = useTranslation();
+
   if (isTaskPage) {
     return (
       <div
@@ -32,7 +35,7 @@ export const SelectTypeObj = ({
         }}
         className={classes}
         key={index}
-        title={(o as TaskPage).task.name ?? "Sem Nome"}
+        title={(o as TaskPage).task.name ?? t("withoutname")}
       ></div>
     );
   } else if (isOtherUser) {
@@ -44,7 +47,7 @@ export const SelectTypeObj = ({
         }}
         className={classes}
         key={index}
-        title={(o as OtherUser).name ?? "Sem Nome"}
+        title={(o as OtherUser).name ?? t("withoutname")}
       >
         {" "}
         {(o as OtherUser).picture && (
@@ -61,7 +64,7 @@ export const SelectTypeObj = ({
         }}
         className={classes}
         key={index}
-        title={(o as SimpleGroup).name ?? "Sem Nome"}
+        title={(o as SimpleGroup).name ?? t("withoutname")}
       >
         {(o as SimpleGroup).picture && (
           <img src={archiveToSrc((o as SimpleGroup).picture)} />

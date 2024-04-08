@@ -11,6 +11,7 @@ import { projectService } from "@/services";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import { useTranslation } from "next-i18next";
 interface Props {
   project: ProjectSimple;
   user: string;
@@ -18,6 +19,7 @@ interface Props {
 export const ProjectComponent = ({ project, user }: Props) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const router = useRouter();
+  const {t} = useTranslation();
   
 
   return (
@@ -38,13 +40,13 @@ export const ProjectComponent = ({ project, user }: Props) => {
             className="w-11/12 font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
             style={!project.name ? { opacity: 0.5 } : {}}
           >
-            {project.name ?? "Sem Nome"}
+            {project.name ?? t("withoutname")}
           </h4>
           <p
             className="w-11/12 font-montserrat text-[12px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
             style={!project.description ? { opacity: 0.5 } : {}}
           >
-            {project.description ?? "Sem descrição"}
+            {project.description ?? t("withoutdescription")}
           </p>
         </div>
       </div>

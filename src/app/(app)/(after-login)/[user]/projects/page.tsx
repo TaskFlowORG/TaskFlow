@@ -7,12 +7,14 @@ import { useContext, useEffect, useState } from "react";
 import { projectService } from "@/services";
 import { useRouter } from "next/navigation";
 import { ProjectsContext } from "@/contexts";
+import { useTranslation } from "next-i18next";
 
 export default function Projects({ params }: { params: { user: string } }) {
   const router = useRouter();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects, setProjects } = useContext(ProjectsContext);
   const [listOfLists, setListOfLists] = useState<ProjectSimple[][]>([]);
+  const {t} = useTranslation()
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -62,7 +64,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
         <div className="flex items-center flex-col w-full h-4/5">
           <h1 className="h2 sm:text-[68px] sm:w-3/5 w-full stroke-text-white text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
-            Projetos
+            {t("projects")}
           </h1>
           <div className="w-full lg:w-3/5 h-[70vh] flex justify-center none-scrollbar overflow-y-scroll">
             <div

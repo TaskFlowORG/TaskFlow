@@ -1,6 +1,7 @@
 import { If } from "@/components/If";
 import { Arrow } from "@/components/icons";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { ComponentProps } from "react";
 
@@ -42,6 +43,7 @@ export const SideBarButton = ({
   isHovering
 }: Props) => {
 
+  const {t} = useTranslation();
   
   return (
     <div
@@ -66,7 +68,7 @@ export const SideBarButton = ({
             suppressContentEditableWarning={true}
             contentEditable={renaming}
             ref={renaming ? textRef : undefined}>
-            {text ?? "Sem Nome"}
+            {text ?? t("withoutname")}
           </p>
         </Link>
         <If condition={isHovering != undefined && isHovering}>

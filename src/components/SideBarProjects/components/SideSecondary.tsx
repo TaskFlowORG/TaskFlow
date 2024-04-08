@@ -7,6 +7,7 @@ import { taskService } from "@/services";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SideBarButton } from "./SideBarButton";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   user: string;
@@ -24,18 +25,20 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
       setTasksTrash(tasks);
     })();
   }, [modalTrash]);
+
+  const {t} = useTranslation()
   return (
     <>
-      <SideBarButton icon={<IconDashboard />} text="Dashboard" link={`/${user}/${project?.id}`}/>
-      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text="Pages" />
-      <SideBarButton icon={<IconGroups />} fnClick={() => {setModalPages(true)}} text="Project Groups" />
+      <SideBarButton icon={<IconDashboard />} text={t("project")} link={`/${user}/${project?.id}`}/>
+      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text={t("pages")} />
+      <SideBarButton icon={<IconGroups />} fnClick={() => {setModalPages(true)}} text={t("projects-groups")} />
       <div className="relative w-full">
-      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text="Trash"/>
+      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text={t("trash")}/>
       <LocalModal condition={modalTrash} setCondition={setModalTrash}>
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-min w-80 text-primary dark:text-secondary h5 p-4">
               <p className="p flex flex-wrap text-center items-center h-min w-3/4 ">
-                Parece que esse projeto não tem tarefas excluídas
+                {t("no-tasks-trash")}
               </p>
             </div>
             <span className=" bg-white dark:bg-modal-grey ">

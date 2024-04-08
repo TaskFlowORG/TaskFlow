@@ -1,3 +1,5 @@
+import { useTranslation } from "next-i18next";
+
 interface Props {
   padding?: string;
   paddingY?: string;
@@ -31,6 +33,7 @@ export const Button = ({
   fnButton,
   secondary = false
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <>
       <button onClick={() => fnButton && fnButton()}
@@ -47,7 +50,7 @@ export const Button = ({
                ${border ? border: !secondary ? "border-none": "border-secondary border-2 dark:border-primary"}`}
 
       >
-        {text ? text : "Confirmar"}
+        {text ? text :t("continue")}
         
       </button>
     </>

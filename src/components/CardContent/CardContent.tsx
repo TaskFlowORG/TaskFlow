@@ -9,23 +9,25 @@ import { CardSelect } from "./CardProperties/CardSelect";
 import { ProgressBar } from "../ProgressBar";
 import {
   MultiOptionValued,
+  PropertyValue,
   Task,
-  TaskValue,
   TextValued,
   TypeOfProperty,
   UniOptionValued,
 } from "@/models";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   task: Task;
   min?: boolean;
 }
 export const CardContent = ({ task, min }: Props) => {
-  const [properties, setProperties] = useState<TaskValue[]>([]);
+  const [properties, setProperties] = useState<PropertyValue[]>([]);
 
-  function is(property: TaskValue, type: TypeOfProperty) {
+  function is(property: PropertyValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }
+  const {t} = useTranslation();
 
   return (
     <>
@@ -34,7 +36,7 @@ export const CardContent = ({ task, min }: Props) => {
           style={{ opacity: task.name ? 1 : 0.25 }}
           className="text-[20px] font-alata w-max text-black dark:text-white"
         >
-          {task.name ?? "Sem Nome"}
+          {task.name ?? t("withoutname")}
         </h4>
         <div className="  flex items-center relative w-16">
           <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>
