@@ -18,6 +18,7 @@ interface Props {
   setModalPages: (value: boolean) => void;
 }
 
+
 export const PageSide = (
   { project, user, setModalPages }: Props,
   { typeOfModal }: any = {}
@@ -51,6 +52,7 @@ export const PageSide = (
     else listMerge.splice(listMerge.indexOf(page), 1);
   };
   return (
+
     <div className="flex flex-col h-screen gap-10 pt-[4.5rem] relative p-4 bg-white dark:bg-modal-grey w-72 smm:w-96 px-8 smm:px-16 ">
       <div className="w-full h-max flex flex-col gap-14">
         <Navigate modalPages setCondition={setModalPages} />
@@ -85,6 +87,7 @@ export const PageSide = (
           );
         })}
         <div className="h-12 w-min absolute bottom-2">
+
           <If condition={merging}>
             <div className="flex justify-between w-full h-full">
               <Button

@@ -7,9 +7,10 @@ import { PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
 import { GroupSide } from "./GroupSide";
 import { SideBarButton } from "./SideBarButton";
+
+
 import { useContext } from "react";
 import { ProjectContext } from "@/contexts";
-
 
 
 interface Props {
@@ -24,6 +25,7 @@ interface Props {
 
 
 export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
+
     const { setProject } = useContext(ProjectContext)
 
     return (
@@ -36,7 +38,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
                         <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
                         <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
                         <If condition={project != undefined}>
-                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                            <SideSecondary modalGroups={modalGroups} setModalGroups={setModalGroups} setModalPages={setModalPages} user={user} project={project} />
                         </If>
                     </div>
                     <div className="w-full h-min flex flex-col justify-end items-center" >
@@ -47,10 +49,8 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
             <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
-            
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={true} />
             </SideModal>
         </>)
 }
-
