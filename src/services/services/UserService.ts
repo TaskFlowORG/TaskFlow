@@ -36,6 +36,7 @@ class UserService {
         formData.append('picture', picture);
         const response = await Api.patch<User>(`user/picture/${username}`, formData, {withCredentials: true});
         return response.data;
+
     }
 
     async upDatePassword( username:string,  password:string):Promise<User> {

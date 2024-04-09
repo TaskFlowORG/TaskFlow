@@ -11,7 +11,7 @@ interface Props {
 
   text: string;
   textRef?: React.RefObject<HTMLParagraphElement>;
-  
+
   fnClick?: () => void;
 
   fnRename?: (e: any) => void;
@@ -22,7 +22,7 @@ interface Props {
   openOptionsRef?: React.RefObject<HTMLDivElement>;
 
   isHovering?: boolean;
-  
+
   link?: string;
   pointerEventsNone?: boolean;
 }
@@ -44,15 +44,15 @@ export const SideBarButton = ({
 }: Props) => {
 
   const {t} = useTranslation();
-  
+
   return (
     <div
-      className={ `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
+      className={`w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
        dark:border-secondary-opacity bg-white dark:bg-modal-grey ` +
         (renaming ? "cursor-text" : "cursor-pointer") +
-        (pointerEventsNone ? " pointer-events-none" : "")+
-        (openOptions ? "":" hover:brightness-95 dark:hover:brightness-110")
-        
+        (pointerEventsNone ? " pointer-events-none" : "") +
+        (openOptions ? "" : " hover:brightness-95 dark:hover:brightness-110")
+
       }
       onClick={fnClick}>
       <div className="flex h-14 w-min justify-between items-center " title={text}>
@@ -74,6 +74,7 @@ export const SideBarButton = ({
         <If condition={isHovering != undefined && isHovering}>
           <div className="justify-center h-full w-8  flex flex-col">
             <span
+
               className={"h-8 w-8 p-2 mr-2 rounded-full rotate-90  bg-white dark:bg-modal-grey " +
               (openOptions ? "":" hover:brightness-95")}
               onClick={fnOpenOptions}>
@@ -89,7 +90,7 @@ export const SideBarButton = ({
               className=" dark:bg-back-grey w-full justify-center flex items-start overflow-y-clip"
               initial={{ height: 0 }}
               animate={{ height: "150px" }}
-              exit={{ transition:{delay:0.1}, height: 0 }}
+              exit={{ transition: { delay: 0.1 }, height: 0 }}
               transition={{ duration: 0.1 }}
               ref={openOptionsRef}>
               {children}

@@ -8,5 +8,6 @@ export class GroupPost {
         public description: string,
         public permissions: Permission[],
         public users: User[],
+
     ) { }
 }

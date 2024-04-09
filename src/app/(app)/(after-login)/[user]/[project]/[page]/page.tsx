@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
@@ -39,3 +40,4 @@ export default function Pages({params}:{params:{user:string, project:number, pag
             return <Canvas page={page as CanvasPage} user={user} />
     }
 }
+

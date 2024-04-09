@@ -1,1 +1,0 @@
-export { SVGGroupMobileL } from "./SVGGroupMobileL";

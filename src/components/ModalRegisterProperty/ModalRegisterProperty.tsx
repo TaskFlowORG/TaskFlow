@@ -15,6 +15,7 @@ type ModalRegisterPropertyProps = {
     page?: Page;
     postProperty: (name: string, selected: TypeOfProperty) => void;
 
+
 }
 
 const schema = z.object({
@@ -75,6 +76,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                 <div className="h-1/6 w-[95%] flex justify-between">
                     <button className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary" onClick={()=>{close()}}><IconTrashBin/></button>
                     <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
+
                         postProperty(getValues().name, selected)
                         close()
                      

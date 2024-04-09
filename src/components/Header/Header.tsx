@@ -28,6 +28,7 @@ export const Header = ({
 
 
 
+
   useEffect(() => {
     if (!user?.notifications) return;
     setThereAreNotifications(

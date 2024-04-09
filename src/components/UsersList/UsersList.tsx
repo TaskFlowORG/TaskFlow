@@ -20,21 +20,21 @@ interface Props {
   groupId?: number;
 }
 
-export const UsersList: React.FC<Props> = ({ project, groupId = 1 }) => {
+export const UsersList: React.FC<Props> = ({ project, groupId}) => {
   const [text, setText] = useState<string>("");
   const [users, setUsers] = useState<User[]>([]);
   const [usersGroup, setUsersGroup] = useState<User[]>([]);
   const [group, setGroup] = useState<Group>({ users: [], owner: { username: "" } });
   const [newUser, setNewUser] = useState<User>({ username: "" });
   const [suggestedUsers, setSuggestedUsers] = useState<User[]>([]);
-  const { theme, setTheme } = useTheme();
+  const {theme, setTheme} = useTheme();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const fetchedUsers = await getListData("user");
         setUsers(fetchedUsers);
-        const fetchedGroup = await getData("group", groupId);
+        const fetchedGroup = await getData("group", Number(groupId));
         setGroup(fetchedGroup);
         const groupUsers = fetchedGroup.users;
         const ownerIndex = groupUsers.findIndex((user: User) => user.username === fetchedGroup.owner.username);
@@ -122,7 +122,7 @@ export const UsersList: React.FC<Props> = ({ project, groupId = 1 }) => {
   );
 
   return (
-    <div className="flex w-full justify-center h-full lg:justify-start dark:text-[#FCFCFFC]">
+    <div className="flex w-full justify-center h-full lg:justify-start">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
         <div className="flex flex-col gap-12 justify-between">
           <div>
@@ -155,7 +155,7 @@ export const UsersList: React.FC<Props> = ({ project, groupId = 1 }) => {
               </ul>
             )}
           </div>
-          <div className="self-center w-[80%] max-h-[330px] overflow-y-auto flex flex-col gap-6">
+          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6  " >
             {usersGroup.map((u) => (
               <PermissionUser
                 group={group}

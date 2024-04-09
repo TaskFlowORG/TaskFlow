@@ -1,5 +1,5 @@
 
-import { DatePost, LimitedPost, Page, Project, Property, SelectPost, TypeOfProperty } from "@/models";
+import { Date, DatePost, Limited, LimitedPost, Page, Project, Property, PropertyPost, Select, SelectPost, TypeOfProperty } from "@/models";
 import { useEffect, useRef, useState } from "react";
 import { ModalRegisterProperty } from "../ModalRegisterProperty";
 
@@ -11,6 +11,7 @@ import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
 import { useClickAway } from "react-use";
 import { ModalProperty } from "../ModalProperty/ModalProperty";
+import { DateGet } from "@/models/property/date/DateGetDTO";
 
 type RegisterPropertyProps = {
     properties: Property[],
@@ -27,6 +28,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const postProperty = async (name: string, selected: TypeOfProperty) => {
         try {
+            console.log(name)
             let propertyObj;
             if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
                 propertyObj = await propertyService.saveLimited(new LimitedPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000));
@@ -36,8 +38,6 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
             } else {
                 propertyObj = await propertyService.saveDate(new DatePost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black"))
             }
-            console.log(propertyObj)
-
             setPropertiesArray([...propertiesArray, propertyObj])
 
         } catch (error) {
@@ -45,8 +45,6 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
         }
 
     }
-
-
 
     const deleteProperty = async (property: Property) => {
         try {
@@ -63,9 +61,24 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
     const [modalProperty, setModalProperty] = useState(false)
 
  
-
-    
-    
+ const upDateProperty = async (property: Property,getValues:any ) => {
+    try {
+      if (
+        [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
+      ) {
+        console.log(property.id)
+        const limited = new Limited(property.id ,property.name, getValues.visible, getValues.obligatory, property.type, getValues.maximum)
+        console.log(limited)
+        await propertyService.updateLimited(limited)
+      } else if ( [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)) {
+         await propertyService.updateSelect(new Select(property.id,property.name, getValues.visible, getValues.obligatory, property.type,))
+      } else {
+        await propertyService.updateDate(new Date(property.id, property.name ,getValues.visible, getValues.obligatory, property.type, getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,(property as DateGet).color))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+}   
     return (
         <>
             <div className="w-full h-full flex justify-end">
@@ -79,12 +92,11 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
                     </div>
                     <div className="h-[85%] w-72 flex flex-col items-center gap-5">
-                        <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false) }} />
+                        <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false); } } />
                         <div className="w-full  h-full flex flex-col overflow-y-scroll none-scrollbar">
                             {propertiesArray.map((property,index) => {
-                               
                                 return (
-                                    <ModalProperty key={index} property={property} deleteProperty={deleteProperty}/>
+                                    <ModalProperty key={index} property={property} deleteProperty={deleteProperty} upDateProperties={upDateProperty} />
                                 )
                             })}
                         </div>
@@ -94,4 +106,5 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
             </div>
         </>
     )
+    
 }

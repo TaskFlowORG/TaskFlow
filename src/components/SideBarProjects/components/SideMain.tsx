@@ -7,10 +7,11 @@ import { PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
 import { GroupSide } from "./GroupSide";
 import { SideBarButton } from "./SideBarButton";
+
+
 import { useContext } from "react";
 import { ProjectContext } from "@/contexts";
 import { useTranslation } from "next-i18next";
-
 
 
 interface Props {
@@ -25,9 +26,9 @@ interface Props {
     setModalProjectGroups: (value: boolean) => void;
 }
 
-
 export const SideMain = ({ project, user, setWantLeave, modalGroups, 
     modalPages, setModalGroups, setModalPages, setModalProjectGroups, modalProjectGroups }: Props) => {
+
     const { setProject } = useContext(ProjectContext)
     const {t} = useTranslation()
     return (
@@ -40,7 +41,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
                         <SideBarButton icon={<IconProjects />} text={t("projects")} link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
                         <SideBarButton icon={<IconGroups />} text={t("groups")} fnClick={() => setModalGroups(true)} />
                         <If condition={project != undefined}>
-                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                            <SideSecondary modalGroups={modalGroups} setModalGroups={setModalGroups} setModalPages={setModalPages} user={user} project={project} />
                         </If>
                     </div>
                     <div className="w-full h-min flex flex-col justify-end items-center" >
@@ -51,14 +52,13 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
             <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
-            
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={true} />
             </SideModal>
-
             <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
-                <GroupSide setModalGroups={setModalGroups}  user={user} project={project!} />
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={false} />
             </SideModal>
         </div>)
 }
+
 

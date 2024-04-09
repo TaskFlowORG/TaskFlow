@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import {ConfigContext} from "@/utils";
 import { UserContext } from "@/contexts/UserContext";
 
+
 interface Props {
     user: User;
 }
@@ -16,12 +17,10 @@ export default function Layout({ children }: { children: React.ReactNode, user: 
     if(!user) return null;
     return (
         <>
-        <ConfigContext.Provider value={{ title: pageTitle, setTitle: setPageTitle }}>
-            <div className="relative flex w-full h-full">
+            <ConfigContext.Provider value={{ title: pageTitle, setTitle: setPageTitle }}>
                 <SideBarConfig user={user} pageTitle={pageTitle}></SideBarConfig>
                 {children}
-            </div>
-        </ConfigContext.Provider>
+            </ConfigContext.Provider>
         </>
     )
 }

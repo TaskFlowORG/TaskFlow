@@ -1,6 +1,7 @@
 
 export class Archive {
 
+
     constructor(
         public id: number,
         public type: string,

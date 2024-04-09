@@ -42,6 +42,7 @@ export const TypeOfPageComponent = ({
       case 5:
         setType(TypeOfPage.CANVAS);
         break;
+
     }
   };
 
@@ -111,3 +112,4 @@ export const TypeOfPageComponent = ({
     </div>
   );
 };
+

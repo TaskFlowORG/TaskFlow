@@ -12,6 +12,7 @@ export const Navigate = ({modalPages, setCondition}:Props) => {
           <span className="hover:underline cursor-pointer">{t("main-sidebar")}</span>/
           <span className="">{modalPages? t("pages"):t("groups")}</span>
         </span>
+
     </div>
   );
 };

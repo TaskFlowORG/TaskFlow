@@ -65,15 +65,17 @@ export const NotificationsConfig = () => {
             setUser(updatedUser);
         }
     }
-    
+
     return (
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex items-center w-fit h-full ">
             <div className="flex justify-center w-full h-[80%]">
-                <div className="w-[80%] md:grid grid-cols-2 grid-rows-4 gap-10 ">
-                    <div className="flex justify-between items-center col-span-2 row-start-1">
-                        <h2 className="h2 text-primary dark:text-secondary">Mostrar notificações</h2>
-                        <div className="flex items-center py-4 font-bold ">
-                            <label className="relative w-16 h-8 ml-4 mr-4">
+                <div className="w-[85%] lg:grid lg:grid-cols-2 lg:grid-rows-4 gap-10 flex flex-col lg:justify-center items-center lg:h-fit h-[110rem]">
+                    <div className="flex justify-between col-span-2 row-start-1 w-full">
+                        <div>
+                            <h2 className="h2 text-primary dark:text-secondary">Notificações</h2>
+                        </div>
+                        <div className="flex items-end py-4 font-bold ">
+                            <label className="relative w-16 h-8">
                                 <input id='notifications' onChange={(e) => updateBack(e, 'notifications')} type="checkbox" className="opacity-0 w-0 h-0 toggle-input" checked={notifications} />
                                 <span className=" absolute top-0 right-0 bottom-0 left-0  cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] before:absolute before:w-6 before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider "></span>
                             </label>

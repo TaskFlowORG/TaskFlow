@@ -4,3 +4,4 @@ export { NumberFilter } from "./NumberFilter";
 export { RadioFilter } from "./RadioFilter";
 export { TagFilter } from "./TagFilter";
 export { TextFilter } from "./TextFilter";
+export { ProgressFilter } from "./ProgressFilter";

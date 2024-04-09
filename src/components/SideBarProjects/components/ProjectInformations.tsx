@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 interface Props {
   project?: Project;
 }
-export const ProjectInformations = ({ project}: Props) => {
+export const ProjectInformations = ({ project }: Props) => {
   const src = archiveToSrc(project?.picture!);
   const {t} = useTranslation();
 
@@ -29,6 +29,7 @@ export const ProjectInformations = ({ project}: Props) => {
             {project?.description ?? t("withoutdescription")}
           </p>
         </div>
+
       </div>
   );
 };

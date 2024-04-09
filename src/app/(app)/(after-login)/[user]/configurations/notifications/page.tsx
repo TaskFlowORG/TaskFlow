@@ -12,10 +12,9 @@ export default function UserConfigPage() {
         setTitle(t("notifications"));
     }, []);
 
-    
     return (
 
-        <div className="flex h-full w-full">
+        <div className="h-full w-full">
             <NotificationsConfig></NotificationsConfig>
         </div>
     )
