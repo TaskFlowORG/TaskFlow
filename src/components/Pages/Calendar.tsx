@@ -3,7 +3,7 @@
 import { CalendarDay, CalendarTasksModal } from "./components";
 import { Arrow } from "@/components/icons/";
 import { compareDates } from "./functions";
-import {OrderedPage, Property, TaskOrdered, TaskPage, TaskValue } from "@/models";
+import {OrderedPage, Property, TaskOrdered, TaskPage, PropertyValue } from "@/models";
 import { useEffect, useState } from "react";
 import {Date as DateProp} from "@/models"
 
@@ -32,7 +32,7 @@ export const Calendar = ({page}:Props) => {
             setTasks(tasksPromise)
     }, [page.tasks])
 
-    function getPropertyValueOfOrdering(task:TaskOrdered, prop:Property| undefined):TaskValue | null{
+    function getPropertyValueOfOrdering(task:TaskOrdered, prop:Property| undefined):PropertyValue | null{
         if(!prop) return null   
         for(let p of task.task.properties){
             if(p.property.id == prop.id){

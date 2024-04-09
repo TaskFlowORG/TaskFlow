@@ -9,7 +9,7 @@ export class Group {
         public name: string,
         public picture: Archive,
         public description: string,
-        public permissions: Permission,
+        public permissions: Permission[],
         public owner: OtherUser,
         public users: OtherUser[]
     ) { }
