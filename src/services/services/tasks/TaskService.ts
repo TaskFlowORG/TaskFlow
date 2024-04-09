@@ -2,7 +2,7 @@ import { Task, TaskPage } from "@/models";
 import { Api } from "@/services/axios"; // Assuming 'Api' is the imported instance of axios
 
 class TaskService {
-    async insert(projectId: number, pageId: string): Promise<Task> {
+    async insert(projectId: number, pageId: number): Promise<Task> {
         const response = await Api.post<Task>(`task/${projectId}/${pageId}`, {withCredentials: true});
         return response.data;
     }

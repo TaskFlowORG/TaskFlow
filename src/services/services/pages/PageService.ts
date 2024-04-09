@@ -1,4 +1,4 @@
-import { OrderedPage, Page, PagePost, Property, TaskCanvas, TaskPage } from '@/models';
+import { OrderedPage, Page, PagePost, Property, TaskCanvas, TaskOrdered, TaskPage } from '@/models';
 import { Api } from '@/services/axios';
 
 
@@ -14,17 +14,13 @@ class PageService {
     }})).data;
   }
 
-  async updateXAndY(projectId: number, taskPage: TaskCanvas): Promise<TaskCanvas> {
-    return (await Api.patch<TaskCanvas>(`page/x-and-y/project/${projectId}`, taskPage, {withCredentials: true})).data;
-  }
-
   async updateDraw(projectId: number, draw: File | Blob, id: number): Promise<Page> {
     const formData = new FormData();
     formData.append('draw', draw);
     return (await Api.patch<Page>(`page/draw/${id}/project/${projectId}`, formData, {withCredentials: true})).data;
   }
 
-  async updateTaskPage(projectId: number, taskPage: TaskCanvas): Promise<TaskPage> {
+  async updateTaskPage(projectId: number, taskPage: TaskPage): Promise<TaskPage> {
     return (await Api.patch<TaskCanvas>(`page/task-page/project/${projectId}`, taskPage, {withCredentials: true})).data;
   }
 

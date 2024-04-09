@@ -1,7 +1,8 @@
 import { Property, Task, TimeValued } from "@/models";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 export const TaskLegend = ({
   tasks,
@@ -20,6 +21,16 @@ export const TaskLegend = ({
 
   const { theme } = useTheme();
   const {t} = useTranslation();
+
+  const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
+
+  const openModal = (id: number) => {
+    if (!setIsOpen || !setSelectedTask) return;
+    const task: Task | undefined = tasks.find((l) => l.id == id);
+    if (!task) return;
+    setIsOpen(true);
+    setSelectedTask(task);
+  };
 
   const ref = useRef<HTMLDivElement>(null);
 
@@ -49,13 +60,14 @@ export const TaskLegend = ({
             return (
               <div
                 key={index}
-                className="h-8 w-full md:px-6 gap-2 flex justify-center items-center"
+                className="h-8 w-full md:px-6 gap-2 flex cursor-pointer hover:brightness-95 justify-center items-center"
+                onClick={() => openModal(task.id)}
               >
                 <div
-                  className=" smm:h-full sm:h-0 md:h-full aspect-square rounded-md w-min"
+                  className=" smm:h-full sm:h-0 md:h-full  aspect-square rounded-md w-min"
                   style={{
                     backgroundColor:
-                      propVl?.value.color ??
+                      propVl?.value ? propVl.value.color:
                       (theme == "dark"
                         ? "var(--secondary-color)"
                         : "var(--primary-color)"),

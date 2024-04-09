@@ -4,6 +4,7 @@ import { LocalModal } from "../Modal";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { taskService } from "@/services";
 import { Task, TaskOrdered } from "@/models";
+import { ProjectContext } from "@/contexts";
 
 type Props = {
   condition: boolean;
@@ -26,11 +27,13 @@ export const PopUpModal = ({
 
    const { setInPage, pageId } = useContext(PageContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
+  const {project} = useContext(ProjectContext)
 
   async function createTask(){
     setCondition(false);
     setIsOpen!(true);
-    let task:Task = (await taskService.insert(pageId!, user!))
+    if(!project || !pageId) return
+    let task:Task = (await taskService.insert(project.id, pageId))
     setSelectedTask!(task!)
   } 
 

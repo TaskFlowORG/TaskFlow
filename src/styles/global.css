@@ -414,16 +414,18 @@ select::-ms-expand {
 }
 
 .none-scrollbar::-webkit-scrollbar {
-  @apply hidden;
+  @apply hidden ;
 }
 
 ::-webkit-scrollbar {
   width: 8px;
+
   height: 8px; /* largura do scroll */
 }
 
 /* Define a cor do fundo do scroll */
 ::-webkit-scrollbar-track {
+
   background: #f1f1f1;
   border-radius: 6px;
 }
@@ -431,6 +433,7 @@ select::-ms-expand {
 /* Define a cor do thumb (a alça do scroll) */
 ::-webkit-scrollbar-thumb {
   border-radius: 7px;
+
   background: var(--primary-color);
 }
 
