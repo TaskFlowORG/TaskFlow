@@ -20,18 +20,19 @@ import {
   Property,
   Select,
   TaskOrdered,
-  TaskValue,
+  PropertyValue,
   TypeOfProperty,
   UniOptionValued,
 } from "@/models";
-
+import { TaskModalContext } from "@/utils/TaskModalContext";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
-import { UserGet } from "@/models/user/user/UserGetDTO";
-import { TaskModalContext } from "@/utils/TaskModalContext";
+
+import { User } from "@/models/user/user/User";
 type UserLogged = {
-  user: UserGet;
-};
+  user:User
+}
+
 
 export const Kanban = ({ user }: UserLogged) => {
   const [input, setInput] = useState("");
@@ -101,7 +102,7 @@ export const Kanban = ({ user }: UserLogged) => {
   }
 
   function updateOptions(
-    propertyInTask: TaskValue,
+    propertyInTask: PropertyValue,
     optionId: number,
     optionDestination: Option
   ) {
@@ -122,7 +123,7 @@ export const Kanban = ({ user }: UserLogged) => {
 
     const optionDestination = findDragDestinationColumn(destination);
     const draggedTask: TaskOrdered = findDraggedTask(taskId!);
-    const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
+    const propertyInTask: PropertyValue = findPropertyInTask(draggedTask);
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
@@ -146,17 +147,6 @@ export const Kanban = ({ user }: UserLogged) => {
           console.log(page);
           console.log(draggedTask);
           await taskService.upDate(draggedTask.task);
-          let paged = await pageService.updateIndexesKanban(
-            page!,
-            draggedTask?.task?.id,
-            destination.index,
-            destination.droppableId != source.droppableId ? 1 : 0
-          );
-          setTasks(
-            (paged.tasks as TaskOrdered[]).filter(
-              (task) => task.task.deleted == false
-            )
-          );
         }
       } catch (e) {}
     };
@@ -217,7 +207,7 @@ export const Kanban = ({ user }: UserLogged) => {
                             TypeOfProperty.CHECKBOX ||
                             property.property.type === TypeOfProperty.TAG) &&
                             (property.value as MultiOptionValued).value.find(
-                              (value) => value.id == option.id
+                              (value:Option) => value.id == option.id
                             ))
                         );
                       });

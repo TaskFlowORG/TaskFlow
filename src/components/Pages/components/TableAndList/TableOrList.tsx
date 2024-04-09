@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useState } from "react";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 
 
 export const TableOrList = ({name, children}:Props) => {
+    const {t} = useTranslation();
 
 
     return (
@@ -14,7 +16,7 @@ export const TableOrList = ({name, children}:Props) => {
         <div className="h-full flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-14">
             <div className="h-min w-full flex items-center justify-between">
                 <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
-                    {name ?? "Sem Nome"}
+                    {name ?? t("withoutname")}
                 </div>
                 <div className="w-min flex">
                     <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>

@@ -1,79 +1,43 @@
-
-
-import { OrderedPage, Page, PagePost, Property, TaskCanvas } from '@/models';
+import { OrderedPage, Page, PagePost, Property, TaskCanvas, TaskPage } from '@/models';
 import { Api } from '@/services/axios';
 
+
+
 class PageService {
-    async insert(page: PagePost): Promise<Page> {
-        return (await Api.post<Page>(`page`, page)).data;
-    }
-
-
-  async updateIndexesKanban(
-    page: OrderedPage,
-    taskId: number,
-    index: number,
-    columnChanged: number
-  ): Promise<OrderedPage> {
-    // console.log(page);
-    const response = await Api.patch<OrderedPage>(
-      `page/${taskId}/${index}/${columnChanged}`,
-      page
-    );
-    return response.data;
+  async insert(projectId: number, page: PagePost): Promise<Page> {
+    return (await Api.post<Page>(`page/project/${projectId}`, page, {withCredentials: true})).data;
   }
 
-    async upDateName(name: string| undefined| null, id: number): Promise<void> {
-        // console.log(name)
-        const config = {headers: {
-            'Content-Type': 'application/string'
-        }}
-        await Api.patch(`page/${id}`, name, config);
-    }
-
-  async updateIndexes(
-    page: Page,
-    taskId: number,
-    index: number
-  ): Promise<Page> {
-    const response = await Api.patch<Page>(`page/${taskId}/${index}`, page);
-    return response.data;
+  async updateName(projectId: number, name: string| undefined| null, id: number): Promise<Page> {
+    return (await Api.patch<Page>(`page/${id}/project/${projectId}`,  name , {withCredentials: true, headers:{
+      'Content-Type': 'application/string'
+    }})).data;
   }
 
-    async updateXAndY(taskPage: TaskCanvas): Promise<void> {
-        // console.log(taskPage)
-        await Api.patch('page/x-and-y', taskPage);
-    }
-
-    async updateDraw(draw: File | Blob, id: number): Promise<void> {
-        const formData = new FormData();
-        formData.append('draw', draw);
-        await Api.patch(`page/draw/${id}`, formData);
-    }
-
-  async updatePropertiesOrdering(
-    property: Property,
-    id: number
-  ): Promise<void> {
-    await Api.patch(`page/prop-ordering/${id}`, property);
+  async updateXAndY(projectId: number, taskPage: TaskCanvas): Promise<TaskCanvas> {
+    return (await Api.patch<TaskCanvas>(`page/x-and-y/project/${projectId}`, taskPage, {withCredentials: true})).data;
   }
 
-  async findOne(id: number): Promise<Page> {
-    const response = await Api.get<Page>(`page/${id}`);
-    return response.data;
+  async updateDraw(projectId: number, draw: File | Blob, id: number): Promise<Page> {
+    const formData = new FormData();
+    formData.append('draw', draw);
+    return (await Api.patch<Page>(`page/draw/${id}/project/${projectId}`, formData, {withCredentials: true})).data;
   }
 
-  async findAll(): Promise<Page[]> {
-    const response = await Api.get<Page[]>("page");
-    return response.data;
+  async updateTaskPage(projectId: number, taskPage: TaskCanvas): Promise<TaskPage> {
+    return (await Api.patch<TaskCanvas>(`page/task-page/project/${projectId}`, taskPage, {withCredentials: true})).data;
   }
 
-  async delete(id: number): Promise<void> {
-    await Api.delete(`page/${id}`);
+  async updatePropertiesOrdering(projectId: number, property: Property, id: number): Promise<Page> {
+    return (await Api.patch<Page>(`page/prop-ordering/${id}/project/${projectId}`, property, {withCredentials: true})).data;
   }
 
-  async merge(pages: Page[], id: number): Promise<void> {
-    await Api.patch(`page/merge/${id}`, pages);
+  async delete(projectId: number, id: number): Promise<void> {
+    await Api.delete(`page/${id}/project/${projectId}`, {withCredentials: true});
+  }
+
+  async merge(projectId: number, pages: Page[], id: number): Promise<Page[]> {
+    return (await Api.patch<Page[]>(`page/merge/${id}/project/${projectId}`, pages, {withCredentials: true})).data;
   }
 }
 

@@ -11,6 +11,7 @@ import { SideBarButton } from "./SideBarButton";
 
 import { useContext } from "react";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "next-i18next";
 
 
 interface Props {
@@ -21,28 +22,30 @@ interface Props {
     setModalPages: (value: boolean) => void;
     modalGroups: boolean;
     setModalGroups: (value: boolean) => void;
+    modalProjectGroups: boolean;
+    setModalProjectGroups: (value: boolean) => void;
 }
 
-
-export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages, setModalGroups, setModalPages }: Props) => {
+export const SideMain = ({ project, user, setWantLeave, modalGroups, 
+    modalPages, setModalGroups, setModalPages, setModalProjectGroups, modalProjectGroups }: Props) => {
 
     const { setProject } = useContext(ProjectContext)
-
+    const {t} = useTranslation()
     return (
-        <>
+        <div className="w-full h-full overflow-y-auto none-scrollbar">
             <If condition={!modalGroups && !modalPages}>
                 <div className="h-full flex flex-col justify-between">
 
                     <div className="w-full h-min flex flex-col items-center relative">
-                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text="Página Inicial" fnClick={() => setProject && setProject(undefined)} />
-                        <SideBarButton icon={<IconProjects />} text="Projetos" link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
-                        <SideBarButton icon={<IconGroups />} text="Grupos" fnClick={() => setModalGroups(true)} />
+                        <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text={t("initial-page")} fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconProjects />} text={t("projects")} link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
+                        <SideBarButton icon={<IconGroups />} text={t("groups")} fnClick={() => setModalGroups(true)} />
                         <If condition={project != undefined}>
                             <SideSecondary modalGroups={modalGroups} setModalGroups={setModalGroups} setModalPages={setModalPages} user={user} project={project} />
                         </If>
                     </div>
                     <div className="w-full h-min flex flex-col justify-end items-center" >
-                        <SideBarButton icon={<IconLogout />} text="Logout" fnClick={() => setWantLeave(true)} />
+                        <SideBarButton icon={<IconLogout />} text={t("logout")} fnClick={() => setWantLeave(true)} />
                     </div>
                 </div>
         </If >
@@ -52,5 +55,10 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups, modalPages,
             <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={true} />
             </SideModal>
-        </>)
+            <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={false} />
+            </SideModal>
+        </div>)
 }
+
+

@@ -7,8 +7,6 @@ import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService, userService } from "@/services";
 import { UserGet } from "@/models/user/user/UserGetDTO";
-import { ProjectGet } from "@/models/project/project/ProjectGetDTO";
-import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
 
 interface Props {
     project: Project;
@@ -28,18 +26,18 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedUser = await userService.findByUsername(user);
+                const fetchedUser = await userService.findLogged();
                 setOwner(fetchedUser)
 
                 let fetchedGroups : Group[];
                 if (global == true) {
-                    fetchedGroups = await groupService.findGroupsByUser(user);
+                    fetchedGroups = await groupService.findGroupsByUser();
                     setGroups(fetchedGroups)
                 } else if (global == false) {
-                     fetchedGroups = await groupService.findGroupsOfAProject(project.id);
+                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
                     setGroups(fetchedGroups)
                 }
-                const fetchedPermissions = await permissionService.findAll();
+                const fetchedPermissions = await permissionService.findAll(project.id);
                  const permissionArray: Permission[] = [];
 
                  fetchedPermissions.map(p => {
@@ -68,11 +66,11 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const addNewGroup = async () => {
         const name: string = "Nome do grupo";
         const description: string = "Descrição do grupo";
-        let groupPermission: PermissionGet[] = [];
+        let groupPermission: Permission[] = [];
         let userList: User[] = []
 
         try {
-             const fetchedUser = await userService.findByUsername(user);
+             const fetchedUser = await userService.findLogged();
              if (!fetchedUser) {
                  console.error("Owner não está definido!");
                  return;
@@ -83,7 +81,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
             if (!(deleteCreatePermission)) {
                 const newPermission = new PermissionPost("Permissão", TypePermission.READ, project);
-                await permissionService.insert(newPermission);
+                await permissionService.insert(newPermission, project.id);
                 if(deleteCreatePermission){
                     groupPermission.push(deleteCreatePermission);
                 }
@@ -91,7 +89,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                     groupPermission.push(deleteCreatePermission);
             }
 
-            const newGroup = new GroupPost(name, description, permissions, fetchedUser, userList);
+            const newGroup = new GroupPost(name, description, permissions, userList);
             await groupService.insert(newGroup);
 
         } catch (error) {
@@ -103,15 +101,16 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
             <Navigate modalPages setCondition={setModalGroups} />
             <ProjectInformations project={project} />
+
             <div className="flex flex-col w-72 justify-center items-center h-4/6">
                 <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
                     <div className="flex flex-col items-start max-w-full h-min w-full">
                         <div className="max-w-full h-min w-full pt-2">
                             {Array.isArray(groups) && groups.map((group, index) => (
                                 
-                                <div className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
+                                <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
-                                    {verOsGrupos()}
+                                    {()=> verOsGrupos()}
                                     <button onClick={() => router.push("/" + owner?.username + "/" + project.id + "/group/" + group.id)}>
                                         
                                         <GroupComponent group={group} />

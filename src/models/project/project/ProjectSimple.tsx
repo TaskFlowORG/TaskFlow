@@ -1,27 +1,22 @@
-import { Group } from "@/models";
+import { Group, OtherUser } from "@/models";
 import { Archive } from "@/models/others/Archive";
-import { PageGet } from "@/models/page/page/PageGetDTO";
-import { PropertyGet } from "@/models/property/property/PropertyGetDTO";
-import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
-import { AllArgsConstructor } from "@/utils";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+ 
 
-@AllArgsConstructor
 export class ProjectSimple {
-    id!:number;
-    name?:string;
-    description?:string;
-    picture?:Archive;
-    progress!:number;
-    groups?:Group[];
+
 
     constructor(
-        id:number,
-        name:string,
-        description:string,
-        picture:Archive,
-        progress:number,
-        groups:Group[],
-    ) { }
+        public id: number,
+        public name: string,
+        public description: string,
+        public picture: Archive,
+        public progress: number,
+        public groups: SimpleGroup[],
+        public owner: OtherUser,
+        public qttyPages: number,
+        public qttyProperties: number,
+    ) {}
     
     equals = (obj: any) => {
         return obj instanceof ProjectSimple && obj.id === this.id;

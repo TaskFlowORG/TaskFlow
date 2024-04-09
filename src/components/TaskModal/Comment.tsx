@@ -1,6 +1,5 @@
 import { User } from "@/models";
-import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { OtherUser } from "@/models/user/user/OtherUser";
 import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { IconTrashBin } from "@/components/icons/Slidebarprojects/IconTrashBin";
@@ -9,10 +8,10 @@ import { EditIcon } from "@/components/icons/PageOtpions/Edit";
 import { IconPlus } from "../icons/GeneralIcons/IconPlus";
 
 type CommentType = {
-  sender: SimpleUserGet;
+  sender: OtherUser;
   value: string;
-  date?: string;
-  user: UserGet;
+  date: string;
+  user: User;
   updatedAt?: string;
   commentId: number;
   updatedComment: (commentId: number, updatedValue: string) => void;

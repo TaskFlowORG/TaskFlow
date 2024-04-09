@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
@@ -11,11 +11,11 @@ import {
   TypeOfProperty,
   Option,
   Task,
+  User
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
-import { UserGet } from "@/models/user/user/UserGetDTO";
 import { taskService } from "@/services";
-import { MessageGet } from "@/models/chat/message/MessageGetDTO";
+import { ProjectContext} from "@/contexts/ContextProject"
 import {
   CheckboxProp,
   NumberProp,
@@ -32,17 +32,19 @@ import { DateFilter } from "../FilterAdvancedInput/DateFilter";
 import { RadioFilter } from "../FilterAdvancedInput/RadioFilter";
 import { CheckboxFilter } from "../FilterAdvancedInput/CheckboxFilter";
 import { TagFilter } from "../FilterAdvancedInput/TagFilter";
-import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
+import { PropertyValue } from "@/models/relations/property-value/PropertyValue";
 import { ProgressFilter } from "../FilterAdvancedInput/ProgressFilter";
 import { IconsSelector } from "../Pages/components";
 import { Button } from "../Button";
 import { TextFilter } from "../FilterAdvancedInput/TextFilter";
+import { useTranslation } from "next-i18next";
 
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
   task: Task;
-  user: UserGet;
+  user: User;
+
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
@@ -50,12 +52,13 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [list, setList] = useState<FilteredProperty | null>();
   const [input, setInput] = useState("");
   const [taskName, setTaskName] = useState("");
-  const [commentsTask, setCommentsTask] = useState<MessageGet[]>([]);
+  const [commentsTask, setCommentsTask] = useState<Message[]>([]);
   // const [url, setUrl] = useState("");
   // async function findImage() {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
   //   setUrl(bah);
   // }
+  const {project} = useContext(ProjectContext)
 
   // console.log(filter);
   // console.log(list);
@@ -180,7 +183,7 @@ useEffect(() => {
     setIsOpen(false);
   }
 
-  function change(prop: TaskValueGet): boolean {
+  function change(prop: PropertyValue): boolean {
     if (!filter.find((value) => prop.id == value.id)) {
       filter.push({
         id: prop.property.id,
@@ -211,11 +214,12 @@ useEffect(() => {
   }
 
   async function sendComment() {
-    let comment: MessageGet = {
+    let comment: Message = {
       sender: user,
       value: input,
       dateCreate: new Date(),
     };
+
     if (task.comments) {
       task.comments.push(comment);
     } else {
@@ -225,6 +229,8 @@ useEffect(() => {
     await taskService.upDate(task);
     setInput("");
   }
+  const {t} = useTranslation();
+
   return (
     <CenterModal
       stylesTailwind={"w-[1306px] shadow-blur-10 p-12"}
@@ -238,13 +244,12 @@ useEffect(() => {
           <div className="flex gap-4 items-center">
             <input
               className="h3 whitespace-nowrap bg-white outline-none"
-              placeholder="Sem nome"
+              placeholder={t("withoutname")}
               value={taskName}
               onChange={(e) => updateNameTask(e)}
             ></input>
             <p>change</p>
           </div>
-
           <div className="flex flex-col w-full gap-6">
             <div className="flex gap-0 w-full">
               <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary rounded-t-lg">

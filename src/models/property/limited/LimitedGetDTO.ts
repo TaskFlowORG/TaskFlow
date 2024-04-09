@@ -1,9 +1,9 @@
-import { AllArgsConstructor } from "@/utils";
-import { PropertyGet } from "../property/PropertyGetDTO";
+import { Property } from '@/models';
+
 import { TypeOfProperty } from "@/models/enums/TypeOfProperty";
 
 
-export class LimitedGet extends PropertyGet {
+export class LimitedGet extends Property {
     constructor(
         public id: number,              
         public name: string,            
@@ -11,7 +11,7 @@ export class LimitedGet extends PropertyGet {
         public obligatory: boolean,     
         public type: TypeOfProperty,     
         public maximum: number = 0) {
-        super(id, name, visible, obligatory, type);
+        super(id, name, type, visible, obligatory)
     }
 
 

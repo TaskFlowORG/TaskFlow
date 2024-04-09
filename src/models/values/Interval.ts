@@ -1,4 +1,4 @@
-import { AllArgsConstructor } from "@/utils";
+ 
 import { Value } from "./Value";
 
 type Duration = {
@@ -7,14 +7,8 @@ type Duration = {
     seconds: number;
 }
 
-@AllArgsConstructor
 export class Interval  {
-    time!: Duration;
-    color?: string;
-    ends?:Date[];
-    starts?:Date[];
-
-    constructor(value: Duration, color:string, ends:Date[], starts:Date[]) {
+    constructor(public id:number, public time: Duration, public color:string, public ends:Date[], public starts:Date[]) {
     }
 
 }

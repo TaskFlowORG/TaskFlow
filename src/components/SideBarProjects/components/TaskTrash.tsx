@@ -1,8 +1,11 @@
 import { Action, Task } from "@/models"
 import { taskService } from "@/services"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { If } from "../../If"
 import { Button } from "../../Button"
+import { useTranslation } from "next-i18next"
+import { ProjectComponent } from "@/components/InitialAndProjectsPage"
+import { ProjectContext } from "@/contexts"
 
 interface Props {
     task: Task
@@ -12,25 +15,29 @@ interface Props {
 export const TaskTrash = ({ task, userId }: Props) => {
 
     const [modalDelete, setModalDelete] = useState(false)
-
+    const {project} = useContext(ProjectContext)
 
     const [user] = useState(task.logs.find(l => l.action == Action.DELETE)?.user)
     const deleteTask = () => {
-        taskService.deletePermanent(task.id)
+        if(!project) return;
+        taskService.deletePermanent(task.id, project.id)
     }
     const redo = () => {
         taskService.redo(task.id, userId)
     }
+    const {t} = useTranslation();
 
     return (
         <>
             <div className="flex justify-between gap-3 items-center z-50 w-full">
                 <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}>E</button>
                 <div className="truncate  h-full w-min flex items-center cursor-default"
-                    title={`Tarefa ${task.name ?? '"Sem Nome"'} foi exluida por "${user?.name}"`}>
+                    title={`Tarefa "${task.name ?? t("withoutname")}" foi exluida por "${user?.name}"`}>
                     <span className="truncate h-full w-min">
 
-                        Tarefa {task.name ?? '"Sem Nome"'} foi exluida por {`"${user?.name}"`}
+                    Tarefa &quot;{task.name ?? t("withoutname")}&quot; foi exluida por {`"${user?.name}"`}
+
+
                     </span>
                 </div>
                 <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}>R</button>

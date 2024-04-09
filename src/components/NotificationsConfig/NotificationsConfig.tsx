@@ -1,46 +1,27 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
 import { userService } from '@/services';
 import { Configuration, User, UserPut } from '@/models';
 import { InputConfig } from './components/InputConfig';
+import { UserContext } from '@/contexts/UserContext';
 
 
 export const NotificationsConfig = () => {
-    const [notifications, setNotifications] = useState<boolean>(false);
-    const [notificTasks, setNotificTasks] = useState<boolean>(false);
-    const [notificAtAddMeInAGroup, setNotificAtAddMeInAGroup] = useState<boolean>(false);
-    const [notificWhenChangeMyPermission, setNotificWhenChangeMyPermission] = useState<boolean>(false);
-    const [notificMyPointsChange, setNotificMyPointsChange] = useState<boolean>(false);
-    const [notificSchedules, setNotificSchedules] = useState<boolean>(false);
-    const [notificDeadlines, setNotificDeadlines] = useState<boolean>(false);
-    const [notificChats, setNotificChats] = useState<boolean>(false);
-    const [notificComments, setNotificComments] = useState<boolean>(false);
-    const [user, setUser] = useState<User>();
+    const { user, setUser } = useContext(UserContext);
+    const [notifications, setNotifications] = useState<boolean | undefined>(user?.configuration.notifications);
+    const [notificTasks, setNotificTasks] = useState<boolean | undefined>(user?.configuration.notificTasks);
+    const [notificAtAddMeInAGroup, setNotificAtAddMeInAGroup] = useState<boolean | undefined>(user?.configuration.notificAtAddMeInAGroup);
+    const [notificWhenChangeMyPermission, setNotificWhenChangeMyPermission] = useState<boolean | undefined>(user?.configuration.notificWhenChangeMyPermission);
+    const [notificMyPointsChange, setNotificMyPointsChange] = useState<boolean | undefined>(user?.configuration.notificMyPointsChange);
+    const [notificSchedules, setNotificSchedules] = useState<boolean | undefined>(user?.configuration.notificSchedules);
+    const [notificDeadlines, setNotificDeadlines] = useState<boolean | undefined>(user?.configuration.notificDeadlines);
+    const [notificChats, setNotificChats] = useState<boolean | undefined>(user?.configuration.notificChats);
+    const [notificComments, setNotificComments] = useState<boolean | undefined>(user?.configuration.notificComments);
+
     //Não existe ainda
     //const [initialPageTasksPerDeadline, setInitialPageTasksPerDeadline] = useState<boolean>(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const usuario = await userService.findByUsername("jonatas")
-                setUser(usuario)
-                setNotifications(usuario.configuration.notifications)
-                setNotificTasks(usuario.configuration.notificTasks)
-                setNotificAtAddMeInAGroup(usuario.configuration.notificAtAddMeInAGroup)
-                setNotificWhenChangeMyPermission(usuario.configuration.notificWhenChangeMyPermission)
-                setNotificMyPointsChange(usuario.configuration.notificMyPointsChange)
-                setNotificSchedules(usuario.configuration.notificSchedules)
-                setNotificDeadlines(usuario.configuration.notificDeadlines)
-                setNotificChats(usuario.configuration.notificChats)
-                setNotificComments(usuario.configuration.notificComments)
-                //Não existe ainda
-                //setInitialPageTasksPerDeadline(usuario.configuration.initialPageTasksPerDeadline)
-            } catch (error) {
-            }
-        };
-        fetchData();
-    }, []);
-
     const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
+        if(!user || !setUser) return;
         if (e.target.id == id) {
             switch (id) {
                 case 'notifications':
@@ -79,10 +60,9 @@ export const NotificationsConfig = () => {
                     setNotificComments(e.target.checked);
                     break;
             }
-            const configuration: Configuration = (await userService.findByUsername("jonatas")).configuration;
-            configuration[id] = e.target.checked;
-            const updatedUser = new UserPut((await userService.findByUsername("jonatas")).username, undefined, undefined, undefined, undefined, undefined, undefined, configuration);
-            userService.patch(updatedUser);
+            user.configuration[id] = e.target.checked;
+            const updatedUser = await userService.patch(user);
+            setUser(updatedUser);
         }
     }
 

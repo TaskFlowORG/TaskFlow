@@ -1,6 +1,7 @@
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, useContext, useEffect, useRef, useState } from "react";
 import { pageService } from "@/services";
 import { Page } from "@/models";
+import { ProjectContext } from "@/contexts";
 
 type Draw = {
   ctx: CanvasRenderingContext2D;
@@ -19,6 +20,7 @@ export const useDraw = (
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const prevPoint = useRef<null | Point>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const {project} = useContext(ProjectContext);
 
   const clear = () => {
     const canvas = canvasRef.current;
@@ -26,10 +28,10 @@ export const useDraw = (
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (!page || !canvasRef || !canvasRef.current) return;
+    if (!page || !canvasRef || !canvasRef.current || !project) return;
     canvasRef.current.toBlob((draw) => {
       if (draw) {
-        pageService.updateDraw(draw, page.id);
+        pageService.updateDraw(project.id, draw, page.id);
       }
     });
   };

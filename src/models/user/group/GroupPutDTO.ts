@@ -1,21 +1,13 @@
-import { AllArgsConstructor } from "@/utils";
-import { SimpleUserGet } from "../user/SimpleUserGetDTO";
-import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
+import { Permission } from "@/models/project/permission/Permission";
+import { OtherUser } from "../user/OtherUser";
 
-@AllArgsConstructor
 export class GroupPut {
-    id!: number;
-    name?: string;
-    description?: string;
-    permissions!: PermissionGet[];
-    users!: SimpleUserGet[];
-
     constructor(
-        id: number,
-        name: string,
-        description: string,
-        permissions: PermissionGet[],
-        users: SimpleUserGet[],
+        public id: number,
+        public name: string,
+        public description: string,
+        public permissions: Permission[],
+        public users: OtherUser[],
     ) { }
 
     equals = (obj: any) => {
