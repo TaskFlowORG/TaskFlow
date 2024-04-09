@@ -21,11 +21,11 @@ export const FeaturedUser = () => {
     }, [project])
     const {t} = useTranslation();
     return (
-        <div className="h-52 w-72 shadow-blur-10 rounded-sm p-4">
+        <div className="h-52 w-80 shadow-blur-10 rounded-md p-4">
             <h5 className=" h5 text-primary dark:text-secondary">{t("featured-user")}</h5>
             <span className="w-full flex justify-between border-b-[1px] border-back-grey">
-                <p className="p ">Nome</p>
-                <p className="p ">Pontos</p>
+                <p className="p ">{t("name")}</p>
+                <p className="p ">{t("points")}</p>
             </span>
             <div className="overflow-y-scroll none-scrollbar max-h-full  gap-1 pt-1 h-full w-full flex flex-col">
                 {
