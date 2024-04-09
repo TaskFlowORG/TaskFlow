@@ -27,7 +27,8 @@ export default function InitialPage({params}:{params:{user:string}}) {
             <SVGInitialPage />
             <div className="w-screen flex flex-col gap-6 items-center justify-center h-full lg:h-4/5">
                 <div className="flex flex-col gap-2 sm:gap-6 items-center h-full w-full lg:w-3/5 pb-12 lg:pt-0">
-                    <h1 className="h3 sm:text-[68px] w-full h-min px-1 text-white stroke-text-white text-center xl:text-primary dark:xl:text-white xl:text-start">
+                    <h1 className="h3 sm:text-[68px] w-full h-min px-1 text-white stroke-text-white 
+                    text-center xl:text-primary dark:xl:text-white xl:text-start">
                         {t("initial-page")}
                     </h1>
                     <div className={`flex w-full flex-col  flex-1 h-full pt-6 lg:pt-0 justify-start 

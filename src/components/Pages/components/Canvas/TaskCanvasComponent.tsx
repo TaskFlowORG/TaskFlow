@@ -3,9 +3,10 @@
 
 import { RoundedCard } from "../../../RoundedCard"
 import { CardContent } from "../../../CardContent"
-import {useState, useRef, useEffect, MouseEvent as MouseEventReact} from "react"
+import {useState, useRef, useEffect, MouseEvent as MouseEventReact, useContext} from "react"
 import { CanvasPage, TaskCanvas } from "@/models"
 import { pageService } from "@/services"
+import { ProjectContext } from "@/contexts"
 
 
 interface Props{
@@ -20,6 +21,7 @@ export const TaskCanvasComponent = ({task, elementRef, page, moving}:Props) => {
 
     const[x, setX] = useState(task.x)
     const[y, setY] = useState(task.y)
+    const{project} = useContext(ProjectContext)
     const[dragging, setDragging] = useState<boolean>(false)
     const draggableRef = useRef<HTMLDivElement>(null);
     const style:Object = {
@@ -45,8 +47,8 @@ export const TaskCanvasComponent = ({task, elementRef, page, moving}:Props) => {
         }
         const mouseUp = () => {
             setDragging(false)
-            if(!page) return
-            pageService.updateXAndY(task)
+            if(!page || !project) return
+            pageService.updateXAndY(project.id, task)
         }
         if (window.matchMedia("(any-pointer: coarse)").matches) {
             current.addEventListener("pointerup", mouseUp)

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { If } from "../../../If";
 import { Obj } from "../../../Obj";
 import { Date as DateProp, TaskPage } from "@/models";
-import { CalendarTasksModal } from "./CalendarTasksModal";
+import { CalendarTasksModal } from "../";
 
 interface Props {
     date: Day

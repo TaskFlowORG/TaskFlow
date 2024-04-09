@@ -1,4 +1,5 @@
 import { Archive } from "@/models/others/Archive";
+import { Permission } from "@/models/project/permission/Permission";
 export class    OtherUser {
     
 
@@ -9,8 +10,10 @@ export class    OtherUser {
         public surname: string = "",
         public picture?: Archive,
         public mail: string = "",
+        public phone: string = "",
         public description: string = "",
         public points: number = 0,
+        public permissions:Permission[] = [],
         ){
             
         }

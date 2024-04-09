@@ -15,6 +15,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { set } from "zod";
 import { SearchIcon } from "@/components/SearchBar";
 import { IconFilter } from "@/components/icons/ToolBarPages/Filter";
+import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 
 export default function Projects({ params }: { params: { user: string } }) {
   const router = useRouter();
@@ -121,10 +122,10 @@ export default function Projects({ params }: { params: { user: string } }) {
       </div>
       <button
         onClick={postProject}
-        className="rounded-full fixed bottom-10 right-10 w-10  h-10 flex justify-center items-center shadow-blur-10 bg-white 
+        className="rounded-full fixed bottom-10 right-10 w-10 p-3  h-10 flex justify-center items-center shadow-blur-10 bg-white 
             text-primary dark:bg-modal-grey dark:text-secondary hover:brightness-95 cursor-pointer"
       >
-        +
+        <IconPlus />
       </button>
     </div>
   );

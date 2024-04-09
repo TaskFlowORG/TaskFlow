@@ -67,7 +67,7 @@ export const TasksInTimeline = ({
                     key={index}
                     className="h-full rounded-md absolute top-0 left-0"
                     style={{
-                      backgroundColor: propVl?.color ?? (theme == "dark" ? "var(--secondary-color)":"var(--primary-color)"),
+                      backgroundColor: propVl?.value.color ?? (theme == "dark" ? "var(--secondary-color)":"var(--primary-color)"),
                       marginLeft: calcMarginLeft(start),
                       minWidth: calcWidth(start, task),
                     }}
