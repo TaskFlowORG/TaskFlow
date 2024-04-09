@@ -8,13 +8,12 @@ import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
 import { Group, Project } from "@/models";
 import { groupService, projectService } from "@/services";
-import { GroupGet } from "@/models/user/group/GroupGetDTO";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { theme, setTheme } = useTheme();
     // const {project}: any = ProjectContext;
     const [project, setProject] = useState<Project | undefined>();
-    const [groups, setGroups] = useState<GroupGet[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
