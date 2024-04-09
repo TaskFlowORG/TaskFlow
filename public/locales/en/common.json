@@ -38,5 +38,6 @@
         "personal-data":"Personal Data",
         "configurations":"Configurations",
         "notifications":"Notifications",
-        "double-click-open-task":"Double click to open task"
+        "double-click-open-task":"Double click to open task",
+        "dashboard":"Dashboard"
 }

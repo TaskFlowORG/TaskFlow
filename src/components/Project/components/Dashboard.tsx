@@ -1,7 +1,9 @@
+import { FeaturedUser } from "./FeaturedUser"
+
 export const Dashboard = () => {
     return (
-        <div>
-        <h1>Dashboard</h1>
+        <div className="w-[85vw] h-full">
+            <FeaturedUser />
         </div>
     )
 }
