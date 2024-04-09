@@ -1,7 +1,8 @@
 import { Property, Task, TimeValued } from "@/models";
 import { useTheme } from "next-themes";
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { compareDates } from "../../functions";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 export const TasksInTimeline = ({
   tasks,
@@ -49,6 +50,16 @@ export const TasksInTimeline = ({
     }px`;
   };
 
+  const {setSelectedTask, setIsOpen} = useContext(TaskModalContext)
+
+  const openModal = (id:number) => {
+    if(!setIsOpen || !setSelectedTask) return
+    const task: Task | undefined = tasks.find(l => l.id == id)
+    if(!task) return
+    setIsOpen(true)
+    setSelectedTask(task)
+  }
+
   const {theme} = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   return (
@@ -58,14 +69,17 @@ export const TasksInTimeline = ({
             (prop) => prop.property.id === propOrdering.id
           )?.value as TimeValued;
           return (
-            <div key={index} className="h-8 my-[2px] relative flex " style={{width:24*60*60/interval*widthOfInterval}} >
+            <div key={index} className="h-8 my-[2px] relative flex hover:brightness-95" 
+            onClick={e => openModal(task.id)}
+
+            style={{width:24*60*60/interval*widthOfInterval}} >
               
-              { propVl.value.starts &&
+              { propVl.value && propVl.value.starts &&
               propVl?.value.starts.filter(start => compareDates(new Date(start), new Date(date))).map((start, index) => {
                 return (
                   <div
                     key={index}
-                    className="h-full rounded-md absolute top-0 left-0"
+                    className="h-full rounded-md absolute top-0 left-0 "
                     style={{
                       backgroundColor: propVl?.value.color ?? (theme == "dark" ? "var(--secondary-color)":"var(--primary-color)"),
                       marginLeft: calcMarginLeft(start),

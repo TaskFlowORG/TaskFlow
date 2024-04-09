@@ -37,5 +37,6 @@
         "phone":"Phone",
         "personal-data":"Personal Data",
         "configurations":"Configurations",
-        "notifications":"Notifications"
+        "notifications":"Notifications",
+        "double-click-open-task":"Double click to open task"
 }

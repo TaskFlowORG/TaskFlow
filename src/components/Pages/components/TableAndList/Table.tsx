@@ -8,16 +8,18 @@ import {
   OnDragUpdateResponder,
   ResponderProvided,
 } from "@hello-pangea/dnd";
-import { Page, Property, TaskOrdered } from "@/models";
+import { Page, Property, Task, TaskOrdered } from "@/models";
 import { ValueSelector } from "..";
 import { useRef, useContext, useState, useEffect, MouseEvent } from "react";
 import { HeaderList } from "./HeaderList";
 import { ProjectContext } from "@/contexts";
+import { updateIndexes } from "../../functions/updateIndexes";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useHasPermission } from "@/hooks/useHasPermission";
 interface Props {
   page: Page;
-  updateIndex: (e: DropResult) => void;
 }
-export const Table = ({ page, updateIndex }: Props) => {
+export const Table = ({ page }: Props) => {
   const { project } = useContext(ProjectContext);
   const [props, setProps] = useState<Property[]>([]);
   useEffect(() => {
@@ -27,14 +29,27 @@ export const Table = ({ page, updateIndex }: Props) => {
     }
   }, [project, page]);
 
+  const [list, setList] = useState<Array<TaskOrdered>>((page.tasks as TaskOrdered[]).sort((a, b) => a.indexAtColumn - b.indexAtColumn));
+
+  const {setSelectedTask, setIsOpen} = useContext(TaskModalContext)
+
+  const openModal = (id:number) => {
+    if(!setIsOpen || !setSelectedTask) return
+    const task: Task | undefined = list.find(l => l.task.id == id)?.task
+    if(!task) return
+    setIsOpen(true)
+    setSelectedTask(task)
+  }
+
+  const permission = useHasPermission("update")
+
   return (
     <DragDropContext 
-      onDragEnd={updateIndex}   
+      onDragEnd={e => updateIndexes(e, list, setList, project)}   
     >
-            {/* se eu deixar com w-min ele vai funcionar o tamanho da linha, mas quando tiver menas colunas ele nao vai preencher a linha*/}
             <div className="h-full w-min min-w-full">
               <div key={page.id} className="w-min shadow-blur-10  flex-nowrap min-w-full h-full">
-                <div className=" bg-white dark:bg-modal-grey  w-full h-[13%]">
+                <div className=" bg-white dark:bg-modal-grey  w-full h-min">
                   <div className="w-full  flex">
                     <div className=" bg-white min-w-[14rem] dark:bg-modal-grey border-zinc-400 w-full dark:border-zinc-600 border-b-2">
                       <HeaderList name={"Tasks"} />
@@ -62,13 +77,13 @@ export const Table = ({ page, updateIndex }: Props) => {
                    :
                   <div className="w-full h-min">
                     {
-                    (page.tasks as TaskOrdered[])
-                      .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
+                    list
                       .map((l, index) => {
                         return (
                           <Draggable
                             draggableId={`${index}`}
                             index={index}
+                            isDragDisabled={!permission}
                             
                             key={index}
                           >
@@ -79,6 +94,7 @@ export const Table = ({ page, updateIndex }: Props) => {
                                     {...providedDrag.dragHandleProps}
                                     ref={providedDrag.innerRef}
                                     className="bg-white dark:bg-modal-grey flexhover:brightness-95 flex "
+                                    onClick={e => openModal(l.task.id)}
                                   >
                                     <div className=" bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-y-[1px] w-full">
                                       <ValueSelector l={l} justName={true} />

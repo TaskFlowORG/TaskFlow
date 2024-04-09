@@ -18,7 +18,7 @@ export const LocalModal = ({ children, condition, setCondition, right, y, x, bot
     useClickAway(ref, () => setCondition(false));
 
     const style = twMerge(
-        "bg-inherit shadow-blur-10 flex z-[80] rounded-md w-min ", 
+        "bg-inherit shadow-blur-10 flex z-[101] rounded-md w-min ", 
         right ? `right-[105%]` : `left-[105%]`,
         (!x && right ? 
             (bottom? "origin-bottom-right" : "origin-top-right") 

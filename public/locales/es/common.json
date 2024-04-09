@@ -29,5 +29,6 @@
         "timeline": "Línea de Tiempo",
         "table": "Tabla",
         "list": "Lista",
-        "canvas": "Lienzo"
+        "canvas": "Lienzo",
+        "double-click-open-task": "Doble clic para abrir la tarea"
 }

@@ -29,5 +29,6 @@
         "timeline":"Linha do Tempo",
         "table":"Tabela",
         "list":"Lista",
-        "canvas":"Canvas"
+        "canvas":"Canvas",
+        "double-click-open-task":"Clique duas vezes para abrir a tarefa"
 }

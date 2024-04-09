@@ -1,13 +1,16 @@
 import { calcLength } from "framer-motion";
 import { useRef } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   range: number | null;
   max: number;
+  min?: number;
   step: number;
   setRange: (range: number | null) => void;
+  disable?: boolean;
 }
-export const RangeInput = ({ range, setRange, max, step }: Props) => {
+export const RangeInput = ({ range, setRange, max, step, disable, min = 0 }: Props) => {
   const calculateWidth = (range: number | null) => {
     if (range == null) return 0;
     return (range / max) * 100;
@@ -21,12 +24,16 @@ export const RangeInput = ({ range, setRange, max, step }: Props) => {
     }
     return 0;
   };
+
+   const classes = twMerge(
+    "relative w-full select-none h-2 rounded-full ", disable && "opacity-10 pointer-events-none"
+   );
   return (
-    <div ref={ref} className="relative w-full select-none h-2 rounded-full ">
+    <div ref={ref} className={classes}>
       <input
         className="w-full z-50 h-full absolute  top-0 opacity-0"
         type="range"
-        min={0}
+        min={min}
         step={step}
         value={range == null ? "" : range}
         max={max}

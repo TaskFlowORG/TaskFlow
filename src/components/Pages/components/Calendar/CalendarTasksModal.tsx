@@ -54,7 +54,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
 
                                                         {
                                                             tasks.filter(t => new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value).getHours() == h).map((t) => (
-                                                                <TaskTagCalendar t={t} key={t.task.id} />
+                                                                <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))
                                                         }
                                                     </div>
@@ -70,7 +70,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                             {
                                 tasks.length > 0 ?
                                     tasks.map((t) => (
-                                        <TaskTagCalendar t={t} key={t.task.id} />
+                                        <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                     ))
                                     :
                                     <p className="text-montserrat text-[24px] opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>

@@ -6,18 +6,38 @@ import {
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
-import { Page, Property, TaskOrdered } from "@/models";
+import { Page, Property, Task, TaskOrdered } from "@/models";
 import { ValueSelector } from "..";
-import { useEffect, WheelEvent, useRef, useState } from "react";
+import { useEffect, WheelEvent, useRef, useState, useContext } from "react";
 import { PageTypeIcons } from "../../../icons";
 import { HeaderList } from "./HeaderList";
+import { pageService } from "@/services";
+import { ProjectContext } from "@/contexts";
+import { updateIndexes } from "../../functions/updateIndexes";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 interface Props {
   list: Array<TaskOrdered>;
   page: Page;
 }
 
-export const List = ({ list, page }: Props) => {
+export const List = ({ list:listPrev, page }: Props) => {
+
+  const [list, setList] = useState<Array<TaskOrdered>>(listPrev.sort((a, b) => a.indexAtColumn - b.indexAtColumn));
+  const {project} = useContext(ProjectContext)
+  const {setSelectedTask, setIsOpen} = useContext(TaskModalContext)
+
+  const openModal = (id:number) => {
+    if(!setIsOpen || !setSelectedTask) return
+    const task: Task | undefined = list.find(l => l.task.id == id)?.task
+    if(!task) return
+    setIsOpen(true)
+    setSelectedTask(task)
+  }
+
+  const permission = useHasPermission("update")
+
 
   return (
     <div
@@ -26,7 +46,7 @@ export const List = ({ list, page }: Props) => {
       <HeaderList page={page} name={page.name} />
       <DragDropContext
         key={page.id}
-        onDragEnd={() => console.log("Update Indexes")}
+        onDragEnd={e => updateIndexes(e, list, setList, project)}
       >
         <Droppable droppableId={`${page.id}`} >
           {(provided, snapshot) => {
@@ -39,13 +59,13 @@ export const List = ({ list, page }: Props) => {
               >
                 <div className="w-full relative h-min flex flex-col">
                   {list
-                    .sort((a, b) => a.indexAtColumn - b.indexAtColumn)
                     .map((l, index) => {
                       return (
                         <Draggable
                           draggableId={`${l.id}`}
                           index={index}
                           key={index}
+                          isDragDisabled={!permission}
                         >
                           {(providedDrag, snapshot) => {
                             return (
@@ -55,6 +75,7 @@ export const List = ({ list, page }: Props) => {
                                   {...providedDrag.draggableProps}
                                   {...providedDrag.dragHandleProps}
                                   ref={providedDrag.innerRef}
+                                  onClick={e => openModal(l.task.id)}
                                 >
                                   <ValueSelector l={l} justName={true} />
                                 </div>
