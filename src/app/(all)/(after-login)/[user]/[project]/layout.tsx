@@ -1,5 +1,4 @@
 "use client";
-
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "@/contexts/ContextProject";
 import { UserContext } from "@/contexts/UserContext";
@@ -15,7 +14,6 @@ import { TaskModal } from "@/components/TaskModal";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useHasPermission } from "@/hooks/useHasPermission";
-import { set } from "zod";
 
 interface Props {
   params: { project: number; user: string };

@@ -2,7 +2,7 @@
 
 
 import { InputHTMLAttributes, useState } from "react";
-import { boolean } from "zod";type InputCheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
+type InputCheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     image?: string;
     helperText?: string;
