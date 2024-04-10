@@ -644,3 +644,42 @@ input[type="number"]{
   }
 
 }
+
+
+
+.react-calendar { 
+  @apply bg-white dark:bg-modal-grey w-full  font-alata;
+}
+.react-calendar__navigation {
+  @apply flex justify-between items-center gap-2;
+}
+.react-calendar__navigation button {
+  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
+}
+.react-calendar__navigation button[disabled] {
+ @apply opacity-20;
+}
+
+abbr[title] {
+  display: none
+}
+.react-calendar__tile {
+  @apply rounded-sm text-contrast bg-input-grey dark:bg-back-grey bg-clip-border box-border  
+  border-[1px] border-white relative dark:border-modal-grey aspect-square text-[10px] text-modal-grey dark:text-white;
+}
+.react-calendar__month-view__days__day--weekend {
+@apply text-contrast bg-primary  aspect-square dark:bg-secondary;
+} 
+.react-calendar__tile--now {
+  @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
+}
+.react-calendar__tile--active {
+  @apply bg-secondary-opacity relative dark:bg-primary-opacity opacity-80 text-modal-grey;
+}
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+.react-calendar__month-view__days__day--neighboringMonth {
+  @apply opacity-70;
+}

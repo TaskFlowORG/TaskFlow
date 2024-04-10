@@ -8,6 +8,7 @@ export const InputCalendar = ({value, setValue, icon}:{value:string, setValue:(v
                 type="date"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
+                
             />
             <span className="w-min h-min absolute top-1/2 -translate-y-1/2  right-2 z-10"> 
                 {icon}

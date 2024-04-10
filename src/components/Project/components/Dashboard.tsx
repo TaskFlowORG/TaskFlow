@@ -7,6 +7,8 @@ import { Group } from "@/models";
 import { groupService, projectService } from "@/services";
 import { TasksProgress } from "./TasksProgress";
 import { SelectPropertiesSection } from "./SelectPropertiesSection";
+import { TasksDate } from "./TasksDate";
+import { PermissionsAndCalendar } from "./PermissionsAndCalendar";
 
 export const Dashboard = () => {
   const { t } = useTranslation();
@@ -20,24 +22,31 @@ export const Dashboard = () => {
     })();
   }, [project]);
   return (
-    <div className="w-[85vw] h-full flex flex-col gap-4">
-      <div className="w-min h-min flex gap-4">
+    <div className="w-[85vw] h-full flex p-6  gap-4 flex-wrap">
+      <div>
         <FeaturedUser />
-        <SelectPropertiesSection />
+        <span className="flex gap-4">
+          <div className="shadow-blur-10 w-32 h-32 rounded-md">
+            <h5 className=" h5 text-primary dark:text-secondary">
+              {t("pages")}
+            </h5>
+            <p>{project?.pages.length}</p>
+          </div>
+          <div className="shadow-blur-10 w-32 h-32 rounded-md">
+            <h5 className=" h5 text-primary dark:text-secondary">
+              {t("groups")}
+            </h5>
+            <p>{groups.length}</p>
+          </div>
+        </span>
+        <TasksProgress />
       </div>
-      <span className="flex gap-4">
-        <div className="shadow-blur-10 w-32 h-32 rounded-md">
-          <h5 className=" h5 text-primary dark:text-secondary">{t("pages")}</h5>
-          <p>{project?.pages.length}</p>
-        </div>
-        <div className="shadow-blur-10 w-32 h-32 rounded-md">
-          <h5 className=" h5 text-primary dark:text-secondary">
-            {t("groups")}
-          </h5>
-          <p>{groups.length}</p>
-        </div>
-      </span>
-      <TasksProgress />
+      <div className="h-full flex flex-col gap-2">
+
+      <SelectPropertiesSection />
+      <TasksDate />
+      </div>
+      <PermissionsAndCalendar />
     </div>
   );
 };
