@@ -53,7 +53,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
         <>
             {open && <div className="h-2/6 w-full   flex flex-col justify-center items-center border-b border-primary dark:border-secondary">
                 <div className="h-5/6 w-full flex flex-col">
-                    <div className="h-2/6 w-full border-b border-primary dark:border-secondary flex justify-center items-center">
+                    <div className="h-2/6 w-full border-b border-primary dark:border-secondary flex  items-center  justify-evenly">
                         <SelectWithImage list={[
                             { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
                             { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },

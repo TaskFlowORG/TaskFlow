@@ -104,7 +104,7 @@ export const ModalProperty = ({
             <button
               className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
               onClick={() => {
-                deleteProperty(property);
+               setModalDelete(true);
               }}
             >
               {" "}

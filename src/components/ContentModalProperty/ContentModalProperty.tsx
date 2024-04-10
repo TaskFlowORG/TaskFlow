@@ -25,14 +25,12 @@ export const ContentModalProperty = ({
         TypeOfProperty.TEXT,
       ].includes(type)
     ) {
-
-        console.log(property ,"dentro")
       return (
         <Input
           register={{ ...register("maximum") }}
           type="number"
-          classNameInput={""}
-          // value={property ? (property as Limited).maximum : 0}
+          className="w-full justify-between " classNameInput={"w-[50%] bg-input-grey-opacity border-primary border-2 rounded-sm text-center"}   
+          label="Máximo"       // value={property ? (property as Limited).maximum : 0}
         />
       );
     } else if (
