@@ -25,11 +25,9 @@ interface Props {
 export default function Layout({ params, children }: Props) {
   const { project, setProject } = useContext(ProjectContext);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [pageId, setPageId] = useState<number>();
-  const [inPage, setInPage] = useState(false);
-  const [task, setSelectedTask] = useState<Task>();
-  const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(UserContext);
+  const {task, setIsOpen, isOpen} = useContext(TaskModalContext)
+  const {inPage} = useContext(PageContext)
 
   useEffect(() => {
     (async () => {
@@ -45,13 +43,9 @@ export default function Layout({ params, children }: Props) {
   const [modalProperty, setModalProperty] = useState(false);
   return (
     <>
-      <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
-        <TaskModalContext.Provider
-          value={{ isOpen, setIsOpen, task, setSelectedTask }}
-        >
           <TaskModal
             task={task!}
-            setIsOpen={setIsOpen}
+            setIsOpen={setIsOpen!}
             isOpen={isOpen}
             user={user!}
           />
@@ -95,8 +89,6 @@ export default function Layout({ params, children }: Props) {
             </SideModal>
             {children}
           </div>
-        </TaskModalContext.Provider>
-      </PageContext.Provider>
     </>
   );
 }

@@ -11,34 +11,31 @@ type Props = {
   setCondition: (value: boolean) => void;
   modalProp: boolean;
   setModalProp: (value: boolean) => void;
-  user?:string
+  user?: string;
 };
-
 
 export const PopUpModal = ({
   condition,
   setCondition,
   modalProp,
   setModalProp,
-  user
+  user,
 }: Props) => {
-
-
-
-   const { setInPage, pageId } = useContext(PageContext);
+  const { setInPage, pageId } = useContext(PageContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
-  const {project} = useContext(ProjectContext)
+  const { project } = useContext(ProjectContext);
 
-  async function createTask(){
+  async function createTask() {
     setCondition(false);
     setIsOpen!(true);
-    if(!project || !pageId) return
-    let task:Task = (await taskService.insert(project.id, pageId))
-    setSelectedTask!(task!)
-  } 
+    if (!project || !pageId) return;
+    let task: Task = await taskService.insert(project.id, pageId);
+    task.comments = []
+    setSelectedTask!(task!);
+  }
 
   return (
-    <LocalModal condition={condition} right setCondition={setCondition}>
+    <LocalModal condition={condition} right bottom setCondition={setCondition}>
       <div className=" bg-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
         <p
           className="text-[14px] font-montserrat"
@@ -54,8 +51,7 @@ export const PopUpModal = ({
         <p
           className="text-[14px] font-montserrat"
           onClick={() => {
-            createTask()
-
+            createTask();
           }}
         >
           Cadastro de tarefa

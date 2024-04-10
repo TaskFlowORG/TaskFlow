@@ -13,6 +13,7 @@ import { TagFilter } from "./TagFilter";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
+import { ProjectContext } from "@/contexts";
 
 interface Props {
   properties: Property[];
@@ -26,6 +27,8 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
     []
   );
 
+  const {project} = useContext(ProjectContext)
+
   const ref = useRef(null);
 useClickAway(ref, () => setIsModalOpen(false));
 
@@ -35,10 +38,7 @@ useClickAway(ref, () => setIsModalOpen(false));
   let filterProperty: FilteredProperty[] = [];
 
   useEffect(() => {
-    (async () => {
-      const project: Project = await getData("project", 1);
-      setAllProperties([...project.properties, ...properties]);
-    })();
+setAllProperties([...properties, ...project?.properties!])
   }, []);
 
   return (

@@ -12,7 +12,7 @@ import {
   Droppable,
 } from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { Option, Task, TaskOrdered, TaskValue, TypeOfProperty } from "@/models";
+import { Option, Task, TaskOrdered, TypeOfProperty } from "@/models";
 
 import { useTheme } from "next-themes";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -31,12 +31,12 @@ interface Props {
 export const ColumnKanban = ({ option, tasks, openModal }: Props) => {
   const { theme } = useTheme();
   const context = useContext(FilterContext);
-  const {filterProp, setFilterProp, input} = context
-const [columnTasks, setTasks] = useState<TaskOrdered[]>([])
+  const { filterProp, setFilterProp, input } = context;
+  const [columnTasks, setTasks] = useState<TaskOrdered[]>([]);
 
-  useEffect(()=>{
-setTasks(tasks ?? [])
-  },[tasks])
+  useEffect(() => {
+    setTasks(tasks ?? []);
+  }, [tasks, context]);
 
   return (
     <div
@@ -83,13 +83,16 @@ setTasks(tasks ?? [])
                     : "none",
                 }}
               >
-                {columnTasks.map((item) => {
+                {columnTasks.map((item, index) => {
                   if (showTask(item.task, context)) {
                     return (
                       <Draggable
                         draggableId={`${item.id}-${option?.id}`}
                         key={`${item.id}${option?.id}`}
                         index={item.indexAtColumn}
+                        // draggableId={`${item.id}`}
+                        // index={index}
+                        // key={index}
                       >
                         {(provided) => {
                           return (

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getData, putData } from "@/services/http/api";
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import { OrderedPage, Project, Property, TypeOfProperty } from "@/models";
 import { pageService } from "@/services";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
+import { ProjectContext } from "@/contexts";
 
 interface Props {
   propertiesPage: Property[];
@@ -16,23 +17,21 @@ interface Props {
   setIsModalOpen:(boolean:boolean ) => void
 }
 
+
 export const OrderInput = ({ propertiesPage, isInCalendar = false, orderingId, setIsModalOpen, page }: Props) => {
+  const { project} =  useContext(ProjectContext)
   const [properties, setProperties] = useState<Property[]>([]);
 
-  useEffect(() => {
-    (async () => {
-      const project: Project = await getData("project", 1);
-      setProperties([...project.properties, ...propertiesPage]);
-    })();
-    // eslint-disable-next-line
-  }, []);
+  useEffect(()=>{
+    setProperties([...project?.properties!, ...propertiesPage])
+  },[])
 
   function updateOrderingProperty(e: MouseEvent<HTMLDivElement, MouseEvent>) {
     let property = properties.find(
       (property) => property.id.toString() == e.currentTarget.id
     );
     page.propertyOrdering = property as Property;
-    pageService.updatePropertiesOrdering(property!, page.id);
+    pageService.updatePropertiesOrdering(project?.id!, property!, page.id);
   }
 
   const ref = useRef(null);
