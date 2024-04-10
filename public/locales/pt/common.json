@@ -30,5 +30,6 @@
         "table":"Tabela",
         "list":"Lista",
         "canvas":"Canvas",
+        "dark-mode-configs":"Ao ativar essa opção você estará mudando o seu tema para escuro, outra forma de fazer isso é no cabeçalho da página pressionando sobre o icone de lua ou sol.",
         "double-click-open-task":"Clique duas vezes para abrir a tarefa"
 }

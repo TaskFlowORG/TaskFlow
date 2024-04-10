@@ -38,5 +38,6 @@
         "personal-data":"Personal Data",
         "configurations":"Configurations",
         "notifications":"Notifications",
-        "double-click-open-task":"Double click to open task"
+        "double-click-open-task":"Double click to open task",
+        "dark-mode-configs": "By enabling this option, you will switch your theme to dark mode. Another way to do it is by clicking on the moon or sun icon at the top of the page."
 }
