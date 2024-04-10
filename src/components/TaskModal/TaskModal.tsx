@@ -11,7 +11,8 @@ import {
   TypeOfProperty,
   Option,
   Task,
-  User
+  User,
+  MessagePost
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
 import { taskService } from "@/services";
@@ -112,7 +113,7 @@ useEffect(() => {
   async function updateNameTask(e: any) {
     task.name = e.target.value;
     setTaskName(e.target.value);
-    await taskService.upDate(task);
+    await taskService.upDate(task, project!.id);
   }
 
   async function updateTask() {
@@ -171,7 +172,7 @@ useEffect(() => {
         }
       }
     });
-    await taskService.upDate(task);
+    await taskService.upDate(task, project!.id);
     console.log(task);
 
     setList(undefined);
@@ -179,19 +180,10 @@ useEffect(() => {
   }
 
   async function deleteTask() {
-    taskService.delete(task.id, "jonatas");
+    taskService.delete(task.id, project!.id.toString());
     setIsOpen(false);
   }
 
-  function change(prop: PropertyValue): boolean {
-    if (!filter.find((value) => prop.id == value.id)) {
-      filter.push({
-        id: prop.property.id,
-        value: prop.value.value?.map((option: any) => option.name),
-      });
-    }
-    return true;
-  }
   async function updateComment(commentId: number, updatedValue: string) {
     let comment = task.comments[commentId];
     if (comment) {
@@ -199,7 +191,7 @@ useEffect(() => {
       comment.dateUpdate = new Date();
       console.log(updatedValue);
       console.log(task);
-      let taskUpdated = await taskService.upDate(task);
+      let taskUpdated = await taskService.upDate(task, project!.id);
       setCommentsTask(taskUpdated.comments);
     }
   }
@@ -208,7 +200,7 @@ useEffect(() => {
     let comment = task.comments[commentId];
     if (comment) {
       task.comments.splice(task.comments.indexOf(comment), 1);
-      let taskUpdated = await taskService.upDate(task);
+      let taskUpdated = await taskService.upDate(task, project!.id);
       setCommentsTask(taskUpdated.comments);
     }
   }
@@ -217,7 +209,8 @@ useEffect(() => {
     let comment: Message = {
       sender: user,
       value: input,
-      dateCreate: new Date(),
+      destinations: [],
+      dateCreate: new Date()
     };
 
     if (task.comments) {
@@ -226,7 +219,7 @@ useEffect(() => {
       task.comments = [comment];
     }
 
-    await taskService.upDate(task);
+    await taskService.upDate(task, project!.id);
     setInput("");
   }
   const {t} = useTranslation();

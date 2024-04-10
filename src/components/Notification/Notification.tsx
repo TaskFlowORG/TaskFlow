@@ -6,17 +6,23 @@ import { useContext, useEffect, useState } from "react";
 import { set } from "zod";
 import { NotificationIcon, NotificationTitle } from "./components";
 import { If } from "../If";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { ProjectContext } from "@/contexts";
+import { PageContext } from "@/utils/pageContext";
 
 export const Notification = ({
-
   notification,
   fnClick,
 }: {
   notification: NotificationModel;
-    fnClick?: () => void;
+  fnClick?: () => void;
 }) => {
   const [link, setLink] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
+  const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
+  const { pageId } = useContext(PageContext);
+  const { project } = useContext(ProjectContext);
+  const [idTask, setIdTask] = useState<number>();
   useEffect(() => {
     if (notification.type != "CHANGETASK") {
       setLink(notification.link);
@@ -24,15 +30,28 @@ export const Notification = ({
     }
     //remove the last "/something" from the link
     const segmentos = notification.link.split("/");
+    setIdTask(+segmentos[segmentos.length - 1]);
     segmentos.pop();
     setLink(segmentos.join("/"));
   }, [notification.link]);
+
+  useEffect(() => {
+    if (!project) return;
+    const page = project.pages.find((p) => p.id == pageId);
+    if (!page) return;
+    const task = page.tasks.find((t) => t.task.id == idTask);
+    if (!setSelectedTask || !task) return;
+    setSelectedTask(task.task);
+  }, [project]);
 
   return (
     <Link
       href={link}
       className="flex items-center gap-3 justify-between h-16  w-full pb-2 pt-4"
-      onClick={fnClick}
+      onClick={() => {
+        setIsOpen && setIsOpen(true);
+        fnClick && fnClick();
+      }}
     >
       <div className="w-4 h-full flex items-center">
         <NotificationIcon type={notification.type} />
