@@ -26,9 +26,10 @@ interface Props {
   verify?: boolean;
   input?: string;
   openModal?: (task: TaskOrdered) => void;
+  allTasks: TaskOrdered[];
 }
 
-export const ColumnKanban = ({ option, tasks, openModal }: Props) => {
+export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
   const { theme } = useTheme();
   const context = useContext(FilterContext);
   const { filterProp, setFilterProp, input } = context;
@@ -36,7 +37,7 @@ export const ColumnKanban = ({ option, tasks, openModal }: Props) => {
 
   useEffect(() => {
     setTasks(tasks ?? []);
-  }, [tasks, context]);
+  }, [tasks, context, setFilterProp]);
 
   return (
     <div
@@ -88,8 +89,8 @@ export const ColumnKanban = ({ option, tasks, openModal }: Props) => {
                     return (
                       <Draggable
                         draggableId={`${item.id}-${option?.id}`}
-                        key={`${item.id}${option?.id}`}
-                        index={item.indexAtColumn}
+                        key={index}
+                        index={allTasks.indexOf(item)}
                         // draggableId={`${item.id}`}
                         // index={index}
                         // key={index}

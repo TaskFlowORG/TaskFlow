@@ -86,11 +86,14 @@ export const Comment = ({
           className={comment}
           contentEditable={editing}
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              updatedComment(commentId, commentRef.current.innerText);
-              setEditing(false);
-            }
-          }}
+if (e.key === "Enter"){
+  updatedComment(commentId, commentRef.current.innerText);
+  setEditing(false)
+}
+          }
+
+            
+          }
           onChange={(e: any) => setCommentUpdate(commentRef.current.innerText)}
         >
           {commentUpdate}

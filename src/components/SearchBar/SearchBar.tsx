@@ -14,6 +14,7 @@ interface Props {
   // setOpenedOrder: (a: boolean) => void;
   properties: Property[];
   page?: OrderedPage;
+  isInCalendar?:boolean
   // children: ReactElement[] | ReactNode[];
 }
 export const SearchBar = ({
@@ -24,6 +25,7 @@ export const SearchBar = ({
   // setOpenedOrder,
   properties,
   page,
+  isInCalendar = false
 }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
@@ -53,6 +55,7 @@ export const SearchBar = ({
         <OrderInput
           setIsModalOpen={setOpenedOrder}
           page={page!}
+          isInCalendar={isInCalendar}
           orderingId={page?.propertyOrdering.id}
           propertiesPage={properties}
         ></OrderInput>

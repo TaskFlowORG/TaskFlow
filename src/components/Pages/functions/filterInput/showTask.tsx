@@ -4,12 +4,12 @@ import { Context, useContext } from "react";
 import { FilterContextType } from "@/types/FilterContext";
 import { Option } from "@/models";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { TaskValueGet } from "@/models/relations/task-value/TaskValueGetDTO";
+import { PropertyValue } from "@/models";
 
 const findPropertyInTask = (
   task: Task,
   prop: FilteredProperty
-): TaskValueGet => {
+): PropertyValue => {
   return task.properties.find((property) => property.property.id == prop.id)!;
 };
 
@@ -23,7 +23,7 @@ const hasPassedFilters = (counter: number, expected: number): boolean => {
 const multiValuePropertyPassesFilter = (
   counter: number,
   property: FilteredProperty,
-  propertyInTask: TaskValueGet
+  propertyInTask: PropertyValue
 ): number => {
   if (property.value.length > 0) {
     for (const value of property.value) {
@@ -42,7 +42,7 @@ const multiValuePropertyPassesFilter = (
 const uniValuePropertyPassesFilter = (
   counter: number,
   property: FilteredProperty,
-  propertyInTask: TaskValueGet
+  propertyInTask: PropertyValue
 ): number => {
   return (propertyInTask.value.value as Option)?.name == property.value
     ? counter + 1
@@ -52,7 +52,7 @@ const uniValuePropertyPassesFilter = (
 const textValuePropertyPassesFilter = (
   counter: number,
   property: FilteredProperty,
-  propertyInTask: TaskValueGet
+  propertyInTask: PropertyValue
 ): number => {
   return propertyInTask.value?.value
     ?.toLowerCase()
@@ -64,7 +64,7 @@ const textValuePropertyPassesFilter = (
 const numberValuePropertyPassesFilter = (
   counter: number,
   property: FilteredProperty,
-  propertyInTask: TaskValueGet
+  propertyInTask: PropertyValue
 ): number => {
   return propertyInTask.value.value == property.value ? counter + 1 : counter;
 };
