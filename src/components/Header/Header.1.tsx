@@ -5,17 +5,14 @@ import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { Notification } from "../Notification";
-import { log } from "console";
 import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
-import { IconArchive } from "../icons";
 import Image from "next/image";
 import { PageContext } from "@/utils/pageContext";
-import { ProjectContext } from "@/contexts";
-import { TaskModalContext } from "@/utils/TaskModalContext";
+
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -26,8 +23,12 @@ export const Header = ({
   const [showNotification, setShowNotification] = useState(false);
   const [thereAreNotifications, setThereAreNotifications] = useState(false);
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
-  const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
-  
+  const [lang, setLang] = useState<string>(
+    languageToString(user?.configuration.language ?? Language.PORTUGUESE)
+  );
+
+  const { pageId } = useContext(PageContext);
+  const {} = useContext(ProjectContext);
 
   useEffect(() => {
     if (!user?.notifications) return;
@@ -37,20 +38,21 @@ export const Header = ({
         : false
     );
     setNotifications(user?.notifications);
-    if(!user) {
-      setLang(navigator.language)
-    }else{
+    if (!user) {
+      setLang(navigator.language);
+    } else {
       setLang(languageToString(user.configuration.language));
     }
   }, [user]);
 
-  const changeLanguage = async  (value: string) => {
+  const changeLanguage = async (value: string) => {
     if (!setUser || !user) return;
-    user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
-    const updatedUser = await userService.patch(user)
+    user.configuration.language =
+      Language[value.toUpperCase() as keyof typeof Language];
+    const updatedUser = await userService.patch(user);
     setUser(updatedUser);
     console.log(value);
-  }
+  };
 
   const closeModal = () => {
     setShowNotification(false);
@@ -77,11 +79,49 @@ export const Header = ({
           className=" select-none dark:invert  cursor-pointer h-5 w-5"
         />
 
-        <div className="w-10 h-min hidden sm:block" >
-          <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE} 
-          list={[{ value:Language.PORTUGUESE, image:<Image  alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" />}, 
-          { value:Language.ENGLISH, image:<Image  alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" />}, 
-          { value:Language.SPANISH, image:<Image  alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" />}]} />
+        <div className="w-10 h-min hidden sm:block">
+          <SelectWithImage
+            onChange={changeLanguage}
+            selected={user?.configuration.language ?? Language.PORTUGUESE}
+            list={[
+              {
+                value: Language.PORTUGUESE,
+                image: (
+                  <Image
+                    alt="Portuguese"
+                    width={24}
+                    height={12}
+                    src="/img/flags/brazil.jpg"
+                    className="select-none rounded-sm"
+                  />
+                ),
+              },
+              {
+                value: Language.ENGLISH,
+                image: (
+                  <Image
+                    alt="English"
+                    width={24}
+                    height={12}
+                    src="/img/flags/eua.jpg"
+                    className="select-none rounded-sm"
+                  />
+                ),
+              },
+              {
+                value: Language.SPANISH,
+                image: (
+                  <Image
+                    alt="Spanish"
+                    width={24}
+                    height={12}
+                    src="/img/flags/spain.jpg"
+                    className="select-none rounded-sm"
+                  />
+                ),
+              },
+            ]}
+          />
         </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">

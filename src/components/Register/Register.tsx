@@ -110,6 +110,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
         <div className="h-full w-4/5 flex flex-col items-center justify-between">
         <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
+
           {step === 0 && (
             <>
               <Input
@@ -119,7 +120,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.name?.message}
                 register={{...register("name")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey "}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey "}
               />
               <Input
                 className="inputRegister"
@@ -128,7 +129,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.surname?.message}
                 register={{ ...register("surname")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none dark:bg-modal-grey"}
               />
             </>
           )}
@@ -143,7 +144,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.username?.message}
                 register={{ ...register("username")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -152,7 +153,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.mail?.message}
                 register={{ ...register("mail")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
             </>
           )}
@@ -167,7 +168,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.password?.message}
                 register={{ ...register("password")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -177,7 +178,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
             </>
           )}

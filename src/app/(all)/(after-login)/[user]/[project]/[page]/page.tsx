@@ -4,7 +4,7 @@
 import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
-import { CanvasPage, OrderedPage,  Page,  TypeOfPage, User } from "@/models";
+import { CanvasPage, OrderedPage,  Page,  Project,  TypeOfPage, User } from "@/models";
 import { PageContext } from "@/utils/pageContext";
 import { log } from "console";
 import { useContext, useEffect, useState } from "react";
@@ -34,7 +34,7 @@ export default function Pages({params}:{params:{user:string, project:number, pag
         case TypeOfPage.CALENDAR:
             return <Calendar page={page as OrderedPage} />
         case TypeOfPage.KANBAN:
-            return <Kanban user={user} />
+            return <Kanban user={user} page={page as OrderedPage} project={project as Project}/>
         case TypeOfPage.LIST:
             return <List page={page} />
         case TypeOfPage.TABLE:
