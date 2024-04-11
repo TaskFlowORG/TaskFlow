@@ -1,4 +1,3 @@
-
 'use client'
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,15 +60,18 @@ interface UserData {
   confirmPassword: string;
 }
 
-
 export const Register = () => {
   const [step, setStep] = useState(0);
-  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
-    resolver: zodResolver(schema)
+const{ register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
+    mode: "all",
+    reValidateMode: "onChange",
+    resolver: zodResolver(schema),
   });
-  const [user, setUser] = useState({} as FormData);
+  
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+
+
 
   const handleNextStep = () => {
     if (step < 2) {
@@ -77,15 +79,14 @@ export const Register = () => {
     }
   };
 
-
   const handlePrevStep = () => {
     if (step > 0) {
       setStep(step - 1);
     }
   };
 
-
   const onSubmit = async (data: UserData) => {
+    console.log(errors.mail?.message)
     console.log("A MULEKE")
     try {
       const { username, name, surname, password, mail } = data;
@@ -101,15 +102,14 @@ export const Register = () => {
   const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
   const iconMail = theme === "light" ? "/img/themeLight/mail.svg" : "/img/themeDark/mail.svg";
   const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
-
   const color = theme === "light" ? "#F04A94" : "#F76858";
 
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-      <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4 leading-6 flex md:py-0">Registar</h4>
+      <div className="flex items-center flex-col md:h-[55%] lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+        <div className="h-full w-4/5 flex flex-col items-center justify-between">
+        <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
-        <form onSubmit={() => handleSubmit(onSubmit)}  className="h-4/5 w-4/5 flex flex-col items-center justify-between py-4">
 
           {step === 0 && (
             <>
@@ -117,20 +117,17 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconUser}
                 placeholder="Digite seu nome"
-                value={user.name}
                 helperText={errors.name?.message}
-                register={{ ...register("name") }}
+                register={{...register("name")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey "}
               />
-              {console.log()}
               <Input
                 className="inputRegister"
                 image={iconUser}
                 placeholder="Digite seu sobrenome"
-                value={user.surname}
                 helperText={errors.surname?.message}
-                register={{ ...register("surname") }}
+                register={{ ...register("surname")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none dark:bg-modal-grey"}
               />
@@ -145,8 +142,7 @@ export const Register = () => {
                 image={iconUser}
                 placeholder="Digite seu nome de usuário"
                 helperText={errors.username?.message}
-                value={user.username}
-                register={{ ...register("username") }}
+                register={{ ...register("username")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -154,9 +150,8 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconMail}
                 placeholder="Digite seu email"
-                value={user.mail}
                 helperText={errors.mail?.message}
-                register={{ ...register("mail") }}
+                register={{ ...register("mail")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -171,7 +166,7 @@ export const Register = () => {
                 type="password"
                 placeholder="Digite sua senha"
                 helperText={errors.password?.message}
-                register={{ ...register("password") }}
+                register={{ ...register("password")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -181,7 +176,7 @@ export const Register = () => {
                 placeholder="Confirme sua senha"
                 type="password"
                 helperText={errors.confirmPassword?.message}
-                register={{ ...register("confirmPassword") }}
+                register={{ ...register("confirmPassword")}}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
@@ -190,26 +185,27 @@ export const Register = () => {
 
 
           <div className="flex justify-between w-full mt-4">
+            {step === 0 && <span className="w-28 h-7"></span>}
             {step > 0 && (
-              <button type="button" onClick={handlePrevStep} className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC] ">
+              <button type="button" onClick={handlePrevStep} className="font-alata text-md rounded-lg w-28 h-10 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC] ">
                 Anterior
               </button>
             )}
             {step < 2 && (
-              <button type="button" onClick={handleNextStep} className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] ">
+              <button type="button" onClick={handleNextStep} className="font-alata text-md rounded-lg w-28 h-10 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] ">
                 Próximo
               </button>
             )}
-            {step === 2 && (
-                <button type="submit" className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC]">
-                Entrar
-              </button>
-            )}
+            {step === 2 &&
+            <button className="font-alata text-md rounded-lg w-28 h-10 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] " onClick={() => onSubmit(getValues())} >
+              Entrar
+            </button>
+}
           </div>
           <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]" onClick={() => router.push("/login")}>
             Já possui uma conta?
           </p>
-        </form>
+        </div>
       </div>
     </div>
   );
