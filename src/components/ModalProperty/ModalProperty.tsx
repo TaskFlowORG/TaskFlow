@@ -25,6 +25,7 @@ import {
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
 import { ContentModalProperty } from "../ContentModalProperty";
+import { set } from "zod";
 
 type ModalPropertyProps = {
   property: Property;
@@ -41,7 +42,6 @@ export const ModalProperty = ({
   const [ModalDelete, setModalDelete] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
-  console.log("teste" , property);
   const {
     register,
     handleSubmit,
@@ -83,6 +83,8 @@ export const ModalProperty = ({
     }
   };
 
+  console.log("b",property)
+
   return (
     <div
       key={property.id}
@@ -98,36 +100,44 @@ export const ModalProperty = ({
         openOptionsRef={ref}
         isHovering={isHovering}
       >
-        <div className="w-full h-full flex flex-col justify-center items-center dark:bg-modal-grey">
+        <div className="w-full h-[90%] flex flex-col justify-center items-center dark:bg-modal-grey">
           <ContentModalProperty register={register} property={property} type={property.type}></ContentModalProperty>
-          <div className=" h-min pb-2 w-[95%] flex justify-between">
+          <div className="h-min pb-2 w-[95%] flex justify-between">
             <button
-              className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
+              className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
               onClick={() => {
-               setModalDelete(true);
+                setModalDelete(true);
               }}
             >
               {" "}
               <IconTrashBin />
             </button>
             <button
-              className="w-8 h-5/6 flex justify-center items-center rounded-sm"
+              className="w-5 h-5/6 flex justify-center items-center rounded-sm"
               onClick={() => {
-                upDateProperties(property, getValues());
+                try{
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
+                  }catch(e){
+                    console.log(e)
+                }
               }}
             >
               <IconSave />
             </button>
-            {ModalDelete && (
-              <ModalDeleteProperty
-                property={property}
-                close={() => setModalDelete(false)}
-                deleteProperty={deleteProperty}
-              />
-            )}
+            
+            
           </div>
         </div>
       </SideBarButton>
+      {ModalDelete && (
+        <ModalDeleteProperty
+          property={property}
+          deleteProperty={deleteProperty}
+          close={()=>setModalDelete(false)}
+          closeProperty={()=>setOpenOptions(false)}
+        />
+      )}
     </div>
   );
 };

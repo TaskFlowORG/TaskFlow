@@ -41,6 +41,7 @@ export default function Layout({ params, children }: Props) {
 
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
+  console.log(project?.properties)
   return (
     <>
       <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>

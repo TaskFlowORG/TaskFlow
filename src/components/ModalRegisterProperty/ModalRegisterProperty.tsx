@@ -39,6 +39,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
     const {
         register,
         handleSubmit,
+        setValue,
         getValues,
         formState: { errors }
     } = useForm<FormData>(
@@ -48,12 +49,11 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
             resolver: zodResolver(schema)
         }
     );
-   
     return (
         <>
-            {open && <div className="h-2/6 w-full   flex flex-col justify-center items-center border-b border-primary dark:border-secondary">
-                <div className="h-5/6 w-full flex flex-col">
-                    <div className="h-2/6 w-full border-b border-primary dark:border-secondary flex  items-center  justify-evenly">
+            {open && <div className="h-1/6 w-full   flex flex-col justify-center items-center">
+                <div className="h-3/6 w-full flex flex-col">
+                    <div className="h-full w-full border-b border-primary dark:border-secondary flex  items-center  justify-evenly gap-1">
                         <SelectWithImage list={[
                             { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
                             { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
@@ -68,21 +68,22 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                                 setSelected(value as TypeOfProperty)
                                 console.log(value.toString())
                             }} />
-                        <Input register={{ ...register("name") }} value={object.name} classNameInput={"bg-transparent p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
-
-                    </div>
-                    <ContentModalProperty type={selected} register={register} />
-                </div>
-                <div className="h-1/6 w-[95%] flex justify-between">
-                    
-                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary" onClick={()=>{close()}}><IconTrashBin/></button>
-                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
-
+                        <Input register={{ ...register("name") }} value={object.name} className="flex justify-center items-center" classNameInput={"bg-transparent p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
+                        <button className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary" onClick={()=>{close()}}><IconTrashBin/></button>
+                    <button className="w-5 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
+                        if (errors.name ||  getValues().name === ""){
+                            return
+                        }
                         postProperty(getValues().name, getValues(),selected)
                         close()
+                        
+                        setValue("name",'')
                      
                     }} ><IconSave/></button>
+                    </div>    
                 </div>
+                <p className=" w-full h-2/6 flex items-center p text-red-500  justify-center">{errors.name?.message}</p>
+                
             </div>}
         </>
     );

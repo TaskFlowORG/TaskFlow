@@ -20,7 +20,6 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const postProperty = async (name: string, values:any,selected:TypeOfProperty) => {
         try {
-            console.log(name)
             let propertyObj;
             if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
                 propertyObj = await propertyService.saveLimited(project.id,new LimitedPost( name,selected, values.visible, values.obligatory ,values.maximum, page ? undefined : project!, page ? [page] : []));
@@ -55,6 +54,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
  
  const upDateProperty = async (property:Property,getValues:any ) => {
+    console.log("alou" ,property)
     try {
       if (
         [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
@@ -65,7 +65,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
         const v = await propertyService.updateLimited(project.id,limited)
         
       } else if ( [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)) {
-         await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,[]))
+         await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
       } else {
         await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
       }
@@ -85,7 +85,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
                     </div>
                     <div className="h-[85%] w-72 flex flex-col items-center gap-5">
                         <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false); } } />
-                        <div className="w-full  h-full flex flex-col overflow-y-scroll none-scrollbar">
+                        <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
                             {propertiesArray.map((property,index) => {
                                 return (
                                     <ModalProperty key={index} property={property} deleteProperty={deleteProperty} upDateProperties={upDateProperty} />
