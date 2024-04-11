@@ -21,9 +21,16 @@ import {
 export const TasksDate = () => {
   const { project } = useContext(ProjectContext);
   const [day, setDay] = useState<Date>(new Date(Date.now()));
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   const properties =
     project?.properties.filter((p) => p.type == TypeOfProperty.DATE) ?? [];
   const [property, setProperty] = useState<Property | undefined>(properties[0]);
+
+  if(!property) return ( <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
+  <p>{t("no-properties-select")}</p>
+  </div>);
+
   const tasks = project?.pages.flatMap((p) => p.tasks) ?? [];
   const checkDay = (property: PropertyValue | undefined, day: Date) => {
     if (!property) return false;
@@ -34,7 +41,6 @@ export const TasksDate = () => {
   const getPropVl = (task: TaskPage) => {
     return task.task.properties.find((p) => p.property.id == property?.id);
   };
-  const { t } = useTranslation();
   const daysOfWeek = [
     t("sunday"),
     t("monday"),
@@ -55,7 +61,6 @@ export const TasksDate = () => {
       tasks: tasks.filter((t) => checkDay(getPropVl(t), day)).length,
     };
   });
-  const { theme } = useTheme();
   const color =
     theme == "light" ? "var(--primary-color)" : "var(--secondary-color)";
   return (

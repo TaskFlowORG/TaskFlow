@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import { useTranslation } from "next-i18next";
-import { use, useContext, useEffect, useRef, useState } from "react";
+import {  useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/contexts/UserContext";
 import {
   Language,
@@ -14,19 +14,14 @@ import { useTheme } from "next-themes";
 import { ProjectContext } from "@/contexts";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
-import { set } from "zod";
 import { Button } from "@/components/Button";
 import { If } from "@/components/If";
 import { permissionService } from "@/services";
-import { EditIcon, IconTrashBin } from "@/components/icons";
-import { IconSave } from "@/components/icons/Slidebarprojects/IconSave";
-import { CrossIcon } from "react-select/dist/declarations/src/components/indicators";
-import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
+import { PermissionComponent } from "./PermissionComponent";
 export const PermissionsAndCalendar = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
-  const  [editing, setEditing] = useState<boolean>(false);
   const [openPermissions, setOpenPermissions] = useState<boolean>(false);
   const { user } = useContext(UserContext);
   const [locale, setLocale] = useState<string>("en-US");
@@ -107,6 +102,9 @@ export const PermissionsAndCalendar = () => {
     setPermissions([...permissions, permission]);
   };
 
+  const [permissionEditing, setPermissionEditing] = useState<Permission>();
+  const filteredPermissions = permissions.filter(p => !permissionEditing || permissionEditing.id == p.id);
+
   return (
     <div className="w-52 h-full shadow-blur-10 rounded-md flex flex-col relative pt-6 justify-between">
       <div className="px-4">
@@ -157,69 +155,13 @@ export const PermissionsAndCalendar = () => {
                 ref={ref}
                 initial={{ height: "0vh" }}
                 animate={{ height: "50vh" }}
-                exit={{ transition: { delay: 0.5 }, height: "0vh" }}
-                transition={{ duration: 0.5 }}
+                exit={{ transition: { delay: 0.2 }, height: "0vh" }}
+                transition={{ duration: 0.1 }}
                 className="overflow-y-clip"
               >
                 <div className="h-4/5">
-                  {permissions.map((permission, index) => (
-                    <div key={index} className="flex flex-col">
-                      <span className="flex w-full justify-between items-center">
-                        <p
-                          className="w-full truncate"
-                          style={{ opacity: permission.name ? 1 : 0.5 }}
-                          contentEditable={editing}
-                          
-                        >
-                          {permission.name ?? t("withoutname")}
-                        </p>
-                        <If condition={project?.owner.id == user?.id}>
-                          <span className="flex  w-min h-min gap-2">
-                            <button onClick={() => setEditing(true)} className="w-4 h-4 stroke-contrast">
-                              <EditIcon />
-                            </button>
-                            <button className="stroke-contrast w-4 h-4">
-                              <IconTrashBin />
-                            </button>
-                          </span>
-                        </If>
-                      </span>
-                      <div>
-                        <span className="flex h-min text-contrast gap-2 items-center">
-                          <If condition={permission.permission.toString() .includes("CREATE")} >
-                              <span className="rounded-full h-4 w-4 p-px bg-contrast">
-                                <IconSave />
-                              </span>
-                              <span className=" rotate-135 rounded-full p-px h-4 w-4 bg-contrast">
-                                <IconPlus />
-                                </span>
-                          </If>
-                          <p style={{opacity: permission.permission.toString().includes("CREATE")? 1: 0.5}}>{t("create")}</p>
-                        </span>
-                        <span className="flex h-min text-contrast gap-2 items-center">
-                          <If condition={permission.permission.toString() .includes("DELETE")} >
-                              <span className="rounded-full h-4 w-4 p-px bg-contrast">
-                                <IconSave />
-                              </span>
-                              <span className=" rotate-135 rounded-full p-px h-4 w-4 bg-contrast">
-                                <IconPlus />
-                                </span>
-                          </If>
-                          <p style={{opacity: permission.permission.toString().includes("DELETE")? 1: 0.5}}>{t("delete")}</p>
-                        </span>
-                        <span className="flex h-min text-contrast gap-2 items-center">
-                          <If condition={permission.permission.toString() .includes("UPDATE")} >
-                              <span className="rounded-full h-4 w-4 p-px bg-contrast">
-                                <IconSave />
-                              </span>
-                              <span className=" rotate-135 rounded-full p-px h-4 w-4 bg-contrast">
-                                <IconPlus />
-                                </span>
-                          </If>
-                          <p style={{opacity: permission.permission.toString().includes("UPDATE")? 1: 0.5}}>{t("update")}</p>
-                        </span>
-                      </div>
-                    </div>
+                  {filteredPermissions.map((permission, index) => (
+                    <PermissionComponent permission={permission} key={index} permissions={permissions}  setPermissionEditing ={setPermissionEditing}/>
                   ))}
                 </div>
                 <If condition={project?.owner.id == user?.id}>

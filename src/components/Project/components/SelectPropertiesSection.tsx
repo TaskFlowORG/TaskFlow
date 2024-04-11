@@ -45,6 +45,14 @@ export const SelectPropertiesSection = () => {
   const getPropVl = (task: TaskPage) => {
     return task.task.properties.find((p) => p.property.id == property?.id);
   };
+
+
+  if(!property) return ( <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
+  <p>{t("no-properties-select")}</p>
+  </div>);
+
+
+
   const data = [
     ...(property as Select).options.map((option) => {
       return {
