@@ -7,7 +7,7 @@ interface Props{
 
 export const InputCheckboxConfig = ({checked, func, value, label}:Props) => {
     return (
-        <div className="flex items-center">
+        <div className="flex items-center w-full">
             <input
                 type="checkbox"
                 className=" min-w-[2.2vh] min-h-[2.2vh] w-full h-full"
@@ -15,7 +15,7 @@ export const InputCheckboxConfig = ({checked, func, value, label}:Props) => {
                 checked={checked}
                 onChange={(e) => func(e, value)}
             />
-            <p className="p pl-4">{label}</p>
+            <p className="text-p font-alata pl-4 ">{label}</p>
         </div>
     )
 }

@@ -2,7 +2,7 @@ export const InputSelectConfig = () => {
     return (
         <div className="pt-10">
             <div className="flex justify-between">
-                <p className="h4">Propriedade data</p>
+                <p className="text-h4 font-alata">Propriedade data</p>
                 <div className="flex items-center font-bold">
                     <div className="h-min w-fit relative">
                         <select className="p appearance-none bg-transparent p-2 outline-none border-[2px] border-primary dark:border-secondary rounded-sm text-primary dark:text-secondary text-center lg:w-full pr-[7vh]">
@@ -21,7 +21,7 @@ export const InputSelectConfig = () => {
                 </div>
             </div>
             <div>
-                <p className="p">
+                <p className="text-p font-alata">
                     Escolha por qual tipo de propriedade data você deseja ver
                     suas tarefas do dia na “Página Inicial”.
                 </p>

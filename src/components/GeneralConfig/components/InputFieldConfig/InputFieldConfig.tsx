@@ -6,13 +6,13 @@ interface Props{
     label: string, 
     value: string, 
     onChange: ChangeEventHandler<HTMLInputElement>, 
-    checked: boolean,
+    checked?: boolean,
 }
 export const InputFieldConfig = ({ id, type, label, value, onChange, checked}:Props) => (
     <>
         <div className="flex flex-col justify-between h-fit pt-8">
             <div className="flex justify-between">
-                <p className="h4">{label}</p>
+                <p className="text-h4 font-alata">{label}</p>
                 <div className="flex items-center font-bold">
                     <label className="relative w-16 h-8 ml-4 mr-2" >
                         <input id={id} type={type} className="opacity-0 w-0 h-0 toggle-input" onChange={onChange} checked={checked} />
@@ -23,7 +23,7 @@ export const InputFieldConfig = ({ id, type, label, value, onChange, checked}:Pr
                 </div>
             </div>
             <div className='flex items-center h-fit'>
-                <p className='p'>{value}</p>
+                <p className='text-p font-alata'>{value}</p>
             </div>
         </div>
 
