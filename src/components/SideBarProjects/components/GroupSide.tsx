@@ -40,7 +40,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                  const permissionArray: Permission[] = [];
 
                  fetchedPermissions.map(p => {
-                     if (p.project === project) {
+                     if (p.project.id === project.id) {
                          permissionArray.push(p);
                      }
                  });

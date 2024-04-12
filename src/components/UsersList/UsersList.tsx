@@ -105,16 +105,15 @@ export const UsersList: React.FC<Props> = ({ project, groupId}) => {
     setText(e.target.value);
   };
 
-  const addButtonClassName = theme === "dark" ? "groupGrandient" : "groupGrandientDark";
-
   const addButton = (
     <button
       className={`h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={addUser}
       style={{
-      backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary)" : "var(--primary)"}, ${theme == "dark" ? "var(--primary)" : "var(--secondary)"})`
-  }}
+        backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary-color)" : "var(--primary-color)"} 0%, ${theme == "dark" ? "var(--primary-color)" : "var(--secondary-color)"} 80%)`,
+        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)" // Adicionei a propriedade boxShadow aqui
+      }}
     >
       <h5 className="text-[#FCFCFC]">Add Usuário</h5>
     </button>
