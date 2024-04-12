@@ -42,7 +42,18 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      }
+      },
+      fontSize: {
+        'h1': 'var(--font-size-h1)',
+        'h2': 'var(--font-size-h2)',
+        'h3': 'var(--font-size-h3)',
+        'h4': 'var(--font-size-h4)',
+        'h5': 'var(--font-size-h5)',
+        'p': 'var(--font-size-p)',
+        'p14': 'var(--font-size-p14)',
+        'mn': 'var(--font-size-mn)',
+        'mnAlata': 'var(--font-size-mnAlata)',
+      }    
     },
   },
   variants: {

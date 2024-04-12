@@ -141,6 +141,16 @@
   --primary-color: #f04a94;
   --secondary-color: #f76858;
   --contrast-color: #fcfcfc;
+  --font-size-p: 16px;
+  --font-size-h1: 56px;
+  --font-size-h2: 48px;
+  --font-size-h3: 32px;
+  --font-size-h4: 24px;
+  --font-size-h5: 20px;
+  --font-size-p: 16px;
+  --font-size-p14: 14px;
+  --font-size-mn: 12px;
+  --font-size-mnAlata: 12px;
 }
 
 .m14 {
@@ -349,6 +359,11 @@ select::-ms-expand {
 
 .p {
   @apply font-montserrat text-[16px];
+}
+
+.p14{
+  @apply font-montserrat text-[14px];
+
 }
 
 .mn {
