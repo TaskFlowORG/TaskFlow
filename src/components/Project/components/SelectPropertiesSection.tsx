@@ -24,7 +24,11 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import Chart from "chart.js/auto";
+import { CategoryScale, ChartData, ChartOptions, DoughnutDataPoint } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
+Chart.register(CategoryScale);
 export const SelectPropertiesSection = () => {
   const { project } = useContext(ProjectContext);
   const properties =
@@ -46,12 +50,12 @@ export const SelectPropertiesSection = () => {
     return task.task.properties.find((p) => p.property.id == property?.id);
   };
 
-
-  if(!property) return ( <div className="shadow-blur-10 w-full h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
-  <p>{t("no-properties-select")}</p>
-  </div>);
-
-
+  if (!property)
+    return (
+      <div className="shadow-blur-10 w-full h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
+        <p>{t("no-properties-select")}</p>
+      </div>
+    );
 
   const data = [
     ...(property as Select).options.map((option) => {
@@ -68,99 +72,76 @@ export const SelectPropertiesSection = () => {
         return !propVl || !propVl.value || !propVl.value.value;
       }).length,
       fill: "#E0E0E0",
-    },
+    }
   ];
-  const renderLegend = (props: DefaultLegendContentProps) => {
-    return (
-      <div className="h-full w-full pl-10 flex flex-col justify-between items-start">
-        {data?.map((entry, index) => (
-          <div
-            key={`item-${index}`}
-            className="flex items-center h-full w-full"
-          >
-            <div
-              className="w-2 h-2 rounded-full mr-2"
-              style={{ backgroundColor: entry.fill }}
-            ></div>
-            <span className="text-xs flex  gap-4 justify-between w-min">
-              <span className="truncate w-32">{entry.name}</span>
-              <span>{entry.value}</span>
-            </span>
-          </div>
-        ))}
-      </div>
-    );
+
+  const dataFormatted:ChartData<"doughnut", number[], unknown> = {
+    labels: data.map((data) => data.name),
+    datasets: [
+      {
+        label: t("tasks"),
+        data: data.map((data) => data.value),
+        backgroundColor: data.map((data) => data.fill),
+      },
+    ],
+  };
+
+  const options: ChartOptions<"doughnut"> = {
+    cutout: "70%",
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    responsive: true,
   };
 
   return (
-    <div className="shadow-blur-10 w-full h-1/2 bg-red-200  rounded-md p-4 flex flex-col justify-center items-center">
-      <If condition={properties.length == 0}>
-        <p>{t("no-properties")}</p>
-        <>
-          <span className="flex justify-between w-full">
-            <h5 className=" h5 text-primary dark:text-secondary">
-              {t("properties")}
-            </h5>
-            <span>
-              <select className="w-32 flex text-center h-8 border-primary judtify-center border-2 " onChange={e => setProperty(properties.find(p => p.id == +e.target.value))} >
-                {properties.map((option, index) => (
-                  <option
-                    key={index}
-                    value={option.id}
-                    selected={option.id == property?.id}
-                  >
-                    {option.name}
-                  </option>
-                ))}
-              </select>
-            </span>
-          </span>
-          <div className="pt-[5%] w-full flex relative items-center">
-            <If condition={tasks.length == 0}>
-              <p className="absolute left-8 ">{t("no-tasks")}</p>
-            </If>
-            <ResponsiveContainer width="100%" height="100%" aspect={2.5}>
-              <PieChart layout="vertical">
-                <Legend
-                  verticalAlign="top"
-                  align="right"
-                  layout="vertical"
-                  fill="fill"
-                  iconType="circle"
-                  content={renderLegend}
-                  wrapperStyle={{
-                    maxHeight: "100%", // Defina a altura máxima aqui
-                    overflowY: "auto",
-                    height: "100%",
-                    width: "min-content", // Adicione scroll quando necessário
-                  }}
-                  iconSize={6}
-                />
-                <Tooltip />
-
-                <Pie
-                  data={data}
-                  fillRule="evenodd"
-                  innerRadius="70%"
-                  outerRadius="100%"
-                  paddingAngle={0.5}
-                  dataKey="value"
-                  fill="fill"
-                  style={{ width: "100%", height: "100%" }}
+    <div className="shadow-blur-10 w-full h-64 md:h-1/2 rounded-md p-4 flex flex-col justify-start items-center">
+      <>
+        <span className="flex justify-between w-full">
+          <span>
+            <select
+              className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
+              onChange={(e) =>
+                setProperty(properties.find((p) => p.id == +e.target.value))
+              }
+            >
+              {properties.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.id}
+                  selected={option.id == property?.id}
                 >
-                  <Label
-                    value={tasks.length > 0 ? tasks.length : t("no-tasks")}
-                    position="center"
-                  />
-                  {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
+                  {option.name}
+                </option>
+              ))}
+            </select>
+          </span>
+        </span>
+        <div className=" w-full h-full flex justify-center  items-center">
+          <div className="flex justify-center gap-6 w-full h-4/6 items-center ">
+            <Doughnut options={options} content="sd" data={dataFormatted} />
+            <div id="legend-container" className="overflow-y-auto none-scrollbar flex flex-col justify-between  h-full text-p font-montserrat">
+              {
+                data.map((d, index) => (
+                  <div key={index} className="flex gap-2 h-min items-center" >
+                    <span
+                      style={{
+                        backgroundColor: d.fill,
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "50%",
+                      }}
+                    ></span>
+                    <p>{d.name}</p>
+                  </div>
+                ))
+              }
+            </div>
           </div>
-        </>
-      </If>
+        </div>
+      </>
     </div>
   );
 };

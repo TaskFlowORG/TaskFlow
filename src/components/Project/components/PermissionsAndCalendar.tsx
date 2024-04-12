@@ -18,6 +18,7 @@ import { Button } from "@/components/Button";
 import { If } from "@/components/If";
 import { permissionService } from "@/services";
 import { PermissionComponent } from "./PermissionComponent";
+import { compareDates } from "@/components/Pages/functions";
 export const PermissionsAndCalendar = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
@@ -108,8 +109,9 @@ export const PermissionsAndCalendar = () => {
 
   return (
     <div
-      className="w-full h-min sm:h-auto sm:w-1/5 md:h-full sm:min-w-[150px] mt-4 mb-20 pb-4 sm:mt-0 sm:mb-0  sm:pb-0 shadow-blur-10 rounded-md sm:absolute sm:top-6 sm:bottom-4 md:top-0 md:relative
-    flex sm:flex-col  overflow-clip pt-6 justify-between right-4 flex-row"
+      className="w-full h-min sm:h-auto sm:w-1/5 md:h-full sm:min-w-[150px] mt-4 mb-24 pb-4 sm:mt-[3px] sm:mb-px  
+      sm:pb-0 shadow-blur-10 rounded-md sm:absolute sm:top-6 sm:bottom-4 md:top-0 md:relative
+    flex sm:flex-col  overflow-clip pt-6 md:w-1/4 justify-between right-4 flex-row"
     >
       <div className="px-4">
         <span className="flex flex-col">
@@ -135,9 +137,29 @@ export const PermissionsAndCalendar = () => {
           locale={locale}
           tileContent={tileContent}
           calendarType="gregory"
+          value={date}
+          onChange={(props) => setDate(props as Date)}
         />
       </div>
-      <div className="bg-green-400 h-full w-full"></div>
+      <div className="h-full w-full overflow-y-auto none-scrollbar">
+        {
+          tasks.filter((t) => {
+            const propVl = t.task.properties.find(
+              (p) => p.property.id == property?.id
+            );
+            return (
+              propVl &&
+              propVl.value &&
+              propVl.value.value &&
+              compareDates(new Date(propVl.value.value), date)
+            );
+          }).map((task, index) => (
+            <div key={index}>
+              <p>{task.task.name}</p>
+            </div>
+          ), [])
+        }
+      </div>
       <div
         className="w-full flex-col rounded-t-md shadow-blur-10 bg-primary 
                     dark:bg-secondary flex justify-start items-center absolute bottom-0 left-0"

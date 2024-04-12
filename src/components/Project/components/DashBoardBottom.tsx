@@ -30,7 +30,7 @@ export const DashboardBottom = () => {
                 height: "0vh",
               }}
               transition={{ duration: 0.1 }}
-              className=" bg-white overflow-hidden dark:bg-modal-grey shadow-blur-10 relative pb-4"
+              className=" bg-white overflow-hidden dark:bg-modal-grey shadow-blur-10 relative pt-6 pb-4"
             >
               <Dashboard />
             </motion.div>

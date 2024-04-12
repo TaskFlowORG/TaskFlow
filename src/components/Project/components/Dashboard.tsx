@@ -22,29 +22,29 @@ export const Dashboard = () => {
     })();
   }, [project]);
   return (
-    <div className="w-full  h-full  none-scrollbar overflow-y-auto sm:flex  p-6 gap-4 ">
-      <div className="w-full h-min  sm:mr-[9.8rem] gap-4 flex flex-col md:flex-row">
-        <div className="w-full  flex gap-4 flex-col h-full">
+    <div className="w-full  h-full  none-scrollbar overflow-y-auto sm:flex px-6 py-1  md:p-6 gap-4 ">
+      <div className="w-full h-min md:h-full  md:mr-4  sm:mr-[9.8rem] gap-4 flex flex-col md:flex-row">
+        <div className="w-full md:w-2/5  flex gap-4 flex-col h-min md:h-full">
           <FeaturedUser />
-          <div className="flex gap-4 flex-col w-full h-1/2">
-            <span className="flex gap-4 items-start w-full max-h-[50%] h-min">
-              <div className="shadow-blur-10 h-full aspect-square w-full rounded-md">
-                <h5 className=" h5 text-primary dark:text-secondary">
+          <div className="flex flex-col w-full h-1/5   ">
+            <span className="flex gap-4 items-start w-full h-full">
+              <div className="shadow-blur-10 flex flex-col gap-2 justify-center items-center h-40 md:h-full w-full rounded-md">
+                <h5 className=" leading-none p font-semibold  text-primary dark:text-secondary">
                   {t("pages")}
                 </h5>
-                <p>{project?.pages.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary">{project?.pages.length}</p>
               </div>
-              <div className="shadow-blur-10 h-full aspect-square w-full rounded-md">
-                <h5 className=" h5 text-primary dark:text-secondary">
+              <div className="shadow-blur-10 flex flex-col justify-center gap-2 items-center h-40 md:h-full w-full rounded-md">
+                <h5 className=" leading-none p font-semibold text-primary dark:text-secondary">
                   {t("groups")}
                 </h5>
-                <p>{groups.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary">{groups.length}</p>
               </div>
             </span>
-            <TasksProgress />
           </div>
+            <TasksProgress />
         </div>
-        <div className="h-full w-full md:w-5/6 gap-4 flex flex-col">
+        <div className="h-full md:w-3/5 gap-4 flex flex-col">
           <SelectPropertiesSection />
           <TasksDate />
         </div>

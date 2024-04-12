@@ -6,17 +6,9 @@ import { ProjectContext } from "@/contexts";
 import { Property, PropertyValue, TaskPage, TypeOfProperty } from "@/models";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
+import { Bar } from "react-chartjs-2";
 import { useContext, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  Legend,
-  Rectangle,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+
 
 export const TasksDate = () => {
   const { project } = useContext(ProjectContext);
@@ -63,13 +55,32 @@ export const TasksDate = () => {
   });
   const color =
     theme == "light" ? "var(--primary-color)" : "var(--secondary-color)";
+    const dataFormatted = {
+      labels: data.map((data) => data.name),
+      datasets: [
+        {
+          label: t("tasks"),
+          data: data.map((data) => data.tasks),
+          backgroundColor: color,
+        },
+      ],
+    };
+
+  const options = {
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  }
   return (
-    <div className="w-full h-1/2 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
+    <div className="w-full h-1/2 flex flex-col gap-4 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
       <span className="flex justify-between w-full">
-        <h5 className=" h5 text-primary dark:text-secondary">
-          {t("tasks-date")}
-        </h5>
-        <span className="flex flex-col">
           <select
             className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
             onChange={(e) =>
@@ -92,12 +103,11 @@ export const TasksDate = () => {
               value={day.toISOString().split("T")[0]}
               setValue={(vl) => setDay(new Date(vl))}
             />
-          </span>
         </span>
       </span>
-      <div className="w-full overflow-x-auto">
-        <div className="w-[100%]">
-          <ResponsiveContainer width="100%" height="100%" aspect={2.5}>
+      <div className="w-full h-full">
+        <div className="w-full h-full flex justify-center items-center">
+          {/* <ResponsiveContainer width="100%" height="100%" aspect={3}>
             <BarChart data={data} margin={{ left: -30 }}>
               <XAxis dataKey="name" />
               <YAxis />
@@ -108,7 +118,8 @@ export const TasksDate = () => {
                 activeBar={<Rectangle fill="" stroke="blue" />}
               />
             </BarChart>
-          </ResponsiveContainer>
+          </ResponsiveContainer> */}
+          <Bar  data={dataFormatted} options={options}  />
         </div>
       </div>
     </div>

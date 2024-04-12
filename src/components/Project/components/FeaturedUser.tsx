@@ -21,15 +21,15 @@ export const FeaturedUser = () => {
     }, [project])
     const {t} = useTranslation();
     return (
-        <div className="h-1/2 w-full shadow-blur-10 rounded-md p-4">
-            <h5 className=" h5 text-primary dark:text-secondary">{t("featured-user")}</h5>
-            <span className="w-full flex justify-between border-b-[1px] border-back-grey">
+        <div className=" h-64 md:h-2/5 w-full shadow-blur-10 rounded-md p-4">
+            <h5 className=" h5 h-8 text-primary dark:text-secondary">{t("featured-user")}</h5>
+            <span className="w-full h-8 flex justify-between border-b-[1px] border-back-grey">
                 <p className="p ">{t("name")}</p>
                 <p className="p ">{t("points")}</p>
             </span>
             <div className="overflow-y-scroll none-scrollbar max-h-full  gap-1 pt-1 h-full w-full flex flex-col">
                 {
-                users.length === 0 ? <p className="w-full h-full flex justify-center items-center">{t("no-featured-users")}</p> :
+                users.length === 0 ? <p className="w-full h-full flex justify-center items-center pb-16">{t("no-featured-users")}</p> :
                 users.map((user, index) => (
                     <div key={index} className="w-full flex justify-between text-primary dark:text-secondary">
                         <span className="flex gap-2">
