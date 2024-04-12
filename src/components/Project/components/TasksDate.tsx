@@ -20,7 +20,7 @@ export const TasksDate = () => {
   const [property, setProperty] = useState<Property | undefined>(properties[0]);
 
   if(!property) return ( <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
-  <p>{t("no-properties-select")}</p>
+  <p>{t("no-properties-date")}</p>
   </div>);
 
   const tasks = project?.pages.flatMap((p) => p.tasks) ?? [];
@@ -107,18 +107,6 @@ export const TasksDate = () => {
       </span>
       <div className="w-full h-full">
         <div className="w-full h-full flex justify-center items-center">
-          {/* <ResponsiveContainer width="100%" height="100%" aspect={3}>
-            <BarChart data={data} margin={{ left: -30 }}>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar
-                dataKey="tasks"
-                fill={color}
-                activeBar={<Rectangle fill="" stroke="blue" />}
-              />
-            </BarChart>
-          </ResponsiveContainer> */}
           <Bar  data={dataFormatted} options={options}  />
         </div>
       </div>

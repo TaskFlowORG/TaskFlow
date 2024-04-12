@@ -133,17 +133,20 @@ export const PermissionsAndCalendar = () => {
           </select>
         </span>
         {/*thats format the month to make the fisrt letter uppercase*/}
-        <Calendar
-          locale={locale}
-          tileContent={tileContent}
-          calendarType="gregory"
-          value={date}
-          onChange={(props) => setDate(props as Date)}
-        />
+        <If condition={property != undefined}>
+          <Calendar
+            locale={locale}
+            tileContent={tileContent}
+            calendarType="gregory"
+            value={date}
+            onChange={(props) => setDate(props as Date)}
+          />
+          <p>{t("no-properties-date")}</p>
+        </If>
       </div>
       <div className="h-full w-full overflow-y-auto none-scrollbar">
-        {
-          tasks.filter((t) => {
+        {tasks
+          .filter((t) => {
             const propVl = t.task.properties.find(
               (p) => p.property.id == property?.id
             );
@@ -153,12 +156,15 @@ export const PermissionsAndCalendar = () => {
               propVl.value.value &&
               compareDates(new Date(propVl.value.value), date)
             );
-          }).map((task, index) => (
-            <div key={index}>
-              <p>{task.task.name}</p>
-            </div>
-          ), [])
-        }
+          })
+          .map(
+            (task, index) => (
+              <div key={index}>
+                <p>{task.task.name}</p>
+              </div>
+            ),
+            []
+          )}
       </div>
       <div
         className="w-full flex-col rounded-t-md shadow-blur-10 bg-primary 
@@ -186,9 +192,16 @@ export const PermissionsAndCalendar = () => {
                 transition={{ duration: 0.1 }}
                 className="overflow-y-clip"
               >
-                <div className="h-4/5 px-4">
+                <div className="h-4/5 px-4 overflow-y-auto none-scrollbar flex flex-col gap-4">
                   {permissions.map((permission, index) => (
-                    <PermissionComponent setPermissions={setPermissions} permissionEditing={permissionEditing} permission={permission} key={index} permissions={permissions}  setPermissionEditing ={setPermissionEditing}/>
+                    <PermissionComponent
+                      setPermissions={setPermissions}
+                      permissionEditing={permissionEditing}
+                      permission={permission}
+                      key={index}
+                      permissions={permissions}
+                      setPermissionEditing={setPermissionEditing}
+                    />
                   ))}
                 </div>
                 <If condition={project?.owner.id == user?.id}>
