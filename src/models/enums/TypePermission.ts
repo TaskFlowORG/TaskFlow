@@ -6,5 +6,5 @@ export  enum TypePermission {
     UPDATE_CREATE,
     DELETE_CREATE,
     UPDATE_DELETE_CREATE,
-    READ
+    READ = "READ"
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getData, getListData, putData } from '@/services/http/api';
+import { getListData, putData } from '@/services/http/api';
 import { Group, Permission, Project } from '@/models';
 import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';

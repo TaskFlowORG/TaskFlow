@@ -2,10 +2,11 @@ import { Group, GroupPost, Permission, PermissionPost, Project, TypePermission, 
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
 import { useState, useEffect } from "react";
-import { getData, getListData } from "@/services/http/api";
+import { getListData } from "@/services/http/api";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService, userService } from "@/services";
+import { group } from "console";
 
 interface Props {
     project: Project;
@@ -33,7 +34,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                     fetchedGroups = await groupService.findGroupsByUser();
                     setGroups(fetchedGroups)
                 } else if (global == false) {
-                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
+                     fetchedGroups = await getListData("/project/"+project.id);
                     setGroups(fetchedGroups)
                 }
                 const fetchedPermissions = await permissionService.findAll(project.id);
@@ -67,34 +68,32 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         const description: string = "Descrição do grupo";
         let groupPermission: Permission[] = [];
         let userList: User[] = []
-
+    
         try {
-             const fetchedUser = await userService.findLogged();
-             if (!fetchedUser) {
-                 console.error("Owner não está definido!");
-                 return;
-             }
-             userList.push(fetchedUser)
-
-            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
-
-            if (!(deleteCreatePermission)) {
-                const newPermission = new PermissionPost("Permissão", TypePermission.READ, project);
-                await permissionService.insert(newPermission, project.id);
-                if(deleteCreatePermission){
-                    groupPermission.push(deleteCreatePermission);
-                }
-            }else {
-                    groupPermission.push(deleteCreatePermission);
+            const fetchedUser = await userService.findLogged();
+            if (!fetchedUser) {
+                console.error("Owner não está definido!");
+                return;
             }
-
-            const newGroup = new GroupPost(name, description, permissions, userList);
+            userList.push(fetchedUser);
+            console.log("oi")
+            console.log(permissions);
+            
+            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
+    
+            if (deleteCreatePermission) {
+                groupPermission.push(deleteCreatePermission);
+            }
+    
+            const newGroup = new GroupPost(name, description, groupPermission, []);
+        
             await groupService.insert(newGroup);
-
+    
         } catch (error) {
             console.error("Erro ao adicionar novo grupo:", error);
         }
     };
+    
 
     return (
         <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
