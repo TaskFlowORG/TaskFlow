@@ -30,20 +30,25 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
 
 import { User } from "@/models/user/user/User";
+import { ProjectContext } from "@/contexts";
+import { updateIndexes } from "./functions/updateIndexes";
+import { showTask } from "./functions";
 
 type Props = {
   user: User;
   page: OrderedPage;
-  project: Project;
+  project?: Project;
 };
 
-export const Kanban = ({ user, page, project }: Props) => {
+export const Kanban = ({ page }: Props) => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
+  const { project, setProject } = useContext(ProjectContext);
+  const context = useContext(FilterContext)
 
   useEffect(() => {
     setTasks(
@@ -51,7 +56,7 @@ export const Kanban = ({ user, page, project }: Props) => {
     );
     setOptions((page.propertyOrdering as Select).options);
     setId(page.propertyOrdering.id);
-  }, []);
+  }, [page.tasks, project]);
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -108,10 +113,9 @@ export const Kanban = ({ user, page, project }: Props) => {
     });
   }
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = async (result: any) => {
     if (!result.destination) return;
-
-    const { source, destination } = result;
+    const { destination } = result;
 
     const separatedNumbers = separateNumbers(result.draggableId);
     const [numberOne, numberTwo] = separatedNumbers!;
@@ -138,18 +142,28 @@ export const Kanban = ({ user, page, project }: Props) => {
       propertyInTask.value.value = optionDestination ?? null;
     }
 
-    
-
     const updatePageAndTask = async () => {
+      if (!project) return;
       try {
         if (draggedTask) {
-          console.log(page);
-          console.log(draggedTask);
-          await taskService.upDate(draggedTask.task, project.id);
+          const taskReturned = await taskService.upDate(
+            draggedTask.task,
+            project?.id!
+          );
+          const indexTaskInPage = page.tasks.findIndex(
+            (task) => task.id == taskReturned.id
+          );
+          page.tasks[indexTaskInPage].task = taskReturned;
+          const indexPage = project!.pages.findIndex(
+            (pageP) => pageP.id == page.id
+          );
+          project!.pages[indexPage] = page;
+          setProject!({ ...project });
         }
       } catch (e) {}
     };
-    updatePageAndTask();
+    await updatePageAndTask();
+    updateIndexes(result, tasks, setTasks, project);
   };
 
   return (
@@ -191,6 +205,7 @@ export const Kanban = ({ user, page, project }: Props) => {
             {options?.map((option) => {
               return (
                 <ColumnKanban
+                  allTasks={tasks}
                   input={input}
                   openModal={openModal}
                   key={`${option.id}`}
@@ -205,7 +220,7 @@ export const Kanban = ({ user, page, project }: Props) => {
                             TypeOfProperty.CHECKBOX ||
                             property.property.type === TypeOfProperty.TAG) &&
                             (property.value as MultiOptionValued).value.find(
-                              (value: Option) => value.id == option.id
+                              (value: Option) => value?.id == option?.id
                             ))
                         );
                       });
@@ -220,6 +235,7 @@ export const Kanban = ({ user, page, project }: Props) => {
             })}
             {
               <ColumnKanban
+                allTasks={tasks}
                 key={0}
                 openModal={openModal}
                 input={input}
@@ -234,7 +250,7 @@ export const Kanban = ({ user, page, project }: Props) => {
                         ) &&
                         (property.value as MultiOptionValued).value.length == 0)
                     );
-                  });
+                     } );
                 })}
                 propertyId={id}
                 color="#767867"

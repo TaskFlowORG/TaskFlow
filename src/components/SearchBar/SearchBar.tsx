@@ -14,6 +14,7 @@ interface Props {
   // setOpenedOrder: (a: boolean) => void;
   properties: Property[];
   page?: OrderedPage;
+  isInCalendar?: boolean;
   // children: ReactElement[] | ReactNode[];
 }
 export const SearchBar = ({
@@ -24,6 +25,7 @@ export const SearchBar = ({
   // setOpenedOrder,
   properties,
   page,
+  isInCalendar = false,
 }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
@@ -36,11 +38,11 @@ export const SearchBar = ({
       setOpenedFilter(false);
       setOpenedOrder(false);
     } else if (bar == "filter") {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(!openedFilter);
       setOpenedOrder(false);
     } else {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(false);
       setOpenedOrder(!openedOrder);
     }
@@ -48,11 +50,16 @@ export const SearchBar = ({
 
   return (
     <div className="justify-end w-3/5 items-center  relative  h-full flex gap-2 ">
-      {search && openedSearch && <SearchInput />}
+      {search && openedSearch && (
+        <SearchInput
+          setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}
+        />
+      )}
       {order && openedOrder && (
         <OrderInput
           setIsModalOpen={setOpenedOrder}
           page={page!}
+          isInCalendar={isInCalendar}
           orderingId={page?.propertyOrdering.id}
           propertiesPage={properties}
         ></OrderInput>
@@ -68,7 +75,10 @@ export const SearchBar = ({
       {search && (
         <SearchIcon
           iconSrc={"/searchIcons/search.svg"}
-          open={() => change("search")}
+          open={() => {
+            change("search");
+            setInput!("");
+          }}
           acessibilityLabel="Ícone de pesquisa"
         />
       )}
@@ -77,7 +87,6 @@ export const SearchBar = ({
           iconSrc={"/searchIcons/order.svg"}
           open={() => {
             change("order");
-            setInput!("");
           }}
           acessibilityLabel="Ícone de ordenação"
         />

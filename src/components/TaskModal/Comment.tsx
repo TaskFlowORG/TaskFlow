@@ -38,7 +38,7 @@ export const Comment = ({
     sender.username == user?.username ? "items-end" : ""
   );
   const comment = twMerge(
-    "font-montserrat focus:font-semibold self-center text-[16px]  outline-none text-[#343434]",
+    "font-montserrat focus:font-semibold self-center text-[16px]  outline-none text-[#343434] dark:text-[#f2f2f2]",
     sender.username == user.username ? "text-end" : ""
   );
 
@@ -155,7 +155,7 @@ export const Comment = ({
           <div className="h-[18px] aspect-square rounded-full bg-primary"></div>
         )}
 
-        <p className="text-[12px] font-montserrat text-[#343434]">
+        <p className="text-[12px] font-montserrat text-[#343434] dark:text-[#f2f2f2]">
           {updatedAt && "Editada - "}
           {!(user.username == sender.username)
             ? sender?.username
