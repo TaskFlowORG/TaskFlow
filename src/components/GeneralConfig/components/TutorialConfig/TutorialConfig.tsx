@@ -9,16 +9,18 @@ export const TutorialConfig = () => {
     const { user, setUser } = useContext(UserContext);
 
     const refazerTutorial = () => {
+        if (!user || !setUser) return;
         return <CenterModal setCondition={() => setModalRefazer(true)} condition={modalRefazer}><ModalTutorial close={() => setModalRefazer(false)} updateTutorial={() => updateBack()} /></CenterModal>
+
     }
 
     const updateBack = () => {
         console.log("Aaaaaaaaaaaa");
-        
+
         if (!user || !setUser) return;
         console.log(user.configuration.isTutorialMade);
 
-        user.configuration.isTutorialMade = true;
+        user.configuration.isTutorialMade = false;
         userService.patch(user).then((updatedUser) => {
             setUser(updatedUser);
         });
