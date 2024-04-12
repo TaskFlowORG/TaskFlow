@@ -220,7 +220,7 @@ export const Kanban = ({ page }: Props) => {
                             TypeOfProperty.CHECKBOX ||
                             property.property.type === TypeOfProperty.TAG) &&
                             (property.value as MultiOptionValued).value.find(
-                              (value: Option) => value.id == option.id
+                              (value: Option) => value?.id == option?.id
                             ))
                         );
                       });

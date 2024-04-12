@@ -3,7 +3,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
-import axios from "axios";
 import {
   Message,
   Select,
@@ -41,6 +40,7 @@ import { TextFilter } from "../FilterAdvancedInput/TextFilter";
 import { useTranslation } from "next-i18next";
 import { IconTrashBin } from "../icons";
 import { PageContext } from "@/utils/pageContext";
+import { AddProp } from "../icons/GeneralIcons/AddProp";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -199,6 +199,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
   async function deleteTask() {
     taskService.delete(task.id, project!.id.toString());
+    let page = project?.pages.find(page => pageId == page.id)
+    let taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
+    page?.tasks.splice(page.tasks.indexOf(taskPage!),1)
+    setProject!({...project!})
     setIsOpen(false);
   }
 
@@ -463,11 +467,13 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               padding="p-4"
             />
           </div>
-          <div className="bg-[#f2f2f2] border-2 border-[#d7d7d7] dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
+          <div className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
             <p className="font-montserrat text-base">
               Adicionar propriedade para tarefa
             </p>
-            <img src="/addProp.svg" alt="" />
+            <div>
+              <AddProp></AddProp>
+            </div>
           </div>
           <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
           <div

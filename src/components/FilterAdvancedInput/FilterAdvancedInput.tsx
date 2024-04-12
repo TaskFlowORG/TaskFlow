@@ -14,6 +14,7 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
+import { ProgressFilter } from "./ProgressFilter";
 
 interface Props {
   properties: Property[];
@@ -43,7 +44,7 @@ setAllProperties([...properties, ...project?.properties!])
 
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg" ref={ref}>
-      <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
+      <div className="flex flex-col gap-4 pr-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
           const prop = filterProp?.find((prop) => prop.id == property.id) ?? {
             value: null,
@@ -67,6 +68,17 @@ setAllProperties([...properties, ...project?.properties!])
                 key={property.id}
               />
             );
+          } else if (property.type === TypeOfProperty.PROGRESS){
+            return (
+              <ProgressFilter
+              key={property.id}
+              id={property.id}
+              name={property.name}
+              value={prop.value ?? ""}
+            />
+
+            )
+
           } else if (property.type === TypeOfProperty.NUMBER) {
             return (
               <NumberFilter

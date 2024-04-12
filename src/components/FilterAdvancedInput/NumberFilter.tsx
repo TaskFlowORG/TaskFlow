@@ -62,6 +62,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
                 thisProperty.value = e.target.value;
               } else {
                 thisProperty.value = e.target.value;
+                setFilterProp!([...filterProp])
               }
             } else {
               if (e.target.value) {
