@@ -43,8 +43,8 @@ export const OrderInput = ({
       property!,
       page.id
     );
-    const indexPage = project?.pages.findIndex((pageK) => pageK.id == pageU.id);
-    project!.pages[indexPage!] = page;
+    let pageD = project?.pages.find((pageK) => pageK.id == pageU.id);
+    pageD = pageU
     setProject!({ ...project! });
   }
 

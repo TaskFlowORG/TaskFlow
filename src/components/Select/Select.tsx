@@ -37,9 +37,10 @@ export const Select = ({
       setSelectedOption(event.target.value);
       if (event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" && !isInModal) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp]);
       } else {
         thisProperty.value = event.target.value;
+        setFilterProp!([...filterProp])
       }
     } else {
       if (event.target.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {

@@ -48,7 +48,7 @@ const schema = z
       message: "Senhas não coincidem.",
       path: ["confirmPassword"],
     }
-  );
+  )
 
 type FormData = z.infer<typeof schema>;
 

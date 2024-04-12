@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CenterModal } from "../Modal";
 import { Comment } from "./index";
 import axios from "axios";
@@ -12,11 +12,11 @@ import {
   Option,
   Task,
   User,
-  MessagePost
+  MessagePost,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
 import { taskService } from "@/services";
-import { ProjectContext} from "@/contexts/ContextProject"
+import { ProjectContext } from "@/contexts/ContextProject";
 import {
   CheckboxProp,
   NumberProp,
@@ -39,13 +39,14 @@ import { IconsSelector } from "../Pages/components";
 import { Button } from "../Button";
 import { TextFilter } from "../FilterAdvancedInput/TextFilter";
 import { useTranslation } from "next-i18next";
+import { IconTrashBin } from "../icons";
+import { PageContext } from "@/utils/pageContext";
 
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
   task: Task;
   user: User;
-
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
@@ -59,18 +60,19 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
   //   setUrl(bah);
   // }
-  const {project} = useContext(ProjectContext)
+  const { project, setProject } = useContext(ProjectContext);
+  const { pageId } = useContext(PageContext);
+  const taskNameRef = useRef<any>(null);
 
   // console.log(filter);
   // console.log(list);
 
-
-  function arraysAreEqual(arr1:any, arr2:any) {
+  function arraysAreEqual(arr1: any, arr2: any) {
     // Se os comprimentos dos arrays forem diferentes, eles são definitivamente diferentes
     if (arr1.length !== arr2.length) {
       return false;
     }
-    
+
     // Verifica cada elemento dos arrays
     for (let i = 0; i < arr1.length; i++) {
       // Se um elemento for diferente em qualquer posição, os arrays são diferentes
@@ -78,37 +80,45 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         return false;
       }
     }
-    
+
     // Se chegarmos até aqui, os arrays são iguais
     return true;
   }
 
-
-
-
-
-
-
   useEffect(() => {
     setList(undefined);
     setFilter([]);
-  }, []);
+
+    if (taskNameRef.current) {
+      taskNameRef.current.focus();
+      console.log("FOQUEI PA CARALHO");
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     setTaskName(task?.name ?? "");
-
+    if (task?.name) {
+      let page = project?.pages.find(page => pageId == page.id)
+      if (page){
+       const taskP =  page.tasks.find(taskP => taskP.task.id == task.id)
+      if (taskP){
+        taskP.task.name = task.name
+      }
+      }
+     
+      setProject!({ ...project! });
+    }
   }, [task?.name]);
 
-useEffect(() => {
-  setCommentsTask((prevComments) => {
-    const newComments = task?.comments ?? [];
-    if (!arraysAreEqual(prevComments, newComments)) {
-      return newComments;
-    }
-    return prevComments;
-  });
-}, [task?.comments, deleteComment, updateComment]);
-
+  useEffect(() => {
+    setCommentsTask((prevComments) => {
+      const newComments = task?.comments ?? [];
+      if (!arraysAreEqual(prevComments, newComments)) {
+        return newComments;
+      }
+      return prevComments;
+    });
+  }, [task?.comments, deleteComment, updateComment]);
 
   async function updateNameTask(e: any) {
     task.name = e.target.value;
@@ -150,8 +160,8 @@ useEffect(() => {
             (option) => value.value?.includes(option.name)
           );
           console.log("Sou o valor atualizado");
-          
-          console.log(updatedValue)
+
+          console.log(updatedValue);
           // console.log(updatedValue);
           updateProp.value.value = updatedValue;
           // console.log(updateProp);
@@ -172,7 +182,15 @@ useEffect(() => {
         }
       }
     });
-    await taskService.upDate(task, project!.id);
+    const taskReturned = await taskService.upDate(task, project!.id);
+    const page = project?.pages.find(page=> page.id ==pageId)
+    const taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
+    if (taskPage){
+      taskPage.task = taskReturned
+    }
+
+    setProject!({...project!})
+
     console.log(task);
 
     setList(undefined);
@@ -210,7 +228,7 @@ useEffect(() => {
       sender: user,
       value: input,
       destinations: [],
-      dateCreate: new Date()
+      dateCreate: new Date(),
     };
 
     if (task.comments) {
@@ -222,7 +240,7 @@ useEffect(() => {
     await taskService.upDate(task, project!.id);
     setInput("");
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <CenterModal
@@ -232,26 +250,26 @@ useEffect(() => {
         setIsOpen(false);
       }}
     >
-      <div className="flex gap-[102px]  w-full h-full">
+      <div className="flex gap-[102px]  w-full h-full ">
         <div className="flex flex-col gap-12 w-[453px]">
           <div className="flex gap-4 items-center">
             <input
-              className="h3 whitespace-nowrap bg-white outline-none"
+              className="h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
+              ref={taskNameRef}
               placeholder={t("withoutname")}
               value={taskName}
               onChange={(e) => updateNameTask(e)}
             ></input>
-            <p>change</p>
           </div>
           <div className="flex flex-col w-full gap-6">
             <div className="flex gap-0 w-full">
-              <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary rounded-t-lg">
+              <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg">
                 <div className="w-4 h-4 rounded-full bg-white"></div>
                 <p className="h4 text-white ">Comentários</p>
               </button>
-              <button className="w-full flex items-center gap-4 border-2  px-4 py-1 bg-white rounded-r-lg">
+              <button className="w-full flex items-center gap-4  border-t-2 border-b-2  border-r-2 px-4 py-1 bg-white dark:bg-modal-grey rounded-r-lg">
                 <div className="w-4 h-4 rounded-full bg-white"></div>
-                <p className="h4 text-[#343434] ">Histórico</p>
+                <p className="h4 text-[#343434] dark:text-white ">Histórico</p>
               </button>
             </div>
             <div className=" flex flex-col gap-6">
@@ -276,12 +294,12 @@ useEffect(() => {
                 <input
                   type="text"
                   value={input}
-                  className="text-[14px] border-[#d7d7d7] border-[1px] shadow-comment bg-[#f2f2f2] flex-1 font-montserrat px-3 py-[10px] rounded-lg"
+                  className="text-[14px] border-[#d7d7d7] border-[1px] shadow-comment bg-[#f2f2f2] dark:bg-modal-grey flex-1 font-montserrat px-3 py-[10px] rounded-lg"
                   placeholder="Escreva o comentário"
                   onChange={(e) => setInput(e.target.value)}
                 />
                 <div
-                  className="h-full items-center flex justify-center aspect-square rounded-lg bg-primary"
+                  className="h-full items-center flex justify-center aspect-square rounded-lg bg-primary dark:bg-secondary"
                   onClick={sendComment}
                 >
                   <img src="/send.svg" alt="" />
@@ -392,23 +410,26 @@ useEffect(() => {
                                 }
                               />
                             )) ||
-                            (prop.property.type == TypeOfProperty.CHECKBOX
-                               && (
-                                <CheckboxFilter
-                                  isInModal
-                                  name={prop.property.name}
-                                  options={(prop.property as Select).options}
-                                  id={prop.property.id}
-                                  value={prop.value.value?.map((option:any) => option.name)}
-                                />
-                              )) ||
+                            (prop.property.type == TypeOfProperty.CHECKBOX && (
+                              <CheckboxFilter
+                                isInModal
+                                name={prop.property.name}
+                                options={(prop.property as Select).options}
+                                id={prop.property.id}
+                                value={prop.value.value?.map(
+                                  (option: any) => option.name
+                                )}
+                              />
+                            )) ||
                             (prop.property.type == TypeOfProperty.TAG && (
                               <TagFilter
-                              isInModal
-                              name={prop.property.name}
-                              options={(prop.property as Select).options}
-                              id={prop.property.id}
-                              value={prop.value.value?.map((option:any) => option.name)}
+                                isInModal
+                                name={prop.property.name}
+                                options={(prop.property as Select).options}
+                                id={prop.property.id}
+                                value={prop.value.value?.map(
+                                  (option: any) => option.name
+                                )}
                               />
                             ))}
                         </div>
@@ -442,7 +463,7 @@ useEffect(() => {
               padding="p-4"
             />
           </div>
-          <div className="bg-input-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
+          <div className="bg-[#f2f2f2] border-2 border-[#d7d7d7] dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
             <p className="font-montserrat text-base">
               Adicionar propriedade para tarefa
             </p>
@@ -453,12 +474,14 @@ useEffect(() => {
             className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
             onClick={deleteTask}
           >
-            <img src="/trash.svg" alt="" width={18} height={18} />
+            <div className="w-[18px] aspect-square  stroke-white">
+              <IconTrashBin></IconTrashBin>
+            </div>
           </div>
         </div>
       </div>
 
-      <button onClick={() => setIsOpen(false)}>X</button>
+      {/* <button onClick={() => setIsOpen(false)}>X</button> */}
     </CenterModal>
   );
 };

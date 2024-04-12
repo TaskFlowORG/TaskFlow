@@ -32,6 +32,7 @@ import { TaskModal } from "../TaskModal";
 import { User } from "@/models/user/user/User";
 import { ProjectContext } from "@/contexts";
 import { updateIndexes } from "./functions/updateIndexes";
+import { showTask } from "./functions";
 
 type Props = {
   user: User;
@@ -39,7 +40,7 @@ type Props = {
   project?: Project;
 };
 
-export const Kanban = ({ user, page }: Props) => {
+export const Kanban = ({ page }: Props) => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
@@ -47,6 +48,7 @@ export const Kanban = ({ user, page }: Props) => {
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
   const { project, setProject } = useContext(ProjectContext);
+  const context = useContext(FilterContext)
 
   useEffect(() => {
     setTasks(
@@ -248,7 +250,7 @@ export const Kanban = ({ user, page }: Props) => {
                         ) &&
                         (property.value as MultiOptionValued).value.length == 0)
                     );
-                  });
+                     } );
                 })}
                 propertyId={id}
                 color="#767867"

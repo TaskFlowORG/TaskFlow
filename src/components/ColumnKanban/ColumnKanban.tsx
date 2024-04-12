@@ -36,8 +36,8 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
   const [columnTasks, setTasks] = useState<TaskOrdered[]>([]);
 
   useEffect(() => {
-    setTasks(tasks ?? []);
-  }, [tasks, context, setFilterProp]);
+    setTasks(tasks.filter((task) => showTask(task.task, context)) ?? []);
+  }, [tasks, setFilterProp, filterProp]);
 
   return (
     <div
@@ -85,7 +85,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
                 }}
               >
                 {columnTasks.map((item, index) => {
-                  if (showTask(item.task, context)) {
+                  // if (showTask(item.task, context)) {
                     return (
                       <Draggable
                         draggableId={`${item.id}-${option?.id}`}
@@ -120,7 +120,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
                         }}
                       </Draggable>
                     );
-                  }
+                  // }
                 })}
               </div>
 

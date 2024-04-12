@@ -2,7 +2,7 @@ import { PageContext } from "@/utils/pageContext";
 import { useContext } from "react";
 import { LocalModal } from "../Modal";
 import { TaskModalContext } from "@/utils/TaskModalContext";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import { Task, TaskOrdered } from "@/models";
 import { ProjectContext } from "@/contexts";
 
@@ -23,13 +23,15 @@ export const PopUpModal = ({
 }: Props) => {
   const { setInPage, pageId } = useContext(PageContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
-  const { project } = useContext(ProjectContext);
+  const { project, setProject } = useContext(ProjectContext);
 
   async function createTask() {
     setCondition(false);
     setIsOpen!(true);
     if (!project || !pageId) return;
     let task: Task = await taskService.insert(project.id, pageId);
+    let projectPromise = await projectService.findOne(project.id)
+    setProject!(projectPromise)
     task.comments = []
     setSelectedTask!(task!);
   }
