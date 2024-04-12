@@ -11,6 +11,7 @@ import { ProgressBar } from "./ProgressBar";
 import { useRouter } from 'next/navigation';
 import { UserDetails } from "@/models/user/user/UserDetails";
 import { signIn } from "next-auth/react";
+import { subscribe } from "diagnostics_channel";
 
 const schema = z
   .object({

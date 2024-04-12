@@ -1,14 +1,14 @@
 
 "use client";
 import { LoginShape } from '@/components/LoginShape';
-import React, { use, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {signIn} from "next-auth/react";
-
+import { connectWebSocket } from '@/services/webSocket/webSocketHandler';
 
 const schema = z
     .object({
@@ -27,8 +27,16 @@ const schema = z
 type FormData = z.infer<typeof schema>;
 
 
+
    
     const Page = () => {
+
+
+        useEffect(() => {
+            connectWebSocket();
+        },[])
+
+        
         const [user, setUser] = useState({} as FormData);
         const {
             register,
