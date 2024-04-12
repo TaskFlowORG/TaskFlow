@@ -20,7 +20,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     useEffect(() => {
         const getLists = async () => {
-            const fetchedPermissions = await getListData("permission");
+            const fetchedPermissions = await permissionService.findAll(project.id);
             setPermissions(fetchedPermissions);
         };
         getLists();
@@ -111,23 +111,19 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         {group.permissions && group.permissions.length > 0 ? (
                             group.permissions.map((permission) => {
                                 setSelectedPermission(permission.id);
-                                return(
-                                <option key={permission.id} value="" disabled>{permission.name}</option>
-                            )})
+                                return (
+                                    <option key={permission.id} value="" disabled>{permission.name}</option>
+                                )
+                            })
                         ) : (
                             <option value="" disabled>Permissão</option>
                         )}
 
                         {permissions.map(permission => {
-                            if (permission.project.id === project.id) {
-                                return (
-                                    <option className='flex justify-center' key={permission.name} value={permission.id}>
-                                        {permission.name}
-                                    </option>
-                                );
-                            } else {
-                                return null;
-                            }
+                            return (<option className='flex justify-center' key={permission.name} value={permission.id}>
+                                {permission.name}
+                            </option>
+                            )
                         })}
                     </select>
                 </div>
@@ -144,9 +140,9 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         <div className="flex px-48 md:px-0 md:justify-end">
                             <button className='z-30' onClick={() => setIsEnable(true)}>
                                 <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor"  className="text-primary dark:text-secondary stroke-none">
-                                        <path d="M27.5 13.3334H15C13.6739 13.3334 12.4021 13.8953 11.4645 14.8955C10.5268 15.8957 10 17.2523 10 18.6668V48.0001C10 49.4146 10.5268 50.7711 11.4645 51.7713C12.4021 52.7715 13.6739 53.3334 15 53.3334H42.5C43.8261 53.3334 45.0979 52.7715 46.0355 51.7713C46.9732 50.7711 47.5 49.4146 47.5 48.0001V34.6668M43.965 9.56277C44.4262 9.05339 44.978 8.64708 45.588 8.36757C46.198 8.08805 46.8541 7.94093 47.518 7.93477C48.1819 7.92862 48.8403 8.06356 49.4548 8.33173C50.0693 8.59989 50.6275 8.99591 51.097 9.49667C51.5664 9.99743 51.9377 10.5929 52.1891 11.2484C52.4405 11.9038 52.567 12.6061 52.5613 13.3142C52.5555 14.0224 52.4176 14.7222 52.1555 15.3729C51.8935 16.0236 51.5125 16.6121 51.035 17.1041L29.57 40.0001H22.5V32.4588L43.965 9.56277Z" 
-                                          />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
+                                        <path d="M27.5 13.3334H15C13.6739 13.3334 12.4021 13.8953 11.4645 14.8955C10.5268 15.8957 10 17.2523 10 18.6668V48.0001C10 49.4146 10.5268 50.7711 11.4645 51.7713C12.4021 52.7715 13.6739 53.3334 15 53.3334H42.5C43.8261 53.3334 45.0979 52.7715 46.0355 51.7713C46.9732 50.7711 47.5 49.4146 47.5 48.0001V34.6668M43.965 9.56277C44.4262 9.05339 44.978 8.64708 45.588 8.36757C46.198 8.08805 46.8541 7.94093 47.518 7.93477C48.1819 7.92862 48.8403 8.06356 49.4548 8.33173C50.0693 8.59989 50.6275 8.99591 51.097 9.49667C51.5664 9.99743 51.9377 10.5929 52.1891 11.2484C52.4405 11.9038 52.567 12.6061 52.5613 13.3142C52.5555 14.0224 52.4176 14.7222 52.1555 15.3729C51.8935 16.0236 51.5125 16.6121 51.035 17.1041L29.57 40.0001H22.5V32.4588L43.965 9.56277Z"
+                                        />
                                     </svg>
                                 </div>
                             </button>

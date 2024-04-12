@@ -112,7 +112,7 @@ export const UsersList: React.FC<Props> = ({ project, groupId}) => {
       onClick={addUser}
       style={{
         backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary-color)" : "var(--primary-color)"} 0%, ${theme == "dark" ? "var(--primary-color)" : "var(--secondary-color)"} 80%)`,
-        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)" // Adicionei a propriedade boxShadow aqui
+        boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)" 
       }}
     >
       <h5 className="text-[#FCFCFC]">Add Usuário</h5>
