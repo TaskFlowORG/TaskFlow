@@ -13,6 +13,8 @@ import { TagFilter } from "./TagFilter";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
+import { ProjectContext } from "@/contexts";
+import { ProgressFilter } from "./ProgressFilter";
 
 interface Props {
   properties: Property[];
@@ -26,6 +28,8 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
     []
   );
 
+  const {project} = useContext(ProjectContext)
+
   const ref = useRef(null);
 useClickAway(ref, () => setIsModalOpen(false));
 
@@ -35,17 +39,14 @@ useClickAway(ref, () => setIsModalOpen(false));
   let filterProperty: FilteredProperty[] = [];
 
   useEffect(() => {
-    (async () => {
-      const project: Project = await getData("project", 1);
-      setAllProperties([...project.properties, ...properties]);
-    })();
+setAllProperties([...properties, ...project?.properties!])
   }, []);
 
   return (
     <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg" ref={ref}>
-      <div className="flex flex-col gap-4 max-h-[300px] overflow-auto">
+      <div className="flex flex-col gap-4 pr-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
-          const prop = filterProp!.find((prop) => prop.id == property.id) ?? {
+          const prop = filterProp?.find((prop) => prop.id == property.id) ?? {
             value: null,
           };
 
@@ -67,6 +68,17 @@ useClickAway(ref, () => setIsModalOpen(false));
                 key={property.id}
               />
             );
+          } else if (property.type === TypeOfProperty.PROGRESS){
+            return (
+              <ProgressFilter
+              key={property.id}
+              id={property.id}
+              name={property.name}
+              value={prop.value ?? ""}
+            />
+
+            )
+
           } else if (property.type === TypeOfProperty.NUMBER) {
             return (
               <NumberFilter

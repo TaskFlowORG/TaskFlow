@@ -23,38 +23,40 @@ import {
   PropertyValue,
   TypeOfProperty,
   UniOptionValued,
+  Project,
 } from "@/models";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { TaskModal } from "../TaskModal";
 
 import { User } from "@/models/user/user/User";
-type UserLogged = {
-  user:User
-}
+import { ProjectContext } from "@/contexts";
+import { updateIndexes } from "./functions/updateIndexes";
+import { showTask } from "./functions";
 
+type Props = {
+  user: User;
+  page: OrderedPage;
+  project?: Project;
+};
 
-export const Kanban = ({ user }: UserLogged) => {
+export const Kanban = ({ page }: Props) => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [page, setPage] = useState<OrderedPage | null>(null);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
-  const [openedOrder, setOpenedOrder] = useState(false);
+  const { project, setProject } = useContext(ProjectContext);
+  const context = useContext(FilterContext)
 
   useEffect(() => {
-    (async () => {
-      const pg: OrderedPage = await getPage("page", 4);
-      setTasks(
-        (pg.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
-      );
-      setOptions((pg.propertyOrdering as Select).options);
-      setId(pg.propertyOrdering.id);
-      setPage(pg);
-    })();
-  });
+    setTasks(
+      (page.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
+    );
+    setOptions((page.propertyOrdering as Select).options);
+    setId(page.propertyOrdering.id);
+  }, [page.tasks, project]);
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -111,10 +113,9 @@ export const Kanban = ({ user }: UserLogged) => {
     });
   }
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = async (result: any) => {
     if (!result.destination) return;
-
-    const { source, destination } = result;
+    const { destination } = result;
 
     const separatedNumbers = separateNumbers(result.draggableId);
     const [numberOne, numberTwo] = separatedNumbers!;
@@ -142,15 +143,27 @@ export const Kanban = ({ user }: UserLogged) => {
     }
 
     const updatePageAndTask = async () => {
+      if (!project) return;
       try {
         if (draggedTask) {
-          console.log(page);
-          console.log(draggedTask);
-          await taskService.upDate(draggedTask.task);
+          const taskReturned = await taskService.upDate(
+            draggedTask.task,
+            project?.id!
+          );
+          const indexTaskInPage = page.tasks.findIndex(
+            (task) => task.id == taskReturned.id
+          );
+          page.tasks[indexTaskInPage].task = taskReturned;
+          const indexPage = project!.pages.findIndex(
+            (pageP) => pageP.id == page.id
+          );
+          project!.pages[indexPage] = page;
+          setProject!({ ...project });
         }
       } catch (e) {}
     };
-    updatePageAndTask();
+    await updatePageAndTask();
+    updateIndexes(result, tasks, setTasks, project);
   };
 
   return (
@@ -181,8 +194,7 @@ export const Kanban = ({ user }: UserLogged) => {
             search
             page={page as OrderedPage}
             properties={page?.properties as Property[]}
-          >
-          </SearchBar>
+          ></SearchBar>
         </div>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
@@ -193,6 +205,7 @@ export const Kanban = ({ user }: UserLogged) => {
             {options?.map((option) => {
               return (
                 <ColumnKanban
+                  allTasks={tasks}
                   input={input}
                   openModal={openModal}
                   key={`${option.id}`}
@@ -207,7 +220,7 @@ export const Kanban = ({ user }: UserLogged) => {
                             TypeOfProperty.CHECKBOX ||
                             property.property.type === TypeOfProperty.TAG) &&
                             (property.value as MultiOptionValued).value.find(
-                              (value:Option) => value.id == option.id
+                              (value: Option) => value?.id == option?.id
                             ))
                         );
                       });
@@ -222,6 +235,7 @@ export const Kanban = ({ user }: UserLogged) => {
             })}
             {
               <ColumnKanban
+                allTasks={tasks}
                 key={0}
                 openModal={openModal}
                 input={input}
@@ -236,7 +250,7 @@ export const Kanban = ({ user }: UserLogged) => {
                         ) &&
                         (property.value as MultiOptionValued).value.length == 0)
                     );
-                  });
+                     } );
                 })}
                 propertyId={id}
                 color="#767867"

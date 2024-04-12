@@ -1,5 +1,4 @@
 "use client";
-
 import { useContext, useEffect, useState } from "react";
 import { ProjectContext } from "@/contexts/ContextProject";
 import { UserContext } from "@/contexts/UserContext";
@@ -15,7 +14,6 @@ import { TaskModal } from "@/components/TaskModal";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useHasPermission } from "@/hooks/useHasPermission";
-import { set } from "zod";
 
 interface Props {
   params: { project: number; user: string };
@@ -25,11 +23,9 @@ interface Props {
 export default function Layout({ params, children }: Props) {
   const { project, setProject } = useContext(ProjectContext);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [pageId, setPageId] = useState<number>();
-  const [inPage, setInPage] = useState(false);
-  const [task, setSelectedTask] = useState<Task>();
-  const [isOpen, setIsOpen] = useState(false);
   const { user } = useContext(UserContext);
+  const {task, setIsOpen, isOpen} = useContext(TaskModalContext)
+  const {inPage} = useContext(PageContext)
 
   useEffect(() => {
     (async () => {
@@ -43,15 +39,12 @@ export default function Layout({ params, children }: Props) {
 
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
+  console.log(project?.properties)
   return (
     <>
-      <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
-        <TaskModalContext.Provider
-          value={{ isOpen, setIsOpen, task, setSelectedTask }}
-        >
           <TaskModal
             task={task!}
-            setIsOpen={setIsOpen}
+            setIsOpen={setIsOpen!}
             isOpen={isOpen}
             user={user!}
           />
@@ -95,8 +88,6 @@ export default function Layout({ params, children }: Props) {
             </SideModal>
             {children}
           </div>
-        </TaskModalContext.Provider>
-      </PageContext.Provider>
     </>
   );
 }

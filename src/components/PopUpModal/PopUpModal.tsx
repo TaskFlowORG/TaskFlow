@@ -2,7 +2,7 @@ import { PageContext } from "@/utils/pageContext";
 import { useContext } from "react";
 import { LocalModal } from "../Modal";
 import { TaskModalContext } from "@/utils/TaskModalContext";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import { Task, TaskOrdered } from "@/models";
 import { ProjectContext } from "@/contexts";
 
@@ -11,35 +11,34 @@ type Props = {
   setCondition: (value: boolean) => void;
   modalProp: boolean;
   setModalProp: (value: boolean) => void;
-  user?:string
+  user?: string;
 };
-
 
 export const PopUpModal = ({
   condition,
   setCondition,
   modalProp,
   setModalProp,
-  user
+  user,
 }: Props) => {
-
-
-
-   const { setInPage, pageId } = useContext(PageContext);
+  const { setInPage, pageId } = useContext(PageContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
-  const {project} = useContext(ProjectContext)
+  const { project, setProject } = useContext(ProjectContext);
 
-  async function createTask(){
+  async function createTask() {
     setCondition(false);
     setIsOpen!(true);
-    if(!project || !pageId) return
-    let task:Task = (await taskService.insert(project.id, pageId))
-    setSelectedTask!(task!)
-  } 
+    if (!project || !pageId) return;
+    let task: Task = await taskService.insert(project.id, pageId);
+    let projectPromise = await projectService.findOne(project.id)
+    setProject!(projectPromise)
+    task.comments = []
+    setSelectedTask!(task!);
+  }
 
   return (
-    <LocalModal condition={condition} right setCondition={setCondition}>
-      <div className=" bg-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
+    <LocalModal condition={condition} right bottom setCondition={setCondition}>
+      <div className=" bg-white dark:bg-modal-grey text-[#343434] dark:text-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
         <p
           className="text-[14px] font-montserrat"
           onClick={() => {
@@ -54,8 +53,7 @@ export const PopUpModal = ({
         <p
           className="text-[14px] font-montserrat"
           onClick={() => {
-            createTask()
-
+            createTask();
           }}
         >
           Cadastro de tarefa

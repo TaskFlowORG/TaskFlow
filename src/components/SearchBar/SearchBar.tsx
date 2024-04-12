@@ -3,7 +3,6 @@ import { SearchInput } from "./SearchInput";
 import { ReactElement, ReactNode, useContext, useState } from "react";
 import { OrderInput } from "../OrderInput";
 import { FilterAdvancedInput } from "../FilterAdvancedInput/FilterAdvancedInput";
-import page from "@/app/(all)/(before-login)/page";
 import { OrderedPage, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 
@@ -15,6 +14,7 @@ interface Props {
   // setOpenedOrder: (a: boolean) => void;
   properties: Property[];
   page?: OrderedPage;
+  isInCalendar?: boolean;
   // children: ReactElement[] | ReactNode[];
 }
 export const SearchBar = ({
@@ -25,11 +25,12 @@ export const SearchBar = ({
   // setOpenedOrder,
   properties,
   page,
+  isInCalendar = false,
 }: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
-  const {setInput} = useContext(FilterContext);
+  const { setInput } = useContext(FilterContext);
 
   function change(bar: string) {
     if (bar == "search") {
@@ -37,11 +38,11 @@ export const SearchBar = ({
       setOpenedFilter(false);
       setOpenedOrder(false);
     } else if (bar == "filter") {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(!openedFilter);
       setOpenedOrder(false);
     } else {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(false);
       setOpenedOrder(!openedOrder);
     }
@@ -49,33 +50,44 @@ export const SearchBar = ({
 
   return (
     <div className="justify-end w-3/5 items-center  relative  h-full flex gap-2 ">
-      {search && openedSearch && <SearchInput/>}
+      {search && openedSearch && (
+        <SearchInput
+          setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}
+        />
+      )}
       {order && openedOrder && (
         <OrderInput
           setIsModalOpen={setOpenedOrder}
           page={page!}
+          isInCalendar={isInCalendar}
           orderingId={page?.propertyOrdering.id}
           propertiesPage={properties}
         ></OrderInput>
       )}
       {filter && openedFilter && (
-        <FilterAdvancedInput properties={properties}   
-        setIsModalOpen={setOpenedFilter}         
-        // isModalOpen={openedFilter}
-        // setIsModalOpen={setOpenedFilter} />
+        <FilterAdvancedInput
+          properties={properties}
+          setIsModalOpen={setOpenedFilter}
+          // isModalOpen={openedFilter}
+          // setIsModalOpen={setOpenedFilter} />
         />
       )}
       {search && (
         <SearchIcon
           iconSrc={"/searchIcons/search.svg"}
-          open={() => change("search")}
+          open={() => {
+            change("search");
+            setInput!("");
+          }}
           acessibilityLabel="Ícone de pesquisa"
         />
       )}
       {order && (
         <SearchIcon
           iconSrc={"/searchIcons/order.svg"}
-          open={() => {change("order"); setInput!("") }}
+          open={() => {
+            change("order");
+          }}
           acessibilityLabel="Ícone de ordenação"
         />
       )}

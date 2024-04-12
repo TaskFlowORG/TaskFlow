@@ -1,4 +1,5 @@
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useTheme } from "next-themes";
 import { useContext, useEffect, useState } from "react";
 
 type Props = {
@@ -15,6 +16,7 @@ export const ProgressFilter = ({
   value,
 }: Props) => {
   const [list, setList] = useState<number[]>([]);
+  const {theme} = useTheme()
   const [valued, setValued] = useState<number>();
   const [drag, setDrag] = useState<boolean>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
@@ -38,9 +40,10 @@ export const ProgressFilter = ({
     if (thisProperty) {
       if (valueInput) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp]);
       } else {
         thisProperty.value = valueInput;
+        setFilterProp!([...filterProp]);
       }
     } else {
       if (valueInput) {
@@ -50,25 +53,43 @@ export const ProgressFilter = ({
   }
 
   return (
-    <div>
+    <div className="flex justify-between">
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+        <p className=" text-black h-full self-center dark:text-white whitespace-nowrap">{name}:</p>
       )}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 items-end ">
         <input
           type="number"
           step={0.01}
           name=""
-          className="p-1 pb-0 text-end input-number outline-none cursor-pointer"
+          className="p-1 pb-0 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
           value={valued}
           id=""
+          placeholder="%"
           onChange={(e) => {
-            setValued(parseFloat(e.target.value));
-            change(parseFloat(e.target.value));
+            setValued(parseFloat(e.target.value ?? ""));
+            const thisProperty = filterProp?.find((item) => item.id == id);
+            if (thisProperty) {
+              if (!e.target.value) {
+                filterProp.splice(filterProp.indexOf(thisProperty), 1);
+                setFilterProp!([...filterProp])
+                thisProperty.value = e.target.value;
+              } else {
+                thisProperty.value = e.target.value;
+                setFilterProp!([...filterProp])
+              }
+            } else {
+              if (e.target.value) {
+                setFilterProp!([
+                  ...filterProp,
+                  { id: id, value: e.target.value },
+                ]);
+              }
+            }
           }}
         />
         <div
-          className="h-2 w-full flex select-none drag rounded-full overflow-clip"
+          className="h-2 w-28 flex select-none drag rounded-full overflow-clip"
           onMouseDown={() => setDrag(true)}
 
           // onMouseMove={()=>   }
@@ -79,12 +100,12 @@ export const ProgressFilter = ({
             return (
               <div
                 key={item}
-                className="h-2 "
+                className="h-2"
                 style={{
                   width: `1%`,
 
                   backgroundColor:
-                    item < valued! ? "#f04a94" : "#BABABA",
+                    item < valued! ?( theme == "light?" ? "var(--primary-color)" : "var(--secondary-color)") : "#BABABA",
                 }}
                 onMouseOver={() => {
                   if (drag) {

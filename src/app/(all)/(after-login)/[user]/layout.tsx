@@ -3,7 +3,7 @@
 import { Header } from "@/components/Header";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useContrast } from "@/hooks/useContrast";
-import { Project, ProjectSimple, Theme } from "@/models";
+import { Project, ProjectSimple, Task, Theme } from "@/models";
 import { SideBarProjects } from "@/components/SideBarProjects";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { SideModal } from "@/components/Modal";
@@ -15,6 +15,8 @@ import { useTheme } from "next-themes";
 import Joyride from "react-joyride";
 import { Loading } from "@/components/Loading";
 import { steps } from "@/utils/tutorial";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { PageContext } from "@/utils/pageContext";
 
 //UseClickAway Hook
 export default function Layout({
@@ -31,6 +33,10 @@ export default function Layout({
   const ref = useRef<HTMLDivElement>(null);
   const { setTheme, theme } = useTheme();
   const {user, setUser} = useContext(UserContext);
+  const [pageId, setPageId] = useState<number>();
+  const [inPage, setInPage] = useState(false);
+  const [task, setSelectedTask] = useState<Task>();
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -77,8 +83,13 @@ export default function Layout({
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
+
         <Joyride  steps={steps.steps} showProgress />
         <ProjectContext.Provider value={{ project, setProject }}>
+        <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
+        <TaskModalContext.Provider
+          value={{ isOpen, setIsOpen, task, setSelectedTask }}
+        >
           <Header setSidebarOpen={setOpenSideBar}></Header>
           <main className="w-screen h-full flex flex-col items-center justify-start">
             <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
@@ -86,6 +97,8 @@ export default function Layout({
             </SideModal>
             {children}
           </main>
+          </TaskModalContext.Provider>
+          </PageContext.Provider>
         </ProjectContext.Provider>
       </ProjectsContext.Provider>
     </>

@@ -1,12 +1,12 @@
 "use client";
-import { useState } from 'react';
+import React, { use, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {authentication } from "@/services/services/Authentication";
-import { UserLogin } from '@/models/user/user/UserLogin';
+import { signIn } from "next-auth/react";
+
 
 const schema = z
     .object({
@@ -24,7 +24,6 @@ const schema = z
 
 type FormData = z.infer<typeof schema>;
 
-
 export const Login = () => {
     const [user, setUser] = useState({} as FormData);
     const {
@@ -38,59 +37,49 @@ export const Login = () => {
         resolver: zodResolver(schema),
     });
     const route = useRouter();
-    
-    const onSubmit = async (data: FormData) => {
-        try {
-            await authentication.login(new UserLogin(data.username, data.password));
-            route.push("/home");
-        } catch (error) {
-            if (error instanceof ZodError) {
-                console.log(error.errors);
-            }
-        }
-    }
 
     return (
-        <div className="h-[85%] w-screen flex justify-center items-center">
+        <>
+            <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+                <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+                    <h4 className="h4 leading-6 flex py-3 md:py-0">Acesse sua conta</h4>
 
-            <div className={"h-[55%] w-1/4 shadow-blur-10 dark:shadow-blur-20 rounded-md flex justify-center items-center bg-white dark:bg-modal-grey"}>
-                <div className=" h-4/5 w-4/5 flex flex-col items-center justify-between">
-                    <p className={"h4 "}>Acesse sua conta</p>
+                    <div className='h-4/5 w-4/5 flex flex-col items-center justify-between'>
+                        <Input className="inputRegister"
+                            image={"Assets/themelight/IconUser.svg"}
+                            placeholder="Digite seu nome"
+                            value={user.username}
+                            helperText={errors.username?.message}
+                            register={{ ...register("username") }}
+                            required classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} />
 
-                    <Input className="inputRegister"
-                        image={"/img/themelight/IconUser.svg"}
-                        placeholder="Digite seu nome"
-                        value={user.username}
-                        helperText={errors.username?.message}
-                        register={{ ...register("username") }}
-                        required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"} />
+                        <Input className="inputRegister"
+                            image={"Assets/themelight/IconUser.svg"}
+                            placeholder="Digite sua senha"
+                            value={user.password}
+                            helperText={errors.password?.message}
+                            register={{ ...register("password") }}
+                            required classNameInput={"w-5/6  h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} />
 
-                    <Input className="inputRegister"
-                        image={"/img/themelight/IconUser.svg"}
-                        placeholder="Digite sua senha"
-                        value={user.password}
-                        helperText={errors.password?.message}
-                        register={{ ...register("password") }}
-                        required classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"} />
+                        <div className="w-4/5 md:w-4/6 flex justify-between py-2">
+                            <p className={'font-alata text-xs md:text-sm underline hover:cursor-pointer hover:text-secondary '}>Esqueceu sua senha?</p>
+                            <p className={'font-alata text-xs md:text-sm underline hover:cursor-pointer hover:text-secondary '} onClick={() => route.push("/register")}>Registre-se!</p>
+                        </div>
 
+                        <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
+                            onClick={() => signIn(
+                                "credentials", {
+                                username: getValues("username"),
+                                password: getValues("password"),
+                                redirect: true,
+                                callbackUrl: `/${getValues("username")}`
 
-                    <div className="w-4/6 flex justify-between">
-                        <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary '}>Esqueceu sua senha?</p>
-                        <p className={'font-alata text-sm underline hover:cursor-pointer hover:text-secondary '} onClick={() => route.push("/register")}>Registre-se!</p>
+                            }
+                            )}
+                        >Enviar</button>
                     </div>
-
-                    <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
-                        onClick={() => onSubmit(getValues())}
-                    >Entrar</button>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
-
-
-
-
-
-
-
