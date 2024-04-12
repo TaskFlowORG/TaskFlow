@@ -1,8 +1,7 @@
 "use client";
 
 import { Description } from "@/components/Description/Description";
-import { SVGGroupPageD } from "@/components/SVGGroupPageDark/SVGGroupPageD";
-import { SVGGroupPageL } from "@/components/SVGGroupPageLight/SVGGroupPageL";
+import { SVGGroupPage } from "@/components/SVGGroupPage/SVGGroupPage";
 import { UsersList } from "@/components/UsersList/UsersList";
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes";
@@ -23,13 +22,12 @@ export default function Home({ params }: { params: { user: string, project: numb
         fetchData();
     }, [params.project]);
 
-    const svgGroupPage = theme === "dark" ? <SVGGroupPageD /> : <SVGGroupPageL/>;
 
     return (
 
         <div className=" w-screen h-screen ">
             <div className="absolute hidden md:flex md:-bottom-36 xl: 2xl:bottom-0 lg:z-10 ">
-                {svgGroupPage}
+                <SVGGroupPage/>
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
 

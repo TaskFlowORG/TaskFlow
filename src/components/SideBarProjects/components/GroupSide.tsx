@@ -6,7 +6,6 @@ import { getData, getListData } from "@/services/http/api";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService, userService } from "@/services";
-import { UserGet } from "@/models/user/user/UserGetDTO";
 
 interface Props {
     project: Project;

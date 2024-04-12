@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { getData, getListData, putData } from '@/services/http/api';
-import { Group, Project } from '@/models';
+import { Group, Permission, Project } from '@/models';
 import { boolean, set } from 'zod';
-import { PermissionGet } from '@/models/project/permission/PermissionGetDTO';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
-
-interface Permission {
-    id: number;
-    name: string;
-    project: Project
-}
 
 interface Props {
     project: Project;
@@ -19,7 +12,7 @@ interface Props {
 
 export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
-    const [selectedPermission, setSelectedPermission] = useState<string>("");
+    const [selectedPermission, setSelectedPermission] = useState<number>();
     const [isEnable, setIsEnable] = useState(false);
     const [newName, setNewName] = useState(group.name);
     const [newDescription, setNewDescription] = useState(group.description);
@@ -33,33 +26,33 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         getLists();
     }, [group]);
 
-    const findPermission = async (selectedValue: string) => {
+    const findPermission = async (selectedValue: number) => {
         setSelectedPermission(selectedValue);
         updatePermission(selectedValue);
     };
 
-    const updatePermission = async (selectedValue: string) => {
+    const updatePermission = async (selectedValue: number) => {
         console.log(selectedValue)
         console.log(permissions)
         try {
-            const selectedPermission = permissions.find(permission => permission.name === selectedValue);
+            const selectedPermission = permissions.find(permission => permission.id === selectedValue);
             if (!selectedPermission) {
                 throw new Error('Permissão selecionada não encontrada.');
             }
 
-            const hasPermission = group.permissions.some(permission => permission.name === selectedPermission.name);
+            const hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
 
             if (hasPermission) {
                 console.log('Este grupo já possui esta permissão.');
-                setSelectedPermission("");
+                setSelectedPermission(0);
                 alert('Este grupo já possui esta permissão.');
             } else {
                 if (group.permissions != null) {
                     group.permissions = []
                 }
-                group.permissions = [...group.permissions, await permissionService.findOne(selectedPermission.id)];
+                group.permissions.push(selectedPermission);
                 await putData("group", group);
-                setSelectedPermission("");
+                setSelectedPermission(0);
                 alert('Permissão atualizada com sucesso!');
             }
         } catch (error: any) {
@@ -79,7 +72,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const updateTheInformationsOFAGroup = () => {
         group.name = newName;
         group.description = newDescription
-        groupService.update(group);
+        groupService.update(group, group.id);
         setIsEnable(false)
     }
 
@@ -93,14 +86,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC]"
+                        className="pAlata h3 placeholder:text-[#333] dark:text-[#FCFCFC]"
                         type="text"
                         value={isEnable ? newName : group.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
                     <input
-                        className="mn whitespace-pre-wrap w-72 md:w-[403px] text-[#333] dark:text-[#FCFCFC]"
+                        className="mn whitespace-pre-wrap w-72 md:w-[403px] placeholder:text-[#333] dark:text-[#FCFCFC]"
                         type="text"
                         value={isEnable ? newDescription : group.description}
                         onChange={(e) => setNewDescription(e.target.value)}
@@ -113,12 +106,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         name="permission"
                         id="permission"
                         value={selectedPermission}
-                        onChange={(e) => findPermission(e.target.value)}
+                        onChange={(e) => findPermission(+e.target.value)}
                     >
                         {group.permissions && group.permissions.length > 0 ? (
-                            group.permissions.map((permission) => (
+                            group.permissions.map((permission) => {
+                                setSelectedPermission(permission.id);
+                                return(
                                 <option key={permission.id} value="" disabled>{permission.name}</option>
-                            ))
+                            )})
                         ) : (
                             <option value="" disabled>Permissão</option>
                         )}
@@ -126,7 +121,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         {permissions.map(permission => {
                             if (permission.project.id === project.id) {
                                 return (
-                                    <option className='flex justify-center' key={permission.name} value={permission.name}>
+                                    <option className='flex justify-center' key={permission.name} value={permission.id}>
                                         {permission.name}
                                     </option>
                                 );

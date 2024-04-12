@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export const SVGGroupPageL = () => {
+export const SVGGroupPage = () => {
     const [primary, setPrimary] = useState("#F04DA8")
     const [secondary, setSecondary] = useState("#F3588B");
 

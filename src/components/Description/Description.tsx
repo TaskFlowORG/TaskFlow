@@ -17,7 +17,7 @@ export const Description: React.FC<Props> = ({user, project, groupId}) => {
     useEffect(() => {
         const getList = async () => {
             try {
-                const fetchedGroups = await groupService.findGroupsByUser(user);
+                const fetchedGroups = await groupService.findGroupsByUser();
                 setGroups(fetchedGroups);
                 const fetchedGroup = await getData("group", Number(groupId));
                 setGroup(fetchedGroup);
