@@ -38,7 +38,7 @@ export const PopUpModal = ({
 
   return (
     <LocalModal condition={condition} right bottom setCondition={setCondition}>
-      <div className=" bg-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
+      <div className=" bg-white dark:bg-modal-grey text-[#343434] dark:text-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
         <p
           className="text-[14px] font-montserrat"
           onClick={() => {
