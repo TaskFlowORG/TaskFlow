@@ -239,7 +239,7 @@ export const PersonalInformations = () => {
           <CenterModal condition={deletarModal} setCondition={setDeletarModal}>
             <DeleteAccountModal
               close={() => setDeletarModal(false)}
-              deleteUser={() => userService.delete("jonatas")}
+              deleteUser={() => userService.delete(user?.username || "")}
             />
           </CenterModal>
         </div>
