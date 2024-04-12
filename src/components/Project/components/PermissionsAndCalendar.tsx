@@ -103,7 +103,6 @@ export const PermissionsAndCalendar = () => {
   };
 
   const [permissionEditing, setPermissionEditing] = useState<Permission>();
-  const filteredPermissions = permissions.filter(p => !permissionEditing || permissionEditing.id == p.id);
 
   return (
     <div className="w-52 h-full shadow-blur-10 rounded-md flex flex-col relative pt-6 justify-between">
@@ -159,9 +158,9 @@ export const PermissionsAndCalendar = () => {
                 transition={{ duration: 0.1 }}
                 className="overflow-y-clip"
               >
-                <div className="h-4/5">
-                  {filteredPermissions.map((permission, index) => (
-                    <PermissionComponent permission={permission} key={index} permissions={permissions}  setPermissionEditing ={setPermissionEditing}/>
+                <div className="h-4/5 px-4">
+                  {permissions.map((permission, index) => (
+                    <PermissionComponent setPermissions={setPermissions} permissionEditing={permissionEditing} permission={permission} key={index} permissions={permissions}  setPermissionEditing ={setPermissionEditing}/>
                   ))}
                 </div>
                 <If condition={project?.owner.id == user?.id}>

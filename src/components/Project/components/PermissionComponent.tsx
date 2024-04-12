@@ -16,14 +16,18 @@ export const PermissionComponent = ({
   permission,
   setPermissionEditing,
   permissions,
+  permissionEditing,
+  setPermissions
 }: {
   permission: Permission;
   setPermissionEditing: (value: Permission | undefined) => void;
+  permissionEditing?: Permission;
   permissions: Permission[];
+  setPermissions: (value: Permission[]) => void;
 }) => {
   const [deleting, setDeleting] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
-    const [name, setName] = useState<string>(permission.name)
+  const [name, setName] = useState<string>(permission.name);
   const { project } = useContext(ProjectContext);
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
@@ -56,7 +60,7 @@ export const PermissionComponent = ({
     setCreate(permission.permission.toString().includes("CREATE"));
     setDelete(permission.permission.toString().includes("DELETE"));
     setUpdate(permission.permission.toString().includes("UPDATE"));
-    
+
     setEditing(false);
   }
 
@@ -79,23 +83,43 @@ export const PermissionComponent = ({
     if (!create && !_delete && !update)
       permission.permission = TypePermission.READ;
     permission.name = name;
-    console.log(name)
+    console.log(name);
     permissionService.upDate(permission);
   }
 
-  useEffect(() => {
-    console.log(name);
-    }, [name]);
+  function deletePermission() {
+    console.log(otherPermission);
+    
+    if(!otherPermission || !project) return;
+    setPermissions(permissions.filter((p) => p.id != permission.id));
+    permissionService.delete(permission.id, project?.id, otherPermission.id);
+  }
 
+  const[otherPermission, setOtherPermission] = useState<Permission>(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
 
   return (
-    <div className="flex flex-col">
+    <div
+      className={
+        "flex flex-col " +
+        (!permissionEditing || permission.id == permissionEditing.id
+          ? "flex"
+          : "hidden")
+      }
+    >
       <span className="flex w-full justify-between items-center gap-2">
-        <input type="text" value={name} disabled={!editing}  onChange={(e:any) => {setName(e.target.value)}}
-          className="max-w-full w-full truncate text-contrast" style={{ opacity: name || editing ? 1 : 0.5 }}/>
+        <input
+          type="text"
+          value={name}
+          disabled={!editing}
+          onChange={(e: any) => {
+            setName(e.target.value);
+          }}
+          className="max-w-full w-full truncate text-contrast"
+          style={{ opacity: name || editing ? 1 : 0.5 }}
+        />
 
         <If condition={project?.owner.id == user?.id}>
-          <span className="flex  w-min h-min gap-2">
+          <span className="flex items-center w-min h-min gap-2">
             <If condition={!editing}>
               <button
                 onClick={() => setEditing(true)}
@@ -124,15 +148,41 @@ export const PermissionComponent = ({
                       <p className="text-modal-grey text-[14px]">
                         {t("choice-another-permission")}
                       </p>
-                      <select className="w-full h-8 border-primary dark:border-secondary">
+                      <select className="w-full h-8 border-primary dark:border-secondary" onChange={e => 
+                        setOtherPermission(permissions.find(p => p.id == +e.target.value)!)}  >
                         {permissions
                           .filter((p) => p.id != permission.id)
                           .map((p, index) => (
-                            <option key={index} value={p.id} selected>
+                            <option key={index} value={p.id} selected={p.id == otherPermission.id}>
                               {p.name ?? t("withoutname")}
                             </option>
                           ))}
                       </select>
+                      <span className="flex w-full">
+
+                      <Button
+                        text={t("cancel")}
+                        width="w-full"
+                        textSize="text-[14px]"
+                        textColor="text-contrast"
+                        border="border-2 border-contrast"
+                        padding="p-1"
+                        hover="hover:bg-contrast hover:text-primary"
+                        paddingY="py-px"
+                        fnButton={() => setDeleting(false)}
+                      />
+                      <Button
+                        text={t("delete")}
+                        width="w-full"
+                        textSize="text-[14px]"
+                        textColor="text-contrast"
+                        border="border-2 border-contrast"
+                        hover="hover:bg-contrast hover:text-primary"
+                        padding="p-1"
+                        paddingY="py-px"
+                        fnButton={deletePermission}
+                      />
+                      </span>
                     </div>
                     <div className="w-min h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
                       <p className="text-modal-grey w-min whitespace-nowrap text-[14]">
