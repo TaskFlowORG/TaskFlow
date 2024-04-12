@@ -21,7 +21,6 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   display: flex;
-  justify-content: center;
   align-items: center;  // Fix the typo here
   ${(props)=> {
     const { $haserror } = props as unknown as ContainerProps;

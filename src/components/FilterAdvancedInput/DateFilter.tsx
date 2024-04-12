@@ -49,9 +49,10 @@ export const DateFilter = ({
           if (thisProperty) {
             if (!e.target.value) {
               filterProp.splice(filterProp.indexOf(thisProperty), 1);
-              setFilterProp!(filterProp);
+              setFilterProp!([...filterProp])
             } else {
               thisProperty.value = e.target.value;
+              setFilterProp!([...filterProp])
             }
           } else {
             if (e.target.value) {

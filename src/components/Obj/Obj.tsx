@@ -38,7 +38,7 @@ export const Obj = ({
 
   const mrs = isHovering ? " -mr-2" : "xl:-mr-4 lg:-mr-3 md:-mr-2 -mr-1 -mr-4";
   const classes =
-    `rounded-full xl:w-8 xl:h-8 lg:w-6 lg:h-6 md:w-4 md:h-4 w-3 h-3 text-[10px] md:text-[14px] lg:text-[18px]  xl:text-[32px]
+    `rounded-full xl:w-8 xl:h-8 lg:w-6 lg:h-6 md:w-4 md:h-4 w-3 h-3 cursor-pointer text-[10px] md:text-[14px] lg:text-[18px]  xl:text-[32px]
     overflow-clip flex shadow-[0_0_4px_1px_rgba(0,0,0,0.1)] items-center ${mrs}
    justify-center ` +
     (color ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white" : " bg-primary dark:bg-secondary text-contrast ");

@@ -41,9 +41,10 @@ export const RadioFilter = ({
       setSelectedOption(event.target.value);
       if (!event.target.value) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp])
       } else {
         thisProperty.value = event.target.value;
+        setFilterProp!([...filterProp])
       }
     } else {
       if (event.target.value) {

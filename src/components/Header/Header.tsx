@@ -13,6 +13,9 @@ import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import { IconArchive } from "../icons";
 import Image from "next/image";
+import { PageContext } from "@/utils/pageContext";
+import { ProjectContext } from "@/contexts";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -25,9 +28,6 @@ export const Header = ({
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
   const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
   
-
-
-
 
   useEffect(() => {
     if (!user?.notifications) return;

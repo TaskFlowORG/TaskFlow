@@ -11,10 +11,12 @@ class PropertyService {
     }
 
     async saveDate(projectId: number, property: DatePost): Promise<Date> {
+
         return (await Api.post(`property/project/${projectId}/date`, property, {withCredentials: true})).data;
     }
 
     async updateLimited(projectId: number, property: Limited): Promise<void> {
+        console.log(property.maximum)
         await Api.put(`property/project/${projectId}/limited`, property, {withCredentials: true});
     }
 

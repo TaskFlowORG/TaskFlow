@@ -8,7 +8,6 @@ import { PropertyPost } from "../property/PropertyPost";
 
 export class SelectPost extends PropertyPost {
         constructor(
-            public id: number,
             public name: string,
             public type: TypeOfProperty,
             public visible: boolean,
@@ -17,10 +16,8 @@ export class SelectPost extends PropertyPost {
            public project: Project | undefined,
            public pages: Page[]
         ) {
-            super(id, name, visible, obligatory, type, pages, project);
+            super(name, visible, obligatory, type, pages, project);
         }
 
-    equals(obj: any): boolean {
-        return obj instanceof SelectPost && obj.id === this.id;
-    }
+
 }

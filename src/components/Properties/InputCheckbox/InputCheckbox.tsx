@@ -2,7 +2,7 @@
 
 
 import { InputHTMLAttributes, useState } from "react";
-import { boolean } from "zod";type InputCheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
+type InputCheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     image?: string;
     helperText?: string;
@@ -13,10 +13,10 @@ export const InputCheckbox = ( {label, image, helperText, register}: InputCheckB
 
     const [isChecked, setIsChecked] = useState<boolean>(false);
     return (
-        <div className=" h-min flex items-center w-max gap-2">
+        <div className=" h-min flex items-center w-full gap-2" title={label}>
             <input type="checkbox" className="w-8 aspect-square accent-primary dark:accent-secondary border-primary border-2 bg-grey" {...register}  />
             
-            <label className="">{label}</label>
+            <label className="truncate w-full">{label}</label>
         </div>
     );
 }

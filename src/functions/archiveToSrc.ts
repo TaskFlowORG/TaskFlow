@@ -5,6 +5,6 @@ export function archiveToSrc(a?: Archive):string {
         const src = `data:${"imagem/jpeg"};base64,${a?.data.toString()}`
         return src
     }catch(e){
-        return ""
+        return "/Assets/noImage.png"
     }
 }
