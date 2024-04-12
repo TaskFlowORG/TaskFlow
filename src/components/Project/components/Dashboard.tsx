@@ -23,7 +23,7 @@ export const Dashboard = () => {
   }, [project]);
   return (
     <div className="w-full  h-full  none-scrollbar overflow-y-auto sm:flex px-6 py-1  md:p-6 gap-4 ">
-      <div className="w-full h-min md:h-full  md:mr-4  sm:mr-[9.8rem] gap-4 flex flex-col md:flex-row">
+      <div className="w-full h-min md:h-full  md:mr-4  sm:pr-[9.8rem] md:pr-0 gap-4 flex flex-col md:flex-row">
         <div className="w-full md:w-2/5  flex gap-4 flex-col h-min md:h-full">
           <FeaturedUser />
           <div className="flex flex-col w-full h-1/5   ">

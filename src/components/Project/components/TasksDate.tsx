@@ -19,7 +19,7 @@ export const TasksDate = () => {
     project?.properties.filter((p) => p.type == TypeOfProperty.DATE) ?? [];
   const [property, setProperty] = useState<Property | undefined>(properties[0]);
 
-  if(!property) return ( <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
+  if(!property) return ( <div className="shadow-blur-10 w-full h-64 sm:h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
   <p>{t("no-properties-date")}</p>
   </div>);
 
@@ -79,7 +79,7 @@ export const TasksDate = () => {
     },
   }
   return (
-    <div className="w-full h-1/2 flex flex-col gap-4 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
+    <div className="w-full h-64 sm:h-1/2 flex flex-col gap-4 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
       <span className="flex justify-between w-full">
           <select
             className="w-32 flex text-center h-8 border-primary judtify-center border-2 "

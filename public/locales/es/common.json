@@ -34,7 +34,7 @@
   "dashboard": "Tablero",
   "no-properties-date": "No hay ninguna propiedad de tipo 'Fecha' en el proyecto",
   "no-properties-select": "No hay ninguna propiedad de tipo 'Seleccionar' en el proyecto",
-  "featured-user": "Usuarios destacados",
+  "featured-user": "Usuarios",
   "no-featured-users": "Ningún usuario en el proyecto",
   "tasks-progress": "Progreso de las tareas",
   "access-level": "Nivel de acceso",

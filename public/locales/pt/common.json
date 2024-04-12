@@ -34,7 +34,7 @@
         "dashboard":"Dashboard",
         "no-properties-date": "Não há nenhuma propriedade do tipo 'Data' no projeto",
         "no-properties-select": "Não há nenhuma propriedade do tipo 'Select' no projeto",
-        "featured-user":"Usuarios em destaque",
+        "featured-user":"Usuarios",
         "no-featured-users":"Nenhum usuário no projeto",
         "tasks-progress":"Progresso das tarefas",
         "access-level":"Nível de acesso",

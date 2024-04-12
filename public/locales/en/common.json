@@ -42,7 +42,7 @@
         "dashboard":"Dashboard",
         "no-properties-date": "There are no 'Date' properties in the project",
         "no-properties-select": "There are no 'Select' properties in the project",
-        "featured-user": "Featured Users",
+        "featured-user": "Users",
         "no-featured-users": "No users in the project",
         "tasks-progress": "Task Progress",
         "access-level": "Access Level",

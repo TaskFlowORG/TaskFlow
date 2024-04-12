@@ -29,7 +29,7 @@ export const FeaturedUser = () => {
             </span>
             <div className="overflow-y-scroll none-scrollbar max-h-full  gap-1 pt-1 h-full w-full flex flex-col">
                 {
-                users.length === 0 ? <p className="w-full h-full flex justify-center items-center pb-16">{t("no-featured-users")}</p> :
+                users.length === 0 ? <p className="w-full h-full flex justify-center text-center items-center pb-16">{t("no-featured-users")}</p> :
                 users.map((user, index) => (
                     <div key={index} className="w-full flex justify-between text-primary dark:text-secondary">
                         <span className="flex gap-2">

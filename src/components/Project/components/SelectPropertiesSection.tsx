@@ -52,7 +52,7 @@ export const SelectPropertiesSection = () => {
 
   if (!property)
     return (
-      <div className="shadow-blur-10 w-full h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
+      <div className="shadow-blur-10 w-full h-64 sm:h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
         <p>{t("no-properties-select")}</p>
       </div>
     );
