@@ -1,6 +1,6 @@
 import Calendar from "react-calendar";
 import { useTranslation } from "next-i18next";
-import {  useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "@/contexts/UserContext";
 import {
   Language,
@@ -103,10 +103,16 @@ export const PermissionsAndCalendar = () => {
   };
 
   const [permissionEditing, setPermissionEditing] = useState<Permission>();
-  const filteredPermissions = permissions.filter(p => !permissionEditing || permissionEditing.id == p.id);
+  const filteredPermissions = permissions.filter(
+    (p) => !permissionEditing || permissionEditing.id == p.id
+  );
+  const [date, setDate] = useState<Date>(new Date());
 
   return (
-    <div className="w-52 h-full shadow-blur-10 rounded-md flex flex-col relative pt-6 justify-between">
+    <div
+      className="w-full h-min sm:h-auto sm:w-1/5 md:h-full sm:min-w-[150px] mt-4 mb-20 pb-4 sm:mt-0 sm:mb-0  sm:pb-0 shadow-blur-10 rounded-md sm:absolute sm:top-6 sm:bottom-4 md:top-0 md:relative
+    flex sm:flex-col  overflow-clip pt-6 justify-between right-4 flex-row"
+    >
       <div className="px-4">
         <span className="flex flex-col">
           <select
@@ -133,6 +139,7 @@ export const PermissionsAndCalendar = () => {
           calendarType="gregory"
         />
       </div>
+      <div className="bg-green-400 h-full w-full"></div>
       <div
         className="w-full flex-col rounded-t-md shadow-blur-10 bg-primary 
                     dark:bg-secondary flex justify-start items-center absolute bottom-0 left-0"
@@ -161,7 +168,12 @@ export const PermissionsAndCalendar = () => {
               >
                 <div className="h-4/5">
                   {filteredPermissions.map((permission, index) => (
-                    <PermissionComponent permission={permission} key={index} permissions={permissions}  setPermissionEditing ={setPermissionEditing}/>
+                    <PermissionComponent
+                      permission={permission}
+                      key={index}
+                      permissions={permissions}
+                      setPermissionEditing={setPermissionEditing}
+                    />
                   ))}
                 </div>
                 <If condition={project?.owner.id == user?.id}>

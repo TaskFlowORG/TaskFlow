@@ -47,7 +47,7 @@ export const SelectPropertiesSection = () => {
   };
 
 
-  if(!property) return ( <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
+  if(!property) return ( <div className="shadow-blur-10 w-full h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
   <p>{t("no-properties-select")}</p>
   </div>);
 
@@ -93,7 +93,7 @@ export const SelectPropertiesSection = () => {
   };
 
   return (
-    <div className="shadow-blur-10 w-96 h-52  rounded-md p-4 flex flex-col justify-center items-center">
+    <div className="shadow-blur-10 w-full h-1/2 bg-red-200  rounded-md p-4 flex flex-col justify-center items-center">
       <If condition={properties.length == 0}>
         <p>{t("no-properties")}</p>
         <>

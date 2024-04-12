@@ -89,10 +89,10 @@ export const PermissionComponent = ({
 
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col px-4">
       <span className="flex w-full justify-between items-center gap-2">
-        <input type="text" value={name} disabled={!editing}  onChange={(e:any) => {setName(e.target.value)}}
-          className="max-w-full w-full truncate text-contrast" style={{ opacity: name || editing ? 1 : 0.5 }}/>
+        <input type="text" value={ name ?? t("withoutname")} disabled={!editing}  onChange={(e:any) => {setName(e.target.value)}}
+          className="max-w-full w-full truncate text-contrast bg-transparent" style={{ opacity: name || editing ? 1 : 0.5 }}/>
 
         <If condition={project?.owner.id == user?.id}>
           <span className="flex  w-min h-min gap-2">
