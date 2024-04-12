@@ -30,5 +30,27 @@
         "table":"Tabela",
         "list":"Lista",
         "canvas":"Canvas",
-        "double-click-open-task":"Clique duas vezes para abrir a tarefa"
+        "double-click-open-task":"Clique duas vezes para abrir a tarefa",
+        "dashboard":"Dashboard",
+        "no-properties-date": "Não há nenhuma propriedade do tipo 'Data' no projeto",
+        "no-properties-select": "Não há nenhuma propriedade do tipo 'Select' no projeto",
+        "featured-user":"Usuarios em destaque",
+        "no-featured-users":"Nenhum usuário no projeto",
+        "tasks-progress":"Progresso das tarefas",
+        "access-level":"Nível de acesso",
+        "permissions-user-levels":"Permissões e níveis de usuário",
+        "name":"Nome",
+        "points":"Pontos",
+        "monday":"Segunda",
+        "tuesday":"Terça",
+        "wednesday":"Quarta",
+        "thursday":"Quinta",
+        "friday":"Sexta",
+        "saturday":"Sábado",
+        "sunday":"Domingo",
+        "create-a-permission":"Criar uma permissão",
+        "create":"Criar",
+        "delete":"Deletar",
+        "update":"Atualizar"
+
 }

@@ -40,7 +40,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const deleteProperty = async (property: Property) => {
         try {
-            propertyService.delete(project.id,property.id)
+            propertyService.delete(project.id, property.id)
             let list = [...propertiesArray];
 
             propertiesArray.includes(property) && list.splice(properties.indexOf(property), 1)
