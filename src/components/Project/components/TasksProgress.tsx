@@ -11,7 +11,7 @@ export const TasksProgress = () => {
     const completed = project.pages.map(page => page.tasks.filter(task => task.task.completed).length).flat().length;
     const percentage = tasks/100*completed;
     return (
-        <div className="h-32 shadow-blur-10 w-[17rem] roudedn-md p-4">
+        <div className="h-full w-full shadow-blur-10 roudedn-md p-4">
         <h5 className=" h5 text-primary dark:text-secondary">{t("tasks-progress")}</h5>
         <span>
             {tasks == 0 && completed == 0 ? 100: percentage}%

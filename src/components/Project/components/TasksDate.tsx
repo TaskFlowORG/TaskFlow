@@ -64,7 +64,7 @@ export const TasksDate = () => {
   const color =
     theme == "light" ? "var(--primary-color)" : "var(--secondary-color)";
   return (
-    <div className="w-96 h-96 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
+    <div className="w-full h-1/2 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
       <span className="flex justify-between w-full">
         <h5 className=" h5 text-primary dark:text-secondary">
           {t("tasks-date")}

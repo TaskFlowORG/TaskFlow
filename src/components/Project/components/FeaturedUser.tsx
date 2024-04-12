@@ -21,7 +21,7 @@ export const FeaturedUser = () => {
     }, [project])
     const {t} = useTranslation();
     return (
-        <div className="h-52 w-80 shadow-blur-10 rounded-md p-4">
+        <div className="h-1/2 w-full shadow-blur-10 rounded-md p-4">
             <h5 className=" h5 text-primary dark:text-secondary">{t("featured-user")}</h5>
             <span className="w-full flex justify-between border-b-[1px] border-back-grey">
                 <p className="p ">{t("name")}</p>
