@@ -9,7 +9,7 @@ import { Group, GroupPut, OtherUser, Project, User } from "@/models";
 import { groupService, projectService } from "@/services";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
-     const { theme, setTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const [project, setProject] = useState<Project | undefined>();
     const [group, setGroup] = useState<Group>();
 
@@ -17,7 +17,7 @@ export default function Home({ params }: { params: { user: string, project: numb
         const fetchData = async () => {
             const fetchedProject = await projectService.findOne(params.project);
             setProject(fetchedProject);
-            const fetchedGroup = await groupService.findOne(Number(params.group));
+            const fetchedGroup = await groupService.findOne(params.group);
             setGroup(fetchedGroup);
         }
         fetchData();
@@ -33,8 +33,7 @@ export default function Home({ params }: { params: { user: string, project: numb
                     {project && <Description project={project} user={params.user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    {project && <UsersList project={project} group={group}/>}
-                       
+                    {project && <UsersList project={project} group={group} />}
                 </div>
             </div>
         </div>

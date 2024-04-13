@@ -10,7 +10,7 @@ interface Props {
     groupId?: number;
 }
 
-export const Description: React.FC<Props> = ({user, project, groupId}) => {
+export const Description: React.FC<Props> = ({ user, project, groupId }) => {
     const [groups, setGroups] = useState<Group[]>([]);
 
     useEffect(() => {

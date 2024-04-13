@@ -17,7 +17,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
   const { theme, setTheme } = useTheme();
 
-  const findUser = async () =>  {
+  const findUser = async () => {
     setText('');
     const userFind = group?.users.find((u) => u.username.toLowerCase() === text.toLowerCase());
     if (userFind) {
@@ -34,7 +34,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
       user.username.toLowerCase().includes(query)
     );
     let usersName: string[] = []
-    filteredUsers.map(u =>{
+    filteredUsers.map(u => {
       usersName.push(u.username)
     })
     setSuggestedUsers(usersName);
@@ -58,7 +58,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
 
     try {
       let newGroup;
-      if(group != null){
+      if (group != null) {
         newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
         group?.users.push(user);
         await groupService.update(newGroup, group.id);
@@ -88,52 +88,52 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   );
 
   return (
-     <div className="flex w-full justify-center h-full lg:justify-start">
-       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
-         <div className="flex flex-col gap-12 justify-between">
-           <div>
-             <input
-               className="pAlata relative left-8 lg:left-12 h-10 w-[80%] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
-               placeholder="Pesquisa"
-               type="text"
-               id="campoTexto"
-               value={text}
-               onChange={combinedOnChange}
-             />
-             <button
-               className="relative"
-               type="button"
-               onClick={findUser}
-             >
-               <img className="" src="/img/search.svg" alt="Search" />
-             </button>
-             {suggestedUsers.length > 0 && (
-               <ul className="absolute z-10 bg-white dark:bg-[#333] border border-gray-300 dark:border-gray-700 w-full mt-2 rounded-md overflow-hidden shadow-md">
-                 {suggestedUsers.map((username) => (
-                   <li
-                     key={username}
-                     className="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
-                     onClick={() => handleUserSelect()}
-                   >
-                     {username}
-                   </li>
-                 ))}
-               </ul>
-             )}
-           </div>
-           <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6  " >
-             {group?.users.map((u) => (
-               <PermissionUser
-                 group={group}
-                 user={u}
-                 project={project}
-                 key={u.username}
-               />
-             ))}
-           </div>
-           {addButton}
-         </div>
-       </div>
-     </div>
+    <div className="flex w-full justify-center h-full lg:justify-start">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
+        <div className="flex flex-col gap-12 justify-between">
+          <div>
+            <input
+              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
+              placeholder="Pesquisa"
+              type="text"
+              id="campoTexto"
+              value={text}
+              onChange={combinedOnChange}
+            />
+            <button
+              className="relative"
+              type="button"
+              onClick={findUser}
+            >
+              <img className="" src="/img/search.svg" alt="Search" />
+            </button>
+            {suggestedUsers.length > 0 && (
+              <ul className="absolute z-10 bg-white dark:bg-[#333] border border-gray-300 dark:border-gray-700 w-full mt-2 rounded-md overflow-hidden shadow-md">
+                {suggestedUsers.map((username) => (
+                  <li
+                    key={username}
+                    className="p-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                    onClick={() => handleUserSelect()}
+                  >
+                    {username}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6  " >
+            {group?.users.map((u) => (
+              <PermissionUser
+                group={group}
+                user={u}
+                project={project}
+                key={u.username}
+              />
+            ))}
+          </div>
+          {addButton}
+        </div>
+      </div>
+    </div>
   );
 };
