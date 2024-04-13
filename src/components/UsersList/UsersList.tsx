@@ -5,10 +5,9 @@ import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
 import { Group, GroupPut, OtherUser, Project, User } from "@/models";
 
-
 interface Props {
   project: Project;
-  group: Group;
+  group: Group | undefined;
 }
 
 export const UsersList: React.FC<Props> = ({ project, group }) => {
@@ -34,10 +33,12 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
       user.username.toLowerCase().includes(query)
     );
     let usersName: string[] = []
-    filteredUsers.map(u => {
-      usersName.push(u.username)
-    })
-    setSuggestedUsers(usersName);
+    if(filteredUsers != null){
+      filteredUsers.map(u => {
+        usersName.push(u.username)
+      })
+      setSuggestedUsers(usersName);
+    }
   };
 
   const handleUserSelect = () => {
