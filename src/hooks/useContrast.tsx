@@ -17,10 +17,7 @@ export function useContrast(): { contrastColor: string } {
         "--primary-color"
       );
     }
-      
-  
-      setContrastColor(generateContrast(color));
-
+    setContrastColor(generateContrast(color));
   }, [theme]);
 
   return { contrastColor };

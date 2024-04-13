@@ -10,7 +10,7 @@ export const DashboardBottom = () => {
   const ref = useRef<HTMLDivElement>(null);
   useClickAway(ref, () => setDashboardOpen(false));
   return (
-    <div className=" h-min fixed w-full bottom-0 flex flex-col" ref={ref}>
+    <div className=" h-min fixed w-full z-50 bottom-0 flex flex-col" ref={ref}>
       <button
         onClick={() => setDashboardOpen((prev) => !prev)}
         className="w-full h-12 bg-primary dark:bg-secondary  rounded-t-xl flex justify-center items-center"

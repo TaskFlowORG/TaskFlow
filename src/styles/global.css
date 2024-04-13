@@ -663,8 +663,8 @@ abbr[title] {
   display: none
 }
 .react-calendar__tile {
-  @apply rounded-sm text-contrast bg-input-grey dark:bg-back-grey bg-clip-border box-border  
-  border-[1px] border-white relative dark:border-modal-grey aspect-square text-[10px] text-modal-grey dark:text-white;
+  @apply rounded-sm  bg-input-grey dark:bg-back-grey bg-clip-border box-border  
+  border-[1px] border-white relative dark:border-modal-grey aspect-square text-[10px]  text-modal-grey dark:text-white ;
 }
 .react-calendar__month-view__days__day--weekend {
 @apply text-contrast bg-primary  aspect-square dark:bg-secondary;
@@ -673,7 +673,7 @@ abbr[title] {
   @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
 }
 .react-calendar__tile--active {
-  @apply bg-secondary-opacity relative dark:bg-primary-opacity opacity-80 text-modal-grey;
+  @apply bg-secondary-opacity relative dark:bg-primary-opacity opacity-80;
 }
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {

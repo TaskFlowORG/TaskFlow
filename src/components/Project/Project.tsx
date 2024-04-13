@@ -19,14 +19,13 @@ export const Project = () => {
     });
   }, []);
 
-
   return (
     <div className="w-sceen min-h-full pt-14 items-center bg-red-200 relative flex">
       <div className="w-full h-full  flex pr-12"></div>
-      <If condition={windowWidth > 768}>
-        <DashboardSide />
-        <DashboardBottom />
-      </If>
+        <If condition={windowWidth > 768}>
+          <DashboardSide />
+          <DashboardBottom />
+        </If>
     </div>
   );
 };

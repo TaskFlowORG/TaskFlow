@@ -58,5 +58,6 @@
         "create-a-permission": "Create a permission",
         "create": "Create",
         "delete": "Delete",
-        "update": "Update"
+        "update": "Update",
+        "no-tasks-in-project":"There are no tasks in this project"
 }

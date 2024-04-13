@@ -51,6 +51,7 @@
         "create-a-permission":"Criar uma permissão",
         "create":"Criar",
         "delete":"Deletar",
-        "update":"Atualizar"
+        "update":"Atualizar",
+        "no-tasks-in-project":"Nenhuma tarefa no projeto"
 
 }

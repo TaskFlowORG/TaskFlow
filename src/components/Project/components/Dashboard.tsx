@@ -32,13 +32,13 @@ export const Dashboard = () => {
                 <h5 className=" leading-none p font-semibold  text-primary dark:text-secondary">
                   {t("pages")}
                 </h5>
-                <p className="text-[36px] h-min leading-none font-alata text-primary">{project?.pages.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary dark:text-secondary">{project?.pages.length}</p>
               </div>
               <div className="shadow-blur-10 flex flex-col justify-center gap-2 items-center h-40 md:h-full w-full rounded-md">
                 <h5 className=" leading-none p font-semibold text-primary dark:text-secondary">
                   {t("groups")}
                 </h5>
-                <p className="text-[36px] h-min leading-none font-alata text-primary">{groups.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary dark:text-secondary">{groups.length}</p>
               </div>
             </span>
           </div>
