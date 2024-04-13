@@ -12,30 +12,25 @@ interface Props {
     project: Project;
     user: string;
     setModalGroups: (value: boolean) => void;
-    global: boolean
+    global: string
 }
 
 
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const [groups, setGroups] = useState<Group[]>([]);
-    const [newGroup, setNewGroup] = useState<GroupPost>();
-    const [owner, setOwner] = useState<User>();
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedUser = await userService.findLogged();
-                setOwner(fetchedUser)
-
                 let fetchedGroups : Group[];
-                if (global == true) {
+                if (global == "groupsUser") {
                     fetchedGroups = await groupService.findGroupsByUser();
                     setGroups(fetchedGroups)
-                } else if (global == false) {
-                     fetchedGroups = await getListData("/project/"+project.id);
-                    setGroups(fetchedGroups)
+                } else if (global == "groupsProject") {
+                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
+                     setGroups(fetchedGroups)
                 }
                 const fetchedPermissions = await permissionService.findAll(project.id);
                  const permissionArray: Permission[] = [];
@@ -51,35 +46,20 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
             } catch (error) {
                 console.error("Error fetching groups:", error);
             }
-            
         };
         
         fetchData();
     }, [project.id]);
 
-    const verOsGrupos = (): void => {
-        groups.map(g => {
-            console.log(g);
-        });
-    };
 
     const addNewGroup = async () => {
         const name: string = "Nome do grupo";
         const description: string = "Descrição do grupo";
         let groupPermission: Permission[] = [];
-        let userList: User[] = []
+        
     
         try {
-            const fetchedUser = await userService.findLogged();
-            if (!fetchedUser) {
-                console.error("Owner não está definido!");
-                return;
-            }
-            userList.push(fetchedUser);
-            console.log("oi")
-            console.log(permissions);
-            
-            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
+            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
     
             if (deleteCreatePermission) {
                 groupPermission.push(deleteCreatePermission);
@@ -108,8 +88,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                                 
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
-                                    {()=> verOsGrupos()}
-                                    <button onClick={() => router.push("/" + owner?.username + "/" + project.id + "/group/" + group.id)}>
+                                    <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
                                         
                                         <GroupComponent group={group} />
                                     </button>

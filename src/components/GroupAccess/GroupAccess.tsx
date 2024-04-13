@@ -61,14 +61,6 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         }
     }
 
-    const handleButton = () => {
-        if (isEnable) {
-            setIsEnable(false);
-        } else {
-            setIsEnable(true);
-        }
-    }
-
     const updateTheInformationsOFAGroup = () => {
         group.name = newName;
         group.description = newDescription

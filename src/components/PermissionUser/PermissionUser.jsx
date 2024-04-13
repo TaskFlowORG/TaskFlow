@@ -3,19 +3,18 @@ import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { use, useEffect, useState } from "react"
 import { GroupOptions } from "../GroupOptions/GroupOptions"
+import { permissionService, userService } from "@/services";
+import { Permission } from "@/models";
 
-export const PermissionUser = ({ group, userId, project }) => {
-  const [user, setUser] = useState({})
+export const PermissionUser = ({ group, user, project }) => {
   const [selectedPermission, setSelectedPermission] = useState("");
   const { theme, setTheme } = useTheme();
-  const [permissionsList, setPermissionsList] = useState([]);
+  const [permissions, setPermissions] = useState<Permission>([]);
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     const getLists = async () => {
-      const fetchedUser = await getData("user", userId)
-      const fetchedPermissions = await getListData("permission");
-      setUser(fetchedUser)
+      const fetchedPermissions = await permissionService.findAll(project.id);
       setPermissionsList(fetchedPermissions);
     };
     getLists();
@@ -24,7 +23,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
   async function updatePermission(selectedValue) {
     try {
-      const selectedPermission = permissionsList.find(permission => permission.name === selectedValue);
+      const selectedPermission = permissions.find(permission => permission.name === selectedValue);
       if (!selectedPermission) {
         throw new Error('Permissão selecionada não encontrada.');
       }
@@ -53,7 +52,7 @@ export const PermissionUser = ({ group, userId, project }) => {
 
   const fullName = `${user.name} ${user.surname}`;
 
-  const displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
+  const displayFullName = fullName.length > 6 ? `${fullName.slice(0, 6)}...` : fullName;
 
   return (
     <div className="">
@@ -100,16 +99,12 @@ export const PermissionUser = ({ group, userId, project }) => {
               ) : (
                 <option value="" disabled>Permissão</option>
               )}
-              {permissionsList.map(permission => {
-                if (permission.project.id === project.id) {
+              {permissions.map(permission => {
                   return (
                     <option key={permission.name} value={permission.name}>
                       {permission.name}
                     </option>
                   );
-                } else {
-                  return null;
-                }
               })}
             </select>
           )}

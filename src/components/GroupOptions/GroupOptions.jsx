@@ -6,9 +6,12 @@ export const GroupOptions = ({ isOpen, group, user }) => {
     async function deleteUser() {
             const updatedUsers = group.users.filter(u => u.username !== user.username);
 
-            group.users = updatedUsers;
-            console.log("lista", updatedUsers)
-            await putData("group", group)
+            if(group != null){
+                group.users = updatedUsers;
+                newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
+                group?.users.push(user);
+                await groupService.update(newGroup, group.id);
+              }
     }
 
     const profile = theme === "dark" ? <img src="/img/userOrange.svg"/> : <img src="/img/userPink.svg/"/>

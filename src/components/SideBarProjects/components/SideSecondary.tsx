@@ -63,7 +63,7 @@ export const SideSecondary = ({ user, project, setModalPages, setModalGroups, mo
           </If>
         </LocalModal>
         <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={false}/>
+                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={"groupsProject"}/>
             </SideModal>
       </div>
     </>
