@@ -69,7 +69,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                 groupPermission.push(deleteCreatePermission);
             }
     
-            const newGroup = new GroupPost(name, description, groupPermission, users);
+            const newGroup = new GroupPost(name, description, groupPermission, []);
         
             await groupService.insert(newGroup);
     
