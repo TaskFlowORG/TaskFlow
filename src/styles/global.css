@@ -575,7 +575,7 @@ select::-ms-expand {
 }
 
 .inputRegister {
-  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
+  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
 .swiper-type-of-page-light {

@@ -9,6 +9,9 @@ import { If } from "../If";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { ProjectContext } from "@/contexts";
 import { PageContext } from "@/utils/pageContext";
+import { useTranslation } from "next-i18next";
+import { TypeOfChat } from "@/models";
+import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
 
 export const Notification = ({
   notification,
@@ -44,6 +47,27 @@ export const Notification = ({
     setSelectedTask(task.task);
   }, [project]);
 
+  const { t } = useTranslation();
+  const getMessage = (notification: NotificationModel) => {
+    switch (notification.type) {
+      case TypeOfNotification.CHANGETASK:
+        return t("notification-task", {aux:notification.aux});
+      case TypeOfNotification.CHAT:
+        return t("notification-chat", {aux:notification.aux});
+      case TypeOfNotification.ADDORREMOVEINGROUP:
+        return t("notification-group", {aux:notification.aux});
+      case TypeOfNotification.CHANGEPERMISSION:
+        return t("notification-permission", {aux:notification.aux});
+      case TypeOfNotification.COMMENT:
+        return t("notification-comment", {aux:notification.aux});
+      case TypeOfNotification.DEADLINE:
+        return t("notification-deadline", {aux:notification.aux});
+      case TypeOfNotification.POINTS:
+        return t("notification-points", {aux:notification.aux});
+      case TypeOfNotification.SCHEDULE:
+        return t("notification-schedule", {aux:notification.aux});}
+  };
+
   return (
     <Link
       href={link}
@@ -61,7 +85,7 @@ export const Notification = ({
           <NotificationTitle type={notification.type} />
         </span>
         <p className="font-montserrat text-[10px] w-full text-start whitespace-pre-wrap">
-          {notification.message}
+          {getMessage(notification)}
         </p>
       </div>
       <If condition={!notification.visualized}>
