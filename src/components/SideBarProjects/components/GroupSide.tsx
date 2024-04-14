@@ -56,16 +56,20 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         const name: string = "Nome do grupo";
         const description: string = "Descrição do grupo";
         let groupPermission: Permission[] = [];
+        let users: User[] = []
         
     
         try {
+            const fetchedUser = await userService.findLogged();
+            users.push(fetchedUser)
+
             let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
     
             if (deleteCreatePermission) {
                 groupPermission.push(deleteCreatePermission);
             }
     
-            const newGroup = new GroupPost(name, description, groupPermission, []);
+            const newGroup = new GroupPost(name, description, groupPermission, users);
         
             await groupService.insert(newGroup);
     
@@ -74,7 +78,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         }
     };
     
-
     return (
         <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
             <Navigate modalPages setCondition={setModalGroups} />

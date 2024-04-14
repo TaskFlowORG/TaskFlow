@@ -1,5 +1,4 @@
 "use client";
-import { getListData, getData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { use, useEffect, useState } from "react"
 import { GroupOptions } from "../GroupOptions/GroupOptions"
@@ -7,15 +6,16 @@ import { permissionService, userService } from "@/services";
 import { Permission } from "@/models";
 
 export const PermissionUser = ({ group, user, project }) => {
+  const [permissions, setPermissions] = useState();
   const [selectedPermission, setSelectedPermission] = useState("");
   const { theme, setTheme } = useTheme();
-  const [permissions, setPermissions] = useState<Permission>([]);
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
     const getLists = async () => {
-      const fetchedPermissions = await permissionService.findAll(project.id);
-      setPermissionsList(fetchedPermissions);
+      const fetchedPermissions = await permissionService.findAll(project.id)
+      setPermissions(fetchedPermissions);
+      
     };
     getLists();
   }, [group, project]);
@@ -37,7 +37,7 @@ export const PermissionUser = ({ group, user, project }) => {
 
         user.permissions = [...user.permissions, selectedPermission];
 
-        await putData("user", user);
+        await userService.insert(user);
 
         alert('Permissão atualizada com sucesso!');
       }
@@ -52,7 +52,7 @@ export const PermissionUser = ({ group, user, project }) => {
 
   const fullName = `${user.name} ${user.surname}`;
 
-  const displayFullName = fullName.length > 6 ? `${fullName.slice(0, 6)}...` : fullName;
+  const displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
 
   return (
     <div className="">

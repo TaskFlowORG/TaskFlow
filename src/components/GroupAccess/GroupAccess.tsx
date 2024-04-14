@@ -51,7 +51,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     group.permissions = []
                 }
                 group.permissions.push(selectedPermission);
-                await putData("group", group);
+                await groupService.update(group, group.id);
                 setSelectedPermission(0);
                 alert('Permissão atualizada com sucesso!');
             }
@@ -68,7 +68,6 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         setIsEnable(false)
     }
 
-    const button = theme === "light" ? '/img/themeLight/edit.svg' : '/img/editar.svg';
 
     return (
         <div className="flex pl-8  gap-4 items-start">
