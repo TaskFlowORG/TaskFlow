@@ -100,7 +100,7 @@ export const GeneralConfig = () => {
   return (
     <div className="flex justify-center items-center w-full h-full">
       <div className="flex lg:justify-center items-center justify-start w-full h-full flex-col lg:py-0 py-20">
-        <div className="w-[85%] lg:h-[60%] flex flex-col lg:justify-around lg:gap-0 gap-10 pb-32">
+        <div className="w-[85%] lg:h-[60%] flex flex-col lg:justify-around lg:gap-0 gap-10 lg:pb-0 pb-32">
           <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
             <div className="w-[95%] ">
               <div className="w-full flex items-start lg:justify-normal h-28">
@@ -113,7 +113,7 @@ export const GeneralConfig = () => {
               <div className="w-full h-fit">
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={"Google Agendas"} value={t("dark-mode-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
-                <InputFieldConfig id={"language"} type={"checkbox"} label={"Idioma"} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => ({})} />
+                <InputSelectConfig title="Idioma" description="Escolha qual idioma você quer utilizar no site." options={["Português", "Espanhol", "Inglês"]}></InputSelectConfig>
                 <InputRangeConfig></InputRangeConfig>
 
               </div>
@@ -122,7 +122,7 @@ export const GeneralConfig = () => {
               <div className=" flex flex-col gap-3 lg:h-fit h-48 ">
                 <div className="w-fit flex flex-col ">
                   <div className="h-fit flex flex-col justify-start">
-                    <p className="text-h3 dark:text-white ">Acessibilidade </p>
+                    <p className="text-h3 font-alata dark:text-white ">Acessibilidade </p>
                     <p className="text-p font-alata">
                       Lorem ipsum dolor sit amet consectetur. Ut varius purus
                       proin a. Euismod placerat tortor ultrices at odio dolor
@@ -143,7 +143,7 @@ export const GeneralConfig = () => {
                   </div>
                 </div>
                 <InputFieldConfig id={"propertyNames"} type={"checkbox"} label={"Nome das propriedades"} value={"Apenas o nome das propriedades será exibido, ao invés de seus valores também."} onChange={() => { }} checked={false} ></InputFieldConfig>
-                <InputSelectConfig></InputSelectConfig>
+                {/* <InputSelectConfig title="Propriedade data" description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”."></InputSelectConfig> */}
                 <InputCoresConfig functionBall={functionBall}></InputCoresConfig>
               </div>
               <TutorialConfig />
