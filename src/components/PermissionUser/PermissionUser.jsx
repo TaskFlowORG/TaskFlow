@@ -13,13 +13,11 @@ export const PermissionUser = ({ group, user, project }) => {
 
   useEffect(() => {
     const getLists = async () => {
-      const fetchedPermissions = await permissionService.findAll(project.id)
+      const fetchedPermissions = await permissionService.findAll(project.id);
       setPermissions(fetchedPermissions);
-      
     };
     getLists();
-  }, [group, project]);
-
+  }, [group]);
 
   async function updatePermission(selectedValue) {
     try {
@@ -100,11 +98,11 @@ export const PermissionUser = ({ group, user, project }) => {
                 <option value="" disabled>Permissão</option>
               )}
               {permissions.map(permission => {
-                  return (
-                    <option key={permission.name} value={permission.name}>
-                      {permission.name}
-                    </option>
-                  );
+                return (
+                  <option key={permission.name} value={permission.name}>
+                    {permission.name}
+                  </option>
+                );
               })}
             </select>
           )}

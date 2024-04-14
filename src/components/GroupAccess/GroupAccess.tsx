@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getListData, putData } from '@/services/http/api';
-import { Group, Permission, Project } from '@/models';
+import { Group, GroupPut, Permission, Project } from '@/models';
 import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
@@ -51,7 +51,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     group.permissions = []
                 }
                 group.permissions.push(selectedPermission);
-                await groupService.update(group, group.id);
+                await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
                 setSelectedPermission(0);
                 alert('Permissão atualizada com sucesso!');
             }
@@ -64,7 +64,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const updateTheInformationsOFAGroup = () => {
         group.name = newName;
         group.description = newDescription
-        groupService.update(group, group.id);
+        groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         setIsEnable(false)
     }
 

@@ -64,7 +64,15 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     setShowSuggestions(false); 
   };
 
-  const addUser = async (user: User) => {
+  const verifyUser = () =>{
+    if(newUser == null){
+      alert("Usuário inválido")
+    } else{
+      addUser(newUser)
+    }
+  }
+
+  const addUser = async (user: OtherUser) => {
     if (Object.keys(user).length === 0) {
       alert("Adicione um usuário válido");
       return;
@@ -97,13 +105,13 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     <button
       className={`h-10 w-[80%] rounded-xl self-center`}
       type="button"
-      onClick={() => addUser(newUser)} 
+      onClick={() => verifyUser()} 
       style={{
         backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary-color)" : "var(--primary-color)"} 0%, ${theme == "dark" ? "var(--primary-color)" : "var(--secondary-color)"} 80%)`,
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
       }}
     >
-      <h5 className="text-[#FCFCFC]">Add Usuário</h5>
+      <h5 className="text-[#FCFCFC]">Adicionar Usuário</h5>
     </button>
   );
 

@@ -25,6 +25,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         const fetchData = async () => {
             try {
                 let fetchedGroups: Group[];
+                let fetchedGroupsUser: Group[];
 
                 if (global === "userGroups") {
                     fetchedGroups = await groupService.findGroupsByUser();
