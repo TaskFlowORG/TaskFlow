@@ -12,12 +12,13 @@ export const PermissionUser = ({ group, user, project }) => {
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
-    const getLists = async () => {
-      const fetchedPermissions = await permissionService.findAll(project.id);
-      setPermissions(fetchedPermissions);
-    };
-    getLists();
+    fetchData();
   }, [group]);
+
+  const fetchData = async () => {
+    const fetchedPermissions = await permissionService.findAll(project.id);
+    setPermissions(fetchedPermissions);
+  };
 
   async function updatePermission(selectedValue) {
     try {
@@ -36,6 +37,8 @@ export const PermissionUser = ({ group, user, project }) => {
         user.permissions = [...user.permissions, selectedPermission];
 
         await userService.insert(user);
+
+        fetchData();
 
         alert('Permissão atualizada com sucesso!');
       }

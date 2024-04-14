@@ -19,12 +19,13 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const { theme } = useTheme();
 
     useEffect(() => {
-        const getLists = async () => {
-            const fetchedPermissions = await permissionService.findAll(project.id);
-            setPermissions(fetchedPermissions);
-        };
-        getLists();
+        fetchData();
     }, [group]);
+
+    const fetchData = async () => {
+        const fetchedPermissions = await permissionService.findAll(project.id);
+        setPermissions(fetchedPermissions);
+    };
 
     const findPermission = async (selectedValue: number) => {
         setSelectedPermission(selectedValue);

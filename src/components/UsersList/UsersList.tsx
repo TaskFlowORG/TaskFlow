@@ -20,13 +20,13 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   const inputRef = useRef<HTMLInputElement>(null); // Ref para o input de busca
 
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedUser = await userService.findAll();
-      setUsers(fetchedUser)
-    };
-
     fetchData();
   }, [project.id]);
+
+  const fetchData = async () => {
+    const fetchedUser = await userService.findAll();
+    setUsers(fetchedUser)
+  };
 
   const findUser = async () => {
     const userFind = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
@@ -90,6 +90,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
         group?.users.push(user);
         newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
         await groupService.update(newGroup, group.id);
+        fetchData();
       }
     } catch (error) {
       console.error("Error adding user to group:", error);

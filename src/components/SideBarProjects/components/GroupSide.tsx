@@ -21,64 +21,53 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                let fetchedGroups: Group[];
-                let fetchedGroupsUser: Group[];
-
-                if (global === "userGroups") {
-                    fetchedGroups = await groupService.findGroupsByUser();
-                    setGroups(fetchedGroups)
-                } else if (global === "projectGroups") {
-                    fetchedGroups = await groupService.findGroupsByAProject(project.id);
-                    setGroups(fetchedGroups)
-                }
-                const fetchedPermissions = await permissionService.findAll(project.id);
-                const permissionArray: Permission[] = [];
-
-                fetchedPermissions.map(p => {
-                    if (p.project.id === project.id) {
-                        permissionArray.push(p);
-                    }
-                });
-
-                setPermissions(permissionArray);
-
-            } catch (error) {
-                console.error("Error fetching groups:", error);
-            }
-        };
-
         fetchData();
     }, [project.id]);
 
-
-    const addNewGroup = async () => {
-        const name: string = "Nome do grupo";
-        const description: string = "Descrição do grupo";
-        let groupPermission: Permission[] = [];
-
+    const fetchData = async () => {
         try {
-            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
+            let fetchedGroups: Group[];
+            let fetchedGroupsUser: Group[];
 
-            if (deleteCreatePermission) {
-                groupPermission.push(deleteCreatePermission);
-            } else {
-                permissionService.insert(new PermissionPost("Instrutor", TypePermission.UPDATE_CREATE, project), project.id);
-                deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_CREATE);
-                if (deleteCreatePermission) {
-                    groupPermission.push(deleteCreatePermission)
-                }
+            if (global === "userGroups") {
+                fetchedGroups = await groupService.findGroupsByUser();
+                setGroups(fetchedGroups)
+            } else if (global === "projectGroups") {
+                fetchedGroups = await groupService.findGroupsByAProject(project.id);
+                setGroups(fetchedGroups)
             }
+            const fetchedPermissions = await permissionService.findAll(project.id);
+            const permissionArray: Permission[] = [];
 
-            const newGroup = new GroupPost(name, description, groupPermission, []);
+            fetchedPermissions.map(p => {
+                if (p.project.id === project.id) {
+                    permissionArray.push(p);
+                }
+            });
 
-            await groupService.insert(newGroup);
+            setPermissions(permissionArray);
 
         } catch (error) {
-            console.error("Erro ao adicionar novo grupo:", error);
+            console.error("Error fetching groups:", error);
         }
+    };
+
+
+    const addNewGroup = async () => {
+        let groupPermission: Permission[] = [];
+
+        let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
+
+        if (deleteCreatePermission) {
+            groupPermission.push(deleteCreatePermission);
+        } 
+
+        const newGroup = new GroupPost("Nome do grupo", "Descrição do Grupo", groupPermission, []);
+
+        await groupService.insert(newGroup);
+        fetchData();
     };
 
     return (
