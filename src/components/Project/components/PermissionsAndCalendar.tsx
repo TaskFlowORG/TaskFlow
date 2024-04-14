@@ -81,6 +81,7 @@ export const PermissionsAndCalendar = () => {
         date.getDay() === 0 || date.getDay() == 6
           ? "var(--secondary-color)"
           : "var(--primary-color)";
+    bg = compareDates(date, new Date()) ?  "var(--contrast-color)" : bg;
     // Se a data estiver destacada, retorna um elemento com uma bolinha
     if (isHighlighted) {
       return (
