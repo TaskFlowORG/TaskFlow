@@ -17,6 +17,7 @@ import { Loading } from "@/components/Loading";
 import { steps } from "@/utils/tutorial";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { PageContext } from "@/utils/pageContext";
+import { generateContrast } from "@/functions";
 
 //UseClickAway Hook
 export default function Layout({
@@ -28,7 +29,6 @@ export default function Layout({
 }) {
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
-  const { contrastColor } = useContrast();
   const [openSideBar, setOpenSideBar] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { setTheme, theme } = useTheme();
@@ -37,20 +37,17 @@ export default function Layout({
   const [inPage, setInPage] = useState(false);
   const [task, setSelectedTask] = useState<Task>();
   const [isOpen, setIsOpen] = useState(false);
-
+  const {contrastColor} = useContrast();
   useEffect(() => {
     (async () => {
       if(!user) return;
       setTheme(user.configuration.theme.toLowerCase());
       document.documentElement.style.setProperty('--primary-color', user.configuration.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', user.configuration.secondaryColor);
-      document.documentElement.style.setProperty(
-        "--contrast-color",
-        contrastColor
-      );
+      document.documentElement.style.setProperty( "--contrast-color", generateContrast(theme == "light" ? user.configuration.primaryColor : user.configuration.secondaryColor) );
     })();
   },[user] );
-
+  
   useEffect(() => {
     (async () => {
       if(!user || !setUser) return;
@@ -84,7 +81,7 @@ export default function Layout({
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
 
-        <Joyride  steps={steps.steps} showProgress />
+        {/* <Joyride  steps={steps.steps} showProgress /> */}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
         <TaskModalContext.Provider

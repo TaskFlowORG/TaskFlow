@@ -1,10 +1,12 @@
+import { UserContext } from "@/contexts/UserContext";
 import { generateContrast } from "@/functions";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export function useContrast(): { contrastColor: string } {
   const { theme } = useTheme();
   const [contrastColor, setContrastColor] = useState("#3c3c3c");
+  const {user} = useContext(UserContext);
 
   useEffect(() => {
     let color;
@@ -18,7 +20,7 @@ export function useContrast(): { contrastColor: string } {
       );
     }
     setContrastColor(generateContrast(color));
-  }, [theme]);
+  }, [theme, setContrastColor, generateContrast, user]);
 
   return { contrastColor };
 }

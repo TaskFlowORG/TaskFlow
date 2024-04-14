@@ -185,7 +185,6 @@
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
-
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -205,7 +204,7 @@
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
-  z-index:15;
+  z-index: 15;
   right: 0.5rem;
 }
 
@@ -277,7 +276,7 @@ input[type="checkbox"] {
   border: 2px solid #ccc;
   outline: none;
   position: relative;
-} 
+}
 
 input[type="checkbox"]:checked::before {
   content: "";
@@ -361,9 +360,8 @@ select::-ms-expand {
   @apply font-montserrat text-[16px];
 }
 
-.p14{
+.p14 {
   @apply font-montserrat text-[14px];
-
 }
 
 .mn {
@@ -417,7 +415,7 @@ select::-ms-expand {
 }
 
 .toggle-input:checked + .toggle-slider {
-  @apply bg-primary dark:bg-secondary ;
+  @apply bg-primary dark:bg-secondary;
 }
 
 .toggleIn {
@@ -429,7 +427,7 @@ select::-ms-expand {
 }
 
 .none-scrollbar::-webkit-scrollbar {
-  @apply hidden ;
+  @apply hidden;
 }
 
 ::-webkit-scrollbar {
@@ -440,7 +438,6 @@ select::-ms-expand {
 
 /* Define a cor do fundo do scroll */
 ::-webkit-scrollbar-track {
-
   background: #f1f1f1;
   border-radius: 6px;
 }
@@ -575,7 +572,7 @@ select::-ms-expand {
 }
 
 .inputRegister {
-  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
+  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
 .swiper-type-of-page-light {
@@ -607,7 +604,7 @@ select::-ms-expand {
 #configurations:checked {
   @apply bg-primary dark:bg-secondary border-none;
 }
-#configurations{
+#configurations {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -644,9 +641,8 @@ select::-ms-expand {
   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }
 
-
 /*this remove the arrows from the input number*/
-input[type="number"]{
+input[type="number"] {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
@@ -656,44 +652,45 @@ input[type="number"]{
     -webkit-appearance: none;
     margin: 0;
   }
-
 }
 
-
-
-.react-calendar { 
+.react-calendar {
   @apply bg-white dark:bg-modal-grey w-full  font-alata;
 }
 .react-calendar__navigation {
   @apply flex justify-between items-center gap-2;
 }
 .react-calendar__navigation button {
-  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
+  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap;
 }
 .react-calendar__navigation button[disabled] {
- @apply opacity-20;
+  @apply opacity-20;
 }
 
 abbr[title] {
-  display: none
+  display: none;
+}
+.react-calendar__month-view__days {
+  @apply rounded-sm  bg-input-grey dark:bg-back-grey 
+relative text-[10px]  text-modal-grey dark:text-white;
 }
 .react-calendar__tile {
-  @apply rounded-sm  bg-input-grey dark:bg-back-grey bg-clip-border box-border  
-  border-[1px] border-white relative dark:border-modal-grey aspect-square text-[10px]  text-modal-grey dark:text-white ;
-}
-.react-calendar__month-view__days__day--weekend {
-@apply text-contrast bg-primary  aspect-square dark:bg-secondary;
-} 
-.react-calendar__tile--now {
-  @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
-}
-.react-calendar__tile--active {
-  @apply bg-secondary-opacity relative dark:bg-primary-opacity opacity-80;
+  @apply rounded-sm  bg-clip-border box-border  
+  border-[1px] border-white relative dark:border-modal-grey aspect-square;
 }
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
   display: none;
 }
+.react-calendar__month-view__days__day--weekend {
+  @apply text-contrast bg-primary  aspect-square dark:bg-secondary;
+}
 .react-calendar__month-view__days__day--neighboringMonth {
   @apply opacity-70;
+}
+.react-calendar__tile--now {
+  @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
+}
+.react-calendar__tile--active {
+  @apply bg-secondary-opacity relative dark:bg-primary-opacity text-modal-grey;
 }

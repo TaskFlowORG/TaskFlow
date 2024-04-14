@@ -36,11 +36,11 @@ export const CalendarDay = ({ date, propOrd }: Props) => {
 
     return (
         <>
-        <button className={"aspect-square h-full px-px smm:px-2  border-[1px] pt-px smm:pt-2 font-montserrat relative cursor-pointer sm:text-[32px] smm:rounded-sm " + dayClasses}
+        <button className={"aspect-square h-full px-px smm:px-2  border-[1px] pt-1 font-montserrat relative cursor-pointer sm:text-[32px] smm:rounded-sm " + dayClasses}
         onClick={() => setModal(true)}>
-            <div className="w-full h-1/5 flex justify-start items-start flex-wrap">
+            <div className="w-full h-1/5 flex justify-end items-start flex-wrap">
                 <div className="flex flex-wrap w-full ">
-                    {date.tasks.map((t, index) => <Obj objs={date.tasks} key={index} max={windowWidth <= 1280 ? windowWidth <= 560 ? 1 : 2: 3} functionObj={() => { }} />)}
+                    <Obj objs={date.tasks} isTaskPage color={compareDates(date.day, new Date())} mawWidth="w-full" max={windowWidth > 1280 ? 1 : windowWidth > 1024 ? 2 : windowWidth>600  ? 2 : 1}functionObj={() => { }} />
                 </div>
             </div>
             <div className="w-full h-4/5 text-[12px] smm:text-[18px]  md:text-[24px] flex items-end relative z-20 justify-end">
