@@ -68,11 +68,19 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         setIsEnable(false)
     }
 
+    const handleImageClick = () => {
+        setIsEnable(true);
+    };
+
 
     return (
         <div className="flex pl-8  gap-4 items-start">
             <div>
-                <div className="z-20 rounded-full w-24 h-24 bg-cyan-500"></div>
+                <div>
+                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={handleImageClick}>
+
+                    </button>
+                </div>
             </div>
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">

@@ -23,22 +23,14 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("tô aquiiiii");
             try {
                 let fetchedGroups: Group[];
-                console.log("antes de tudo", global);
-                if (global === "userGroups") {
-                    console.log("user", global);
 
+                if (global === "userGroups") {
                     fetchedGroups = await groupService.findGroupsByUser();
                     setGroups(fetchedGroups)
                 } else if (global === "projectGroups") {
-                    console.log("project", global);
-
                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
-                    console.log("olha os grupos", fetchedGroups)
-                    console.log("gayyyyy");
-                    
                     setGroups(fetchedGroups)
                 }
                 const fetchedPermissions = await permissionService.findAll(project.id);
@@ -102,7 +94,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
                                     <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
-
                                         <GroupComponent group={group} />
                                     </button>
                                 </div>

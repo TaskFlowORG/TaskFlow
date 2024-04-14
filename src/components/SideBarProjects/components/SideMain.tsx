@@ -40,7 +40,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
                         <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text={t("initial-page")} fnClick={() => setProject && setProject(undefined)} />
                         <SideBarButton icon={<IconProjects />} text={t("projects")} link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
                         <SideBarButton icon={<IconGroups />} text={t("groups")} fnClick={() => setModalGroups(true)} />
-                        <SideBarButton icon={<IconGroups />} text={t("Grupos do Projeto")} fnClick={() => setModalProjectGroups(true)} />
+                        <SideBarButton icon={<IconGroups />} text={t("projects-groups")} fnClick={() => setModalProjectGroups(true)} />
                         <If condition={project != undefined}>
                             <SideSecondary setModalPages={setModalPages} user={user} project={project} />
                         </If>
