@@ -10,19 +10,19 @@ interface Props {
   setRange: (range: number | null) => void;
   disable?: boolean;
 }
-export const RangeInput = ({ range, setRange, max, step, disable, min = 0 }: Props) => {
-  const calculateWidth = (range: number | null) => {
-    if (range == null) return 0;
-    return (range / max) * 100;
-  };
+export const  RangeInput = ({ range, setRange, max, step, disable, min = 0 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
+  const calculateWidth = (range: number | null) => {
+    if (range == null) return min;
+    return ((range-min) / (max-min)) * 100;
+  };
   const calcLeft = (range: number ) => {
     if (ref.current) {
       const width = ref.current.clientWidth;
-      const left = (range / max) * width;
+      const left = ((range-min) / (max-min)) * width;
       return left - 4;
     }
-    return 0;
+    return min;
   };
 
    const classes = twMerge(

@@ -27,13 +27,11 @@ export const LanguageProvider = ({ children }:{children:React.ReactNode}) => {
 
   useEffect(() => {
     let lang = 'en';
-    console.log(user?.configuration?.language)
     if (user?.configuration?.language) {
       lang = languageToString(user.configuration.language);
     }else{
       lang = navigator.language; 
     }
-    console.log(i18n)
     changeLanguage(lang);
   }, [user]);
 
