@@ -6,7 +6,7 @@ import { getListData } from "@/services/http/api";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService, userService } from "@/services";
-import { group } from "console";
+import { log } from "console";
 
 interface Props {
     project: Project;
@@ -23,31 +23,40 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("tô aquiiiii");
             try {
-                let fetchedGroups : Group[];
-                if (global == "groupsUser") {
+                let fetchedGroups: Group[];
+                console.log("antes de tudo", global);
+                if (global === "userGroups") {
+                    console.log("user", global);
+
                     fetchedGroups = await groupService.findGroupsByUser();
                     setGroups(fetchedGroups)
-                } else if (global == "groupsProject") {
-                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
-                     setGroups(fetchedGroups)
+                } else if (global === "projectGroups") {
+                    console.log("project", global);
+
+                    fetchedGroups = await groupService.findGroupsByAProject(project.id);
+                    console.log("olha os grupos", fetchedGroups)
+                    console.log("gayyyyy");
+                    
+                    setGroups(fetchedGroups)
                 }
                 const fetchedPermissions = await permissionService.findAll(project.id);
-                 const permissionArray: Permission[] = [];
+                const permissionArray: Permission[] = [];
 
-                 fetchedPermissions.map(p => {
-                     if (p.project.id === project.id) {
-                         permissionArray.push(p);
-                     }
-                 });
+                fetchedPermissions.map(p => {
+                    if (p.project.id === project.id) {
+                        permissionArray.push(p);
+                    }
+                });
 
                 setPermissions(permissionArray);
-               
+
             } catch (error) {
                 console.error("Error fetching groups:", error);
             }
         };
-        
+
         fetchData();
     }, [project.id]);
 
@@ -56,28 +65,29 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         const name: string = "Nome do grupo";
         const description: string = "Descrição do grupo";
         let groupPermission: Permission[] = [];
-        let users: User[] = []
-        
-    
-        try {
-            const fetchedUser = await userService.findLogged();
-            users.push(fetchedUser)
 
+        try {
             let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
-    
+
             if (deleteCreatePermission) {
                 groupPermission.push(deleteCreatePermission);
+            } else {
+                permissionService.insert(new PermissionPost("Instrutor", TypePermission.UPDATE_CREATE, project), project.id);
+                deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_CREATE);
+                if (deleteCreatePermission) {
+                    groupPermission.push(deleteCreatePermission)
+                }
             }
-    
+
             const newGroup = new GroupPost(name, description, groupPermission, []);
-        
+
             await groupService.insert(newGroup);
-    
+
         } catch (error) {
             console.error("Erro ao adicionar novo grupo:", error);
         }
     };
-    
+
     return (
         <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
             <Navigate modalPages setCondition={setModalGroups} />
@@ -88,11 +98,11 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                     <div className="flex flex-col items-start max-w-full h-min w-full">
                         <div className="max-w-full h-min w-full pt-2">
                             {Array.isArray(groups) && groups.map((group, index) => (
-                                
+
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
                                     <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
-                                        
+
                                         <GroupComponent group={group} />
                                     </button>
                                 </div>

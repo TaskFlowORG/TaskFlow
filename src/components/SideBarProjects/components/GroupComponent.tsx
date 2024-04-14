@@ -22,7 +22,7 @@ export const GroupComponent = ({ group }: Props) => {
             onMouseEnter={() => setShowIcon(true)}
             onMouseLeave={() => setShowIcon(false)}
         >
-            {/* colocar aqui a imagem do grupo */}
+            {/* colocar aqui a imagem do grupo depois*/}
             <div className="rounded-full w-14 h-14 bg-purple-300"> </div>
             <div className="flex flex-col">
                 <div key={group.id} className="text-start p rounded-md h-7 w-full hover:brightness-95">{group.name}</div>
