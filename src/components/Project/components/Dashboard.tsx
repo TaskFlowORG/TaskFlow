@@ -23,7 +23,7 @@ export const Dashboard = () => {
   }, [project]);
   return (
     <div className="w-full  h-full  none-scrollbar overflow-y-auto sm:flex px-6 py-1  md:p-6 gap-4 ">
-      <div className="w-full h-min md:h-full  md:mr-4  sm:mr-[9.8rem] gap-4 flex flex-col md:flex-row">
+      <div className="w-full h-min md:h-full  md:mr-4  sm:pr-[9.8rem] md:pr-0 gap-4 flex flex-col md:flex-row">
         <div className="w-full md:w-2/5  flex gap-4 flex-col h-min md:h-full">
           <FeaturedUser />
           <div className="flex flex-col w-full h-1/5   ">
@@ -32,13 +32,13 @@ export const Dashboard = () => {
                 <h5 className=" leading-none p font-semibold  text-primary dark:text-secondary">
                   {t("pages")}
                 </h5>
-                <p className="text-[36px] h-min leading-none font-alata text-primary">{project?.pages.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary dark:text-secondary">{project?.pages.length}</p>
               </div>
               <div className="shadow-blur-10 flex flex-col justify-center gap-2 items-center h-40 md:h-full w-full rounded-md">
                 <h5 className=" leading-none p font-semibold text-primary dark:text-secondary">
                   {t("groups")}
                 </h5>
-                <p className="text-[36px] h-min leading-none font-alata text-primary">{groups.length}</p>
+                <p className="text-[36px] h-min leading-none font-alata text-primary dark:text-secondary">{groups.length}</p>
               </div>
             </span>
           </div>

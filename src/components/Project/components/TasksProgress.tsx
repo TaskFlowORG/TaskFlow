@@ -8,9 +8,7 @@ export const TasksProgress = () => {
   const { project } = useContext(ProjectContext);
   if (!project) return <Loading />;
   const tasks = project?.pages.map((page) => page.tasks).flat().length;
-  const completed = project.pages
-    .map((page) => page.tasks.filter((task) => task.task.completed).length)
-    .flat().length;
+  const completed = project.pages.flatMap((page) => page.tasks).filter((task) => task.task.completed).length;
   const percentage = (completed / tasks) * 100;
   return (
     <div className="h-2/5 w-full  shadow-blur-10 roudedn-md p-4">

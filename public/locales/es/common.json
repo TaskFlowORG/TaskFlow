@@ -68,7 +68,7 @@
   "dashboard": "Tablero",
   "no-properties-date": "No hay ninguna propiedad de tipo 'Fecha' en el proyecto",
   "no-properties-select": "No hay ninguna propiedad de tipo 'Seleccionar' en el proyecto",
-  "featured-user": "Usuarios destacados",
+  "featured-user": "Usuarios",
   "no-featured-users": "Ningún usuario en el proyecto",
   "tasks-progress": "Progreso de las tareas",
   "access-level": "Nivel de acceso",
@@ -85,5 +85,6 @@
   "create-a-permission": "Crear un permiso",
   "create": "Crear",
   "delete": "Eliminar",
-  "update": "Actualizar"
+  "update": "Actualizar",
+  "no-tasks-in-project":"No hay tareas en este proyecto"
 }

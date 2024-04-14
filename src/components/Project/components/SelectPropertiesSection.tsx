@@ -52,7 +52,7 @@ export const SelectPropertiesSection = () => {
 
   if (!property)
     return (
-      <div className="shadow-blur-10 w-full h-1/2  rounded-md p-4 flex flex-col justify-center items-center">
+      <div className="shadow-blur-10 w-full h-64 md:h-1/2 text-center rounded-md p-4 flex flex-col justify-center items-center">
         <p>{t("no-properties-select")}</p>
       </div>
     );
@@ -106,12 +106,12 @@ export const SelectPropertiesSection = () => {
               onChange={(e) =>
                 setProperty(properties.find((p) => p.id == +e.target.value))
               }
+              defaultValue={property?.id}
             >
               {properties.map((option, index) => (
                 <option
                   key={index}
                   value={option.id}
-                  selected={option.id == property?.id}
                 >
                   {option.name}
                 </option>
@@ -120,8 +120,11 @@ export const SelectPropertiesSection = () => {
           </span>
         </span>
         <div className=" w-full h-full flex justify-center  items-center">
-          <div className="flex justify-center gap-6 w-full h-4/6 items-center ">
+          <div className="flex justify-center gap-12 w-full h-4/6 items-center ">
+            <If condition = {tasks.length == 0}>
+              <p className="whitespace-normal w-40">{t("no-tasks-in-project")}</p>
             <Doughnut options={options} content="sd" data={dataFormatted} />
+            </If>
             <div id="legend-container" className="overflow-y-auto none-scrollbar flex flex-col justify-between  h-full text-p font-montserrat">
               {
                 data.map((d, index) => (
