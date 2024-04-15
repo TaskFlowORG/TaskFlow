@@ -81,7 +81,7 @@ export default function Layout({
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
 
-        {/* <Joyride  steps={steps.steps} showProgress /> */}
+        {/* <Joyride showSkipButton run steps={steps.steps} continuous={!user.configuration.isTutorialMade} /> */}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
         <TaskModalContext.Provider

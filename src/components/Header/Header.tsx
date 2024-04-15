@@ -66,7 +66,7 @@ export const Header = ({
       <img
         src="/Icon.svg"
         alt=""
-        className="w-12 select-none h-12 cursor-pointer dark:grayscale dark:brightness-[60]"
+        className="w-12 select-none h-12 cursor-pointer sidebar dark:grayscale dark:brightness-[60]"
         onClick={() => setSidebarOpen(true)}
       />
 

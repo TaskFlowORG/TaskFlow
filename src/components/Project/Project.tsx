@@ -95,7 +95,7 @@ export const Project = () => {
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full  outline-none rounderd-md"
+                className="bg-transparent w-full outline-none rounderd-md"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? "Sem Nome"}
