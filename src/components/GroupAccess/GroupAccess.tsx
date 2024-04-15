@@ -59,15 +59,20 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     }
 
     const updateTheInformationsOFAGroup = () => {
-        group.name = newName;
-        group.description = newDescription
-        groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-        setIsEnable(false)
+        try{
+            group.name = newName;
+            group.description = newDescription
+            groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            setIsEnable(false)
+        } catch(error: any){
+            console.error("Erro ao atualizar o grupo: ", error.message)
+            alert("Erro ao atualizar o grupo!")
+        }
     }
 
 
     return (
-        <div className="flex pl-8  gap-4 items-start">
+        <div className="flex pl-8 gap-4 items-start">
             <div>
                 <div>
                     <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={() => { setIsEnable(true) }}>
@@ -78,20 +83,18 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className="pAlata h3 placeholder:text-[#333] dark:text-[#FCFCFC]"
+                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC]"
                         type="text"
                         value={isEnable ? newName : group.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
                     <textarea
-                        className={`mn whitespace-pre-wrap w-72 md:w-[403px] placeholder:text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
+                        className={`mn whitespace-pre-wrap w-56 md:w-[403px] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         value={isEnable ? newDescription : group.description}
                         onChange={(e) => setNewDescription(e.target.value)}
                         disabled={!isEnable}
                     />
-
-
                 </div>
                 <div className="flex md:justify-end">
                     <select
@@ -122,7 +125,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                 </div>
                 <div className=''>
                     {isEnable ? (
-                        <div className='flex justify-between'>
+                        <div className='flex gap-11 md:justify-between '>
                             <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => {
                                 setIsEnable(false), setNewName(group.name,
                                 ), setNewDescription(group.description)

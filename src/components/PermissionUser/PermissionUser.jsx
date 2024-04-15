@@ -100,7 +100,7 @@ export const PermissionUser = ({ group, user, project }) => {
               ) : (
                 <option value="" disabled>Permissão</option>
               )}
-              {permissions.map(permission => {
+              {permissions && permissions.map(permission => {
                 return (
                   <option key={permission.name} value={permission.name}>
                     {permission.name}

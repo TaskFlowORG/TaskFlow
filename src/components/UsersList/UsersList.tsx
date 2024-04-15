@@ -15,17 +15,17 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
   const [users, setUsers] = useState<OtherUser[]>([]);
-  const [showSuggestions, setShowSuggestions] = useState<boolean>(false); // Estado para controlar a visibilidade das sugestões
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
-  const inputRef = useRef<HTMLInputElement>(null); // Ref para o input de busca
-
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [owner, setOwner] = useState<User>();
   useEffect(() => {
     fetchData();
   }, [project.id]);
 
   const fetchData = async () => {
-    const fetchedUser = await userService.findAll();
-    setUsers(fetchedUser)
+    const fetchedUsers = await userService.findAll();
+    setUsers(fetchedUsers)
   };
 
   const findUser = async () => {
@@ -40,11 +40,11 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
       alert("Usuário não encontrado");
     }
     setText('');
-    setShowSuggestions(false); 
+    setShowSuggestions(false);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const query = event.target.value.toLowerCase();
+    const query = event.target.value.toLowerCase();
     setText(query);
 
     const filteredUsers = users.filter((user) =>
@@ -57,17 +57,17 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
       });
       setSuggestedUsers(usersName);
     }
-    setShowSuggestions(true); 
+    setShowSuggestions(true);
   };
 
   const handleUserSelect = () => {
-    setShowSuggestions(false); 
+    setShowSuggestions(false);
   };
 
-  const verifyUser = () =>{
-    if(newUser == null){
+  const verifyUser = () => {
+    if (newUser == null) {
       alert("Usuário inválido")
-    } else{
+    } else {
       addUser(newUser)
     }
   }
@@ -106,7 +106,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     <button
       className={`h-10 w-[80%] rounded-xl self-center`}
       type="button"
-      onClick={() => verifyUser()} 
+      onClick={() => verifyUser()}
       style={{
         backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary-color)" : "var(--primary-color)"} 0%, ${theme == "dark" ? "var(--primary-color)" : "var(--secondary-color)"} 80%)`,
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
@@ -158,15 +158,18 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
               </ul>
             )}
           </div>
-          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6  " >
-            {group?.users.map((u) => (
-              <PermissionUser
-                group={group}
-                user={u}
-                project={project}
-                key={u.username}
-              />
-            ))}
+          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
+            <PermissionUser group={group} user={group?.owner} project={project} key={group?.owner.username}/> 
+           
+            {
+              group?.users.map((u) => (
+                <PermissionUser
+                  group={group}
+                  user={u}
+                  project={project}
+                  key={u.username}
+                />
+              ))} 
           </div>
           {addButton}
         </div>
