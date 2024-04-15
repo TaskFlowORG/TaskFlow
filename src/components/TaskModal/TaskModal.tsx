@@ -12,9 +12,10 @@ import {
   Task,
   User,
   MessagePost,
+  OtherUser,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
-import { taskService } from "@/services";
+import { groupService, taskService } from "@/services";
 import { ProjectContext } from "@/contexts/ContextProject";
 import {
   CheckboxProp,
@@ -41,6 +42,7 @@ import { useTranslation } from "next-i18next";
 import { IconTrashBin } from "../icons";
 import { PageContext } from "@/utils/pageContext";
 import { AddProp } from "../icons/GeneralIcons/AddProp";
+import { UserFilter } from "../FilterAdvancedInput/UserFilter";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -98,14 +100,14 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   useEffect(() => {
     setTaskName(task?.name ?? "");
     if (task?.name) {
-      let page = project?.pages.find(page => pageId == page.id)
-      if (page){
-       const taskP =  page.tasks.find(taskP => taskP.task.id == task.id)
-      if (taskP){
-        taskP.task.name = task.name
+      let page = project?.pages.find((page) => pageId == page.id);
+      if (page) {
+        const taskP = page.tasks.find((taskP) => taskP.task.id == task.id);
+        if (taskP) {
+          taskP.task.name = task.name;
+        }
       }
-      }
-     
+
       setProject!({ ...project! });
     }
   }, [task?.name]);
@@ -166,7 +168,28 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           updateProp.value.value = updatedValue;
           // console.log(updateProp);
           // await taskService.upDate(task);
-        } else if (TypeOfProperty.DATE == updateProp.property.type) {
+        } else if (TypeOfProperty.USER == updateProp.property.type) {
+          let users:OtherUser[] = []
+          const findGroups = async () => {
+            let groups = await groupService.findGroupsByAProject(project?.id!);
+            //  console.log(groups)
+            groups.forEach(async (group) => {
+              let groupFind = await groupService.findOne(group.id);
+              let usersFinded = groupFind.users.filter(
+                (element) => element.username != "luka"
+              );
+              users =([...usersFinded]);
+            });
+          };
+          findGroups()
+
+          let updatedValue = (updateProp.property as Select).options.filter(
+            (option) => value.value?.includes(option.name)
+          );
+
+
+          updateProp.value.value = users.filter(user => value.value.includes(user.username));
+        }else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
@@ -183,13 +206,13 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       }
     });
     const taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find(page=> page.id ==pageId)
-    const taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
-    if (taskPage){
-      taskPage.task = taskReturned
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
     }
 
-    setProject!({...project!})
+    setProject!({ ...project! });
 
     console.log(task);
 
@@ -199,10 +222,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
   async function deleteTask() {
     taskService.delete(task.id, project!.id.toString());
-    let page = project?.pages.find(page => pageId == page.id)
-    let taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
-    page?.tasks.splice(page.tasks.indexOf(taskPage!),1)
-    setProject!({...project!})
+    let page = project?.pages.find((page) => pageId == page.id);
+    let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
+    setProject!({ ...project! });
     setIsOpen(false);
   }
 
@@ -316,7 +339,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         <div className="w-full max-w-[547px] flex flex-col gap-6">
           <div className="w-full max-w-[547px] ">
             {/* bg-black */}
-            <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4 w-full">
+            <div className="flex flex-col gap-5 h-[450px] max-h-[450px] overflow-auto bah pr-4 w-full">
               {task?.properties.map((prop) => {
                 return (
                   <div
@@ -361,6 +384,14 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                     prop.value.value?.name ??
                                     "244a271c-ab15-4620-b4e2-a24c92fe4042"
                                   }
+                                />
+                              )) ||
+                              (TypeOfProperty.USER == prop.property.type && (
+                                <UserFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  name={prop.property.name}
+                                  value={prop.value?.value}
                                 />
                               )) ||
                               (TypeOfProperty.NUMBER == prop.property.type && (
