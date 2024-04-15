@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { PermissionUser } from "../PermissionUser/PermissionUser";
-import { getData, getListData, putData } from "@/services/http/api";
 import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
 import { Group, GroupPut, OtherUser, Project, User } from "@/models";
+import { PermissionUser } from "../PermissionUser";
 
 interface Props {
   project: Project;
@@ -19,6 +18,8 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   const { theme, setTheme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const [owner, setOwner] = useState<User>();
+
+  
   useEffect(() => {
     fetchData();
   }, [project.id]);
@@ -159,8 +160,13 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
             )}
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
-            {/* <PermissionUser group={group} user={group?.owner} project={project} key={group?.owner.username}/>  */}
-           
+            {/* <PermissionUser
+              group={group}
+              user={group?.owner && group.owner.username} // Verifique se group.owner existe antes de acessar username
+              project={project}
+              key={group?.owner && group.owner.username} // Verifique se group.owner existe antes de usar username como chave
+            /> */}
+
             {
               group?.users.map((u) => (
                 <PermissionUser
@@ -169,7 +175,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
                   project={project}
                   key={u.username}
                 />
-              ))} 
+              ))}
           </div>
           {addButton}
         </div>

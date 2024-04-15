@@ -15,7 +15,7 @@ export const GroupComponent = ({ group }: Props) => {
     // })
 
     const description = group.description;
-    const displayFullDescription = description ? (description.length > 20 ? `${description.substring(0, 20)}...` : description) : '';
+    const displayFullDescription = description ? (description.length > 13 ? `${description.substring(0, 13)}...` : description) : '';
 
     const deleteGroup = () => {
         groupService.delete(group.id)

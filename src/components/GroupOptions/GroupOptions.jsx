@@ -1,16 +1,17 @@
-import { putData } from "@/services/http/api";
+import { GroupPut } from "@/models";
+import { groupService } from "@/services";
 import { useTheme } from "next-themes";
+
 export const GroupOptions = ({ isOpen, group, user }) => {
-    const { theme, setTheme } = useTheme();
+    const { theme } = useTheme();
 
     async function deleteUser() {
         const updatedUsers = group.users.filter(u => u.username !== user.username);
 
         if (group != null) {
             group.users = updatedUsers;
-            newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
             group?.users.push(user);
-            await groupService.update(newGroup, group.id);
+            groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
 

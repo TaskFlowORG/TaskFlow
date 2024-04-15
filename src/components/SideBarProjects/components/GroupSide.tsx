@@ -10,7 +10,7 @@ interface Props {
     project: Project;
     user: string;
     setModalGroups: (value: boolean) => void;
-    global: string
+    global: string;
 }
 
 
@@ -50,11 +50,12 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
         if (deleteCreatePermission) {
             groupPermission.push(deleteCreatePermission);
-        } 
+        }
 
         const newGroup = new GroupPost("Nome do grupo", "Descrição do Grupo", groupPermission, []);
 
         await groupService.insert(newGroup);
+        
         fetchData();
     };
 
