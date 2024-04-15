@@ -1,12 +1,10 @@
-import { Group, GroupPost, Permission, PermissionPost, Project, TypePermission, User } from "@/models";
+import { Group, GroupPost, Permission, Project, TypePermission } from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
 import { useState, useEffect } from "react";
-import { getListData } from "@/services/http/api";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
-import { groupService, permissionService, userService } from "@/services";
-import { log } from "console";
+import { groupService, permissionService } from "@/services";
 
 interface Props {
     project: Project;
@@ -21,7 +19,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
-
     useEffect(() => {
         fetchData();
     }, [project.id]);
@@ -29,7 +26,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const fetchData = async () => {
         try {
             let fetchedGroups: Group[];
-            let fetchedGroupsUser: Group[];
 
             if (global === "userGroups") {
                 fetchedGroups = await groupService.findGroupsByUser();
@@ -39,15 +35,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                 setGroups(fetchedGroups)
             }
             const fetchedPermissions = await permissionService.findAll(project.id);
-            const permissionArray: Permission[] = [];
-
-            fetchedPermissions.map(p => {
-                if (p.project.id === project.id) {
-                    permissionArray.push(p);
-                }
-            });
-
-            setPermissions(permissionArray);
+            setPermissions(fetchedPermissions);
 
         } catch (error) {
             console.error("Error fetching groups:", error);

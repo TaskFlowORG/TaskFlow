@@ -561,6 +561,11 @@ select::-ms-expand {
   background: linear-gradient(to right, #3c1053, #ad5389);
 }
 
+.no-resize {
+  resize: none;
+}
+
+
 .inputRegister {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }

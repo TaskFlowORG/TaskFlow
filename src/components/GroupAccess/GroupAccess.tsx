@@ -34,7 +34,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
         try {
             const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-            
+
             if (selectedPermission) {
                 let hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
                 if (hasPermission) {
@@ -84,13 +84,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
-                    <input
-                        className="mn whitespace-pre-wrap w-72 md:w-[403px] placeholder:text-[#333] dark:text-[#FCFCFC]"
-                        type="text"
+                    <textarea
+                        className={`mn whitespace-pre-wrap w-72 md:w-[403px] placeholder:text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         value={isEnable ? newDescription : group.description}
                         onChange={(e) => setNewDescription(e.target.value)}
                         disabled={!isEnable}
                     />
+
+
                 </div>
                 <div className="flex md:justify-end">
                     <select
