@@ -159,7 +159,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
             )}
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
-            <PermissionUser group={group} user={group?.owner} project={project} key={group?.owner.username}/> 
+            {/* <PermissionUser group={group} user={group?.owner} project={project} key={group?.owner.username}/>  */}
            
             {
               group?.users.map((u) => (
