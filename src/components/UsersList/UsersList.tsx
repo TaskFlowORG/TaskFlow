@@ -44,7 +44,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.toLowerCase();
+  const query = event.target.value.toLowerCase();
     setText(query);
 
     const filteredUsers = users.filter((user) =>

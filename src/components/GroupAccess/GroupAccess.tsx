@@ -27,34 +27,30 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         setPermissions(fetchedPermissions);
     };
 
-    const findPermission = async (selectedValue: number) => {
-        setSelectedPermission(selectedValue);
-        updatePermission(selectedValue);
-    };
 
-    const updatePermission = async (selectedValue: number) => {
+    const findPermission = async (selectedValue: number) => {
         console.log(selectedValue)
         console.log(permissions)
+
         try {
             const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-            if (!selectedPermission) {
-                throw new Error('Permissão selecionada não encontrada.');
-            }
-
-            const hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
-
-            if (hasPermission) {
-                console.log('Este grupo já possui esta permissão.');
-                setSelectedPermission(0);
-                alert('Este grupo já possui esta permissão.');
-            } else {
-                if (group.permissions != null) {
-                    group.permissions = []
+            
+            if (selectedPermission) {
+                let hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
+                if (hasPermission) {
+                    setSelectedPermission(0);
+                    alert('Este grupo já possui esta permissão.');
+                } else {
+                    if (group.permissions != null) {
+                        group.permissions = []
+                    }
+                    if (selectedPermission) {
+                        group.permissions.push(selectedPermission);
+                        await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+                        setSelectedPermission(0);
+                        alert('Permissão atualizada com sucesso!');
+                    }
                 }
-                group.permissions.push(selectedPermission);
-                await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-                setSelectedPermission(0);
-                alert('Permissão atualizada com sucesso!');
             }
         } catch (error: any) {
             console.error('Erro ao atualizar permissão:', error.message);
@@ -69,16 +65,12 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         setIsEnable(false)
     }
 
-    const handleImageClick = () => {
-        setIsEnable(true);
-    };
-
 
     return (
         <div className="flex pl-8  gap-4 items-start">
             <div>
                 <div>
-                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={handleImageClick}>
+                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={() => { setIsEnable(true) }}>
 
                     </button>
                 </div>
