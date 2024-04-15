@@ -13,6 +13,7 @@ import {
   User,
   MessagePost,
   OtherUser,
+  UserPost,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
 import { groupService, taskService } from "@/services";
@@ -43,6 +44,7 @@ import { IconTrashBin } from "../icons";
 import { PageContext } from "@/utils/pageContext";
 import { AddProp } from "../icons/GeneralIcons/AddProp";
 import { UserFilter } from "../FilterAdvancedInput/UserFilter";
+import { FileFilter } from "../FilterAdvancedInput/FilteFilter";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -64,6 +66,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // }
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
+  const [users, setUsers ] = useState<OtherUser[]>([]);
   const taskNameRef = useRef<any>(null);
 
   // console.log(filter);
@@ -86,6 +89,25 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     // Se chegarmos até aqui, os arrays são iguais
     return true;
   }
+
+  useEffect(()=>{
+    if (project){
+      const findGroups = async () => {
+        let groups = await groupService.findGroupsByAProject(project?.id!);
+         console.log(groups)
+        groups.forEach(async (group) => {
+          let groupFind = await groupService.findOne(group.id);
+          let usersFinded = groupFind.users.filter(
+            (element) => element.username != "luka"
+          );
+          console.log(usersFinded);
+          
+          setUsers([...users, ...usersFinded]);
+        });
+      };
+      findGroups()
+    }
+  },[project])
 
   useEffect(() => {
     setList(undefined);
@@ -169,25 +191,11 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           // console.log(updateProp);
           // await taskService.upDate(task);
         } else if (TypeOfProperty.USER == updateProp.property.type) {
-          let users:OtherUser[] = []
-          const findGroups = async () => {
-            let groups = await groupService.findGroupsByAProject(project?.id!);
-            //  console.log(groups)
-            groups.forEach(async (group) => {
-              let groupFind = await groupService.findOne(group.id);
-              let usersFinded = groupFind.users.filter(
-                (element) => element.username != "luka"
-              );
-              users =([...usersFinded]);
-            });
-          };
-          findGroups()
-
-          let updatedValue = (updateProp.property as Select).options.filter(
-            (option) => value.value?.includes(option.name)
-          );
-
-
+         
+          console.log(value.value)
+          console.log(users);
+          // falta o userDetailsEntity aqui man
+          console.log(users.filter(user => value.value.includes(user.username)));
           updateProp.value.value = users.filter(user => value.value.includes(user.username));
         }else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
@@ -205,7 +213,9 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         }
       }
     });
-    const taskReturned = await taskService.upDate(task, project!.id);
+    // aqui tem problema, a porra do projeto as vezes é undefined
+    const taskReturned = await taskService.upDate(task, project!.id ?? 1);
+    console.log(taskReturned)
     const page = project?.pages.find((page) => page.id == pageId);
     const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
     if (taskPage) {
@@ -394,6 +404,15 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   value={prop.value?.value}
                                 />
                               )) ||
+                              (TypeOfProperty.ARCHIVE == prop.property.type && (
+                                <FileFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  name={prop.property.name}
+                                  value={prop.value?.value}
+                                />
+                              )) ||
+
                               (TypeOfProperty.NUMBER == prop.property.type && (
                                 <NumberFilter
                                   isInModal
