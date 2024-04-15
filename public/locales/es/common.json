@@ -73,5 +73,9 @@
   "notification-comment": "Algunas personas han comentado en la tarea '{{aux}}'",
   "notification-deadline": "La tarea '{{aux}}' está cerca de la fecha límite",
   "notification-schedule": "La tarea '{{aux}}' está cerca de la programación",
-  "notification-points": "Has superado el objetivo de {{aux}} puntos"
+  "notification-points": "Has superado el objetivo de {{aux}} puntos",
+  "change-owner":"Cambiar dueño",
+  "you":"Tú",
+  "owner": "Propietario",
+  "no-possible-users": "Ningún usuario asociado a este proyecto"
 }

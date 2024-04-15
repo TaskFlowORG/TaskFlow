@@ -33,7 +33,7 @@ export const LocalModal = ({
   });
 
   const style = twMerge(
-    "bg-inherit shadow-blur-10 flex z-[101] rounded-md w-auto ",
+    "bg-inherit shadow-blur-10 flex z-[101] rounded-md bg-clip-border w-auto ",
     classesPosition ? classesPosition : right ? `right-[105%]` : `left-[105%]`,
     classesOrigin
       ? classesOrigin

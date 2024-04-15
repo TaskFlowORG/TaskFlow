@@ -98,7 +98,7 @@ export const GeneralConfig = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center w-full h-full">
+    <div className="flex justify-center preferences-page items-center w-full h-full">
       <div className="flex lg:justify-center items-center justify-start w-full h-full flex-col lg:py-0 py-20">
         <div className="w-[85%] lg:h-[60%] flex flex-col lg:justify-around lg:gap-0 gap-10 pb-32">
           <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
@@ -112,7 +112,10 @@ export const GeneralConfig = () => {
               </div>
               <div className="w-full h-fit">
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
+                <span className="google-calendar-option">
+
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={"Google Agendas"} value={t("dark-mode-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
+                </span>
                 <InputFieldConfig id={"language"} type={"checkbox"} label={"Idioma"} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => ({})} />
                 <InputRangeConfig></InputRangeConfig>
 
@@ -142,8 +145,14 @@ export const GeneralConfig = () => {
                     <p className="text-p font-alata">Aqui você pode definir suas preferências a respeito da sua experiencia no nosso TaskFlow!</p>
                   </div>
                 </div>
+                <span className="property-name-cards-option">
+                  
                 <InputFieldConfig id={"propertyNames"} type={"checkbox"} label={"Nome das propriedades"} value={"Apenas o nome das propriedades será exibido, ao invés de seus valores também."} onChange={() => { }} checked={false} ></InputFieldConfig>
+                </span>
+                <span className="task-sorting-option">
+
                 <InputSelectConfig></InputSelectConfig>
+                </span>
                 <InputCoresConfig functionBall={functionBall}></InputCoresConfig>
               </div>
               <TutorialConfig />

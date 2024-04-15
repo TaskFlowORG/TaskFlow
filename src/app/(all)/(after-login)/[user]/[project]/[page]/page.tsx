@@ -73,22 +73,44 @@ export default function Pages({
 
   switch (page?.type) {
     case TypeOfPage.CALENDAR:
-      return <Calendar page={page as OrderedPage} />;
+      return (
+        <span className="page">
+          <Calendar page={page as OrderedPage} />
+        </span>
+      );
     case TypeOfPage.KANBAN:
       return (
-        <Kanban
-          user={user}
-          page={page as OrderedPage}
-          project={project as Project}
-        />
+        <span className="page">
+          <Kanban
+            user={user}
+            page={page as OrderedPage}
+            project={project as Project}
+          />
+        </span>
       );
     case TypeOfPage.LIST:
-      return <List page={page} />;
+      return (
+        <span className="page">
+          <List page={page} />
+        </span>
+      );
     case TypeOfPage.TABLE:
-      return <Table page={page} project={project} />;
+      return (
+        <span className="page">
+          <Table page={page} project={project} />
+        </span>
+      );
     case TypeOfPage.TIMELINE:
-      return <TimeLine page={page} />;
+      return (
+        <span className="page">
+          <TimeLine page={page} />
+        </span>
+      );
     case TypeOfPage.CANVAS:
-      return <Canvas page={page as CanvasPage} user={user} />;
+      return (
+        <span className="page">
+          <Canvas page={page as CanvasPage} user={user} />
+        </span>
+      );
   }
 }

@@ -75,5 +75,9 @@
         "notification-comment": "Algumas pessoas comentaram na tarefa '{{aux}}'",
         "notification-deadline": "A tarefa '{{aux}}' está próxima do prazo",
         "notification-schedule": "A tarefa '{{aux}}' está próxima do agendamento",
-        "notification-points": "Você passou da meta de {{aux}} pontos"
+        "notification-points": "Você passou da meta de {{aux}} pontos",
+        "change-owner":"Mudar dono",
+        "you":"Você",
+        "owner":"Dono",
+        "no-possible-users":"Nenhum usuário associado a esse projeto"
 }

@@ -13,7 +13,7 @@ export const DashboardSide = () => {
     <div className="w-min h-5/6 z-50 absolute right-0 flex" ref={ref}>
       <button
         onClick={() => setDashboardOpen((prev) => !prev)}
-        className="w-12 h-full bg-primary dark:bg-secondary  rounded-l-xl flex justify-center items-center"
+        className="w-12 h-full bg-primary dark:bg-secondary dashboard-button  rounded-l-xl flex justify-center items-center"
       >
         <p className="font-montserrat rotate-90  w-24 h-6 text-contrast text-[16px]">
           {t("dashboard")}

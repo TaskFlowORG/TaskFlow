@@ -7,8 +7,8 @@ export const Loading = () => {
     }
     return (
         <div className="w-screen h-screen bg-white dark:bg-back-grey  fixed flex justify-center items-center  ">
-            <div className="relative opacity-25 dark:opacity-50">
-                <div className='w-28 h-28 brightness-0  dark:invert'>
+            <div className="relative opacity-25 dark:opacity-50 z-[100]">
+                <div className='w-28 h-28 brightness-0 relative dark:invert z-[99]'>
 
                 <Image src="/Icon.svg" alt="LOGO" fill  />
                 </div>

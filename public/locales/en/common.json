@@ -80,5 +80,10 @@
         "notification-comment": "Some people commented on the task '{{aux}}'",
         "notification-deadline": "The task '{{aux}}' is nearing its deadline",
         "notification-schedule": "The task '{{aux}}' is nearing its schedule",
-        "notification-points": "You have passed the goal of {{aux}} points"
+        "notification-points": "You have passed the goal of {{aux}} points",
+        "change-owner":"Change owner",
+        "you":"You",
+        "owner":"Owner",
+        "no-possible-users":"No users associated with this project"
+
 }

@@ -79,7 +79,7 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className=" flex w-full h-full items-center">
+    <div className=" flex w-full h-full personal items-center">
       <div className="flex flex-col justify-start items-center gap-10 w-full h-[57rem] py-20">
         <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
           <div className="h-full">

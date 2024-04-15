@@ -76,12 +76,14 @@ export default function Layout({
     })();
   }, []);
 
+
+
   if(!user) return <Loading/>
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-
-        {/* <Joyride  steps={steps.steps} showProgress /> */}
+{/* Esse tutoras vai ter que ser controlado */}
+        {/* <Joyride showSkipButton run steps={steps.steps} spotlightClicks  continuous={!user.configuration.isTutorialMade} /> */}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
         <TaskModalContext.Provider
