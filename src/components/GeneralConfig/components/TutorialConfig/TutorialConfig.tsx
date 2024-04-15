@@ -41,7 +41,7 @@ export const TutorialConfig = () => {
                     <div className="bg-primary dark:bg-secondary w-40 h-11 rounded-md flex items-center justify-center cursor-pointer " onClick={() => setModalRefazer(true)}>
                         <p className="text-p font-alata text-white ">Refazer Tutorial</p>
                     </div>
-                    <div className="bg-primary dark:bg-secondary w-40 h-11 rounded-md flex items-center justify-center cursor-pointer">
+                    <div className="bg-primary dark:bg-secondary w-40 advanced-tutorial-option h-11 rounded-md flex items-center justify-center cursor-pointer">
                         <p className="text-p font-alata text-white ">Tutorial Avançado</p>
                     </div>
                 </div>

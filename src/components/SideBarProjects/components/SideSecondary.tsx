@@ -56,6 +56,8 @@ export const SideSecondary = ({
         text={t("project")}
         link={`/${user}/${project?.id}`}
       />
+      <span className="create-page-button">
+
       <SideBarButton
         icon={<IconPages />}
         fnClick={() => {
@@ -63,6 +65,9 @@ export const SideSecondary = ({
         }}
         text={t("pages")}
       />
+      </span>
+      <span className="add-group-project-message">
+
       <SideBarButton
         icon={<IconGroups />}
         fnClick={() => {
@@ -70,6 +75,7 @@ export const SideSecondary = ({
         }}
         text={t("projects-groups")}
       />
+      </span>
       <div className="relative w-full" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}  >
         <SideBarButton
           icon={<IconTrashBin />}

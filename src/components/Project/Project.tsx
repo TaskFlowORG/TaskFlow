@@ -74,7 +74,7 @@ export const Project = () => {
   }, [project]);
 
   return (
-    <div className="w-screen h-screen pt-14 items-center  relative flex">
+    <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
       <div className="w-full h-full flex-col items-center  py-8 flex  px-48">
         <div className="h-1/6 w-full justify-start flex ">
           <div className="w-full gap-4 flex">

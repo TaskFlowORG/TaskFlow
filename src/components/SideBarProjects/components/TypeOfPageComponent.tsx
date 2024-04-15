@@ -47,7 +47,7 @@ export const TypeOfPageComponent = ({
   };
 
   return (
-    <div className="flex gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">
+    <div className="flex page-view-type gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">
       <Swiper
         className={" p-6 max-w-[6rem] min-h-[9rem] flex justify-center ".concat(
           theme == "dark"

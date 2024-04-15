@@ -70,7 +70,7 @@ export default function Projects({ params }: { params: { user: string } }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="h-[99vh] flex flex-col justify-center items-center w-screen">
+    <div className="h-[99vh] projects-page flex flex-col justify-center items-center w-screen">
       <SVGProjectsPage />
       <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
         <div className="flex items-center flex-col w-full h-4/5">
