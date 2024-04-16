@@ -10,9 +10,9 @@ export const Chatt = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await chatService.findByName("private", "jonatas");
-            setChatContent(response);
-            console.log(response);
+            const response = await chatService.findAllGroup()
+            const response2 = await chatService.findAllPrivate()
+            setChatContent([...response, ...response2]);
         }
         getChats();
     }, []);

@@ -5,13 +5,14 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { Chats } from "../../../../../components/Chat/components/Chats"
 import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
-import { getListChat, getChatLike } from "../../../../../services/http/api";
+import { chatService } from "@/services";
 
 export default function RootLayout({ children, params }: { children: React.ReactNode, params: { chatId: string } }) {
  
     const [listaChats, setListaChats] = useState<Chat[]>([]);
     const [abrir, setAbrir] = useState<boolean>(false);
     const [existe, setExiste] = useState<boolean>(true);
+    const [search, setSearch] = useState<string>("");
 
 
     const handleChatClick = (chatId: number) => {
@@ -19,26 +20,14 @@ export default function RootLayout({ children, params }: { children: React.React
     }
 
     async function handleKeyPress(e: any) {
-        if ((await getChatLike(e.target.value))) {
-            if (listaChats.length === 0) {
-                setExiste(false);
-            } else {
-                setExiste(true);
-                const response = await getChatLike(e.target.value);
-                setListaChats(response);
-            }
-
-        } else {
-            const response = await getListChat("private", "jonatas");
-            setListaChats(response);
-        }
+        
     }
 
     useEffect(() => {
         async function buscarChats() {
-            //Implementar a busca de id do usuário logado
-            const response = await getListChat("private", "jonatas");
-            setListaChats(response);
+            const response = await chatService.findAllGroup();
+            const response2 = await chatService.findAllPrivate();
+            setListaChats([...response, ...response2]);
         }
         buscarChats();
     }, []);
@@ -63,7 +52,7 @@ export default function RootLayout({ children, params }: { children: React.React
                                     <img className=" rounded-full" src="/searchIcons/search.svg" alt="" />
                                 </div>
                                 <div className={`w-[80%]  ${abrir ? "visible" : "hidden"}`}>
-                                    <input onChange={handleKeyPress} className="w-full h-full bg-primary  rounded-r-lg text-white outline-none px-4" type="text" />
+                                    <input onChange={e => setSearch(e.target.value)} className="w-full h-full bg-primary  rounded-r-lg text-white outline-none px-4" type="text" />
                                 </div>
                             </div>
                         </div>
@@ -78,7 +67,9 @@ export default function RootLayout({ children, params }: { children: React.React
 
                         <div className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll `}>
                             <div className="w-full">
-                                {!existe ? <ChatDontExists /> : listaChats.map(chat => (
+                                {listaChats.length == 0 ? <ChatDontExists /> : listaChats.
+                                filter(c => c.name.toUpperCase().includes(search.toUpperCase()))
+                                .map(chat => (
                                     <Chats key={chat.id}
                                         id={chat.id} name={chat.name}
                                         messages={chat.messages}
