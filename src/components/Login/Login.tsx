@@ -6,15 +6,15 @@ import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-
+import { useTheme } from 'next-themes';
 
 const schema = z
     .object({
         username: z
             .string()
-            .min(3, { message: "Nome de usuario deve conter no minimo 3 caracteres" })
+            .min(3, { message: "No minimo 3 caracteres" })
             .max(20, {
-                message: "Nome de usuario deve conter no maximo 20 caracteres",
+                message: "No maximo 20 caracteres",
             }),
         password: z
             .string()
@@ -37,6 +37,10 @@ export const Login = () => {
         resolver: zodResolver(schema),
     });
     const route = useRouter();
+    const {theme} = useTheme();
+
+    const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
+    const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
 
     return (
         <>
@@ -46,7 +50,7 @@ export const Login = () => {
 
                     <div className='h-4/5 w-4/5 flex flex-col items-center justify-between'>
                         <Input className="inputRegister"
-                            image={"Assets/themelight/IconUser.svg"}
+                            image={iconUser}
                             placeholder="Digite seu nome"
                             value={user.username}
                             helperText={errors.username?.message}
@@ -54,7 +58,7 @@ export const Login = () => {
                             required classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} />
 
                         <Input className="inputRegister"
-                            image={"Assets/themelight/IconUser.svg"}
+                            image={iconPassword}
                             placeholder="Digite sua senha"
                             value={user.password}
                             helperText={errors.password?.message}

@@ -39,7 +39,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         savePermission(selectedPermission);
                     }
                 }
-            }
+        }
         } catch (error: any) {
             console.error('Erro ao atualizar permissão:', error.message);
             alert('Não foi possível atualizar a permissão do grupo.');

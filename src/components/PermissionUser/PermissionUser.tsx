@@ -5,6 +5,7 @@ import { GroupOptions } from "../GroupOptions/GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
 import { string } from "zod";
+import { promises } from "dns";
 
 interface Props {
   group: Group;
@@ -13,7 +14,7 @@ interface Props {
 
 }
 
-export const PermissionUser = ({ group, user, project }: Props)  => {
+export const PermissionUser = ({ group, user, project }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const [selectedPermission, setSelectedPermission] = useState<string>();
   const { theme } = useTheme();
@@ -30,21 +31,23 @@ export const PermissionUser = ({ group, user, project }: Props)  => {
 
   async function updatePermission(selectedValue: string) {
     try {
-      if (permissions){
-      const selectedPermission = permissions.find(permission => permission.name === selectedValue);
+      if (permissions) {
+        const selectedPermission: Permission | undefined = permissions.find(permission => permission.name === selectedValue);
 
-      const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
+        if (selectedPermission) {
+          const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
 
-      if (hasPermission) {
-        alert('Este usuário já possui esta permissão.');
-      } else {
-        await userService.updatePermission(user.username, selectedPermission);
+          if (hasPermission) {
+            alert('Este usuário já possui esta permissão.');
+          } else {
+            await userService.updatePermission(user.username, selectedPermission);
 
-        alert('Permissão atualizada com sucesso!');
+            alert('Permissão atualizada com sucesso!');
+          }
+          setSelectedPermission("");
+        }
       }
-      setSelectedPermission("");
-      }
-      
+
     } catch (error: any) {
       console.error('Erro ao atualizar permissão:', error.message);
       alert('Não foi possível atualizar a permissão do usuário.');
