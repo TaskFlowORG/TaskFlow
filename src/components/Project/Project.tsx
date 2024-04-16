@@ -60,9 +60,9 @@ export const Project = () => {
     if (!project || !setProject) return;
     const file = e.target.files?.[0];
     if (!file) return;
-    const updated  =  await projectService.updatePicture( file, project.id);
+    const updated = await projectService.updatePicture(file, project.id);
     setProject(updated);
-  }
+  };
 
   useEffect(() => {
     (async () => {
@@ -80,16 +80,24 @@ export const Project = () => {
           <div className="w-full gap-4 flex">
             <div className="h-full aspect-square  bg-zinc-400 relative rounded-md">
               <Image
-              className="rounded-md"
+                className="rounded-md"
                 src={archiveToSrc(project?.picture)}
                 alt="Project Picture"
                 fill
               />
-              <span className="absolute rounded-full -bottom-2 -right-2 border-2 border-primary 
-              dark:border-secondary h-8 w-8 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey">
-                <IconEditColoured />
-                <input onChange={updatePicture} type="file" className="w-full h-full absolute cursor-pointer opacity-0" />
-              </span>
+              <If condition={project?.owner.id == user?.id}>
+                <span
+                  className="absolute rounded-full -bottom-2 -right-2 border-2 border-primary 
+              dark:border-secondary h-8 w-8 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
+                >
+                  <IconEditColoured />
+                  <input
+                    onChange={updatePicture}
+                    type="file"
+                    className="w-full h-full absolute cursor-pointer opacity-0"
+                  />
+                </span>
+              </If>
             </div>
             <div className="flex flex-col justify-between w-1/3 ">
               <input
@@ -136,12 +144,14 @@ export const Project = () => {
                     <If condition={possibleOwners.length > 0}>
                       <ul>
                         {possibleOwners.map((user) => (
-                          <li key={user.id}>
-                            {user.username}
+                          <li key={user ? user.id : 0}>
+                            {user ? user.username : ""}
                           </li>
                         ))}
                       </ul>
-                      <p className="w-full h-full flex justify-center items-center text-center">{t("no-possible-users")}</p>
+                      <p className="w-full h-full flex justify-center items-center text-center">
+                        {t("no-possible-users")}
+                      </p>
                     </If>
                   </div>
                 </LocalModal>
