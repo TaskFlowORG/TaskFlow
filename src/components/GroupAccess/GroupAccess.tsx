@@ -12,11 +12,10 @@ interface Props {
 
 export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
-    const [selectedPermission, setSelectedPermission] = useState<number>();
+    const [selectedPermission, setSelectedPermission] = useState<number | undefined>();
     const [isEnable, setIsEnable] = useState(false);
     const [newName, setNewName] = useState(group.name);
     const [newDescription, setNewDescription] = useState(group.description);
-    const { theme } = useTheme();
 
     useEffect(() => {
         fetchData();
@@ -27,28 +26,17 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         setPermissions(fetchedPermissions);
     };
 
-
-    const findPermission = async (selectedValue: number) => {
-        console.log(selectedValue)
-        console.log(permissions)
-
+    const findPermission = (selectedValue: number) => {
         try {
-            const selectedPermission = permissions.find(permission => permission.id === selectedValue);
+            if (permissions) {
+                const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
-            if (selectedPermission) {
-                let hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
-                if (hasPermission) {
-                    setSelectedPermission(0);
-                    alert('Este grupo já possui esta permissão.');
-                } else {
-                    if (group.permissions != null) {
-                        group.permissions = []
-                    }
-                    if (selectedPermission) {
-                        group.permissions.push(selectedPermission);
-                        await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-                        setSelectedPermission(0);
-                        alert('Permissão atualizada com sucesso!');
+                if (selectedPermission) {
+                    if (group.permissions && group.permissions.find(permission => permission.id === selectedPermission.id)) {
+                        setSelectedPermission(undefined);
+                        alert('Este grupo já possui esta permissão.');
+                    } else {
+                        savePermission(selectedPermission);
                     }
                 }
             }
@@ -58,18 +46,27 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         }
     }
 
+    const savePermission = async (selectedPermission: Permission) => {
+        group.permissions = []
+        group.permissions.push(selectedPermission);
+        await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+        setSelectedPermission(undefined);
+        alert('Permissão atualizada com sucesso!');
+
+    }
+
+
     const updateTheInformationsOFAGroup = () => {
-        try{
+        try {
             group.name = newName;
             group.description = newDescription
-            groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, group.users), group.id);
             setIsEnable(false)
-        } catch(error: any){
+        } catch (error: any) {
             console.error("Erro ao atualizar o grupo: ", error.message)
             alert("Erro ao atualizar o grupo!")
         }
     }
-
 
     return (
         <div className="flex pl-8 gap-4 items-start">
@@ -104,7 +101,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         value={selectedPermission}
                         onChange={(e) => findPermission(+e.target.value)}
                     >
-                        {group.permissions && group.permissions.length > 0 ? (
+                        {group.permissions ? (
                             group.permissions.map((permission) => {
                                 setSelectedPermission(permission.id);
                                 return (

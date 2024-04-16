@@ -30,10 +30,8 @@ export const PermissionUser = ({ group, user, project }: Props)  => {
 
   async function updatePermission(selectedValue: string) {
     try {
+      if (permissions){
       const selectedPermission = permissions.find(permission => permission.name === selectedValue);
-      if (!selectedPermission) {
-        throw new Error('Permissão selecionada não encontrada.');
-      }
 
       const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
 
@@ -42,12 +40,13 @@ export const PermissionUser = ({ group, user, project }: Props)  => {
       } else {
         await userService.updatePermission(user.username, selectedPermission);
 
-        fetchData();
-
         alert('Permissão atualizada com sucesso!');
       }
       setSelectedPermission("");
-    } catch (error) {
+      }
+      
+    } catch (error: any) {
+      console.error('Erro ao atualizar permissão:', error.message);
       alert('Não foi possível atualizar a permissão do usuário.');
     }
   }

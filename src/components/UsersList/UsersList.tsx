@@ -15,11 +15,9 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [owner, setOwner] = useState<User>();
 
-  
   useEffect(() => {
     fetchData();
   }, [project.id]);
