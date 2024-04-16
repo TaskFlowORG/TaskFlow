@@ -12,6 +12,7 @@ import { InputCheckboxConfig } from "./components/InputCheckboxConfig";
 import { useTranslation } from "next-i18next";
 import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
+import { TextToSpeechTeste } from "./components/TextToSpeechTeste/TextToSpeechTeste";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -109,6 +110,7 @@ export const GeneralConfig = () => {
                 <p className="text-p font-alata dark:text-white">{t("general-config-desc")}</p>
               </div>
               <div className="w-full h-fit">
+                <TextToSpeechTeste text="Bom dia"></TextToSpeechTeste>
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
                 <InputSelectConfig  title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
