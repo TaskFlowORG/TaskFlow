@@ -2,39 +2,61 @@ import { Button } from "@/components/Button";
 import { SearchIcon } from "@/components/SearchBar";
 import { OtherUser } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 interface ComboBoxProps {
   options: OtherUser[];
-
+  value: OtherUser[];
+  isRemoving?: boolean;
   id: number;
 }
 
-export const Combobox = ({ options, id }: ComboBoxProps) => {
+export const Combobox = ({
+  options,
+  value,
+  isRemoving = false,
+  id,
+}: ComboBoxProps) => {
   const [selectedOption, setSelectedOption] = useState<OtherUser | null>(null);
   const [input, setInput] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
-  const [optionsMarked, setOptionsMarked] = useState<OtherUser[]>([])
+  const [optionsMarked, setOptionsMarked] = useState<OtherUser[]>([]);
+  const inputRef = useRef<any>(null);
 
-  useEffect(()=>{
-setOptionsMarked([])
-  },[])
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [value]);
 
-  const handleConfirm = () => {
+  useEffect(() => {
+    setOptionsMarked(value ?? []);
+  }, [setFilterProp, value, filterProp]);
+
+  const handleConfirm = (user?: OtherUser) => {
     const thisProperty = filterProp?.find((item) => item.id == id);
-    if (thisProperty && selectedOption!=null) {
-      setOptionsMarked([...optionsMarked, selectedOption])
-      thisProperty.value = [...thisProperty.value, selectedOption.username];
+    if (thisProperty && selectedOption != null) {
+      if (thisProperty.value.includes(selectedOption.username)) {
+        thisProperty.value.splice(
+          thisProperty.value.indexOf(selectedOption.username),
+          1
+        );
+      } else {
+        thisProperty.value.push(selectedOption.username);
+      }
       setFilterProp!([...filterProp]);
-    } else if(selectedOption!=null) {
-      setOptionsMarked([...optionsMarked, selectedOption])
-      setFilterProp!([...filterProp, { id: id, value: [selectedOption.username]}]);
+    } else if (selectedOption != null) {
+      let newValue = value.map((value) => value.username);
+      if (isRemoving) {
+        newValue.splice(newValue.indexOf(selectedOption.username), 1);
+      } else {
+        newValue.push(selectedOption.username);
+      }
+      setFilterProp!([...filterProp, { id: id, value: [...newValue] }]);
     }
-    setSelectedOption(null)
-  }
+    setSelectedOption(null);
+  };
+
   const handleClickChange = (user: OtherUser) => {
     setSelectedOption(user);
-    
   };
 
   const handleInputChange = () => {
@@ -61,15 +83,40 @@ setOptionsMarked([])
         </div>
       </div>
 
-      <div className="flex flex-col gap-0">
+      <div
+        className="flex flex-col gap-0"
+        onKeyUp={(e) => {
+          if (e.key === "Enter" && selectedOption) {
+            handleConfirm();
+          }
+        }}
+      >
         <div className="flex-1 flex gap-2 py-2 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-t-lg text-sm  ">
           <img src="/searchIcons/search.svg" alt="" />
           <input
+            ref={inputRef}
             value={input}
             className="w-full outline-none"
             type="text"
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Encontre um usuário!"
+            disabled={
+              isRemoving
+                ? value.length > 0
+                  ? false
+                  : true
+                : value.length == options.length
+                ? true
+                : false
+            }
+            placeholder={
+              isRemoving
+                ? value.length > 0
+                  ? "Remova um usuário"
+                  : "Sem usuários na tarefa!"
+                : value.length == options.length
+                ? "Essa tarefa tem todos os usuários!"
+                : "Encontre um usuário!"
+            }
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleInputChange();
@@ -81,7 +128,15 @@ setOptionsMarked([])
           {options.map((option, index) => {
             let name = (option.name + " " + option.surname).toLowerCase();
             let lowerInput = input.toLowerCase();
-            if ((name.includes(lowerInput)) && !optionsMarked.includes(option)) {
+            if (
+              (name.includes(lowerInput) &&
+                !value.includes(option) &&
+                option != selectedOption) ||
+              (isRemoving &&
+                name.includes(lowerInput) &&
+                value.includes(option) &&
+                option != selectedOption)
+            ) {
               return (
                 <div
                   onClick={() => handleClickChange(option)}
@@ -99,10 +154,11 @@ setOptionsMarked([])
         </div>
       </div>
       <Button
+        secondary={isRemoving}
         paddingY="py-1"
         width="w-full"
         textSize="text-[14px]"
-        text="Adicionar usuário"
+        text={isRemoving ? "Remover usuário" : "Adicionar usuário"}
         fnButton={handleConfirm}
       ></Button>
     </div>

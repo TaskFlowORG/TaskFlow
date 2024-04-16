@@ -16,7 +16,7 @@ import {
   UserPost,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
-import { groupService, taskService } from "@/services";
+import { groupService, taskService, userService } from "@/services";
 import { ProjectContext } from "@/contexts/ContextProject";
 import {
   CheckboxProp,
@@ -66,7 +66,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   // }
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
-  const [users, setUsers ] = useState<OtherUser[]>([]);
+  const [users, setUsers] = useState<OtherUser[]>([]);
   const taskNameRef = useRef<any>(null);
 
   // console.log(filter);
@@ -90,24 +90,20 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     return true;
   }
 
-  useEffect(()=>{
-    if (project){
-      const findGroups = async () => {
-        let groups = await groupService.findGroupsByAProject(project?.id!);
-         console.log(groups)
-        groups.forEach(async (group) => {
-          let groupFind = await groupService.findOne(group.id);
-          let usersFinded = groupFind.users.filter(
-            (element) => element.username != "luka"
-          );
-          console.log(usersFinded);
-          
-          setUsers([...users, ...usersFinded]);
-        });
-      };
-      findGroups()
-    }
-  },[project])
+  useEffect(() => {
+    const findGroups = async () => {
+      const users = await userService.findAll();
+      setUsers(
+        users.filter(
+          (user) =>
+            user.permissions.find(
+              (permission) => permission.project.id === project?.id
+            ) != undefined
+        )
+      );
+    };
+    findGroups();
+  }, [project]);
 
   useEffect(() => {
     setList(undefined);
@@ -191,13 +187,18 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           // console.log(updateProp);
           // await taskService.upDate(task);
         } else if (TypeOfProperty.USER == updateProp.property.type) {
-         
-          console.log(value.value)
+          // console.log(value.value);
           console.log(users);
           // falta o userDetailsEntity aqui man
-          console.log(users.filter(user => value.value.includes(user.username)));
-          updateProp.value.value = users.filter(user => value.value.includes(user.username));
-        }else if (TypeOfProperty.DATE == updateProp.property.type) {
+          console.log(
+            users.filter((user) => value.value.includes(user.username))
+          );
+          users.filter((user) => value.value.includes(user.username));
+          updateProp.value.value = users.filter((user) =>
+            value.value.includes(user.username)
+          );
+          // console.log(updateProp);
+        } else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
@@ -215,7 +216,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     });
     // aqui tem problema, a porra do projeto as vezes é undefined
     const taskReturned = await taskService.upDate(task, project!.id ?? 1);
-    console.log(taskReturned)
+    console.log(taskReturned);
     const page = project?.pages.find((page) => page.id == pageId);
     const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
     if (taskPage) {
@@ -351,6 +352,9 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             {/* bg-black */}
             <div className="flex flex-col gap-5 h-[450px] max-h-[450px] overflow-auto bah pr-4 w-full">
               {task?.properties.map((prop) => {
+                console.log(prop.value?.value);
+                
+                // console.log(prop.value.value);
                 return (
                   <div
                     key={prop.id}
@@ -401,18 +405,21 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   isInModal
                                   id={prop.property.id}
                                   name={prop.property.name}
-                                  value={prop.value?.value}
+                                  value={(
+                                    prop.value?.value as OtherUser[]
+                                  )?.map((user) => user.username)}
                                 />
                               )) ||
                               (TypeOfProperty.ARCHIVE == prop.property.type && (
                                 <FileFilter
                                   isInModal
                                   id={prop.property.id}
+                                  task={task}
+                                  propertyValue={prop.value as PropertyValue}
                                   name={prop.property.name}
                                   value={prop.value?.value}
                                 />
                               )) ||
-
                               (TypeOfProperty.NUMBER == prop.property.type && (
                                 <NumberFilter
                                   isInModal

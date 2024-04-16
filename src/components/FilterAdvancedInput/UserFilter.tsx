@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { Obj } from "../Obj";
 import { ProjectContext } from "@/contexts";
-import { groupService, projectService } from "@/services";
+import { groupService, projectService, userService } from "@/services";
 import { OtherUser } from "@/models";
 import { IconPlus } from "../icons/GeneralIcons/IconPlus";
 import { Combobox } from "./Combobox/Combobox";
@@ -19,6 +19,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   const [valued, setValued] = useState<string[]>([]);
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenRemove, setIsOpenRemove] = useState(false);
   const { project } = useContext(ProjectContext);
   const [users, setUsers] = useState<OtherUser[]>([]);
 
@@ -28,24 +29,24 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   );
 
   useEffect(() => {
-    const findGroups = async () => {
-      let groups = await groupService.findGroupsByAProject(project?.id!);
-      //  console.log(groups)
-      groups.forEach(async (group) => {
-        let groupFind = await groupService.findOne(group.id);
-
-        let newUsersFinded = groupFind.users.filter(
-          (element) => !users.some((user) => user.username == element.username)
+    if (project) {
+      const findGroups = async () => {
+        if (!project) return;
+        const users = await userService.findAll();
+        setUsers(
+          users.filter(
+            (user) =>
+              user.permissions.find(
+                (permission) => permission.project.id === project.id
+              ) != undefined
+          )
         );
-          setUsers([...users, ...newUsersFinded]);
-        
-
-      });
-    };
-    findGroups();
+      };
+      findGroups();
+    }
     const prop = filterProp.find((bah) => id == bah.id);
-    console.log(prop)
-    console.log(value)
+    console.log(prop);
+    console.log(value);
     if (prop) {
       setValued(prop.value ?? []);
     } else {
@@ -60,9 +61,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
-              objs={valued.map(
-                (userD) => users.find((user) => user.username == userD)!
-              )}
+              objs={valued
+                ?.map((userD) => users.find((user) => user.username == userD)!)
+                .filter((user) => user != null && user != undefined)}
               mawWidth="w-max"
               max={3}
               functionObj={(o) => console.log(o)}
@@ -75,15 +76,47 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
             {isOpen && (
               <Combobox
                 options={users}
+                value={valued
+                  ?.map(
+                    (userD) => users.find((user) => user.username == userD)!
+                  )
+                  .filter((user) => user != null && user != undefined)}
                 id={id}
               />
             )}
-            <div
-              className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <div className="stroke-white rotate-45">
-                <IconPlus></IconPlus>
+
+            {isOpenRemove && (
+              <Combobox
+              isRemoving={true}
+                options={valued
+                  ?.map(
+                    (userD) => users.find((user) => user.username == userD)!
+                  )
+                  .filter((user) => user != null && user != undefined)}
+                value={valued
+                  ?.map(
+                    (userD) => users.find((user) => user.username == userD)!
+                  )
+                  .filter((user) => user != null && user != undefined)}
+                id={id}
+              />
+            )}
+            <div className="flex gap-2">
+              <div
+                className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
+                onClick={() => setIsOpen(!isOpen)}
+              >
+                <div className="stroke-white rotate-45">
+                  <IconPlus></IconPlus>
+                </div>
+              </div>
+              <div
+                className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
+                onClick={() => setIsOpenRemove(!isOpenRemove)}
+              >
+                <div className="stroke-white rotate-45">
+                  <IconPlus></IconPlus>
+                </div>
               </div>
             </div>
           </div>
