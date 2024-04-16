@@ -2,11 +2,11 @@
 
 import { Chatt } from "@/components/Chat";
 
-export default function ChatPage(){
+export default function ChatPage({params}:{params:{chatId:number}}){
     
     return (
         <div className="w-full h-full">
-           <Chatt/>
+           <Chatt chatId ={params.chatId}/>
         </div>
     )
 }
