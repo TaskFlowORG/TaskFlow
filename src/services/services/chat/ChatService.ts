@@ -3,7 +3,7 @@ import { Api } from '@/services/axios';
 
 class ChatService {
     async saveGroup(chat: ChatGroupPost): Promise<ChatGroup> {
-        const response = await Api.post<ChatGroup>('chat/group', chat, {withCredentials: true});
+        const response = await Api.post<ChatGroup>('chat/group/'+chat.group.id, chat, {withCredentials: true});
         return response.data;
     }
 
