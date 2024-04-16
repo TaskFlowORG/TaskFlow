@@ -8,8 +8,6 @@ import { useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {signIn} from "next-auth/react";
-import { connectWebSocket } from '@/services/webSocket/webSocketHandler';
-
 const schema = z
     .object({
         username: z
@@ -31,10 +29,6 @@ type FormData = z.infer<typeof schema>;
    
     const Page = () => {
 
-
-        useEffect(() => {
-            connectWebSocket();
-        },[])
 
         
         const [user, setUser] = useState({} as FormData);

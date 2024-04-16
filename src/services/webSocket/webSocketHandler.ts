@@ -1,14 +1,17 @@
+import { Stomp, Client, IMessage } from "@stomp/stompjs";
+import SockJS from "sockjs-client";
 
 
-const websocketUrl = 'ws://localhost:9999/notification'; // Altere para a URL do seu servidor WebSocket
 
 
-export const connectWebSocket = () => {
-    
-    const client = new WebSocket(websocketUrl);
-    client.onopen = () => {
-        console.log('Conectado ao WebSocket');
-    };
-  }
 
-
+export const onConnect = (topic: string, handle:(message:IMessage) => void) => {
+    const socket = new SockJS('http://localhost:9999/notifications');
+const client = Stomp.over(socket);
+    client.connect({}, () => {
+        console.log("connected");
+        client.subscribe(topic, (message) => {
+            handle(message);
+        });
+    }); 
+}

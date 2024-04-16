@@ -13,6 +13,8 @@ import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import { IconArchive } from "../icons";
 import Image from "next/image";
+import {onConnect} from "@/services/webSocket/webSocketHandler";
+import { sourceMapsEnabled } from "process";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -44,6 +46,17 @@ export const Header = ({
     }
   }, [user]);
 
+  
+  useEffect(() => {
+    onConnect(`/topic/${user!.id}`, (message) => {
+      const notification = JSON.parse(message.body);
+        setNotifications((prev) => [notification, ...prev]);
+        setThereAreNotifications(true);
+
+    });
+  },[])
+
+
   const changeLanguage = async  (value: string) => {
     if (!setUser || !user) return;
     user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
@@ -60,6 +73,9 @@ export const Header = ({
       setUser(updated);
     })();
   };
+
+
+
 
   return (
     <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
