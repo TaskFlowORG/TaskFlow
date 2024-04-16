@@ -2,7 +2,7 @@ import { LocalModal } from "@/components/Modal";
 import { OtherUserComponent } from "@/components/OtherUser";
 import { ProjectContext } from "@/contexts";
 import { archiveToSrc } from "@/functions";
-import { OtherUser, Project } from "@/models";
+import { Archive, OtherUser, Project } from "@/models";
 import { userService } from "@/services";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
@@ -31,7 +31,17 @@ export const FeaturedUser = () => {
   const { t } = useTranslation();
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<OtherUser | null>(null);
+  const [selectedUser, setSelectedUser] = useState<OtherUser | null>(new OtherUser(
+    0,
+    "jonatas",
+    "",
+    "",
+    new Archive(0, "jpg", "pic", new Uint8Array()),
+    "",
+    "",
+    "",
+    0,
+  ));
 
   const openUser = (e: MouseEvent<HTMLDivElement>, user: OtherUser) => {
     setX(e.clientX);
@@ -91,7 +101,7 @@ export const FeaturedUser = () => {
           setCondition={setIsOpened}
         >
           <OtherUserComponent user={selectedUser!} />
-        </LocalModal>
+          </LocalModal>
       </div>
     </div>
   );
