@@ -10,6 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   right?: boolean;
   y?: number;
   x?: number;
+  z?: string;
   bottom?: boolean;
   classesPosition?: string;
   classesOrigin?: string;
@@ -21,6 +22,7 @@ export const LocalModal = ({
   right,
   y,
   x,
+  z="z-[101]",
   bottom,
   classesPosition,
   classesOrigin,
@@ -33,7 +35,7 @@ export const LocalModal = ({
   });
 
   const style = twMerge(
-    "bg-inherit shadow-blur-10 flex z-[101] rounded-md bg-clip-border w-auto ",
+    "bg-inherit shadow-blur-10 flex rounded-md bg-clip-border w-auto ", z, 
     classesPosition ? classesPosition : right ? `right-[105%]` : `left-[105%]`,
     classesOrigin
       ? classesOrigin
