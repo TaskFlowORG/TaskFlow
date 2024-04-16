@@ -7,24 +7,25 @@ import { DeleteAccountModal } from "./components/DeleteAccountModal";
 import { archiveToSrc } from "@/functions";
 import { CenterModal } from "../Modal";
 import { UserContext } from "@/contexts/UserContext";
+import { SaveChangesButton } from "./components/SaveChangesButton/SaveChangesButton";
+import { useTranslation } from "react-i18next";
 
 export const PersonalInformations = () => {
   const { user, setUser } = useContext(UserContext);
-  const [editingAddress, setEditingAddress] = useState(false);
   const [name, setName] = useState(user ? user.name : "");
   const [surname, setSurname] = useState(user ? user.surname : "");
   const [address, setAddress] = useState(user ? user.address : "");
   const [mail, setMail] = useState(user ? user.mail : "");
   const [phone, setPhone] = useState(user ? user.phone : "");
   const [desc, setDesc] = useState(user ? user.description : "");
-  const [photoUrl, setPhotoUrl] = useState<string>(
-    user ? archiveToSrc(user.picture) : ""
-  );
+  const [photoUrl, setPhotoUrl] = useState<string>(user ? archiveToSrc(user.picture) : "");
   const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
   const [deletarModal, setDeletarModal] = useState(false);
   const [photo, setPhoto] = useState<File>();
   const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
 
+  const { t } = useTranslation();
+  
   useEffect(() => {
     if (!user) return;
     setName(user.name);
@@ -35,10 +36,6 @@ export const PersonalInformations = () => {
     setDesc(user.description);
     setPhotoUrl(archiveToSrc(user.picture));
   }, [user]);
-
-  const toggleEditingAddress = () => {
-    setEditingAddress(!editingAddress);
-  };
 
   useEffect(() => {
     setPhotoUrl(archiveToSrc(user?.picture));
@@ -64,13 +61,7 @@ export const PersonalInformations = () => {
     updatedUser = await userService.update(updatedUser);
     setUser(updatedUser);
   };
-
-  useEffect(() => {
-    if (!editingAddress) {
-      setAddress(address);
-    }
-  }, [editingAddress, user]);
-
+  
   const previewDaFoto = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setPhoto(e.target.files[0]);
@@ -83,16 +74,8 @@ export const PersonalInformations = () => {
       <div className="flex flex-col justify-start items-center gap-10 w-full h-[57rem] py-20">
         <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
           <div className="h-full">
-            <div
-              id="fotoDeUsuario"
-              className="relative rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28"
-            >
-              <Image
-                fill
-                className="rounded-full w-full h-full"
-                src={photoUrl}
-                alt="foto"
-              />
+            <div id="fotoDeUsuario" className="relative rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
+              <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto"/>
               <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-1 bottom-3 cursor-pointer">
                 <div className="flex items-center justify-center w-full h-full">
                   <Image width={30} height={30} src="/img/imagem.svg" alt="" />
@@ -114,30 +97,17 @@ export const PersonalInformations = () => {
                 {name} {surname}
               </h2>
             </div>
-            <div className="flex">
-              {editingAddress ? (
+            <div className="flex w-80">
                 <InputFieldConfig
                   type="text"
                   id="address"
-                  label=""
+                  label={t("personal-informations-address")}
                   value={address}
                   placeholder={address}
                   onChange={(e: {
                     target: { value: SetStateAction<string> };
                   }) => setAddress(e.target.value)}
                 />
-              ) : (
-                <p
-                  className={`flex items-center dark:text-white text-dark bg-transparent w-full pl-[42px] focus:outline-none h-12`}
-                >
-                  {address}
-                </p>
-              )}
-              <button onClick={toggleEditingAddress}>
-                <div>
-                  <Image width={25} height={25} src="/img/editar.svg" alt="" />
-                </div>
-              </button>
             </div>
           </div>
         </div>
@@ -146,7 +116,7 @@ export const PersonalInformations = () => {
             <InputFieldConfig
               type={"text"}
               id={"name"}
-              label={"Nome"}
+              label={t("personal-informations-name")}
               value={name}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setName(e.target.value)
@@ -156,7 +126,7 @@ export const PersonalInformations = () => {
             <InputFieldConfig
               type={"text"}
               id={"surname"}
-              label={"Sobrenome"}
+              label={t("personal-informations-surname")}
               value={surname}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setSurname(e.target.value)
@@ -166,7 +136,7 @@ export const PersonalInformations = () => {
             <InputFieldConfig
               type={"mail"}
               id={"mail"}
-              label={"Email"}
+              label={t("personal-informations-email")}
               value={mail}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setMail(e.target.value)
@@ -176,7 +146,7 @@ export const PersonalInformations = () => {
             <InputFieldConfig
               type={"tel"}
               id={"phone"}
-              label={"Telefone"}
+              label={t("personal-informations-phone")}
               value={phone}
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setPhone(e.target.value)
@@ -184,7 +154,7 @@ export const PersonalInformations = () => {
               placeholder={user?.phone || ""}
             ></InputFieldConfig>
             <label className="px-6 flex flex-col lg:w-[200%] w-full text-modal-grey dark:text-white">
-              Descrição{" "}
+              {t("personal-informations-desc")}
               <textarea
                 className={`dark:text-white resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
                 id="desc"
@@ -196,16 +166,7 @@ export const PersonalInformations = () => {
                 placeholder={user?.description || ""}
               />
             </label>
-            <div className="row-start-4 flex">
-              <div className="px-6 flex items-center h-20">
-                <button
-                  className=" h4 w-60 drop-shadow-xl h-12 rounded-md bg-primary dark:bg-secondary text-contrast"
-                  onClick={saveChanges}
-                >
-                  Salvar alterações
-                </button>
-              </div>
-            </div>
+            <SaveChangesButton onClick={() => saveChanges}></SaveChangesButton>
           </div>
         </div>
         <div className="z-[3] absolute lg:bottom-5 bottom-[6.5rem] right-0  flex-row-reverse px-6 flex items-center lg:w-[37%]">
@@ -217,22 +178,15 @@ export const PersonalInformations = () => {
             onMouseLeave={() => {
               setExtenderBotaoDel(false);
             }}
-            className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${
-              extenderBotaoDel
+            className={`cursor-pointer flex items-center justify-around h4 w-12 drop-shadow-xl h-12 rounded-md text-contrast ${extenderBotaoDel
                 ? "lg:w-[30%] lg:bg-primary lg:dark:bg-secondary"
                 : "w-10"
-            }`}
+              }`}
           >
-            <Image
-              width={19}
-              height={22}
-              className=""
-              src="/img/trash.svg"
-              alt="excluir"
-            ></Image>
+            <Image width={19} height={22} className="" src="/img/trash.svg" alt="excluir" ></Image>
             {extenderBotaoDel ? (
               <p className="whitespace-nowrap p lg:block hidden">
-                Deletar conta
+                {t("delete-account")}
               </p>
             ) : null}
           </div>

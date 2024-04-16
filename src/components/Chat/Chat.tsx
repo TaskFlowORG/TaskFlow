@@ -7,6 +7,7 @@ import { Chat } from "@/models";
 
 export const Chatt = () => {
     const [chatContent, setChatContent] = useState<Chat[]>([]);
+    
 
     useEffect(() => {
         async function getChats() {

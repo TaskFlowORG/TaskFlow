@@ -1,8 +1,6 @@
 import Cookies from "js-cookie";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import { Obj } from "../Obj";
-
 import { userService } from "@/services";
 import { Configuration, Language } from "@/models";
 import { InputFieldConfig } from "./components/InputFieldConfig";
@@ -27,14 +25,6 @@ export const GeneralConfig = () => {
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setThemeToggle(theme === "dark");
-      } catch (error) { }
-    };
-    fetchData();
-  }, [theme]);
 
   useEffect(() => {
     setLibras(user?.configuration.libras);
@@ -68,11 +58,19 @@ export const GeneralConfig = () => {
     }
   };
 
+  const changeLanguage = async (language: string) => {
+    if (!user || !setUser) return;
+    const configuration: Configuration = user.configuration;
+    configuration.language = language as Language;
+    user.configuration = configuration;
+    const updatedUser = await userService.patch(user)
+    setUser(updatedUser);
+}
+
 
   const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
     if (!user || !setUser) return;
     if (e.target.id == id) {
-
       switch (id) {
         case "libras":
           setLibras(e.target.checked);
@@ -104,17 +102,17 @@ export const GeneralConfig = () => {
           <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
             <div className="w-[95%] ">
               <div className="w-full flex items-start lg:justify-normal h-28">
-                <p className="text-primary dark:text-secondary text-h2 font-alata">Configurações</p>
+                <p className="text-primary dark:text-secondary text-h2 font-alata">{t("configuration-title")}</p>
               </div>
               <div className="w-fit h-16 flex flex-col justify-start">
-                <p className="text-h3 font-alata dark:text-white">Configurações Gerais </p>
-                <p className="text-p font-alata dark:text-white">Aqui você encontra algumas configurações que abrangem todo o aplicativo!</p>
+                <p className="text-h3 font-alata dark:text-white">{t("general-config-title")}</p>
+                <p className="text-p font-alata dark:text-white">{t("general-config-desc")}</p>
               </div>
               <div className="w-full h-fit">
-                <InputFieldConfig id={"theme"} type={"checkbox"} label={"Modo Escuro"} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
-                <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={"Google Agendas"} value={t("dark-mode-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
-                <InputSelectConfig title="Idioma" description="Escolha qual idioma você quer utilizar no site." options={["Português", "Espanhol", "Inglês"]}></InputSelectConfig>
-                <InputRangeConfig></InputRangeConfig>
+                <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
+                <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
+                <InputSelectConfig  title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
+                <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
 
               </div>
             </div>
@@ -122,29 +120,27 @@ export const GeneralConfig = () => {
               <div className=" flex flex-col gap-3 lg:h-fit h-48 ">
                 <div className="w-fit flex flex-col ">
                   <div className="h-fit flex flex-col justify-start">
-                    <p className="text-h3 font-alata dark:text-white ">Acessibilidade </p>
+                    <p className="text-h3 font-alata dark:text-white ">{t("accessibility-config")}</p>
                     <p className="text-p font-alata">
-                      Lorem ipsum dolor sit amet consectetur. Ut varius purus
-                      proin a. Euismod placerat tortor ultrices at odio dolor
-                      turpis vitae.
+                      {t("accessibility-config-desc")}
                     </p>
                   </div>
                 </div>
                 <div className="flex justify-around lg:w-full">
-                  <InputCheckboxConfig checked={libras || false} func={(e) => updateBack(e, "libras")} label="Libras" value="libras"></InputCheckboxConfig>
-                  <InputCheckboxConfig checked={textToSound || false} func={(e) => updateBack(e, "textToSound")} label="Texto para som" value="textToSound"></InputCheckboxConfig>
+                  <InputCheckboxConfig checked={libras || false} func={(e) => updateBack(e, "libras")} label={t("accessibility-config-sign-language")} value="libras"></InputCheckboxConfig>
+                  <InputCheckboxConfig checked={textToSound || false} func={(e) => updateBack(e, "textToSound")} label={t("accessibility-config-text-speech")} value="textToSound"></InputCheckboxConfig>
                 </div>
               </div>
               <div className="h-fit flex flex-col pt-10">
                 <div className="w-fit flex flex-col">
                   <div className="h-fit">
-                    <p className="text-h3 font-alata dark:text-white">Preferências </p>
-                    <p className="text-p font-alata">Aqui você pode definir suas preferências a respeito da sua experiencia no nosso TaskFlow!</p>
+                    <p className="text-h3 font-alata dark:text-white">{t("preferences-config-title")} </p>
+                    <p className="text-p font-alata">{t("preferences-config-desc")}</p>
                   </div>
                 </div>
-                <InputFieldConfig id={"propertyNames"} type={"checkbox"} label={"Nome das propriedades"} value={"Apenas o nome das propriedades será exibido, ao invés de seus valores também."} onChange={() => { }} checked={false} ></InputFieldConfig>
-                {/* <InputSelectConfig title="Propriedade data" description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”."></InputSelectConfig> */}
-                <InputCoresConfig functionBall={functionBall}></InputCoresConfig>
+                <InputFieldConfig id={"propertyNames"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={() => { }} checked={false} ></InputFieldConfig>
+                <InputSelectConfig title={t("property-data-config-title")}  description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”." options={[]} func={() => {}}></InputSelectConfig>
+                <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
               </div>
               <TutorialConfig />
             </div>
