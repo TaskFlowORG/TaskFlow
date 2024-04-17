@@ -145,7 +145,7 @@ export const Project = () => {
                       <ul>
                         {possibleOwners.map((user) => (
                           <button key={user.id} onClick={() => project && projectService.updateOwner(user, project.id)}>{user.username}</button>
-                        ))}
+                        ))}                 
                       </ul>
                       <p className="w-full h-full flex justify-center items-center text-center">
                         {t("no-possible-users")}
