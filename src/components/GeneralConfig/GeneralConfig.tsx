@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, use, useContext, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { userService } from "@/services";
 import { Configuration, Language } from "@/models";
@@ -21,11 +21,11 @@ export const GeneralConfig = () => {
   const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
   const [googleCalendar, setGoogleCalendar] = useState<boolean | undefined>(user!.configuration.googleCalendar);
+  const [showPropertiesName, setShowPropertiesName] = useState<boolean | undefined>(user?.configuration.showPropertiesName);
   const [isTutorialMade, setIsTutorialMade] = useState<boolean>(user!.configuration.isTutorialMade);
   const [fontSize, setFontSize] = useState<number | undefined>(user?.configuration.fontSize);
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
-
 
   useEffect(() => {
     setLibras(user?.configuration.libras);
@@ -33,6 +33,7 @@ export const GeneralConfig = () => {
     setThemeToggle(theme === "dark");
     setFontSize(user?.configuration.fontSize);
     setLanguage(user?.configuration.language);
+    setShowPropertiesName(user?.configuration.showPropertiesName);
     setGoogleCalendar(user?.configuration.googleCalendar);
   }, [user]);
 
@@ -66,8 +67,7 @@ export const GeneralConfig = () => {
     user.configuration = configuration;
     const updatedUser = await userService.patch(user)
     setUser(updatedUser);
-}
-
+  }
 
   const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
     if (!user || !setUser) return;
@@ -88,6 +88,9 @@ export const GeneralConfig = () => {
         case "googleCalendar":
           setGoogleCalendar(e.target.checked);
           break;
+        case "showPropertiesName":
+          setShowPropertiesName(e.target.checked);
+          break
       }
       const configuration: Configuration = user.configuration;
       configuration[id] = e.target.checked;
@@ -96,6 +99,7 @@ export const GeneralConfig = () => {
       setUser(updatedUser);
     }
   };
+
   return (
     <div className="flex justify-center items-center w-full h-full">
       <div className="flex lg:justify-center items-center justify-start w-full h-full flex-col lg:py-0 py-20">
@@ -110,12 +114,11 @@ export const GeneralConfig = () => {
                 <p className="text-p font-alata dark:text-white">{t("general-config-desc")}</p>
               </div>
               <div className="w-full h-fit">
-                <TextToSpeechTeste text="Bom dia"></TextToSpeechTeste>
+                <TextToSpeechTeste></TextToSpeechTeste>
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
-                <InputSelectConfig  title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
+                <InputSelectConfig title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
                 <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
-
               </div>
             </div>
             <div className="w-[95%]">
@@ -140,8 +143,8 @@ export const GeneralConfig = () => {
                     <p className="text-p font-alata">{t("preferences-config-desc")}</p>
                   </div>
                 </div>
-                <InputFieldConfig id={"propertyNames"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={() => { }} checked={false} ></InputFieldConfig>
-                <InputSelectConfig title={t("property-data-config-title")}  description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”." options={[]} func={() => {}}></InputSelectConfig>
+                <InputFieldConfig id={"showPropertiesName"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={(e) => updateBack(e, "showPropertiesName")} checked={showPropertiesName} ></InputFieldConfig>
+                <InputSelectConfig title={t("property-data-config-title")} description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”." options={["Prazo Final", "Agendamento"]} func={() => { }}></InputSelectConfig>
                 <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
               </div>
               <TutorialConfig />

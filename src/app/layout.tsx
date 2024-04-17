@@ -5,7 +5,7 @@ import Providers from "@/services/Theme/providers";
 import ThemeSwitcher from "@/services/Theme/ThemeSwitcher";
 import VLibras from "vlibras-nextjs";
 import Cookies from "js-cookie";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { User } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import Head from "next/head";
@@ -21,7 +21,11 @@ type Props = AppProps & {
 
 export default function RootLayout({ children, text }: Props) {
   const [user, setUser] = useState<User>();
+  const [cookie, setCookie] = useState(Cookies.getJSON("libras") || false);
 
+  useEffect(() => {
+    setCookie(Cookies.getJSON("libras"));
+  }, [cookie])
 
   return (
     <html lang="pt-br" className="w-screen h-screen">
@@ -33,8 +37,7 @@ export default function RootLayout({ children, text }: Props) {
         <LanguageProvider>
           <I18nextProvider i18n={i18next}>
             <body className="w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start">
-              {/* Rever isso aqui depois("Retire a verificação se a config ta como true no bd e deixei só pra ver nos cookies pq tava dando erro") */}
-              <VLibras forceOnload={Cookies.getJSON("libras") == true} />
+              {cookie && user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
               <Providers>
                 <ThemeSwitcher />
                 {children}
