@@ -1,55 +1,70 @@
 import { ProjectContext } from "@/contexts";
-import { ArchiveValued, PropertyValue, Task } from "@/models";
+import { Archive, ArchiveValued, PropertyValue, Task } from "@/models";
 import { propertyValueService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
 import { useContext, useEffect, useState } from "react";
+import { archiveToDownload } from "@/functions";
+import Link from "next/link";
 
 interface Props {
   id: number;
   name: string;
-  value: any;
+  value: Archive;
   isInModal?: boolean;
   propertyValue: PropertyValue;
   task: Task;
 }
 
 export const FileFilter = ({ propertyValue, task, value }: Props) => {
-  const [file, setFile] = useState<any | null>(null);
+  const [file, setFile] = useState<Archive | null>(null);
+  const [src, setSrc] = useState("");
+  const [name, setName] = useState<string>("");
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
 
-  useEffect(() => {
-    setFile(value);
-  }, [value, propertyValue, task]);
-
   const handleFileChange = async (event: any) => {
     // Obtém o arquivo do evento
     const selectedFile = event.target.files[0];
-    propertyValue.value = await propertyValueService.updateArchiveInTask(
+    let bah = await propertyValueService.updateArchiveInTask(
       selectedFile,
       project!.id,
       propertyValue.id
     );
+
+    propertyValue.value = bah;
     console.log(
-      "e nkjdfbjk mz kcjgnfjk ndfjkg ndmkf nfkmdf ngnkfd jfd sdf d sd  sfd fd fds g s s "
+      "e nkjdfbjk mz kcjgnfjk ndfjkg ndmkf nfkmdf ngnkfd jfd sdf d sd  sfd fd fds g s s ",
+      bah
     );
-    setFile(propertyValue.value.value);
+    setName(bah.value.name);
+    setSrc(archiveToDownload(bah.value));
     let page = project?.pages.find((page) => page.id == pageId);
     let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
     taskPage!.task = task;
+    // setSrc(archiveToDownload(bah.value));
     setProject!({ ...project! });
     // Atualiza o estado com o arquivo selecionado
     console.log(propertyValue.value.value.name);
   };
+
+  useEffect(() => {
+    setFile(value);
+  }, [value, propertyValue, task, handleFileChange]);
 
   return (
     <div className="flex items-center justify-end gap-8  pr-1 w-full">
       {file && (
         <>
           <div className="flex gap-2">
-            <span>i</span>
-            <p>{file && (value.name ?? propertyValue.value.value.name)}</p>
+            <a
+              href={
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZEAAACrCAYAAACnt6EoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ6SURBVHhe7dUxAYAwEMDABxF4rAXM0wUDzXy3REKuZ73fAEBw/wWAYyYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQDSzAZxLA07oB5cZAAAAAElFTkSuQmCC"
+              }
+            >
+              i
+            </a>
+            <p>{name}</p>
           </div>
           <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
             <img src="/change.svg" width={8} height={8} alt="" />

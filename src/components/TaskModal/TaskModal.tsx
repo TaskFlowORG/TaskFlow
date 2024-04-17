@@ -45,6 +45,7 @@ import { PageContext } from "@/utils/pageContext";
 import { AddProp } from "../icons/GeneralIcons/AddProp";
 import { UserFilter } from "../FilterAdvancedInput/UserFilter";
 import { FileFilter } from "../FilterAdvancedInput/FilteFilter";
+import { TimeFilter } from "../FilterAdvancedInput/TimeFilter";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -422,6 +423,14 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               )) ||
                               (TypeOfProperty.NUMBER == prop.property.type && (
                                 <NumberFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  name={prop.property.name}
+                                  value={prop.value?.value}
+                                />
+                              )) ||
+                              (TypeOfProperty.TIME == prop.property.type && (
+                                <TimeFilter
                                   isInModal
                                   id={prop.property.id}
                                   name={prop.property.name}

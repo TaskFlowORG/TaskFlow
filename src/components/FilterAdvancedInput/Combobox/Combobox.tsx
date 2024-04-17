@@ -1,4 +1,5 @@
 import { Button } from "@/components/Button";
+import { LocalModal } from "@/components/Modal";
 import { SearchIcon } from "@/components/SearchBar";
 import { OtherUser } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -9,6 +10,8 @@ interface ComboBoxProps {
   value: OtherUser[];
   isRemoving?: boolean;
   id: number;
+  condition: boolean;
+  setCondition: (value: boolean) => void;
 }
 
 export const Combobox = ({
@@ -16,6 +19,7 @@ export const Combobox = ({
   value,
   isRemoving = false,
   id,
+  ...props
 }: ComboBoxProps) => {
   const [selectedOption, setSelectedOption] = useState<OtherUser | null>(null);
   const [input, setInput] = useState("");
@@ -71,96 +75,101 @@ export const Combobox = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 absolute p-4 bg-white rounded-2xl shadowww top-10 right-0 z-[50] ">
-      <div className="flex-1 flex w-full items-center justify-between gap-4 py-2   px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm">
-        <p className="flex-1 w-full truncate">
-          {selectedOption
-            ? selectedOption.name + " " + selectedOption.surname
-            : "Selecione um usuário!"}
-        </p>
-        <div className="flex flex-col   gap-0">
-          <p>{">"}</p>
-        </div>
-      </div>
-
+    <LocalModal right {...props}>
       <div
-        className="flex flex-col gap-0"
-        onKeyUp={(e) => {
-          if (e.key === "Enter" && selectedOption) {
-            handleConfirm();
-          }
-        }}
+        style={{ right: isRemoving ? -72 : -32 }}
+        className="flex flex-col gap-2 absolute p-4 bg-white dark:bg-modal-grey rounded-2xl shadowww top-10  z-[50] "
       >
-        <div className="flex-1 flex gap-2 py-2 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-t-lg text-sm  ">
-          <img src="/searchIcons/search.svg" alt="" />
-          <input
-            ref={inputRef}
-            value={input}
-            className="w-full outline-none"
-            type="text"
-            onChange={(e) => setInput(e.target.value)}
-            disabled={
-              isRemoving
-                ? value.length > 0
-                  ? false
-                  : true
-                : value.length == options.length
-                ? true
-                : false
+        <div className="flex-1 flex w-full items-center justify-between gap-4 py-2   px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm">
+          <p className="flex-1 w-full truncate">
+            {selectedOption
+              ? selectedOption.name + " " + selectedOption.surname
+              : "Selecione um usuário!"}
+          </p>
+          <div className="flex flex-col   gap-0">
+            <p>{">"}</p>
+          </div>
+        </div>
+
+        <div
+          className="flex flex-col gap-0"
+          onKeyUp={(e) => {
+            if (e.key === "Enter" && selectedOption) {
+              handleConfirm();
             }
-            placeholder={
-              isRemoving
-                ? value.length > 0
-                  ? "Remova um usuário"
-                  : "Sem usuários na tarefa!"
-                : value.length == options.length
-                ? "Essa tarefa tem todos os usuários!"
-                : "Encontre um usuário!"
-            }
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                handleInputChange();
+          }}
+        >
+          <div className="flex-1 flex gap-2 py-2 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-t-lg text-sm  ">
+            <img src="/searchIcons/search.svg" alt="" />
+            <input
+              ref={inputRef}
+              value={input}
+              className="w-full outline-none bg-transparent"
+              type="text"
+              onChange={(e) => setInput(e.target.value)}
+              disabled={
+                isRemoving
+                  ? value.length > 0
+                    ? false
+                    : true
+                  : value.length == options.length
+                  ? true
+                  : false
               }
-            }}
-          />
+              placeholder={
+                isRemoving
+                  ? value.length > 0
+                    ? "Remova um usuário"
+                    : "Sem usuários na tarefa!"
+                  : value.length == options.length
+                  ? "Essa tarefa tem todos os usuários!"
+                  : "Encontre um usuário!"
+              }
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleInputChange();
+                }
+              }}
+            />
+          </div>
+          <div className="flex flex-col overflow-auto none-scrollbar max-h-[170px]">
+            {options.map((option, index) => {
+              let name = (option.name + " " + option.surname).toLowerCase();
+              let lowerInput = input.toLowerCase();
+              if (
+                (name.includes(lowerInput) &&
+                  !value.includes(option) &&
+                  option != selectedOption) ||
+                (isRemoving &&
+                  name.includes(lowerInput) &&
+                  value.includes(option) &&
+                  option != selectedOption)
+              ) {
+                return (
+                  <div
+                    onClick={() => handleClickChange(option)}
+                    key={index}
+                    className="flex-1 p-1 py-1 text-black options  dark:text-white border-2 border-t-0 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600  text-sm"
+                  >
+                    <p className="hover:bg-gray-200 dark:hover:bg-zinc-800 w-full p-2 truncate rounded-md text-[14px]">
+                      {" "}
+                      {option.name + " " + option.surname}
+                    </p>
+                  </div>
+                );
+              }
+            })}
+          </div>
         </div>
-        <div className="flex flex-col overflow-auto none-scrollbar max-h-[170px]">
-          {options.map((option, index) => {
-            let name = (option.name + " " + option.surname).toLowerCase();
-            let lowerInput = input.toLowerCase();
-            if (
-              (name.includes(lowerInput) &&
-                !value.includes(option) &&
-                option != selectedOption) ||
-              (isRemoving &&
-                name.includes(lowerInput) &&
-                value.includes(option) &&
-                option != selectedOption)
-            ) {
-              return (
-                <div
-                  onClick={() => handleClickChange(option)}
-                  key={index}
-                  className="flex-1 p-1 py-1 text-black options  dark:text-white border-2 border-t-0 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600  text-sm"
-                >
-                  <p className="hover:bg-gray-200 w-full p-2 truncate rounded-md text-[14px]">
-                    {" "}
-                    {option.name + " " + option.surname}
-                  </p>
-                </div>
-              );
-            }
-          })}
-        </div>
+        <Button
+          secondary={isRemoving}
+          paddingY="py-1"
+          width="w-full"
+          textSize="text-[14px]"
+          text={isRemoving ? "Remover usuário" : "Adicionar usuário"}
+          fnButton={handleConfirm}
+        ></Button>
       </div>
-      <Button
-        secondary={isRemoving}
-        paddingY="py-1"
-        width="w-full"
-        textSize="text-[14px]"
-        text={isRemoving ? "Remover usuário" : "Adicionar usuário"}
-        fnButton={handleConfirm}
-      ></Button>
-    </div>
+    </LocalModal>
   );
 };

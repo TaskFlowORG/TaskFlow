@@ -24,8 +24,8 @@ export default function Layout({ params, children }: Props) {
   const { project, setProject } = useContext(ProjectContext);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const {task, setIsOpen, isOpen} = useContext(TaskModalContext)
-  const {inPage} = useContext(PageContext)
+  const { task, setIsOpen, isOpen } = useContext(TaskModalContext);
+  const { inPage } = useContext(PageContext);
 
   useEffect(() => {
     (async () => {
@@ -36,58 +36,59 @@ export default function Layout({ params, children }: Props) {
     })();
   }, [params.project]);
 
-
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
-  console.log(project?.properties)
+  console.log(project?.properties);
   return (
     <>
-          <TaskModal
-            task={task!}
-            setIsOpen={setIsOpen!}
-            isOpen={isOpen}
-            user={user!}
-          />
+      <TaskModal
+        task={task!}
+        setIsOpen={setIsOpen!}
+        isOpen={isOpen}
+        user={user!}
+      />
 
-          <div className="h-full w-full">
-            <div
-              className=" flex items-center justify-center h-10 w-10   bg-white z-50 rounded-full dark:bg-modal-grey 
+      <div className="h-full w-full">
+        <div
+          className=" flex items-center justify-center h-10 w-10   bg-white z-50 rounded-full dark:bg-modal-grey 
             shadowww cursor-pointer bottom-10 right-10 fixed "
-              onClick={() => {
-                inPage && hasPermission ? setIsPopupOpen(true) : setModalProperty(true);
-              }}
-            >
-              <NeedPermission permission="create">
-                {inPage && (
-                  <PopUpModal
-                    user={user?.username}
-                    condition={isPopupOpen}
-                    modalProp={modalProperty}
-                    setModalProp={setModalProperty}
-                    setCondition={setIsPopupOpen}
-                  ></PopUpModal>
-                )}
-              </NeedPermission>
-              <p
-                className="h3 text-primary rotate-45 p-3 flex z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
-                // onClick={() => setIsPopupOpen(true)}
-              >
-                <IconPlus />
-              </p>
-            </div>
+          onClick={() => {
+            inPage && hasPermission
+              ? setIsPopupOpen(true)
+              : setModalProperty(true);
+          }}
+        >
+          <NeedPermission permission="create">
+            {inPage && (
+              <PopUpModal
+                user={user?.username}
+                condition={isPopupOpen}
+                modalProp={modalProperty}
+                setModalProp={setModalProperty}
+                setCondition={setIsPopupOpen}
+              ></PopUpModal>
+            )}
+          </NeedPermission>
+          <p
+            className="h3 text-primary rotate-45 p-3 flex z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
+            // onClick={() => setIsPopupOpen(true)}
+          >
+            <IconPlus />
+          </p>
+        </div>
 
-            <SideModal
-              condition={modalProperty}
-              setCondition={setModalProperty}
-              right
-            >
-              <RegisterProperty
-                project={project!}
-                properties={project?.properties ?? []}
-              />
-            </SideModal>
-            {children}
-          </div>
+        <SideModal
+          condition={modalProperty}
+          setCondition={setModalProperty}
+          right
+        >
+          <RegisterProperty
+            project={project!}
+            properties={project?.properties ?? []}
+          />
+        </SideModal>
+        {children}
+      </div>
     </>
   );
 }

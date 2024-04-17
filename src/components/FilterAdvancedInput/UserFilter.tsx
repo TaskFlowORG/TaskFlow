@@ -67,7 +67,6 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
               mawWidth="w-max"
               max={3}
               functionObj={(o) => console.log(o)}
-              color
               isOtherUser
             />
           </div>
@@ -75,6 +74,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
           <div className="relative">
             {isOpen && (
               <Combobox
+                condition={isOpen}
+                setCondition={setIsOpen}
                 options={users}
                 value={valued
                   ?.map(
@@ -87,7 +88,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
 
             {isOpenRemove && (
               <Combobox
-              isRemoving={true}
+                condition={isOpenRemove}
+                setCondition={setIsOpenRemove}
+                isRemoving={true}
                 options={valued
                   ?.map(
                     (userD) => users.find((user) => user.username == userD)!
@@ -103,8 +106,10 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
             )}
             <div className="flex gap-2">
               <div
-                className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
-                onClick={() => setIsOpen(!isOpen)}
+                className="w-8 h-8 relative  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
+                onClick={(e) => {
+                  setIsOpen(!isOpen);
+                }}
               >
                 <div className="stroke-white rotate-45">
                   <IconPlus></IconPlus>
@@ -114,8 +119,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                 className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
                 onClick={() => setIsOpenRemove(!isOpenRemove)}
               >
-                <div className="stroke-white rotate-45">
-                  <IconPlus></IconPlus>
+                <div className="stroke-white rotate-90  ">
+                  <p className="font-semibold leading-none text-[10px]">l</p>
                 </div>
               </div>
             </div>
