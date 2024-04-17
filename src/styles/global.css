@@ -445,7 +445,8 @@ select::-ms-expand {
 /* Define a cor do thumb (a alça do scroll) */
 ::-webkit-scrollbar-thumb {
   border-radius: 7px;
-  @apply bg-primary dark:bg-secondary;
+
+  background: var(--primary-color);
 }
 
 .pAlata {
@@ -537,10 +538,11 @@ select::-ms-expand {
   font-weight: bold;
 }
 
-.groupGrandient {
-  @apply bg-gradient-to-r from-orange-500 to-pink-500;
+.groupGradient {
+  background-image: linear-gradient(to right, secondary, primary);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
 
 .groupGrandientDark {
   @apply rounded-lg bg-gradient-to-r from-pink-500 to-orange-500;
@@ -570,6 +572,11 @@ select::-ms-expand {
   background: -webkit-linear-gradient(to right, #3c1053, #ad5389);
   background: linear-gradient(to right, #3c1053, #ad5389);
 }
+
+.no-resize {
+  resize: none;
+}
+
 
 .inputRegister {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
