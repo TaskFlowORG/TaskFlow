@@ -17,7 +17,7 @@ interface Props {
   user: string;
 }
 export const ProjectComponent = ({ project, user }: Props) => {
-  const [isHovering, setIsHovering] = useState<boolean>(true);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
   const router = useRouter();
   const { t } = useTranslation();
 
