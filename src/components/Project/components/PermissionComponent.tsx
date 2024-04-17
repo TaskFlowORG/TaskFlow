@@ -97,6 +97,10 @@ export const PermissionComponent = ({
 
   const[otherPermission, setOtherPermission] = useState<Permission>(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
 
+  useEffect(() => {
+    setOtherPermission(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
+  }, [permissions]);
+
   return (
     <div
       className={
@@ -143,17 +147,16 @@ export const PermissionComponent = ({
                   setCondition={setDeleting}
                   right
                 >
-                  <If condition={permissions.length > 1}>
-                    <div className="bg-input-grey flex justify-center gap-4 flex-col items-center dark:bg-modal-grey p-2 h-32 w-48 rounded-md">
+                  { permissions.length > 1 ?  <div className="bg-input-grey flex justify-center gap-4 flex-col items-center dark:bg-modal-grey p-2 h-32 w-48 rounded-md">
                       <p className="text-modal-grey text-[14px]">
                         {t("choice-another-permission")}
                       </p>
                       <select className="w-full h-8 border-primary dark:border-secondary" onChange={e => 
-                        setOtherPermission(permissions.find(p => p.id == +e.target.value)!)}  >
+                        setOtherPermission(permissions.find(p => p.id == +e.target.value)!)} defaultValue={otherPermission?.id} >
                         {permissions
                           .filter((p) => p.id != permission.id)
                           .map((p, index) => (
-                            <option key={index} value={p.id} selected={p.id == otherPermission.id}>
+                            <option key={index} value={p.id} >
                               {p.name ?? t("withoutname")}
                             </option>
                           ))}
@@ -184,12 +187,12 @@ export const PermissionComponent = ({
                       />
                       </span>
                     </div>
+                    :
                     <div className="w-min h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
                       <p className="text-modal-grey w-min whitespace-nowrap text-[14]">
                         {t("cant-delete-permission")}
                       </p>
-                    </div>
-                  </If>
+                    </div>}
                 </LocalModal>
               </div>
             </If>

@@ -114,7 +114,7 @@ export const Project = () => {
                 </span>
               </If>
             </div>
-            <div className="flex flex-col justify-between w-1/3 ">
+            <div className="flex flex-col justify-start w-1/3 ">
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
@@ -133,7 +133,7 @@ export const Project = () => {
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full rounderd-md"
+                className="bg-transparent w-full rounderd-md h-full"
                 rows={2}
                 cols={2}
               />
@@ -163,7 +163,7 @@ export const Project = () => {
                           <button key={user.id} className="text-[14px] font-montserrat w-full min-h-10 rounded-md shadow-blur-10" onClick={() => project && projectService.updateOwner(user, project.id)}>@{user.username}</button>
                         ))}
                       </div>
-                      <p className="w-full h-full flex justify-center items-center text-center">
+                      <p className="w-full h-full flex justify-center text-[16px] items-center text-center">
                         {t("no-possible-users")}
                       </p>
                     </If>
