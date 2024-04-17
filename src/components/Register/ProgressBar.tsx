@@ -13,7 +13,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ step, color }) => {
       };
     
       return (
-        <div className="w-full">
+        <div className="w-96">
           <div className="bg-[#F04A94] w-full h-1 rounded-md" style={progressBarStyle}></div>
         </div>
       );
