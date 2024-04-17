@@ -96,7 +96,9 @@ export const PermissionComponent = ({
   }
 
   const[otherPermission, setOtherPermission] = useState<Permission>(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
-
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
+  const [size, setSize] = useState<number>(0);
   return (
     <div
       className={
@@ -132,7 +134,7 @@ export const PermissionComponent = ({
               <div className="w-min h-min relative">
                 <button
                   className="w-4 h-4"
-                  onClick={() => setDeleting(!deleting)}
+                  onClick={e => {setX(e.clientX); setY(e.clientY);setDeleting(!deleting)}}
                 >
                   <span className="stroke-contrast">
                     <IconTrashBin />
@@ -141,14 +143,17 @@ export const PermissionComponent = ({
                 <LocalModal
                   condition={deleting}
                   setCondition={setDeleting}
+                  x={x - 155}
+                  classesOrigin="origin-top-right"
                   right
+                  y = {y-10}
                 >
                   <If condition={permissions.length > 1}>
                     <div className="bg-input-grey flex justify-center gap-4 flex-col items-center dark:bg-modal-grey p-2 h-32 w-48 rounded-md">
                       <p className="text-modal-grey text-[14px]">
                         {t("choice-another-permission")}
                       </p>
-                      <select className="w-full h-8 border-primary dark:border-secondary" onChange={e => 
+                      <select className="w-full h-8 bg-transparent border-2 text-center border-primary dark:border-secondary" onChange={e => 
                         setOtherPermission(permissions.find(p => p.id == +e.target.value)!)}  >
                         {permissions
                           .filter((p) => p.id != permission.id)
@@ -184,8 +189,8 @@ export const PermissionComponent = ({
                       />
                       </span>
                     </div>
-                    <div className="w-min h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
-                      <p className="text-modal-grey w-min whitespace-nowrap text-[14]">
+                    <div className="w-48 h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
+                      <p className="text-modal-grey w-full whitespace-pre-wrap text-center text-[14]">
                         {t("cant-delete-permission")}
                       </p>
                     </div>

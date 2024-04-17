@@ -90,10 +90,10 @@ export const Project = () => {
 
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
-      <div className="w-full h-full flex-col items-center  py-8 flex  px-48">
-        <div className="h-1/6 w-full justify-start flex ">
-          <div className="w-full gap-4 flex">
-            <div className="h-full aspect-square  bg-zinc-400 relative rounded-md">
+      <div className="w-full h-full flex-col justify-center items-center  py-8 400:flex 400:px-8 sm:px-24 md:px-48">
+        <div className="400:h-1/6 w-full justify-center  400:justify-start flex flex-col gap-2 400:flex-row">
+          <div className="w-full gap-2 400:gap-4 400:flex-row flex-col items-center flex ">
+            <div className="400:h-full h-16 w-16 400:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
                 src={archiveToSrc(project?.picture)}
@@ -114,11 +114,11 @@ export const Project = () => {
                 </span>
               </If>
             </div>
-            <div className="flex flex-col justify-between w-1/3 ">
+            <div className="flex flex-col justify-between  white text-center w-2/3 ">
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-primary dark:text-secondary rounderd-md text-[24px] font-alata"
+                className="bg-transparent w-full text-center text-primary 400:text-start dark:text-secondary rounderd-md text-[24px] font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? t("withoutname")}
@@ -133,13 +133,13 @@ export const Project = () => {
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full rounderd-md"
+                className="bg-transparent w-full rounderd-md text-center 400:text-start"
                 rows={2}
                 cols={2}
               />
             </div>
           </div>
-          <div className="w-52  h-full justify-center relative  text-[20px] text-modal-grey dark:text-white flex flex-col items-center">
+          <div className="400:w-52 w-full  h-full justify-center relative  text-[20px] text-modal-grey dark:text-white flex flex-col items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -154,6 +154,7 @@ export const Project = () => {
                 <LocalModal
                   condition={changingOwner}
                   setCondition={setChangingOwner}
+                  right
                 >
                   <div className="w-44 h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
                     <If condition={possibleOwners.length > 0}>
