@@ -31,10 +31,10 @@ class UserService {
     }
 
 
-    async upDatePicture(picture:File, username:string):Promise<User>{
+    async upDatePicture(picture:File):Promise<User>{
         const formData = new FormData();
         formData.append('picture', picture);
-        const response = await Api.patch<User>(`user/picture/${username}`, formData, {withCredentials: true});
+        const response = await Api.patch<User>(`user/picture`, formData, {withCredentials: true});
         return response.data;
 
     }

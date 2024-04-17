@@ -45,7 +45,7 @@ export const Login = () => {
     return (
         <>
             <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-                <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+                <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
                     <h4 className="h4 leading-6 flex py-3 md:py-0">Acesse sua conta</h4>
 
                     <div className='h-4/5 w-4/5 flex flex-col items-center justify-between'>

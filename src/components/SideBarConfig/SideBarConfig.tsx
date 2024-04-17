@@ -50,18 +50,25 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
             icon="/img/whiteIconUser.svg"
             text="Informações pessoais"
           />
+          <span className="preferences">
+
+
           <NavItem
             extendida={extendida}
             href={`/${user.username}/configurations/general`}
             icon="/img/configuracao.svg"
             text="Configurações"
           />
+          </span>
+          <span className="notifications-option">
+
           <NavItem
             extendida={extendida}
             href={`/${user.username}/configurations/notifications`}
             icon="/img/notificacoes.svg"
             text="Notificações"
           />
+          </span>
         </div>
       </div>
     </div>

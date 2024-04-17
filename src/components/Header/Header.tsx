@@ -62,15 +62,15 @@ export const Header = ({
   };
 
   return (
-    <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
+    <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
       <img
         src="/Icon.svg"
         alt=""
-        className="w-12 select-none h-12 cursor-pointer dark:grayscale dark:brightness-[60]"
+        className="w-12 select-none h-12 cursor-pointer sidebar-button dark:grayscale dark:brightness-[60]"
         onClick={() => setSidebarOpen(true)}
       />
 
-      <div className=" w-full h-full flex space-x-[48px] items-center justify-end">
+      <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
         <img
           src="/Assets/themeLight/notification.svg"
           alt=""
@@ -85,7 +85,7 @@ export const Header = ({
         </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">
-          <Link href={`/${user?.username}/configurations/account`}>
+          <Link href={`/${user?.username}/configurations/account`} className="settings-button">
             <svg
               width="26"
               height="29"

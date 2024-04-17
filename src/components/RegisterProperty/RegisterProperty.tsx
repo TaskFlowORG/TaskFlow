@@ -40,7 +40,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const deleteProperty = async (property: Property) => {
         try {
-            propertyService.delete(project.id,property.id)
+            propertyService.delete(project.id, property.id)
             let list = [...propertiesArray];
 
             propertiesArray.includes(property) && list.splice(properties.indexOf(property), 1)
@@ -75,7 +75,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 }   
     return (
         <>
-            <div className="w-full h-full flex justify-end">
+            <div className="w-full h-full flex justify-end properties-sidebar-sections">
                 <div className="w-96 h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
                     <div className="h-[15%] w-[90%] flex justify-evenly items-center">
                         <p className="h4 text-primary dark:text-secondary">Propriedades</p>

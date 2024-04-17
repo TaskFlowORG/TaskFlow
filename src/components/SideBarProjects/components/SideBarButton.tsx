@@ -87,7 +87,7 @@ export const SideBarButton = ({
         {openOptions &&
           <>
             <motion.span
-              className=" dark:bg-back-grey w-full justify-center flex items-start overflow-y-clip"
+              className=" dark:bg-modal-grey w-full justify-center flex items-start overflow-y-clip"
               initial={{ height: 0 }}
               animate={{ height: "150px" }}
               exit={{ transition: { delay: 0.1 }, height: 0 }}

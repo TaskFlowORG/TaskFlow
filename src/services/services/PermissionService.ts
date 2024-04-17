@@ -22,8 +22,8 @@ class PermissionService {
         return response.data;
     }
 
-    async delete(id: number, projectId:number): Promise<void> {
-        await Api.delete(`permission/${id}/project/${projectId}`, {withCredentials: true});
+    async delete(id: number, projectId:number, substituteId:number): Promise<void> {
+        await Api.delete(`permission/${id}/other/${substituteId}/project/${projectId}`, {withCredentials: true});
    }
 }
 

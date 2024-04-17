@@ -1,14 +1,7 @@
 import Image from "next/image";
-import {
-  ChangeEvent,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
-import { User, UserPut } from "@/models";
+import { User } from "@/models";
 import { InputFieldConfig } from "./components/InputFieldConfig";
 import { DeleteAccountModal } from "./components/DeleteAccountModal";
 import { archiveToSrc } from "@/functions";
@@ -70,8 +63,6 @@ export const PersonalInformations = () => {
     );
     updatedUser = await userService.update(updatedUser);
     setUser(updatedUser);
-    //Precisa corrigir para o put de user receber uma imagem junto
-    //userService.upDatePicture(photo, updatedUser.username)
   };
 
   useEffect(() => {
@@ -84,10 +75,11 @@ export const PersonalInformations = () => {
     if (!e.target.files) return;
     setPhoto(e.target.files[0]);
     setPhotoUrl(URL.createObjectURL(e.target.files[0]));
+    userService.upDatePicture(e.target.files[0]);
   };
 
   return (
-    <div className=" flex w-full h-full items-center">
+    <div className=" flex w-full h-full personal items-center">
       <div className="flex flex-col justify-start items-center gap-10 w-full h-[57rem] py-20">
         <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
           <div className="h-full">
@@ -232,10 +224,10 @@ export const PersonalInformations = () => {
             }`}
           >
             <Image
-              width={25}
-              height={25}
+              width={19}
+              height={22}
               className=""
-              src="/img/Trash.svg"
+              src="/img/trash.svg"
               alt="excluir"
             ></Image>
             {extenderBotaoDel ? (
@@ -247,7 +239,7 @@ export const PersonalInformations = () => {
           <CenterModal condition={deletarModal} setCondition={setDeletarModal}>
             <DeleteAccountModal
               close={() => setDeletarModal(false)}
-              deleteUser={() => userService.delete("jonatas")}
+              deleteUser={() => userService.delete(user?.username || "")}
             />
           </CenterModal>
         </div>
