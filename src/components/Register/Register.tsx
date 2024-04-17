@@ -106,7 +106,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
     <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
         <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
-        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between">
+        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
         {step === 0 && (
             <>
               <Input
