@@ -4,6 +4,7 @@ import { SectionFilter } from "./SectionFilter";
 import { ProjectSimple } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import { Button } from "../Button";
+import { ProjectContext } from "@/contexts";
 
 interface FilterProjectProps {
   projects?: ProjectSimple[];
@@ -20,6 +21,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
   const [qttyGroups, setQttyGroups] = useState<number | null>(null);
   const [isOwner, setIsOwner] = useState<boolean>();
   const { user } = useContext(UserContext);
+  const{project} = useContext(ProjectContext);
 
   const cleanFilter = () => {
     setProgress(null);
@@ -51,6 +53,17 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
       })
     );
   }, [progress, qttyPages, qttyProperties, qttyGroups, isOwner]);
+
+  const maxPages = Math.max(
+    ...projects?.map((p) => p.qttyPages ?? 0) ?? [0]
+  );
+  const maxProperties = Math.max(
+    ...projects?.map((p) => p.qttyProperties ?? 0) ?? [0]
+  );
+  const maxGroups = Math.max(
+    ...projects?.map((p) => p.groups.length) ?? [0]
+  );
+
   return (
     <div className="h-min w-60 p-4 rounded-md text-[16px] overflow-y-auto 
     bg-input-grey dark:bg-modal-grey text-modal-grey dark:text-white">
@@ -65,21 +78,21 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
         />
         <SectionFilter
           number={qttyPages}
-          max={100}
+          max={maxPages}
           setNumber={setQttyPages}
           step={1}
           title="Quantidade de Páginas"
         />
         <SectionFilter
           number={qttyProperties}
-          max={100}
+          max={maxProperties}
           setNumber={setQttyProperties}
           step={1}
           title="Quantidade de Propriedades"
         />
         <SectionFilter
           number={qttyGroups}
-          max={100}
+          max={maxGroups}
           setNumber={setQttyGroups}
           step={1}
           title="Quantidade de Grupos"

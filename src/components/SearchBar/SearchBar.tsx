@@ -5,14 +5,18 @@ import { OrderInput } from "../OrderInput";
 import { FilterAdvancedInput } from "../FilterAdvancedInput/FilterAdvancedInput";
 import { OrderedPage, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { IconFilter } from "../icons/OptionsFilter/Filter";
+import { IconOrder } from "../icons/OptionsFilter/Order";
+import { IconSearch } from "../icons/OptionsFilter/Search";
 
 interface Props {
   order?: boolean;
   search?: boolean;
   filter?: boolean;
+  invert?: boolean;
   // openedOrder?: boolean;
   // setOpenedOrder: (a: boolean) => void;
-  properties: Property[];
+  properties?: Property[];
   page?: OrderedPage;
   isInCalendar?: boolean;
   // children: ReactElement[] | ReactNode[];
@@ -21,9 +25,10 @@ export const SearchBar = ({
   order = false,
   search = false,
   filter = false,
+  invert = false,
   // openedOrder,
   // setOpenedOrder,
-  properties,
+  properties =[],
   page,
   isInCalendar = false,
 }: Props) => {
@@ -74,7 +79,8 @@ export const SearchBar = ({
       )}
       {search && (
         <SearchIcon
-          iconSrc={"/searchIcons/search.svg"}
+        invert={invert}
+          icon={<IconSearch classes={invert ? "text-primary dark:text-secondary" : undefined} />}
           open={() => {
             change("search");
             setInput!("");
@@ -84,7 +90,8 @@ export const SearchBar = ({
       )}
       {order && (
         <SearchIcon
-          iconSrc={"/searchIcons/order.svg"}
+        invert={invert}
+          icon={<IconOrder classes={invert ? "text-primary dark:text-secondary" : undefined} />}
           open={() => {
             change("order");
           }}
@@ -93,7 +100,8 @@ export const SearchBar = ({
       )}
       {filter && (
         <SearchIcon
-          iconSrc={"/searchIcons/filter.svg"}
+        invert={invert}
+          icon={<IconFilter classes={invert ? "text-primary dark:text-secondary" : undefined} />}
           acessibilityLabel="Ícone de filtragem"
           open={() => change("filter")}
         />

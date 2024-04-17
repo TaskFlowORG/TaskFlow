@@ -52,7 +52,7 @@ export default function Layout({ params, children }: Props) {
           <div className="h-full w-full">
             <div
               className=" flex items-center justify-center h-10 w-10   bg-white z-50 rounded-full dark:bg-modal-grey 
-            shadowww cursor-pointer bottom-10 right-10 fixed "
+            shadowww cursor-pointer bottom-16 right-16 fixed "
               onClick={() => {
                 inPage && hasPermission ? setIsPopupOpen(true) : setModalProperty(true);
               }}

@@ -64,7 +64,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                             { value: TypeOfProperty.SELECT, image: <IconSelect /> },
                             { value: TypeOfProperty.TEXT, image: <IconText /> }
                         ]}
-                            selected={TypeOfProperty.TEXT} onChange={function (value: string): void {
+                            selected={selected} onChange={function (value: string): void {
                                 setSelected(value as TypeOfProperty)
                                 console.log(value.toString())
                             }} />

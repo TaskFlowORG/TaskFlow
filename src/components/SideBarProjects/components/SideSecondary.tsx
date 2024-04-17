@@ -56,7 +56,7 @@ export const SideSecondary = ({
         text={t("project")}
         link={`/${user}/${project?.id}`}
       />
-      <span className="create-page-button">
+      <span className=" w-full h-min create-page-button">
 
       <SideBarButton
         icon={<IconPages />}
@@ -66,7 +66,7 @@ export const SideSecondary = ({
         text={t("pages")}
       />
       </span>
-      <span className="add-group-project-message">
+      <span className=" w-full h-min add-group-project-message">
 
       <SideBarButton
         icon={<IconGroups />}

@@ -17,10 +17,9 @@ interface Props {
   user: string;
 }
 export const ProjectComponent = ({ project, user }: Props) => {
-  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [isHovering, setIsHovering] = useState<boolean>(true);
   const router = useRouter();
-  const {t} = useTranslation();
-  
+  const { t } = useTranslation();
 
   return (
     <Link
@@ -37,13 +36,13 @@ export const ProjectComponent = ({ project, user }: Props) => {
         </div>
         <div className="w-full whitespace-nowrap overflow-hidden">
           <h4
-            className="w-11/12 font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
+            className="w-full font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
             style={!project.name ? { opacity: 0.5 } : {}}
           >
             {project.name ?? t("withoutname")}
           </h4>
           <p
-            className="w-11/12 font-montserrat text-[12px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
+            className="w-full font-montserrat text-[12px] text-modal-grey dark:text-white truncate"
             style={!project.description ? { opacity: 0.5 } : {}}
           >
             {project.description ?? t("withoutdescription")}
@@ -60,12 +59,21 @@ export const ProjectComponent = ({ project, user }: Props) => {
             exit={{ transition: { delay: 0.1, duration: 0.1 }, height: 0 }}
             transition={{ duration: 0.1 }}
           >
-              <div className=" absolute flex w-full h-10 z-10">
-                <Obj objs={project.groups} max={4} functionObj={o => router.push(`/${user}/${project.id}/group/${(o as SimpleGroup).id}`)} mawWidth="w-full" isGroup></Obj>
+            <div className=" absolute flex w-full h-10 z-10">
+              <Obj
+                objs={project.groups}
+                max={4}
+                functionObj={(o) =>
+                  router.push(
+                    `/${user}/${project.id}/group/${(o as SimpleGroup).id}`
+                  )
+                }
+                mawWidth="w-full"
+                isGroup
+              ></Obj>
             </div>
             <div className="mt-12">
-            <ProgressBar percent={project.progress} />
-
+              <ProgressBar percent={project.progress} />
             </div>
           </motion.div>
         )}

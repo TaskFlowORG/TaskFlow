@@ -17,6 +17,7 @@ import { LocalModal } from "../Modal";
 import { OtherUser } from "@/models";
 import { EditIcon } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
+import { log } from "console";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -68,8 +69,7 @@ export const Project = () => {
     (async () => {
       if (!project) return;
       const groups = await groupService.findGroupsByAProject(project?.id);
-      const users = groups.map((group) => group.owner);
-      setPossibleOwners(users);
+      const users = groups.map(async (group) => setPossibleOwners([...possibleOwners, (await groupService.findOne(group.id)).owner]));
     })();
   }, [project]);
 
@@ -144,9 +144,7 @@ export const Project = () => {
                     <If condition={possibleOwners.length > 0}>
                       <ul>
                         {possibleOwners.map((user) => (
-                          <li key={user ? user.id : 0}>
-                            {user ? user.username : ""}
-                          </li>
+                          <button key={user.id} onClick={() => project && projectService.updateOwner(user, project.id)}>{user.username}</button>
                         ))}
                       </ul>
                       <p className="w-full h-full flex justify-center items-center text-center">
