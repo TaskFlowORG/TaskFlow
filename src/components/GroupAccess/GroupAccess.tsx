@@ -4,6 +4,7 @@ import { Group, GroupPut, Permission, Project } from '@/models';
 import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
+import { log } from 'console';
 
 interface Props {
     project: Project;
@@ -17,14 +18,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     const [newName, setNewName] = useState(group.name);
     const [newDescription, setNewDescription] = useState(group.description);
 
-    useEffect(() => {
-        fetchData();
-    }, [group]);
-
     const fetchData = async () => {
         const fetchedPermissions = await permissionService.findAll(project.id);
         setPermissions(fetchedPermissions);
     };
+
+    useEffect(() => {
+        fetchData();
+    }, [group]);
 
     const findPermission = (selectedValue: number) => {
         try {
@@ -39,7 +40,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         savePermission(selectedPermission);
                     }
                 }
-        }
+            }
         } catch (error: any) {
             console.error('Erro ao atualizar permissão:', error.message);
             alert('Não foi possível atualizar a permissão do grupo.');
@@ -47,20 +48,24 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
     }
 
     const savePermission = async (selectedPermission: Permission) => {
-        group.permissions = []
-        group.permissions.push(selectedPermission);
-        await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-        setSelectedPermission(undefined);
-        alert('Permissão atualizada com sucesso!');
-
+        try {
+            const updateGroup =  await groupService.findOne(group.id)
+            updateGroup.permissions = [selectedPermission];
+            console.log(updateGroup.users);
+            
+            await groupService.update(new GroupPut(updateGroup.id, updateGroup.name, updateGroup.description, updateGroup.permissions, updateGroup.users), updateGroup.id);
+            setSelectedPermission(undefined);
+            alert('Permissão atualizada com sucesso!');
+            fetchData();
+        } catch (error: any) {
+            alert("Não foi possível atualizar a permissão.");
+        }
     }
 
-
-    const updateTheInformationsOFAGroup = () => {
+    const updateTheInformationsOFAGroup = async () => {
         try {
-            group.name = newName;
-            group.description = newDescription
-            groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, group.users), group.id);
+            const updateGroup =  await groupService.findOne(group.id)
+            groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, updateGroup.users), group.id);
             setIsEnable(false)
         } catch (error: any) {
             console.error("Erro ao atualizar o grupo: ", error.message)
