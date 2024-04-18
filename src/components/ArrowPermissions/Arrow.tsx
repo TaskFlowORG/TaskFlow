@@ -1,10 +1,10 @@
-import { disconnect } from "process"
+
 
 interface Props {
     className: string
 }
 
-export const Arrow = ({className}: Props) => {
+export const ArrowPermissions = ({className}: Props) => {
     return (
         <div className={className}>
             <div className='pb-2 mr-2'>

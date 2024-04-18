@@ -48,6 +48,8 @@ class GroupService {
         const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner, { withCredentials: true });
         return response.data;
     }
+
+    
 }
 
 export const groupService = new GroupService();
