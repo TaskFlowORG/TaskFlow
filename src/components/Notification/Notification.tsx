@@ -114,7 +114,7 @@ export const Notification = ({
         <span className="text-primary text-[12px] font-alata dark:text-secondary [&_*]:text-start [&_*]:w-full">
           <NotificationTitle type={notification.type} />
         </span>
-        <p className="font-montserrat text-[10px] w-full text-start whitespace-pre-wrap">
+        <p className="font-montserrat text-[14px] w-full text-start whitespace-pre-wrap">
           {getMessage(notification)}
         </p>
       </div>
