@@ -49,10 +49,10 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            const updateGroup =  await groupService.findOne(group.id)
+            const updateGroup = await groupService.findOne(group.id)
             updateGroup.permissions = [selectedPermission];
             console.log(updateGroup.users);
-            
+
             await groupService.update(new GroupPut(updateGroup.id, updateGroup.name, updateGroup.description, updateGroup.permissions, updateGroup.users), updateGroup.id);
             setSelectedPermission(undefined);
             alert('Permissão atualizada com sucesso!');
@@ -64,7 +64,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const updateTheInformationsOFAGroup = async () => {
         try {
-            const updateGroup =  await groupService.findOne(group.id)
+            const updateGroup = await groupService.findOne(group.id)
             groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, updateGroup.users), group.id);
             setIsEnable(false)
         } catch (error: any) {
@@ -98,9 +98,9 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         disabled={!isEnable}
                     />
                 </div>
-                <div className="flex md:justify-end">
+                <div className="flex md:justify-end relative">
                     <select
-                        className='flex mr-6 text-primary dark:text-secondary text-center w-[35%] ml-4 mnAlata border-2 rounded-sm border-primary dark:border-secondary'
+                        className="flex mr-6 text-primary dark:text-secondary text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
                         value={selectedPermission}
@@ -110,21 +110,40 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                             group.permissions.map((permission) => {
                                 setSelectedPermission(permission.id);
                                 return (
-                                    <option key={permission.id} value="" disabled>{permission.name}</option>
-                                )
+                                    <option key={permission.id} value="" disabled>
+                                        {permission.name}
+                                    </option>
+                                );
                             })
                         ) : (
-                            <option value="" disabled>Permissão</option>
+                            <option value="" disabled>
+                                Permissão
+                            </option>
                         )}
 
-                        {permissions.map(permission => {
-                            return (<option className='flex justify-center' key={permission.name} value={permission.id}>
-                                {permission.name}
-                            </option>
-                            )
+                        {permissions.map((permission) => {
+                            return (
+                                <option className="flex justify-center" key={permission.name} value={permission.id}>
+                                    {permission.name}
+                                </option>
+                            );
                         })}
                     </select>
+                    <div className="absolute inset-y-5 right-8 flex items-center pointer-events-none">
+                        <svg
+                            className="w-5 h-5 text-primary dark:text-secondary"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M7.29289 8.70711C7.68342 9.09763 8.31658 9.09763 8.70711 8.70711L15.0711 2.34315C15.4616 1.95262 15.4616 1.31946 15.0711 0.928932C14.6805 0.538408 14.0474 0.538408 13.6569 0.928932L8 6.58579L2.34315 0.928932C1.95262 0.538408 1.31946 0.538408 0.928933 0.928932C0.538408 1.31946 0.538408 1.95262 0.928932 2.34315L7.29289 8.70711ZM7 7L7 8L9 8L9 7L7 7Z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </div>
                 </div>
+
                 <div className=''>
                     {isEnable ? (
                         <div className='flex gap-11 md:justify-between '>

@@ -202,6 +202,5 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
           </p>
         </div>
       </div>
-    </div>
   );
 };

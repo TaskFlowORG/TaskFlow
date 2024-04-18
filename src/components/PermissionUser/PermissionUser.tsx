@@ -92,7 +92,7 @@ export const PermissionUser = ({ group, user, project }: Props) => {
 
           ) : (
             <select
-              className='text-primary text-center flex flex-1 w-full mnAlata border-none dark:text-secondary'
+              className='text-primary text-center flex flex-1 w-full dark:bg-[#3C3C3C] mnAlata border-none dark:text-secondary'
               name="permission"
               id="permission"
               value={selectedPermission}
