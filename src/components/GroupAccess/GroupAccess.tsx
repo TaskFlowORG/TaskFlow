@@ -5,7 +5,7 @@ import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
 import { log } from 'console';
-import { Arrow } from './Arrow';
+import { ArrowPermissions } from '../ArrowPermissions/Arrow';
 
 interface Props {
     project: Project;
@@ -132,7 +132,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     </select>
 
                     <div>
-                        <Arrow/>
+                        <ArrowPermissions className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"}/>
                     </div>
 
                 </div>
