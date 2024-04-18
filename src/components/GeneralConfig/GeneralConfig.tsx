@@ -114,7 +114,6 @@ export const GeneralConfig = () => {
                 <p className="text-p font-alata dark:text-white">{t("general-config-desc")}</p>
               </div>
               <div className="w-full h-fit">
-                <TextToSpeechTeste></TextToSpeechTeste>
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
                 <InputSelectConfig title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
