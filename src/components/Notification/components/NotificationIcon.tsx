@@ -9,7 +9,9 @@ export const NotificationIcon = (props: { type: TypeOfNotification }) => {
     switch (props.type) {
         case TypeOfNotification.CHANGETASK:
             return <IconEditColoured />;
-        case TypeOfNotification.ADDORREMOVEINGROUP:
+        case TypeOfNotification.ADDINGROUP:
+            return <IconGroups />;
+            case TypeOfNotification.REMOVEINGROUP:
             return <IconGroups />;
         case TypeOfNotification.CHANGEPERMISSION:
             return <IconLock />

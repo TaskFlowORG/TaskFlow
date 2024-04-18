@@ -48,6 +48,11 @@ class GroupService {
         const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner, {withCredentials: true});
         return response.data;
     }
+
+    async inviteUser(groupId: number, userId: number): Promise<void> {
+         await Api.post<Group>(`group/${groupId}/add-user/${userId}`, {}, {withCredentials: true});
+
+    }
 }
 
 export const groupService = new GroupService();
