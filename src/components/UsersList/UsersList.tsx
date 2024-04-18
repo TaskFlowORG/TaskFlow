@@ -122,7 +122,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
           <div>
             <input
               ref={inputRef}
-              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
+              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
               placeholder="Pesquisa"
               type="text"
               id="campoTexto"
@@ -130,7 +130,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
               onChange={combinedOnChange}
             />
             <button
-              className="relative "
+              className="relative"
               type="button"
               onClick={findUser}
             >

@@ -5,6 +5,7 @@ import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
 import { log } from 'console';
+import { Arrow } from './Arrow';
 
 interface Props {
     project: Project;
@@ -49,10 +50,10 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            const updateGroup =  await groupService.findOne(group.id)
+            const updateGroup = await groupService.findOne(group.id)
             updateGroup.permissions = [selectedPermission];
             console.log(updateGroup.users);
-            
+
             await groupService.update(new GroupPut(updateGroup.id, updateGroup.name, updateGroup.description, updateGroup.permissions, updateGroup.users), updateGroup.id);
             setSelectedPermission(undefined);
             alert('Permissão atualizada com sucesso!');
@@ -64,7 +65,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const updateTheInformationsOFAGroup = async () => {
         try {
-            const updateGroup =  await groupService.findOne(group.id)
+            const updateGroup = await groupService.findOne(group.id)
             groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, updateGroup.users), group.id);
             setIsEnable(false)
         } catch (error: any) {
@@ -98,9 +99,9 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         disabled={!isEnable}
                     />
                 </div>
-                <div className="flex md:justify-end">
+                <div className="flex md:justify-end relative">
                     <select
-                        className='flex mr-6 text-primary dark:text-secondary text-center w-[35%] ml-4 mnAlata border-2 rounded-sm border-primary dark:border-secondary'
+                        className="flex mr-6 text-primary dark:text-secondary text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
                         value={selectedPermission}
@@ -110,21 +111,32 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                             group.permissions.map((permission) => {
                                 setSelectedPermission(permission.id);
                                 return (
-                                    <option key={permission.id} value="" disabled>{permission.name}</option>
-                                )
+                                    <option key={permission.id} value="" disabled>
+                                        {permission.name}
+                                    </option>
+                                );
                             })
                         ) : (
-                            <option value="" disabled>Permissão</option>
+                            <option value="" disabled>
+                                Permissão
+                            </option>
                         )}
 
-                        {permissions.map(permission => {
-                            return (<option className='flex justify-center' key={permission.name} value={permission.id}>
-                                {permission.name}
-                            </option>
-                            )
+                        {permissions.map((permission) => {
+                            return (
+                                <option className="flex justify-center" key={permission.name} value={permission.id}>
+                                    {permission.name}
+                                </option>
+                            );
                         })}
                     </select>
+
+                    <div>
+                        <Arrow/>
+                    </div>
+
                 </div>
+
                 <div className=''>
                     {isEnable ? (
                         <div className='flex gap-11 md:justify-between '>
