@@ -115,6 +115,7 @@ export const Project = () => {
               </If>
             </div>
             <div className="flex flex-col justify-between  white text-center w-2/3 ">
+
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
@@ -134,6 +135,7 @@ export const Project = () => {
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
                 className="bg-transparent w-full rounderd-md text-center 400:text-start"
+
                 rows={2}
                 cols={2}
               />
@@ -164,7 +166,7 @@ export const Project = () => {
                           <button key={user.id} className="text-[14px] font-montserrat w-full min-h-10 rounded-md shadow-blur-10" onClick={() => project && projectService.updateOwner(user, project.id)}>@{user.username}</button>
                         ))}
                       </div>
-                      <p className="w-full h-full flex justify-center items-center text-center">
+                      <p className="w-full h-full flex justify-center text-[16px] items-center text-center">
                         {t("no-possible-users")}
                       </p>
                     </If>
