@@ -29,10 +29,19 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   const [minutes, setMinutes] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [play, setPlay] = useState(false);
+
   const { project } = useContext(ProjectContext);
 
   useEffect(() => {
     if (!value) return;
+
+    // if (value.starts.length > value.ends.length){
+    //   let date = new Date()
+    //   date.setDate(date.getDate() -1)
+    //   let time = new Date().getMilliseconds() - date.getMilliseconds()
+    //   console.log(time);
+    // }
+
     setHours(value?.parseDuration()!.hours ?? 0);
     setMinutes(value?.parseDuration()!.minutes ?? 0);
     setSeconds(value?.parseDuration()!.seconds ?? 0);
@@ -92,15 +101,36 @@ export const TimeFilter = ({ value, task, id }: Props) => {
 
   return (
     <div className="flex gap-8">
-      <div>
-        <i>
+      <div className="flex gap-1">
+        <p className="pr-4">
           {hours < 10 ? "0" + hours : hours}:
           {minutes < 10 ? "0" + minutes : minutes}:
           {seconds < 10 ? "0" + seconds : seconds}
-        </i>
-        <i onClick={handleClickPlay}>Play</i>
-        <i onClick={handleClickPause}>Pause</i>
-        <i>Restart</i>
+        </p>
+
+        {!play && (
+          <div
+            onClick={handleClickPlay}
+            className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+          >
+            P
+          </div>
+        )}
+
+        {play && (
+          <div
+            onClick={handleClickPause}
+            className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+          >
+            Ps
+          </div>
+        )}
+
+        {!play && (
+          <div className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary">
+            R
+          </div>
+        )}
       </div>
     </div>
   );
