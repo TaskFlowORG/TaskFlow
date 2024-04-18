@@ -431,6 +431,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               )) ||
                               (TypeOfProperty.TIME == prop.property.type && (
                                 <TimeFilter
+                                task={task}
                                   isInModal
                                   id={prop.property.id}
                                   name={prop.property.name}
