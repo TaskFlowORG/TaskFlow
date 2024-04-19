@@ -39,7 +39,7 @@ export default function RootLayout({ children, text }: Props) {
         <LanguageProvider>
           <I18nextProvider i18n={i18next}>
             <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
-              {libras && user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
+              {user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
               {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
               <Providers>
                 <ThemeSwitcher />

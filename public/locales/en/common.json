@@ -54,9 +54,9 @@
         "preferences-config-title": "Preferences",
         "preferences-config-desc": "Here you can customize your experience with Taskflow according to your preferences!",
         "property-name-config-title": "Property name",
-        "property-name-config-desc": "nao sei",
+        "property-name-config-desc": "Defines whether the property name will be displayed or not.",
         "property-data-config-title": "Data property",
-        "property-data-config-desc": "Choose by which type of date property you want to see your tasks for the day on the “Home Page”.",
+        "property-data-config-desc": "Choose by which type of date property you want to see your tasks for the day on the Home Page.",
         "color-config-title": "Color Theme",
         "color-config-desc": "Choose the color of your theme using the default colors or make one according to your preference.",
         "tutorial-config-title": "Tutorial",
@@ -93,5 +93,7 @@
         "notification-points-desc": "When you reach a certain score in our system, you will receive a notification to stay informed about your progress.",
         "notification-deadline-desc": "When the due date for a project or task is approaching, you will be alerted to ensure that you can closely monitor and meet all important deadlines.",
         "notification-messages-desc": "When you receive any messages in your chats, you will be notified immediately.",
-        "redo-tutorial-config-desc": "Are you sure you want to redo the tutorial? This will reset your progress and start you from the beginning."
+        "redo-tutorial-config-desc": "Are you sure you want to redo the tutorial? This will reset your progress and start you from the beginning.",
+        "deadLine": "Deadline",
+        "scheduling": "Scheduling"
 }

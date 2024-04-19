@@ -87,8 +87,8 @@ export const NotificationsConfig = () => {
                     <InputConfig notifications={notifications} id='notificMyPointsChange' type='checkbox' onChange={(e) => updateBack(e, 'notificMyPointsChange')} checked={notificMyPointsChange} title={t("notification-points")}  description={t("notification-points-desc")} />
                     <InputConfig notifications={notifications} id='notificSchedules' type='checkbox' onChange={(e) => updateBack(e, 'notificSchedules')} checked={notificSchedules} title={t("notification-scheduling")} description={t("notification-scheduling-desc")}/>
                     <InputConfig notifications={notifications} id='notificDeadlines' type='checkbox' onChange={(e) => updateBack(e, 'notificDeadlines')} checked={notificDeadlines} title={t("notification-deadline")} description={t("notification-deadline-desc")} />
-                    <InputConfig notifications={notifications} id='notificChats' type='checkbox' onChange={(e) => updateBack(e, 'notificComments')} checked={notificComments} title={t("notification-comments")}description={t("notification-comments-desc")}/>
-                    <InputConfig notifications={notifications} id='notificComments' type='checkbox' onChange={(e) => updateBack(e, 'notificChats')} checked={notificChats} title={t("notification-messages")} description={t("notification-messages-desc")}/>
+                    <InputConfig notifications={notifications} id='notificChats' type='checkbox' onChange={(e) => updateBack(e, 'notificChats')} checked={notificChats} title={t("notification-comments")}description={t("notification-comments-desc")}/>
+                    <InputConfig notifications={notifications} id='notificComments' type='checkbox' onChange={(e) => updateBack(e, 'notificComments')} checked={notificComments} title={t("notification-messages")} description={t("notification-messages-desc")}/>
                 </div>
             </div>
         </div>

@@ -23,6 +23,7 @@ export const GeneralConfig = () => {
   const [googleCalendar, setGoogleCalendar] = useState<boolean | undefined>(user!.configuration.googleCalendar);
   const [showPropertiesName, setShowPropertiesName] = useState<boolean | undefined>(user?.configuration.showPropertiesName);
   const [isTutorialMade, setIsTutorialMade] = useState<boolean>(user!.configuration.isTutorialMade);
+  const [initialPageTasksPerDeadline, setInitialPageTasksPerDeadline] = useState<boolean | undefined>(user?.configuration.initialPageTasksPerDeadline);
   const [fontSize, setFontSize] = useState<number | undefined>(user?.configuration.fontSize);
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
@@ -35,6 +36,7 @@ export const GeneralConfig = () => {
     setLanguage(user?.configuration.language);
     setShowPropertiesName(user?.configuration.showPropertiesName);
     setGoogleCalendar(user?.configuration.googleCalendar);
+    setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
 
   const changeColor = (color: string) => {
@@ -64,6 +66,19 @@ export const GeneralConfig = () => {
     if (!user || !setUser) return;
     const configuration: Configuration = user.configuration;
     configuration.language = language as Language;
+    user.configuration = configuration;
+    const updatedUser = await userService.patch(user)
+    setUser(updatedUser);
+  }
+
+  const dataType = async (value: string) => {
+    if (!user || !setUser) return;
+    const configuration: Configuration = user.configuration;
+    if (value == "scheduling") {
+      configuration.initialPageTasksPerDeadline = false;
+    } else {
+      configuration.initialPageTasksPerDeadline = true;
+    }
     user.configuration = configuration;
     const updatedUser = await userService.patch(user)
     setUser(updatedUser);
@@ -116,7 +131,7 @@ export const GeneralConfig = () => {
               <div className="w-full h-fit">
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
-                <InputSelectConfig title={t("language-config")} description={t("language-config-desc")} options={["Português", "Español", "English"]} func={changeLanguage} user={user}></InputSelectConfig>
+                <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{id:"Português", value:"Português"}, {id:"Español", value:"Español"}, {id:"English", value:"English"}]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
                 <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
               </div>
             </div>
@@ -143,7 +158,7 @@ export const GeneralConfig = () => {
                   </div>
                 </div>
                 <InputFieldConfig id={"showPropertiesName"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={(e) => updateBack(e, "showPropertiesName")} checked={showPropertiesName} ></InputFieldConfig>
-                <InputSelectConfig title={t("property-data-config-title")} description="Escolha por qual tipo de propriedade data você deseja ver suas tarefas do dia na “Página Inicial”." options={["Prazo Final", "Agendamento"]} func={() => { }}></InputSelectConfig>
+                <InputSelectConfig defaultValue={user?.configuration.initialPageTasksPerDeadline == true ? "Prazo Final" : "Agendamento"} id="dataProperty" title={t("property-data-config-title")} description={t("property-data-config-desc")} options={[{id:"deadLine", value:t("deadLine")}, {id:"Agendamento", value:t("Scheduling")}]} func={dataType}></InputSelectConfig>
                 <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
               </div>
               <TutorialConfig />

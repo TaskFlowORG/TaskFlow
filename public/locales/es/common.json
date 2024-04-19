@@ -49,7 +49,7 @@
         "preferences-config-title": "Preferencias",
         "preferences-config-desc": "¡Aquí puedes personalizar tu experiencia con Taskflow según tus preferencias!",
         "property-name-config-title": "Nombre de la propiedad",
-        "property-name-config-desc": "No sé",
+        "property-name-config-desc": "Define si el nombre de la propiedad se mostrará o no.",
         "property-data-config-title": "Propiedad de fecha",
         "property-data-config-desc": "Elige según qué tipo de fecha quieres ver tus tareas del día en la página de inicio.",
         "color-config-title": "Tema de color",
