@@ -9,5 +9,6 @@ export enum TypeOfNotification {
     SCHEDULE = "SCHEDULE" ,
     DEADLINE = "DEADLINE" ,
     CHAT = "CHAT" ,
-    COMMENT = "COMMENT"
+    COMMENT = "COMMENT",
+    INVITETOPROJECT = "INVITETOPROJECT"
 }
