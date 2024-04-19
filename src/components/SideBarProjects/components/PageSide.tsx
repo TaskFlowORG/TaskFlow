@@ -117,7 +117,7 @@ export const PageSide = (
             <Button
               width="w-64 "
               text={t("add-page")}
-              fnButton={() => setModal(true)}
+              fnButton={() => setModal(!modal)}
               padding="p-2"
               paddingY="p-1"
               textSize="font-[14re]"

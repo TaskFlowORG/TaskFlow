@@ -1,17 +1,9 @@
 
 import { Date, DatePost, Limited, LimitedPost, Page, Project, Property, PropertyPost, Select, SelectPost, TypeOfProperty } from "@/models";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { ModalRegisterProperty } from "../ModalRegisterProperty";
-
 import { propertyService } from "@/services";
-import { set } from "react-hook-form";
-import { SideBarButton } from "../SideBarProjects/components/SideBarButton";
-import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
-import { ModalDeleteProperty } from "../ModalDeleteProperty";
-import { InputCheckbox } from "../Properties/InputCheckbox";
-import { useClickAway } from "react-use";
 import { ModalProperty } from "../ModalProperty/ModalProperty";
-import { DateGet } from "@/models/property/date/DateGetDTO";
 
 type RegisterPropertyProps = {
     properties: Property[],
@@ -26,17 +18,17 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
     }
         , [propertiesArray])
 
-    const postProperty = async (name: string, selected: TypeOfProperty) => {
+    const postProperty = async (name: string, values:any,selected:TypeOfProperty) => {
         try {
-            console.log(name)
             let propertyObj;
             if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
-                propertyObj = await propertyService.saveLimited(new LimitedPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000));
+                propertyObj = await propertyService.saveLimited(project.id,new LimitedPost( name,selected, values.visible, values.obligatory ,values.maximum, page ? undefined : project!, page ? [page] : []));
             } else if ([TypeOfProperty.CHECKBOX, TypeOfProperty.TAG, TypeOfProperty.RADIO, TypeOfProperty.SELECT].includes(selected)) {
-                propertyObj = await propertyService.saveSelect(new SelectPost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!))
+                propertyObj = await propertyService.saveSelect(project.id,new SelectPost(name, selected, values.visible, values.obligatory ,[],  page ? undefined : project!,page ? [page] : []))
 
             } else {
-                propertyObj = await propertyService.saveDate(new DatePost(undefined, name, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black"))
+                propertyObj = await propertyService.saveDate(project.id,new DatePost( name, selected, values.visible, values.obligatory , values.pastDate, values.hours, page ? undefined : project!, page ? [page] : []))
+
             }
             setPropertiesArray([...propertiesArray, propertyObj])
 
@@ -48,7 +40,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const deleteProperty = async (property: Property) => {
         try {
-            propertyService.delete(property.id)
+            propertyService.delete(project.id, property.id)
             let list = [...propertiesArray];
 
             propertiesArray.includes(property) && list.splice(properties.indexOf(property), 1)
@@ -61,19 +53,21 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
     const [modalProperty, setModalProperty] = useState(false)
 
  
- const upDateProperty = async (property: Property,getValues:any ) => {
+ const upDateProperty = async (property:Property,getValues:any ) => {
+    console.log("alou" ,property)
     try {
       if (
         [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
       ) {
         console.log(property.id)
-        const limited = new Limited(property.id ,property.name, getValues.visible, getValues.obligatory, property.type, getValues.maximum)
+        const limited = new Limited(property.id ,property.name, property.type, getValues.visible, getValues.obligatory, getValues.maximum)
         console.log(limited)
-        await propertyService.updateLimited(limited)
+        const v = await propertyService.updateLimited(project.id,limited)
+        
       } else if ( [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)) {
-         await propertyService.updateSelect(new Select(property.id,property.name, getValues.visible, getValues.obligatory, property.type,))
+         await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
       } else {
-        await propertyService.updateDate(new Date(property.id, property.name ,getValues.visible, getValues.obligatory, property.type, getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,(property as DateGet).color))
+        await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
       }
     } catch (error) {
       console.log(error);
@@ -81,19 +75,17 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 }   
     return (
         <>
-            <div className="w-full h-full flex justify-end">
+            <div className="w-full h-full flex justify-end properties-sidebar-sections">
                 <div className="w-96 h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
                     <div className="h-[15%] w-[90%] flex justify-evenly items-center">
-                        <p className="h4  bottom-8 right-5 relative text-grey-icon cursor-pointer hover:text-primary" onClick={() => close()}>{">>"}</p>
                         <p className="h4 text-primary dark:text-secondary">Propriedades</p>
                         <div className=" flex items-center justify-center h-7 w-7  rounded-full  shadowww cursor-pointer hover:bg-primary dark:hover:bg-secondary" onClick={() => { setModalProperty(true) }}>
                             <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
                         </div>
-
                     </div>
                     <div className="h-[85%] w-72 flex flex-col items-center gap-5">
                         <ModalRegisterProperty postProperty={postProperty} open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false); } } />
-                        <div className="w-full  h-full flex flex-col overflow-y-scroll none-scrollbar">
+                        <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
                             {propertiesArray.map((property,index) => {
                                 return (
                                     <ModalProperty key={index} property={property} deleteProperty={deleteProperty} upDateProperties={upDateProperty} />

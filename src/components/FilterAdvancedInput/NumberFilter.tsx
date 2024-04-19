@@ -30,9 +30,10 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
     if (thisProperty) {
       if (valueInput) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp])
       } else {
         thisProperty.value = valueInput;
+        setFilterProp!([...filterProp])
       }
     } else {
       if (valueInput) {
@@ -57,10 +58,11 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
               if (!e.target.value) {
                 filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                setFilterProp!(filterProp);
+                setFilterProp!([...filterProp])
                 thisProperty.value = e.target.value;
               } else {
                 thisProperty.value = e.target.value;
+                setFilterProp!([...filterProp])
               }
             } else {
               if (e.target.value) {
@@ -80,6 +82,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
 
                 thisProperty.value = valued ? (parseInt(valued) - 1).toString() : "-1";
+                setFilterProp!([...filterProp])
               
             } else {
                 setFilterProp!([
@@ -103,7 +106,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
 
                 thisProperty.value = valued ? (parseInt(valued) + 1).toString() : "1";
-              
+                setFilterProp!([...filterProp])
             } else {
                 setFilterProp!([
                   ...filterProp,

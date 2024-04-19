@@ -3,7 +3,14 @@ import { useClickAway } from "react-use";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
 import { SideBarButton } from "../SideBarProjects/components/SideBarButton";
-import { Date, Limited, Property, PropertyPost, Select, TypeOfProperty } from "@/models";
+import {
+  Date,
+  Limited,
+  Property,
+  PropertyPost,
+  Select,
+  TypeOfProperty,
+} from "@/models";
 import {
   IconText,
   IconArchive,
@@ -17,9 +24,8 @@ import {
 } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
-import { propertyService } from "@/services";
-import { DateGet } from "@/models/property/date/DateGetDTO";
-import { Input } from "../Input";
+import { ContentModalProperty } from "../ContentModalProperty";
+import { set } from "zod";
 
 type ModalPropertyProps = {
   property: Property;
@@ -36,7 +42,6 @@ export const ModalProperty = ({
   const [ModalDelete, setModalDelete] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
-
   const {
     register,
     handleSubmit,
@@ -44,13 +49,13 @@ export const ModalProperty = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      visible: true,
-      obligatory: false,
-      maximum: 0,
-      pastDate: false,
-      schedule: false,
-      hours: false,
-      deadline: false,
+      visible: property.visible,
+      obligatory: property.obligatory,
+      maximum: (property as Limited).maximum,
+      pastDate: (property as Date).canBePass,
+      schedule: (property as Date).scheduling,
+      hours: (property as Date).includesHours,
+      deadline: (property as Date).deadline,
     },
   });
 
@@ -78,46 +83,8 @@ export const ModalProperty = ({
     }
   };
 
-  const fnReturnCheckbox = () => {
-    if (
-      [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
-    ) {
-      return (
-    <Input register={{...register("maximum")}} type="number" classNameInput={""} />
-      );
-    } else if (
-      [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)
-    ) {
-      return <p>SELECT</p>;
-    } else {
-      return (
-        <>
-          <InputCheckbox
-            register={{ ...register("pastDate") }}
-            className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Pode ser data passada"
-          />
-          <InputCheckbox
-            register={{ ...register("schedule") }}
-            className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Incluir agendamento"
-          />
-          <InputCheckbox
-            register={{ ...register("hours") }}
-            className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Incluir horas"
-          />
-          <InputCheckbox
-            register={{ ...register("deadline") }}
-            
-            className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Prazo final"
-          />
-        </>
-      );
-    }
-  };
- 
+  console.log("b",property)
+
   return (
     <div
       key={property.id}
@@ -133,48 +100,44 @@ export const ModalProperty = ({
         openOptionsRef={ref}
         isHovering={isHovering}
       >
-        <div className="w-full h-full flex flex-col justify-center items-center dark:bg-modal-grey">
-          <div className="h-full w-full flex justify-between px-6 flex-wrap items-center ">
-            {fnReturnCheckbox()}
-            <InputCheckbox
-              register={{ ...register("visible") }}
-              className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-              label="Visible"
-            ></InputCheckbox>
-            <InputCheckbox
-              register={{ ...register("obligatory") }}
-              className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-              label="Obligatory"
-            ></InputCheckbox>
-          </div>
-          <div className=" h-min pb-2 w-[95%] flex justify-between">
+        <div className="w-full h-[90%] flex flex-col justify-center items-center dark:bg-modal-grey">
+          <ContentModalProperty register={register} property={property} type={property.type}></ContentModalProperty>
+          <div className="h-min pb-2 w-[95%] flex justify-between">
             <button
-              className="w-8 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
+              className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
               onClick={() => {
-               deleteProperty(property);
+                setModalDelete(true);
               }}
             >
               {" "}
               <IconTrashBin />
             </button>
             <button
-              className="w-8 h-5/6 flex justify-center items-center rounded-sm"
+              className="w-5 h-5/6 flex justify-center items-center rounded-sm"
               onClick={() => {
-                upDateProperties(property, getValues());
+                try{
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
+                  }catch(e){
+                    console.log(e)
+                }
               }}
             >
               <IconSave />
             </button>
-            {ModalDelete && (
-              <ModalDeleteProperty
-                property={property}
-                close={() => setModalDelete(false)}
-                deleteProperty={deleteProperty}
-              />
-            )}
+            
+            
           </div>
         </div>
       </SideBarButton>
+      {ModalDelete && (
+        <ModalDeleteProperty
+          property={property}
+          deleteProperty={deleteProperty}
+          close={()=>setModalDelete(false)}
+          closeProperty={()=>setOpenOptions(false)}
+        />
+      )}
     </div>
   );
 };

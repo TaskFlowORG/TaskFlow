@@ -45,17 +45,20 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
             text={t("personal-informations-side-bar")}
           />
           <NavItems
+
             extendida={extendida}
             href={`/${user.username}/configurations/general`}
             icon="/img/configuracao.svg"
             text={t("configurations-side-bar")}
           />
           <NavItems
+
             extendida={extendida}
             href={`/${user.username}/configurations/notifications`}
             icon="/img/notificacoes.svg"
             text={t("notifications-side-bar")}
           />
+          </span>
         </div>
       </div>
     </div>

@@ -13,6 +13,10 @@ import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import { IconArchive } from "../icons";
 import Image from "next/image";
+import { PageContext } from "@/utils/pageContext";
+import { ProjectContext } from "@/contexts";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { notificationService } from "@/services/services/NotificationService";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -26,17 +30,14 @@ export const Header = ({
   const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
   
 
-
-
-
   useEffect(() => {
     if (!user?.notifications) return;
     setThereAreNotifications(
-      user?.notifications.find((notification) => !notification.visualized)
+      user?.notifications.find((notification) => !notification.visualized && !notification.clicked)
         ? true
         : false
     );
-    setNotifications(user?.notifications);
+    setNotifications(user?.notifications.filter((notification) => !notification.clicked));
     if(!user) {
       setLang(navigator.language)
     }else{
@@ -55,22 +56,23 @@ export const Header = ({
   const closeModal = () => {
     setShowNotification(false);
     (async () => {
-      if (!setUser) return;
-      const updated = await userService.visualizeNotifications();
-      setUser(updated);
+      if (!setUser || !user) return;
+      const updated = await notificationService.visualizeNotifications();
+      user.notifications = updated;
+      setUser({...user});
     })();
   };
 
   return (
-    <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
+    <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
       <img
         src="/Icon.svg"
         alt=""
-        className="w-12 select-none h-12 cursor-pointer dark:grayscale dark:brightness-[60]"
+        className="w-12 select-none h-12 cursor-pointer sidebar-button dark:grayscale dark:brightness-[60]"
         onClick={() => setSidebarOpen(true)}
       />
 
-      <div className=" w-full h-full flex space-x-[48px] items-center justify-end">
+      <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
         <img
           src="/Assets/themeLight/notification.svg"
           alt=""
@@ -85,7 +87,7 @@ export const Header = ({
         </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">
-          <Link href={`/${user?.username}/configurations/account`}>
+          <Link href={`/${user?.username}/configurations/account`} className="settings-button">
             <svg
               width="26"
               height="29"

@@ -1,18 +1,22 @@
 import Image from "next/image"
+import { twMerge } from "tailwind-merge";
 
 interface Props {
-    iconSrc: string,
+    icon: React.ReactNode,
     open: () => any,
     acessibilityLabel:string;
+    invert?: boolean;
 }
 
 
-export const SearchIcon = ({ iconSrc, open, acessibilityLabel }: Props) => {
+export const SearchIcon = ({ icon, open, acessibilityLabel, invert }: Props) => {
+    const classes = twMerge("w-12 h-12 flex justify-center rounded-full p-3 cursor-pointer items-center ", 
+    invert ? "bg-contrast" : "bg-primary dark:bg-secondary")
     return (
-        <span className="w-12 h-12 flex justify-center rounded-full dark:bg-secondary cursor-pointer items-center bg-primary" onClick={() =>{
+        <span className={classes} onClick={() =>{
 
             open()
             
-        } }> <img src={iconSrc} alt={acessibilityLabel} /></span>
+        } }> {icon}</span>
     )
 }
