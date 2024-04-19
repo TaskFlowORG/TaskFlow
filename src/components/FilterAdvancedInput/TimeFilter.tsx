@@ -42,9 +42,9 @@ export const TimeFilter = ({ value, task, id }: Props) => {
     //   console.log(time);
     // }
 
-    setHours(value?.parseDuration()!.hours ?? 0);
-    setMinutes(value?.parseDuration()!.minutes ?? 0);
-    setSeconds(value?.parseDuration()!.seconds ?? 0);
+    // setHours(value?.parseDuration()!.hours ?? 0);
+    // setMinutes(value?.parseDuration()!.minutes ?? 0);
+    // setSeconds(value?.parseDuration()!.seconds ?? 0);
   }, []);
 
   function updateMinutes({
