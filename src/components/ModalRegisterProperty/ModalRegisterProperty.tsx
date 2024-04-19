@@ -2,12 +2,13 @@ import { Page, Project, TypeOfProperty } from "@/models";
 import { Input } from "../Input";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText, IconTrashBin } from "../icons";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ContentModalProperty } from "../ContentModalProperty";
+import { useTranslation } from "next-i18next";
 
 type ModalRegisterPropertyProps = {
     open: boolean;
@@ -17,10 +18,17 @@ type ModalRegisterPropertyProps = {
     postProperty: (name: string, values:any, select: TypeOfProperty) => void;
 }
 
-const schema = z.object({
-    name: z.string().nonempty("Nome da propriedade não pode ser vazio")
-        .min(3, "Nome da propriedade deve ter no mínimo 3 caracteres")
-        .max(50, "Nome da propriedade deve ter no máximo 50 caracteres"),
+export const ModalRegisterProperty = ({ open, close, page, project, postProperty}: ModalRegisterPropertyProps) => {
+   
+    const [selected, setSelected] = useState<TypeOfProperty>(TypeOfProperty.TEXT);
+    const [object, setObject] = useState({  } as FormData);
+    const {t} = useTranslation();
+    type FormData = z.infer<typeof schema>;
+    
+    const schema = z.object({
+    name: z.string().nonempty(t("name-property-notnull"))
+        .min(3, t("name-property-min-characters"))
+        .max(50, t("name-property-max-characters")),
     maximum: z.number().optional().default(0),
     visible: z.boolean().optional().default(true),
     obligatory: z.boolean().optional().default(false),
@@ -30,12 +38,6 @@ const schema = z.object({
     deadline: z.boolean().optional().default(false),
     color: z.string().optional().default("black")
 })
-
-export const ModalRegisterProperty = ({ open, close, page, project, postProperty}: ModalRegisterPropertyProps) => {
-    const [selected, setSelected] = useState<TypeOfProperty>(TypeOfProperty.TEXT);
-    const [object, setObject] = useState({  } as FormData);
-
-    type FormData = z.infer<typeof schema>;
     const {
         register,
         handleSubmit,
@@ -49,6 +51,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
             resolver: zodResolver(schema)
         }
     );
+ 
     return (
         <>
             {open && <div className="h-1/6 w-full   flex flex-col justify-center items-center">
@@ -68,7 +71,7 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                                 setSelected(value as TypeOfProperty)
                                 console.log(value.toString())
                             }} />
-                        <Input register={{ ...register("name") }} value={object.name} className="flex justify-center items-center" classNameInput={"bg-transparent p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
+                        <Input register={{ ...register("name") }} value={object.name} className="flex justify-center items-center" classNameInput={"bg-transparent p outline-none w-[90%] h-full"} placeholder={t("name-property")} />
                         <button className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary" onClick={()=>{close()}}><IconTrashBin/></button>
                     <button className="w-5 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
                         if (errors.name ||  getValues().name === ""){
