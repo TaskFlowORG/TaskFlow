@@ -53,6 +53,7 @@ class GroupService {
          await Api.post<Group>(`group/${groupId}/add-user/${userId}`, {}, {withCredentials: true});
 
     }
+
 }
 
 export const groupService = new GroupService();

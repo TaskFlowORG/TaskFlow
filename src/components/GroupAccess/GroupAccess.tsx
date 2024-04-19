@@ -5,7 +5,7 @@ import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
 import { log } from 'console';
-import { Arrow } from './Arrow';
+import { ArrowPermissions } from '../ArrowPermissions/Arrow';
 
 interface Props {
     project: Project;
@@ -86,14 +86,14 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC]"
+                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         type="text"
                         value={isEnable ? newName : group.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
                     <textarea
-                        className={`mn whitespace-pre-wrap w-56 md:w-[403px] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
+                        className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         value={isEnable ? newDescription : group.description}
                         onChange={(e) => setNewDescription(e.target.value)}
                         disabled={!isEnable}
@@ -101,7 +101,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                 </div>
                 <div className="flex md:justify-end relative">
                     <select
-                        className="flex mr-6 text-primary dark:text-secondary text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                        className="flex mr-6 text-primary dark:text-secondary  text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
                         value={selectedPermission}
@@ -132,7 +132,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     </select>
 
                     <div>
-                        <Arrow/>
+                        <ArrowPermissions className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"}/>
                     </div>
 
                 </div>
