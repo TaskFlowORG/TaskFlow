@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { chatService } from "@/services";
 import { Chat } from "@/models";
 
+
 export const Chatt = ({chatId}:{chatId:number}) => {
     const [chatContent, setChatContent] = useState<Chat>();
 
