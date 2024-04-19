@@ -220,7 +220,7 @@ export const PermissionsAndCalendar = () => {
                 animate={{ height: "40vh" }}
                 exit={{ transition: { delay: 0.2 }, height: "0vh" }}
                 transition={{ duration: 0.1 }}
-                className="overflow-y-clip px-4 flex flex-col items-center "
+                className="overflow-y-clip px-4 w-full flex flex-col items-center "
               >
                 <div className="h-4/5  overflow-y-auto none-scrollbar flex flex-col gap-4 ">
                   {permissions.map((permission, index) => (

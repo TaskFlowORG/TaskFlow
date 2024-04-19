@@ -62,10 +62,6 @@ class UserService {
         const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, {withCredentials: true});
         return response.data;
     }
-    async visualizeNotifications(): Promise<User> {
-        const response = await Api.patch<User>(`user/visualize-notifications`, {withCredentials: true});
-        return response.data;
-    }
 }
 
 

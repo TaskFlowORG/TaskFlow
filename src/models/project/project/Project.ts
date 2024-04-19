@@ -10,8 +10,8 @@ export class Project {
 
     constructor(
         public id: number,
-        public name: string,
-        public description: string,
+        public name: string | undefined,
+        public description: string | undefined,
         public picture: Archive,
         public visualizedAt: Date,
         public owner: OtherUser,

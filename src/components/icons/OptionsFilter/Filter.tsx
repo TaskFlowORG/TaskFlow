@@ -1,10 +1,10 @@
-export const IconFilter = () => (
+export const IconFilter = ({classes = "text-contrast"}:{classes?:string}) => (
   <svg
     width="50"
     height="50"
     viewBox="0 0 50 50"
     fill="currentColor"
-    className="w-full h-full text-primary dark:text-secondary"
+    className={"w-full h-full "+ classes}
     xmlns="http://www.w3.org/2000/svg"
   >
     <path

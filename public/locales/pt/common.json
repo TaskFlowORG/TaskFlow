@@ -69,7 +69,8 @@
         "log-picture-project":"A imagem do projeto foi atualizada por '{{username}}'",
         
         "notification-permission":"Sua permissão foi atualizada no projeto '{{aux}}'",
-        "notification-group":"Você foi adicionado ao grupo '{{aux}}'",
+        "notification-rmv-group":"Você foi removido do grupo '{{aux}}'",        
+        "notification-add-group":"Você recebeu um convite para participar do grupo '{{aux}}'",
         "notification-task":"A tarefa '{{aux}}' foi atualizada",
         "notification-chat":"Você recebeu uma mensagem de '{{aux}}'",
         "notification-comment": "Algumas pessoas comentaram na tarefa '{{aux}}'",

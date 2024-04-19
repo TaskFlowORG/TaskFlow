@@ -16,6 +16,7 @@ import Image from "next/image";
 import { PageContext } from "@/utils/pageContext";
 import { ProjectContext } from "@/contexts";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { notificationService } from "@/services/services/NotificationService";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -32,11 +33,11 @@ export const Header = ({
   useEffect(() => {
     if (!user?.notifications) return;
     setThereAreNotifications(
-      user?.notifications.find((notification) => !notification.visualized)
+      user?.notifications.find((notification) => !notification.visualized && !notification.clicked)
         ? true
         : false
     );
-    setNotifications(user?.notifications);
+    setNotifications(user?.notifications.filter((notification) => !notification.clicked));
     if(!user) {
       setLang(navigator.language)
     }else{
@@ -55,9 +56,10 @@ export const Header = ({
   const closeModal = () => {
     setShowNotification(false);
     (async () => {
-      if (!setUser) return;
-      const updated = await userService.visualizeNotifications();
-      setUser(updated);
+      if (!setUser || !user) return;
+      const updated = await notificationService.visualizeNotifications();
+      user.notifications = updated;
+      setUser({...user});
     })();
   };
 

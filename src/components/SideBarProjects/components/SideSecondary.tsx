@@ -31,6 +31,7 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
   const { t } = useTranslation()
   return (
     <>
+
       <SideBarButton icon={<IconDashboard />} text={t("project")} link={`/${user}/${project?.id}`} />
       <SideBarButton icon={<IconPages />} fnClick={() => { setModalPages(true) }} text={t("pages")} />
       <div className="relative w-full">
