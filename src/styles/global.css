@@ -667,6 +667,7 @@ input[type="number"] {
 
 .mouseDefault{
   cursor: default
+}
 .react-calendar {
   @apply bg-white dark:bg-modal-grey w-full  font-alata;
 }

@@ -58,9 +58,8 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
             icon="/img/notificacoes.svg"
             text={t("notifications-side-bar")}
           />
-          </span>
+        </div>
         </div>
       </div>
-    </div>
   );
 };

@@ -5,9 +5,8 @@ import { ProjectSimple } from "../project/ProjectSimple";
 export class PermissionPost {
 
     constructor(
-        name: string,
-         permission: TypePermission, 
-         isDefault: boolean,
-         
-         project: Project | ProjectSimple) {}
+        public name: string,
+        public permission: TypePermission, 
+        public isDefault: boolean,
+        public project: Project | ProjectSimple) {}
 }

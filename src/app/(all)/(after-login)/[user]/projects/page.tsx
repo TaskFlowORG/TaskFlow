@@ -5,7 +5,7 @@ import {
   ProjectComponent,
 } from "@/components/InitialAndProjectsPage";
 import { SVGProjectsPage } from "@/components/Shapes";
-import { PermissionPost, Project, ProjectPost, ProjectSimple, TypeOfProperty, TypePermission, User } from "@/models";
+import { Archive, PermissionPost, Project, ProjectPost, ProjectSimple, TypeOfProperty, TypePermission, User } from "@/models";
 import { useContext, useEffect, useState } from "react";
 import { permissionService, projectService } from "@/services";
 import { useRouter } from "next/navigation";
@@ -73,14 +73,17 @@ export default function Projects({ params }: { params: { user: string } }) {
   }
 
   const postProject = async () => {
-    const newProject = await projectService.insert(
+    projectService.insert(
       new ProjectPost(undefined, undefined)
-    );
-    await permissionService.insert(new PermissionPost("", TypePermission.READ, true, newProject), newProject.id)
-    const projectsTemp = [...projects!];
-    projectsTemp.push(newProject);
-    setProjects!(projectsTemp);
-    router.push(`/${params.user}/${newProject.id}`);
+    ).then(async (newProject) => {
+      const permission = new PermissionPost("", TypePermission.READ, true, newProject);
+      console.log(permission);
+      await permissionService.insert(permission, newProject.id)
+      const projectsTemp = [...projects!];
+      projectsTemp.push(newProject);
+      setProjects!(projectsTemp);
+      router.push(`/${params.user}/${newProject.id}`);  
+    });
   };
 
   return (

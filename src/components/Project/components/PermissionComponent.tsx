@@ -6,18 +6,19 @@ import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
 import { Permission, TypePermission } from "@/models";
 import { useTranslation } from "next-i18next";
-import { useContext, useEffect, useRef, useState } from "react";
+import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { Role } from "./Role";
 import { Button } from "@/components/Button";
 import { permissionService } from "@/services";
 import { LocalModal } from "@/components/Modal";
+import { IconDefault } from "@/components/icons/IconDefault";
 
 export const PermissionComponent = ({
   permission,
   setPermissionEditing,
   permissions,
   permissionEditing,
-  setPermissions
+  setPermissions,
 }: {
   permission: Permission;
   setPermissionEditing: (value: Permission | undefined) => void;
@@ -89,20 +90,32 @@ export const PermissionComponent = ({
 
   function deletePermission() {
     console.log(otherPermission);
-    
-    if(!otherPermission || !project) return;
+
+    if (!otherPermission || !project) return;
     setPermissions(permissions.filter((p) => p.id != permission.id));
     permissionService.delete(permission.id, project?.id, otherPermission.id);
   }
 
-  const[otherPermission, setOtherPermission] = useState<Permission>(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
+  const [otherPermission, setOtherPermission] = useState<Permission>(
+    permissions[0].id == permission.id ? permissions[1] : permissions[0]
+  );
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0);
   const [size, setSize] = useState<number>(0);
 
   useEffect(() => {
-    setOtherPermission(permissions[0].id == permission.id ? permissions[1]  : permissions[0]);
+    setOtherPermission(
+      permissions[0].id == permission.id ? permissions[1] : permissions[0]
+    );
   }, [permissions]);
+
+  function updateToDefault(): void {
+    if (permission.isDefault) return;
+    permissions.find((p) => p.isDefault)!.isDefault = false;
+    permission.isDefault = true;
+    permissionService.upDate(permission);
+    setPermissions([...permissions]);
+  }
 
   return (
     <div
@@ -116,91 +129,101 @@ export const PermissionComponent = ({
       <span className="flex w-full justify-between  items-center gap-2">
         <input
           type="text"
-          value={ name ?? t("withoutname")} 
+          value={name == null || name == "" ? t("withoutname") : name}
           disabled={!editing}
           onChange={(e: any) => {
             setName(e.target.value);
           }}
           className="max-w-full w-full truncate text-contrast bg-transparent"
           style={{ opacity: name || editing ? 1 : 0.5 }}
-          title={name ?? t("withoutname")}
+          title={name == null || name == "" ? t("withoutname") : name}
         />
         <If condition={project?.owner.id == user?.id}>
           <span className="flex items-center w-min h-min gap-2">
             <If condition={!editing}>
-              <button
-                onClick={() => setEditing(true)}
-                className="w-4 h-4 stroke-contrast"
-              >
-                <EditIcon />
-              </button>
-            </If>
-            <If condition={!editing}>
-              <div className="w-min h-min relative">
+              <>
+                <span className="w-4 h-4 flex">
+                  <IconDefault
+                    isDefault={permission.isDefault}
+                    className={
+                      "text-contrast w-full h-full " +
+                      (permission.isDefault ? "" : "cursor-pointer")
+                    }
+                    onClick={updateToDefault}
+                  />
+                </span>
                 <button
-                  className="w-4 h-4"
-                  onClick={e => {setX(e.clientX); setY(e.clientY);setDeleting(!deleting)}}
+                  onClick={() => setEditing(true)}
+                  className="w-4 h-4 stroke-contrast"
                 >
-                  <span className="stroke-contrast">
-                    <IconTrashBin />
-                  </span>
+                  <EditIcon />
                 </button>
-                <LocalModal
-                  condition={deleting}
-                  setCondition={setDeleting}
-                  x={x - 155}
-                  classesOrigin="origin-top-right"
-                  right
-                  y = {y-10}
-                >
-                  { permissions.length > 1 ?  <div className="bg-input-grey flex justify-center gap-4 flex-col items-center dark:bg-modal-grey p-2 h-32 w-48 rounded-md">
-                      <p className="text-modal-grey text-[14px]">
-                        {t("choice-another-permission")}
-                      </p>
- <select className="w-full h-8 bg-transparent border-2 text-center border-primary dark:border-secondary" onChange={e => 
-                        setOtherPermission(permissions.find(p => p.id == +e.target.value)!)} defaultValue={otherPermission?.id}  >
-
-                        {permissions
-                          .filter((p) => p.id != permission.id)
-                          .map((p, index) => (
-                            <option key={index} value={p.id} >
-                              {p.name ?? t("withoutname")}
-                            </option>
-                          ))}
-                      </select>
-                      <span className="flex w-full">
-
-                      <Button
-                        text={t("cancel")}
-                        width="w-full"
-                        textSize="text-[14px]"
-                        textColor="text-contrast"
-                        border="border-2 border-contrast"
-                        padding="p-1"
-                        hover="hover:bg-contrast hover:text-primary"
-                        paddingY="py-px"
-                        fnButton={() => setDeleting(false)}
-                      />
-                      <Button
-                        text={t("delete")}
-                        width="w-full"
-                        textSize="text-[14px]"
-                        textColor="text-contrast"
-                        border="border-2 border-contrast"
-                        hover="hover:bg-contrast hover:text-primary"
-                        padding="p-1"
-                        paddingY="py-px"
-                        fnButton={deletePermission}
-                      />
-                      </span>
-                    </div> :
-                    <div className="w-48 h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
-                      <p className="text-modal-grey w-full whitespace-pre-wrap text-center text-[14]">
-                        {t("cant-delete-permission")}
-                      </p>
-                    </div>}
-                </LocalModal>
-              </div>
+                <div className="w-min h-min relative">
+                  <button
+                    className="w-4 h-4"
+                    onClick={(e) => {
+                      setX(e.clientX);
+                      setY(e.clientY);
+                      setDeleting(!deleting);
+                    }}
+                  >
+                    <span className="stroke-contrast">
+                      <IconTrashBin />
+                    </span>
+                  </button>
+                  <LocalModal
+                    condition={deleting}
+                    setCondition={setDeleting}
+                    classesOrigin="origin-top-right"
+                    right
+                  >
+                    {permissions.length > 1 ? (
+                      <div className="bg-input-grey flex justify-center gap-2 flex-col items-center dark:bg-modal-grey p-2 h-32 2xl:w-40 xl:w-32 sm:w-24 w-full smm:w-48  rounded-md">
+                        <p className="text-modal-grey text-[14px] text-center pt-2">
+                          {t("choice-another-permission")}
+                        </p>
+                        <select
+                          className="w-full h-8 bg-transparent border-2 text-center border-primary dark:border-secondary"
+                          onChange={(e) =>
+                            setOtherPermission(
+                              permissions.find((p) => p.id == +e.target.value)!
+                            )
+                          }
+                          defaultValue={otherPermission?.id}
+                        >
+                          {permissions
+                            .filter((p) => p.id != permission.id)
+                            .map((p, index) => (
+                              <option key={index} value={p.id}>
+                                {p.name ?? t("withoutname")}
+                              </option>
+                            ))}
+                        </select>
+                        <span className="flex w-full justify-between">
+                          <button
+                          className="bg-primary dark:bg-secondary flex p-2 w-8 h-8 rounded-md"
+                          onClick={() => setDeleting(false)}
+                          >
+                            <IconPlus classes="text-contrast w-full h-full" />
+                          </button>
+                          <button
+                          className="bg-primary dark:bg-secondary w-8 h-8 rounded-md p-[0.6rem]"
+                          onClick={deletePermission}
+                          >
+                            <IconSave classes="text-contrast w-full h-full" />
+                          </button>
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="2xl:w-40 xl:w-32 sm:w-24 w-full smm:w-48 h-min rounded-md p-4 whitespace-nowrap  bg-input-grey">
+                        <p className="text-modal-grey w-full whitespace-pre-wrap text-center text-[14]">
+                          {t("cant-delete-permission")}
+                        </p>
+                      </div>
+                    )}
+                  </LocalModal>
+                </div>
+              </>
             </If>
           </span>
         </If>

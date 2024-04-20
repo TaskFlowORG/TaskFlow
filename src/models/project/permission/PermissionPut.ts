@@ -5,8 +5,10 @@ export class PermissionPut {
     constructor(
         public id: number, 
         public name: string, 
-        public isDefault: boolean,
-        public permission: TypePermission) {}
+        public permission: TypePermission,
+        public isDefault: boolean
+    
+    ) {}
 
     equals = (obj: any) => {
         return obj instanceof PermissionPut && obj.id === this.id;
