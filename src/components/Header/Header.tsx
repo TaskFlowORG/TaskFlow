@@ -33,11 +33,10 @@ export const Header = ({
   useEffect(() => {
     if (!user?.notifications) return;
     setThereAreNotifications(
-      user?.notifications.find((notification) => !notification.visualized && !notification.clicked)
+      user?.notifications.find((notification) => !notification.visualized )
         ? true
         : false
     );
-    setNotifications(user?.notifications.filter((notification) => !notification.clicked));
     if(!user) {
       setLang(navigator.language)
     }else{

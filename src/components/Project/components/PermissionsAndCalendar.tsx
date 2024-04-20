@@ -99,7 +99,7 @@ export const PermissionsAndCalendar = () => {
   const postPermission = async () => {
     if (!project) return;
     const permission = await permissionService.insert(
-      new PermissionPost("", TypePermission.READ, project),
+      new PermissionPost("", TypePermission.READ, false, project),
       project?.id
     );
     setPermissions([...permissions, permission]);

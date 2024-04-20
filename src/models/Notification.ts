@@ -11,9 +11,8 @@ export class Notification {
         public type: TypeOfNotification, 
         public link: string,  
         public visualized: boolean,
-        public clicked: boolean,
         public objId: number,
-    
+        public auxObjId: number
     ) {
     }
 }

@@ -8,6 +8,7 @@ export class Permission {
         public id: number, 
         public name: string, 
         public permission: TypePermission,
+        public isDefault: boolean,
         public project: ProjectSimple) {}
 
     equals = (obj: any) => {

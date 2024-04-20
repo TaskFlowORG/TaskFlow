@@ -15,8 +15,6 @@ class NotificationService {
     async deleteNotification(id: number): Promise<void> {
         await Api.delete<void>(`notification/${id}`, {withCredentials: true});
     }
-
-
 }
 
 export const notificationService= new NotificationService();
