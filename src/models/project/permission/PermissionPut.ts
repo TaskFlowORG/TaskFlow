@@ -5,6 +5,7 @@ export class PermissionPut {
     constructor(
         public id: number, 
         public name: string, 
+        public isDefault: boolean,
         public permission: TypePermission) {}
 
     equals = (obj: any) => {
