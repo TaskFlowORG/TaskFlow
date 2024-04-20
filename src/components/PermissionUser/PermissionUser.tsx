@@ -1,11 +1,9 @@
 "use client";
 import { useTheme } from "next-themes";
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { GroupOptions } from "../GroupOptions/GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
-import { string } from "zod";
-import { promises } from "dns";
 
 interface Props {
   group: Group;
@@ -91,30 +89,35 @@ export const PermissionUser = ({ group, user, project }: Props) => {
             </div>
 
           ) : (
-            <select
-              className='text-primary text-center flex flex-1 w-full dark:bg-[#3C3C3C] mnAlata border-none dark:text-secondary'
-              name="permission"
-              id="permission"
-              value={selectedPermission}
-              onChange={(e) => updatePermission(e.target.value)}
-            >
-              {user.permissions && user.permissions.length > 0 ? (
-                user.permissions.map((permission) => (
-                  <option key={permission.id} value="" disabled>{permission.name}</option>
-                ))
-              ) : (
-                <option value="" disabled>Permissão</option>
-              )}
-              {permissions && permissions.map(permission => {
-                return (
-                  <option key={permission.name} value={permission.name}>
+            <div className="pl-4 md:pr-3">
+              <select
+                // className='text-primary text-center flex flex-1 w-full dark:bg-[#3C3C3C] mnAlata border-none dark:text-secondary'
+                className="flex text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+
+                name="permission"
+                id="permission"
+                value={selectedPermission}
+                onChange={(e) => updatePermission(e.target.value)}
+              >
+                {user.permissions && user.permissions.length > 0 ? (
+                  user.permissions.map((permission) => (
+                    <option key={permission.id} value={permission.id}>
+                      {permission.name}
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>Permissão</option>
+                )}
+                {permissions.map((permission) => (
+                  <option key={permission.id} value={permission.id}>
                     {permission.name}
                   </option>
-                );
-              })}
-            </select>
+                ))}
+              </select>
+            </div>
           )}
         </div>
+
       </div>
       <div></div>
       <GroupOptions isOpen={openModal} group={group} user={user} />
