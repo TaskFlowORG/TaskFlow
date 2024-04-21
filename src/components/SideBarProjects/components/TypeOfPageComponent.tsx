@@ -12,12 +12,14 @@ interface Props {
   closeModals: () => void;
   setChangingType: (value: boolean) => void;
   changeType: () => Promise<void>;
+  type: TypeOfPage;
   setType: (value: TypeOfPage) => void;
 }
 export const TypeOfPageComponent = ({
   changingType,
   closeModals,
   setChangingType,
+  type,
   changeType,
   setType,
 }: Props) => {
@@ -43,12 +45,18 @@ export const TypeOfPageComponent = ({
       case 5:
         setType(TypeOfPage.CANVAS);
         break;
-
     }
   };
 
   return (
-    <div className="flex page-view-type gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">     
+    <div className="flex page-view-type gap-3 h-max items-center relative bg-white dark:bg-modal-grey p-2 rounded-md flex-col">
+      <span className="w-min h-min absolute top-2 left-2">
+        <Info
+          text={type.toLowerCase() + "-info"}
+          right
+          title={type.toLowerCase()}
+        />
+      </span>
       <Swiper
         className={" p-6 max-w-[6rem] min-h-[9rem] flex justify-center ".concat(
           theme == "dark"
@@ -73,9 +81,11 @@ export const TypeOfPageComponent = ({
           { title: TypeOfPage.CANVAS, image: "" },
         ].map((slide) => {
           return (
-            <SwiperSlide key={`${slide.title}`} className="">
+            <SwiperSlide key={`${slide.title}`}>
               <div className="h-32 flex items-center text-modal-grey relative dark:text-white flex-col whitespace-nowrap gap-1 ">
-               <p className="w-full text-center h-12 flex items-center justify-center  whitespace-pre-wrap">{t(slide.title.toLowerCase())}</p> 
+                <p className="w-full text-center h-12 flex items-center justify-center  whitespace-pre-wrap">
+                  {t(slide.title.toLowerCase())}
+                </p>
                 <div className="w-14 h-14">
                   <PageTypeIcons type={t(slide.title)} />
                 </div>
@@ -83,8 +93,22 @@ export const TypeOfPageComponent = ({
             </SwiperSlide>
           );
         })}
-        <div className={"swiper-button-prev "+ (theme == "dark" ? "swiper-type-of-page-dark" : "swiper-type-of-page-light")}></div>
-        <div className={"swiper-button-next "+ (theme == "dark"? "swiper-type-of-page-dark" : "swiper-type-of-page-light")}></div>
+        <div
+          className={
+            "swiper-button-prev " +
+            (theme == "dark"
+              ? "swiper-type-of-page-dark"
+              : "swiper-type-of-page-light")
+          }
+        ></div>
+        <div
+          className={
+            "swiper-button-next " +
+            (theme == "dark"
+              ? "swiper-type-of-page-dark"
+              : "swiper-type-of-page-light")
+          }
+        ></div>
       </Swiper>
       <div className=" w-full flex justify-around gap-2">
         <Button
@@ -113,4 +137,3 @@ export const TypeOfPageComponent = ({
     </div>
   );
 };
-
