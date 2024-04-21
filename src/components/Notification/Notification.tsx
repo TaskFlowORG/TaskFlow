@@ -68,18 +68,15 @@ export const Notification = ({
       case TypeOfNotification.POINTS:
         return t("notification-points", {aux:notification.aux});
       case TypeOfNotification.SCHEDULE:
-        return t("notification-schedule", {aux:notification.aux});}
+        return t("notification-schedule", {aux:notification.aux});
+      case TypeOfNotification.INVITETOPROJECT:
+        return t("notification-invite", {aux:notification.aux})};
   };
 
   const clickNotification = async () => {
     if (!setUser || !user) return;
     const updated = await notificationService.clickNotification(notification.id);
-    user.notifications = user.notifications.map((n) => {
-      if(n.id == notification.id){
-        n.clicked = true;
-      }
-      return n;
-    });
+    user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
   };
 
@@ -104,24 +101,27 @@ export const Notification = ({
 
   return (
     <div
-      className="flex items-center gap-3 justify-between h-16  w-full pb-2 pt-4"
+      className="flex items-center gap-3 justify-between min-h-16 h-min  w-full pb-2 pt-4"
       onMouseUp={handleClick}
     >
-      <div className="w-4 h-full flex items-center">
+      <div className="w-1/12 h-full flex items-center">
         <NotificationIcon type={notification.type} />
       </div>
-      <div className="w-full flex justify-center flex-col items-start">
-        <span className="text-primary text-[12px] font-alata dark:text-secondary [&_*]:text-start [&_*]:w-full">
+      <div className="w-11/12 flex justify-center flex-col items-start">
+        <span className="text-primary text-[14px] font-alata dark:text-secondary [&_*]:text-start [&_*]:w-full">
           <NotificationTitle type={notification.type} />
         </span>
-        <p className="font-montserrat text-[14px] w-full text-start whitespace-pre-wrap">
+        <p className="font-montserrat text-[12px] w-full text-start whitespace-pre-wrap" title={getMessage(notification)}>
           {getMessage(notification)}
         </p>
       </div>
-      <If condition={notification.type == TypeOfNotification.ADDINGROUP}>
+      <span className="w-min h-full flex flex-col gap-1 justify-between">
+
+      <If condition={notification.type == TypeOfNotification.ADDINGROUP || notification.type == TypeOfNotification.INVITETOPROJECT}>
       <button onClick={clickNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconSave classes="text-contrast"/></button>
       </If>
       <button onMouseUp={deleteNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconTrashBin/></button>
+      </span>
       <If condition={!notification.visualized}>
         <div className="h-full flex items-center">
           <div className="w-2 h-2 bg-secondary dark:bg-primary rounded-full" />

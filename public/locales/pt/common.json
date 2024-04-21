@@ -141,5 +141,16 @@
   "no-possible-users": "Nenhum usuário associado a esse projeto",
   "default": "Padrão",
   "choice-another-permission": "Escolha outra permissão",
-  "cant-delete-permission": "Você não pode deletar essa permissão"
+  "cant-delete-permission": "Você não pode deletar essa permissão",
+  "notification-invite": "Seu grupo foi convidado para o projeto '{{aux}}'",
+  "invite-group": "Convite de grupo",
+  "task": "Tarefa",
+  "permission": "Permissão",
+  "chat": "Chat",
+  "comment": "Comentário",
+  "deadline": "Prazo",
+  "schedule": "Agendamento",
+  "invite": "Convite para Projeto",
+  "congrats": "Parabéns!!",
+  "group": "Grupo"
 }

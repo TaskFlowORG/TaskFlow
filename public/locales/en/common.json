@@ -149,5 +149,16 @@
   "no-possible-users": "No users associated with this project",
   "default": "Default",
   "choice-another-permission": "Choose another permission",
-  "cant-delete-permission": "You can't delete this permission"
+  "cant-delete-permission": "You can't delete this permission",
+  "notification-invite": "Your group have been invited to join the project '{{aux}}'",
+  "invite-group": "Group invitation",
+  "task": "Task",
+  "permission": "Permission",
+  "chat": "Chat",
+  "comment": "Comment",
+  "deadline": "Deadline",
+  "schedule": "Schedule",
+  "invite": "Project Invitation",
+  "congrats": "Congratulations!!",
+  "group": "Group"
 }
