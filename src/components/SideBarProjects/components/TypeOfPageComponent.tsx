@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { TypeOfPage } from "@/models";
 import { PageTypeIcons } from "../../icons";
 import { useTranslation } from "next-i18next";
+import { Info } from "@/components/Info";
 interface Props {
   changingType: boolean;
   closeModals: () => void;
@@ -47,7 +48,7 @@ export const TypeOfPageComponent = ({
   };
 
   return (
-    <div className="flex page-view-type gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">
+    <div className="flex page-view-type gap-3 h-max items-center bg-white dark:bg-modal-grey p-2 rounded-md flex-col">     
       <Swiper
         className={" p-6 max-w-[6rem] min-h-[9rem] flex justify-center ".concat(
           theme == "dark"
@@ -73,7 +74,7 @@ export const TypeOfPageComponent = ({
         ].map((slide) => {
           return (
             <SwiperSlide key={`${slide.title}`} className="">
-              <div className="h-32 flex items-center text-modal-grey dark:text-white flex-col whitespace-nowrap gap-1 ">
+              <div className="h-32 flex items-center text-modal-grey relative dark:text-white flex-col whitespace-nowrap gap-1 ">
                <p className="w-full text-center h-12 flex items-center justify-center  whitespace-pre-wrap">{t(slide.title.toLowerCase())}</p> 
                 <div className="w-14 h-14">
                   <PageTypeIcons type={t(slide.title)} />
