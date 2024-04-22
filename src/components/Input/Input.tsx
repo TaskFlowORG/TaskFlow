@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', 
             <S.Container $haserror={hasError} className={className}>
                 {label && <label className="dark:bg-modal-grey" htmlFor={inputId}>{label}</label>}
                 <img src={image} alt="" />
-                <S.Input className={classNameInput} type={type} id={inputId}   {...register} placeholder={placeholder} {...props}
+                <S.Input className={classNameInput} title={placeholder} type={type} id={inputId}   {...register} placeholder={placeholder} {...props}
 
                     required={required} />
 

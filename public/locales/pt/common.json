@@ -1,4 +1,5 @@
 {
+
   "withoutname": "Sem nome",
   "withoutdescription": "Sem descrição",
   "withoutvalue": "Sem valor",
@@ -22,6 +23,14 @@
   "change-type": "Mudar tipo",
   "main-sidebar": "Principal",
   "conect": "Conectar",
+   "property" : "Propriedades",
+        "name-property" : "Nome da Propriedade",
+        "name-property-notnull" : "Nome da propriedade não pode ser vazio",
+        "name-property-min-characters" : "Nome da propriedade deve ter no mínimo 3 caracteres",
+        "name-property-max-characters" : "Nome da propriedade deve ter no máximo 50 caracteres",
+        "register-name-min" : "Nome deve conter no mínimo 3 caracteres.",
+        "register-name-max-characters" : "Nome deve conter no máximo 20 caracteres.",
+        "register-surname-min-characters" : "Sobrenome deve conter no mínimo 3 caracteres.",
   "add-page": "Adicionar Página",
   "conclude": "Concluir",
   "kanban": "Kanban",

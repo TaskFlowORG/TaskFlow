@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ModalRegisterProperty } from "../ModalRegisterProperty";
 import { propertyService } from "@/services";
 import { ModalProperty } from "../ModalProperty/ModalProperty";
+import { useTranslation } from "next-i18next";
 
 type RegisterPropertyProps = {
     properties: Property[],
@@ -54,7 +55,6 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
  
  const upDateProperty = async (property:Property,getValues:any ) => {
-    console.log("alou" ,property)
     try {
         let v;
       if (
@@ -72,12 +72,13 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
       console.log(error);
     }
 }   
+    const {t} = useTranslation()
     return (
         <>
             <div className="w-full h-full flex justify-end properties-sidebar-sections">
                 <div className="w-96 h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
                     <div className="h-[15%] w-[90%] flex justify-evenly items-center">
-                        <p className="h4 text-primary dark:text-secondary">Propriedades</p>
+                        <p className="h4 text-primary dark:text-secondary">{t("property")}</p>
                         <div className=" flex items-center justify-center h-7 w-7  rounded-full  shadowww cursor-pointer hover:bg-primary dark:hover:bg-secondary" onClick={() => { setModalProperty(true) }}>
                             <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
                         </div>

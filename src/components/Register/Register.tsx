@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,16 +11,32 @@ import { ProgressBar } from "./ProgressBar";
 import { useRouter } from 'next/navigation';
 import { UserDetails } from "@/models/user/user/UserDetails";
 import { signIn } from "next-auth/react";
+import { useTranslation } from "next-i18next";
 
-const schema = z
+
+interface UserData {
+  name: string;
+  username: string;
+  surname: string;
+  mail: string;
+  password: string;
+  confirmPassword: string;
+}
+
+
+export const Register = () => {
+  const [step, setStep] = useState(0);
+  const {t} = useTranslation();
+
+  const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Nome deve conter no mínimo 3 caracteres" })
-      .max(20, { message: "Nome deve conter no máximo 20 caracteres" }),
+      .min(3, { message: t("register-name-min") })
+      .max(20, { message: t("register-name-max-characters") }),
     surname: z
       .string()
-      .min(3, { message: "Sobrenome deve conter no mínimo 3 caracteres" })
+      .min(3, { message: t("register-name-min-characters") })
       .max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
     username: z
       .string()
@@ -47,29 +63,16 @@ const schema = z
       message: "Senhas não coincidem.",
       path: ["confirmPassword"],
     }
-  )
-
+  );
 type FormData = z.infer<typeof schema>;
 
-interface UserData {
-  name: string;
-  username: string;
-  surname: string;
-  mail: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export const Register = () => {
-  const [step, setStep] = useState(0);
-const{ register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
-    mode: "all",
-    reValidateMode: "onChange",
-    resolver: zodResolver(schema),
+  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+    resolver: zodResolver(schema)
   });
   
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+
 
   const handleNextStep = () => {
     if (step < 2) {
