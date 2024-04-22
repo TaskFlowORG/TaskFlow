@@ -190,7 +190,7 @@
   "timeline-info": "The Timeline is a tool that allows you to view tasks on a timeline. It is ideal for visualizing the progress of a project and the tasks that are in progress.",
   "table-info": "The Table is a tool that allows you to view tasks in a table format. It is ideal for viewing tasks in an organized and detailed manner.",
   "list-info": "The List is a tool that allows you to view tasks in a list format. You can see tasks from other pages in a specific order by connecting the pages to the list page.",
-  "canvas-info": "The Canvas is a tool that allows you to view tasks in a canvas format. It is ideal for viewing tasks in a creative and innovative way."
+  "canvas-info": "The Canvas is a tool that allows you to view tasks in a canvas format. It is ideal for viewing tasks in a creative and innovative way.",
         "write-comment":"Write a comment!",
         "delete-comment":"Do you really want to delete this comment?",
         "comments":"Comments",
