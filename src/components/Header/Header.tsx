@@ -5,43 +5,31 @@ import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { Notification } from "../Notification";
-import { log } from "console";
 import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
-import { IconArchive } from "../icons";
 import Image from "next/image";
-import { PageContext } from "@/utils/pageContext";
-import { ProjectContext } from "@/contexts";
-import { TaskModalContext } from "@/utils/TaskModalContext";
 import { notificationService } from "@/services/services/NotificationService";
+import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
 export const Header = ({
   setSidebarOpen,
 }: {
   setSidebarOpen: (value: boolean) => void;
 }) => {
-  const { theme, setTheme } = useTheme();
   const { user, setUser } = useContext(UserContext);
   const [showNotification, setShowNotification] = useState(false);
   const [thereAreNotifications, setThereAreNotifications] = useState(false);
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
-  const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
   
-
   useEffect(() => {
     if (!user?.notifications) return;
-    setThereAreNotifications(
-      user?.notifications.find((notification) => !notification.visualized )
+    setThereAreNotifications( user?.notifications.find((notification) => !notification.visualized )
         ? true
         : false
     );
-    if(!user) {
-      setLang(navigator.language)
-    }else{
-      setLang(languageToString(user.configuration.language));
-    }
+    setNotifications(user.notifications);
   }, [user]);
 
   const changeLanguage = async  (value: string) => {
@@ -57,8 +45,7 @@ export const Header = ({
     (async () => {
       if (!setUser || !user) return;
       const updated = await notificationService.visualizeNotifications();
-      user.notifications = updated;
-      setUser({...user});
+      setNotifications(updated);
     })();
   };
 
@@ -122,7 +109,7 @@ export const Header = ({
               setCondition={closeModal}
               right
             >
-              <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-72">
+              <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-80">
                 {notifications.map((notification, index) => {
                   return (
                     <span

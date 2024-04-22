@@ -195,6 +195,7 @@ export const PageComponent = ({
                 setTruncate(false);
                 setChangingType(false);
               }}
+              type={type}
               setChangingType={setChangingType}
               changeType={changeType}
               setType={setType}

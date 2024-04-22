@@ -125,6 +125,8 @@ export const PageSide = (
           </If>
           <LocalModal condition={modal} setCondition={setModal} bottom>
               <TypeOfPageComponent
+              type={type}
+
                 changingType={modal}
                 setType={setType}
                 setChangingType={setModal}

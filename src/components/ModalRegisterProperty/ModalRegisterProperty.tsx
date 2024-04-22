@@ -8,6 +8,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ContentModalProperty } from "../ContentModalProperty";
+import { Info } from "../Info";
 
 type ModalRegisterPropertyProps = {
     open: boolean;
@@ -54,6 +55,8 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
             {open && <div className="h-1/6 w-full   flex flex-col justify-center items-center">
                 <div className="h-3/6 w-full flex flex-col">
                     <div className="h-full w-full border-b border-primary dark:border-secondary flex  items-center  justify-evenly gap-1">
+                        <Info text={selected.toLocaleLowerCase() + "-info"} right title={selected.toLowerCase()} />
+                        
                         <SelectWithImage list={[
                             { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
                             { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
