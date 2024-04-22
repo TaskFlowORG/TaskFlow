@@ -11,6 +11,8 @@ import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import Image from "next/image";
+import {onConnect} from "@/services/webSocket/webSocketHandler";
+import { sourceMapsEnabled } from "process";
 import { notificationService } from "@/services/services/NotificationService";
 import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
 export const Header = ({
@@ -32,6 +34,17 @@ export const Header = ({
     setNotifications(user.notifications);
   }, [user]);
 
+  
+  useEffect(() => {
+    onConnect(`/topic/${user!.id}`, (message) => {
+      const notification = JSON.parse(message.body);
+        setNotifications((prev) => [notification, ...prev]);
+        setThereAreNotifications(true);
+
+    });
+  },[])
+
+
   const changeLanguage = async  (value: string) => {
     if (!setUser || !user) return;
     user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
@@ -48,6 +61,9 @@ export const Header = ({
       setNotifications(updated);
     })();
   };
+
+
+
 
   return (
     <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">

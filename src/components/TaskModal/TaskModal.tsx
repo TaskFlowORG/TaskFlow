@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { CenterModal } from "../Modal";
-import { Comment } from "./index";
+import { Comment } from "./CommentsSection/Comment";
 import {
   Message,
   Select,
@@ -12,9 +12,11 @@ import {
   Task,
   User,
   MessagePost,
+  OtherUser,
+  UserPost,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
-import { taskService } from "@/services";
+import { groupService, taskService, userService } from "@/services";
 import { ProjectContext } from "@/contexts/ContextProject";
 import {
   CheckboxProp,
@@ -41,6 +43,11 @@ import { useTranslation } from "next-i18next";
 import { IconTrashBin } from "../icons";
 import { PageContext } from "@/utils/pageContext";
 import { AddProp } from "../icons/GeneralIcons/AddProp";
+import { UserFilter } from "../FilterAdvancedInput/UserFilter";
+import { FileFilter } from "../FilterAdvancedInput/FilteFilter";
+import { TimeFilter } from "../FilterAdvancedInput/TimeFilter";
+import { SendComment } from "./CommentsSection/SendComment";
+import { CommentsContainer } from "./CommentsSection/CommentsContainer";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -55,17 +62,12 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [input, setInput] = useState("");
   const [taskName, setTaskName] = useState("");
   const [commentsTask, setCommentsTask] = useState<Message[]>([]);
-  // const [url, setUrl] = useState("");
-  // async function findImage() {
-  //   let bah = await (await axios.get("http://localhost:9999/aws/1")).data;
-  //   setUrl(bah);
-  // }
+
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
+  const [users, setUsers] = useState<OtherUser[]>([]);
   const taskNameRef = useRef<any>(null);
 
-  // console.log(filter);
-  // console.log(list);
 
   function arraysAreEqual(arr1: any, arr2: any) {
     // Se os comprimentos dos arrays forem diferentes, eles são definitivamente diferentes
@@ -86,6 +88,21 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   }
 
   useEffect(() => {
+    const findGroups = async () => {
+      const users = await userService.findAll();
+      setUsers(
+        users.filter(
+          (user) =>
+            user.permissions.find(
+              (permission) => permission.project.id === project?.id
+            ) != undefined
+        )
+      );
+    };
+    findGroups();
+  }, [project]);
+
+  useEffect(() => {
     setList(undefined);
     setFilter([]);
 
@@ -98,14 +115,14 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   useEffect(() => {
     setTaskName(task?.name ?? "");
     if (task?.name) {
-      let page = project?.pages.find(page => pageId == page.id)
-      if (page){
-       const taskP =  page.tasks.find(taskP => taskP.task.id == task.id)
-      if (taskP){
-        taskP.task.name = task.name
+      let page = project?.pages.find((page) => pageId == page.id);
+      if (page) {
+        const taskP = page.tasks.find((taskP) => taskP.task.id == task.id);
+        if (taskP) {
+          taskP.task.name = task.name;
+        }
       }
-      }
-     
+
       setProject!({ ...project! });
     }
   }, [task?.name]);
@@ -166,6 +183,18 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           updateProp.value.value = updatedValue;
           // console.log(updateProp);
           // await taskService.upDate(task);
+        } else if (TypeOfProperty.USER == updateProp.property.type) {
+          // console.log(value.value);
+          console.log(users);
+          // falta o userDetailsEntity aqui man
+          console.log(
+            users.filter((user) => value.value.includes(user.username))
+          );
+          users.filter((user) => value.value.includes(user.username));
+          updateProp.value.value = users.filter((user) =>
+            value.value.includes(user.username)
+          );
+          // console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           console.log(value);
           let hours = new Date().getHours();
@@ -182,14 +211,16 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         }
       }
     });
-    const taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find(page=> page.id ==pageId)
-    const taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
-    if (taskPage){
-      taskPage.task = taskReturned
+    // aqui tem problema, a porra do projeto as vezes é undefined
+    const taskReturned = await taskService.upDate(task, project!.id ?? 1);
+    console.log(taskReturned);
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
     }
 
-    setProject!({...project!})
+    setProject!({ ...project! });
 
     console.log(task);
 
@@ -199,10 +230,10 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
   async function deleteTask() {
     taskService.delete(task.id, project!.id.toString());
-    let page = project?.pages.find(page => pageId == page.id)
-    let taskPage = page?.tasks.find(taskP => taskP.task.id == task.id)
-    page?.tasks.splice(page.tasks.indexOf(taskPage!),1)
-    setProject!({...project!})
+    let page = project?.pages.find((page) => pageId == page.id);
+    let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
+    setProject!({ ...project! });
     setIsOpen(false);
   }
 
@@ -228,6 +259,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   }
 
   async function sendComment() {
+    if (!input) return;
     let comment: Message = {
       sender: user,
       value: input,
@@ -255,68 +287,63 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
       }}
     >
       <div className="flex gap-[102px]  w-full h-full ">
-        <div className="flex flex-col gap-12 w-[453px]">
-          <div className="flex gap-4 items-center">
-            <input
-              className="h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
-              ref={taskNameRef}
-              placeholder={t("withoutname")}
-              value={taskName}
-              onChange={(e) => updateNameTask(e)}
-            ></input>
-          </div>
-          <div className="flex flex-col w-full gap-6">
-            <div className="flex gap-0 w-full">
-              <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg">
-                <div className="w-4 h-4 rounded-full bg-white"></div>
-                <p className="h4 text-white ">Comentários</p>
-              </button>
-              <button className="w-full flex items-center gap-4  border-t-2 border-b-2  border-r-2 px-4 py-1 bg-white dark:bg-modal-grey rounded-r-lg">
-                <div className="w-4 h-4 rounded-full bg-white"></div>
-                <p className="h4 text-[#343434] dark:text-white ">Histórico</p>
-              </button>
+        <CommentsContainer>
+          <div className="flex flex-col gap-12 w-[453px]">
+            <div className="flex gap-4 items-center">
+              <input
+                className="h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
+                ref={taskNameRef}
+                placeholder={t("withoutname")}
+                value={taskName}
+                onChange={(e) => updateNameTask(e)}
+              ></input>
             </div>
-            <div className=" flex flex-col gap-6">
-              <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
-                {commentsTask?.map((comment, index) => {
-                  return (
-                    <Comment
-                      updatedComment={updateComment}
-                      commentId={index}
-                      deleteComment={deleteComment}
-                      user={user}
-                      sender={comment.sender}
-                      value={comment.value}
-                      updatedAt={comment.dateUpdate?.toString() ?? undefined}
-                      date={comment.dateCreate?.toString()}
-                      key={index}
-                    ></Comment>
-                  );
-                })}
+            <div className="flex flex-col w-full gap-6">
+              <div className="flex gap-0 w-full">
+                <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg">
+                  <div className="w-4 h-4 rounded-full bg-white"></div>
+                  <p className="h4 text-white ">{t('comments')}</p>
+                </button>
+                <button className="w-full flex items-center gap-4  border-t-2 border-b-2  border-r-2 px-4 py-1 bg-white dark:bg-modal-grey rounded-r-lg">
+                  <div className="w-4 h-4 rounded-full bg-white"></div>
+                  <p className="h4 text-[#343434] dark:text-white ">
+                  {t('historical')}
+                  </p>
+                </button>
               </div>
-              <div className="flex gap-6">
-                <input
-                  type="text"
-                  value={input}
-                  className="text-[14px] border-[#d7d7d7] border-[1px] shadow-comment bg-[#f2f2f2] dark:bg-modal-grey flex-1 font-montserrat px-3 py-[10px] rounded-lg"
-                  placeholder="Escreva o comentário"
-                  onChange={(e) => setInput(e.target.value)}
-                />
-                <div
-                  className="h-full items-center flex justify-center aspect-square rounded-lg bg-primary dark:bg-secondary"
-                  onClick={sendComment}
-                >
-                  <img src="/send.svg" alt="" />
+              <div className=" flex flex-col gap-6">
+                <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
+                  {commentsTask?.map((comment, index) => {
+                    return (
+                      <Comment
+                        {...comment}
+                        updateComment={updateComment}
+                        commentId={index}
+                        deleteComment={deleteComment}
+                        user={user}
+                        updatedAt={comment.dateUpdate?.toString() ?? undefined}
+                        date={comment.dateCreate?.toString()}
+                        key={index}
+                      ></Comment>
+                    );
+                  })}
                 </div>
+                <SendComment
+                  input={input}
+                  sendComment={sendComment}
+                  setInput={setInput}
+                ></SendComment>
               </div>
             </div>
           </div>
-        </div>
+        </CommentsContainer>
+
+
         <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
         <div className="w-full max-w-[547px] flex flex-col gap-6">
           <div className="w-full max-w-[547px] ">
             {/* bg-black */}
-            <div className="flex flex-col gap-5 max-h-[450px] overflow-auto bah pr-4 w-full">
+            <div className="flex flex-col gap-5 h-[450px] max-h-[450px] overflow-auto bah pr-4 w-full">
               {task?.properties.map((prop) => {
                 return (
                   <div
@@ -363,8 +390,37 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   }
                                 />
                               )) ||
+                              (TypeOfProperty.USER == prop.property.type && (
+                                <UserFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  name={prop.property.name}
+                                  value={(
+                                    prop.value?.value as OtherUser[]
+                                  )?.map((user) => user.username)}
+                                />
+                              )) ||
+                              (TypeOfProperty.ARCHIVE == prop.property.type && (
+                                <FileFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  task={task}
+                                  propertyValue={prop.value as PropertyValue}
+                                  name={prop.property.name}
+                                  value={prop.value?.value}
+                                />
+                              )) ||
                               (TypeOfProperty.NUMBER == prop.property.type && (
                                 <NumberFilter
+                                  isInModal
+                                  id={prop.property.id}
+                                  name={prop.property.name}
+                                  value={prop.value?.value}
+                                />
+                              )) ||
+                              (TypeOfProperty.TIME == prop.property.type && (
+                                <TimeFilter
+                                  task={task}
                                   isInModal
                                   id={prop.property.id}
                                   name={prop.property.name}
@@ -449,7 +505,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             <Button
               font="font-alata"
               textSize="text-base"
-              text="Cancelar"
+              text={t('cancel')}
               secondary={true}
               fnButton={() => {
                 setList(undefined);
@@ -461,7 +517,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             <Button
               font="font-alata"
               textSize="text-base"
-              text="Salvar alterações"
+              text={t('save-changes')}
               fnButton={() => updateTask()}
               paddingY="py-1"
               padding="p-4"
@@ -469,7 +525,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           </div>
           <div className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
             <p className="font-montserrat text-base">
-              Adicionar propriedade para tarefa
+              {t('add-task-property')}
             </p>
             <div>
               <AddProp></AddProp>

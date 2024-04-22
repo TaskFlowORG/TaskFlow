@@ -24,8 +24,8 @@ export default function Layout({ params, children }: Props) {
   const { project, setProject } = useContext(ProjectContext);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { user } = useContext(UserContext);
-  const {task, setIsOpen, isOpen} = useContext(TaskModalContext)
-  const {inPage} = useContext(PageContext)
+  const { task, setIsOpen, isOpen } = useContext(TaskModalContext);
+  const { inPage } = useContext(PageContext);
 
   useEffect(() => {
     (async () => {
@@ -36,18 +36,17 @@ export default function Layout({ params, children }: Props) {
     })();
   }, [params.project]);
 
-
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
-  console.log(project?.properties)
+  console.log(project?.properties);
   return (
     <>
-          <TaskModal
-            task={task!}
-            setIsOpen={setIsOpen!}
-            isOpen={isOpen}
-            user={user!}
-          />
+      <TaskModal
+        task={task!}
+        setIsOpen={setIsOpen!}
+        isOpen={isOpen}
+        user={user!}
+      />
 
           <div className="h-full w-full">
             <div
@@ -78,18 +77,18 @@ export default function Layout({ params, children }: Props) {
               </p>
             </div>
 
-            <SideModal
-              condition={modalProperty}
-              setCondition={setModalProperty}
-              right
-            >
-              <RegisterProperty
-                project={project!}
-                properties={project?.properties ?? []}
-              />
-            </SideModal>
-            {children}
-          </div>
+        <SideModal
+          condition={modalProperty}
+          setCondition={setModalProperty}
+          right
+        >
+          <RegisterProperty
+            project={project!}
+            properties={project?.properties ?? []}
+          />
+        </SideModal>
+        {children}
+      </div>
     </>
   );
 }

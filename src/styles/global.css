@@ -708,3 +708,12 @@ relative text-[10px]  text-modal-grey dark:text-white;
 .react-calendar__tile--active {
   @apply bg-secondary-opacity relative dark:bg-primary-opacity text-modal-grey;
 }
+
+.options {
+@apply rounded-none
+}
+
+/* Define as bordas arredondadas apenas na parte inferior para o último elemento */
+.options:last-child {
+@apply rounded-b-lg
+}
