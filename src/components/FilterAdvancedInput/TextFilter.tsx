@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { Input } from "../Input";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   id: number;
@@ -13,6 +14,7 @@ interface Props {
 export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [valued, setValued] = useState("");
+  const {t} = useTranslation()
 
   useEffect(() => {
     const prop = filterProp.find((bah) => id == bah.id);
@@ -34,7 +36,7 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
 
       <input
         className="flex-1 py-1 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
-        placeholder="Insira o valor esperado"
+        placeholder={t('insert-expected-value')}
         value={valued}
         onChange={(e) => {
           setValued(e.target.value);

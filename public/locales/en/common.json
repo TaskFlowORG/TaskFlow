@@ -191,5 +191,27 @@
   "table-info": "The Table is a tool that allows you to view tasks in a table format. It is ideal for viewing tasks in an organized and detailed manner.",
   "list-info": "The List is a tool that allows you to view tasks in a list format. You can see tasks from other pages in a specific order by connecting the pages to the list page.",
   "canvas-info": "The Canvas is a tool that allows you to view tasks in a canvas format. It is ideal for viewing tasks in a creative and innovative way."
-
+        "write-comment":"Write a comment!",
+        "delete-comment":"Do you really want to delete this comment?",
+        "comments":"Comments",
+        "add-task-property":"Add property to task",
+        "historical": "Historical",
+        "save-changes": "Save Changes",
+        "edited":"Edited",
+        "you":"You",
+        "insert-expected-value": "Insert the expected value.",
+        "any": "Any",
+        "selected-option": "Selected option",
+        "select": "Select",
+        "clear-filters": "Clear filters",
+        "browse-files": "Browse files",
+        "select-user": "Select a user!",
+        "remove-user": "Remove a user",
+        "no-users-task": "No users in the task!",
+        "all-users-task": "This task has all users!",
+        "find-user": "Find a user!",
+        "add-user": "Add user",
+        "sort-by": "Sort by",
+        "property-registration": "Property registration",
+        "task-registration": "Task registration"
 }

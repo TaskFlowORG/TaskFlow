@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   id: number;
@@ -24,6 +25,7 @@ export const RadioFilter = ({
     "flex w-full ",
     isInModal ? "flex-wrap gap-x-4" : "flex-col"
   );
+  const {t} = useTranslation()
   useEffect(() => {
     const prop = filterProp.find((bah) => id == bah.id);
     if (prop) {
@@ -93,7 +95,7 @@ export const RadioFilter = ({
             className="text-black font-montserrat text-[14px] dark:text-white"
             htmlFor="244a271c-ab15-4620-b4e2-a24c92fe4042"
           >
-            {"Qualquer"}
+            {t('any')}
           </label>
         </div>
       </div>

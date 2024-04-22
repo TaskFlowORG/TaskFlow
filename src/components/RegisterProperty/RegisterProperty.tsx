@@ -56,18 +56,17 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
  const upDateProperty = async (property:Property,getValues:any ) => {
     console.log("alou" ,property)
     try {
+        let v;
       if (
-        [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
+        [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT].includes(property.type)
       ) {
-        console.log(property.id)
         const limited = new Limited(property.id ,property.name, property.type, getValues.visible, getValues.obligatory, getValues.maximum)
-        console.log(limited)
-        const v = await propertyService.updateLimited(project.id,limited)
-        
+         v = await propertyService.updateLimited(project.id,limited)
+
       } else if ( [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)) {
-         await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
+         v =await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
       } else {
-        await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
+         v = await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
       }
     } catch (error) {
       console.log(error);
