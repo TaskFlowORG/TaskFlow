@@ -254,7 +254,7 @@ export const Kanban = ({ page }: Props) => {
                 })}
                 propertyId={id}
                 color="#767867"
-                option={new Option(0, "Não Marcadas", "#767867")}
+                option={new Option("Não Marcadas", "#767867", 0)}
               />
             }
           </div>
