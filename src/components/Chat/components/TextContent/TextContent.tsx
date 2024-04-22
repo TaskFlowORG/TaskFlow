@@ -7,8 +7,9 @@ export const TextContent = () => {
 
     useEffect(() => {
         async function getChats() {
-            const response = await chatService.findByName("jonatas", "beck");
-            setMensagens(response);
+            const response = await chatService.findAllGroup()
+            const response2 = await chatService.findAllPrivate()
+            setMensagens([...response, ...response2]);
             console.log(response);
             
         }

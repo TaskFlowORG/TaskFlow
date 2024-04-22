@@ -4,6 +4,7 @@ import { Group } from "@/models/user/group/Group";
 import { TypeOfChat } from "@/models/enums/TypeOfChat";
 import { Message } from "../message/Message";
 import { Archive } from "@/models/others/Archive";
+import { User } from "next-auth";
 
 
 export class ChatGroup extends Chat {
@@ -25,4 +26,5 @@ export class ChatGroup extends Chat {
         }
         return false;
     }
+
 }

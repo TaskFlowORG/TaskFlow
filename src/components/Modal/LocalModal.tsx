@@ -10,6 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   right?: boolean;
   y?: number;
   x?: number;
+  z?: string;
   bottom?: boolean;
   classesPosition?: string;
   classesOrigin?: string;
@@ -21,6 +22,7 @@ export const LocalModal = ({
   right,
   y,
   x,
+  z="z-[101] ",
   bottom,
   classesPosition,
   classesOrigin,
@@ -33,17 +35,15 @@ export const LocalModal = ({
   });
 
   const style = twMerge(
-    "bg-inherit shadow-blur-10 flex z-[101] rounded-md w-auto ",
-    classesPosition ? classesPosition : right ? `right-[105%]` : `left-[105%]`,
-    classesOrigin
-      ? classesOrigin
-      : !x && right
-      ? bottom
+    "bg-inherit shadow-blur-10 flex rounded-md bg-clip-border w-auto ", z, 
+    classesPosition ? classesPosition : right ? `right-[105%] ` : `left-[105%] `,
+    classesOrigin ?? (!x && right
+      ? bottom 
         ? "origin-bottom-right"
         : "origin-top-right"
       : bottom
       ? "origin-bottom-left"
-      : "origin-top-left"
+      : "origin-top-left")
   );
 
   return (
@@ -57,14 +57,8 @@ export const LocalModal = ({
             transition={{ duration: 0.1 }}
             ref={ref}
             style={
-              y != undefined
-                ? { top: y, position: "fixed", left: x }
-                : classesPosition
-                ? {}
-                : {
-                    ...(bottom ? { bottom: 10 } : { top: 0 }),
-                    position: "absolute",
-                  }
+              y != undefined ? { top: y, position: "fixed", left: x } : classesPosition
+                ? {} : {  ...(bottom ? { bottom: 10 } : { top: 0 }),  position: "absolute",}
             }
             className={style}
           >

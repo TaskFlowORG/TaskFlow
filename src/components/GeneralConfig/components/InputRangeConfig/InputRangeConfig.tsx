@@ -1,11 +1,13 @@
 import { RangeInput } from "@/components/RangeInput";
-import { User } from "@/models";
 import { useContext, useEffect, useState } from "react";
 import { userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
-import { set } from "zod";
 
-export const InputRangeConfig = () => {
+interface Props{
+    title: string
+    description: string
+}
+export const InputRangeConfig = ({title, description}:Props) => {
     const {user, setUser} = useContext(UserContext);
     const [range, setRange] = useState<number>(user?.configuration.fontSize ?? 16);
     const updateBack = async () => {
@@ -36,7 +38,7 @@ export const InputRangeConfig = () => {
     return (
         <div className="pt-10">
             <div className="flex justify-between w-full">
-                <p className="text-h4 font-alata">Tamanho da fonte</p>
+                <p className="text-h4 font-alata">{title}</p>
                 <div onMouseUp={updateBack} className="w-44">
                     <div className="flex justify-center">
                         <p className="text-p font-alata">{range}</p>
@@ -51,7 +53,7 @@ export const InputRangeConfig = () => {
                 </div>
             </div>
             <div>
-                <p className="text-p font-alata">Escolha o tamanho da fonte que você quer usar no site!</p>
+                <p className="text-p font-alata">{description}</p>
             </div>
         </div>
     );

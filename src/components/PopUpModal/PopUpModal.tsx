@@ -40,7 +40,7 @@ export const PopUpModal = ({
 
   return (
     <LocalModal condition={condition} right bottom setCondition={setCondition}>
-      <div className=" bg-white dark:bg-modal-grey text-[#343434] dark:text-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
+      <div className=" bg-white properties-sidebar dark:bg-modal-grey text-[#343434] dark:text-white w-[300px] flex flex-col  p-4 gap-2 rounded-md">
         <p
           className="text-[14px] font-montserrat"
           onClick={() => {
@@ -53,7 +53,7 @@ export const PopUpModal = ({
         <div className="h-[2px] w-full bg-input-grey"></div>
 
         <p
-          className="text-[14px] font-montserrat"
+          className="text-[14px] create-task-button font-montserrat"
           onClick={() => {
             createTask();
           }}

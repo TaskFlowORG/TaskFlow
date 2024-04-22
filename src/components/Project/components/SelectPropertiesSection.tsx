@@ -102,7 +102,7 @@ export const SelectPropertiesSection = () => {
         <span className="flex justify-between w-full">
           <span>
             <select
-              className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
+              className="w-32 flex text-start text-primary dark:text-secondary p-1 h-min   "
               onChange={(e) =>
                 setProperty(properties.find((p) => p.id == +e.target.value))
               }
@@ -122,7 +122,7 @@ export const SelectPropertiesSection = () => {
         <div className=" w-full h-full flex justify-center  items-center">
           <div className="flex justify-center gap-12 w-full h-4/6 items-center ">
             <If condition = {tasks.length == 0}>
-              <p className="whitespace-normal w-40">{t("no-tasks-in-project")}</p>
+              <p className="whitespace-normal w-40 text-center">{t("no-tasks-in-project")}</p>
             <Doughnut options={options} content="sd" data={dataFormatted} />
             </If>
             <div id="legend-container" className="overflow-y-auto none-scrollbar flex flex-col justify-between  h-full text-p font-montserrat">

@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { ComponentProps, useState } from "react";
 import { SelectTypeObj } from "./components";
+import { IconPlus } from "../icons/GeneralIcons/IconPlus";
 
 interface Props {
   objs: SimpleGroup[] | OtherUser[] | TaskPage[] | string[];
@@ -39,7 +40,7 @@ export const Obj = ({
 
   const mrs = isHovering ? " -mr-2" : "xl:-mr-4 lg:-mr-3 sm:-mr-2 -mr-[0.35rem]";
   const classes =
-    `rounded-full xl:w-8  sm:w-5  smm:w-3 w-2 aspect-square cursor-pointer text-[10px] md:text-[14px] lg:text-[18px]  xl:text-[32px]
+    `rounded-full xl:w-8  sm:w-5 smm:w-3 w-2 xl:h-8  sm:h-5 smm:h-3 h-2 cursor-pointer 
     overflow-clip flex shadow-[0_0_4px_1px_rgba(0,0,0,0.1)] items-center ${mrs}
    justify-center ` +
     (color ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white" : " bg-primary dark:bg-secondary text-contrast ");
@@ -48,7 +49,7 @@ export const Obj = ({
     <AnimatePresence initial={false}>
       <div
         className={
-          "flex justify-center xl:pr-4 lg:pr-3 md:pr-2 pr-1 flex-wrap " +
+          "flex justify-center xl:pr-4  lg:pr-3 md:pr-2 pr-1 flex-wrap " +
           mawWidth
         }
         onMouseEnter={() => setIsHovering(true)}
@@ -69,8 +70,8 @@ export const Obj = ({
           />
         ))}
         {hidden.length > 0 && !isHovering && (
-          <div className={classes} title="+">
-            +
+          <div className={classes+ " rotate-45 p-1"} title="+">
+            <IconPlus />
           </div>
         )}
         {isHovering && (

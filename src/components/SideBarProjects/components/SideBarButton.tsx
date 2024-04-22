@@ -55,14 +55,14 @@ export const SideBarButton = ({
 
       }
       onClick={fnClick}>
-      <div className="flex h-14 w-min justify-between items-center " title={text}>
+      <div className="flex h-14 w-full justify-between items-center " title={text}>
         <Link href={link ?? "#"} className="h-full w-full flex gap-4 flex-row items-center px-6">
-          <div className="w-12 h-12 flex justify-center items-center stroke-primary dark:stroke-secondary">
+          <div className="w-12 h-12 aspect-square flex justify-center items-center stroke-primary dark:stroke-secondary">
             {icon}
           </div>
           <p
-            className={"p text-modal-grey w-[6.5rem] dark:text-white openOptions outline-none none-scrollbar " + 
-            (renaming ? "overflow-x-auto whitespace-nowrap" : " truncate ")}
+            className={"p text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " + 
+            (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +( isHovering != undefined && isHovering ? "w-[7rem]" : "max-w-full")}
             onBlur={fnRename}
             onKeyDown={fnRename}
             suppressContentEditableWarning={true}

@@ -20,6 +20,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ContentModalProperty } from "../ContentModalProperty";
+import { Info } from "../Info";
 
 type ModalRegisterPropertyProps = {
   open: boolean;

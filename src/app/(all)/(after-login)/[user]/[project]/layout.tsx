@@ -48,34 +48,34 @@ export default function Layout({ params, children }: Props) {
         user={user!}
       />
 
-      <div className="h-full w-full">
-        <div
-          className=" flex items-center justify-center h-10 w-10   bg-white z-50 rounded-full dark:bg-modal-grey 
-            shadowww cursor-pointer bottom-10 right-10 fixed "
-          onClick={() => {
-            inPage && hasPermission
-              ? setIsPopupOpen(true)
-              : setModalProperty(true);
-          }}
-        >
-          <NeedPermission permission="create">
-            {inPage && (
-              <PopUpModal
-                user={user?.username}
-                condition={isPopupOpen}
-                modalProp={modalProperty}
-                setModalProp={setModalProperty}
-                setCondition={setIsPopupOpen}
-              ></PopUpModal>
-            )}
-          </NeedPermission>
-          <p
-            className="h3 text-primary rotate-45 p-3 flex z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
-            // onClick={() => setIsPopupOpen(true)}
-          >
-            <IconPlus />
-          </p>
-        </div>
+          <div className="h-full w-full">
+            <div
+              className=" flex items-center justify-center h-10 w-10   bg-white z-50 rounded-full dark:bg-modal-grey 
+            shadowww cursor-pointer bottom-16 right-16 fixed "
+              onClick={() => {
+                inPage && hasPermission ? setIsPopupOpen(true) : setModalProperty(true);
+              }}
+            >
+              <NeedPermission permission="create">
+                {inPage && (
+                  <PopUpModal
+                    user={user?.username}
+                    condition={isPopupOpen}
+                    modalProp={modalProperty}
+                    setModalProp={setModalProperty}
+                    setCondition={setIsPopupOpen}
+                  ></PopUpModal>
+                )}
+              </NeedPermission>
+              <p
+                className="h3 text-primary properties-configuration-button gap-px flex flex-col z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
+                // onClick={() => setIsPopupOpen(true)}
+              >
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
+              </p>
+            </div>
 
         <SideModal
           condition={modalProperty}

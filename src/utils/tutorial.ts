@@ -1,204 +1,155 @@
-export const steps ={
+import { Step } from "react-joyride";
+
+export const steps: { steps: Array<Step> } = {
   steps: [
     {
-      target: '.inital-page',
-      content: 'This is your initial page, ',
+      target: ".initial-page",
+      content: "Esta é a página inicial. Aqui você pode ver as tarefas de hoje e os projetos em que está envolvido."
+      
     },
     {
-      target: '.tasks-today',
-      content: 'Here you have access your tasks for today, now they respect deadlines, but you can define whether the tasks are by schedule or deadline at settings.',
+      target: ".sidebar-button",
+      content: "Neste botão, você pode abrir a navegação da barra lateral."
     },
     {
-      target: '.projects-initial-page',
-      content: 'Here you have access projects you are involved in.',
+      target: ".sidebar",
+      content: "Esta é a nossa barra lateral simplificada. Quando você estiver dentro de um projeto, ela terá mais opções. Por enquanto, você pode ver projetos, grupos e sua página inicial."
     },
     {
-      target: '.projects-initial-page',
-      content: 'Here you can go to the projects page, where you have access and filter your project.',
+      target: ".header",
+      content: "Este é o cabeçalho do nosso site. Aqui, você pode realizar algumas configurações simples, como tema e idioma, além de acessar nosso chat, configurações e visualizar notificações quando existirem."
     },
     {
-      target: '.sidebar',
-      content: 'If you click in our logo, you can open the sidebar.',
+      target: ".sidebar",
+      content: "Abra a barra lateral novamente e selecione a opção de grupos para criar um grupo e explorar essa funcionalidade."
     },
     {
-      target: '.projects-sidebar',
-      content: 'By selecting this "Projects" option, you will go to the projects page, the same one mentioned above. We will return to this page after.',
+      target: ".groups-page",
+      content: "Na página de grupos, você pode convidar alguém para se juntar ao seu grupo e configurar informações como foto, nome e descrição."
     },
     {
-      target: '.groups-sidebar-option',
-      content: `By selecting this "Groups" option, you will open the group's sidebar.`,
+      target: ".sidebar",
+      content: "Abra a barra lateral novamente e vá para a página de projetos."
     },
     {
-      target: '.groups-sidebar',
-      content: `Here you can manage groups that you are part of. `,
+      target: ".projects-page",
+      content: "Na página de projetos, você pode registrar novos projetos e visualizar e filtrar os existentes. Vamos criar um projeto!"
     },
     {
-      target: '.groups-add-button',
-      content: `Click here to create a new group.`,
+      target: ".project-page",
+      content: "Esta é a página do projeto. Aqui você pode visualizar e editar, se for o proprietário do projeto, as informações deste projeto."
     },
     {
-      target: '.group-page',
-      content: `This is the page of the group you just created, here you can edit, delete, and invite people to your groups.`,
+      target: ".dashboard-button",
+      content: "Ao clicar neste botão, você pode abrir o painel de controle do projeto e visualizar alguns gráficos relacionados a ele."
     },
     {
-      target: '.sidebar',
-      content: `Reopen the sidebar!`,
+      target: ".logs-section",
+      content: "Nesta seção, você pode visualizar os logs do projeto."
     },
     {
-      target: '.projects-sidebar',
-      content: `Now, let's go back to the projects page.`,
+      target: ".comments-section",
+      content: "Aqui estão os comentários do projeto."
     },
     {
-      target: '.projects-sidebar',
-      content: `Now, let's go back to the projects page.`,
+      target: ".properties-section",
+      content: "E aqui estão as propriedades valoradas no projeto."
     },
     {
-      target: '.project-filter-button',
-      content: `Here you have the possibility to filter your projects.`,
-    }, {
-      target: '.project-search-button',
-      content: `And here you can search the projects by their names, but for now let's create a new project.`,
+      target: ".properties-configuration-button",
+      content: "Ao clicar neste botão, você pode abrir a configuração das propriedades do projeto como um todo, que são valoradas em todas as tarefas deste projeto."
     },
     {
-      target: '.project-add-button',
-      content: `Click here to do this!`,
+      target: ".sidebar",
+      content: "Abra a barra lateral novamente. Agora, você tem mais opções para explorar, pois está dentro de um projeto, incluindo a lixeira de tarefas, grupos e páginas deste projeto."
     },
     {
-      target: '.project-page',
-      content: `This is the project page, here you can manage your project.`,
+      target: ".add-group-project-message",
+      content: "Ao adicionar um grupo ao projeto, você e o proprietário do grupo podem configurar permissões de usuário nesse projeto."
     },
     {
-      target: '.project-name',
-      content: `Here you can edit the project's name.`,
+      target: ".create-page-button",
+      content: "Vamos criar uma página. Selecione este botão."
     },
     {
-      target: '.project-logs',
-      content: `Here we have the project's logs.`,
+      target: ".page-view-type",
+      content: "Aqui você pode escolher o tipo de visualização para esta página."
     },
     {
-      target: '.project-report',
-      content: `In this button you can generate a report to this project (basead on the logs).`,
+      target: ".page",
+      content: "Esta é a página. Existem vários modos de visualização, cada um com suas próprias peculiaridades."
     },
     {
-      target: '.project-comments',
-      content: `Clicking here you can see the project's comments, and if you want, you can comment here to.`,
+      target:".properties-configuration-button",
+      content:"Clique aqui, agora que estamos em uma pagina você verá que temos mais uma opção."
     },
     {
-      target: '.project-values',
-      content: `In this section you can see the properties of the project, more specifically the properties that are valued in the project.`,
+      target: ".create-task-button",
+      content: "Agora, clique neste botão para criar uma tarefa."
     },
     {
-      target: '.project-value-button',
-      content: `Click here to insert a property in this project.`,
-    },
-    //Cadastrar propriedade valorada no projeto
-    {
-      target: '.sidebar',
-      content: `Let's open the sidebar again!`,
+      target: ".task",
+      content: "Esta é a tarefa que você criou, acredito que você reconheça esse layout."
     },
     {
-      target: '.sidebar-component',
-      content: `Now we have more options in this sidebar!`,
+      target: ".properties-configuration-button",
+      content: "Clique neste botão novamente!"
     },
     {
-      target: '.pages-sidebar-option',
-      content: `Selecting this option you will can see the pages on the open project.`,
+      target: ".properties-sidebar",
+      content: "Agora, abra a barra lateral que configura as propriedades."
     },
     {
-      target: '.tash',
-      content: `Here you have access to the deleted tasks of this project.`,
+      target: ".properties-sidebar-sections",
+      content: "Desta vez, você tem duas seções nesta barra lateral, uma para o projeto e outra para a página."
     },
     {
-      target: '.pages-sidebar-option',
-      content: `Let's insert a page to this project!`,
+      target: ".chat-button",
+      content: "Ótimo, vou mostrar a você o chat. Clique neste botão."
     },
     {
-      target: '.pages-sidebar-add-button',
-      content: `Click here, and add a kanban page!`,
+      target: ".chat-sidebar",
+      content: "Esta é a barra lateral das suas conversas. Aqui você cria conversas com pessoas de um grupo ou projeto em que você participa juntos."
     },
     {
-      target: ".page-type-selector",
-      content: `Here you can choice the type of the page. If you want, as said, at the end of this tour you can start another tour to learn more about the types of pages and types of properties on our site.`,
+      target: ".chat-messages",
+      content: "Aqui você pode enviar arquivos e mensagens para seu amigo, além de visualizar as recebidas."
     },
     {
-      target: '.page-or-property-options',
-      content: `Here you can open the page's options,  delete, like rename, merge and change type`,
+      target: ".settings-button",
+      content: "Agora, vamos ver algumas configurações específicas. Clique neste botão."
     },
     {
-      target: '.page-delete',
-      content: `Clicking here you will delete the page.`,
+      target: ".personal",
+      content: "Aqui você pode configurar suas informações pessoais."
     },
     {
-      target: '.page-rename',
-      content: `Here you can rename the page.`,
+      target: ".preferences",
+      content: "Aqui você pode configurar suas preferências de uso."
     },
     {
-      target: '.page-merge',
-      content: `On this option you will copy and paste the properties and tasks of this page to another page. (Can be more than 1 page)`,
+      target: ".google-calendar-option",
+      content: "Nesta opção, você pode conectar sua conta ao Google Calendar, para que os compromissos sejam registrados lá."
     },
     {
-      target: '.page-change-type',
-      content: `And here you can change the type of the page.`,
+      target: ".property-name-cards-option",
+      content: "Aqui você pode ativar ou desativar o nome das propriedades nos cartões de tarefas, tornando-os mais minimalistas."
     },
     {
-      target: '.add-prop-or-task',
-      content: `Click here...`,
+      target: ".task-sorting-option",
+      content: "Nesta seleção, você pode escolher se deseja ver as tarefas na tela inicial por prazo ou por horário."
     },
     {
-      target: '.add-prop-or-task-modal',
-      content: `At this modal you can choice to manage the page's properties or add a task.`,
+      target: ".advanced-tutorial-option",
+      content: "Além disso, aqui você pode configurar sua interface e preferências, além de refazer este tutorial ou fazer o tutorial mais avançado que mencionei."
     },
     {
-      target: '.manage-properties',
-      content: `Click here to manage the page's properties.`,
+      target: ".preferences-page",
+      content: "Em geral nessa página você pode configurar suas preferências de aparência."
     },
     {
-      target: '.add-property',
-      content: `At this button you can add a nem property to the page.`,
-    },
-    {
-      target: '.page-or-property-options',
-      content: `Here you have some property's settings.`,
-    },
-    {
-      target:".property-delete",
-      content: `Click here to delete the property.`,
-    },
-    {
-      target:".cant-delete-property",
-      content: `You can't delete this property because some page needs it. At this case, this page, kanban, need a select, tag, checkbox or radio property.`,
-    },
-    {
-      target:".add-prop-or-task",
-      content: `Click here to add a task to this page.`,
-    },
-    {
-      target:".add-task",
-      content: `Click here.`,
-    },
-    {
-      target:".task",
-      content: `Thats your task, click on it to open the specific information of this task.`,
-    },
-    {
-      target:".modal-task",
-      content: `Thats an interface you are used to, so we don't need to explain more one time.`,
-    },
-    {
-      target:".sidebar",
-      content: `Let' return to the project page...`,
-    },
-    {
-      target:".project-sidebar",
-      content: `Click here!`,
-    },
-    {
-      target:".add-prop-or-task",
-      content: `Now let me show you, something interesting.`,
-    },
-    {
-      target:".sidebar-properties",
-      content: `Now this sidebar is specific to the project properties, but only the properties valued in its tasks, i.e. global properties for the project, but related to the tasks themselves..`,
+      target: ".notifications-option",
+      content: "Por fim, nesta seção, você pode configurar suas preferências de notificação."
     }
   ]
 }
