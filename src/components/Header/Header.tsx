@@ -5,45 +5,33 @@ import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { Notification } from "../Notification";
-import { log } from "console";
 import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
-import { IconArchive } from "../icons";
 import Image from "next/image";
 import {onConnect} from "@/services/webSocket/webSocketHandler";
 import { sourceMapsEnabled } from "process";
+import { notificationService } from "@/services/services/NotificationService";
+import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
 export const Header = ({
   setSidebarOpen,
 }: {
   setSidebarOpen: (value: boolean) => void;
 }) => {
-  const { theme, setTheme } = useTheme();
   const { user, setUser } = useContext(UserContext);
   const [showNotification, setShowNotification] = useState(false);
   const [thereAreNotifications, setThereAreNotifications] = useState(false);
   const [notifications, setNotifications] = useState<NotificationModel[]>([]);
-  const [lang, setLang] = useState<string>(languageToString(user?.configuration.language ?? Language.PORTUGUESE));
   
-
-
-
-
   useEffect(() => {
     if (!user?.notifications) return;
-    setThereAreNotifications(
-      user?.notifications.find((notification) => !notification.visualized)
+    setThereAreNotifications( user?.notifications.find((notification) => !notification.visualized )
         ? true
         : false
     );
-    setNotifications(user?.notifications);
-    if(!user) {
-      setLang(navigator.language)
-    }else{
-      setLang(languageToString(user.configuration.language));
-    }
+    setNotifications(user.notifications);
   }, [user]);
 
   
@@ -68,9 +56,9 @@ export const Header = ({
   const closeModal = () => {
     setShowNotification(false);
     (async () => {
-      if (!setUser) return;
-      const updated = await userService.visualizeNotifications();
-      setUser(updated);
+      if (!setUser || !user) return;
+      const updated = await notificationService.visualizeNotifications();
+      setNotifications(updated);
     })();
   };
 
@@ -78,15 +66,15 @@ export const Header = ({
 
 
   return (
-    <div className="h-14 w-full fixed z-[1] bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
+    <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
       <img
         src="/Icon.svg"
         alt=""
-        className="w-12 select-none h-12 cursor-pointer dark:grayscale dark:brightness-[60]"
+        className="w-12 select-none h-12 cursor-pointer sidebar-button dark:grayscale dark:brightness-[60]"
         onClick={() => setSidebarOpen(true)}
       />
 
-      <div className=" w-full h-full flex space-x-[48px] items-center justify-end">
+      <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
         <img
           src="/Assets/themeLight/notification.svg"
           alt=""
@@ -101,7 +89,7 @@ export const Header = ({
         </div>
         <IconSwitcherTheme />
         <div className="w-min h-min relative">
-          <Link href={`/${user?.username}/configurations/account`}>
+          <Link href={`/${user?.username}/configurations/account`} className="settings-button">
             <svg
               width="26"
               height="29"
@@ -137,7 +125,7 @@ export const Header = ({
               setCondition={closeModal}
               right
             >
-              <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-72">
+              <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-80">
                 {notifications.map((notification, index) => {
                   return (
                     <span

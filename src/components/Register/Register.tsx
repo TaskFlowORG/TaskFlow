@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,16 +12,32 @@ import { useRouter } from 'next/navigation';
 import { UserDetails } from "@/models/user/user/UserDetails";
 import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
+import { useTranslation } from "next-i18next";
 
-const schema = z
+
+interface UserData {
+  name: string;
+  username: string;
+  surname: string;
+  mail: string;
+  password: string;
+  confirmPassword: string;
+}
+
+
+export const Register = () => {
+  const [step, setStep] = useState(0);
+  const {t} = useTranslation();
+
+  const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Nome deve conter no mínimo 3 caracteres" })
-      .max(20, { message: "Nome deve conter no máximo 20 caracteres" }),
+      .min(3, { message: t("register-name-min") })
+      .max(20, { message: t("register-name-max-characters") }),
     surname: z
       .string()
-      .min(3, { message: "Sobrenome deve conter no mínimo 3 caracteres" })
+      .min(3, { message: t("register-name-min-characters") })
       .max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
     username: z
       .string()
@@ -49,29 +65,14 @@ const schema = z
       path: ["confirmPassword"],
     }
   );
-
 type FormData = z.infer<typeof schema>;
 
-interface UserData {
-  name: string;
-  username: string;
-  surname: string;
-  mail: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export const Register = () => {
-  const [step, setStep] = useState(0);
-const{ register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
-    mode: "all",
-    reValidateMode: "onChange",
-    resolver: zodResolver(schema),
+  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+    resolver: zodResolver(schema)
   });
   
   const { theme, setTheme } = useTheme();
   const router = useRouter();
-
 
 
   const handleNextStep = () => {
@@ -88,7 +89,6 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
 
   const onSubmit = async (data: UserData) => {
     console.log(errors.mail?.message)
-    console.log("A MULEKE")
     try {
       const { username, name, surname, password, mail } = data;
       await userService.insert(new UserPost(new UserDetails(username, password), name, surname, mail));
@@ -107,11 +107,11 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
 
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-      <div className="flex items-center flex-col md:h-[55%] lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <div className="h-full w-4/5 flex flex-col items-center justify-between">
+    <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
         <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
-          {step === 0 && (
+        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
+        {step === 0 && (
             <>
               <Input
                 className="inputRegister"
@@ -120,7 +120,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.name?.message}
                 register={{...register("name")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey "}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
               />
               <Input
                 className="inputRegister"
@@ -129,8 +129,8 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.surname?.message}
                 register={{ ...register("surname")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
-              />
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
+                />
             </>
           )}
 
@@ -144,7 +144,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.username?.message}
                 register={{ ...register("username")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -153,7 +153,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.mail?.message}
                 register={{ ...register("mail")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
             </>
           )}
@@ -168,7 +168,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.password?.message}
                 register={{ ...register("password")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -178,7 +178,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
             </>
           )}
@@ -206,7 +206,8 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
             Já possui uma conta?
           </p>
         </div>
+        </div>
+         
       </div>
-    </div>
   );
 };

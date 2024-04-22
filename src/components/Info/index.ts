@@ -1,0 +1,1 @@
+export {Info} from './Info'; // This is the new line

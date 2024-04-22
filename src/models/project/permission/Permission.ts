@@ -4,12 +4,11 @@ import { TypePermission } from "@/models/enums/TypePermission";
 import { ProjectSimple } from "../project/ProjectSimple";
 
 export class Permission {
-    
-
     constructor(
         public id: number, 
         public name: string, 
         public permission: TypePermission,
+        public isDefault: boolean,
         public project: ProjectSimple) {}
 
     equals = (obj: any) => {

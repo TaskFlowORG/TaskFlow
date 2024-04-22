@@ -13,7 +13,7 @@ export function drawLine(
   let lineWidth = +(localStorage.getItem("canvas_line_width") ?? "2");
   let lineColor = localStorage.getItem("canvas_line_color") ?? "#000000";
   const shape = localStorage.getItem("canvas_shape") ?? "line";
-  let isErasing = localStorage.getItem("canvas_is_erasing") === "true";
+  let isErasing = localStorage.getItem("canvas_is_erasing") == "true";
 
   let { x: currX, y: currY } = currentPoint;
   let { x: prevX, y: prevY } = prevPoint ?? currentPoint;

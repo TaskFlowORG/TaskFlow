@@ -4,6 +4,7 @@ import { ComponentProps, useContext, useEffect, useState } from "react";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
+import { useTranslation } from "next-i18next";
 interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
   name: string;
@@ -21,13 +22,16 @@ export const Select = ({
 }: SelectProps) => {
   const [selectedOption, setSelectedOption] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const prop = filterProp.find((bah) => ids == bah.id);
     if (prop) {
       setSelectedOption(prop.value);
     } else {
-      setSelectedOption(value?.toString() ?? "244a271c-ab15-4620-b4e2-a24c92fe4042");
+      setSelectedOption(
+        value?.toString() ?? "244a271c-ab15-4620-b4e2-a24c92fe4042"
+      );
     }
   }, [value, setFilterProp, filterProp]);
   const handleOptionChange = (event: any) => {
@@ -35,11 +39,15 @@ export const Select = ({
     const thisProperty = filterProp?.find((item) => item.id == ids);
     if (thisProperty) {
       setSelectedOption(event.target.value);
-      if (event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" && !isInModal) {
+      if (
+        event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" &&
+        !isInModal
+      ) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp]);
       } else {
         thisProperty.value = event.target.value;
+        setFilterProp!([...filterProp]);
       }
     } else {
       if (event.target.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {
@@ -72,8 +80,11 @@ export const Select = ({
           onChange={handleOptionChange}
           // onChange={e => change(e.target.value)} defaultValue={defaultValue}
         >
-          <option className="w-full text-center" value="244a271c-ab15-4620-b4e2-a24c92fe4042">
-            Selecione...
+          <option
+            className="w-full text-center"
+            value="244a271c-ab15-4620-b4e2-a24c92fe4042"
+          >
+            {t("select")}...
           </option>
           {options.map((o: any, index) => {
             return (

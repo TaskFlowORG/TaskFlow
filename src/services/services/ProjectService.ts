@@ -1,5 +1,6 @@
-import { Project, ProjectPost, ProjectPut, ProjectSimple, User } from "@/models";
+import { OtherUser, Project, ProjectPost, ProjectPut, ProjectSimple, User } from "@/models";
 import { Api } from "../axios";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 class ProjectService {
     async insert(project: ProjectPost): Promise<ProjectSimple> {
@@ -42,9 +43,13 @@ class ProjectService {
         await Api.delete(`project/${id}`);
     }
 
-    async updateOwner(newOwner: User, projectId: number): Promise<Project> {
+    async updateOwner(newOwner: OtherUser, projectId: number): Promise<Project> {
         const response = await Api.patch<Project>(`project/${projectId}/change-owner`, newOwner, {withCredentials: true});
         return response.data;
+    }
+
+    async inviteGroup(projectId:number, group:SimpleGroup): Promise<void> {
+        await Api.post(`project/${projectId}/invite-group`, group, {withCredentials: true});
     }
 }
 

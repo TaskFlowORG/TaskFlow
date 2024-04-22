@@ -1,4 +1,4 @@
-import { EditIcon, IconCalendar, IconGroups } from "@/components/icons";
+import { IconInvite, IconCalendar, IconGroups } from "@/components/icons";
 import { IconChat } from "@/components/icons/Notifications/IconChat";
 import { IconLock } from "@/components/icons/Notifications/IconLock";
 import { IconStar } from "@/components/icons/Notifications/IconStar";
@@ -9,7 +9,9 @@ export const NotificationIcon = (props: { type: TypeOfNotification }) => {
     switch (props.type) {
         case TypeOfNotification.CHANGETASK:
             return <IconEditColoured />;
-        case TypeOfNotification.ADDORREMOVEINGROUP:
+        case TypeOfNotification.ADDINGROUP:
+            return <IconInvite classes="text-primary dark:text-secondary" />;
+            case TypeOfNotification.REMOVEINGROUP:
             return <IconGroups />;
         case TypeOfNotification.CHANGEPERMISSION:
             return <IconLock />
@@ -23,5 +25,7 @@ export const NotificationIcon = (props: { type: TypeOfNotification }) => {
             return <IconChat />
         case TypeOfNotification.COMMENT:
             return <IconChat />
+        case TypeOfNotification.INVITETOPROJECT:
+            return <IconInvite classes="text-primary dark:text-secondary"/>
     }
 }

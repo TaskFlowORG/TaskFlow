@@ -44,12 +44,7 @@ export const TaskLegend = ({
     >
       {tasks.length == 0 ? (
         <div className="h5 flex-col text-primary dark:text-secondary flex-warp text-center h-full w-full flex items-center justify-center">
-          <p>
-            Não Existem Tasks 
-          </p>
-          <p>
-            Nessa Página
-          </p>
+          {t("no-tasks-in-page")}
         </div>
       ) : (
         <div className="w-full h-min flex flex-col gap-1 pt-[2px]">

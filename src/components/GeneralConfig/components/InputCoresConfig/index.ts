@@ -1,0 +1,1 @@
+export { InputCoresConfig } from "./InputCoresConfig"

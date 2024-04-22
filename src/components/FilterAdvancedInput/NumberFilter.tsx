@@ -1,4 +1,5 @@
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -12,6 +13,7 @@ interface Props {
 export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
   const [valued, setValued] = useState<string>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const {t} = useTranslation()
   useEffect(() => {
     const prop = filterProp.find((bah) => id == bah.id);
     if (prop) {
@@ -30,9 +32,10 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
     if (thisProperty) {
       if (valueInput) {
         filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp])
       } else {
         thisProperty.value = valueInput;
+        setFilterProp!([...filterProp])
       }
     } else {
       if (valueInput) {
@@ -47,7 +50,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
       <div className="flex py-2">
         <input
           className=" input-number  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-sm"
-          placeholder="Insira o número esperado"
+          placeholder={t('insert-expected-value')}
           type="number"
           name=""
           value={valued}
@@ -57,10 +60,11 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
               if (!e.target.value) {
                 filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                setFilterProp!(filterProp);
+                setFilterProp!([...filterProp])
                 thisProperty.value = e.target.value;
               } else {
                 thisProperty.value = e.target.value;
+                setFilterProp!([...filterProp])
               }
             } else {
               if (e.target.value) {
@@ -80,6 +84,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
 
                 thisProperty.value = valued ? (parseInt(valued) - 1).toString() : "-1";
+                setFilterProp!([...filterProp])
               
             } else {
                 setFilterProp!([
@@ -103,7 +108,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             if (thisProperty) {
 
                 thisProperty.value = valued ? (parseInt(valued) + 1).toString() : "1";
-              
+                setFilterProp!([...filterProp])
             } else {
                 setFilterProp!([
                   ...filterProp,

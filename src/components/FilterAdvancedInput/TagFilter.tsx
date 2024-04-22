@@ -50,7 +50,7 @@ export const TagFilter = ({
         if (thisProperty.value.length == 0) {
           thisProperty.value = []
         }
-        setFilterProp!(filterProp);
+        setFilterProp!([...filterProp])
 
 
 
@@ -58,6 +58,7 @@ export const TagFilter = ({
         setSelectedOptions([...selectedOptions, optionName]);
         console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
+        setFilterProp!([...filterProp])
       }
     } else {
       if (optionName) {
