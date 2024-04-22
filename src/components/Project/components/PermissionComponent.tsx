@@ -178,7 +178,7 @@ export const PermissionComponent = ({
                     right
                   >
                     {permissions.length > 1 ? (
-                      <div className="bg-input-grey flex justify-center gap-2 flex-col items-center dark:bg-modal-grey p-2 h-32 2xl:w-40 xl:w-32 sm:w-24 w-full smm:w-48  rounded-md">
+                      <div className="bg-input-grey flex justify-center gap-2 flex-col items-center dark:bg-modal-grey p-2 h-36 2xl:w-40 xl:w-32 sm:w-24 w-full smm:w-48  rounded-md">
                         <p className="text-modal-grey text-[14px] text-center pt-2">
                           {t("choice-another-permission")}
                         </p>

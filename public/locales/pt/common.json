@@ -113,6 +113,7 @@
   "delete": "Deletar",
   "update": "Atualizar",
   "no-tasks-in-project": "Nenhuma tarefa no projeto",
+  "no-tasks-in-page": "Nenhuma tarefa na página",
   "log-redo-task": "A tarefa '{{taskname}}' foi refeita por '{{username}}'",
   "log-update-task": "A propriedade '{{propertyname}}' da tarefa '{{taskname}}' foi atualizada para '{{propertyvalue}}' por '{{username}}'",
   "log-update-name-task": "O nome da tarefa foi atualizado para '{{taskname}}' por '{{username}}'",
@@ -125,7 +126,7 @@
   "log-owner-project": "O dono do projeto foi atualizado para '{{username}}'",
   "log-description-project": "A descrição do projeto foi atualizada para '{{description}}' por '{{username}}'",
   "log-picture-project": "A imagem do projeto foi atualizada por '{{username}}'",
-
+  "no-page-conected": "Nenhuma página conectada",
   "notification-permission": "Sua permissão foi atualizada no projeto '{{aux}}'",
   "notification-rmv-group": "Você foi removido do grupo '{{aux}}'",
   "notification-add-group": "Você recebeu um convite para participar do grupo '{{aux}}'",

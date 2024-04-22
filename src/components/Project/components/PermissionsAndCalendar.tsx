@@ -148,7 +148,7 @@ export const PermissionsAndCalendar = () => {
           <>
             <span className="flex flex-col">
               <select
-                className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
+                className="w-full flex text-center p-1 h-min text-primary  dark:text-secondary "
                 onChange={(e) =>
                   setProperty(properties.find((p) => p.id == +e.target.value))
                 }

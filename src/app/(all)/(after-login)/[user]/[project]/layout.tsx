@@ -69,10 +69,12 @@ export default function Layout({ params, children }: Props) {
                 )}
               </NeedPermission>
               <p
-                className="h3 text-primary properties-configuration-button rotate-45 p-3 flex z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
+                className="h3 text-primary properties-configuration-button gap-px flex flex-col z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
                 // onClick={() => setIsPopupOpen(true)}
               >
-                <IconPlus />
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
+                <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 
               </p>
             </div>
 

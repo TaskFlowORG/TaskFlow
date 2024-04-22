@@ -161,6 +161,8 @@
   "radio": "Radio",
   "progress": "Progreso",
   "time": "Tiempo",
+  "no-tasks-in-page": "No hay tareas en esta página",
+  "no-page-conected": "No hay páginas conectadas",
   "text-info": "Una propiedad de texto es un campo de texto que puede ser llenado con cualquier información que desees. Puedes definir un tamaño máximo de caracteres y otras configuraciones.",
   "archive-info": "Una propiedad de archivo es un campo que permite subir archivos de cualquier tipo. Puedes definir el tamaño máximo del archivo y otras configuraciones.",
   "number-info": "Una propiedad de número es un campo que acepta solo números. Puedes definir un valor máximo y otras configuraciones.",

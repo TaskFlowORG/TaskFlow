@@ -50,7 +50,7 @@ export const useDraw = (
           ctx,
           currentPoint,
           prevPoint: prevPoint.current,
-          button: e .buttons == 1,
+          button: e.buttons == 1,
         });
         if (!currentPoint) return;
         prevPoint.current = currentPoint;
@@ -75,7 +75,7 @@ export const useDraw = (
     };
 
     const mouseUpHandler = (e: MouseEvent) => {
-      if (e.button == 1 || moving) return;
+      if (e.button == 1 || moving || !mouseDown) return;
       const currentPoint = computePointInCanvas(e);
       if (shape != "line") {
         const ctx = canvasRef.current?.getContext("2d");
@@ -84,7 +84,7 @@ export const useDraw = (
           ctx,
           currentPoint: currentPoint,
           prevPoint: prevPoint.current,
-          button: e.buttons == 1,
+          button: e.button == 0,
         });
       } else {
         prevPoint.current = null;

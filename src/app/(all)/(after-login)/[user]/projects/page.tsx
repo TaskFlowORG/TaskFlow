@@ -126,12 +126,12 @@ export default function Projects({ params }: { params: { user: string } }) {
           <div className="w-full lg:w-3/5 h-[70vh] flex justify-center none-scrollbar overflow-y-scroll">
             <div
               className={
-                "justify-start flex p-6 px-12 smm:px-24 sm:px-6 gap-x-12  h-full w-full  sm:w-1/2 lg:w-full "
+                "justify-start flex p-6 px-12 smm:px-24 sm:px-6 gap-x-12  h-full w-full  sm:w-3/5 lg:w-full "
               }
             >
               {listOfLists.map((list, index) => {
                 return (
-                  <div key={index} className="flex flex-col gap-5 h-full w-1/3">
+                  <div key={index} className="flex flex-col gap-5 h-full w-full lg:w-1/2 :w-1/3">
                     {list.map((p) => {
                       return (
                         <ProjectComponent

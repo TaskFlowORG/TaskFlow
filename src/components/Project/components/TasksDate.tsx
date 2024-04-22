@@ -107,7 +107,7 @@ export const TasksDate = () => {
     <div className="w-full h-64 md:h-1/2 flex flex-col gap-4 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
       <span className="flex justify-between w-full">
         <select
-          className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
+          className="w-32 flex text-start p-1 h-min  text-primary dark:text-secondary "
           onChange={(e) =>
             setProperty(properties.find((p) => p.id == +e.target.value))
           }

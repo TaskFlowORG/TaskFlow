@@ -172,6 +172,8 @@
   "radio": "Radio",
   "progress": "Progress",
   "time": "Time",
+  "no-tasks-in-page": "There are no tasks in this page",
+  "no-page-conected": "There are no pages connected to this page",
   "text-info": "A text property is a text field that can be filled with any information you want. You can define a maximum character size and other settings.",
   "archive-info": "An archive property is a field that allows the upload of files of any type. You can define the maximum file size and other settings.",
   "number-info": "A number property is a field that only accepts numbers. You can define a maximum value, among other settings.",
