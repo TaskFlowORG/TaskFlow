@@ -5,13 +5,14 @@ import { OtherUser } from "@/models/user/user/OtherUser";
 
 export class Message {
     constructor(
-        public id: number,
+        
         public value: string,
         public sender: OtherUser,
         public dateCreate: Date,
         public destinations: Destination[],
         public dateUpdate?: Date,
-        public annex?: Archive
+        public annex?: Archive,
+        public id?: number
     ) {}
 
 

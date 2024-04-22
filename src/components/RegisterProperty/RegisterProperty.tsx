@@ -41,7 +41,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
 
     const deleteProperty = async (property: Property) => {
         try {
-            propertyService.delete(project.id,property.id)
+            propertyService.delete(project.id, property.id)
             let list = [...propertiesArray];
 
             propertiesArray.includes(property) && list.splice(properties.indexOf(property), 1)
@@ -56,18 +56,17 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
  
  const upDateProperty = async (property:Property,getValues:any ) => {
     try {
+        let v;
       if (
-        [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT,].includes(property.type)
+        [TypeOfProperty.TIME,TypeOfProperty.USER,TypeOfProperty.ARCHIVE,TypeOfProperty.NUMBER,TypeOfProperty.PROGRESS,TypeOfProperty.TEXT].includes(property.type)
       ) {
-        console.log(property.id)
         const limited = new Limited(property.id ,property.name, property.type, getValues.visible, getValues.obligatory, getValues.maximum)
-        console.log(limited)
-        const v = await propertyService.updateLimited(project.id,limited)
-        
+         v = await propertyService.updateLimited(project.id,limited)
+
       } else if ( [TypeOfProperty.CHECKBOX,TypeOfProperty.TAG,TypeOfProperty.RADIO,TypeOfProperty.SELECT,].includes(property.type)) {
-         await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
+         v =await propertyService.updateSelect(project.id,new Select(property.id,property.name,property.type, getValues.visible, getValues.obligatory ,(property as Select).options))
       } else {
-        await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
+         v = await propertyService.updateDate(project.id,new Date(property.id, property.name ,property.type,getValues.visible, getValues.obligatory,  getValues.pastDate, getValues.hours , getValues.deadline,getValues.schedule,getValues.color))
       }
     } catch (error) {
       console.log(error);
@@ -76,7 +75,7 @@ export const RegisterProperty = ({ properties, project, page }: RegisterProperty
     const {t} = useTranslation()
     return (
         <>
-            <div className="w-full h-full flex justify-end">
+            <div className="w-full h-full flex justify-end properties-sidebar-sections">
                 <div className="w-96 h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
                     <div className="h-[15%] w-[90%] flex justify-evenly items-center">
                         <p className="h4 text-primary dark:text-secondary">{t("property")}</p>

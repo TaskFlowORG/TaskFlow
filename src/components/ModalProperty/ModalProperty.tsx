@@ -21,6 +21,8 @@ import {
   IconSelect,
   IconCheckbox,
   IconTrashBin,
+  IconUser,
+  IconClock,
 } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
@@ -78,12 +80,15 @@ export const ModalProperty = ({
         return <IconSelect />;
       case "CHECKBOX":
         return <IconCheckbox />;
+      case "USER":
+        return <IconUser/>;
+      case "TIME":
+        return <IconClock/>
       default:
         break;
     }
   };
 
-  console.log("b",property)
 
   return (
     <div

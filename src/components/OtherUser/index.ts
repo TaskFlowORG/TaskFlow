@@ -1,0 +1,1 @@
+export {OtherUserComponent} from "./OtherUser"; 

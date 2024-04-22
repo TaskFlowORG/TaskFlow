@@ -1,0 +1,1 @@
+export { TextToSpeechTeste } from './TextToSpeechTeste';

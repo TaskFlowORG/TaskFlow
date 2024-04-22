@@ -1,100 +1,62 @@
-import { Group, GroupPost, Permission, PermissionPost, Project, TypePermission, User } from "@/models";
+import { Group, GroupPost, Permission, Project, TypePermission } from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
 import { useState, useEffect } from "react";
-import { getData, getListData } from "@/services/http/api";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
-import { groupService, permissionService, userService } from "@/services";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { groupService, permissionService } from "@/services";
 
 interface Props {
     project: Project;
     user: string;
     setModalGroups: (value: boolean) => void;
-    global: boolean
+    global: string;
 }
 
 
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     const [groups, setGroups] = useState<Group[]>([]);
-    const [newGroup, setNewGroup] = useState<GroupPost>();
-    const [owner, setOwner] = useState<User>();
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchedUser = await userService.findLogged();
-                setOwner(fetchedUser)
-
-                let fetchedGroups : Group[];
-                if (global == true) {
-                    fetchedGroups = await groupService.findGroupsByUser();
-                    setGroups(fetchedGroups)
-                } else if (global == false) {
-                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
-                    setGroups(fetchedGroups)
-                }
-                const fetchedPermissions = await permissionService.findAll(project.id);
-                 const permissionArray: Permission[] = [];
-
-                 fetchedPermissions.map(p => {
-                     if (p.project === project) {
-                         permissionArray.push(p);
-                     }
-                 });
-
-                setPermissions(permissionArray);
-               
-            } catch (error) {
-                console.error("Error fetching groups:", error);
-            }
-            
-        };
-        
         fetchData();
     }, [project.id]);
 
-    const verOsGrupos = (): void => {
-        groups.map(g => {
-            console.log(g);
-        });
-    };
-
-    const addNewGroup = async () => {
-        const name: string = "Nome do grupo";
-        const description: string = "Descrição do grupo";
-        let groupPermission: Permission[] = [];
-        let userList: User[] = []
-
+    const fetchData = async () => {
         try {
-             const fetchedUser = await userService.findLogged();
-             if (!fetchedUser) {
-                 console.error("Owner não está definido!");
-                 return;
-             }
-             userList.push(fetchedUser)
+            let fetchedGroups: Group[];
 
-            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
-
-            if (!(deleteCreatePermission)) {
-                const newPermission = new PermissionPost("Permissão", TypePermission.READ, project);
-                await permissionService.insert(newPermission, project.id);
-                if(deleteCreatePermission){
-                    groupPermission.push(deleteCreatePermission);
-                }
-            }else {
-                    groupPermission.push(deleteCreatePermission);
+            if (global === "userGroups") {
+                fetchedGroups = await groupService.findGroupsByUser();
+                setGroups(fetchedGroups)
+            } else if (global === "projectGroups") {
+                fetchedGroups = await groupService.findGroupsByAProject(project.id);
+                setGroups(fetchedGroups)
             }
-
-            const newGroup = new GroupPost(name, description, permissions, userList);
-            await groupService.insert(newGroup);
+            const fetchedPermissions = await permissionService.findAll(project.id);
+            setPermissions(fetchedPermissions);
 
         } catch (error) {
-            console.error("Erro ao adicionar novo grupo:", error);
+            console.error("Error fetching groups:", error);
         }
+    };
+
+
+    const addNewGroup = async () => {
+        let groupPermission: Permission[] = [];
+
+        let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.UPDATE_DELETE_CREATE);
+
+        if (deleteCreatePermission) {
+            groupPermission.push(deleteCreatePermission);
+        }
+
+        const newGroup = new GroupPost("Nome do grupo", "Descrição do Grupo", groupPermission, []);
+
+        await groupService.insert(newGroup);
+        
+        fetchData();
     };
 
     return (
@@ -107,13 +69,11 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                     <div className="flex flex-col items-start max-w-full h-min w-full">
                         <div className="max-w-full h-min w-full pt-2">
                             {Array.isArray(groups) && groups.map((group, index) => (
-                                
+
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
-                                    {()=> verOsGrupos()}
-                                    <button onClick={() => router.push("/" + owner?.username + "/" + project.id + "/group/" + group.id)}>
-                                        
-                                        <GroupComponent group={group} />
+                                    <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
+                                        <GroupComponent user={user} group={group} project={project}/>
                                     </button>
                                 </div>
                             ))}

@@ -1,22 +1,35 @@
 import { Page, Project, TypeOfProperty } from "@/models";
 import { Input } from "../Input";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
-import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText, IconTrashBin } from "../icons";
 import { use, useState } from "react";
+import {
+  IconArchive,
+  IconCalendar,
+  IconCheckbox,
+  IconClock,
+  IconNumber,
+  IconProgress,
+  IconRadio,
+  IconSelect,
+  IconText,
+  IconTrashBin,
+  IconUser,
+} from "../icons";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ContentModalProperty } from "../ContentModalProperty";
 import { useTranslation } from "next-i18next";
-
+import { Info } from "../Info";
 type ModalRegisterPropertyProps = {
-    open: boolean;
-    close: () => void;
-    project: Project;
-    page?: Page;
-    postProperty: (name: string, values:any, select: TypeOfProperty) => void;
-}
+  open: boolean;
+  close: () => void;
+  project: Project;
+  page?: Page;
+  postProperty: (name: string, values: any, select: TypeOfProperty) => void;
+};
 
 export const ModalRegisterProperty = ({ open, close, page, project, postProperty}: ModalRegisterPropertyProps) => {
    
@@ -65,7 +78,10 @@ export const ModalRegisterProperty = ({ open, close, page, project, postProperty
                             { value: TypeOfProperty.PROGRESS, image: <IconProgress /> },
                             { value: TypeOfProperty.RADIO, image: <IconRadio /> },
                             { value: TypeOfProperty.SELECT, image: <IconSelect /> },
-                            { value: TypeOfProperty.TEXT, image: <IconText /> }
+                            { value: TypeOfProperty.TEXT, image: <IconText /> },
+                          
+                  { value: TypeOfProperty.USER, image: <IconUser /> },
+                  { value: TypeOfProperty.TIME, image: <IconClock /> }
                         ]}
                             selected={selected} onChange={function (value: string): void {
                                 setSelected(value as TypeOfProperty)

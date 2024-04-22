@@ -53,6 +53,7 @@ export const PageComponent = ({
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
   const { setProject } = useContext(ProjectContext);
+  
 
   useEffect(() => {
     setTruncate(false);
@@ -169,9 +170,10 @@ export const PageComponent = ({
                 text={t("merge")}
               />
               <ButtonPageOption
-                fnButton={() => {
+                fnButton={e => {
+                  setX(e.clientX);
+                  setY(e.clientY);
                   setChangingType(true);
-                  setModal(false);
                 }}
                 icon={<ChangeType />}
                 text={t("change-type")}
@@ -193,6 +195,7 @@ export const PageComponent = ({
                 setTruncate(false);
                 setChangingType(false);
               }}
+              type={type}
               setChangingType={setChangingType}
               changeType={changeType}
               setType={setType}

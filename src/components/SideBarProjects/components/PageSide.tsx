@@ -117,7 +117,7 @@ export const PageSide = (
             <Button
               width="w-64 "
               text={t("add-page")}
-              fnButton={() => setModal(true)}
+              fnButton={() => setModal(!modal)}
               padding="p-2"
               paddingY="p-1"
               textSize="font-[14re]"
@@ -125,6 +125,8 @@ export const PageSide = (
           </If>
           <LocalModal condition={modal} setCondition={setModal} bottom>
               <TypeOfPageComponent
+              type={type}
+
                 changingType={modal}
                 setType={setType}
                 setChangingType={setModal}
