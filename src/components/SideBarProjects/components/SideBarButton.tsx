@@ -13,12 +13,14 @@ interface Props {
   textRef?: React.RefObject<HTMLParagraphElement>;
 
   fnClick?: () => void;
+  hasButton?: boolean;
 
   fnRename?: (e: any) => void;
   renaming?: boolean;
 
   openOptions?: boolean;
   fnOpenOptions?: () => void;
+  iconOptions?: React.ReactNode;
   openOptionsRef?: React.RefObject<HTMLDivElement>;
 
   isHovering?: boolean;
@@ -35,56 +37,72 @@ export const SideBarButton = ({
   fnRename,
   renaming,
   textRef,
+  hasButton,
   openOptions,
   fnOpenOptions,
+  iconOptions = <Arrow className="rotate-90" />,
   openOptionsRef,
   link,
   pointerEventsNone,
-  isHovering
+  isHovering,
 }: Props) => {
-
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div
-      className={`w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
+      className={
+        `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
        dark:border-secondary-opacity bg-white dark:bg-modal-grey ` +
         (renaming ? "cursor-text" : "cursor-pointer") +
         (pointerEventsNone ? " pointer-events-none" : "") +
         (openOptions ? "" : " hover:brightness-95 dark:hover:brightness-110")
-
       }
-      onClick={fnClick}>
-      <div className="flex h-14 w-full justify-between items-center " title={text}>
-        <Link href={link ?? "#"} className="h-full w-full flex gap-4 flex-row items-center px-6">
+      onClick={fnClick}
+    >
+      <div
+        className="flex h-14 w-full justify-between items-center "
+        title={text}
+      >
+        <Link
+          href={link ?? "#"}
+          className="h-full w-full flex gap-4 flex-row items-center px-6"
+        >
           <div className="w-12 h-12 aspect-square flex justify-center items-center stroke-primary dark:stroke-secondary">
             {icon}
           </div>
           <p
-            className={"p text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " + 
-            (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +( isHovering != undefined && isHovering ? "w-[7rem]" : "max-w-full")}
+            className={
+              "p text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
+              (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
+              (isHovering != undefined && isHovering && hasButton ? "w-[7rem]" : "w-[9rem]")
+            }
             onBlur={fnRename}
             onKeyDown={fnRename}
             suppressContentEditableWarning={true}
             contentEditable={renaming}
-            ref={renaming ? textRef : undefined}>
+            ref={renaming ? textRef : undefined}
+          >
             {text ?? t("withoutname")}
           </p>
         </Link>
         <If condition={isHovering != undefined && isHovering}>
           <div className="justify-center h-full w-8  flex flex-col">
-            <span
-
-              className={"h-8 w-8 p-2 mr-2 rounded-full rotate-90  bg-white dark:bg-modal-grey " +
-              (openOptions ? "":" hover:brightness-95")}
-              onClick={fnOpenOptions}>
-              <Arrow />
-            </span>
+            <If condition={hasButton != undefined && hasButton}>
+              <span
+                className={
+                  "h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey " +
+                  (openOptions ? "" : " hover:brightness-95")
+                }
+                onClick={fnOpenOptions}
+              >
+                {iconOptions}
+              </span>
+            </If>
           </div>
         </If>
       </div>
       <AnimatePresence initial={false} mode="wait">
-        {openOptions &&
+        {openOptions && (
           <>
             <motion.span
               className=" dark:bg-modal-grey w-full justify-center flex items-start overflow-y-clip"
@@ -92,10 +110,12 @@ export const SideBarButton = ({
               animate={{ height: "150px" }}
               exit={{ transition: { delay: 0.1 }, height: 0 }}
               transition={{ duration: 0.1 }}
-              ref={openOptionsRef}>
+              ref={openOptionsRef}
+            >
               {children}
             </motion.span>
-          </>}
+          </>
+        )}
       </AnimatePresence>
     </div>
   );

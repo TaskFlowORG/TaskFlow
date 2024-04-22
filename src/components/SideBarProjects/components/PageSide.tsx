@@ -12,6 +12,7 @@ import { any } from "zod";
 import { ProjectContext } from "@/contexts";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
+import { NeedPermission } from "@/components/NeedPermission";
 
 interface Props {
   project: Project;
@@ -114,6 +115,9 @@ export const PageSide = (
                 secondary
               />
             </div>
+            <NeedPermission permission="create">
+
+
             <Button
               width="w-64 "
               text={t("add-page")}
@@ -122,6 +126,7 @@ export const PageSide = (
               paddingY="p-1"
               textSize="font-[14re]"
             />
+            </NeedPermission>
           </If>
           <LocalModal condition={modal} setCondition={setModal} bottom>
               <TypeOfPageComponent
