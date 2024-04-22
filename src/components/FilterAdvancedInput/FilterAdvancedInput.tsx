@@ -15,35 +15,37 @@ import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
 import { ProgressFilter } from "./ProgressFilter";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   properties: Property[];
-  setIsModalOpen:(boolean:boolean)=> void
+  setIsModalOpen: (boolean: boolean) => void;
 }
-
-
 
 export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
   const [allProperties, setAllProperties] = useState<Property[] | undefined>(
     []
   );
 
-  const {project} = useContext(ProjectContext)
+  const { project } = useContext(ProjectContext);
 
   const ref = useRef(null);
-useClickAway(ref, () => setIsModalOpen(false));
-
+  useClickAway(ref, () => setIsModalOpen(false));
+  const { t } = useTranslation();
 
   const { filterProp, setFilterProp, list, setList } =
     useContext(FilterContext);
   let filterProperty: FilteredProperty[] = [];
 
   useEffect(() => {
-setAllProperties([...properties, ...project?.properties!])
+    setAllProperties([...properties, ...project?.properties!]);
   }, []);
 
   return (
-    <div className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg" ref={ref}>
+    <div
+      className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg"
+      ref={ref}
+    >
       <div className="flex flex-col gap-4 pr-4 max-h-[300px] overflow-auto">
         {allProperties?.map((property) => {
           const prop = filterProp?.find((prop) => prop.id == property.id) ?? {
@@ -68,17 +70,15 @@ setAllProperties([...properties, ...project?.properties!])
                 key={property.id}
               />
             );
-          } else if (property.type === TypeOfProperty.PROGRESS){
+          } else if (property.type === TypeOfProperty.PROGRESS) {
             return (
               <ProgressFilter
-              key={property.id}
-              id={property.id}
-              name={property.name}
-              value={prop.value ?? ""}
-            />
-
-            )
-
+                key={property.id}
+                id={property.id}
+                name={property.name}
+                value={prop.value ?? ""}
+              />
+            );
           } else if (property.type === TypeOfProperty.NUMBER) {
             return (
               <NumberFilter
@@ -91,11 +91,11 @@ setAllProperties([...properties, ...project?.properties!])
           } else if (property.type === TypeOfProperty.TAG) {
             return (
               <TagFilter
-              key={property.id}
-              name={property.name}
-              options={(property as Select).options}
-              id={property.id}
-              value={prop.value}
+                key={property.id}
+                name={property.name}
+                options={(property as Select).options}
+                id={property.id}
+                value={prop.value}
               />
             );
           } else if (property.type === TypeOfProperty.CHECKBOX) {
@@ -144,68 +144,10 @@ setAllProperties([...properties, ...project?.properties!])
           }}
           font="text-sm"
           padding="p-4"
-          text="Limpar filtros"
+          text={t("clear-filters")}
           textColor="text-primary dark:text-contrast hover:text-contrast"
           background="bg-transparent hover:bg-primary dark:hover:bg-secondary "
         />
-
-        {/* <Button
-          font="text-base"
-          padding="p-4"
-          fnButton={() => {
-            setFilterProp!([]);
-            allProperties?.map((property) => {
-              if (
-                [TypeOfProperty.CHECKBOX, TypeOfProperty.RADIO].includes(
-                  property.type
-                )
-              ) {
-                let values: string[] = [];
-                (property as Select).options.map((opt, index) => {
-                  const anInput: HTMLInputElement | null =
-                    document.querySelector(`#prop${property.id}_${index}`);
-
-                  if (anInput?.checked) {
-                    // console.log(anInput.value);
-                    // console.log("Em cima de mim são valores do input tá");
-                    values.push(anInput.value);
-                  }
-                });
-                console.log(
-                  "Em baixo de mim, ta a porra do values das multiplas"
-                );
-                console.log(values.length);
-                if (values.length > 0) {
-                  setFilterProp!([
-                    ...filterProperty,
-                    { id: property.id, value: values },
-                  ]);
-                  filterProperty.push({ id: property.id, value: values });
-                }
-              } else {
-                const anInput: HTMLInputElement | null = document.querySelector(
-                  `#prop${property.id}`
-                );
-                // console.log(anInput?.value);
-                if (anInput?.value) {
-                  console.log("Soy lista caliente");
-                  console.log(list);
-                  setFilterProp!([
-                    ...filterProperty,
-                    list!,
-                    { id: property.id, value: anInput.value },
-                  ]);
-                  filterProperty.push({
-                    id: property.id,
-                    value: anInput.value,
-                  });
-                } else if (TypeOfProperty.TAG == property.type) {
-                  setFilterProp!([...filterProperty, list!]);
-                }
-              }
-            });
-          }}
-        /> */}
       </div>
     </div>
   );

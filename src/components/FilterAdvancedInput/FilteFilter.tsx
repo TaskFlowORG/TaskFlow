@@ -5,6 +5,7 @@ import { PageContext } from "@/utils/pageContext";
 import { useContext, useEffect, useState } from "react";
 import { archiveToDownload } from "@/functions";
 import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   id: number;
@@ -22,6 +23,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
+  const {t} = useTranslation()
 
   const handleFileChange = async (event: any) => {
     // Obtém o arquivo do evento
@@ -79,7 +81,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
 
       {!file && (
         <button className="py-1 truncate  flex  px-2 bg-primary dark:bg-secondary rounded-lg relative  text-white">
-          Browse files
+          {t('browse-files')}
           <input
             onChange={handleFileChange}
             type="file"

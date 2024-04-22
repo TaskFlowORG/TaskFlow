@@ -3,6 +3,7 @@ import { LocalModal } from "@/components/Modal";
 import { SearchIcon } from "@/components/SearchBar";
 import { OtherUser } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useTranslation } from "next-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 
 interface ComboBoxProps {
@@ -26,6 +27,7 @@ export const Combobox = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [optionsMarked, setOptionsMarked] = useState<OtherUser[]>([]);
   const inputRef = useRef<any>(null);
+  const {t} = useTranslation()
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -84,7 +86,7 @@ export const Combobox = ({
           <p className="flex-1 w-full truncate">
             {selectedOption
               ? selectedOption.name + " " + selectedOption.surname
-              : "Selecione um usuário!"}
+              : t('select-user')}
           </p>
           <div className="flex flex-col   gap-0">
             <p>{">"}</p>
@@ -119,11 +121,11 @@ export const Combobox = ({
               placeholder={
                 isRemoving
                   ? value.length > 0
-                    ? "Remova um usuário"
-                    : "Sem usuários na tarefa!"
+                    ? t('remove-user')
+                    : t('no-users-task')
                   : value.length == options.length
-                  ? "Essa tarefa tem todos os usuários!"
-                  : "Encontre um usuário!"
+                  ? t('all-users-task')
+                  : t('find-user')
               }
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -166,7 +168,7 @@ export const Combobox = ({
           paddingY="py-1"
           width="w-full"
           textSize="text-[14px]"
-          text={isRemoving ? "Remover usuário" : "Adicionar usuário"}
+          text={isRemoving ? t('remove-user') : t('add-user')}
           fnButton={handleConfirm}
         ></Button>
       </div>

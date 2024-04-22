@@ -8,6 +8,7 @@ import { pageService } from "@/services";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   propertiesPage: Property[];
@@ -50,13 +51,14 @@ export const OrderInput = ({
 
   const ref = useRef(null);
   useClickAway(ref, () => setIsModalOpen(false));
+  const {t}=  useTranslation()
 
   return (
     <div
       ref={ref}
       className=" rounded-xl z-50 absolute top-16 shadowww  dark:bg-modal-grey bg-white flex flex-col p-4  gap-6 min-w-[300px]"
     >
-      <h5 className="h5 dark:text-white text-black">Ordenar por</h5>
+      <h5 className="h5 dark:text-white text-black">{t('sort-by')}</h5>
       <div className="flex flex-col gap-4">
         {properties.map((property) => {
           if (property.id == orderingId) {
