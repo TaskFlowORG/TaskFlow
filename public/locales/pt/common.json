@@ -146,7 +146,6 @@
   "notification-schedule": "A tarefa '{{aux}}' está próxima do agendamento",
   "notification-points": "Você passou da meta de {{aux}} pontos",
   "change-owner": "Mudar dono",
-  "you": "Você",
   "owner": "Dono",
   "no-possible-users": "Nenhum usuário associado a esse projeto",
   "default": "Padrão",
@@ -213,5 +212,7 @@
         "add-user": "Adicionar usuário",
         "sort-by": "Ordenar por",
         "property-registration": "Cadastro de propriedade",
-        "task-registration": "Cadastro de tarefa"
+        "task-registration": "Cadastro de tarefa",
+        "add-property": "Adicionar propriedade",
+        "page": "Página"
 }

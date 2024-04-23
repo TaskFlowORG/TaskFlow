@@ -164,7 +164,6 @@
   "property-registration": "Registro de propiedad",
   "task-registration": "Registro de tarea",
   "change-owner": "Cambiar dueño",
-  "you": "Tú",
   "owner": "Propietario",
   "no-possible-users": "Ningún usuario asociado a este proyecto",
   "default": "Por defecto",
@@ -210,6 +209,8 @@
   "timeline-info": "La Línea de Tiempo es una herramienta que permite visualizar las tareas en una línea de tiempo. Es ideal para ver el progreso de un proyecto y las tareas en curso.",
   "table-info": "La Tabla es una herramienta que permite visualizar las tareas en un formato de tabla. Es ideal para ver las tareas de manera organizada y detallada.",
   "list-info": "La Lista es una herramienta que permite visualizar las tareas en un formato de lista. Puedes ver las tareas de otras páginas en un orden específico, simplemente conectando las páginas con la página de lista.",
-  "canvas-info": "El Canvas es una herramienta que permite visualizar las tareas en un formato de lienzo. Es ideal para ver las tareas de manera creativa e innovadora."
+  "canvas-info": "El Canvas es una herramienta que permite visualizar las tareas en un formato de lienzo. Es ideal para ver las tareas de manera creativa e innovadora.",
+  "add-property": "Agregar propiedad",
+        "page": "Página"
 
 }

@@ -152,7 +152,6 @@
   "notification-schedule": "The task '{{aux}}' is nearing its schedule",
   "notification-points": "You have passed the goal of {{aux}} points",
   "change-owner": "Change owner",
-  "you": "You",
   "owner": "Owner",
   "no-possible-users": "No users associated with this project",
   "default": "Default",
@@ -221,6 +220,8 @@
         "add-user": "Add user",
         "sort-by": "Sort by",
         "property-registration": "Property registration",
-        "task-registration": "Task registration"
+        "task-registration": "Task registration",
+        "add-property": "Add property",
+        "page": "Page"
 
 }
