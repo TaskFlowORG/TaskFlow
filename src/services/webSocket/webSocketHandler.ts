@@ -11,6 +11,7 @@ export const onConnect = (
     console.log("connected");
     client.subscribe(topic, (message) => {
       handle(message);
+      console.log(message.body)
     });
   });
 };

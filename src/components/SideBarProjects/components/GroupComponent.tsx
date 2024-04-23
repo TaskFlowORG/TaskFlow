@@ -3,10 +3,11 @@ import { Group, Project } from "@/models"
 import { groupService } from "@/services"
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     user: string;
-    group: Group;
+    group: SimpleGroup;
     project: Project
 }
 

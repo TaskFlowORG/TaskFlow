@@ -34,15 +34,17 @@ export const Header = ({
     setNotifications(user.notifications);
   }, [user]);
 
-  
+  const sound = new Audio("/Assets/sounds/pop.mp3");
   useEffect(() => {
-    onConnect(`/topic/${user!.id}`, (message) => {
+    console.log("play")
+    onConnect(`/notifications/${user!.id}`, (message) => {
       const notification = JSON.parse(message.body);
         setNotifications((prev) => [notification, ...prev]);
         setThereAreNotifications(true);
-
+        sound.play();
     });
   },[])
+
 
 
   const changeLanguage = async  (value: string) => {

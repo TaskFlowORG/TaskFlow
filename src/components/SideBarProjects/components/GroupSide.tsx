@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService } from "@/services";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     project: Project;
@@ -15,7 +16,7 @@ interface Props {
 
 
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
-    const [groups, setGroups] = useState<Group[]>([]);
+    const [groups, setGroups] = useState<SimpleGroup[]>([]);
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
@@ -25,7 +26,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     const fetchData = async () => {
         try {
-            let fetchedGroups: Group[];
+            let fetchedGroups: SimpleGroup[];
 
             if (global === "userGroups") {
                 fetchedGroups = await groupService.findGroupsByUser();
