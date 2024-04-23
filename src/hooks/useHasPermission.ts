@@ -1,6 +1,6 @@
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
-import { Group, Permission, Project, TypePermission } from "@/models";
+import { Group, OtherUser, Permission, Project, TypePermission } from "@/models";
 import { groupService } from "@/services";
 import { useContext, useEffect, useState } from "react";
 import { set } from "zod";
@@ -12,13 +12,18 @@ export const
         const { user } = useContext(UserContext);
         const { project } = useContext(ProjectContext);
         const [sucess, setSucess] = useState<boolean>(false);
-        const [groups, setGroups] = useState<Group[]>([]);
+        const [owners, setOwners] = useState<OtherUser[]>([]);
 
         useEffect(() => {
             (async () => {
                 if (!project) return;
                 const groupsPromise = await groupService.findGroupsByAProject(project.id);
-                setGroups(groupsPromise);
+                let owners: OtherUser[] = [];
+                for(let group of groupsPromise){
+                    let groupData = await groupService.findOne(group.id);
+                    owners.push(groupData.owner);
+                }
+                setOwners(owners);
             })()
         }, [project]);
 
@@ -29,7 +34,7 @@ export const
                 setSucess(true);
             } else if (project.owner.id === user.id) {
                 setSucess(true);
-            } else if (groups.find((g) => g.owner.id === user.id)){
+            } else if (owners.find((owner) => owner.id === user.id)){
                 setSucess(true);
             }
             else {
@@ -59,7 +64,7 @@ export const
                 }
 
             }
-        }, [user, project, groups]);
+        }, [user, project, owners]);
         return sucess;
 
     }

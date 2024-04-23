@@ -8,10 +8,9 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 interface Props {
     user: string;
     group: SimpleGroup;
-    project: Project
 }
 
-export const GroupComponent = ({ user, group, project}: Props) => {
+export const GroupComponent = ({ user, group}: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const [groupImage, setGroupImage] = useState('');
     const router = useRouter();
@@ -28,7 +27,7 @@ export const GroupComponent = ({ user, group, project}: Props) => {
      const deleteGroup = async () => {
         try {
             await groupService.delete(group.id);
-            router.push("/" + user + "/" + project.id);
+            router.push("/" + user);
         } catch (error) {
             console.error("Erro ao excluir o grupo:", error);
             alert("Erro ao excluir o grupo!");
