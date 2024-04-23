@@ -66,8 +66,8 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
 
   return (
-    <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
-      <Navigate modalPages={false} setCondition={setModalGroups} />
+    <> 
+    <Navigate modalPages={false} setCondition={setModalGroups} />
       <ProjectInformations project={project} />
 
       <div className="flex flex-col w-72 justify-center items-center h-4/6">
@@ -101,7 +101,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         <div className="h-min relative w-full flex justify-center pt-4 ">
           <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
           <button
-            className="h-10 w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+            className="h-10 w-full rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
             onClick={() =>
               global == "userGroups" ? addNewGroup() : setOpenModal(true)
             }
@@ -111,6 +111,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
           </button>
         </div>
       </div>
-    </span>
+    </>
   );
 };

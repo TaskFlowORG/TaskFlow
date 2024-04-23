@@ -72,30 +72,36 @@ export const ModalRegisterProperty = ({
   return (
     <>
       {open && (
-        <div className="h-1/6 w-full   flex flex-col justify-center items-center">
-          <div className="h-3/6 w-full flex flex-col">
-            <div className="h-full w-full border-b border-primary dark:border-secondary flex  items-center  justify-evenly gap-1">
-                <Info title={selected.toLowerCase()} text={selected.toLowerCase() + "-info"}  right/>
-              <SelectWithImage
-                list={[
-                  { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
-                  { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
-                  { value: TypeOfProperty.DATE, image: <IconCalendar /> },
-                  { value: TypeOfProperty.NUMBER, image: <IconNumber /> },
-                  { value: TypeOfProperty.PROGRESS, image: <IconProgress /> },
-                  { value: TypeOfProperty.RADIO, image: <IconRadio /> },
-                  { value: TypeOfProperty.SELECT, image: <IconSelect /> },
-                  { value: TypeOfProperty.TEXT, image: <IconText /> },
-
-                  { value: TypeOfProperty.USER, image: <IconUser /> },
-                  { value: TypeOfProperty.TIME, image: <IconClock /> },
-                ]}
-                selected={selected}
-                onChange={function (value: string): void {
-                  setSelected(value as TypeOfProperty);
-                  console.log(value.toString());
-                }}
+        <div className="h-min w-full   flex flex-col justify-center items-center">
+          <div className="h-min w-full flex flex-col">
+            <div className="h-16 w-full border-b-2 gap-2 border-primary-opacity dark:border-secondary-opacity flex  items-center  justify-evenly ">
+              <Info
+                title={selected.toLowerCase()}
+                text={selected.toLowerCase() + "-info"}
+                right
               />
+              <span className="w-16">
+                <SelectWithImage
+                  list={[
+                    { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
+                    { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
+                    { value: TypeOfProperty.DATE, image: <IconCalendar /> },
+                    { value: TypeOfProperty.NUMBER, image: <IconNumber /> },
+                    { value: TypeOfProperty.PROGRESS, image: <IconProgress /> },
+                    { value: TypeOfProperty.RADIO, image: <IconRadio /> },
+                    { value: TypeOfProperty.SELECT, image: <IconSelect /> },
+                    { value: TypeOfProperty.TEXT, image: <IconText /> },
+
+                    { value: TypeOfProperty.USER, image: <IconUser /> },
+                    { value: TypeOfProperty.TIME, image: <IconClock /> },
+                  ]}
+                  selected={selected}
+                  onChange={function (value: string): void {
+                    setSelected(value as TypeOfProperty);
+                    console.log(value.toString());
+                  }}
+                />
+              </span>
               <Input
                 register={{ ...register("name") }}
                 value={object.name}
@@ -127,7 +133,7 @@ export const ModalRegisterProperty = ({
               </button>
             </div>
           </div>
-          <p className=" w-full h-2/6 flex items-center p text-red-500  justify-center">
+          <p className=" w-full h-2/6 flex items-center text-p14 text-red-500  justify-center">
             {errors.name?.message}
           </p>
         </div>

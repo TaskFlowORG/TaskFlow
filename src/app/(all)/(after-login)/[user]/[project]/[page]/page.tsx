@@ -48,6 +48,7 @@ export default function Pages({
     setInPage(pageTemp.type != TypeOfPage.LIST);
   }, [params.page, project, project?.pages]);
 
+
   if (!user) return <></>;
   if (!page)
     return (

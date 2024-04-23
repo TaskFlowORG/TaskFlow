@@ -28,6 +28,7 @@ import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
 import { ContentModalProperty } from "../ContentModalProperty";
 import { set } from "zod";
+import { NeedPermission } from "../NeedPermission";
 
 type ModalPropertyProps = {
   property: Property;
@@ -81,14 +82,13 @@ export const ModalProperty = ({
       case "CHECKBOX":
         return <IconCheckbox />;
       case "USER":
-        return <IconUser/>;
+        return <IconUser />;
       case "TIME":
-        return <IconClock/>
+        return <IconClock />;
       default:
         break;
     }
   };
-
 
   return (
     <div
@@ -101,37 +101,45 @@ export const ModalProperty = ({
         text={property.name}
         icon={fnReturnImageProperty(property.type)}
         openOptions={openOptions}
+        fnClick={() => setOpenOptions(true)}
         fnOpenOptions={() => setOpenOptions(true)}
         openOptionsRef={ref}
         isHovering={isHovering}
+        hasButton
       >
         <div className="w-full h-[90%] flex flex-col justify-center items-center dark:bg-modal-grey">
-          <ContentModalProperty register={register} property={property} type={property.type}></ContentModalProperty>
+          <ContentModalProperty
+            register={register}
+            property={property}
+            type={property.type}
+          ></ContentModalProperty>
           <div className="h-min pb-2 w-[95%] flex justify-between">
-            <button
-              className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
-              onClick={() => {
-                setModalDelete(true);
-              }}
-            >
-              {" "}
-              <IconTrashBin />
-            </button>
-            <button
-              className="w-5 h-5/6 flex justify-center items-center rounded-sm"
-              onClick={() => {
-                try{
-                  upDateProperties(property, getValues());
-                  setOpenOptions(false);
-                  }catch(e){
-                    console.log(e)
-                }
-              }}
-            >
-              <IconSave />
-            </button>
-            
-            
+            <NeedPermission permission="delete">
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
+                onClick={() => {
+                  setModalDelete(true);
+                }}
+              >
+                {" "}
+                <IconTrashBin />
+              </button>
+            </NeedPermission>
+            <NeedPermission permission="update">
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm"
+                onClick={() => {
+                  try {
+                    upDateProperties(property, getValues());
+                    setOpenOptions(false);
+                  } catch (e) {
+                    console.log(e);
+                  }
+                }}
+              >
+                <IconSave />
+              </button>
+            </NeedPermission>
           </div>
         </div>
       </SideBarButton>
@@ -139,8 +147,8 @@ export const ModalProperty = ({
         <ModalDeleteProperty
           property={property}
           deleteProperty={deleteProperty}
-          close={()=>setModalDelete(false)}
-          closeProperty={()=>setOpenOptions(false)}
+          close={() => setModalDelete(false)}
+          closeProperty={() => setOpenOptions(false)}
         />
       )}
     </div>

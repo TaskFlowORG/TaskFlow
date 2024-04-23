@@ -9,7 +9,7 @@ import { IconMenuTaskProperty, IconPages } from "@/components/icons";
 import { PopUpModal } from "@/components/PopUpModal";
 import { PageContext } from "@/utils/pageContext";
 import { TaskModalContext } from "@/utils/TaskModalContext";
-import { Task, TaskOrdered, User } from "@/models";
+import { Page, Task, TaskOrdered, User } from "@/models";
 import { TaskModal } from "@/components/TaskModal";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { NeedPermission } from "@/components/NeedPermission";
@@ -25,7 +25,12 @@ export default function Layout({ params, children }: Props) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { user } = useContext(UserContext);
   const { task, setIsOpen, isOpen } = useContext(TaskModalContext);
-  const { inPage } = useContext(PageContext);
+  const { inPage, pageId, setInPage, setPageId } = useContext(PageContext);
+  const [page, setPage] = useState<Page>();
+
+  useEffect(() => {
+    setPage(project?.pages.find((p) => p.id === pageId));
+  }, [project, pageId]);
 
   useEffect(() => {
     (async () => {
@@ -84,7 +89,7 @@ export default function Layout({ params, children }: Props) {
         >
           <RegisterProperty
             project={project!}
-            properties={project?.properties ?? []}
+            page={page}
           />
         </SideModal>
         {children}
