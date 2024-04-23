@@ -67,14 +67,14 @@ export const SideBarButton = ({
           href={link ?? "#"}
           className="h-full w-full flex gap-4 flex-row items-center px-6"
         >
-          <div className="w-12 h-12 aspect-square flex justify-center items-center stroke-primary dark:stroke-secondary">
+          <div className="w-12 h-12 hidden sm:flex aspect-square justify-center items-center stroke-primary dark:stroke-secondary">
             {icon}
           </div>
           <p
             className={
               "p text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
               (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
-              (isHovering != undefined && isHovering && hasButton ? "w-[7rem]" : "w-[9rem]")
+              (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem]" : "smm:w-[6rem] sm:w-[9rem]")
             }
             onBlur={fnRename}
             onKeyDown={fnRename}

@@ -15,6 +15,7 @@ import {onConnect} from "@/services/webSocket/webSocketHandler";
 import { sourceMapsEnabled } from "process";
 import { notificationService } from "@/services/services/NotificationService";
 import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
+import { ErrorModal } from "../ErrorModal/ErrorModal";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -22,27 +23,28 @@ export const Header = ({
 }) => {
   const { user, setUser } = useContext(UserContext);
   const [showNotification, setShowNotification] = useState(false);
-  const [thereAreNotifications, setThereAreNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<NotificationModel[]>([]);
+  const [thereAreNotifications, setThereAreNotifications] = useState<boolean>(user?.notifications.find((notification) => !notification.visualized) ? true : false);
+  const [notifications, setNotifications] = useState<NotificationModel[]>(user?.notifications ?? []);
+
+  const [error, setError] = useState(false);
+  const [messageError, setMessageError] = useState("");
+  const [titleError, setTitleError] = useState("");
   
   useEffect(() => {
     if (!user?.notifications) return;
-    setThereAreNotifications( user?.notifications.find((notification) => !notification.visualized )
-        ? true
-        : false
-    );
-    setNotifications(user.notifications);
   }, [user]);
 
-  
+  const sound = new Audio("/Assets/sounds/pop.mp3");
   useEffect(() => {
-    onConnect(`/topic/${user!.id}`, (message) => {
+    console.log("play")
+    onConnect(`/notifications/${user!.id}`, (message) => {
       const notification = JSON.parse(message.body);
         setNotifications((prev) => [notification, ...prev]);
         setThereAreNotifications(true);
-
+        sound.play();
     });
   },[])
+
 
 
   const changeLanguage = async  (value: string) => {
@@ -135,6 +137,9 @@ export const Header = ({
                       <Notification
                         notification={notification}
                         fnClick={closeModal}
+                        setError={setError}
+                        setMessageError={setMessageError}
+                        setTitleError={setTitleError}
                       />
                       {index < notifications.length - 1 ? (
                         <div className="w-[90%] bg-primary h-px" />
@@ -149,6 +154,7 @@ export const Header = ({
           </div>
         </div>
       </div>
+      <ErrorModal condition={error} setCondition={setError} message={messageError} title ={titleError} fnOk={() => setError(false)}/>
     </div>
   );
 };

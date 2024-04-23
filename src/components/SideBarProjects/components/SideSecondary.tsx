@@ -21,9 +21,10 @@ interface Props {
   user: string;
   project?: Project;
   setModalPages: (value: boolean) => void;
+  setModalProjectGroups: (value: boolean) => void;
 }
 
-export const SideSecondary = ({ user, project, setModalPages }: Props) => {
+export const SideSecondary = ({ user, project, setModalPages, setModalProjectGroups }: Props) => {
   const [tasksTrash, setTasksTrash] = useState<Task[]>([]);
   const [modalTrash, setModalTrash] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -42,6 +43,8 @@ export const SideSecondary = ({ user, project, setModalPages }: Props) => {
   const { t } = useTranslation();
   return (
     <>
+                        <SideBarButton icon={<IconGroups />} text={t("projects-groups")} fnClick={() => setModalProjectGroups(true)} />
+
       <SideBarButton
         icon={<IconDashboard />}
         text={t("project")}

@@ -56,7 +56,7 @@ export const PageSide = (
   };
   return (
 
-    <div className="flex flex-col h-screen gap-10 pt-[4.5rem] relative p-4 bg-white dark:bg-modal-grey w-72 smm:w-96 px-8 smm:px-16 ">
+    <>
       <div className="w-full h-max flex flex-col gap-14">
         <Navigate modalPages setCondition={setModalPages} />
         <ProjectInformations project={project} />
@@ -89,7 +89,7 @@ export const PageSide = (
             </div>
           );
         })}
-        <div className="h-12 w-min absolute bottom-2">
+        <div className="h-12 w-32 smm:w-40 sm:w-64 absolute bottom-2">
 
           <If condition={merging}>
             <div className="flex justify-between w-full h-full">
@@ -119,7 +119,7 @@ export const PageSide = (
 
 
             <Button
-              width="w-64 "
+              width="w-full "
               text={t("add-page")}
               fnButton={() => setModal(!modal)}
               padding="p-2"
@@ -141,6 +141,6 @@ export const PageSide = (
           </LocalModal>
         </div>
       </div>
-    </div>
+    </>
   );
 };
