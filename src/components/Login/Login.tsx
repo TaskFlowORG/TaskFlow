@@ -66,8 +66,8 @@ export const Login = () => {
                             required classNameInput={"w-5/6  h-10 md:h-full outline-none px-5 dark:bg-modal-grey"} />
 
                         <div className="w-4/5 md:w-4/6 flex justify-between py-2">
-                            <p className={'font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary '}>Esqueceu sua senha?</p>
-                            <p className={'font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary '} onClick={() => route.push("/register")}>Registre-se!</p>
+                            <p className={'font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary '} onClick={() => route.push("/forgotPassword")}>Esqueceu sua senha?</p>
+                            <p className={'font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary '} onClick={() => route.push("/register")}>Registre-se!</p>
                         </div>
 
                         <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"}
