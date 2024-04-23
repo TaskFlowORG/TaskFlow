@@ -11,7 +11,6 @@ export const TextContent = () => {
             const response2 = await chatService.findAllPrivate()
             setMensagens([...response, ...response2]);
             console.log(response);
-            
         }
         getChats();
     }, []);

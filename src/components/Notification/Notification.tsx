@@ -75,6 +75,7 @@ export const Notification = ({
 
   const clickNotification = async () => {
     if (!setUser || !user) return;
+    console.log(notification.id)
     const updated = await notificationService.clickNotification(notification.id);
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});

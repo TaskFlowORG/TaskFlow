@@ -1,21 +1,24 @@
 import { TextContent } from "../TextContent/TextContent"
-import { Chat } from "@/models"
-import { useState, useEffect } from "react"
-import { chatService } from "@/services"
+import { Chat, Message } from "@/models"
+import { useState, useEffect, useContext } from "react"
+import { chatService } from "@/services";   
+import { UserContext } from "@/contexts/UserContext";
 
 
-export const ChatContent = ({ name, messages }: Chat) => {
 
-    const [mensagem, setMensagem] = useState('')
+export const ChatContent = ({name, messages, id }: Chat) => {
 
+    const [mensagem, setMensagem] = useState<Message>()
+    const {user, setUser} = useContext(UserContext)
+    
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
 
+
     async function enviarMensagem() {
-        //Só falta enviar a mensagem para o backend lidar com ela
-        //const response = await enviarMessage();
-        console.log(mensagem);
+        const response = await chatService.updateMessages(new Message(mensagem, user , ),id , undefined)
+        console.log(response)
     }
 
     function verificarStatus() {
