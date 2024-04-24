@@ -65,7 +65,7 @@ export const ChatContent = ({name, messages, id}: Chat) => {
                 <div className="flex w-full h-[67%] gap-3">
                     <div className="w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-full">
-                            <input id="inputMensagem" onChange={pegarMensagem} value={mensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..."/>
+                            <input id="inputMensagem" onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..."/>
                         </div>
                         <button className="w-[10%] h-full">
                             <img className="w-[50%] h-[50%]" src="/img/audio.svg" alt="" />
