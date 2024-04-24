@@ -606,7 +606,7 @@ select::-ms-expand {
 }
 
 #configurations:checked {
-  @apply bg-primary dark:bg-secondary border-none;
+  @apply bg-primary dark:bg-secondary border-none p-6;
 }
 #configurations {
   appearance: none;

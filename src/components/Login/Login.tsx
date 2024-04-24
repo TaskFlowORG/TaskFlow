@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useTheme } from "next-themes";
 import {Transition} from "../Transition";
+import { Dictophone } from "../Dictophone";
 
 const schema = z.object({
   username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
@@ -52,6 +53,7 @@ export const Login = () => {
           <h4 className="h4 leading-6 flex py-3 md:py-0">Acesse sua conta</h4>
 
           <div className="h-4/5 w-4/5 flex flex-col items-center justify-between">
+
             <Input
               className="inputRegister"
               image={iconUser}

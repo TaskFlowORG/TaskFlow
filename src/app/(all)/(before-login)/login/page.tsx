@@ -1,5 +1,6 @@
 "use client";
 
+import { Dictophone } from "@/components/Dictophone";
 import { Login } from "@/components/Login";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -33,7 +34,6 @@ export default function LoginPage() {
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
       <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center">
-
         <Login />
       </div>
     </div>

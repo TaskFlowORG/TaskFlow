@@ -1,4 +1,5 @@
 "use client";
+import 'regenerator-runtime/runtime'
 
 import "@/styles/global.css";
 import Providers from "@/services/Theme/providers";

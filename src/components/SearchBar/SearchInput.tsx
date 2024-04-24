@@ -2,6 +2,7 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { useContext, useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 import { Keyboard } from "../Keyboard";
+import { Dictophone } from "../Dictophone";
 type Props = {
   setIsModalOpen:(a: boolean) => void;
 }
@@ -37,7 +38,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
       />
       <div className="gap-3 flex">
         <Keyboard  setValue={(value:string) => setInput!(value)} />
-        <img src="/voice.svg" className="w-6 h-6 self-center " alt="" />
+        <Dictophone  setText={setInput!}/>
       </div>
     </div>
   );
