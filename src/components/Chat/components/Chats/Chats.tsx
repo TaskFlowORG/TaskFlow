@@ -9,7 +9,6 @@ export const Chats = ({ id, name, lastMessage, onChatClick }: Chat & { onChatCli
   //const total = hour + ":" + minutes;
 
   const setarChat = () => {
-    // Chamar a função de retorno de chamada com o ID do chat
     onChatClick(id);
     setChatClicado(chatClicado)
 

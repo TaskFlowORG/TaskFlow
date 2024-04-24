@@ -1,14 +1,12 @@
 import { TextContent } from "../TextContent/TextContent"
 import { Chat, Message } from "@/models"
-import { useState, useEffect, useContext } from "react"
-import { chatService } from "@/services";   
+import { useState, useEffect, useContext, use } from "react"
+import { chatService, userService } from "@/services";   
 import { UserContext } from "@/contexts/UserContext";
 
+export const ChatContent = ({name, messages, id}: Chat) => {
 
-
-export const ChatContent = ({name, messages, id }: Chat) => {
-
-    const [mensagem, setMensagem] = useState<Message>()
+    const [mensagem, setMensagem] = useState<string>("")
     const {user, setUser} = useContext(UserContext)
     
     const pegarMensagem = (event: any) => {
@@ -17,8 +15,7 @@ export const ChatContent = ({name, messages, id }: Chat) => {
 
 
     async function enviarMensagem() {
-        const response = await chatService.updateMessages(new Message(mensagem, user , ),id , undefined)
-        console.log(response)
+        const response = await chatService.updateMessages(id, new Message(mensagem, await userService.findByUsername("marquardt") , new Date(), [], ))
     }
 
     function verificarStatus() {
@@ -51,15 +48,15 @@ export const ChatContent = ({name, messages, id }: Chat) => {
                 </div>
                 <div className="h-[63vh] lg:h-[73.5vh] overflow-scroll">
                     <div className="flex w-full flex-col gap-5">
-                        {messages.map((mensagem) => (
-                            <TextContent key={mensagem.id} />
+                        {messages.map((mensagem, index) => (
+                            <TextContent message={mensagem} key={index} />
                         ))}
                     </div>
                 </div>
                 <div className="flex w-full h-[67%] gap-3">
                     <div className="w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-full">
-                            <input value={mensagem} onChange={pegarMensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
+                            <input onChange={pegarMensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                         </div>
                         <button className="w-[10%] h-full">
                             <img className="w-[50%] h-[50%]" src="/img/audio.svg" alt="" />

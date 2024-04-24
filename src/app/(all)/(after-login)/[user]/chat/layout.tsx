@@ -52,7 +52,6 @@ export default function ChatMessages({
       if (!user || !projects) return;
       const alreadyExistsGroups = await chatService.findAllGroup();
       const myGrous = await groupService.findGroupsByUser();
-      console.log("myGroups", alreadyExistsGroups);
 
       const possibleGroups = myGrous.filter(
         (g) => !alreadyExistsGroups.find((ag) => ag.group.id === g.id)
@@ -65,12 +64,10 @@ export default function ChatMessages({
       const groups = await groupService.findGroupsByUser();
         for (let group of groups) {
           const g = await groupService.findOne(group.id);
-          console.log("group", g.users);
           myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
         }
       
       //isso tirou os duplicados
-      console.log(myCoparticipants)
       myCoparticipants = myCoparticipants
         .filter((u) => u.id !== user.id)
         .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
@@ -87,7 +84,6 @@ export default function ChatMessages({
   const [searchNewChat, setSearchNewChat] = useState<string>("");
   const { t } = useTranslation();
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
-    console.log(chat);
     
     if (chat instanceof ChatGroupPost) {
       await chatService.saveGroup(chat);

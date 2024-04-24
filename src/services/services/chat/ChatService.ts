@@ -28,8 +28,8 @@ class ChatService {
     }
 
     async updateMessages(
-        message: Message,
         chatId: number,
+        message: Message,
         annex?: File,
     ): Promise<Message> {
         const formData = new FormData();

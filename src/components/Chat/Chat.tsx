@@ -3,7 +3,7 @@
 import { ChatContent } from "./components/ChatContent";
 import { useState, useEffect } from "react";
 import { chatService } from "@/services";
-import { Chat, NumberValued } from "@/models";
+import { Chat, NumberValued, OtherUser } from "@/models";
 type chattype = {
     chatId : number;
 }
@@ -15,7 +15,6 @@ export const Chatt = ( {chatId} : chattype) => {
         (async function getChats() {
             const response = await chatService.findAllGroup()
             const response2 = await chatService.findAllPrivate()
-            console.log(chatId);
             setChatContent([...response, ...response2].find(chat => chat.id === chatId));           
         })()
     }, [chatId]);
@@ -27,7 +26,6 @@ export const Chatt = ( {chatId} : chattype) => {
                     {
                         chatContent &&
                         <ChatContent
-                            
                             key={chatContent.id}
                             id={chatContent.id}
                             picture={chatContent.picture}
