@@ -37,22 +37,20 @@ export const Register = () => {
       .max(20, { message: t("register-name-max-characters") }),
     surname: z
       .string()
-      .min(3, { message: t("register-name-min-characters") })
-      .max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
+      .min(3, { message: t("register-surname-min-characters") })
+      .max(40, { message: t("register-surname-max-characters") }),
     username: z
       .string()
-      .min(3, { message: "Nome de usuário deve conter no mínimo 3 caracteres" })
-      .max(20, {
-        message: "Nome de usuário deve conter no máximo 20 caracteres",
-      }),
-    mail: z.string().email({ message: "Email inválido" }),
+      .min(3, { message: t("username-min") })
+      .max(20, { message: t("username-max"),}),
+    mail: z.string().email({ message: t("email-invalid") }),
     password: z
       .string()
-      .min(8, 'A senha deve ter pelo menos 8 caracteres.')
-      .regex(/[a-z]/, 'A senha deve conter pelo menos uma letra minúscula.')
-      .regex(/[A-Z]/, 'A senha deve conter pelo menos uma letra maiúscula.')
-      .regex(/[0-9]/, 'A senha deve conter pelo menos um número.')
-      .regex(/[^a-zA-Z0-9]/, 'A senha deve conter pelo menos um caractere especial.'),
+      .min(8, t("password-min"))
+      .regex(/[a-z]/, t("password-lowercase"))
+      .regex(/[A-Z]/, t("password-uppercase"))
+      .regex(/[0-9]/, t("password-number"))
+      .regex(/[^a-zA-Z0-9]/, t("password-special")),
     confirmPassword: z
       .string(),
   })
@@ -61,7 +59,7 @@ export const Register = () => {
       return values.password === values.confirmPassword;
     },
     {
-      message: "Senhas não coincidem.",
+      message: t("password-match"), 
       path: ["confirmPassword"],
     }
   );
@@ -90,7 +88,6 @@ type FormData = z.infer<typeof schema>;
 
 
   const onSubmit = async (data: UserData) => {
-    console.log("A MULEKE")
     try {
       const { username, name, surname, password, mail } = data;
       await userService.insert(new UserPost(new UserDetails(username, password), name, surname, mail));
@@ -111,7 +108,7 @@ type FormData = z.infer<typeof schema>;
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
       <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
+        <h4 className="h4 leading-6 flex py-2 md:py-0">{t("register")}</h4>
         <ProgressBar step={step} color={color}/>
         <form onSubmit={() => handleSubmit(onSubmit)}  className="h-4/5 w-4/5 flex flex-col items-center justify-between">
 
@@ -120,7 +117,7 @@ type FormData = z.infer<typeof schema>;
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome"
+                placeholder={t("register-name")}
                 value={user.name}
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
@@ -131,7 +128,7 @@ type FormData = z.infer<typeof schema>;
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu sobrenome"
+                placeholder={t("register-surname")}
                 value={user.surname}
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
@@ -147,7 +144,7 @@ type FormData = z.infer<typeof schema>;
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome de usuário"
+                placeholder={t("register-username")}
                 helperText={errors.username?.message}
                 value={user.username}
                 register={{ ...register("username") }}
@@ -157,7 +154,7 @@ type FormData = z.infer<typeof schema>;
               <Input
                 className="inputRegister"
                 image={iconMail}
-                placeholder="Digite seu email"
+                placeholder={t("register-email")}
                 value={user.mail}
                 helperText={errors.mail?.message}
                 register={{ ...register("mail") }}
@@ -173,7 +170,7 @@ type FormData = z.infer<typeof schema>;
                 className="inputRegister"
                 image={iconPassword}
                 type="password"
-                placeholder="Digite sua senha"
+                placeholder={t("register-password")}
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
                 required
@@ -182,7 +179,7 @@ type FormData = z.infer<typeof schema>;
               <Input
                 className="inputRegister"
                 image={iconPassword}
-                placeholder="Confirme sua senha"
+                placeholder={t("confirm-password")}
                 type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
@@ -196,22 +193,22 @@ type FormData = z.infer<typeof schema>;
           <div className="flex justify-between w-full mt-4">
             {step > 0 && (
               <button type="button" onClick={handlePrevStep} className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC] ">
-                Anterior
+                {t("back")}
               </button>
             )}
             {step < 2 && (
               <button type="button" onClick={handleNextStep} className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] ">
-                Próximo
+                {t("next")}
               </button>
             )}
             {step === 2 && (
                 <button type="submit" className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC]">
-                Entrar
+                {t("register")}
               </button>
             )}
           </div>
           <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]" onClick={() => router.push("/login")}>
-            Já possui uma conta?
+            {t("already-have-account")}
           </p>
         </form>
       </div>

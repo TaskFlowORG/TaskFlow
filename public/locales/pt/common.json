@@ -38,5 +38,26 @@
         "name-property-max-characters" : "Nome da propriedade deve ter no máximo 50 caracteres",
         "register-name-min" : "Nome deve conter no mínimo 3 caracteres.",
         "register-name-max-characters" : "Nome deve conter no máximo 20 caracteres.",
-        "register-surname-min-characters" : "Sobrenome deve conter no mínimo 3 caracteres."
+        "register-surname-min-characters" : "Sobrenome deve conter no mínimo 3 caracteres.",
+        "register-surname-max-characters" : "Sobrenome deve conter no máximo 40 caracteres.",
+        "username-min": "Nome de usuário deve conter no mínimo 3 caracteres.",
+        "username-max": "Nome de usuário deve conter no máximo 20 caracteres.",
+        "email-invalid": "Email inválido.",
+        "password-min": "Senha deve conter no mínimo 6 caracteres.",
+        "password-lowercase": "Senha deve conter pelo menos uma letra minúscula.",
+        "password-uppercase": "Senha deve conter pelo menos uma letra maiúscula.",
+        "password-number": "Senha deve conter pelo menos um número.",
+        "password-special": "Senha deve conter pelo menos um caractere especial.",
+        "password-match": "Senhas não coincidem.",
+        "register-name": "Digite seu nome",
+        "register-surname": "Digite seu sobrenome",
+        "register-username": "Digite seu nome de usuário",
+        "register-email": "Digite seu email",
+        "register-password": "Digite sua senha",
+        "confirm-password": "Confirme sua senha",
+        "back": "Voltar",
+        "next": "Próximo",
+        "register": "Cadastrar",
+        "already-have-account": "Já possui uma conta?"
+
 }
