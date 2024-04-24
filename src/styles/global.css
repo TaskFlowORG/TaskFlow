@@ -601,6 +601,10 @@ select::-ms-expand {
   --swiper-navigation-sides-offset: 0px;
 }
 
+.simple-keyboard{
+  @apply bg-white dark:bg-modal-grey text-modal-grey;
+}
+
 #configurations:checked {
   @apply bg-primary dark:bg-secondary border-none;
 }
