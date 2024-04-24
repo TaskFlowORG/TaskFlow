@@ -299,13 +299,6 @@ select {
 select::-ms-expand {
   display: none;
 }
-
-* {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke 150ms ease-in-out;
-  transition-duration: 150ms;
-}
-
 @keyframes custom-pulse {
   0% {
     opacity: 1;
@@ -608,8 +601,12 @@ select::-ms-expand {
   --swiper-navigation-sides-offset: 0px;
 }
 
+.simple-keyboard{
+  @apply bg-white dark:bg-modal-grey text-modal-grey;
+}
+
 #configurations:checked {
-  @apply bg-primary dark:bg-secondary border-none;
+  @apply bg-primary dark:bg-secondary border-none p-6;
 }
 #configurations {
   appearance: none;
