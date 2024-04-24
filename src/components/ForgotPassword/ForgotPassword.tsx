@@ -28,24 +28,9 @@ export const ForgotPassword = () => {
 
    
 
-    // const sendEmail = async () => {
-    //     const OTP = Math.floor(Math.random() * 9000 + 1000);
-    //     setOtp(OTP);
-
-    //     const email = {
-    //         from: "helofogaca2015@gmail.com",
-    //         to: user.email,
-    //         subject: "Redefinir senha",
-    //         text: `Um pedido de mudança de senha foi pedido neste endereço de email\nSeu código de verificação é: ${OTP}\nCaso não tenha sido você, desconsidere esta mensagem.`
-    //     };
-
-    //     try {
-    //         await transporter.sendMail(email);
-    //         console.log('Email enviado com sucesso!');
-    //     } catch (error) {
-    //         console.error('Erro ao enviar email:', error);
-    //     }
-    // };
+     const sendEmail = async () => {
+        
+     };
 
     const iconMail = theme === "light" ? "/img/themeLight/mail.svg" : "/img/themeDark/mail.svg";
 
