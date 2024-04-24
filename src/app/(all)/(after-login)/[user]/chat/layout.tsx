@@ -12,14 +12,17 @@ import { ProjectsContext } from "@/contexts";
 import { LocalModal } from "@/components/Modal";
 import { useTranslation } from "next-i18next";
 import { log } from "console";
+import { useRouter } from "next/navigation";
 
-export default function RootLayout({
+export default function ChatMessages({
   children,
   params,
 }: {
   children: React.ReactNode;
   params: { chatId: string };
 }) {
+  
+  const route = useRouter();
   const [listaChats, setListaChats] = useState<Chat[]>([]);
   const [searchin, setSearching] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
@@ -29,7 +32,8 @@ export default function RootLayout({
   const { projects } = useContext(ProjectsContext);
 
   const handleChatClick = (chatId: number) => {
-    console.log("Chat clicado:", chatId);
+    route.replace(`/${user?.username}/chat/${chatId}`);
+  
   };
 
   useEffect(() => {
@@ -42,12 +46,12 @@ export default function RootLayout({
   }, []);
 
   const { user } = useContext(UserContext);
+
   useEffect(() => {
     (async () => {
       if (!user || !projects) return;
       const alreadyExistsGroups = await chatService.findAllGroup();
       const myGrous = await groupService.findGroupsByUser();
-      console.log("myGroups", alreadyExistsGroups);
 
       const possibleGroups = myGrous.filter(
         (g) => !alreadyExistsGroups.find((ag) => ag.group.id === g.id)
@@ -57,14 +61,12 @@ export default function RootLayout({
       );
       const alreadyExistsPrivates = await chatService.findAllPrivate();
       let myCoparticipants = projects.map((p) => p.owner);
-      for (let project of projects) {
-        const groups = await groupService.findGroupsByAProject(project.id);
+      const groups = await groupService.findGroupsByUser();
         for (let group of groups) {
           const g = await groupService.findOne(group.id);
-          console.log("group", g.users);
           myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
         }
-      }
+      
       //isso tirou os duplicados
       myCoparticipants = myCoparticipants
         .filter((u) => u.id !== user.id)
@@ -82,10 +84,11 @@ export default function RootLayout({
   const [searchNewChat, setSearchNewChat] = useState<string>("");
   const { t } = useTranslation();
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
+    
     if (chat instanceof ChatGroupPost) {
       await chatService.saveGroup(chat);
     } else {
-      await chatService.savePrivate(chat);
+      await chatService.savePrivate(chat , chat.users[0].id);
     }
     setCreatingChat(false);
   };
@@ -127,7 +130,7 @@ export default function RootLayout({
                   }`}
                 >
                   <div
-                    onClick={() => setSearching(true)}
+                    onClick={() => setSearching(!searchin)}
                     className={` cursor-pointer flex items-center justify-center  w-10 h-10 bg-primary 
                                 ${!searchin ? "rounded-full" : "rounded-l-lg"}`}
                   >
@@ -147,7 +150,7 @@ export default function RootLayout({
                     />
                   </div>
                 </div>
-                <span className="w-min h-min relative">
+                <span className="relative justify-center duration-200  w-20">
                   <button
                     className="w-10 h-10 bg-primary rounded-full dark:bg-secondary p-2 rotate-45 relative"
                     onClick={() => setCreatingChat(!creatingChat)}

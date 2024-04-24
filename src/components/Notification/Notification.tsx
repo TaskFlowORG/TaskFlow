@@ -83,6 +83,7 @@ export const Notification = ({
 
   const clickNotification = async () => {
     if (!setUser || !user) return;
+
      await notificationService.clickNotification(notification.id).catch((e) => {
         if(e.response.status == 409){
           console.log("ALOU")
