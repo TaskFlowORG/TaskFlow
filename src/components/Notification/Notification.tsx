@@ -17,13 +17,21 @@ import { IconTrashBin } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { notificationService } from "@/services/services/NotificationService";
 import {useRouter} from "next/navigation";
+import { ErrorModal } from "../ErrorModal";
 
 export const Notification = ({
   notification,
   fnClick,
+  setError, 
+  setMessageError,
+  setTitleError
 }: {
   notification: NotificationModel;
   fnClick?: () => void;
+  setError: (value: boolean) => void;
+  setMessageError: (value: string) => void;
+  setTitleError: (value: string) => void;
+
 }) => {
   const [link, setLink] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
@@ -75,8 +83,15 @@ export const Notification = ({
 
   const clickNotification = async () => {
     if (!setUser || !user) return;
-    console.log(notification.id)
-    const updated = await notificationService.clickNotification(notification.id);
+
+     await notificationService.clickNotification(notification.id).catch((e) => {
+        if(e.response.status == 409){
+          console.log("ALOU")
+          setError(true);
+          setMessageError("Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o.");
+          setTitleError("Convite já aceito");
+        }
+    });
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
   };
@@ -84,7 +99,6 @@ export const Notification = ({
   const handleClick = async () => {
     clickNotification();
     fnClick && fnClick();
-    router.push(link);
     if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
       setIsOpen && setIsOpen(true);
       const task = (project?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == idTask)?.task);

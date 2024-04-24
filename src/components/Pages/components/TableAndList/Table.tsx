@@ -48,7 +48,7 @@ export const Table = ({ page }: Props) => {
 
   return (
     <DragDropContext 
-
+    
       onDragEnd={e => updateIndexes(e, list, setList, project)}   
     >
             <div className="h-full w-min min-w-full flex">

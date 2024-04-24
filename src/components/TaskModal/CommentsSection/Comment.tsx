@@ -5,7 +5,8 @@ import { twMerge } from "tailwind-merge";
 import { IconTrashBin } from "@/components/icons/Slidebarprojects/IconTrashBin";
 import { IconSave } from "@/components/icons/Slidebarprojects/IconSave";
 import { EditIcon } from "@/components/icons/PageOtpions/Edit";
-import { IconPlus } from "../icons/GeneralIcons/IconPlus";
+import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
+import { useTranslation } from "next-i18next";
 
 type CommentType = {
   sender: OtherUser;
@@ -14,7 +15,7 @@ type CommentType = {
   user: User;
   updatedAt?: string;
   commentId: number;
-  updatedComment: (commentId: number, updatedValue: string) => void;
+  updateComment: (commentId: number, updatedValue: string) => void;
   deleteComment: (commentId: number) => void;
 };
 
@@ -25,7 +26,7 @@ export const Comment = ({
   user,
   updatedAt,
   commentId,
-  updatedComment,
+  updateComment,
   deleteComment,
 }: CommentType) => {
   const [options, setOptions] = useState(false);
@@ -33,6 +34,8 @@ export const Comment = ({
   const [deleting, setDeleting] = useState(false);
   const [commentUpdate, setCommentUpdate] = useState("");
   const commentRef = useRef<any>(null);
+
+  const {t} = useTranslation()
   const containerComment = twMerge(
     "flex flex-col gap-1 relative",
     sender.username == user?.username ? "items-end" : ""
@@ -72,6 +75,7 @@ export const Comment = ({
     return n < 10 ? "0" + n : n.toString();
   }
 
+
   return (
     <div
       onMouseOver={() =>
@@ -87,7 +91,7 @@ export const Comment = ({
           contentEditable={editing}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              updatedComment(commentId, commentRef.current.innerText);
+              updateComment(commentId, commentRef.current.innerText);
               setEditing(false);
             }
           }}
@@ -98,7 +102,7 @@ export const Comment = ({
         {options && !editing && (
           <div className="flex  items-center gap-1 ">
             <div
-              className="w-3 aspect-square"
+              className="w-3 aspect-square stroke-black dark:stroke-white"
               onClick={() => {
                 commentRef?.current?.focus();
 
@@ -112,8 +116,8 @@ export const Comment = ({
               onClick={() => {
                 setDeleting(true);
                 setOptions(false);
-                commentRef.current.innerText =
-                  "Você deseja mesmo deletar esse comentário?";
+                commentRef.current.innerText = t('delete-comment')
+                  ;
               }}
             >
               <IconTrashBin></IconTrashBin>
@@ -137,7 +141,7 @@ export const Comment = ({
               className="w-3 aspect-square"
               onClick={() => {
                 if (editing) {
-                  updatedComment(commentId, commentRef.current.innerText);
+                  updateComment(commentId, commentRef.current.innerText);
                 } else {
                   deleteComment(commentId);
                 }
@@ -156,10 +160,10 @@ export const Comment = ({
         )}
 
         <p className="text-[12px] font-montserrat text-[#343434] dark:text-[#f2f2f2]">
-          {updatedAt && "Editada - "}
+          {updatedAt && t('edited')+" - "}
           {!(user.username == sender.username)
             ? sender?.username
-            : "Você"} - {formatarHorario(date!)}
+            : t('you')} - {formatarHorario(date!)}
         </p>
       </div>
     </div>
