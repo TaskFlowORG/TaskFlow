@@ -1,5 +1,5 @@
 import { TextContent } from "../TextContent/TextContent"
-import { Chat, Message } from "@/models"
+import { Chat, Message, OtherUser } from "@/models"
 import { useState, useEffect, useContext, use } from "react"
 import { chatService, userService } from "@/services";   
 import { UserContext } from "@/contexts/UserContext";
@@ -8,14 +8,20 @@ export const ChatContent = ({name, messages, id}: Chat) => {
 
     const [mensagem, setMensagem] = useState<string>("")
     const {user, setUser} = useContext(UserContext)
-    
+
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
 
 
     async function enviarMensagem() {
-        const response = await chatService.updateMessages(id, new Message(mensagem, await userService.findByUsername("marquardt") , new Date(), [], ))
+        if (mensagem != ""){
+            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser) , new Date(), [], ))
+            setMensagem("")
+        }
+        else{
+            alert("Mensagem vazia")
+        }
     }
 
     function verificarStatus() {
@@ -47,7 +53,10 @@ export const ChatContent = ({name, messages, id}: Chat) => {
                     </div>
                 </div>
                 <div className="h-[63vh] lg:h-[73.5vh] overflow-scroll">
-                    <div className="flex w-full flex-col gap-5">
+                    <div className="flex  w-full flex-col gap-5">
+                        <div className="flex justify-center py-5 p text-primary">
+                            <p>Este é o começo de sua conversa com {name} </p>
+                        </div>
                         {messages.map((mensagem, index) => (
                             <TextContent message={mensagem} key={index} />
                         ))}
@@ -56,7 +65,7 @@ export const ChatContent = ({name, messages, id}: Chat) => {
                 <div className="flex w-full h-[67%] gap-3">
                     <div className="w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-full">
-                            <input onChange={pegarMensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
+                            <input id="inputMensagem" onChange={pegarMensagem} value={mensagem} className="p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..."/>
                         </div>
                         <button className="w-[10%] h-full">
                             <img className="w-[50%] h-[50%]" src="/img/audio.svg" alt="" />
