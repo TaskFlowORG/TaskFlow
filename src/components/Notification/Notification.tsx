@@ -2,8 +2,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { userService } from "@/services";
 import Link from "next/link";
-import {  MouseEventHandler, useContext, useEffect, useState } from "react";
-import { set } from "zod";
+import {  useContext, useEffect, useState } from "react";
 import { NotificationIcon, NotificationTitle } from "./components";
 import { If } from "../If";
 import { TaskModalContext } from "@/utils/TaskModalContext";
@@ -81,7 +80,8 @@ export const Notification = ({
         return t("notification-invite", {aux:notification.aux})};
   };
 
-  const clickNotification = async () => {
+  const clickNotification = async (e:any) => {
+    e.stopPropagation()
     if (!setUser || !user) return;
 
      await notificationService.clickNotification(notification.id).catch((e) => {
@@ -96,8 +96,12 @@ export const Notification = ({
     setUser({...user});
   };
 
-  const handleClick = async () => {
-    clickNotification();
+  const handleClick = async (e:any) => {
+    console.log("not stoped")
+    if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
+      clickNotification(e);
+    }
+
     fnClick && fnClick();
     if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
       setIsOpen && setIsOpen(true);
@@ -133,7 +137,7 @@ export const Notification = ({
       <span className="w-min h-full flex flex-col gap-1 justify-between">
 
       <If condition={notification.type == TypeOfNotification.ADDINGROUP || notification.type == TypeOfNotification.INVITETOPROJECT}>
-      <button onClick={clickNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconSave classes="text-contrast"/></button>
+      <span onMouseDown={clickNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconSave classes="text-contrast"/></span>
       </If>
       <button onMouseUp={deleteNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconTrashBin/></button>
       </span>

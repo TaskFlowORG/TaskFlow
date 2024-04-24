@@ -37,12 +37,15 @@ export const Header = ({
   const sound = new Audio("/Assets/sounds/pop.mp3");
   useEffect(() => {
     console.log("play")
-    onConnect(`/notifications/${user!.id}`, (message) => {
+    const conection = onConnect(`/notifications/${user!.id}`, (message) => {
       const notification = JSON.parse(message.body);
         setNotifications((prev) => [notification, ...prev]);
         setThereAreNotifications(true);
         sound.play();
     });
+    return () => {
+      conection.disconnect();
+    }
   },[])
 
 

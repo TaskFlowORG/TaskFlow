@@ -13,6 +13,8 @@ import { LocalModal } from "@/components/Modal";
 import { useTranslation } from "next-i18next";
 import { log } from "console";
 import { useRouter } from "next/navigation";
+import { onConnect } from "@/services/webSocket/webSocketHandler";
+import { ChatsContext } from "@/contexts/ChatsContext";
 
 export default function ChatMessages({
   children,
@@ -21,7 +23,7 @@ export default function ChatMessages({
   children: React.ReactNode;
   params: { chatId: string };
 }) {
-  
+
   const route = useRouter();
   const [listaChats, setListaChats] = useState<Chat[]>([]);
   const [searchin, setSearching] = useState<boolean>(false);
@@ -33,8 +35,21 @@ export default function ChatMessages({
 
   const handleChatClick = (chatId: number) => {
     route.replace(`/${user?.username}/chat/${chatId}`);
-  
+
   };
+
+
+  useEffect(() => {
+    if (!listaChats) return;
+    // Establish WebSocket connection and subscribe to chat channel
+    const conect = onConnect(`/private`, (chat) => {
+      const listaChatsTemp = JSON.parse(chat.body);
+      setListaChats(prev => [...prev, listaChatsTemp]);
+    });
+    return () => {
+      conect.disconnect();
+    }
+  }, [listaChats]);
 
   useEffect(() => {
     async function buscarChats() {
@@ -62,11 +77,11 @@ export default function ChatMessages({
       const alreadyExistsPrivates = await chatService.findAllPrivate();
       let myCoparticipants = projects.map((p) => p.owner);
       const groups = await groupService.findGroupsByUser();
-        for (let group of groups) {
-          const g = await groupService.findOne(group.id);
-          myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
-        }
-      
+      for (let group of groups) {
+        const g = await groupService.findOne(group.id);
+        myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
+      }
+
       //isso tirou os duplicados
       myCoparticipants = myCoparticipants
         .filter((u) => u.id !== user.id)
@@ -83,12 +98,17 @@ export default function ChatMessages({
   const [creatingChat, setCreatingChat] = useState<boolean>(false);
   const [searchNewChat, setSearchNewChat] = useState<string>("");
   const { t } = useTranslation();
+
+
+
+
+
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
-    
+
     if (chat instanceof ChatGroupPost) {
       await chatService.saveGroup(chat);
     } else {
-      await chatService.savePrivate(chat , chat.users[0].id);
+      await chatService.savePrivate(chat, chat.users[0].id);
     }
     setCreatingChat(false);
   };
@@ -125,9 +145,8 @@ export default function ChatMessages({
               </div>
               <span className="flex w-min">
                 <div
-                  className={`flex justify-center duration-200  ${
-                    searchin ? "w-full" : "w-20"
-                  }`}
+                  className={`flex justify-center duration-200  ${searchin ? "w-full" : "w-20"
+                    }`}
                 >
                   <div
                     onClick={() => setSearching(!searchin)}
@@ -211,18 +230,18 @@ export default function ChatMessages({
                 ) : (
                   filteredChats
                     .map((chat) => (
-                      <Chats
-                        key={chat.id}
-                        id={chat.id}
-                        name={chat.name}
-                        messages={chat.messages}
-                        picture={chat.picture}
-                        quantityUnvisualized={chat.quantityUnvisualized}
-                        lastMessage={chat.lastMessage}
-                        type={chat.type}
-                        equals={chat.equals}
-                        onChatClick={handleChatClick}
-                      />
+                        <Chats
+                          key={chat.id}
+                          id={chat.id}
+                          name={chat.name}
+                          messages={chat.messages}
+                          picture={chat.picture}
+                          quantityUnvisualized={chat.quantityUnvisualized}
+                          lastMessage={chat.lastMessage}
+                          type={chat.type}
+                          equals={chat.equals}
+                          onChatClick={handleChatClick}
+                        />
                     ))
                 )}
               </div>
