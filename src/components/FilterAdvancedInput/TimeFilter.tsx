@@ -10,6 +10,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import Image from "next/image";
+import { DateTimelines } from "@/models/values/DateTimelines";
 
 interface Props {
   id: number;
@@ -63,9 +65,11 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   // Timestamp em segundos
 
   useEffect(() => {
+
+
     console.log(value);
     if (value?.starts?.length > value?.ends?.length) {
-      const date = new Date(value.starts[value.starts.length - 1]);
+      const date = new Date(value.starts[value.starts.length - 1].date);
       date.setHours(date.getHours() - 3);
       const data1 = date.getTime();
       console.log("data 1", new Date(data1));
@@ -148,12 +152,15 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   }
 
   const now = () => {
-    return new Date(Date.now()).toJSON().slice(0, -1);
+    //  let date = new Date(Date.now()).toJSON().slice(0, -1);
+    let date = new Date(Date.now());
+    date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
+    return date.toJSON().slice(0, -1);
   };
 
   const handleClickPause = () => {
     setPlay(false);
-    value.ends.push(now());
+    value.ends.push(new DateTimelines(now()));
     console.log(value.time);
     if (value.time) {
       value.time.hours = hours;
@@ -162,6 +169,8 @@ export const TimeFilter = ({ value, task, id }: Props) => {
     } else {
       value.time = new Duration(seconds, minutes, hours, null);
     }
+
+    console.log(value);
 
     let taskReturned = taskService.upDate(task, project!.id);
     console.log(taskReturned);
@@ -173,7 +182,7 @@ export const TimeFilter = ({ value, task, id }: Props) => {
     value.time.seconds = 0;
     setHours(value.time.hours);
     setMinutes(value.time.minutes);
-    setSeconds(value.time.seconds);
+    setSeconds(Math.floor(value.time.seconds));
     let taskReturned = taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
@@ -183,13 +192,13 @@ export const TimeFilter = ({ value, task, id }: Props) => {
     if (value?.starts == null) {
       value.starts = [];
     }
-    value.starts.push(now());
+    value.starts.push(new DateTimelines(now()));
+    console.log(value);
     let taskReturned = taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
 
   useEffect(() => {
-    console.log("OASDAJSHDJKASD " + value);
     const intervalId = setInterval(() => {
       calcsTimes(1);
     }, 1000);
@@ -210,9 +219,11 @@ export const TimeFilter = ({ value, task, id }: Props) => {
         {!play && (
           <div
             onClick={handleClickPlay}
-            className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+            className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
           >
-            P
+            <div className="h-[10px] aspect-square relative">
+              <Image src={"/play.svg"} alt="Play" fill></Image>
+            </div>
           </div>
         )}
 
@@ -221,7 +232,9 @@ export const TimeFilter = ({ value, task, id }: Props) => {
             onClick={handleClickPause}
             className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
           >
-            Ps
+            <div className="h-[10px] aspect-square relative">
+              <Image src={"/pause.svg"} alt="pause" fill></Image>
+            </div>
           </div>
         )}
 
@@ -230,7 +243,7 @@ export const TimeFilter = ({ value, task, id }: Props) => {
             className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
             onClick={handleClickRestart}
           >
-            R
+            <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
           </div>
         )}
       </div>
