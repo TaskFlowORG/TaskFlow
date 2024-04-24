@@ -1,31 +1,36 @@
-
-"use client"
+"use client";
 
 import { Login } from "@/components/Login";
 import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useContext, useEffect } from "react";
 
-export default function Home() {
-    const { theme, setTheme } = useTheme();
+export default function LoginPage() {
+  const { theme } = useTheme();
 
-    const imgLogin = theme === "light" ? <img src="/img/themeLight/Login.png"/> : <img src="/img/themeDark/Login.png"/>;
+  const imgLogin =
+    theme === "light" ? (
+      <img src="/img/themeLight/Login.png" />
+    ) : (
+      <img src="/img/themeDark/Login.png" />
+    );
 
-      return (
-        <div className="w-full h-full ">
-            <div className="fixed z-[-1] bottom-0 right-0 hidden md:flex">
-                {imgLogin}
-            </div>
-            <div className="flex fixed z-50 top-1 md:left-1/2 hidden md:flex">
-                <img src="/img/MiddleRegister.png"/>
-            </div>
-            <div className="flex fixed md:hidden">
-                <img src="/img/themeLight/RegisterPhone.png"/>
-            </div>
-            <div>
-                <img className="fixed z-[-1] bottom-0 left-0 hidden lg:flex" src="/img/themeLight/SideLogin.png" />
-            </div>
-            <div className="flex w-full h-full">
-                <Login/>
-            </div>
-        </div>
-    )
+  return (
+    <div className="w-screen h-screen flex fixed register" id="login">
+      <div className="fixed -bottom-[2200px]  -right-[1900px]  h-[3500px] w-[3500px]">
+        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
+      </div>
+      <div className="fixed -top-[150px] rotate-180 left-1/3  h-[300px] w-[300px]">
+        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
+      </div>
+      <div className="flex fixed md:hidden" />
+
+      <div className="fixed -bottom-[100px]  -left-[200px] h-[500px] w-[500px]">
+        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
+      </div>
+      <div className="flex">
+        <Login />
+      </div>
+    </div>
+  );
 }

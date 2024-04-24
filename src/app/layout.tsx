@@ -37,7 +37,7 @@ export default function RootLayout({ children, text }: Props) {
       </Head>
       <UserContext.Provider value={{ user, setUser }}>
         <LanguageProvider>
-          <I18nextProvider i18n={i18next}>
+          <I18nextProvider i18n={i18next } >
             <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
               {user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
               {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
