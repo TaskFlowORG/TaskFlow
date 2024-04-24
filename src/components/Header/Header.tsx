@@ -1,5 +1,4 @@
 import { UserContext } from "@/contexts/UserContext";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
@@ -8,13 +7,10 @@ import { Notification } from "../Notification";
 import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
-import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import Image from "next/image";
 import {onConnect} from "@/services/webSocket/webSocketHandler";
-import { sourceMapsEnabled } from "process";
 import { notificationService } from "@/services/services/NotificationService";
-import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
 import { ErrorModal } from "../ErrorModal/ErrorModal";
 export const Header = ({
   setSidebarOpen,
@@ -23,8 +19,8 @@ export const Header = ({
 }) => {
   const { user, setUser } = useContext(UserContext);
   const [showNotification, setShowNotification] = useState(false);
-  const [thereAreNotifications, setThereAreNotifications] = useState<boolean>(user?.notifications.find((notification) => !notification.visualized) ? true : false);
-  const [notifications, setNotifications] = useState<NotificationModel[]>(user?.notifications ?? []);
+  const [thereAreNotifications, setThereAreNotifications] = useState<boolean>(user?.notifications ? user.notifications.find((notification) => !notification.visualized) ? true : false : false);
+  const [notifications, setNotifications] = useState<NotificationModel[]>(user?.notifications ? user.notifications ?? [] : []);
 
   const [error, setError] = useState(false);
   const [messageError, setMessageError] = useState("");
