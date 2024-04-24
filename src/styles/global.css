@@ -299,13 +299,6 @@ select {
 select::-ms-expand {
   display: none;
 }
-
-* {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke 150ms ease-in-out;
-  transition-duration: 150ms;
-}
-
 @keyframes custom-pulse {
   0% {
     opacity: 1;
