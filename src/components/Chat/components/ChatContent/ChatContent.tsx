@@ -63,7 +63,7 @@ export const ChatContent = ({name, messages, id}: Chat) => {
                     </div>
                 </div>
                 <div className="flex w-full h-[67%] gap-3">
-                    <div className="w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
+                    <div className=" w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-full">
                             <input id="inputMensagem" onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..."/>
                         </div>
