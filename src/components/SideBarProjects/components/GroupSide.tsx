@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from 'next/navigation';
 import { groupService, permissionService } from "@/services";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     project: Project;
@@ -15,7 +16,7 @@ interface Props {
 
 
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
-    const [groups, setGroups] = useState<Group[]>([]);
+    const [groups, setGroups] = useState<SimpleGroup[]>([]);
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const router = useRouter();
 
@@ -25,7 +26,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     const fetchData = async () => {
         try {
-            let fetchedGroups: Group[];
+            let fetchedGroups: SimpleGroup[];
 
             if (global === "userGroups") {
                 fetchedGroups = await groupService.findGroupsByUser();
@@ -73,7 +74,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
                                     <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
-                                        <GroupComponent user={user} group={group} project={project}/>
+                                        <GroupComponent user={user} groupId={group} project={project}/>
                                     </button>
                                 </div>
                             ))}
