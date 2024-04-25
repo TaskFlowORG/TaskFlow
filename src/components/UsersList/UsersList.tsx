@@ -86,9 +86,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     try {
       let newGroup;
       if (group != null) {
-        group?.users.push(user);
-        newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
-        await groupService.update(newGroup, group.id);
+        await groupService.inviteUser(group.id, user.id);
         fetchData();
       }
     } catch (error) {

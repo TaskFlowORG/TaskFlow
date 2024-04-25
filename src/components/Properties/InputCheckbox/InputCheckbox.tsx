@@ -7,14 +7,15 @@ type InputCheckBoxProps = InputHTMLAttributes<HTMLInputElement> & {
     image?: string;
     helperText?: string;
     register: any;
+    
 };
 
-export const InputCheckbox = ( {label, image, helperText, register}: InputCheckBoxProps) => {
+export const InputCheckbox = ( {label, image, helperText, register, disabled}: InputCheckBoxProps) => {
 
     const [isChecked, setIsChecked] = useState<boolean>(false);
     return (
-        <div className=" h-min flex items-center w-full gap-2" title={label}>
-            <input type="checkbox" className="w-8 aspect-square accent-primary dark:accent-secondary border-primary border-2 bg-grey" {...register}  />
+        <div className=" h-min flex items-center w-full gap-2" title={label} >
+            <input disabled={disabled} type="checkbox" className="w-8 aspect-square accent-primary dark:accent-secondary border-primary border-2 bg-grey" {...register}  />
             
             <label className="truncate w-full">{label}</label>
         </div>

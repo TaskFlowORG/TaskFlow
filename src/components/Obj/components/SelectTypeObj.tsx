@@ -1,3 +1,4 @@
+import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { archiveToSrc } from "@/functions";
 import { OtherUser, TaskPage } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
@@ -73,10 +74,10 @@ export const SelectTypeObj = ({
     );
   } else if (isString) {
     if ((o as string) == "+") {
-        console.log("sjhdjlkf")
       return (
         <div className={classes + " relative"} style={{ backgroundColor: o }}>
-        <p className="absolute -top-2">+</p>
+        <p className="absolute top-0 h-full w-full rotate-45 p-1" >            <IconPlus />
+</p>
           <input
              type="color"
             onChange={(e) => functionObj(e.target.value)}

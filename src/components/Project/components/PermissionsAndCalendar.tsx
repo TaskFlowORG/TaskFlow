@@ -99,7 +99,7 @@ export const PermissionsAndCalendar = () => {
   const postPermission = async () => {
     if (!project) return;
     const permission = await permissionService.insert(
-      new PermissionPost("", TypePermission.READ, project),
+      new PermissionPost("", TypePermission.READ, false, project),
       project?.id
     );
     setPermissions([...permissions, permission]);
@@ -148,7 +148,7 @@ export const PermissionsAndCalendar = () => {
           <>
             <span className="flex flex-col">
               <select
-                className="w-32 flex text-center h-8 border-primary judtify-center border-2 "
+                className="w-full flex text-center p-1 h-min text-primary  dark:text-secondary "
                 onChange={(e) =>
                   setProperty(properties.find((p) => p.id == +e.target.value))
                 }
@@ -220,7 +220,7 @@ export const PermissionsAndCalendar = () => {
                 animate={{ height: "40vh" }}
                 exit={{ transition: { delay: 0.2 }, height: "0vh" }}
                 transition={{ duration: 0.1 }}
-                className="overflow-y-clip px-4 flex flex-col items-center "
+                className="overflow-y-clip px-4 w-full flex flex-col items-center "
               >
                 <div className="h-4/5  overflow-y-auto none-scrollbar flex flex-col gap-4 ">
                   {permissions.map((permission, index) => (

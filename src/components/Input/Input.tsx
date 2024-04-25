@@ -14,7 +14,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 
 // forwardRef o primeiro parametro é o tipo de elemento que vai ser referenciado e o segundo é o tipo de props que ele vai receber;
 // eslint-disable-next-line react/display-name
-export const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', name = '', className = "", classNameInput = "", required = false, image = '', label = '', placeholder = '', helperText = '', register, ...props}, ref) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ disabled, type = 'text', name = '', className = "", classNameInput = "", required = false, image = '', label = '', placeholder = '', helperText = '', register, ...props}, ref) => {
 
     const inputId = useId();
 
@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', 
             <S.Container $haserror={hasError} className={className}>
                 {label && <label className="dark:bg-modal-grey" htmlFor={inputId}>{label}</label>}
                 <img src={image} alt="" />
-                <S.Input className={classNameInput} type={type} id={inputId}   {...register} placeholder={placeholder} {...props}
+                <S.Input className={classNameInput} title={placeholder} type={type} id={inputId} disabled={disabled}  {...register} placeholder={placeholder} {...props}
 
                     required={required} />
 

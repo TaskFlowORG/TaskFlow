@@ -13,6 +13,7 @@ import { SideBarButton } from "./SideBarButton";
 import { useClickAway } from "react-use";
 import { ButtonPageOption } from "./ButtonPageOption";
 import {
+  Arrow,
   ChangeType,
   ConectPage,
   EditIcon,
@@ -21,6 +22,8 @@ import {
 import { ProjectContext } from "@/contexts";
 import { set } from "zod";
 import { useTranslation } from "next-i18next";
+import { useHasPermission } from "@/hooks/useHasPermission";
+import { NeedPermission } from "@/components/NeedPermission";
 
 interface Props {
   page: Page;
@@ -53,7 +56,6 @@ export const PageComponent = ({
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
   const { setProject } = useContext(ProjectContext);
-  
 
   useEffect(() => {
     setTruncate(false);
@@ -115,6 +117,8 @@ export const PageComponent = ({
   });
 
   const { t } = useTranslation();
+  const canDelete = useHasPermission("delete");
+  const canUpdate = useHasPermission("update");
 
   return (
     <label
@@ -134,8 +138,22 @@ export const PageComponent = ({
           textRef={inputRef}
           openOptions={modal}
           openOptionsRef={ref}
-          fnOpenOptions={openModal}
+          fnOpenOptions={
+            canUpdate ? openModal : canDelete ? excludePage : undefined
+          }
+          hasButton={canUpdate || canDelete}
           fnRename={saveNewName}
+          iconOptions={
+            canUpdate ? (
+              <Arrow className="rotate-90" />
+            ) : canDelete ? (
+              <span className="stroke-primary dark:stroke-secondary">
+                <IconTrashBin />
+              </span>
+            ) : (
+              <></>
+            )
+          }
           pointerEventsNone={merging}
           isHovering={truncate && !renaiming && !merging}
           link={
@@ -146,11 +164,13 @@ export const PageComponent = ({
         >
           <div className="flex w-full  h-full justify-center ">
             <div className="flex flex-col w-min px-8 h-full justify-center pb-2  gap-2 text-modal-grey dark:text-white ">
-              <ButtonPageOption
-                fnButton={excludePage}
-                icon={<IconTrashBin />}
-                text={t("delete-page")}
-              />
+              <NeedPermission permission="delete">
+                <ButtonPageOption
+                  fnButton={excludePage}
+                  icon={<IconTrashBin />}
+                  text={t("delete-page")}
+                />
+              </NeedPermission>
               <ButtonPageOption
                 fnButton={() => {
                   setRenaiming(true);
@@ -170,7 +190,7 @@ export const PageComponent = ({
                 text={t("merge")}
               />
               <ButtonPageOption
-                fnButton={e => {
+                fnButton={(e) => {
                   setX(e.clientX);
                   setY(e.clientY);
                   setChangingType(true);
@@ -195,6 +215,7 @@ export const PageComponent = ({
                 setTruncate(false);
                 setChangingType(false);
               }}
+              type={type}
               setChangingType={setChangingType}
               changeType={changeType}
               setType={setType}

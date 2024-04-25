@@ -31,6 +31,7 @@ module.exports = {
         '1.5xl': '1440px',
         '3xl': '1792px',
         '4xl': '1792px',
+        400: '400px',
       },
       boxShadow: {
         'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',

@@ -5,6 +5,7 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { projectService, taskService } from "@/services";
 import { Task, TaskOrdered } from "@/models";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   condition: boolean;
@@ -24,6 +25,7 @@ export const PopUpModal = ({
   const { setInPage, pageId } = useContext(PageContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
   const { project, setProject } = useContext(ProjectContext);
+  const {t} = useTranslation()
 
   async function createTask() {
     setCondition(false);
@@ -46,7 +48,7 @@ export const PopUpModal = ({
             setModalProp(true);
           }}
         >
-          Cadastro de propriedade
+          {t('property-registration')}
         </p>
         <div className="h-[2px] w-full bg-input-grey"></div>
 
@@ -56,7 +58,7 @@ export const PopUpModal = ({
             createTask();
           }}
         >
-          Cadastro de tarefa
+          {t('task-registration')}
         </p>
       </div>
     </LocalModal>

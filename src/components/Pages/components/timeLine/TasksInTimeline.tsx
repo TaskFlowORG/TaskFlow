@@ -39,7 +39,7 @@ export const TasksInTimeline = ({
     if (!propVl.value.starts) return "00";
     if (!propVl.value.ends) return "00";
     const index = propVl.value.starts.indexOf(start);
-    let dateEnd = new Date(propVl.value.ends[index]);
+    let dateEnd = new Date(propVl.value.ends[index] ?? Date.now());
     if(!dateEnd) dateEnd = new Date();
     const hoursEnd = dateEnd.getHours();
     const minutesEnd = dateEnd.getMinutes();

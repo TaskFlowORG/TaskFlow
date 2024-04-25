@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,16 +11,34 @@ import { ProgressBar } from "./ProgressBar";
 import { useRouter } from 'next/navigation';
 import { UserDetails } from "@/models/user/user/UserDetails";
 import { signIn } from "next-auth/react";
+import { subscribe } from "diagnostics_channel";
+import { useTranslation } from "next-i18next";
+import {Transition} from "../Transition";
 
-const schema = z
+
+interface UserData {
+  name: string;
+  username: string;
+  surname: string;
+  mail: string;
+  password: string;
+  confirmPassword: string;
+}
+
+
+export const Register = () => {
+  const [step, setStep] = useState(0);
+  const {t} = useTranslation();
+
+  const schema = z
   .object({
     name: z
       .string()
-      .min(3, { message: "Nome deve conter no mínimo 3 caracteres" })
-      .max(20, { message: "Nome deve conter no máximo 20 caracteres" }),
+      .min(3, { message: t("register-name-min") })
+      .max(20, { message: t("register-name-max-characters") }),
     surname: z
       .string()
-      .min(3, { message: "Sobrenome deve conter no mínimo 3 caracteres" })
+      .min(3, { message: t("register-name-min-characters") })
       .max(40, { message: "Sobrenome deve conter no máximo 40 caracteres" }),
     username: z
       .string()
@@ -47,29 +65,16 @@ const schema = z
       message: "Senhas não coincidem.",
       path: ["confirmPassword"],
     }
-  )
-
+  );
 type FormData = z.infer<typeof schema>;
 
-interface UserData {
-  name: string;
-  username: string;
-  surname: string;
-  mail: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export const Register = () => {
-  const [step, setStep] = useState(0);
-const{ register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
-    mode: "all",
-    reValidateMode: "onChange",
-    resolver: zodResolver(schema),
+  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+    resolver: zodResolver(schema)
   });
   
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+
 
   const handleNextStep = () => {
     if (step < 2) {
@@ -103,10 +108,11 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
 
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-        <div className="h-full w-4/5 flex flex-col items-center justify-between">
+    <div id="modalRegister" className="opacity-0 flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
         <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
         <ProgressBar step={step} color={color}/>
-          {step === 0 && (
+        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
+        {step === 0 && (
             <>
               <Input
                 className="inputRegister"
@@ -115,7 +121,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.name?.message}
                 register={{...register("name")}}
                 required
-                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey "}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
               />
               <Input
                 className="inputRegister"
@@ -124,8 +130,8 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 helperText={errors.surname?.message}
                 register={{ ...register("surname")}}
                 required
-                classNameInput={"w-5/6 h-10 md:h-full outline-none dark:bg-modal-grey"}
-              />
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
+                />
             </>
           )}
 
@@ -197,10 +203,10 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
             </button>
 }
           </div>
-          <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]" onClick={() => router.push("/login")}>
-            Já possui uma conta?
-          </p>
+          <Transition href="/login" label="Já possui uma conta?"/>
         </div>
+        </div>
+         
       </div>
   );
 };

@@ -9,7 +9,7 @@ export default function UserConfigPage() {
     const { setTitle } = useContext<any>(ConfigContext);
     const { t } = useTranslation();	
     useEffect(() => {
-        setTitle(t("personal-data"));
+        setTitle(t("personal-informations-side-bar"));
     }, []);
 
     return (

@@ -45,8 +45,9 @@ export default function Pages({
     console.log(pageTemp);
     if (!pageTemp || !setInPage || !setPageId) return;
     setPageId(pageTemp?.id);
-    setInPage(true);
+    setInPage(pageTemp.type != TypeOfPage.LIST);
   }, [params.page, project, project?.pages]);
+
 
   if (!user) return <></>;
   if (!page)

@@ -40,3 +40,4 @@ export { ChangeType } from "./PageOtpions/ChangeType";
 export {IconMenuTaskProperty} from "./IconMenuTaskProperty/IconMenuTaskProperty"
 
 export {IconInvert} from "./IconInvert";
+export { IconInvite } from "./Notifications/Invite";

@@ -1,5 +1,6 @@
 import { Group, GroupPost, GroupPut, Permission, User } from "@/models";
 import { Api } from "../axios";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 class GroupService {
 
@@ -23,12 +24,16 @@ class GroupService {
         return response.data;
     }
 
-    async findGroupsByUser(): Promise<Group[]> {
+    async findGroupsByUser(): Promise<SimpleGroup[]> {
+        const response = await Api.get<Group[]>("group/my", { withCredentials: true });
+        return response.data;
+    }
+    async findAll(): Promise<SimpleGroup[]> {
         const response = await Api.get<Group[]>("group", { withCredentials: true });
         return response.data;
     }
 
-    async findGroupsByAProject(projectId: number): Promise<Group[]> {
+    async findGroupsByAProject(projectId: number): Promise<SimpleGroup[]> {
         const response = await Api.get<Group[]>(`group/project/${projectId}`, { withCredentials: true });
         return response.data;
     }
@@ -49,7 +54,11 @@ class GroupService {
         return response.data;
     }
 
-    
+    async inviteUser(groupId: number, userId: number): Promise<void> {
+         await Api.post<Group>(`group/${groupId}/add-user/${userId}`, {}, {withCredentials: true});
+
+    }
+
 }
 
 export const groupService = new GroupService();

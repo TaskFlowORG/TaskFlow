@@ -1,4 +1,5 @@
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -17,6 +18,7 @@ export const DateFilter = ({
 }: DateProps) => {
   const [valued, setValued] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const {t} = useTranslation()
 
   const style = twMerge(
     "flex gap-4 w-full items-center border-b-[1px]  pb-2",
@@ -42,7 +44,7 @@ export const DateFilter = ({
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
         type="date"
         value={valued}
-        placeholder="Insira uma data"
+        placeholder={t('insert-expected-value')}
         onChange={(e) => {
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);

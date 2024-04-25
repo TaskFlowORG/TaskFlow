@@ -1,3 +1,6 @@
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+
 interface Props{
     checked: boolean;
     func: (e: any, value: string) => void;
@@ -6,6 +9,8 @@ interface Props{
 }
 
 export const InputCheckboxConfig = ({checked, func, value, label}:Props) => {
+
+    
     return (
         <div className="flex items-center w-full">
             <input
