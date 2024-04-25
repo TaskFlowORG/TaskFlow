@@ -47,37 +47,23 @@ export const animatePageOut = (href: string, router: AppRouterInstance) => {
         });
     }
     const x = (window.innerWidth + 300);
+ 
 
     // Animations for the register
     const animationWrapperRegister = document.getElementById("register")
     if (animationWrapperRegister) {
         const tlRegister = gsap.timeline();
         for (let i = 1; i <= 100; i++) {
-            const break1 = i <12.5;
-            const break2 = i < 25;
-            const break3 = i < 37.5;
-            const break4 = i < 50;
-
-            const break9 = i < 62.5;
-            const break6 = i < 75;
-            const break7 = i < 87.5;
-            const break8 = i < 100;
-
-
-
-
             const equal0 = i == 1;
             const equal99 = i == 100;
-    
             // Função de easing personalizada
-            const customEase = CustomEase.create("custom", "M0,0 C0.1,0.2,0.3,1,1,1");
     
             tlRegister.to(animationWrapperRegister, {
                 delay: equal0 ? 0.5 : 0,
-                yPercent: i < 50 ? i : 100 -i,
-                x: x / 100 * (break1 ? i/4 : break2 ? i/3 : break3 ? i/2 : break4 ? i : break9 ? 50 + i : break6 ? 50 + i/2 : break7 ? 50 + i/3: 50 + i/4),
-                duration: 0.01,
-                ease: equal0 ? "power1.in" : equal99 ? "power2.out" : customEase,
+                yPercent: i < 40 ? i : i < 60 ? 40 : 100 - i,
+                x: x / 100 * ( i <= 50 ? ( i * (i/50)) : 100 - ( (50 - (i - 50)) * ((50 - (i - 50))/50))),
+                duration: 0.02,
+                ease: equal0 ? "power1.in" : equal99 ? "power2.out" : "none",
                 onComplete: () => {
                     if (i == 99) {
                         router.push(href);
@@ -87,24 +73,9 @@ export const animatePageOut = (href: string, router: AppRouterInstance) => {
         }
     }
 
-    function calcularConstante() {
-        let somaTotal = 0;
 
-        // Calcula a soma total de 1/i para i de 1 a 50
-        for (let i = 1; i <= 50; i++) {
-            somaTotal += 1 / i;
-        }
 
-        // Calcula a constante necessária para garantir que a soma seja 50
-        const constante = 50 / somaTotal;
 
-        return constante;
-    }
-
-    // Função para calcular a angulação com a constante
-    function calcularAngulacao(constante: number, i: number) {
-        return constante * (1 / i);
-    }
 
 
     // Animations for the login
