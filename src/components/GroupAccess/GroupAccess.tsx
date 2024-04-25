@@ -5,28 +5,32 @@ import { boolean, set } from 'zod';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
 import { log } from 'console';
-import { ArrowPermissions } from '../ArrowPermissions/Arrow';
+import { Arrow } from './Arrow';
+import { SimpleGroup } from '@/models/user/group/SimpleGroup';
 
 interface Props {
     project: Project;
-    group: Group;
+    groupId: number;
 }
 
-export const GroupAccess: React.FC<Props> = ({ project, group }) => {
+export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
     const [selectedPermission, setSelectedPermission] = useState<number | undefined>();
+    const [group, setGroup] = useState<Group>();
     const [isEnable, setIsEnable] = useState(false);
-    const [newName, setNewName] = useState(group.name);
-    const [newDescription, setNewDescription] = useState(group.description);
+    const [newName, setNewName] = useState(group?.name);
+    const [newDescription, setNewDescription] = useState(group?.description);
 
     const fetchData = async () => {
         const fetchedPermissions = await permissionService.findAll(project.id);
         setPermissions(fetchedPermissions);
+        const fetchedGroup = await groupService.findOne(groupId);
+        setGroup(fetchedGroup);
     };
 
     useEffect(() => {
         fetchData();
-    }, [group]);
+    }, [groupId]);
 
     const findPermission = (selectedValue: number) => {
         try {
@@ -34,7 +38,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                 const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
                 if (selectedPermission) {
-                    if (group.permissions && group.permissions.find(permission => permission.id === selectedPermission.id)) {
+                    if (group?.permissions && group.permissions.find(permission => permission.id === selectedPermission.id)) {
                         setSelectedPermission(undefined);
                         alert('Este grupo já possui esta permissão.');
                     } else {
@@ -50,7 +54,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            const updateGroup = await groupService.findOne(group.id)
+            const updateGroup = await groupService.findOne(groupId)
             updateGroup.permissions = [selectedPermission];
             console.log(updateGroup.users);
 
@@ -65,12 +69,20 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
 
     const updateTheInformationsOFAGroup = async () => {
         try {
-            const updateGroup = await groupService.findOne(group.id)
-            groupService.update(new GroupPut(group.id, newName, newDescription, group.permissions, updateGroup.users), group.id);
+            const updateGroup = await groupService.findOne(groupId)
+            console.log("esse aqui", group);
+            
+            if (group != undefined) {
+                group.name = newName ?? ''
+                groupService.update(new GroupPut(groupId, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
+                
+            }
             setIsEnable(false)
+
         } catch (error: any) {
             console.error("Erro ao atualizar o grupo: ", error.message)
             alert("Erro ao atualizar o grupo!")
+            setIsEnable(false)
         }
     }
 
@@ -88,13 +100,13 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     <input
                         className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         type="text"
-                        value={isEnable ? newName : group.name}
+                        value={isEnable ? newName : group?.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
                     <textarea
                         className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
-                        value={isEnable ? newDescription : group.description}
+                        value={isEnable ? newDescription : group?.description}
                         onChange={(e) => setNewDescription(e.target.value)}
                         disabled={!isEnable}
                     />
@@ -107,7 +119,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         value={selectedPermission}
                         onChange={(e) => findPermission(+e.target.value)}
                     >
-                        {group.permissions ? (
+                        {group?.permissions ? (
                             group.permissions.map((permission) => {
                                 setSelectedPermission(permission.id);
                                 return (
@@ -132,7 +144,7 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     </select>
 
                     <div>
-                        <ArrowPermissions className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"}/>
+                        <Arrow className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"} />
                     </div>
 
                 </div>
@@ -141,8 +153,8 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                     {isEnable ? (
                         <div className='flex gap-11 md:justify-between '>
                             <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => {
-                                setIsEnable(false), setNewName(group.name,
-                                ), setNewDescription(group.description)
+                                setIsEnable(false), setNewName(group?.name,
+                                ), setNewDescription(group?.description)
                             }}>Cancelar</button>
                             <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                         </div>
