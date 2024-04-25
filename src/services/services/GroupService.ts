@@ -25,7 +25,7 @@ class GroupService {
     }
 
     async findGroupsByUser(): Promise<SimpleGroup[]> {
-        const response = await Api.get<Group[]>("group/my", { withCredentials: true });
+        const response = await Api.get<Group[]>("group", { withCredentials: true });
         return response.data;
     }
     async findAll(): Promise<SimpleGroup[]> {
@@ -33,7 +33,7 @@ class GroupService {
         return response.data;
     }
 
-    async findGroupsByAProject(projectId: number): Promise<SimpleGroup[]> {
+    async findGroupsByAProject(projectId: number): Promise<Group[]> {
         const response = await Api.get<Group[]>(`group/project/${projectId}`, { withCredentials: true });
         return response.data;
     }
