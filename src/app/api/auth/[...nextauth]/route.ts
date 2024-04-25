@@ -16,7 +16,6 @@ export const OPTIONS: NextAuthOptions = {
             },
             async authorize(credentials): Promise<any> {
                 return await authentication.login(new UserLogin(credentials!.username, credentials!.password)).then((response) => {
-                    console.log("header2: " + response.headers)
                     // if (response.headers && response.headers["set-cookie"]) {
                     //     const jwtCookie = response.headers["set-cookie"];
                     //     // Defina o cookie no cliente
