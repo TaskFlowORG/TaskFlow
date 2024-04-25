@@ -12,9 +12,9 @@ import { emailService } from '@/services/services/EmailService';
 const schema = z.object({
     username: z
         .string()
-        .min(3, { message: "No minimo 3 caracteres" })
+        .min(3, { message: "Digite no mínimo 3 caracteres" })
         .max(20, {
-            message: "No maximo 20 caracteres",
+            message: "Digite no máximo 20 caracteres",
         })
 });
 
