@@ -40,7 +40,9 @@ class UserService {
     }
 
     async upDatePassword( username:string,  password:string):Promise<User> {
-        const response = await Api.patch<User>(`user/password/${username}`, password, {withCredentials: true});
+        const formData = new FormData();
+        formData.append('password', password);
+        const response = await Api.patch<User>(`user/password/${username}`, formData, {withCredentials: true});
         return response.data;
     }
 
