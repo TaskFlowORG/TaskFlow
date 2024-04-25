@@ -25,16 +25,16 @@ export default function LoginPage() {
       <div className="fixed -bottom-[2200px]  rotate-[35deg] -right-[1600px]  h-[3000px] w-[3000px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
-      <div className="fixed -top-[150px] rotate-180 left-1/3  h-[300px] w-[300px]">
+      <div className="fixed -top-[150px] rotate-180 invisible xl:visible left-1/3  h-[300px] w-[300px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
-      <div className="fixed -top-[150px] rotate-180 -right-[calc(66.66%_+_300px)]  h-[300px] w-[300px]">
+      <div className="fixed -top-[150px] rotate-180 invisible xl:visible -right-[calc(66.66%_+_300px)]  h-[300px] w-[300px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
-      <div className="fixed -bottom-[100px]  -left-[200px] h-[500px] w-[500px]">
+      <div className="fixed -bottom-[100px] invisible 1.5xl:visible  -left-[200px] h-[500px] w-[500px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
-      <div className="fixed -bottom-[100px]  -right-[calc(100%_+_500px)] h-[500px] w-[500px]">
+      <div className="fixed -bottom-[100px] invisible 1.5xl:visible  -right-[calc(100%_+_500px)] h-[500px] w-[500px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
       <div className="fixed top-0 px-6   h-full  w-screen bottom-0   justify-center flex items-center">
