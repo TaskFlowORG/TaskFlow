@@ -1,21 +1,33 @@
 import { TextContent } from "../TextContent/TextContent"
 import { Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, use } from "react"
+import { useState, useEffect, useContext, use, useRef } from "react"
 import { chatService, userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
 import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
+import { compareDates } from "@/components/Pages/functions";
 
-export const ChatContent = ({ name, messages, id }: Chat) => {
-
+export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
 
     const [mensagem, setMensagem] = useState<string>("")
     const { user, setUser } = useContext(UserContext)
+    const [ allMessages, setAllMessages ] = useState<Message[]>(messages)
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
 
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
+    
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
+        }
+    };
 
     async function enviarMensagem() {
         if (mensagem != "") {
@@ -37,6 +49,31 @@ export const ChatContent = ({ name, messages, id }: Chat) => {
         return "bg-red-600"
     }
 
+    const firstMessageToday = (date: Date) => {
+        return messages.find((message) => {
+            const messageDate = new Date(message.dateCreate);
+            return compareDates(date, messageDate)
+        })
+    }
+
+    const firstMessageOfYesterday = (date: Date) => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return messages.find((message) => {
+            const messageDate = new Date(message.dateCreate);
+            return compareDates(yesterday, messageDate);
+        });
+    };
+
+    const firstMessageOfOtherDay = (date: Date) => {
+        const otherDay = new Date();
+        otherDay.setDate(otherDay.getDate() - 2);
+        return messages.find((message) => {
+            const messageDate = new Date(message.dateCreate);
+            return compareDates(otherDay, messageDate);
+        });
+    }
+
     return (
         <>
             <div className={`w-full h-full gap-10`}>
@@ -55,16 +92,39 @@ export const ChatContent = ({ name, messages, id }: Chat) => {
                         </div>
                     </div>
                 </div>
-                <div className="h-[63vh] lg:h-[73.5vh] overflow-scroll">
+                <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 ">
                     <div className="flex  w-full flex-col gap-5">
                         <div className="flex justify-center py-5 p text-primary">
                             <p>Este é o começo de sua conversa com {name} </p>
                         </div>
+
                         {messages.map((mensagem, index) => (
                             <>
-                                <TextContent message={mensagem} key={index} />
+                                <If condition={firstMessageToday(new Date())?.id === mensagem.id}>
+                                    <div className="w-full flex justify-center">
+                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                            <p>Hoje</p>
+                                        </div>
+                                    </div>
+                                </If>
+                                <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.id}>
+                                    <div className="w-full flex justify-center">
+                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                            <p>Ontem</p>
+                                        </div>
+                                    </div>
+                                </If>
+                                <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.id}>
+                                    <div className="w-full flex justify-center">
+                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                            <p>{new Date(mensagem.dateCreate).getDate()}</p>
+                                        </div>
+                                    </div>
+                                </If>
+                                <TextContent sender={mensagem.sender.id} lastMessage={lastMessage} key={index} />
                             </>
                         ))}
+                        <div ref={messagesEndRef} />
                     </div>
                 </div>
                 <div className="flex w-full h-[67%] gap-3">

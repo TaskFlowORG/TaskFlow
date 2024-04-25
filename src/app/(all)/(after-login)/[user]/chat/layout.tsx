@@ -222,7 +222,7 @@ export default function ChatMessages({
             </div>
 
             <div
-              className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-scroll `}
+              className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-y-scroll `}
             >
               <div className="w-full">
                 {filteredChats.length == 0 ? (
