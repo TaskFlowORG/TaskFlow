@@ -68,16 +68,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
 
   return (
     <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
-      <div className="h-full relative flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-10">
-        <div className="h-min w-full flex items-center justify-between">
-          <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
-            {page.name ?? t("withoutname")}
-          </div>
-          <div className="w-min flex ">
-            <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
-            <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
-          </div>
-        </div>
+      <div className="h-full relative flex flex-col w-full gap-10">
         <div className=" w-full h-[75%] flex flex-col">
           <div className="w-full h-min flex justify-end">
             {/* Não consigo mudar o icone do input de data */}

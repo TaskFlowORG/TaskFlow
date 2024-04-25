@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -66,29 +66,24 @@ export const Register = () => {
   );
 type FormData = z.infer<typeof schema>;
 
-  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+  const { register, handleSubmit,  getValues, formState: { errors } } = useForm<UserData>({
     resolver: zodResolver(schema)
   });
-  
-  const { theme, setTheme } = useTheme();
-  const router = useRouter();
-
-
+  const { theme } = useTheme();
   const handleNextStep = () => {
     if (step < 2) {
       setStep(step + 1);
     }
   };
-
   const handlePrevStep = () => {
     if (step > 0) {
       setStep(step - 1);
     }
   };
-
   const onSubmit = async (data: UserData) => {
     try {
       const { username, name, surname, password, mail } = data;
+      
       await userService.insert(new UserPost(new UserDetails(username, password), name, surname, mail));
       signIn("credentials", { username, password, redirect: true, callbackUrl: `/${username}` });
     } catch (err) {
@@ -104,9 +99,9 @@ type FormData = z.infer<typeof schema>;
   const color = theme === "light" ? "#F04A94" : "#F76858";
 
   return (
-    <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-      <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-        <h4 className="h4 leading-6 flex py-2 md:py-0">{t("register")}</h4>
+    <div className="flex h-full w-full  absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+    <div id="modalRegister" className="flex h-full items-center flex-col w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+       <h4 className="h4 leading-6 flex py-2 md:py-0">{t("register")}<</h4>
         <ProgressBar step={step} color={color}/>
         <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
         {step === 0 && (

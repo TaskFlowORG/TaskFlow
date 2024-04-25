@@ -54,7 +54,7 @@ export const SearchBar = ({
   }
 
   return (
-    <div className="justify-end w-3/5 items-center  relative  h-full flex gap-2 ">
+    <div className="justify-end w-full items-center  relative  h-full flex gap-2 ">
       {search && openedSearch && (
         <SearchInput
           setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}

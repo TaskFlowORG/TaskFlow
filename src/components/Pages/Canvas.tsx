@@ -45,6 +45,10 @@ export const Canvas = ({ page, user }: Props) => {
   const { project } = useContext(ProjectContext);
   const { theme } = useTheme();
 
+  useEffect(() => {
+    setMoving(!canUpdate);
+  }, [canUpdate]);
+
   const updateDraw = () => {
     if (!page || !canvasRef || !canvasRef.current || !project || !canUpdate)
       return;
