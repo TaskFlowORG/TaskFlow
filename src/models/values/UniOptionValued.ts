@@ -5,8 +5,8 @@ import { Option } from "./Option";
 
 export class UniOptionValued extends Value{
 
-     constructor(public id:number, public uniOption: Option){
-        super(id, uniOption);
+     constructor( public uniOption: Option | null,public id?:number){
+        super(uniOption,id);
 ;    }
 
 

@@ -14,9 +14,28 @@ import {
   MessagePost,
   OtherUser,
   UserPost,
+  DatePost,
+  LimitedPost,
+  SelectPost,
+  Property,
+  Value,
+  TimeValued,
+  DateValued,
+  MultiOptionValued,
+  UniOptionValued,
+  TextValued,
+  NumberValued,
+  UserValued,
+  ArchiveValued,
 } from "@/models";
 import { Select as Selectt } from "@/components/Select";
-import { groupService, taskService, userService } from "@/services";
+import {
+  groupService,
+  projectService,
+  propertyService,
+  taskService,
+  userService,
+} from "@/services";
 import { ProjectContext } from "@/contexts/ContextProject";
 import {
   CheckboxProp,
@@ -50,6 +69,13 @@ import { SendComment } from "./CommentsSection/SendComment";
 import { CommentsContainer } from "./CommentsSection/CommentsContainer";
 import { Interval } from "@/models/values/Interval";
 import { Duration } from "@/models/values/Duration";
+import { ModalRegisterProperty } from "../ModalRegisterProperty";
+import { RegisterProperty } from "../RegisterProperty";
+import page from "@/app/(all)/(before-login)/page";
+import { ContentModalProperty } from "../ContentModalProperty";
+import { useForm } from "react-hook-form";
+import { ModalProperty } from "../ModalProperty";
+import { ContentPropertyModalTask } from "./ContentPropertyModalTask";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -70,6 +96,112 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [users, setUsers] = useState<OtherUser[]>([]);
   const taskNameRef = useRef<any>(null);
 
+  const [openedConfig, setOpenedConfig] = useState(false);
+  const [idConfig, setIdConfig] = useState(0);
+  const [modalProperty, setModalProperty] = useState(false);
+
+  function createValue(propertyObj: Property): Value | undefined {
+    switch (propertyObj.type) {
+      case TypeOfProperty.TIME:
+        return new TimeValued(new Interval(new Duration(0, 0, 0)));
+      case TypeOfProperty.DATE:
+        return new DateValued(null);
+      case TypeOfProperty.CHECKBOX:
+      case TypeOfProperty.TAG:
+        return new MultiOptionValued([]);
+      case TypeOfProperty.SELECT:
+      case TypeOfProperty.RADIO:
+        return new UniOptionValued(null);
+      case TypeOfProperty.TEXT:
+        return new TextValued(null);
+      case TypeOfProperty.NUMBER:
+        return new NumberValued(null);
+      case TypeOfProperty.NUMBER:
+      case TypeOfProperty.PROGRESS:
+        return new NumberValued(null);
+      case TypeOfProperty.USER:
+        return new UserValued([]);
+      case TypeOfProperty.ARCHIVE:
+        return new ArchiveValued(null);
+    }
+  }
+  const postProperty = async (
+    name: string,
+    values: any,
+    selected: TypeOfProperty
+  ) => {
+    try {
+      let propertyObj;
+
+      if (
+        [
+          TypeOfProperty.TIME,
+          TypeOfProperty.USER,
+          TypeOfProperty.ARCHIVE,
+          TypeOfProperty.NUMBER,
+          TypeOfProperty.PROGRESS,
+          TypeOfProperty.TEXT,
+        ].includes(selected)
+      ) {
+        propertyObj = await propertyService.saveLimited(
+          project!.id,
+          new LimitedPost(
+            name,
+            selected,
+            values.visible,
+            values.obligatory,
+            values.maximum,
+            undefined,
+            []
+          )
+        );
+      } else if (
+        [
+          TypeOfProperty.CHECKBOX,
+          TypeOfProperty.TAG,
+          TypeOfProperty.RADIO,
+          TypeOfProperty.SELECT,
+        ].includes(selected)
+      ) {
+        propertyObj = await propertyService.saveSelect(
+          project!.id,
+          new SelectPost(
+            name,
+            selected,
+            values.visible,
+            values.obligatory,
+            [],
+            undefined,
+            []
+          )
+        );
+      } else {
+        propertyObj = new DatePost(
+          name,
+          selected,
+          values.visible,
+          values.obligatory,
+          values.pastDate,
+          values.hours,
+          undefined,
+          []
+        );
+      }
+      task.properties.push(
+        new PropertyValue(
+          propertyObj as Property,
+          createValue(propertyObj as Property)!
+        )
+      );
+      let taskReturned = await taskService.upDate(task, project!.id);
+      let page = project!.pages.find((page) => pageId == page.id);
+      let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
+      taskFinded!.task = taskReturned;
+      setProject!({ ...project! });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   function arraysAreEqual(arr1: any, arr2: any) {
     // Se os comprimentos dos arrays forem diferentes, eles são definitivamente diferentes
@@ -110,7 +242,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
     if (taskNameRef.current) {
       taskNameRef.current.focus();
-      console.log("FOQUEI PA CARALHO");
+      console.log(`FOQUEI PA CARALHO`);
     }
   }, [isOpen]);
 
@@ -260,6 +392,18 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
     }
   }
 
+  function isTaskProperty(property: Property): boolean {
+    let page = project?.pages.find((page) => pageId == page.id);
+    if (project?.properties.find((propertyD) => propertyD.id == property.id)) {
+      return false;
+    } else if (
+      page?.properties.find((propertyD) => propertyD.id == property.id)
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   async function sendComment() {
     if (!input) return;
     let comment: Message = {
@@ -282,7 +426,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
 
   return (
     <CenterModal
-      stylesTailwind={"w-[1306px] shadow-blur-10 p-12"}
+      stylesTailwind={"w-[1306px]  shadow-blur-10 p-12"}
       condition={isOpen}
       setCondition={() => {
         setIsOpen(false);
@@ -304,12 +448,12 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
               <div className="flex gap-0 w-full">
                 <button className="w-full  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg">
                   <div className="w-4 h-4 rounded-full bg-white"></div>
-                  <p className="h4 text-white ">{t('comments')}</p>
+                  <p className="h4 text-white ">{t("comments")}</p>
                 </button>
                 <button className="w-full flex items-center gap-4  border-t-2 border-b-2  border-r-2 px-4 py-1 bg-white dark:bg-modal-grey rounded-r-lg">
                   <div className="w-4 h-4 rounded-full bg-white"></div>
                   <p className="h4 text-[#343434] dark:text-white ">
-                  {t('historical')}
+                    {t("historical")}
                   </p>
                 </button>
               </div>
@@ -340,20 +484,29 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
           </div>
         </CommentsContainer>
 
-
         <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
-        <div className="w-full max-w-[547px] flex flex-col gap-6">
+        <div className="w-full max-w-[547px] flex flex-col justify-between min-h-full ">
           <div className="w-full max-w-[547px] ">
             {/* bg-black */}
-            <div className="flex flex-col gap-5 h-[450px] max-h-[450px] overflow-auto bah pr-4 w-full">
+            <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px]  overflow-auto bah pr-4 w-full">
               {task?.properties.map((prop) => {
                 return (
                   <div
                     key={prop.id}
                     className="bg-white dark:bg-modal-grey flex flex-col"
                   >
-                    <div className="flex gap-8 w-full items-center">
-                      <img src="/config.svg" alt="" />
+                    <div className="flex gap-8 w-full items-start">
+                      <img
+                        className="pt-2"
+                        onClick={() => {
+                          if (isTaskProperty(prop.property)) {
+                            setOpenedConfig(true);
+                            setIdConfig(prop.property.id);
+                          }
+                        }}
+                        src="/config.svg"
+                        alt=""
+                      />
                       {/* <span>C</span> */}
                       <FilterContext.Provider
                         value={{
@@ -364,7 +517,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                         }}
                       >
                         <div className="flex flex-col justify-center  gap-2 flex-1">
-                          <div className="flex-1 flex items-center   justify-between ">
+                          <div className="flex-1 flex items-center relative   justify-between ">
                             <div className="flex gap-3">
                               <IconsSelector property={prop.property} />
                               <p className="font-montserrat text-[16px] whitespace-nowrap">
@@ -454,6 +607,12 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   value={prop.value.value}
                                 />
                               ))}
+
+                            {/* <ModalProperty
+                                property={prop.property}
+                                deleteProperty={() => console.log("A")}
+                                upDateProperties={() => console.log("ALS")}
+                              ></ModalProperty> */}
                           </div>
                           {([
                             TypeOfProperty.CHECKBOX,
@@ -494,6 +653,13 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                 )}
                               />
                             ))}
+                          {openedConfig && idConfig == prop.property.id && (
+                            <ContentPropertyModalTask
+                              closeOption={() => setOpenedConfig(false)}
+                              task={task}
+                              property={prop.property}
+                            />
+                          )}
                         </div>
                       </FilterContext.Provider>
                     </div>
@@ -503,49 +669,64 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             </div>
           </div>
 
-          <div className="flex gap-4 pt-3 w-full h-min justify-end items-center">
-            <Button
-              font="font-alata"
-              textSize="text-base"
-              text={t('cancel')}
-              secondary={true}
-              fnButton={() => {
-                setList(undefined);
-                setFilter([]);
-              }}
-              paddingY="py-1  "
-              padding="p-4"
-            />
-            <Button
-              font="font-alata"
-              textSize="text-base"
-              text={t('save-changes')}
-              fnButton={() => updateTask()}
-              paddingY="py-1"
-              padding="p-4"
-            />
-          </div>
-          <div className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]">
+          <div
+            onClick={() => setModalProperty(true)}
+            className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]"
+          >
             <p className="font-montserrat text-base">
-              {t('add-task-property')}
+              {t("add-task-property")}
             </p>
             <div>
               <AddProp></AddProp>
             </div>
           </div>
+          {modalProperty && (
+            <ModalRegisterProperty
+              project={project!}
+              postProperty={postProperty}
+              close={() => {
+                setModalProperty(false);
+              }}
+              open={modalProperty}
+              page={project?.pages.find((page) => page.id == pageId)!}
+            ></ModalRegisterProperty>
+          )}
+
           <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
-          <div
-            className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
-            onClick={deleteTask}
-          >
-            <div className="w-[18px] aspect-square  stroke-white">
-              <IconTrashBin></IconTrashBin>
+          <div className="flex justify-between items-center">
+            <div
+              className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
+              onClick={deleteTask}
+            >
+              <div className="w-[18px] aspect-square  stroke-white">
+                <IconTrashBin></IconTrashBin>
+              </div>
+            </div>
+            <div className="flex gap-4  w-full h-min justify-end items-center">
+              <Button
+                font="font-alata"
+                textSize="text-base"
+                text={t("cancel")}
+                secondary={true}
+                fnButton={() => {
+                  setList(undefined);
+                  setFilter([]);
+                }}
+                paddingY="py-1"
+                padding="p-4"
+              />
+              <Button
+                font="font-alata"
+                textSize="text-base"
+                text={t("save-changes")}
+                fnButton={() => updateTask()}
+                paddingY="py-1"
+                padding="p-4"
+              />
             </div>
           </div>
         </div>
       </div>
-
-      {/* <button onClick={() => setIsOpen(false)}>X</button> */}
     </CenterModal>
   );
 };
