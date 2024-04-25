@@ -1,5 +1,5 @@
 'use client'
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodError } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -68,30 +68,25 @@ export const Register = () => {
   );
 type FormData = z.infer<typeof schema>;
 
-  const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+  const { register, handleSubmit,  getValues, formState: { errors } } = useForm<UserData>({
     resolver: zodResolver(schema)
   });
-  
-  const { theme, setTheme } = useTheme();
-  const router = useRouter();
-
-
+  const { theme } = useTheme();
   const handleNextStep = () => {
     if (step < 2) {
       setStep(step + 1);
     }
   };
-
   const handlePrevStep = () => {
     if (step > 0) {
       setStep(step - 1);
     }
   };
-
   const onSubmit = async (data: UserData) => {
     console.log(errors.mail?.message)
     try {
       const { username, name, surname, password, mail } = data;
+      
       await userService.insert(new UserPost(new UserDetails(username, password), name, surname, mail));
       signIn("credentials", { username, password, redirect: true, callbackUrl: `/${username}` });
     } catch (err) {
