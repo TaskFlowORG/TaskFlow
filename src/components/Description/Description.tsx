@@ -32,7 +32,7 @@ export const Description: React.FC<Props> = ({ user, project, groupId }) => {
             {
                 groups.map((g) => {
                     if (g.id === Number(groupId)) {
-                        return <GroupAccess key={g.id} project={project} groupId={g} />
+                        return <GroupAccess key={g.id} project={project} groupId={groupId ?? 0} />
                     }
                     return null;
                 })

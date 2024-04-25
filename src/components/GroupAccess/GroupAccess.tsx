@@ -10,7 +10,7 @@ import { SimpleGroup } from '@/models/user/group/SimpleGroup';
 
 interface Props {
     project: Project;
-    groupId: SimpleGroup;
+    groupId: number;
 }
 
 export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
@@ -24,7 +24,7 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
     const fetchData = async () => {
         const fetchedPermissions = await permissionService.findAll(project.id);
         setPermissions(fetchedPermissions);
-        const fetchedGroup = await groupService.findOne(groupId.id);
+        const fetchedGroup = await groupService.findOne(groupId);
         setGroup(fetchedGroup);
     };
 
@@ -54,7 +54,7 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            const updateGroup = await groupService.findOne(groupId.id)
+            const updateGroup = await groupService.findOne(groupId)
             updateGroup.permissions = [selectedPermission];
             console.log(updateGroup.users);
 
@@ -69,16 +69,20 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
 
     const updateTheInformationsOFAGroup = async () => {
         try {
-            const updateGroup = await groupService.findOne(groupId.id)
+            const updateGroup = await groupService.findOne(groupId)
+            console.log("esse aqui", group);
+            
             if (group != undefined) {
                 group.name = newName ?? ''
-                groupService.update(new GroupPut(groupId.id, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
-                setIsEnable(false)
+                groupService.update(new GroupPut(groupId, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
+                
             }
+            setIsEnable(false)
 
         } catch (error: any) {
             console.error("Erro ao atualizar o grupo: ", error.message)
             alert("Erro ao atualizar o grupo!")
+            setIsEnable(false)
         }
     }
 
