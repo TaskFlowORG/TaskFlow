@@ -16,7 +16,7 @@ export default function Home (){
             <img className="fixed z-[-1] bottom-0 left-0 hidden lg:flex" src="/img/themeLight/SideLogin.png" />
         </div>
         <div className="flex w-full h-full">
-            <ForgotPassword />
+            <ForgotPassword stepNumber={1}/>
         </div>
     </div>
 

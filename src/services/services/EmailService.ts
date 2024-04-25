@@ -1,12 +1,15 @@
+import { Code } from "@/models/Code";
 import { Api } from "../axios";
 
 class EmailService {
-
-    async insert(email: string): Promise<> {
-        const response = await Api.post()
-        return response.data;
+    async sendEmail(email: string): Promise<void> {
+        await Api.post<void>('/forgotPassword', { email }, { withCredentials: true });
     }
 
-}
-
-export const emailService = new EmailService();
+    async getCode() : Promise<Code>{
+       const response =  await Api.get<Code>('/forgotPassword/code', { withCredentials: true })
+        return response.data;
+    }
+  }
+  
+  export const emailService = new EmailService();

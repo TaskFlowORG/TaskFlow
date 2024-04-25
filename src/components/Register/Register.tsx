@@ -62,12 +62,12 @@ interface UserData {
 
 export const Register = () => {
   const [step, setStep] = useState(0);
-const{ register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
     mode: "all",
     reValidateMode: "onChange",
     resolver: zodResolver(schema),
   });
-  
+
   const { theme, setTheme } = useTheme();
   const router = useRouter();
 
@@ -103,30 +103,30 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
 
   return (
     <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-    <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+      <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
         <h4 className="h4 leading-6 flex py-2 md:py-0">Registar</h4>
-        <ProgressBar step={step} color={color}/>
+        <ProgressBar step={step} color={color} />
         <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
-        {step === 0 && (
+          {step === 0 && (
             <>
               <Input
                 className="inputRegister"
                 image={iconUser}
                 placeholder="Digite seu nome"
                 helperText={errors.name?.message}
-                register={{...register("name")}}
+                register={{ ...register("name") }}
                 required
-                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
                 image={iconUser}
                 placeholder="Digite seu sobrenome"
                 helperText={errors.surname?.message}
-                register={{ ...register("surname")}}
+                register={{ ...register("surname") }}
                 required
-                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
-                />
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
+              />
             </>
           )}
 
@@ -138,7 +138,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 image={iconUser}
                 placeholder="Digite seu nome de usuário"
                 helperText={errors.username?.message}
-                register={{ ...register("username")}}
+                register={{ ...register("username") }}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -147,7 +147,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 image={iconMail}
                 placeholder="Digite seu email"
                 helperText={errors.mail?.message}
-                register={{ ...register("mail")}}
+                register={{ ...register("mail") }}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -162,7 +162,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 type="password"
                 placeholder="Digite sua senha"
                 helperText={errors.password?.message}
-                register={{ ...register("password")}}
+                register={{ ...register("password") }}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
@@ -172,7 +172,7 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
                 placeholder="Confirme sua senha"
                 type="password"
                 helperText={errors.confirmPassword?.message}
-                register={{ ...register("confirmPassword")}}
+                register={{ ...register("confirmPassword") }}
                 required
                 classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
@@ -193,17 +193,17 @@ const{ register, handleSubmit, getValues, formState: { errors } } = useForm<Form
               </button>
             )}
             {step === 2 &&
-            <button className="font-alata text-md rounded-lg w-28 h-10 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] " onClick={() => onSubmit(getValues())} >
-              Entrar
-            </button>
-}
+              <button className="font-alata text-md rounded-lg w-28 h-10 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] " onClick={() => onSubmit(getValues())} >
+                Entrar
+              </button>
+            }
           </div>
           <p className="mt-2 text-sm font-alata underline text-[#282828] dark:text-[#FCFCFC] hover:cursor-pointer hover:text-[#F04A94] dark:hover:text-[#F76858]" onClick={() => router.push("/login")}>
             Já possui uma conta?
           </p>
         </div>
-        </div>
-         
       </div>
+
+    </div>
   );
 };
