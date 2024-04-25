@@ -7,9 +7,12 @@ export class Notification {
 
     constructor(
         public id: number, 
-        public message: string,
+        public aux: string,
         public type: TypeOfNotification, 
         public link: string,  
-        public visualized: boolean) {
+        public visualized: boolean,
+        public objId: number,
+        public auxObjId: number
+    ) {
     }
 }

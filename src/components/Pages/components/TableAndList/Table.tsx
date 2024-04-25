@@ -16,6 +16,7 @@ import { ProjectContext } from "@/contexts";
 import { updateIndexes } from "../../functions/updateIndexes";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { useTranslation } from "react-i18next";
 interface Props {
   page: Page;
 }
@@ -41,13 +42,16 @@ export const Table = ({ page }: Props) => {
     setSelectedTask(task)
   }
 
+  const {t} = useTranslation();
+
   const permission = useHasPermission("update")
 
   return (
     <DragDropContext 
+    
       onDragEnd={e => updateIndexes(e, list, setList, project)}   
     >
-            <div className="h-full w-min min-w-full">
+            <div className="h-full w-min min-w-full flex">
               <div key={page.id} className="w-min shadow-blur-10  flex-nowrap min-w-full h-full">
                 <div className=" bg-white dark:bg-modal-grey  w-full h-min">
                   <div className="w-full  flex">
@@ -68,11 +72,11 @@ export const Table = ({ page }: Props) => {
                 <div
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                  className="overflow-y-auto none-scrollbar h-[87%] relative w-full">
+                  className="overflow-y-auto none-scrollbar h-[87%] flex relative w-full">
                     {page.tasks.length == 0 ?
                     
-                    <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center pt-64">
-                       Não Existem Tasks Nessa Página
+                    <div className="h4 text-primary items-center pb-10 dark:text-secondary w-full h-full flex   justify-center">
+                       {t("no-tasks-in-page")}
                     </div>
                    :
                   <div className="w-full h-min">

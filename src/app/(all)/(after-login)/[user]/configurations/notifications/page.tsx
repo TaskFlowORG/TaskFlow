@@ -9,7 +9,7 @@ export default function UserConfigPage() {
     const { setTitle } = useContext<any>(ConfigContext);
     const { t } = useTranslation();	
     useEffect(() => {
-        setTitle(t("notifications"));
+        setTitle(t("notifications-side-bar"));
     }, []);
 
     return (

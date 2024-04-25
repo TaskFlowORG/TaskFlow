@@ -31,10 +31,10 @@ class UserService {
     }
 
 
-    async upDatePicture(picture:File, username:string):Promise<User>{
+    async upDatePicture(picture:File):Promise<User>{
         const formData = new FormData();
         formData.append('picture', picture);
-        const response = await Api.patch<User>(`user/picture/${username}`, formData, {withCredentials: true});
+        const response = await Api.patch<User>(`user/picture`, formData, {withCredentials: true});
         return response.data;
 
     }
@@ -60,10 +60,6 @@ class UserService {
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
         const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, {withCredentials: true});
-        return response.data;
-    }
-    async visualizeNotifications(): Promise<User> {
-        const response = await Api.patch<User>(`user/visualize-notifications`, {withCredentials: true});
         return response.data;
     }
 }

@@ -1,7 +1,7 @@
 import { FilteredProperty } from "./FilteredProperty";
 
 export type FilterContextType = {
-  filterProp: FilteredProperty[];
+  filterProp?: FilteredProperty[];
   setFilterProp?: (filterProp: FilteredProperty[]) => void;
   list?: FilteredProperty ;
   setList?: (filterProp: FilteredProperty | undefined) => void;

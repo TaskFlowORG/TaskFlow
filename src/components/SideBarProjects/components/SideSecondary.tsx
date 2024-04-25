@@ -1,27 +1,34 @@
 import { If } from "@/components/If";
 import { LocalModal, SideModal } from "@/components/Modal";
 import { TaskTrash } from "./TaskTrash";
-import { IconDashboard, IconGroups, IconPages, IconTrashBin } from "@/components/icons";
+import {
+  Arrow,
+  IconDashboard,
+  IconGroups,
+  IconPages,
+  IconTrashBin,
+} from "@/components/icons";
 import { Project, Task } from "@/models";
 import { taskService } from "@/services";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SideBarButton } from "./SideBarButton";
 import { useTranslation } from "next-i18next";
 import { GroupSide } from "./GroupSide";
+import { useClickAway } from "react-use";
 
 interface Props {
   user: string;
   project?: Project;
   setModalPages: (value: boolean) => void;
-  setModalGroups: (value: boolean) => void;
-  modalGroups: boolean;
+  setModalProjectGroups: (value: boolean) => void;
 }
 
-export const SideSecondary = ({ user, project, setModalPages, setModalGroups, modalGroups }: Props) => {
+export const SideSecondary = ({ user, project, setModalPages, setModalProjectGroups }: Props) => {
   const [tasksTrash, setTasksTrash] = useState<Task[]>([]);
   const [modalTrash, setModalTrash] = useState(false);
- 
+  const [isHovering, setIsHovering] = useState(false);
+
   useEffect(() => {
     if (!project || !modalTrash) return;
     (async () => {
@@ -30,16 +37,38 @@ export const SideSecondary = ({ user, project, setModalPages, setModalGroups, mo
     })();
   }, [modalTrash]);
 
-  const {t} = useTranslation()
+  const refOpenOptions = useRef<HTMLDivElement>(null);
+  useClickAway(refOpenOptions, () => setModalTrash(false));
+
+  const { t } = useTranslation();
   return (
     <>
-      <SideBarButton icon={<IconDashboard />} text={t("project")} link={`/${user}/${project?.id}`}/>
-      <SideBarButton icon={<IconPages />} fnClick={() => {setModalPages(true)}} text={t("pages")} />
-      <SideBarButton icon={<IconGroups />} fnClick={() => {setModalPages(true)}} text={t("projects-groups")} />
-      <div className="relative w-full">
-      <SideBarButton icon={<IconTrashBin />} fnClick={() => setModalTrash(true)} text={t("trash")}/>
-      <LocalModal condition={modalTrash} setCondition={setModalTrash}>
+                        <SideBarButton icon={<IconGroups />} text={t("projects-groups")} fnClick={() => setModalProjectGroups(true)} />
 
+      <SideBarButton
+        icon={<IconDashboard />}
+        text={t("project")}
+        link={`/${user}/${project?.id}`}
+      />
+      <SideBarButton
+        icon={<IconPages />}
+        fnClick={() => {
+          setModalPages(true);
+        }}
+        text={t("pages")}
+      />
+      <div className="relative w-full" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+        <SideBarButton
+          icon={<IconTrashBin />}
+          openOptions={modalTrash}
+          fnClick={() => setModalTrash(true)}
+          fnOpenOptions={() => setModalTrash(true)}
+          text={t("trash")}
+          iconOptions={<Arrow className="rotate-90" />}
+          hasButton
+          isHovering={isHovering}
+          openOptionsRef={refOpenOptions}
+        >
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-min w-80 text-primary dark:text-secondary h5 p-4">
               <p className="p flex flex-wrap text-center items-center h-min w-3/4 ">
@@ -61,10 +90,7 @@ export const SideSecondary = ({ user, project, setModalPages, setModalGroups, mo
               </div>
             </span>
           </If>
-        </LocalModal>
-        <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
-                <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={false}/>
-            </SideModal>
+        </SideBarButton>
       </div>
     </>
   );

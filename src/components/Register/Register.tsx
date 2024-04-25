@@ -1,4 +1,3 @@
-
 'use client'
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,7 +11,9 @@ import { ProgressBar } from "./ProgressBar";
 import { useRouter } from 'next/navigation';
 import { UserDetails } from "@/models/user/user/UserDetails";
 import { signIn } from "next-auth/react";
+import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
+import {Transition} from "../Transition";
 
 
 interface UserData {
@@ -68,7 +69,7 @@ type FormData = z.infer<typeof schema>;
   const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
     resolver: zodResolver(schema)
   });
-  const [user, setUser] = useState({} as FormData);
+  
   const { theme, setTheme } = useTheme();
   const router = useRouter();
 
@@ -79,13 +80,11 @@ type FormData = z.infer<typeof schema>;
     }
   };
 
-
   const handlePrevStep = () => {
     if (step > 0) {
       setStep(step - 1);
     }
   };
-
 
   const onSubmit = async (data: UserData) => {
     try {
@@ -102,7 +101,6 @@ type FormData = z.infer<typeof schema>;
   const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
   const iconMail = theme === "light" ? "/img/themeLight/mail.svg" : "/img/themeDark/mail.svg";
   const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
-
   const color = theme === "light" ? "#F04A94" : "#F76858";
 
   return (
@@ -110,9 +108,8 @@ type FormData = z.infer<typeof schema>;
       <div className="flex items-center flex-col md:h-1/2 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
         <h4 className="h4 leading-6 flex py-2 md:py-0">{t("register")}</h4>
         <ProgressBar step={step} color={color}/>
-        <form onSubmit={() => handleSubmit(onSubmit)}  className="h-4/5 w-4/5 flex flex-col items-center justify-between">
-
-          {step === 0 && (
+        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
+        {step === 0 && (
             <>
               <Input
                 className="inputRegister"
@@ -120,21 +117,20 @@ type FormData = z.infer<typeof schema>;
                 placeholder={t("register-name")}
                 value={user.name}
                 helperText={errors.name?.message}
-                register={{ ...register("name") }}
+                register={{...register("name")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey "}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
               />
-              {console.log()}
               <Input
                 className="inputRegister"
                 image={iconUser}
                 placeholder={t("register-surname")}
                 value={user.surname}
                 helperText={errors.surname?.message}
-                register={{ ...register("surname") }}
+                register={{ ...register("surname")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
-              />
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"} 
+                />
             </>
           )}
 
@@ -146,10 +142,9 @@ type FormData = z.infer<typeof schema>;
                 image={iconUser}
                 placeholder={t("register-username")}
                 helperText={errors.username?.message}
-                value={user.username}
-                register={{ ...register("username") }}
+                register={{ ...register("username")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -157,9 +152,9 @@ type FormData = z.infer<typeof schema>;
                 placeholder={t("register-email")}
                 value={user.mail}
                 helperText={errors.mail?.message}
-                register={{ ...register("mail") }}
+                register={{ ...register("mail")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
             </>
           )}
@@ -172,9 +167,9 @@ type FormData = z.infer<typeof schema>;
                 type="password"
                 placeholder={t("register-password")}
                 helperText={errors.password?.message}
-                register={{ ...register("password") }}
+                register={{ ...register("password")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none  px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -182,16 +177,17 @@ type FormData = z.infer<typeof schema>;
                 placeholder={t("confirm-password")}
                 type="password"
                 helperText={errors.confirmPassword?.message}
-                register={{ ...register("confirmPassword") }}
+                register={{ ...register("confirmPassword")}}
                 required
-                classNameInput={"w-5/6 h-full outline-none px-5 dark:bg-modal-grey"}
+                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
             </>
           )}
 
-
           <div className="flex justify-between w-full mt-4">
+            {step === 0 && <span className="w-28 h-7"></span>}
             {step > 0 && (
+
               <button type="button" onClick={handlePrevStep} className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC] ">
                 {t("back")}
               </button>
@@ -212,6 +208,5 @@ type FormData = z.infer<typeof schema>;
           </p>
         </form>
       </div>
-    </div>
   );
 };

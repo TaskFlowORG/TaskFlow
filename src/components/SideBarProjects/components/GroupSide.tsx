@@ -1,129 +1,116 @@
-import { Group, GroupPost, Permission, PermissionPost, Project, TypePermission, User } from "@/models";
+import {
+  Group,
+  GroupPost,
+  Permission,
+  Project,
+  TypePermission,
+} from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
-import { useState, useEffect } from "react";
-import { getData, getListData } from "@/services/http/api";
+import { useState, useEffect, useContext } from "react";
 import { GroupComponent } from "./GroupComponent";
-import { useRouter } from 'next/navigation';
-import { groupService, permissionService, userService } from "@/services";
-import { UserGet } from "@/models/user/user/UserGetDTO";
+import { useRouter } from "next/navigation";
+import { groupService, permissionService, projectService } from "@/services";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import { LocalModal } from "@/components/Modal";
+import { ProjectContext } from "@/contexts";
+import { InviteGroupToProject } from "./InviteGroupToProject";
 
 interface Props {
-    project: Project;
-    user: string;
-    setModalGroups: (value: boolean) => void;
-    global: boolean
+  project?: Project;
+  user: string;
+  setModalGroups: (value: boolean) => void;
+  global: string;
 }
 
-
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
-    const [groups, setGroups] = useState<Group[]>([]);
-    const [newGroup, setNewGroup] = useState<GroupPost>();
-    const [owner, setOwner] = useState<User>();
-    const [permissions, setPermissions] = useState<Permission[]>([]);
-    const router = useRouter();
+  const [groups, setGroups] = useState<SimpleGroup[]>([]);
+  const router = useRouter();
+  const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
+  const [openModal, setOpenModal] = useState<boolean>(false);   
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const fetchedUser = await userService.findLogged();
-                setOwner(fetchedUser)
+  const fetchData = async () => {
+    try {
+      const globalGroups = await groupService.findAll();
+      setGroupsGlobal(globalGroups);
+      let fetchedGroups: SimpleGroup[];
 
-                let fetchedGroups : Group[];
-                if (global == true) {
-                    fetchedGroups = await groupService.findGroupsByUser();
-                    setGroups(fetchedGroups)
-                } else if (global == false) {
-                     fetchedGroups = await groupService.findGroupsByAProject(project.id);
-                    setGroups(fetchedGroups)
-                }
-                const fetchedPermissions = await permissionService.findAll(project.id);
-                 const permissionArray: Permission[] = [];
+      if (global === "userGroups") {
+        fetchedGroups = await groupService.findGroupsByUser();
+        setGroups(fetchedGroups);
+      } else if (global === "projectGroups") {
+        fetchedGroups = await groupService.findGroupsByAProject(project!.id);
+        setGroups(fetchedGroups);
+      }
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    }
+  };
 
-                 fetchedPermissions.map(p => {
-                     if (p.project === project) {
-                         permissionArray.push(p);
-                     }
-                 });
+  const addNewGroup = async () => {
+    let groupPermission: Permission[] = [];
 
-                setPermissions(permissionArray);
-               
-            } catch (error) {
-                console.error("Error fetching groups:", error);
-            }
-            
-        };
-        
-        fetchData();
-    }, [project.id]);
-
-    const verOsGrupos = (): void => {
-        groups.map(g => {
-            console.log(g);
-        });
-    };
-
-    const addNewGroup = async () => {
-        const name: string = "Nome do grupo";
-        const description: string = "Descrição do grupo";
-        let groupPermission: Permission[] = [];
-        let userList: User[] = []
-
-        try {
-             const fetchedUser = await userService.findLogged();
-             if (!fetchedUser) {
-                 console.error("Owner não está definido!");
-                 return;
-             }
-             userList.push(fetchedUser)
-
-            let deleteCreatePermission = permissions.find(p => p.permission === TypePermission.READ);
-
-            if (!(deleteCreatePermission)) {
-                const newPermission = new PermissionPost("Permissão", TypePermission.READ, project);
-                await permissionService.insert(newPermission, project.id);
-                if(deleteCreatePermission){
-                    groupPermission.push(deleteCreatePermission);
-                }
-            }else {
-                    groupPermission.push(deleteCreatePermission);
-            }
-
-            const newGroup = new GroupPost(name, description, permissions, userList);
-            await groupService.insert(newGroup);
-
-        } catch (error) {
-            console.error("Erro ao adicionar novo grupo:", error);
-        }
-    };
-
-    return (
-        <span className="flex flex-col gap-14 max-h-screen pt-[4.5rem] h-full bg-white dark:bg-modal-grey shadow-blur-10 w-96 px-12">
-            <Navigate modalPages setCondition={setModalGroups} />
-            <ProjectInformations project={project} />
-
-            <div className="flex flex-col w-72 justify-center items-center h-4/6">
-                <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
-                    <div className="flex flex-col items-start max-w-full h-min w-full">
-                        <div className="max-w-full h-min w-full pt-2">
-                            {Array.isArray(groups) && groups.map((group, index) => (
-                                
-                                <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
-                                 dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
-                                    {()=> verOsGrupos()}
-                                    <button onClick={() => router.push("/" + owner?.username + "/" + project.id + "/group/" + group.id)}>
-                                        
-                                        <GroupComponent group={group} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-                <div className="h-min relative w-full flex justify-center pt-4">
-                    <button className="h-10 w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110" onClick={() => addNewGroup()}> Adicionar Grupo</button>
-                </div>
-            </div>
-        </span>
+    const newGroup = new GroupPost(
+      "Nome do grupo",
+      "Descrição do Grupo",
+      groupPermission,
+      []
     );
+
+    await groupService.insert(newGroup);
+    fetchData();
+  };
+
+
+  return (
+    <> 
+    <Navigate modalPages={false} setCondition={setModalGroups} />
+      <ProjectInformations project={project} />
+
+      <div className="flex flex-col w-72 justify-center items-center h-4/6">
+        <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
+          <div className="flex flex-col items-start max-w-full h-min w-full">
+            <div className="max-w-full h-min w-full pt-2">
+              {Array.isArray(groups) &&
+                groups.map((group, index) => (
+                  <div
+                    key={index}
+                    className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
+                                 dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
+                  >
+                    <button
+                      onClick={() =>
+                        router.push(
+                          "/" + user + "/" + project?.id + "/group/" + group.id
+                        )
+                      }
+                    >
+                      <GroupComponent
+                        user={user}
+                        group={group}
+                      />
+                    </button>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+        <div className="h-min relative w-full flex justify-center pt-4 ">
+          <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
+          <button
+            className="h-10 w-full rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+            onClick={() =>
+              global == "userGroups" ? addNewGroup() : setOpenModal(true)
+            }
+          >
+            {" "}
+            Adicionar Grupo
+          </button>
+        </div>
+      </div>
+    </>
+  );
 };

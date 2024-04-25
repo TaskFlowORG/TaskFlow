@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { Page, TaskOrdered, TaskPage } from "@/models";
 import { pageService } from "@/services";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   page: Page;
@@ -43,13 +44,13 @@ export const ListPage = ({ page }: Props) => {
     }
     return false;
   }
-
+  const {t} = useTranslation()
   return (
     <TableOrList name={page.name}>
       
       {
       pages.length == 0 ? 
-      <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center pt-64">Nenhuma pagina se conectou com essa!</div>
+      <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center items-center pb-32">{t("no-page-conected")}</div>
       :
       pages.map((p) => {
         return (

@@ -3,12 +3,12 @@ import { Api } from '@/services/axios';
 
 class ChatService {
     async saveGroup(chat: ChatGroupPost): Promise<ChatGroup> {
-        const response = await Api.post<ChatGroup>('chat/group', chat, {withCredentials: true});
+        const response = await Api.post<ChatGroup>('chat/group/'+chat.group.id, chat, {withCredentials: true});
         return response.data;
     }
 
-    async savePrivate(chat: ChatPrivatePost): Promise<ChatPrivate> {
-        const response = await Api.post<ChatPrivate>('chat/private', chat, {withCredentials: true});
+    async savePrivate(chat: ChatPrivatePost, userId: number): Promise<ChatPrivate> {
+        const response = await Api.post<ChatPrivate>('chat/private/'+userId, chat, {withCredentials: true});
         return response.data;
     }
 
@@ -28,8 +28,8 @@ class ChatService {
     }
 
     async updateMessages(
-        message: Message,
         chatId: number,
+        message: Message,
         annex?: File,
     ): Promise<Message> {
         const formData = new FormData();

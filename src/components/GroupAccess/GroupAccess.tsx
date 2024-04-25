@@ -1,66 +1,50 @@
 import React, { useState, useEffect } from 'react';
-import { getData, getListData, putData } from '@/services/http/api';
-import { Group, Project } from '@/models';
+import { getListData, putData } from '@/services/http/api';
+import { Group, GroupPut, Permission, Project } from '@/models';
 import { boolean, set } from 'zod';
-import { PermissionGet } from '@/models/project/permission/PermissionGetDTO';
 import { groupService, permissionService } from '@/services';
 import { useTheme } from 'next-themes';
-
-interface Permission {
-    id: number;
-    name: string;
-    project: Project
-}
+import { log } from 'console';
+import { Arrow } from './Arrow';
+import { SimpleGroup } from '@/models/user/group/SimpleGroup';
 
 interface Props {
     project: Project;
-    group: Group;
+    groupId: number;
 }
 
-export const GroupAccess: React.FC<Props> = ({ project, group }) => {
+export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
-    const [selectedPermission, setSelectedPermission] = useState<string>("");
+    const [selectedPermission, setSelectedPermission] = useState<number | undefined>();
+    const [group, setGroup] = useState<Group>();
     const [isEnable, setIsEnable] = useState(false);
-    const [newName, setNewName] = useState(group.name);
-    const [newDescription, setNewDescription] = useState(group.description);
-    const { theme } = useTheme();
+    const [newName, setNewName] = useState(group?.name);
+    const [newDescription, setNewDescription] = useState(group?.description);
 
-    useEffect(() => {
-        const getLists = async () => {
-            const fetchedPermissions = await getListData("permission");
-            setPermissions(fetchedPermissions);
-        };
-        getLists();
-    }, [group]);
-
-    const findPermission = async (selectedValue: string) => {
-        setSelectedPermission(selectedValue);
-        updatePermission(selectedValue);
+    const fetchData = async () => {
+        const fetchedPermissions = await permissionService.findAll(project.id);
+        setPermissions(fetchedPermissions);
+        const fetchedGroup = await groupService.findOne(groupId);
+        setGroup(fetchedGroup);
     };
 
-    const updatePermission = async (selectedValue: string) => {
-        console.log(selectedValue)
-        console.log(permissions)
+    useEffect(() => {
+        fetchData();
+    }, [groupId]);
+
+    const findPermission = (selectedValue: number) => {
         try {
-            const selectedPermission = permissions.find(permission => permission.name === selectedValue);
-            if (!selectedPermission) {
-                throw new Error('Permissão selecionada não encontrada.');
-            }
+            if (permissions) {
+                const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
-            const hasPermission = group.permissions.some(permission => permission.name === selectedPermission.name);
-
-            if (hasPermission) {
-                console.log('Este grupo já possui esta permissão.');
-                setSelectedPermission("");
-                alert('Este grupo já possui esta permissão.');
-            } else {
-                if (group.permissions != null) {
-                    group.permissions = []
+                if (selectedPermission) {
+                    if (group?.permissions && group.permissions.find(permission => permission.id === selectedPermission.id)) {
+                        setSelectedPermission(undefined);
+                        alert('Este grupo já possui esta permissão.');
+                    } else {
+                        savePermission(selectedPermission);
+                    }
                 }
-                group.permissions = [...group.permissions, await permissionService.findOne(selectedPermission.id)];
-                await putData("group", group);
-                setSelectedPermission("");
-                alert('Permissão atualizada com sucesso!');
             }
         } catch (error: any) {
             console.error('Erro ao atualizar permissão:', error.message);
@@ -68,80 +52,109 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
         }
     }
 
-    const handleButton = () => {
-        if (isEnable) {
-            setIsEnable(false);
-        } else {
-            setIsEnable(true);
+    const savePermission = async (selectedPermission: Permission) => {
+        try {
+            const updateGroup = await groupService.findOne(groupId)
+            updateGroup.permissions = [selectedPermission];
+            console.log(updateGroup.users);
+
+            await groupService.update(new GroupPut(updateGroup.id, updateGroup.name, updateGroup.description, updateGroup.permissions, updateGroup.users), updateGroup.id);
+            setSelectedPermission(undefined);
+            alert('Permissão atualizada com sucesso!');
+            fetchData();
+        } catch (error: any) {
+            alert("Não foi possível atualizar a permissão.");
         }
     }
 
-    const updateTheInformationsOFAGroup = () => {
-        group.name = newName;
-        group.description = newDescription
-        groupService.update(group);
-        setIsEnable(false)
+    const updateTheInformationsOFAGroup = async () => {
+        try {
+            const updateGroup = await groupService.findOne(groupId)
+            console.log("esse aqui", group);
+            
+            if (group != undefined) {
+                group.name = newName ?? ''
+                groupService.update(new GroupPut(groupId, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
+                
+            }
+            setIsEnable(false)
+
+        } catch (error: any) {
+            console.error("Erro ao atualizar o grupo: ", error.message)
+            alert("Erro ao atualizar o grupo!")
+            setIsEnable(false)
+        }
     }
 
-    const button = theme === "light" ? '/img/themeLight/edit.svg' : '/img/editar.svg';
-
     return (
-        <div className="flex pl-8  gap-4 items-start">
+        <div className="flex pl-8 gap-4 items-start">
             <div>
-                <div className="z-20 rounded-full w-24 h-24 bg-cyan-500"></div>
+                <div>
+                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={() => { setIsEnable(true) }}>
+
+                    </button>
+                </div>
             </div>
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC]"
+                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         type="text"
-                        value={isEnable ? newName : group.name}
+                        value={isEnable ? newName : group?.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
-                    <input
-                        className="mn whitespace-pre-wrap w-72 md:w-[403px] text-[#333] dark:text-[#FCFCFC]"
-                        type="text"
-                        value={isEnable ? newDescription : group.description}
+                    <textarea
+                        className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
+                        value={isEnable ? newDescription : group?.description}
                         onChange={(e) => setNewDescription(e.target.value)}
                         disabled={!isEnable}
                     />
                 </div>
-                <div className="flex md:justify-end">
+                <div className="flex md:justify-end relative">
                     <select
-                        className='flex mr-6 text-primary dark:text-secondary text-center w-[35%] ml-4 mnAlata border-2 rounded-sm border-primary dark:border-secondary'
+                        className="flex mr-6 text-primary dark:text-secondary  text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
                         value={selectedPermission}
-                        onChange={(e) => findPermission(e.target.value)}
+                        onChange={(e) => findPermission(+e.target.value)}
                     >
-                        {group.permissions && group.permissions.length > 0 ? (
-                            group.permissions.map((permission) => (
-                                <option key={permission.id} value="" disabled>{permission.name}</option>
-                            ))
-                        ) : (
-                            <option value="" disabled>Permissão</option>
-                        )}
-
-                        {permissions.map(permission => {
-                            if (permission.project.id === project.id) {
+                        {group?.permissions ? (
+                            group.permissions.map((permission) => {
+                                setSelectedPermission(permission.id);
                                 return (
-                                    <option className='flex justify-center' key={permission.name} value={permission.name}>
+                                    <option key={permission.id} value="" disabled>
                                         {permission.name}
                                     </option>
                                 );
-                            } else {
-                                return null;
-                            }
+                            })
+                        ) : (
+                            <option value="" disabled>
+                                Permissão
+                            </option>
+                        )}
+
+                        {permissions.map((permission) => {
+                            return (
+                                <option className="flex justify-center" key={permission.name} value={permission.id}>
+                                    {permission.name}
+                                </option>
+                            );
                         })}
                     </select>
+
+                    <div>
+                        <Arrow className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"} />
+                    </div>
+
                 </div>
+
                 <div className=''>
                     {isEnable ? (
-                        <div className='flex justify-between'>
+                        <div className='flex gap-11 md:justify-between '>
                             <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => {
-                                setIsEnable(false), setNewName(group.name,
-                                ), setNewDescription(group.description)
+                                setIsEnable(false), setNewName(group?.name,
+                                ), setNewDescription(group?.description)
                             }}>Cancelar</button>
                             <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
                         </div>
@@ -149,9 +162,9 @@ export const GroupAccess: React.FC<Props> = ({ project, group }) => {
                         <div className="flex px-48 md:px-0 md:justify-end">
                             <button className='z-30' onClick={() => setIsEnable(true)}>
                                 <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor"  className="text-primary dark:text-secondary stroke-none">
-                                        <path d="M27.5 13.3334H15C13.6739 13.3334 12.4021 13.8953 11.4645 14.8955C10.5268 15.8957 10 17.2523 10 18.6668V48.0001C10 49.4146 10.5268 50.7711 11.4645 51.7713C12.4021 52.7715 13.6739 53.3334 15 53.3334H42.5C43.8261 53.3334 45.0979 52.7715 46.0355 51.7713C46.9732 50.7711 47.5 49.4146 47.5 48.0001V34.6668M43.965 9.56277C44.4262 9.05339 44.978 8.64708 45.588 8.36757C46.198 8.08805 46.8541 7.94093 47.518 7.93477C48.1819 7.92862 48.8403 8.06356 49.4548 8.33173C50.0693 8.59989 50.6275 8.99591 51.097 9.49667C51.5664 9.99743 51.9377 10.5929 52.1891 11.2484C52.4405 11.9038 52.567 12.6061 52.5613 13.3142C52.5555 14.0224 52.4176 14.7222 52.1555 15.3729C51.8935 16.0236 51.5125 16.6121 51.035 17.1041L29.57 40.0001H22.5V32.4588L43.965 9.56277Z" 
-                                          />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
+                                        <path d="M27.5 13.3334H15C13.6739 13.3334 12.4021 13.8953 11.4645 14.8955C10.5268 15.8957 10 17.2523 10 18.6668V48.0001C10 49.4146 10.5268 50.7711 11.4645 51.7713C12.4021 52.7715 13.6739 53.3334 15 53.3334H42.5C43.8261 53.3334 45.0979 52.7715 46.0355 51.7713C46.9732 50.7711 47.5 49.4146 47.5 48.0001V34.6668M43.965 9.56277C44.4262 9.05339 44.978 8.64708 45.588 8.36757C46.198 8.08805 46.8541 7.94093 47.518 7.93477C48.1819 7.92862 48.8403 8.06356 49.4548 8.33173C50.0693 8.59989 50.6275 8.99591 51.097 9.49667C51.5664 9.99743 51.9377 10.5929 52.1891 11.2484C52.4405 11.9038 52.567 12.6061 52.5613 13.3142C52.5555 14.0224 52.4176 14.7222 52.1555 15.3729C51.8935 16.0236 51.5125 16.6121 51.035 17.1041L29.57 40.0001H22.5V32.4588L43.965 9.56277Z"
+                                        />
                                     </svg>
                                 </div>
                             </button>
