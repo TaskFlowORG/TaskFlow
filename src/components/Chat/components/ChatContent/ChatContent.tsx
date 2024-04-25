@@ -1,25 +1,28 @@
 import { TextContent } from "../TextContent/TextContent"
 import { Chat, Message, OtherUser } from "@/models"
 import { useState, useEffect, useContext, use } from "react"
-import { chatService, userService } from "@/services";   
+import { chatService, userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
+import { Keyboard } from "@/components/Keyboard";
+import { Dictophone } from "@/components/Dictophone";
+import { If } from "@/components/If";
 
-export const ChatContent = ({name, messages, id}: Chat) => {
+export const ChatContent = ({ name, messages, id }: Chat) => {
+
 
     const [mensagem, setMensagem] = useState<string>("")
-    const {user, setUser} = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
 
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
 
-
     async function enviarMensagem() {
-        if (mensagem != ""){
-            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser) , new Date(), [], ))
+        if (mensagem != "") {
+            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [],))
             setMensagem("")
         }
-        else{
+        else {
             alert("Mensagem vazia")
         }
     }
@@ -58,21 +61,19 @@ export const ChatContent = ({name, messages, id}: Chat) => {
                             <p>Este é o começo de sua conversa com {name} </p>
                         </div>
                         {messages.map((mensagem, index) => (
-                            <TextContent message={mensagem} key={index} />
+                            <>
+                                <TextContent message={mensagem} key={index} />
+                            </>
                         ))}
                     </div>
                 </div>
                 <div className="flex w-full h-[67%] gap-3">
                     <div className=" w-full h-full  bg-input-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
                         <div className="w-full">
-                            <input id="inputMensagem" onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..."/>
+                            <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                         </div>
-                        <button className="w-[10%] h-full">
-                            <img className="w-[50%] h-[50%]" src="/img/audio.svg" alt="" />
-                        </button>
-                        <button className="h-full">
-                            <img className="w-[70%] h-[70%]" src="/img/arquivo.svg" alt="" />
-                        </button>
+                        <Keyboard setValue={setMensagem} bottom></Keyboard>
+                        <Dictophone setText={setMensagem}></Dictophone>
                     </div>
                     <button onClick={() => enviarMensagem()} className="bg-primary w-[20%] lg:w-[6%] rounded-lg flex justify-center items-center">
                         <img className="w-[50%] h-[50%] lg:w-[60%] lg:h-[60%]" src="/img/enviar.svg" alt="" />

@@ -14,7 +14,6 @@ type chattype = {
 export const Chatt = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
-    const { user } = useContext(UserContext);
 
     useEffect(() => {
         (async function getChats() {
@@ -23,7 +22,6 @@ export const Chatt = ({ chatId }: chattype) => {
             const chat = [...response, ...response2].find(chat => chat.id === chatId)
             setChatContent(chat);
             setMessages(chat?.messages || [])
-            console.log("aaaaaaaaaaaaaaaaaaaaa" + chat);
             
         })()
     }, [chatId]);
