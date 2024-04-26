@@ -509,7 +509,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                           className="pt-2"
                           onClick={() => {
                             if (isTaskProperty(prop.property)) {
-                              setOpenedConfig(true);
+                              setOpenedConfig(!openedConfig);
                               setIdConfig(prop.property.id);
                             }
                           }}
@@ -654,6 +654,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                               closeOption={() => setOpenedConfig(false)}
                               task={task}
                               property={prop.property}
+                              close={() => setOpenedConfig(false)}
                             />
                           )}
                         </div>

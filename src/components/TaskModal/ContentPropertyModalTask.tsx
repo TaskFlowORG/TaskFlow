@@ -20,10 +20,12 @@ type Props = {
   property: Property;
   task: Task;
   closeOption: () => void;
+  close?: ()=>void;
 };
 export const ContentPropertyModalTask = ({
   property,
   task,
+  close,
   closeOption,
 }: Props) => {
   const { setProject, project } = useContext(ProjectContext);
@@ -155,6 +157,7 @@ export const ContentPropertyModalTask = ({
           onClick={() => {
             try {
               upDateProperty(property, getValues());
+              close && close()
               // setOpenOptions(false);
             } catch (e) {
               console.log(e);

@@ -1,8 +1,9 @@
-import { t } from "i18next";
+
 import { Button } from "../Button";
 import { useContext } from "react";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   updateTask: () => void;
@@ -10,6 +11,7 @@ type Props = {
 export const Buttons = ({ updateTask }: Props) => {
   const { setFilterProp, setList } = useContext(FilterContext);
   const {project, setProject} = useContext(ProjectContext)
+  const {t} = useTranslation()
   return (
     <div className="flex gap-4  w-full h-min justify-end items-center">
       <Button
