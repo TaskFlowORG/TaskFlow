@@ -2,8 +2,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { userService } from "@/services";
 import Link from "next/link";
-import {  MouseEventHandler, useContext, useEffect, useState } from "react";
-import { set } from "zod";
+import {  useContext, useEffect, useState } from "react";
 import { NotificationIcon, NotificationTitle } from "./components";
 import { If } from "../If";
 import { TaskModalContext } from "@/utils/TaskModalContext";
@@ -17,13 +16,21 @@ import { IconTrashBin } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { notificationService } from "@/services/services/NotificationService";
 import {useRouter} from "next/navigation";
+import { ErrorModal } from "../ErrorModal";
 
 export const Notification = ({
   notification,
   fnClick,
+  setError, 
+  setMessageError,
+  setTitleError
 }: {
   notification: NotificationModel;
   fnClick?: () => void;
+  setError: (value: boolean) => void;
+  setMessageError: (value: string) => void;
+  setTitleError: (value: string) => void;
+
 }) => {
   const [link, setLink] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
@@ -73,17 +80,29 @@ export const Notification = ({
         return t("notification-invite", {aux:notification.aux})};
   };
 
-  const clickNotification = async () => {
+  const clickNotification = async (e:any) => {
+    e.stopPropagation()
     if (!setUser || !user) return;
-    const updated = await notificationService.clickNotification(notification.id);
+
+     await notificationService.clickNotification(notification.id).catch((e) => {
+        if(e.response.status == 409){
+          console.log("ALOU")
+          setError(true);
+          setMessageError("Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o.");
+          setTitleError("Convite já aceito");
+        }
+    });
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
   };
 
-  const handleClick = async () => {
-    clickNotification();
+  const handleClick = async (e:any) => {
+    console.log("not stoped")
+    if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
+      clickNotification(e);
+    }
+
     fnClick && fnClick();
-    router.push(link);
     if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
       setIsOpen && setIsOpen(true);
       const task = (project?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == idTask)?.task);
@@ -118,7 +137,7 @@ export const Notification = ({
       <span className="w-min h-full flex flex-col gap-1 justify-between">
 
       <If condition={notification.type == TypeOfNotification.ADDINGROUP || notification.type == TypeOfNotification.INVITETOPROJECT}>
-      <button onClick={clickNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconSave classes="text-contrast"/></button>
+      <span onMouseDown={clickNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconSave classes="text-contrast"/></span>
       </If>
       <button onMouseUp={deleteNotification} className="bg-primary dark:bg-secondary p-[0.65rem] h-8 aspect-square rounded-md stroke-contrast"><IconTrashBin/></button>
       </span>

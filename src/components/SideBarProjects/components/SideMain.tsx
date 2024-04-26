@@ -42,10 +42,9 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
 
                         <SideBarButton icon={<IconProjects />} text={t("projects")} link={`/${user}/projects`} fnClick={() => setProject && setProject(undefined)} />
                         <SideBarButton icon={<IconGroups />} text={t("groups")} fnClick={() => setModalGroups(true)} />
-                        <SideBarButton icon={<IconGroups />} text={t("projects-groups")} fnClick={() => setModalProjectGroups(true)} />
 
                         <If condition={project != undefined}>
-                            <SideSecondary setModalPages={setModalPages} user={user} project={project} />
+                            <SideSecondary setModalProjectGroups={setModalProjectGroups} setModalPages={setModalPages} user={user} project={project} />
                         </If>
                     </div>
                     <div className="w-full h-min flex flex-col justify-end items-center" >
@@ -56,7 +55,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
             <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
-            <SideModal condition={modalGroups && project != undefined} setCondition={setModalGroups}>
+            <SideModal condition={modalGroups} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={"userGroups"} />
             </SideModal>
             <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>

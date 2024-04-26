@@ -1,5 +1,6 @@
 import { ProjectContext } from "@/contexts";
 import { Task, TimeValued } from "@/models";
+import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 import { taskService } from "@/services";
 import {
@@ -9,6 +10,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import Image from "next/image";
+import { DateTimelines } from "@/models/values/DateTimelines";
 
 interface Props {
   id: number;
@@ -32,20 +35,106 @@ export const TimeFilter = ({ value, task, id }: Props) => {
 
   const { project } = useContext(ProjectContext);
 
+  function diferencaEntreDatas(
+    data1: number,
+    data2: number
+  ): { horas: number; minutos: number; segundos: number } {
+    const diferenca = data2 - data1;
+    console.log(diferenca);
+    console.log(new Date(diferenca));
+    const horas = Math.floor(diferenca / 3600);
+    const minutos = Math.floor((diferenca % 3600) / 60);
+    const segundos = diferenca % 60;
+    return { horas, minutos, segundos };
+  }
+
+  const calcsTimes = (plus: number) => {
+    updateMinutes({
+      setPrincipal: setSeconds,
+      valueTest: seconds + plus,
+      callback: () =>
+        updateMinutes({
+          setPrincipal: setMinutes,
+          valueTest: minutes + plus,
+          callback: () => setHours((prev) => prev + plus),
+        }),
+    });
+  };
+
+  // Exemplo de uso:
+  // Timestamp em segundos
+
   useEffect(() => {
-    if (!value) return;
 
-    // if (value.starts.length > value.ends.length){
-    //   let date = new Date()
-    //   date.setDate(date.getDate() -1)
-    //   let time = new Date().getMilliseconds() - date.getMilliseconds()
-    //   console.log(time);
-    // }
 
-    // setHours(value?.parseDuration()!.hours ?? 0);
-    // setMinutes(value?.parseDuration()!.minutes ?? 0);
-    // setSeconds(value?.parseDuration()!.seconds ?? 0);
+    console.log(value);
+    if (value?.starts?.length > value?.ends?.length) {
+      const date = new Date(value.starts[value.starts.length - 1].date);
+      date.setHours(date.getHours() - 3);
+      const data1 = date.getTime();
+      console.log("data 1", new Date(data1));
+      // Timestamp em segundos
+      const data2 = new Date().getTime();
+      console.log("data 2", new Date(data2));
+      const { horas, minutos, segundos } = diferencaEntreDatas(
+        data1 / 1000,
+        data2 / 1000
+      );
+
+      // Exemplo de uso:
+      const tempo1: Tempo = {
+        horas: value?.time?.hours,
+        minutos: value?.time?.minutes,
+        segundos: value?.time?.seconds,
+      };
+      const tempo2: Tempo = {
+        horas: horas,
+        minutos: minutos,
+        segundos: Math.floor(segundos),
+      };
+
+      const tempoTotal = somarTempos(tempo1, tempo2);
+
+      setHours(tempoTotal.horas);
+      setMinutes(tempoTotal.minutos);
+      setSeconds(Math.floor(tempoTotal.segundos));
+      setPlay(true);
+    } else {
+      setHours(value?.time?.hours ?? 0);
+      setMinutes(value?.time?.minutes ?? 0);
+      setSeconds(Math.floor(value?.time?.seconds) ?? 0);
+    }
   }, []);
+
+  interface Tempo {
+    horas: number;
+    minutos: number;
+    segundos: number;
+  }
+
+  function somarTempos(tempo1: Tempo, tempo2: Tempo): Tempo {
+    let totalSegundos = tempo1.segundos + tempo2.segundos;
+    let totalMinutos = tempo1.minutos + tempo2.minutos;
+    let totalHoras = tempo1.horas + tempo2.horas;
+
+    // Ajustar os segundos se ultrapassar um minuto
+    if (totalSegundos >= 60) {
+      totalMinutos += Math.floor(totalSegundos / 60);
+      totalSegundos %= 60;
+    }
+
+    // Ajustar os minutos se ultrapassar uma hora
+    if (totalMinutos >= 60) {
+      totalHoras += Math.floor(totalMinutos / 60);
+      totalMinutos %= 60;
+    }
+
+    return {
+      horas: totalHoras,
+      minutos: totalMinutos,
+      segundos: totalSegundos,
+    };
+  }
 
   function updateMinutes({
     setPrincipal,
@@ -54,45 +143,64 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   }: typeFunctionChrono) {
     console.log(valueTest);
     if (!play) return;
-    if (valueTest >= 59) {
+    if (valueTest > 59) {
       callback();
       setPrincipal(0);
     } else {
-      setPrincipal((prevMinutes) => prevMinutes + 1);
+      setPrincipal(valueTest);
     }
   }
 
   const now = () => {
-    return new Date().toJSON().slice(0, -1);
+    //  let date = new Date(Date.now()).toJSON().slice(0, -1);
+    let date = new Date(Date.now());
+    date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
+    return date.toJSON().slice(0, -1);
   };
 
   const handleClickPause = () => {
     setPlay(false);
-    value.ends.push(now());
+    value.ends.push(new DateTimelines(now()));
     console.log(value.time);
-    value.time = `PT${hours}H${minutes}M${seconds}S`;
+    if (value.time) {
+      value.time.hours = hours;
+      value.time.minutes = minutes;
+      value.time.seconds = seconds;
+    } else {
+      value.time = new Duration(seconds, minutes, hours, null);
+    }
+
+    console.log(value);
+
     let taskReturned = taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
+
+  const handleClickRestart = () => {
+    value.time.hours = 0;
+    value.time.minutes = 0;
+    value.time.seconds = 0;
+    setHours(value.time.hours);
+    setMinutes(value.time.minutes);
+    setSeconds(Math.floor(value.time.seconds));
+    let taskReturned = taskService.upDate(task, project!.id);
+    console.log(taskReturned);
+  };
+
   const handleClickPlay = () => {
     setPlay(true);
-    // value.starts.push();
-    value.starts.push(now());
+    if (value?.starts == null) {
+      value.starts = [];
+    }
+    value.starts.push(new DateTimelines(now()));
+    console.log(value);
     let taskReturned = taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
+
   useEffect(() => {
     const intervalId = setInterval(() => {
-      updateMinutes({
-        setPrincipal: setSeconds,
-        valueTest: seconds,
-        callback: () =>
-          updateMinutes({
-            setPrincipal: setMinutes,
-            valueTest: minutes,
-            callback: () => setHours((prev) => prev + 1),
-          }),
-      });
+      calcsTimes(1);
     }, 1000);
 
     // Retorna uma função de limpeza que é executada quando o componente é desmontado
@@ -111,9 +219,11 @@ export const TimeFilter = ({ value, task, id }: Props) => {
         {!play && (
           <div
             onClick={handleClickPlay}
-            className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+            className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
           >
-            P
+            <div className="h-[10px] aspect-square relative">
+              <Image src={"/play.svg"} alt="Play" fill></Image>
+            </div>
           </div>
         )}
 
@@ -122,13 +232,18 @@ export const TimeFilter = ({ value, task, id }: Props) => {
             onClick={handleClickPause}
             className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
           >
-            Ps
+            <div className="h-[10px] aspect-square relative">
+              <Image src={"/pause.svg"} alt="pause" fill></Image>
+            </div>
           </div>
         )}
 
         {!play && (
-          <div className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary">
-            R
+          <div
+            className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+            onClick={handleClickRestart}
+          >
+            <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
           </div>
         )}
       </div>

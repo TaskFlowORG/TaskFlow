@@ -33,7 +33,7 @@ class GroupService {
         return response.data;
     }
 
-    async findGroupsByAProject(projectId: number): Promise<Group[]> {
+    async findGroupsByAProject(projectId: number): Promise<SimpleGroup[]> {
         const response = await Api.get<Group[]>(`group/project/${projectId}`, { withCredentials: true });
         return response.data;
     }

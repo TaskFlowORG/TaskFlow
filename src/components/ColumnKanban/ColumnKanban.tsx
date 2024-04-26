@@ -17,6 +17,7 @@ import { Option, Task, TaskOrdered, TypeOfProperty } from "@/models";
 import { useTheme } from "next-themes";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { showTask } from "../Pages/functions";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 interface Props {
   color?: string;
@@ -38,6 +39,8 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
   useEffect(() => {
     setTasks(tasks.filter((task) => showTask(task.task, context)) ?? []);
   }, [tasks, setFilterProp, filterProp]);
+
+  const hasPermission = useHasPermission("update");
 
   return (
     <div
@@ -90,6 +93,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
                       <Draggable
                         draggableId={`${item.id}-${option?.id}`}
                         key={index}
+                        isDragDisabled={!hasPermission}
                         index={allTasks.indexOf(item)}
                         // draggableId={`${item.id}`}
                         // index={index}

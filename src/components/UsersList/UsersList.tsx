@@ -86,9 +86,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     try {
       let newGroup;
       if (group != null) {
-        group?.users.push(user);
-        newGroup = new GroupPut(group.id, group.name, group.description, group.permissions, group.users);
-        await groupService.update(newGroup, group.id);
+        await groupService.inviteUser(group.id, user.id);
         fetchData();
       }
     } catch (error) {
@@ -158,12 +156,15 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
             )}
           </div>
           <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
-            {/* <PermissionUser
-              group={group}
-              user={group?.owner && group.owner.username} // Verifique se group.owner existe antes de acessar username
-              project={project}
-              key={group?.owner && group.owner.username} // Verifique se group.owner existe antes de usar username como chave
-            /> */}
+            {
+              group != undefined ?
+                <PermissionUser
+                  group={group}
+                  user={group?.owner} 
+                  project={project}
+                  key={group?.owner && group.owner.username}
+                /> : ""
+            }
 
             {
               group?.users.map((u) => (
@@ -173,7 +174,8 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
                   project={project}
                   key={u.username}
                 />
-              ))}
+              ))
+            }
           </div>
           {addButton}
         </div>

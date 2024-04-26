@@ -3,12 +3,13 @@ import { getData, putData } from "@/services/http/api";
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";
-import { OrderedPage, Page, Project, Property, TypeOfProperty } from "@/models";
+import { OrderedPage, Page, Project, Property, TypeOfPage, TypeOfProperty } from "@/models";
 import { pageService } from "@/services";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
 import { useTranslation } from "next-i18next";
+import test from "node:test";
 
 interface Props {
   propertiesPage: Property[];
@@ -53,6 +54,23 @@ export const OrderInput = ({
   useClickAway(ref, () => setIsModalOpen(false));
   const {t}=  useTranslation()
 
+  const testType = (property : Property) => {
+
+    if(page.type == TypeOfPage.CALENDAR){
+      return property.type == TypeOfProperty.DATE
+    }else if(page.type == TypeOfPage.KANBAN){
+      return [
+        TypeOfProperty.SELECT,
+        TypeOfProperty.TAG,
+        TypeOfProperty.RADIO,
+        TypeOfProperty.CHECKBOX,
+      ].includes(property.type)
+    }else if (page.type == TypeOfPage.TIMELINE){
+      return property.type == TypeOfProperty.TIME
+    }
+    return false
+  }
+
   return (
     <div
       ref={ref}
@@ -70,13 +88,7 @@ export const OrderInput = ({
               />
             );
           } else if (
-            [
-              TypeOfProperty.SELECT,
-              TypeOfProperty.TAG,
-              TypeOfProperty.RADIO,
-              TypeOfProperty.CHECKBOX,
-            ].includes(property.type) &&
-            !isInCalendar
+            testType(property)
           ) {
             return (
               <OrderOption

@@ -1,5 +1,4 @@
 import { UserContext } from "@/contexts/UserContext";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
@@ -8,11 +7,11 @@ import { Notification } from "../Notification";
 import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
-import { languageToString } from "@/functions/selectLanguage";
 import { Language } from "@/models";
 import Image from "next/image";
+import {onConnect} from "@/services/webSocket/webSocketHandler";
 import { notificationService } from "@/services/services/NotificationService";
-import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
+import { ErrorModal } from "../ErrorModal/ErrorModal";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -20,17 +19,32 @@ export const Header = ({
 }) => {
   const { user, setUser } = useContext(UserContext);
   const [showNotification, setShowNotification] = useState(false);
-  const [thereAreNotifications, setThereAreNotifications] = useState(false);
-  const [notifications, setNotifications] = useState<NotificationModel[]>([]);
+  const [thereAreNotifications, setThereAreNotifications] = useState<boolean>(user?.notifications ? user.notifications.find((notification) => !notification.visualized) ? true : false : false);
+  const [notifications, setNotifications] = useState<NotificationModel[]>(user?.notifications ? user.notifications ?? [] : []);
+
+  const [error, setError] = useState(false);
+  const [messageError, setMessageError] = useState("");
+  const [titleError, setTitleError] = useState("");
   
   useEffect(() => {
     if (!user?.notifications) return;
-    setThereAreNotifications( user?.notifications.find((notification) => !notification.visualized )
-        ? true
-        : false
-    );
-    setNotifications(user.notifications);
   }, [user]);
+
+  const sound = new Audio("/Assets/sounds/pop.mp3");
+  useEffect(() => {
+    console.log("play")
+    const conection = onConnect(`/notifications/${user!.id}`, (message) => {
+      const notification = JSON.parse(message.body);
+        setNotifications((prev) => [notification, ...prev]);
+        setThereAreNotifications(true);
+        sound.play();
+    });
+    return () => {
+      conection.disconnect();
+    }
+  },[])
+
+
 
   const changeLanguage = async  (value: string) => {
     if (!setUser || !user) return;
@@ -48,6 +62,9 @@ export const Header = ({
       setNotifications(updated);
     })();
   };
+
+
+
 
   return (
     <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
@@ -119,6 +136,9 @@ export const Header = ({
                       <Notification
                         notification={notification}
                         fnClick={closeModal}
+                        setError={setError}
+                        setMessageError={setMessageError}
+                        setTitleError={setTitleError}
                       />
                       {index < notifications.length - 1 ? (
                         <div className="w-[90%] bg-primary h-px" />
@@ -133,6 +153,7 @@ export const Header = ({
           </div>
         </div>
       </div>
+      <ErrorModal condition={error} setCondition={setError} message={messageError} title ={titleError} fnOk={() => setError(false)}/>
     </div>
   );
 };

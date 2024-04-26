@@ -6,8 +6,8 @@ export class SimpleGroup {
     constructor(
         public id: number,
         public name: string,
-        public permissions: Permission[],
         public picture: Archive,
+        public description: string,
     ) { }
 
 

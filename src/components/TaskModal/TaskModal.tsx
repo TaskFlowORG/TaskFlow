@@ -48,6 +48,8 @@ import { FileFilter } from "../FilterAdvancedInput/FilteFilter";
 import { TimeFilter } from "../FilterAdvancedInput/TimeFilter";
 import { SendComment } from "./CommentsSection/SendComment";
 import { CommentsContainer } from "./CommentsSection/CommentsContainer";
+import { Interval } from "@/models/values/Interval";
+import { Duration } from "@/models/values/Duration";
 
 type isOpenBro = {
   isOpen: boolean;
