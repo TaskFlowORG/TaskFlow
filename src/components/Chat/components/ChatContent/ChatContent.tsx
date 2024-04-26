@@ -8,15 +8,26 @@ import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 
+interface MessageGroup {
+    message: Message, 
+    isFirst: boolean
+}
+
 export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
 
     const [mensagem, setMensagem] = useState<string>("")
+    const [mensagens, setMensagens] = useState<MessageGroup[]>()
     const { user, setUser } = useContext(UserContext)
     const [ allMessages, setAllMessages ] = useState<Message[]>(messages)
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+
         scrollToBottom();
+        const k = messages.map((message, index )=> ({
+            message:message, isFirst:messages.indexOf(message) == messages.length-1 ? true :  message.sender.id != messages[index+1].sender.id
+        }))
+        setMensagens(k)
     }, [messages]);
 
     const pegarMensagem = (event: any) => {
@@ -93,35 +104,34 @@ export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
                     </div>
                 </div>
                 <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 ">
-                    <div className="flex  w-full flex-col gap-5">
-                        <div className="flex justify-center py-5 p text-primary">
+                    <div className="flex  w-full flex-col gap-1">
+                        <div className="flex justify-center py-5 text-p font-alata text-primary">
                             <p>Este é o começo de sua conversa com {name} </p>
                         </div>
-
-                        {messages.map((mensagem, index) => (
+                        {mensagens?.map((mensagem, index) => (
                             <>
-                                <If condition={firstMessageToday(new Date())?.id === mensagem.id}>
+                                <If condition={firstMessageToday(new Date())?.id === mensagem.message.id}>
                                     <div className="w-full flex justify-center">
                                         <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p>Hoje</p>
+                                            <p className="text-p font-montserrat text-contrast">Hoje</p>
                                         </div>
                                     </div>
                                 </If>
-                                <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.id}>
+                                <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.message.id}>
                                     <div className="w-full flex justify-center">
-                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p>Ontem</p>
+                                        <div className="flex justify-center w-fit min-w-16 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                            <p className="text-p font-montserrat text-contrast">Ontem</p>
                                         </div>
                                     </div>
                                 </If>
-                                <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.id}>
+                                <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.message.id}>
                                     <div className="w-full flex justify-center">
                                         <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p>{new Date(mensagem.dateCreate).getDate()}</p>
+                                            <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDate()}</p>
                                         </div>
                                     </div>
                                 </If>
-                                <TextContent sender={mensagem.sender.id} lastMessage={lastMessage} key={index} />
+                                <TextContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} />
                             </>
                         ))}
                         <div ref={messagesEndRef} />
