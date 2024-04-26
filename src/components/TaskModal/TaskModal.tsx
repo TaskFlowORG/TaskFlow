@@ -76,6 +76,7 @@ import { ContentModalProperty } from "../ContentModalProperty";
 import { useForm } from "react-hook-form";
 import { ModalProperty } from "../ModalProperty";
 import { ContentPropertyModalTask } from "./ContentPropertyModalTask";
+import { Buttons } from "./Buttons";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -90,6 +91,7 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   const [input, setInput] = useState("");
   const [taskName, setTaskName] = useState("");
   const [commentsTask, setCommentsTask] = useState<Message[]>([]);
+  const { filterProp, setFilterProp } = useContext(FilterContext);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -483,39 +485,39 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
             </div>
           </div>
         </CommentsContainer>
+        <FilterContext.Provider
+          value={{
+            filterProp: filter,
+            setFilterProp: setFilter,
+            list: list ?? undefined,
+            setList: setList,
+          }}
+        >
+          <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
+          <div className="w-full max-w-[547px] flex flex-col justify-between min-h-full ">
+            <div className="w-full max-w-[547px] ">
+              {/* bg-black */}
+              <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px]  overflow-auto bah pr-4 w-full">
+                {task?.properties.map((prop) => {
+                  return (
+                    <div
+                      key={prop.id}
+                      className="bg-white dark:bg-modal-grey flex flex-col"
+                    >
+                      <div className="flex gap-8 w-full items-start">
+                        <img
+                          className="pt-2"
+                          onClick={() => {
+                            if (isTaskProperty(prop.property)) {
+                              setOpenedConfig(true);
+                              setIdConfig(prop.property.id);
+                            }
+                          }}
+                          src="/config.svg"
+                          alt=""
+                        />
+                        {/* <span>C</span> */}
 
-        <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
-        <div className="w-full max-w-[547px] flex flex-col justify-between min-h-full ">
-          <div className="w-full max-w-[547px] ">
-            {/* bg-black */}
-            <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px]  overflow-auto bah pr-4 w-full">
-              {task?.properties.map((prop) => {
-                return (
-                  <div
-                    key={prop.id}
-                    className="bg-white dark:bg-modal-grey flex flex-col"
-                  >
-                    <div className="flex gap-8 w-full items-start">
-                      <img
-                        className="pt-2"
-                        onClick={() => {
-                          if (isTaskProperty(prop.property)) {
-                            setOpenedConfig(true);
-                            setIdConfig(prop.property.id);
-                          }
-                        }}
-                        src="/config.svg"
-                        alt=""
-                      />
-                      {/* <span>C</span> */}
-                      <FilterContext.Provider
-                        value={{
-                          filterProp: filter,
-                          setFilterProp: setFilter,
-                          list: list ?? undefined,
-                          setList: setList,
-                        }}
-                      >
                         <div className="flex flex-col justify-center  gap-2 flex-1">
                           <div className="flex-1 flex items-center relative   justify-between ">
                             <div className="flex gap-3">
@@ -607,12 +609,6 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                                   value={prop.value.value}
                                 />
                               ))}
-
-                            {/* <ModalProperty
-                                property={prop.property}
-                                deleteProperty={() => console.log("A")}
-                                upDateProperties={() => console.log("ALS")}
-                              ></ModalProperty> */}
                           </div>
                           {([
                             TypeOfProperty.CHECKBOX,
@@ -661,71 +657,53 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
                             />
                           )}
                         </div>
-                      </FilterContext.Provider>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div
-            onClick={() => setModalProperty(true)}
-            className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]"
-          >
-            <p className="font-montserrat text-base">
-              {t("add-task-property")}
-            </p>
-            <div>
-              <AddProp></AddProp>
-            </div>
-          </div>
-          {modalProperty && (
-            <ModalRegisterProperty
-              project={project!}
-              postProperty={postProperty}
-              close={() => {
-                setModalProperty(false);
-              }}
-              open={modalProperty}
-              page={project?.pages.find((page) => page.id == pageId)!}
-            ></ModalRegisterProperty>
-          )}
-
-          <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
-          <div className="flex justify-between items-center">
-            <div
-              className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
-              onClick={deleteTask}
-            >
-              <div className="w-[18px] aspect-square  stroke-white">
-                <IconTrashBin></IconTrashBin>
+                  );
+                })}
               </div>
             </div>
-            <div className="flex gap-4  w-full h-min justify-end items-center">
-              <Button
-                font="font-alata"
-                textSize="text-base"
-                text={t("cancel")}
-                secondary={true}
-                fnButton={() => {
-                  setList(undefined);
-                  setFilter([]);
-                }}
-                paddingY="py-1"
-                padding="p-4"
-              />
-              <Button
-                font="font-alata"
-                textSize="text-base"
-                text={t("save-changes")}
-                fnButton={() => updateTask()}
-                paddingY="py-1"
-                padding="p-4"
-              />
+
+            <div
+              onClick={() => setModalProperty(true)}
+              className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]"
+            >
+              <p className="font-montserrat text-base">
+                {t("add-task-property")}
+              </p>
+              <div>
+                <AddProp></AddProp>
+              </div>
+            </div>
+            {modalProperty && (
+              <div className="h-min">
+                <ModalRegisterProperty
+                  isInModal
+                  project={project!}
+                  postProperty={postProperty}
+                  close={() => {
+                    setModalProperty(false);
+                  }}
+                  open={modalProperty}
+                  page={project?.pages.find((page) => page.id == pageId)!}
+                ></ModalRegisterProperty>
+              </div>
+            )}
+
+            <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+            <div className="flex justify-between items-center">
+              <div
+                className="p-2 self-end justify-center items-center flex rounded-lg bg-primary dark:bg-secondary"
+                onClick={deleteTask}
+              >
+                <div className="w-[18px] aspect-square  stroke-white">
+                  <IconTrashBin></IconTrashBin>
+                </div>
+              </div>
+              <Buttons updateTask={updateTask} />
             </div>
           </div>
-        </div>
+        </FilterContext.Provider>
       </div>
     </CenterModal>
   );

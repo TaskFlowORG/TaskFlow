@@ -12,6 +12,7 @@ import { set } from "zod";
 import { InputCalendar } from "../InputCalendar";
 import { IconCalendar } from "../icons";
 import { useTranslation } from "next-i18next";
+import { compareDates } from "./functions";
 
 export const TimeLine = ({ page }: { page: Page }) => {
   //in seconds
@@ -50,20 +51,22 @@ export const TimeLine = ({ page }: { page: Page }) => {
         setInterval(intervalTemp < 2 ? 2 : intervalTemp);
         // setWidthOfInterval((prev) => prev * 2);
       }
-    }else{
+    } else {
       e.stopPropagation();
-      if(ref.current)
-      setScrollY(ref.current?.scrollTop + e.deltaY);
+      if (ref.current) setScrollY(ref.current?.scrollTop + e.deltaY);
     }
     setIntervals();
   };
   const ref = useRef<HTMLDivElement>(null);
-  const[date, setDate] = useState<string>(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState<string>(
+    new Date().toISOString().split("T")[0]
+  );
 
   useEffect(() => {
     if (ref.current) ref.current.scrollTop = scrollY;
   }, [scrollY]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
+
 
 
   return (
@@ -82,13 +85,19 @@ export const TimeLine = ({ page }: { page: Page }) => {
           <div className="w-full h-min flex justify-end">
             {/* Não consigo mudar o icone do input de data */}
             <div className=" bg-primary text-contrast dark:bg-secondary h-8 z-10 text-montserrat p-2 relative rounded-t-md">
-              <InputCalendar value={date} setValue={setDate} icon={<IconCalendar contrast />} />
+              <InputCalendar
+                value={date}
+                setValue={setDate}
+                icon={<IconCalendar contrast />}
+              />
             </div>
           </div>
           <div className="w-full h-full flex relative">
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">
-              <h5 className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
-              flex items-center justify-center  text-primary w-full dark:text-secondary">
+              <h5
+                className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
+              flex items-center justify-center  text-primary w-full dark:text-secondary"
+              >
                 Tarefas
               </h5>
               <TaskLegend
@@ -100,17 +109,21 @@ export const TimeLine = ({ page }: { page: Page }) => {
             </div>
             <div className="h-full flex w-3/5 sm:w-4/5 p-2">
               <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content z-50 ">
-                <div className="flex w-min h-full relative"
-                  onWheelCapture={handleWheel}>
+                <div
+                  className="flex w-min h-full relative"
+                  onWheelCapture={handleWheel}
+                >
                   <TimeLineHeader
                     interval={interval}
                     listOfIntervals={listOfIntervals}
                     widthOfInterval={widthOfInterval}
-                    />
+                  />
                   <div
                     className="flex h-full w-min pt-12 overflow-y-hidden  none-scrollbar"
-                      onScroll={(e) => {setScrollY(e.currentTarget.scrollTop)}}
-                      ref={ref}
+                    onScroll={(e) => {
+                      setScrollY(e.currentTarget.scrollTop);
+                    }}
+                    ref={ref}
                   >
                     <TasksInTimeline
                       interval={interval}
@@ -123,7 +136,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
                 </div>
               </div>
             </div>
-        <BackSquare />
+            <BackSquare />
           </div>
         </div>
       </div>
