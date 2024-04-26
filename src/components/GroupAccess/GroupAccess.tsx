@@ -144,7 +144,9 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
                     </select>
 
                     <div>
+
                         <Arrow className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"} />
+
                     </div>
 
                 </div>

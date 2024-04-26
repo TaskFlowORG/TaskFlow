@@ -6,60 +6,62 @@ import { OtherUser } from "@/models";
 import { use } from "react";
 class UserService {
 
-    async insert(user:UserPost):Promise<User>{
-        const response = await Api.post<User>("user", user, {withCredentials: true});
+    async insert(user: UserPost): Promise<User> {
+        const response = await Api.post<User>("user", user, { withCredentials: true });
         return response.data;
     }
-    async update(user:User):Promise<User>{
-        const userPut = new UserPut(user.id, user.name, user.surname,user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.notifications);
-        const response = await Api.put<User>("user", userPut, {withCredentials: true});
-        return response.data;
-    }
-
-    async patch(user:User):Promise<User>{
+    async update(user: User): Promise<User> {
         const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.notifications);
-        const response = await Api.patch<User>("user", userPut, {withCredentials: true});
+        const response = await Api.put<User>("user", userPut, { withCredentials: true });
         return response.data;
     }
 
-    async findByUsername(username:string):Promise<OtherUser>{
-        return (await Api.get<OtherUser>(`user/${username}`, {withCredentials: true})).data;
+    async patch(user: User): Promise<User> {
+        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.notifications);
+        const response = await Api.patch<User>("user", userPut, { withCredentials: true });
+        return response.data;
     }
 
-    async findLogged():Promise<User>{
-        return (await Api.get<User>(`user/logged`, {withCredentials: true})).data;
+    async findByUsername(username: string): Promise<OtherUser> {
+        return (await Api.get<OtherUser>(`user/${username}`, { withCredentials: true })).data;
+    }
+
+    async findLogged(): Promise<User> {
+        return (await Api.get<User>(`user/logged`, { withCredentials: true })).data;
     }
 
 
-    async upDatePicture(picture:File):Promise<User>{
+    async upDatePicture(picture: File): Promise<User> {
         const formData = new FormData();
         formData.append('picture', picture);
-        const response = await Api.patch<User>(`user/picture`, formData, {withCredentials: true});
+        const response = await Api.patch<User>(`user/picture`, formData, { withCredentials: true });
         return response.data;
 
     }
 
-    async upDatePassword( username:string,  password:string):Promise<User> {
-        const response = await Api.patch<User>(`user/password/${username}`, password, {withCredentials: true});
+    async upDatePassword(username: string, password: string): Promise<User> {
+        const formData = new FormData();
+        formData.append('password', password);
+        const response = await Api.patch<User>(`user/password/${username}`, formData, { withCredentials: true });
         return response.data;
     }
 
-    async delete(username:string):Promise<User>{
-        const response = await Api.delete<User>(`user/${username}`, {withCredentials: true});
+    async delete(username: string): Promise<User> {
+        const response = await Api.delete<User>(`user/${username}`, { withCredentials: true });
         return response.data;
     }
 
     async updatePassword(username: string, password: string): Promise<User> {
-        const response = await Api.patch<User>(`password/${username}`, password, {withCredentials: true});
+        const response = await Api.patch<User>(`password/${username}`, password, { withCredentials: true });
         return response.data;
     }
 
     async findAll(): Promise<OtherUser[]> {
-        return (await Api.get<OtherUser[]>(`user`, {withCredentials:true})).data;
+        return (await Api.get<OtherUser[]>(`user`, { withCredentials: true })).data;
     }
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
-        const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, {withCredentials: true});
+        const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
         return response.data;
     }
 }
