@@ -102,12 +102,12 @@ export const Login = () => {
                 "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"
               }
               onClick={() =>
-                signIn("credentials", {
+                {signIn("credentials", {
                   username: getValues("username"),
                   password: getValues("password"),
                   redirect: true,
                   callbackUrl: `/${getValues("username")}`,
-                })
+                })}
               }
             >
               Entrar
