@@ -1,6 +1,6 @@
 "use client";
 
-import { Chat, ChatGroupPost, ChatPrivatePost } from "@/models";
+import { Chat, ChatGroupPost, ChatPrivatePost, TypeOfChat } from "@/models";
 import React, { useCallback, useContext } from "react";
 import { useState, useEffect } from "react";
 import { Chats } from "../../../../../components/Chat/components/Chats";
@@ -15,6 +15,7 @@ import { log } from "console";
 import { useRouter } from "next/navigation";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { ChatsContext } from "@/contexts/ChatsContext";
+import { If } from "@/components/If";
 
 export default function ChatMessages({
   children,
@@ -31,6 +32,8 @@ export default function ChatMessages({
   const [possibleChats, setPossibleChats] = useState<
     Array<ChatGroupPost | ChatPrivatePost>
   >([]);
+  const [chatContenteType, setChatContentType] = useState<TypeOfChat>(TypeOfChat.PRIVATE)
+
   const { projects } = useContext(ProjectsContext);
 
   const handleChatClick = (chatId: number) => {
@@ -204,7 +207,7 @@ export default function ChatMessages({
                                   {chat.getName()}
                                 </div>
                               ))}
-                          </div>
+                          </div>  
                         </>
                       )}
                     </div>
@@ -213,10 +216,10 @@ export default function ChatMessages({
               </span>
             </div>
             <div className="w-full flex justify-around ">
-              <div className="link link-underline link-underline-black">
+              <div onClick={() => setChatContentType(TypeOfChat.PRIVATE)} className=" cursor-pointer link link-underline link-underline-black">
                 <h5 className="h5 text-black">Perfis</h5>
               </div>
-              <div className="link link-underline link-underline-black">
+              <div onClick={() => setChatContentType(TypeOfChat.GROUP)} className=" cursor-pointer link link-underline link-underline-black">
                 <h5 className="h5 text-black">Grupos</h5>
               </div>
             </div>
@@ -227,23 +230,22 @@ export default function ChatMessages({
               <div className="w-full">
                 {filteredChats.length == 0 ? (
                   <ChatDontExists />
-                ) : (
-                  filteredChats
-                    .map((chat) => (
-                        <Chats
-                          key={chat.id}
-                          id={chat.id}
-                          name={chat.name}
-                          messages={chat.messages}
-                          picture={chat.picture}
-                          quantityUnvisualized={chat.quantityUnvisualized}
-                          lastMessage={chat.lastMessage}
-                          type={chat.type}
-                          equals={chat.equals}
-                          onChatClick={handleChatClick}
-                        />
-                    ))
-                )}
+                )
+                  :
+                  (
+                    filteredChats.map((chat) => (
+                      <Chats
+                        key={chat.id}
+                        id={chat.id}
+                        name={chat.name}
+                        lastMessage={chat.lastMessage}
+                        type={chat.type}
+                        onChatClick={handleChatClick}
+                        chatContenteType={chatContenteType}
+                      />
+                      )
+                    )
+                  )}
               </div>
             </div>
           </div>
