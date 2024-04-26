@@ -70,19 +70,15 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
     const updateTheInformationsOFAGroup = async () => {
         try {
             const updateGroup = await groupService.findOne(groupId)
-            console.log("esse aqui", group);
-            
             if (group != undefined) {
                 group.name = newName ?? ''
                 groupService.update(new GroupPut(groupId, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
-                
+                setIsEnable(false)
             }
-            setIsEnable(false)
 
         } catch (error: any) {
             console.error("Erro ao atualizar o grupo: ", error.message)
             alert("Erro ao atualizar o grupo!")
-            setIsEnable(false)
         }
     }
 
@@ -100,7 +96,7 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
                     <input
                         className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         type="text"
-                        value={isEnable ? newName : group?.name}
+                        value={isEnable ? newName : group.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
@@ -144,9 +140,7 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
                     </select>
 
                     <div>
-
                         <Arrow className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"} />
-
                     </div>
 
                 </div>
