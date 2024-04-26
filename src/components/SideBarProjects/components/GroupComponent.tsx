@@ -7,25 +7,15 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     user: string;
-    groupId: SimpleGroup;
-    project: Project
+    group: SimpleGroup;
 }
 
-export const GroupComponent = ({ user, groupId, project}: Props) => {
+export const GroupComponent = ({ user, group}: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const [groupImage, setGroupImage] = useState('');
-    const [group, setGroup] = useState<Group>();
     const router = useRouter();
 
-     useEffect (() =>{
-        //  setGroupImage(group.picture.data);
-      fetchData();
-     })
-
-     const fetchData = async () => {
-        const fetchedGroup = await groupService.findOne(groupId.id);
-        setGroup(fetchedGroup)
-     }
+    
 
 
     const description = group?.description;
@@ -35,8 +25,8 @@ export const GroupComponent = ({ user, groupId, project}: Props) => {
 
      const deleteGroup = async () => {
         try {
-            await groupService.delete(groupId.id);
-            router.push("/" + user + "/" + project.id);
+            await groupService.delete(group.id);
+            router.push("/" + user);
         } catch (error) {
             console.error("Erro ao excluir o grupo:", error);
             alert("Erro ao excluir o grupo!");
