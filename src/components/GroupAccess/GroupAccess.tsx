@@ -96,7 +96,7 @@ export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
                     <input
                         className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         type="text"
-                        value={isEnable ? newName : group.name}
+                        value={isEnable ? newName : group?.name}
                         onChange={(e) => setNewName(e.target.value)}
                         disabled={!isEnable}
                     />
