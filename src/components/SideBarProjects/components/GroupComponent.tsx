@@ -7,27 +7,36 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     user: string;
-    group: SimpleGroup;
+    groupId: SimpleGroup;
+    project: Project
 }
 
-export const GroupComponent = ({ user, group}: Props) => {
+export const GroupComponent = ({ user, groupId, project}: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const [groupImage, setGroupImage] = useState('');
+    const [group, setGroup] = useState<Group>();
     const router = useRouter();
 
-    // useEffect (() =>{
-    //     setGroupImage(group.picture.data);
-    // })
+     useEffect (() =>{
+        //  setGroupImage(group.picture.data);
+      fetchData();
+     })
 
-    const description = group.description;
+     const fetchData = async () => {
+        const fetchedGroup = await groupService.findOne(groupId.id);
+        setGroup(fetchedGroup)
+     }
+
+
+    const description = group?.description;
     const displayFullDescription = description ? (description.length > 13 ? `${description.substring(0, 13)}...` : description) : '';
-    const name = group.name;
+    const name = group?.name;
     const displayFullName = name ? (name.length > 13 ? `${name.substring(0, 13)}...` : name) : '';
 
      const deleteGroup = async () => {
         try {
-            await groupService.delete(group.id);
-            router.push("/" + user);
+            await groupService.delete(groupId.id);
+            router.push("/" + user + "/" + project.id);
         } catch (error) {
             console.error("Erro ao excluir o grupo:", error);
             alert("Erro ao excluir o grupo!");
@@ -43,7 +52,7 @@ export const GroupComponent = ({ user, group}: Props) => {
             {/* colocar aqui a imagem do grupo depois*/}
             <div className="rounded-full w-14 h-14 bg-purple-300"> </div>
             <div className="flex flex-col">
-                <div key={group.id} className="text-start p rounded-md h-7 w-full hover:brightness-95">{displayFullName}</div>
+                <div key={group?.id} className="text-start p rounded-md h-7 w-full hover:brightness-95">{displayFullName}</div>
                 <div className="text-start m14 rounded-md h-7 w-full hover:brightness-95">{displayFullDescription}</div>
             </div>
             <div className="flex self-center pl-4">

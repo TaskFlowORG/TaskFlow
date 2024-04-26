@@ -25,7 +25,7 @@ class GroupService {
     }
 
     async findGroupsByUser(): Promise<SimpleGroup[]> {
-        const response = await Api.get<Group[]>("group/my", { withCredentials: true });
+        const response = await Api.get<Group[]>("group", { withCredentials: true });
         return response.data;
     }
     async findAll(): Promise<SimpleGroup[]> {
