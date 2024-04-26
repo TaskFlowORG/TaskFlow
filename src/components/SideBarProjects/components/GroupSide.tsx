@@ -56,7 +56,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         const newGroup = new GroupPost("Nome do grupo", "Descrição do Grupo", groupPermission, []);
 
         await groupService.insert(newGroup);
-        
+
         fetchData();
     };
 
@@ -74,7 +74,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                                 <div key={index} className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity 
                                  dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110">
                                     <button onClick={() => router.push("/" + user + "/" + project.id + "/group/" + group.id)}>
-                                        <GroupComponent user={user} groupId={group} project={project}/>
+                                        <GroupComponent user={user} groupId={group} project={project} />
                                     </button>
                                 </div>
                             ))}

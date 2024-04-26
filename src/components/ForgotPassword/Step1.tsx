@@ -27,7 +27,6 @@ interface Props {
 export const Step1 = ({ setStep }: Props) => {
     const { theme } = useTheme();
     const route = useRouter();
-    const [otp, setOtp] = useState<number>();
     const [user, setUser] = useState<FormData>({ username: "" });
     const { register, formState: { errors } } = useForm<FormData>({
         mode: "all",

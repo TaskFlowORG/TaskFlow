@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { userService } from "@/services";
 import { emailService } from "@/services/services/EmailService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const schema = z
     .object({
@@ -30,15 +30,12 @@ const schema = z
         }
     )
 
-interface UserData {
-    password: string;
-    confirmPassword: string;
-}
+
 
 type FormData = z.infer<typeof schema>;
 export const Step3 = () => {
-    const [user, setUser] = useState<UserData>({ password: "", confirmPassword: "" });
-    const { register, handleSubmit, formState: { errors } } = useForm<UserData>({
+    const [user, setUser] = useState<FormData>({ password: "", confirmPassword: ""});
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
         mode: "all",
         reValidateMode: "onChange",
         resolver: zodResolver(schema),
@@ -46,13 +43,14 @@ export const Step3 = () => {
     const { theme } = useTheme();
     const router = useRouter();
 
-    const resetPass = async () => {
+
+    const resetPass = async (password: string) => {
         try {
             const code = await emailService.getCode();
             code.map(async (c) => {
-                console.log(user.password);
-                
-                await userService.upDatePassword(c.username, user.password);
+                console.log("senha:", user.password);
+
+                await userService.upDatePassword(c.username, password);
             });
             router.push("/login");
         } catch (error) {
@@ -76,6 +74,7 @@ export const Step3 = () => {
                         register={{ ...register("password") }}
                         required
                         classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
+                        
                     />
                     <Input
                         className="inputRegister"
@@ -90,11 +89,12 @@ export const Step3 = () => {
                 </div>
 
                 <div className='flex justify-end w-4/5 pt-7 md:pt-0'>
-                    <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={resetPass}>
+                    <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={() => resetPass(getValues("password"))}
+                   
+            >
                         Confirmar
                     </button>
                 </div>
-
             </div>
         </>
     )
