@@ -1,14 +1,15 @@
 "use client";
 import React, { use, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Input } from "@/components/Input";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { SignInResponse, signIn, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
-import {Transition} from "../Transition";
+import { Transition } from "../Transition";
 import { Dictophone } from "../Dictophone";
+import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
@@ -24,10 +25,12 @@ type FormData = z.infer<typeof schema>;
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
+  const [loginError, setLoginError] = useState<string>("");
   const {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors },
   } = useForm<FormData>({
     mode: "all",
@@ -46,14 +49,34 @@ export const Login = () => {
       ? "/img/themeLight/password.svg"
       : "/img/themeDark/password.svg";
 
+  const login = async (data: FormData) => {
+    console.log(data);
+    await signIn("credentials", {
+      username: data.username,
+      password: data.password,
+      redirect: false,
+      callbackUrl: `/${data.username}`,
+    }).then((value?: SignInResponse) => {
+      if (value && value.ok) {
+        route.push(`/${data.username}`);
+      } else {
+        setLoginError("Usuário ou senha incorretos");
+      }
+    });
+  };
+
   return (
     <>
       <div className="flex h-full w-full  absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-        <div id="modalLogin" className="flex items-center flex-col h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
+        <form
+          id="modalLogin"
+          onSubmit={handleSubmit(login)}
+          className="flex items-center flex-col h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8"
+        >
           <h4 className="h4 leading-6 flex py-3 md:py-0">Acesse sua conta</h4>
+          <span className="text-red-500 text-sm">{loginError ?? ""}</span>
 
           <div className="h-4/5 w-4/5 flex flex-col items-center justify-between">
-
             <Input
               className="inputRegister"
               image={iconUser}
@@ -62,6 +85,7 @@ export const Login = () => {
               helperText={errors.username?.message}
               register={{ ...register("username") }}
               required
+              onChange={() => setLoginError("")}
               classNameInput={
                 "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
               }
@@ -70,7 +94,9 @@ export const Login = () => {
             <Input
               className="inputRegister"
               image={iconPassword}
+              type="password"
               placeholder="Digite sua senha"
+              onChange={() => setLoginError("")}
               value={user.password}
               helperText={errors.password?.message}
               register={{ ...register("password") }}
@@ -78,12 +104,15 @@ export const Login = () => {
               classNameInput={
                 "w-5/6  h-10 md:h-full outline-none px-5 dark:bg-modal-grey"
               }
-              onKeyDown={e => e.key === "Enter" && signIn("credentials", {
-                username: getValues("username"),
-                password: getValues("password"),
-                redirect: true,
-                callbackUrl: `/${getValues("username")}`,
-              })}
+              onKeyDown={(e) =>
+                e.key === "Enter" &&
+                signIn("credentials", {
+                  username: getValues("username"),
+                  password: getValues("password"),
+                  redirect: true,
+                  callbackUrl: `/${getValues("username")}`,
+                })
+              }
             />
 
             <div className="w-4/5 md:w-4/6 flex justify-between py-2">
@@ -101,19 +130,12 @@ export const Login = () => {
               className={
                 "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"
               }
-              onClick={() =>
-                {signIn("credentials", {
-                  username: getValues("username"),
-                  password: getValues("password"),
-                  redirect: true,
-                  callbackUrl: `/${getValues("username")}`,
-                })}
-              }
+              type="submit"
             >
               Entrar
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

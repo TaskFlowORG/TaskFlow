@@ -1,7 +1,7 @@
 "use client";
 import React, { FormEvent, use, useEffect, useState } from "react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
-import { z, ZodError, ZodIssue } from "zod";
+import { z, ZodError, ZodErrorMap, ZodIssue, ZodIssueCode } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input";
 import { userService } from "@/services";
@@ -28,7 +28,6 @@ export const Register = () => {
   const [step, setStep] = useState(0);
   const { t } = useTranslation();
   const [user] = useState({} as FormData);
-  const [error, setError] = useState(false)
 
   const schema = z
     .object({
@@ -43,8 +42,7 @@ export const Register = () => {
       username: z
         .string()
         .min(3, { message: t("username-min") })
-        .max(20, { message: t("username-max") })
-        .refine((value) => !error, { message: t("username-exists") }),
+        .max(20, { message: t("username-max") }),
       mail: z.string().email({ message: t("email-invalid") }),
       password: z
         .string()
@@ -71,6 +69,7 @@ export const Register = () => {
     register,
     handleSubmit,
     getValues,
+    setError,
     formState: { errors },
   } = useForm<FormData>({
     mode: "all",
@@ -90,6 +89,7 @@ export const Register = () => {
   };
   const onSubmit = async (data: FormData) => {
       const { username, name, surname, password, mail } = data;
+      console.log("data", data)
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
@@ -101,21 +101,22 @@ export const Register = () => {
       });
       }).catch((error) => {
         if(error.response.status == 409){
-            setError(true);
+          setError("username", {
+            message: t("username-exists"),
+            type: "manual",
+          });
+          setStep(1)
         }
       });
   };
 
-  const verifyErrorsSubmit = () => {
-    
+  const verifyStep = () => {
+    errors.confirmPassword && setStep(2)
+    errors.password && setStep(2)
+    errors.mail && setStep(1)
+    errors.username && setStep(1) 
     errors.name && setStep(0)
     errors.surname && setStep(0)
-    errors.username && setStep(1) 
-    errors.mail && setStep(1)
-    errors.password && setStep(2)
-    errors.confirmPassword && setStep(2)
-
-    handleSubmit(onSubmit);
   };
 
   const iconUser =
@@ -133,13 +134,13 @@ export const Register = () => {
   return (
     <div className="flex h-full w-full  absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
       <form
-        onSubmit={() => verifyErrorsSubmit()}
+        onSubmit={handleSubmit(onSubmit, verifyStep)}
         id="modalRegister"
         className="flex h-full items-center flex-col w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8"
       >
-        <h4 className="h4 leading-6 flex py-2 md:py-0">{t("register")}</h4>
-        <ProgressBar step={step} color={color} />
-        <div className="h-4/5 w-4/5 flex flex-col items-center justify-between py-2 md:py-0">
+        <h4 className="h4 leading-6 flex py-2 md:py-0 mb-2">{t("register")}</h4>
+        <ProgressBar step={step} color={color} /> 
+        <div className="h-4/5 w-4/5 flex flex-col mt-6 items-center justify-between py-2 md:py-0">
           {step === 0 && (
             <>
               <Input
@@ -232,7 +233,7 @@ export const Register = () => {
             <button
               type="button"
               onClick={handlePrevStep}
-              className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858]  text-[#FCFCFC] "
+              className="font-alata text-h5  rounded-lg w-28  bg-[#F04A94]  h-[44px] dark:bg-[#F76858]  text-[#FCFCFC] "
             >
               {t("back")}
             </button>
@@ -241,7 +242,7 @@ export const Register = () => {
             <button
               type="button"
               onClick={handleNextStep}
-              className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC] "
+              className="font-alata text-h5  rounded-lg w-28  bg-[#F04A94]  h-[44px] dark:bg-[#F76858] text-[#FCFCFC] "
             >
               {t("next")}
             </button>
@@ -249,7 +250,7 @@ export const Register = () => {
           {step === 2 && (
             <button
               type="submit"
-              className="font-alata text-md rounded-lg w-28 h-7 bg-[#F04A94] dark:bg-[#F76858] text-[#FCFCFC]"
+              className="font-alata text-h5  rounded-lg w-28  bg-[#F04A94]  h-[44px] dark:bg-[#F76858] text-[#FCFCFC]"
             >
               {t("register")}
             </button>

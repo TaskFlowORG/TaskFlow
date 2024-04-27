@@ -53,14 +53,14 @@ export const SideBarButton = ({
       className={
         `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
        dark:border-secondary-opacity bg-white dark:bg-modal-grey ` +
-        (renaming ? "cursor-text" : "cursor-pointer") +
         (pointerEventsNone ? " pointer-events-none" : "") +
         (openOptions ? "" : " hover:brightness-95 dark:hover:brightness-110")
       }
       onClick={fnClick}
     >
       <div
-        className="flex h-14 w-full justify-between items-center "
+        
+        className={"flex h-14 w-full justify-between items-center " + (renaming ? "cursor-text" : "cursor-pointer") }
         title={text}
       >
         <Link

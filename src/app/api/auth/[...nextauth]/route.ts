@@ -7,6 +7,7 @@ import { AuthOptions, NextAuthOptions } from "next-auth";
 import { JWTDecodeParams } from "next-auth/jwt";
 
 export const OPTIONS: NextAuthOptions = {
+   
     providers: [
         CredentialProvider({
             name: "Credentials",
@@ -14,22 +15,20 @@ export const OPTIONS: NextAuthOptions = {
                 username: { label: "username", type: "text" },
                 password: { label: "password", type: "password" }
             },
+
             async authorize(credentials): Promise<any> {
                 return await authentication.login(new UserLogin(credentials!.username, credentials!.password)).then((response) => {
-                    // if (response.headers && response.headers["set-cookie"]) {
-                    //     const jwtCookie = response.headers["set-cookie"];
-                    //     // Defina o cookie no cliente
-                    //     Cookies.set("JWT", jwtCookie);
-                    //   }
                     return response.data;
                 })
             },
-
-
         })
     ], pages: {
         signIn: '/login',
-        error: '/login'
+        signOut: '/login',
+        error: '/login',
+        verifyRequest: '/login',
+        newUser: '/register'
+                
     },
 }
 

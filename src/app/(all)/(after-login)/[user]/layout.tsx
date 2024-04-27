@@ -90,7 +90,7 @@ export default function Layout({
           value={{ isOpen, setIsOpen, task, setSelectedTask }}
         >
           <Header setSidebarOpen={setOpenSideBar}></Header>
-          <main className="w-screen h-full flex flex-col items-center justify-start">
+          <main className="w-screen h-screen flex flex-col items-center justify-start">
             <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
               <SideBarProjects user={params.user} project={project} />
             </SideModal>

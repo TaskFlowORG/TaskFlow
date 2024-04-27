@@ -12,6 +12,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
+import { archiveToSrc } from "@/functions";
 interface Props {
   project: ProjectSimple;
   user: string;
@@ -19,6 +21,7 @@ interface Props {
 export const ProjectComponent = ({ project, user }: Props) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
   const router = useRouter();
+  const src = archiveToSrc(project.picture);
   const { t } = useTranslation();
 
   return (
@@ -32,7 +35,9 @@ export const ProjectComponent = ({ project, user }: Props) => {
       <div className="flex gap-2 w-full">
         {/* Imagem do Projeto */}
         <div className="w-min">
-          <div className="bg-zinc-200 rounded-md w-12 h-12"></div>
+          <div className="bg-zinc-200 rounded-md w-12 h-12 relative">
+            <Image  src={src} fill alt="Image Project" />
+          </div>
         </div>
         <div className="w-full whitespace-nowrap overflow-hidden">
           <h4

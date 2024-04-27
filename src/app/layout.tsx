@@ -32,10 +32,6 @@ export default function RootLayout({ children, text }: Props) {
 
   return (
     <html lang="pt-br" className="w-screen h-screen">
-      <Head>
-        <title>Task Flow</title>
-        <link rel="icon" href="/Icon.svg" />
-      </Head>
       <UserContext.Provider value={{ user, setUser }}>
         <LanguageProvider>
           <I18nextProvider i18n={i18next } >

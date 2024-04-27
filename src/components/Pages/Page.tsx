@@ -95,7 +95,7 @@ export const Page = ({
 
 
   return (
-    <div className="w-screen h-screen mt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
+    <div className="w-screen h-screen pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
       <div className="w-full h-full">
         <If
           condition={
