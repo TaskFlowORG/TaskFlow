@@ -1,2 +1,2 @@
-export { Comment } from './CommentsSection/Comment';
+export { Comment } from "./CommentsAndHistoric/Comment";
 export { TaskModal } from "./TaskModal";
