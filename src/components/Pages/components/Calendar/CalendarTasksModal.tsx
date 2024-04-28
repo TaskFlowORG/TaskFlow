@@ -31,7 +31,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                     return (
                                         <div className="w-full flex justify-evenly flex-col" key={h}>
                                             <div className="w-full items-center flex gap-4" onLoad={e => console.log(e.target)}>
-                                                <span className="flex items-center">
+                                                <span className="flex items-center font-alata text-p">
                                                     {h < 10 ? "0" + h : h}:00 - {h < 10 ? "0" + h : h}:59
                                                 </span>
                                                 <Scrollable>

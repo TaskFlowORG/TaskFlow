@@ -67,7 +67,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
 
 
   return (
-    <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
+    <div className="w-full h-full flex flex-col justify-start items-center">
       <div className="h-full relative flex flex-col w-full gap-10">
         <div className=" w-full h-[75%] flex flex-col">
           <div className="w-full h-min flex justify-end">
@@ -78,9 +78,9 @@ export const TimeLine = ({ page }: { page: Page }) => {
           </div>
           <div className="w-full h-full flex relative">
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">
-              <h5 className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
+              <h5 className="text-p h-[3.4rem] md:text-h4 text-alata 
               flex items-center justify-center  text-primary w-full dark:text-secondary">
-                Tarefas
+                {t("tasks")}
               </h5>
               <TaskLegend
                 tasks={page.tasks.map((t) => t.task)}

@@ -74,6 +74,7 @@ export const PageSide = (
                   id={`${page.id}`}
                   value={page.id}
                   onChange={(e) => changeInput(e, page)}
+                  className="w-8 h-4"
                 />
               </If>
               <PageComponent

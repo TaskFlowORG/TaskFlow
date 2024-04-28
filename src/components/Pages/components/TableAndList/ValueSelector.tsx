@@ -34,12 +34,12 @@ const {t} = useTranslation();
                 <p >^</p>
                 <p className="rotate-180">^</p>
             </div>  
-            <span className="w-min truncate">
+            <span className="w-min truncate text-mn font-montserrat">
             {l.task.name ||t("withoutname")}
             </span>
         </div>
         :
-        <div className={"flex p ml-4 gap-4 p-3 h-14 w-[90%] items-center justify-start " +  (propVl?.value.value ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500")}>
+        <div className={"flex text-mn p ml-4 gap-4 p-3 h-14 w-[90%] [&_*]:text-mn [&_*]:font-montserrat items-center justify-start " +  (propVl?.value.value ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500")}>
           <If condition={property?.type == TypeOfProperty.ARCHIVE}>
             {propVl?.value.value == undefined ?
                 <div className="h-min w-min truncate">Sem Arquivo</div>

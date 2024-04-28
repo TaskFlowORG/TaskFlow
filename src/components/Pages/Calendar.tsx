@@ -139,9 +139,9 @@ export const Calendar = ({ page }: Props) => {
   }
 
   return (
-    <div className="w-full h-full flex justify-center items-start">
-      <div className="max-w-[80%] h-5/6 flex items-center flex-col aspect-square ">
-        <div className="h-fit w-full flex items-center justify-between">
+    <div className="w-full h-full flex justify-center pb-14 items-start">
+      <div className="max-w-full h-full flex items-center flex-col aspect-square ">
+        <div className="h-min w-full flex items-center justify-between">
           <div className="font-alata text-p dark:text-white smm:text-h4 sm:text-h3 md:text-h2  w-min text-primary">
             {year}
           </div>
@@ -168,7 +168,7 @@ export const Calendar = ({ page }: Props) => {
             ></SearchBar>
           </div>
         </div>
-        <div className="grid grid-cols-7 smm:gap-1 w-full h-fit">
+        <div className="grid grid-cols-7 smm:gap-1 w-full h-max max-h-full">
           <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
             {t("sunday").slice(0, 3).toUpperCase()}
           </span>

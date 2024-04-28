@@ -4,7 +4,7 @@ export const InputCalendar = ({value, setValue, icon}:{value:string, setValue:(v
     return(
         <div className="flex items-center h-full w-full justify-center relative">
             <input
-                className="px-2 bg-transparent relative"
+                className="px-2 bg-transparent relative text-h5 font-alata"
                 type="date"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}

@@ -153,6 +153,8 @@
   --font-size-mnAlata: 12px;
 }
 
+
+
 .m14 {
   @apply text-sm font-montserrat;
 }

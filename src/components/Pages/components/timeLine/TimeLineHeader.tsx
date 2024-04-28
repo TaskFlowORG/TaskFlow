@@ -49,7 +49,7 @@ export const TimeLineHeader = ({
           >
             <div
               style={{ width: widthOfInterval }}
-              className=" flex whitespace-nowrap justify-center py-2
+              className=" flex whitespace-nowrap justify-center py-2 text-p font-alata text-modal-grey dark:text-white
                bg-white dark:bg-modal-grey absolute z-30 border-b-2 h-12 border-primary dark:border-secondary"
             >
               {formatInterval(interval)}

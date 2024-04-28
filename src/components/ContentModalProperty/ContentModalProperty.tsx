@@ -21,6 +21,7 @@ export const ContentModalProperty = ({
 }: ContentModalPropertyProps) => {
   const permissionUpdate = useHasPermission("update");
   const [content, setContent] = useState<JSX.Element>(<></>);
+
   
   const fnReturnCheckbox = () => {
     if (
@@ -92,7 +93,7 @@ export const ContentModalProperty = ({
   useEffect(() => {
     const cotentTemp = fnReturnCheckbox();
     setContent(cotentTemp);
-  }, [type, property]);
+  }, [type, property, permissionUpdate  ]);
 
   return (
     <div className="h-full w-full flex justify-between px-6  items-center ">
