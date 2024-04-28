@@ -16,25 +16,10 @@ interface Props {
 
 
 export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, withotTime, notDay }: Props) => {
-
-    const pointerScroll = (elem: HTMLElement) => {
-
-        let isDrag = false;
-
-        const dragStart = () => isDrag = true;
-        const dragEnd = () => isDrag = false;
-        const drag = (ev: PointerEvent) => isDrag && (elem.scrollLeft -= ev.movementX);
-
-        elem.addEventListener("pointerdown", dragStart);
-        addEventListener("pointerup", dragEnd);
-        addEventListener("pointermove", drag);
-    };
-
-
     return (
         <CenterModal condition={modal} setCondition={setModal} >
             <div className="h-96 flex flex-col p-6 items-start gap-5 justify-start w-full">
-                <h5 className="h5 ">
+                <h5 className="text-h5 font-alata ">
                     {title}
                 </h5>
                 <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
@@ -73,7 +58,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                         <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                     ))
                                     :
-                                    <p className="text-montserrat text-[24px] opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
+                                    <p className="font-montserrat text-h4 opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
                             }
                         </div>
                     </If>

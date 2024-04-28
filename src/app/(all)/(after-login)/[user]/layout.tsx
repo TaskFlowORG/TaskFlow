@@ -45,6 +45,15 @@ export default function Layout({
       document.documentElement.style.setProperty('--primary-color', user.configuration.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', user.configuration.secondaryColor);
       document.documentElement.style.setProperty( "--contrast-color", generateContrast(theme == "light" ? user.configuration.primaryColor : user.configuration.secondaryColor) );
+
+        document.documentElement.style.setProperty('--font-size-h1', `${3.5 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-h2', `${3 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-h3', `${2 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-h4', `${1.5 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-h5', `${1.25 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-p', `${user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-mn', `${0.875 * user.configuration.fontSize}px`);
+        document.documentElement.style.setProperty('--font-size-mnAlata', `${0.75 * user.configuration.fontSize}px`);
     })();
   },[user] );
   

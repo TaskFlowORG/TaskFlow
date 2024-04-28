@@ -5,6 +5,8 @@ import { ProjectSimple } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import { Button } from "../Button";
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "react-i18next";
+import { If } from "../If";
 
 interface FilterProjectProps {
   projects?: ProjectSimple[];
@@ -22,6 +24,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
   const [isOwner, setIsOwner] = useState<boolean>();
   const { user } = useContext(UserContext);
   const{project} = useContext(ProjectContext);
+  const {t} = useTranslation();
 
   const cleanFilter = () => {
     setProgress(null);
@@ -65,7 +68,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
   );
 
   return (
-    <div className="h-min w-60 p-4 rounded-md text-[16px] overflow-y-auto 
+    <div className="h-min w-60 p-4 rounded-md text-p font-montserrat overflow-y-auto 
     bg-input-grey dark:bg-modal-grey text-modal-grey dark:text-white">
       <div className="flex flex-col gap-2">
         <SectionFilter
@@ -74,32 +77,37 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           max={100}
           setNumber={setProgress}
           step={0.01}
-          title="Progresso"
+          title={t("progresso")}
         />
+        <If condition={maxPages > 0}>
+
         <SectionFilter
           number={qttyPages}
           max={maxPages}
           setNumber={setQttyPages}
           step={1}
-          title="Quantidade de Páginas"
+          title={t("page-quantity")}
         />
+        </If>
+        <If condition={maxProperties > 0}>
         <SectionFilter
           number={qttyProperties}
           max={maxProperties}
           setNumber={setQttyProperties}
           step={1}
-          title="Quantidade de Propriedades"
-        />
+          title={t("properties-quantity")}
+        /> </If>
+        <If condition={maxGroups > 0}>
         <SectionFilter
           number={qttyGroups}
           max={maxGroups}
           setNumber={setQttyGroups}
           step={1}
-          title="Quantidade de Grupos"
-        />
+          title={t("groups-quantity")}
+        /> </If>
       </div>
-      <p>Dono/Membro</p>
-      <div className="flex justify-between h-min items-center">
+      <p>{t("owner/member")}</p>
+      <div className="flex justify-between h-min items-center  text-p font-montserrat ">
         <input
           onChange={(e) => setIsOwner(undefined)}
           type="radio"
@@ -107,7 +115,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           checked={isOwner === undefined}
           id="all"
         />
-        <label htmlFor="all">Todos</label>
+        <label htmlFor="all">{t("all")}</label>
         <input
           onChange={(e) => setIsOwner(true)}
           type="radio"
@@ -115,7 +123,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           name="filterOwner"
           id="owner"
         />
-        <label htmlFor="owner">Dono</label>
+        <label htmlFor="owner">{t("owner")}</label>
         <input
           onChange={(e) => setIsOwner(false)}
           type="radio"
@@ -123,11 +131,11 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           name="filterOwner"
           id="member"
         />
-        <label htmlFor="member">Membro</label>
+        <label htmlFor="member">{t("member")}</label>
       </div>
       <span className="w-full flex justify-end pt-2">
         
-      <Button fnButton={cleanFilter} paddingY="py-2" font="text-[13px]" text={"Limpar"} />{" "}
+      <Button fnButton={cleanFilter} paddingY="py-0" textSize=" text-p font-montserrat "  padding="p-4" font="text-[13px]" text={t("clear")} />
       </span>
     </div>
   );

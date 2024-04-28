@@ -32,22 +32,22 @@ export const ProjectComponent = ({ project, user }: Props) => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-2 w-full h-min items-center">
         {/* Imagem do Projeto */}
         <div className="w-min">
           <div className="bg-zinc-200 rounded-md w-12 h-12 relative">
             <Image  src={src} fill alt="Image Project" />
           </div>
         </div>
-        <div className="w-full whitespace-nowrap overflow-hidden">
+        <div className="w-full h-full flex flex-col justify-center whitespace-nowrap overflow-hidden">
           <h4
-            className="w-full font-alata text-[16px] text-modal-grey dark:text-white text-ellipsis overflow-hidden"
+            className="w-full h-min font-alata text-p text-modal-grey dark:text-white text-ellipsis overflow-hidden"
             style={!project.name ? { opacity: 0.5 } : {}}
           >
             {project.name ?? t("withoutname")}
           </h4>
           <p
-            className="w-full font-montserrat text-[12px] text-modal-grey dark:text-white truncate"
+            className="w-full h-min font-montserrat text-mn text-modal-grey dark:text-white truncate"
             style={!project.description ? { opacity: 0.5 } : {}}
           >
             {project.description ?? t("withoutdescription")}
