@@ -6,6 +6,7 @@ import { Button } from "../../Button"
 import { useTranslation } from "next-i18next"
 import { ProjectComponent } from "@/components/InitialAndProjectsPage"
 import { ProjectContext } from "@/contexts"
+import { IconTrashBin, IconRedo } from "@/components/icons"
 
 interface Props {
     task: Task
@@ -30,7 +31,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
     return (
         <>
             <div className="flex justify-between gap-3 items-center z-50 w-full">
-                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}>E</button>
+                <button className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}><span className="stroke-contrast"><IconTrashBin/></span></button>
                 <div className="truncate  text-p font-montserrat  h-full w-min flex items-center cursor-default"
                     title={`Tarefa "${task.name ?? t("withoutname")}" foi exluida por "${user?.name}"`}>
                     <span className="truncate h-full w-min">
@@ -40,7 +41,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
 
                     </span>
                 </div>
-                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}>R</button>
+                <button className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}><IconRedo/></button>
             </div>
             <If condition={modalDelete}>
                 <>
