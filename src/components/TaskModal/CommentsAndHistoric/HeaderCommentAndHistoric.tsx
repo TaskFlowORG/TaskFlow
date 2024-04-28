@@ -13,7 +13,7 @@ export const HeaderCommentAndHistoric = ({
 }: Props) => {
   const { t } = useTranslation();
   const container = twMerge(
-    "w-full  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg",
+    "w-1/2  flex items-center gap-4  px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg",
     !isSelected
       ? "bg-white dark:bg-modal-grey border-2 border-[#343434] text-black dark:text-white"
       : ""

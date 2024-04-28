@@ -4,11 +4,9 @@ import { HeaderCommentAndHistoric } from "./CommentsAndHistoric/HeaderCommentAnd
 import { PropertiesSide } from "./PropertiesSide";
 import { ProjectContext } from "@/contexts";
 import { OtherUser, Task, User } from "@/models";
-import { userService, taskService } from "@/services";
+import { userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { PageContext } from "@/utils/pageContext";
 import { useState, useContext, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { TaskName } from "./TaskName";
 
 type Props = {
@@ -52,33 +50,32 @@ export const TaskModalContent = ({
     findGroups();
   }, [project]);
 
-  const { t } = useTranslation();
-
   return (
-    <div className="flex gap-[102px] w-full h-full ">
-      <div className="flex flex-col gap-12 w-[453px]">
-        { isInModal &&  <TaskName task={task} />}
-          <div className="flex flex-col w-full gap-6">
-            <div className="flex gap-0 w-full">
-              <HeaderCommentAndHistoric
-                title="comments"
-                isSelected={isInComments}
-                setIsInComments={() => {
-                  setIsInComments(!isInComments);
-                  setIsInHistorics(!isInHistorics);
-                }}
-              />
-              <HeaderCommentAndHistoric
-                title="historical"
-                isSelected={isInHistorics}
-                setIsInComments={() => {
-                  setIsInComments(!isInComments);
-                  setIsInHistorics(!isInHistorics);
-                }}
-              />
-            </div>
-            {isInComments && <CommentsSection task={task} user={user} />}
+    <div className="flex justify-between flex-col md:flex-row  w-full h-full max-w-[1300px]">
+      <div className="flex flex-col gap-12 w-full md:w-2/5">
+        {isInModal && <TaskName task={task} />}
+        <div className="flex flex-col w-full gap-6">
+          <div className="flex gap-0 w-full">
+            <HeaderCommentAndHistoric
+              title="comments"
+              isSelected={isInComments}
+              setIsInComments={() => {
+                setIsInComments(!isInComments);
+                setIsInHistorics(!isInHistorics);
+              }}
+            />
+            <HeaderCommentAndHistoric
+              title="historical"
+              isSelected={isInHistorics}
+              setIsInComments={() => {
+                setIsInComments(!isInComments);
+                setIsInHistorics(!isInHistorics);
+              }}
+            />
           </div>
+          {isInComments && <CommentsSection task={task} user={user} />}
+          {isInHistorics && <CommentsSection task={task} user={user} />}
+        </div>
       </div>
       <FilterContext.Provider
         value={{

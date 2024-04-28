@@ -1,12 +1,5 @@
-"use client";
-
-import { useContext, useEffect, useState } from "react";
 import { CenterModal } from "../Modal";
-import { Task, User, OtherUser } from "@/models";
-
-import { userService } from "@/services";
-import { ProjectContext } from "@/contexts/ContextProject";
-
+import { Task, User } from "@/models";
 import { TaskModalContent } from "./TaskModalContent";
 
 type isOpenBro = {
@@ -17,10 +10,10 @@ type isOpenBro = {
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
-
   return (
     <CenterModal
-      stylesTailwind={"w-[1306px]  shadow-blur-10 p-12"}
+      // stylesTailwind={" w-[1308px] w-max p-12"}
+      stylesTailwind={"2xl:w-[1308px] xl:w-[1000px] w-max  shadow-blur-10 p-12"}
       condition={isOpen}
       setCondition={() => {
         setIsOpen(false);

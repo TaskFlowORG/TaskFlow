@@ -223,10 +223,10 @@ export const PropertiesSide = ({
   }
 
   return (
-    <div className="w-full max-w-[547px] flex flex-col justify-between min-h-full ">
-      <div className="w-full max-w-[547px] ">
+    <div className="w-full md:w-2/5 flex flex-col justify-between min-h-full ">
+      <div className="w-full  ">
         {/* bg-black */}
-        <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px]  overflow-auto bah pr-4 w-full">
+        <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px] overflow-auto bah pr-4 w-full">
           {task?.properties.map((prop) => {
             return (
               <div
