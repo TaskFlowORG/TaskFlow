@@ -60,7 +60,9 @@ export const SideBarButton = ({
     >
       <div
         
-        className={"flex h-14 w-full justify-between items-center " + (renaming ? "cursor-text" : "cursor-pointer") }
+        className={"flex  h-14 w-full justify-between items-center " + 
+        (renaming ? "cursor-text" : "cursor-pointer") + 
+        (openOptions ? " border-b-2 border-zinc-200 dark:border-zinc-800" : "") }
         title={text}
       >
         <Link
@@ -72,7 +74,7 @@ export const SideBarButton = ({
           </div>
           <p
             className={
-              "p text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
+              "text-p font-montserrat text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
               (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
               (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem]" : "smm:w-[6rem] sm:w-[9rem]")
             }

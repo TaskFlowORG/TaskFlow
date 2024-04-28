@@ -4,7 +4,7 @@ interface Props { fnButton: (e:MouseEvent) => void, text: string, icon: React.Re
 
 export const ButtonPageOption = ({ fnButton, text, icon }: Props) => {
   return (
-    <button className="w-min h-min items-center flex gap-4 dark:bg-modal-grey text-[16px]"
+    <button className="w-min h-min items-center flex gap-4 dark:bg-modal-grey text-p font-montserrat"
       onClick={fnButton} >
       <span className="stroke-modal-grey dark:stroke-white w-4 h-4">{icon}</span>
       <span className="w-px h-4 bg-modal-grey" />

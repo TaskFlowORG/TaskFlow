@@ -141,8 +141,8 @@ export const Calendar = ({ page }: Props) => {
   return (
     <div className="w-full h-full flex justify-center pb-14 items-start">
       <div className="max-w-full h-full flex items-center flex-col aspect-square ">
-        <div className="h-min w-full flex items-center justify-between">
-          <div className="font-alata text-p dark:text-white smm:text-h4 sm:text-h3 md:text-h2  w-min text-primary">
+        <div className="h-min w-full flex items-center justify-between gap-2">
+          <div className="font-alata text-p dark:text-white smm:text-h4 sm:text-h3  w-min text-primary">
             {year}
           </div>
           <div className="w-full h-min flex justify-center items-center">
@@ -150,8 +150,8 @@ export const Calendar = ({ page }: Props) => {
               <Arrow />
             </button>
             <span
-              className=" font-alata text-p dark:text-white smm:text-h4 sm:text-h3 md:text-h2   h-min text-secondary
-                         e w-24 smm:w-36  md:w-64 text-center"
+              className=" font-alata text-p dark:text-white smm:text-h4 sm:text-h3   h-min text-secondary
+                       w-full text-center"
             >
               {t(getMonthName())}
             </span>

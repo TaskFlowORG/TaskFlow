@@ -19,7 +19,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
     return (
         <CenterModal condition={modal} setCondition={setModal} >
             <div className="h-96 flex flex-col p-6 items-start gap-5 justify-start w-full">
-                <h5 className="text-h5 font-alata ">
+                <h5 className="text-h4 font-alata ">
                     {title}
                 </h5>
                 <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
@@ -31,7 +31,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                     return (
                                         <div className="w-full flex justify-evenly flex-col" key={h}>
                                             <div className="w-full items-center flex gap-4" onLoad={e => console.log(e.target)}>
-                                                <span className="flex items-center font-alata text-p">
+                                                <span className="flex items-center font-alata text-p w-min whitespace-nowrap">
                                                     {h < 10 ? "0" + h : h}:00 - {h < 10 ? "0" + h : h}:59
                                                 </span>
                                                 <Scrollable>
@@ -58,7 +58,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                         <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                     ))
                                     :
-                                    <p className="font-montserrat text-h4 opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
+                                    <p className="font-montserrat text-h5 text-center w-full opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
                             }
                         </div>
                     </If>

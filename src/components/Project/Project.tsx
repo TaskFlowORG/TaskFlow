@@ -119,7 +119,7 @@ export const Project = () => {
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-center text-primary 400:text-start dark:text-secondary rounderd-md text-[24px] font-alata"
+                className="bg-transparent w-full text-center font-alata text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? t("withoutname")}
@@ -134,14 +134,14 @@ export const Project = () => {
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full rounderd-md text-center 400:text-start"
+                className="bg-transparent w-full text-p font-montserrat rounderd-md text-center 400:text-start"
 
                 rows={2}
                 cols={2}
               />
             </div>
           </div>
-          <div className="400:w-52 w-full  h-full justify-center relative  text-[20px] text-modal-grey dark:text-white flex flex-col items-center">
+          <div className="400:w-52 w-full  h-full justify-center relative  text-h5 font-alata text-modal-grey dark:text-white flex flex-col items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -158,15 +158,15 @@ export const Project = () => {
                   setCondition={setChangingOwner}
                   right
                 >
-                  <div className="w-44 h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
+                  <div className="w-44 h-min max-h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
                     <If condition={possibleOwners.length > 0}>
                       <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
 
                         {possibleOwners.map((user) => (
-                          <button key={user.id} className="text-[14px] font-montserrat w-full min-h-10 rounded-md shadow-blur-10" onClick={() => project && projectService.updateOwner(user, project.id)}>@{user.username}</button>
+                          <button key={user.id} className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10" onClick={() => project && projectService.updateOwner(user, project.id)}>@{user.username}</button>
                         ))}
                       </div>
-                      <p className="w-full h-full flex justify-center text-[16px] items-center text-center">
+                      <p className="w-full h-full flex justify-center font-montserrat text-p items-center text-center">
                         {t("no-possible-users")}
                       </p>
                     </If>
@@ -176,7 +176,7 @@ export const Project = () => {
                   text={t("change-owner")}
                   padding="p-2"
                   paddingY="py-1"
-                  textSize="text-[16px]"
+                  textSize="text-p font-alata"
                   fnButton={() => setChangingOwner(!changingOwner)}
                 />
               </span>

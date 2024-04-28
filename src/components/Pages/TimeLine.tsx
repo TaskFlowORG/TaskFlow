@@ -65,6 +65,12 @@ export const TimeLine = ({ page }: { page: Page }) => {
   }, [scrollY]);
   const {t} = useTranslation();
 
+  useEffect(() => {
+    //getting the fontsize on variable css --font-size-p
+    const tempWidth  = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size-p").replace("px", ""));
+    setWidthOfInterval(tempWidth * 12);
+  
+  });
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-center">

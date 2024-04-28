@@ -104,15 +104,6 @@ export const Login = () => {
               classNameInput={
                 "w-5/6  h-10 md:h-full outline-none px-5 dark:bg-modal-grey"
               }
-              onKeyDown={(e) =>
-                e.key === "Enter" &&
-                signIn("credentials", {
-                  username: getValues("username"),
-                  password: getValues("password"),
-                  redirect: true,
-                  callbackUrl: `/${getValues("username")}`,
-                })
-              }
             />
 
             <div className="w-4/5 md:w-4/6 flex justify-between py-2">

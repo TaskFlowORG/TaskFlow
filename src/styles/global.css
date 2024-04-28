@@ -149,7 +149,7 @@
   --font-size-h5: 20px; 
   --font-size-p: 16px;
   --font-size-p14: 14px;
-  --font-size-mn: 12px;
+  --font-size-mn: 12px; 
   --font-size-mnAlata: 12px;
 }
 
@@ -668,7 +668,7 @@ input[type="number"] {
   cursor: default
 }
 .react-calendar {
-  @apply bg-white dark:bg-modal-grey w-full  font-alata;
+  @apply bg-white dark:bg-modal-grey w-full text-mn font-alata;
 }
 .react-calendar__navigation {
   @apply flex justify-between items-center gap-2;
@@ -685,10 +685,10 @@ abbr[title] {
 }
 .react-calendar__month-view__days {
   @apply rounded-sm  bg-input-grey dark:bg-back-grey 
-relative text-[10px]  text-modal-grey dark:text-white;
+relative text-mn  text-modal-grey dark:text-white;
 }
 .react-calendar__tile {
-  @apply rounded-sm  bg-clip-border box-border  
+  @apply rounded-sm  bg-clip-border box-border
   border-[1px] border-white relative dark:border-modal-grey aspect-square;
 }
 .react-calendar__navigation__prev2-button,

@@ -4,7 +4,6 @@ import { Api } from "../axios";
 class PermissionService {
 
     async insert(permission: PermissionPost, projectId:number): Promise<Permission> {
-       localStorage.setItem("permission", JSON.stringify(permission));
         
        return (await Api.post<Permission>("permission/project/"+projectId, permission, {withCredentials: true})).data;
     }
