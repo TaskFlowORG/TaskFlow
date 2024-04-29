@@ -5,6 +5,7 @@ import { UserLogin } from "@/models/user/user/UserLogin";
 import Cookies from "js-cookie";
 import { AuthOptions, NextAuthOptions } from "next-auth";
 import { JWTDecodeParams } from "next-auth/jwt";
+import { cookies } from "next/headers";
 
 export const OPTIONS: NextAuthOptions = {
     providers: [
@@ -21,6 +22,7 @@ export const OPTIONS: NextAuthOptions = {
                     //     // Defina o cookie no cliente
                     //     Cookies.set("JWT", jwtCookie);
                     //   }
+                    cookies().set("username", credentials!.username);
                     return response.data;
                 })
             },
