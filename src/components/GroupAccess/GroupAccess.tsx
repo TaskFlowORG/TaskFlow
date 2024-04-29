@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Group, GroupPut, OtherUser, Permission, Project } from '@/models';
 import { groupService, permissionService } from '@/services';
 import { Arrow } from './Arrow';
+import { PermissionComponent } from './PermissionComponent';
 
 interface Props {
     project: Project;
@@ -15,7 +16,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const [isEnable, setIsEnable] = useState(false);
     const [name, setName] = useState<string | undefined>(group?.name);
     const [description, setDescription] = useState<string | undefined>(group?.description);
-    const [selectedPermission, setSelectedPermission] = useState<string | "">("");
 
     const refDescription = useRef<HTMLTextAreaElement>(null);
     const refName = useRef<HTMLInputElement>(null);
@@ -28,7 +28,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         if (fetchedGroup) {
             setName(fetchedGroup?.name || "");
             setDescription(fetchedGroup?.description || "");
-            setSelectedPermission(fetchedGroup?.permissions[0]?.name)
         }
     };
 
@@ -38,34 +37,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
 
     }, [groupId]);
 
-    const findPermission = (selectedValue: number) => {
-        console.log(selectedValue);
-
-        try {
-            if (permissions) {
-                const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-
-                if (selectedPermission) {
-                    group?.permissions.slice(0, group.permissions.length);
-                    savePermission(selectedPermission);
-                }
-            }
-        } catch (error: any) {
-            alert('Não foi possível atualizar a permissão do grupo.');
-        }
-    }
-
-    const savePermission = async (selectedPermission: Permission) => {
-        try {
-            if (group != undefined) {
-                group.permissions = [selectedPermission]
-                await groupService.update(new GroupPut(groupId, group.name, group.description, group.permissions, group.users), groupId);
-                setSelectedPermission(selectedPermission.name)
-            }
-        } catch (error: any) {
-            alert("Não foi possível atualizar a permissão.");
-        }
-    }
 
     const updateNameOfAGroup = async () => {
         if (group && name) {
@@ -96,7 +67,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     <input
                         className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         ref={refName}
-                        disabled={project?.owner.id != user?.id}
+                        disabled={group?.owner.id != user?.id}
                         type="text"
                         value={name}
                         onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
@@ -106,47 +77,18 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     <textarea
                         className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         ref={refDescription}
-                        disabled={project?.owner.id != user?.id}
+                        disabled={group?.owner.id != user?.id}
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         onBlur={updateDescriptionOfAGroup}
                     />
                 </div>
-                <div className="flex md:justify-end relative">
-                    <select
-                        className="flex mr-6 text-primary dark:text-secondary text-center w-[55%] md:w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
-                        name="permission"
-                        id="permission"
-                        value={selectedPermission}
-                        onChange={(e) => findPermission(+e.target.value)}
-                    >
-                        {!group || (group.permissions && group.permissions.length === 0) ? (
-                            <option value="" disabled selected>
-                                Permissão
-                            </option>
-                        ) :
-                        (
-                            group.permissions.map((p) => (
-                                <option key={p.id} value={p.id}>
-                                    {p.name}
-                                </option>
-                            ))
-                        )}
-
-                        {permissions && (
-                            permissions.map((p) => {
-                                return (
-                                    <option className="flex justify-center" key={p.id} value={p.id}>
-                                        {p.name}
-                                    </option>
-                                );
-                            })
-                        )}
-                    </select>
-                    <div>
-                        <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
+                {group?.owner.id === user.id && (
+                    <div className="flex md:justify-end relative">
+                        <PermissionComponent permissions={permissions} group={group} />
                     </div>
-                </div>
+                )}
+
             </div>
         </div >
     )

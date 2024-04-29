@@ -31,25 +31,29 @@ export const PermissionUser = ({ group, user, project }: Props) => {
     console.log(selectedValue);
 
     try {
-        if (permissions) {
-            const selectedPermission = permissions.find(permission => permission.id === selectedValue);
+      if (permissions) {
+        const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
-            if (selectedPermission) {
-                savePermission(selectedPermission);
-            }
+        if (selectedPermission) {
+          savePermission(selectedPermission);
         }
+      }
     } catch (error: any) {
-        alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
+      alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
     }
-}
+  }
 
   async function savePermission(selectedPermission: Permission) {
+    try {
       if (permissions) {
-          await userService.updatePermission(user.username, selectedPermission);
-           setSelectedPermission(selectedPermission.name);
-      
+        await userService.updatePermission(user.username, selectedPermission);
+        setSelectedPermission(selectedPermission.name);
+
+      }
+    } catch (error: any) {
+      alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
+    }
   }
-}
 
   const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
 
@@ -90,35 +94,35 @@ export const PermissionUser = ({ group, user, project }: Props) => {
           ) : (
             <div className="pl-4 md:pr-3">
               <select
-                        className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
-                        name="permission"
-                        id="permission"
-                        value={selectedPermission}
-                        onChange={(e) => findPermission(+e.target.value)}
-                    >
-                        {!group || (group.permissions && group.permissions.length === 0) ? (
-                            <option value="" disabled selected>
-                                Permissão
-                            </option>
-                        ) :
-                        (
-                            group.permissions.map((p) => (
-                                <option key={p.id} value={p.id}>
-                                    {p.name}
-                                </option>
-                            ))
-                        )}
+                className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                name="permission"
+                id="permission"
+                value={selectedPermission}
+                onChange={(e) => findPermission(+e.target.value)}
+              >
+                {!group || (group.permissions && group.permissions.length === 0) ? (
+                  <option value="" disabled selected>
+                    Permissão
+                  </option>
+                ) :
+                  (
+                    group.permissions.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    ))
+                  )}
 
-                        {permissions && (
-                            permissions.map((p) => {
-                                return (
-                                    <option className="flex justify-center" key={p.id} value={p.id}>
-                                        {p.name}
-                                    </option>
-                                );
-                            })
-                        )}
-                    </select>
+                {permissions && (
+                  permissions.map((p) => {
+                    return (
+                      <option className="flex justify-center" key={p.id} value={p.id}>
+                        {p.name}
+                      </option>
+                    );
+                  })
+                )}
+              </select>
             </div>
           )}
         </div>
