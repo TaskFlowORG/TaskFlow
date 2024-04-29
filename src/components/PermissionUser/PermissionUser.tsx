@@ -14,7 +14,7 @@ interface Props {
 
 export const PermissionUser = ({ group, user, project }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [selectedPermission, setSelectedPermission] = useState<string>();
+  const [selectedPermission, setSelectedPermission] = useState<string | "">("");
   const { theme } = useTheme();
   const [openModal, setOpenModal] = useState(false)
 
@@ -27,30 +27,29 @@ export const PermissionUser = ({ group, user, project }: Props) => {
     setPermissions(fetchedPermissions);
   };
 
-  async function updatePermission(selectedValue: string) {
+  const findPermission = (selectedValue: number) => {
+    console.log(selectedValue);
+
     try {
-      if (permissions) {
-        const selectedPermission: Permission | undefined = permissions.find(permission => permission.name === selectedValue);
+        if (permissions) {
+            const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
-        if (selectedPermission) {
-          const hasPermission = user.permissions.some(permission => permission.id === selectedPermission.id);
-
-          if (hasPermission) {
-            alert('Este usuário já possui esta permissão.');
-          } else {
-            await userService.updatePermission(user.username, selectedPermission);
-
-            alert('Permissão atualizada com sucesso!');
-          }
-          setSelectedPermission("");
+            if (selectedPermission) {
+                savePermission(selectedPermission);
+            }
         }
-      }
-
     } catch (error: any) {
-      console.error('Erro ao atualizar permissão:', error.message);
-      alert('Não foi possível atualizar a permissão do usuário.');
+        alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
     }
+}
+
+  async function savePermission(selectedPermission: Permission) {
+      if (permissions) {
+          await userService.updatePermission(user.username, selectedPermission);
+           setSelectedPermission(selectedPermission.name);
+      
   }
+}
 
   const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
 
@@ -91,29 +90,35 @@ export const PermissionUser = ({ group, user, project }: Props) => {
           ) : (
             <div className="pl-4 md:pr-3">
               <select
-                // className='text-primary text-center flex flex-1 w-full dark:bg-[#3C3C3C] mnAlata border-none dark:text-secondary'
-                className="flex text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                        className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                        name="permission"
+                        id="permission"
+                        value={selectedPermission}
+                        onChange={(e) => findPermission(+e.target.value)}
+                    >
+                        {!group || (group.permissions && group.permissions.length === 0) ? (
+                            <option value="" disabled selected>
+                                Permissão
+                            </option>
+                        ) :
+                        (
+                            group.permissions.map((p) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.name}
+                                </option>
+                            ))
+                        )}
 
-                name="permission"
-                id="permission"
-                value={selectedPermission}
-                onChange={(e) => updatePermission(e.target.value)}
-              >
-                {user.permissions && user.permissions.length > 0 ? (
-                  user.permissions.map((permission) => (
-                    <option key={permission.id} value={permission.id}>
-                      {permission.name}
-                    </option>
-                  ))
-                ) : (
-                  <option value="" disabled>Permissão</option>
-                )}
-                {permissions.map((permission) => (
-                  <option key={permission.id} value={permission.id}>
-                    {permission.name}
-                  </option>
-                ))}
-              </select>
+                        {permissions && (
+                            permissions.map((p) => {
+                                return (
+                                    <option className="flex justify-center" key={p.id} value={p.id}>
+                                        {p.name}
+                                    </option>
+                                );
+                            })
+                        )}
+                    </select>
             </div>
           )}
         </div>

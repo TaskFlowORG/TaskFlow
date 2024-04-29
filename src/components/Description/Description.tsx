@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react"
 import { getListData, getData } from "@/services/http/api";
 import { GroupAccess } from "../GroupAccess/GroupAccess";
-import { Group, Project } from "@/models";
+import { Group, OtherUser, Project } from "@/models";
 import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
+
 interface Props {
-    user: string;
+    user: OtherUser;
     project: Project;
     groupId?: number;
 }
 
-export const Description: React.FC<Props> = ({ user, project, groupId }) => {
+
+export const Description = ({ user, project, groupId } : Props) => {
     const [groups, setGroups] = useState<SimpleGroup[]>([]);
+
 
     useEffect(() => {
         const getList = async () => {
@@ -27,12 +30,14 @@ export const Description: React.FC<Props> = ({ user, project, groupId }) => {
     }, [groupId]);
 
 
+
+
     return (
         <div>
             {
                 groups.map((g) => {
                     if (g.id === Number(groupId)) {
-                        return <GroupAccess key={g.id} project={project} groupId={groupId ?? 0} />
+                        return <GroupAccess key={g.id} project={project} groupId={groupId ?? 0} user={user}/>
                     }
                     return null;
                 })
@@ -40,3 +45,6 @@ export const Description: React.FC<Props> = ({ user, project, groupId }) => {
         </div>
     )
 }
+
+
+

@@ -81,7 +81,7 @@ export const Project = () => {
       const groups = await groupService.findGroupsByAProject(project?.id);
       let list:OtherUser[] = []
       for(let group of groups){
-        list.push((await groupService.findOne(group.id)).owner)
+        // list.push((await groupService.findOne(group.id)).owner)
       }
       setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));
     })();
@@ -134,7 +134,7 @@ export const Project = () => {
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full rounderd-md text-center 400:text-start"
+                className="mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words"
 
                 rows={2}
                 cols={2}
