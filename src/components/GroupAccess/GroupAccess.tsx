@@ -118,7 +118,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         onBlur={updateDescriptionOfAGroup}
                     />
                 </div>
-                {group?.owner.id === user.id && project?.id != null && (
+                { project?.id != null && (
                     <div className="flex md:justify-end relative">
                         <PermissionComponent permissions={permissions} group={group} />
                     </div>
