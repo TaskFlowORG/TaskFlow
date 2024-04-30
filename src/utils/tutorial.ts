@@ -4,7 +4,7 @@ export const steps: { steps: Array<Step> } = {
   steps: [
     {
       target: ".initial-page",
-      content: "Esta é a página inicial. Aqui você pode ver as tarefas de hoje e os projetos em que está envolvido."
+      content: "Esta é a página inicial. Aqui você pode ver as tarefas de hoje e os projetos em que está envolvido.",
     },
     {
       target: ".header",
