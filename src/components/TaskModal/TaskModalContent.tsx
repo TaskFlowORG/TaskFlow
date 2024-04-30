@@ -6,7 +6,7 @@ import { ProjectContext } from "@/contexts";
 import { OtherUser, Task, User } from "@/models";
 import { userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
 
 type Props = {

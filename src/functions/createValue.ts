@@ -15,27 +15,31 @@ import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 
 export function createValue(propertyObj: Property): Value | undefined {
+  let prop: Value | null = null;
   switch (propertyObj.type) {
     case TypeOfProperty.TIME:
-      return new TimeValued(new Interval(new Duration(0, 0, 0)));
+      prop = new TimeValued(new Interval(new Duration(0, 0, 0)));
     case TypeOfProperty.DATE:
-      return new DateValued(null);
+      prop = new DateValued(null);
     case TypeOfProperty.CHECKBOX:
     case TypeOfProperty.TAG:
-      return new MultiOptionValued([]);
+      prop = new MultiOptionValued([]);
     case TypeOfProperty.SELECT:
     case TypeOfProperty.RADIO:
-      return new UniOptionValued(null);
+      prop = new UniOptionValued(null);
     case TypeOfProperty.TEXT:
-      return new TextValued(null);
+      prop = new TextValued(null);
     case TypeOfProperty.NUMBER:
-      return new NumberValued(null);
+      prop = new NumberValued(null);
     case TypeOfProperty.NUMBER:
     case TypeOfProperty.PROGRESS:
-      return new NumberValued(null);
+      prop = new NumberValued(null);
     case TypeOfProperty.USER:
-      return new UserValued([]);
+      prop = new UserValued([]);
     case TypeOfProperty.ARCHIVE:
-      return new ArchiveValued(null);
+      prop = new ArchiveValued(null);
   }
+
+  prop.id = null;
+  return prop;
 }

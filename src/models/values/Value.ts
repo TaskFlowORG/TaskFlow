@@ -1,6 +1,3 @@
- 
-
-
 export abstract class Value {
-    constructor(public value:any,public id?:number) {}
+  constructor(public value: any, public id?: number | null) {}
 }

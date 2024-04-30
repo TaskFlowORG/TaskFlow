@@ -34,6 +34,7 @@ import { Interval } from "@/models/values/Interval";
 import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
+import { log } from "console";
 
 type Props = {
   task: Task;
@@ -149,17 +150,14 @@ export const PropertiesSide = ({
           TypeOfProperty.TEXT,
         ].includes(selected)
       ) {
-        propertyObj = await propertyService.saveLimited(
-          project!.id,
-          new LimitedPost(
-            name,
-            selected,
-            values.visible,
-            values.obligatory,
-            values.maximum,
-            undefined,
-            []
-          )
+        propertyObj = new LimitedPost(
+          name,
+          selected,
+          values.visible,
+          values.obligatory,
+          values.maximum,
+          undefined,
+          []
         );
       } else if (
         [
@@ -169,17 +167,14 @@ export const PropertiesSide = ({
           TypeOfProperty.SELECT,
         ].includes(selected)
       ) {
-        propertyObj = await propertyService.saveSelect(
-          project!.id,
-          new SelectPost(
-            name,
-            selected,
-            values.visible,
-            values.obligatory,
-            [],
-            undefined,
-            []
-          )
+        propertyObj = new SelectPost(
+          name,
+          selected,
+          values.visible,
+          values.obligatory,
+          [],
+          undefined,
+          []
         );
       } else {
         propertyObj = new DatePost(
@@ -193,10 +188,16 @@ export const PropertiesSide = ({
           []
         );
       }
+      console.log(
+        new PropertyValue(
+          propertyObj as unknown as Property,
+          createValue(propertyObj as unknown as Property)!
+        )
+      );
       task.properties.push(
         new PropertyValue(
-          propertyObj as Property,
-          createValue(propertyObj as Property)!
+          propertyObj as unknown as Property,
+          createValue(propertyObj as unknown as Property)!
         )
       );
       let taskReturned = await taskService.upDate(task, project!.id);
