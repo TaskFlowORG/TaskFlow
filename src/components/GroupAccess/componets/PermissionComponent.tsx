@@ -1,6 +1,6 @@
-import { Group, GroupPut, Permission } from "@/models";
+import { Group, GroupPut, OtherUser, Permission } from "@/models";
 import { Arrow } from "./Arrow";
-import { groupService } from "@/services";
+import { groupService, userService } from "@/services";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -10,8 +10,16 @@ interface Props {
 
 export const PermissionComponent = ({permissions, group}: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
+    const [user, setUser] = useState<OtherUser>()
+
+    useEffect(() =>{
+        fetchData()
+    })
+
 
     const fetchData = async () => {
+        const fetchedUser = await userService.findLogged();
+        setUser(fetchedUser);
         if (group) {
             setSelectedPermission(group?.permissions[0]?.name)
         }
@@ -58,6 +66,7 @@ export const PermissionComponent = ({permissions, group}: Props) => {
                 className="flex mr-6 text-primary dark:text-secondary text-center w-[55%] md:w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                 name="permission"
                 id="permission"
+                disabled={group?.owner.id != user?.id}
                 value={selectedPermission}
                 onChange={(e) => findPermission(+e.target.value)}
             >
