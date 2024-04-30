@@ -5,6 +5,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { archiveToSrc } from "@/functions";
 import { Chat, Message } from "@/models"
 import { useContext, useEffect, useState } from "react"
+import { VisualizedChatOrMessage } from "@/components/icons";
 type chattype = {
     message: Message;
     lastMessage: Message
@@ -42,6 +43,9 @@ export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: ch
                         </div>
 
                         <div className="flex flex-row-reverse">
+                            <If condition={!penultimaMensagem}>
+                                <div className="pr-5"></div>
+                            </If>
                             <If condition={penultimaMensagem}>
                                 <div className="w-5 h-5 rounded-br-[100%]" style={{ backgroundImage: "linear-gradient(to left, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 </div>
@@ -71,6 +75,9 @@ export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: ch
                             </If>
                         </div>
                         <div className="flex">
+                            <If condition={!penultimaMensagem}>
+                                <div className="pr-5"></div>
+                            </If>
                             <If condition={penultimaMensagem}>
                                 <div className="bg-[#E9E7E7] dark:bg-gray-400  w-5 h-5 rounded-bl-[100%]">
                                 </div>
@@ -83,13 +90,13 @@ export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: ch
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div className="pl-2">
-                        <img src="" alt="" />
-                    </div>
+                    {/* dar uma revisada dps */}
+                    {/* <If condition={message.destinations[key].visualized == true}>
+                        <VisualizedChatOrMessage />
+                    </If> */}
                 </div>
-            </If>
+            </If >
         </>
     )
 }

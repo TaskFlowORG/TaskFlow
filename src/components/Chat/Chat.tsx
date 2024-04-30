@@ -14,6 +14,7 @@ type chattype = {
 export const Chatt = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
+    const [quantityUnvisualized, setQuantityUnvisualized] = useState<number>();
 
     useEffect(() => {
         (async function getChats() {
@@ -34,14 +35,13 @@ export const Chatt = ({ chatId }: chattype) => {
         const conect = onConnect(`/chat/${chatContent.id}`, (message) => {
             const messagetemp = JSON.parse(message.body);
             console.log(message.body);
-            
             setMessages(prev => [...prev, messagetemp]);
         });
+        
         return () => {
             conect.disconnect();
         }
     }, [chatContent]); 
-
 
     return (
         <>
