@@ -1,2 +1,3 @@
 export {GroupAccess} from "./GroupAccess";
-export { PermissionComponent } from "./PermissionComponent";
+export { PermissionComponent } from "./componets/PermissionComponent";
+

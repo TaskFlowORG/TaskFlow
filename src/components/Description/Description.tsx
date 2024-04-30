@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import { getListData, getData } from "@/services/http/api";
 import { GroupAccess } from "../GroupAccess/GroupAccess";
-import { Group, OtherUser, Project } from "@/models";
+import { OtherUser, Project } from "@/models";
 import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
@@ -28,9 +27,6 @@ export const Description = ({ user, project, groupId } : Props) => {
         }
         getList();
     }, [groupId]);
-
-
-
 
     return (
         <div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Group, GroupPut, OtherUser, Permission, Project } from '@/models';
 import { groupService, permissionService } from '@/services';
-import { PermissionComponent } from './PermissionComponent';
+import { PermissionComponent } from './componets/PermissionComponent';
 import Image from "next/image";
 import { archiveToSrc } from '@/functions';
 import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';
@@ -94,10 +94,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                             </span>
                         </If>
                     </div>
-                    
-                    {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 flex items-center justify-center rounded-full">
-                    <p className="text-white">Editar</p>
-                </div> */}
                 </div>
             </div>
 

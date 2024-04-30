@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
 import { Group, GroupPut, OtherUser, Project, User } from "@/models";
-import { PermissionUser } from "../PermissionUser";
+import { PermissionUser } from "./components/PermissionUser";
 
 interface Props {
   project?: Project;
@@ -29,9 +29,6 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
 
   const findUser = async () => {
     const userFind = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
-    console.log("grupo", group?.users);
-
-    console.log(userFind);
 
     if (userFind) {
       setNewUser(userFind);
@@ -84,7 +81,6 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
     }
 
     try {
-      let newGroup;
       if (group != null) {
         await groupService.inviteUser(group.id, user.id);
         fetchData();

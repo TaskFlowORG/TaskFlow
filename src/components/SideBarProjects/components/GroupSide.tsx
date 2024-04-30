@@ -75,7 +75,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
        }
     }
 
-
     return (
        <>
           <Navigate modalPages={false} setCondition={setModalGroups} />
