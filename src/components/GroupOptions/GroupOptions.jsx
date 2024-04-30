@@ -11,7 +11,7 @@ export const GroupOptions = ({ isOpen, group, user }) => {
         if (group != null) {
             group.users = updatedUsers;
             group?.users.push(user);
-            groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            groupService.patch(new GroupPut(group), group.id);
         }
     }
 

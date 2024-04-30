@@ -5,11 +5,7 @@ import { Step1 } from './Step1';
 import { Step2 } from './Step2';
 import { Step3 } from './Step3';
 
-interface Props {
-    stepNumber: number
-}
-
-export const ForgotPassword = ({ stepNumber }: Props) => {
+export const ForgotPassword = () => {
     const [step, setStep] = useState(1);
 
     return (
