@@ -5,7 +5,7 @@ import { Arrow } from './Arrow';
 import { PermissionComponent } from './PermissionComponent';
 
 interface Props {
-    project: Project;
+    project?: Project;
     groupId: number;
     user: OtherUser;
 }
@@ -21,8 +21,10 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const refName = useRef<HTMLInputElement>(null);
 
     const fetchData = async () => {
-        const fetchedPermissions = await permissionService.findAll(project.id);
-        setPermissions(fetchedPermissions);
+        if (project != null) {
+            const fetchedPermissions = await permissionService.findAll(project.id);
+            setPermissions(fetchedPermissions);
+        }
         const fetchedGroup = await groupService.findOne(groupId);
         setGroup(fetchedGroup);
         if (fetchedGroup) {
@@ -83,7 +85,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         onBlur={updateDescriptionOfAGroup}
                     />
                 </div>
-                {group?.owner.id === user.id && (
+                {group?.owner.id === user.id && project?.id != null && (
                     <div className="flex md:justify-end relative">
                         <PermissionComponent permissions={permissions} group={group} />
                     </div>

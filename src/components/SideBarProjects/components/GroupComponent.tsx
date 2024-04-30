@@ -59,4 +59,4 @@ export const GroupComponent = ({ user, group}: Props) => {
             </div>
         </div>
     )
-}
+} 

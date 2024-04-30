@@ -4,17 +4,18 @@ import { useEffect, useState } from "react"
 import { GroupOptions } from "../GroupOptions/GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
+import { PermissionComponent } from "./PermissionComponent";
 
 interface Props {
   group: Group;
   user: OtherUser;
-  project: Project;
+  project?: Project;
 
 }
 
 export const PermissionUser = ({ group, user, project }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
-  const [selectedPermission, setSelectedPermission] = useState<string | "">("");
+
   const { theme } = useTheme();
   const [openModal, setOpenModal] = useState(false)
 
@@ -23,37 +24,11 @@ export const PermissionUser = ({ group, user, project }: Props) => {
   }, [group]);
 
   const fetchData = async () => {
-    const fetchedPermissions = await permissionService.findAll(project.id);
-    setPermissions(fetchedPermissions);
+    if (project) {
+      const fetchedPermissions = await permissionService.findAll(project.id);
+      setPermissions(fetchedPermissions);
+    }
   };
-
-  const findPermission = (selectedValue: number) => {
-    console.log(selectedValue);
-
-    try {
-      if (permissions) {
-        const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-
-        if (selectedPermission) {
-          savePermission(selectedPermission);
-        }
-      }
-    } catch (error: any) {
-      alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
-    }
-  }
-
-  async function savePermission(selectedPermission: Permission) {
-    try {
-      if (permissions) {
-        await userService.updatePermission(user.username, selectedPermission);
-        setSelectedPermission(selectedPermission.name);
-
-      }
-    } catch (error: any) {
-      alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
-    }
-  }
 
   const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
 
@@ -82,51 +57,14 @@ export const PermissionUser = ({ group, user, project }: Props) => {
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">
           <p className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
 
-          {group.owner && user.username === group.owner.username ? (
-            <div className="flex items-center justify-center w-full">
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" viewBox="0 0 18 18" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
-                  <path d="M2.35592 13.3507L0.523193 1.83408L5.56319 7.06892L8.77047 0.787109L11.9777 7.06892L17.0177 1.83408L15.185 13.3507H2.35592ZM15.185 16.4916C15.185 17.1198 14.8185 17.5386 14.2687 17.5386H3.27228C2.72247 17.5386 2.35592 17.1198 2.35592 16.4916V15.4447H15.185V16.4916Z" />
-                </svg>
-              </div>
-            </div>
 
-          ) : (
-            <div className="pl-4 md:pr-3">
-              <select
-                className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
-                name="permission"
-                id="permission"
-                value={selectedPermission}
-                onChange={(e) => findPermission(+e.target.value)}
-              >
-                {!group || (group.permissions && group.permissions.length === 0) ? (
-                  <option value="" disabled selected>
-                    Permissão
-                  </option>
-                ) :
-                  (
-                    group.permissions.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))
-                  )}
 
-                {permissions && (
-                  permissions.map((p) => {
-                    return (
-                      <option className="flex justify-center" key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    );
-                  })
+          {project?.id != null && (
+                    <div className="flex md:justify-end relative">
+                        <PermissionComponent permissions={permissions} group={group} user={user} />
+                    </div>
                 )}
-              </select>
-            </div>
-          )}
         </div>
-
       </div>
       <div></div>
       <GroupOptions isOpen={openModal} group={group} user={user} />

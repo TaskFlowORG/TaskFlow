@@ -67,14 +67,11 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     const sendRoute = (groupId : number) =>{
        if(project?.id != undefined){
-        console.log("sem projeto");
-        router.push(
-            "/" + user + "/group/" + groupId)
-       } else{
-        console.log("com projeto");
-        
         router.push(
             "/" + user + "/" + project?.id + "/group/" + groupId)
+      } else{
+        router.push(
+            "/" + user + "/group/" + groupId)
        }
     }
 
@@ -96,8 +93,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                                      dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
                       >
                         <button
-                          onClick={() => router.push(
-                            "/" + user + "/" + project?.id + "/group/" + group.id)
+                          onClick={() => sendRoute(group.id)
                             
                           }
                         >
