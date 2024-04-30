@@ -55,14 +55,14 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const updateNameOfAGroup = async () => {
         if (group && name) {
             group.name = name;
-            await groupService.patch(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
 
     const updateDescriptionOfAGroup = async () => {
         if (group && description) {
             group.description = description;
-            await groupService.patch(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
 
