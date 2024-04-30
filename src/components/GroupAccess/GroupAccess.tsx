@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Group, GroupPut, OtherUser, Permission, Project } from '@/models';
 import { groupService, permissionService } from '@/services';
-import { Arrow } from './Arrow';
 import { PermissionComponent } from './PermissionComponent';
+import Image from "next/image";
+import { archiveToSrc } from '@/functions';
 
 interface Props {
     project?: Project;
@@ -40,6 +41,15 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     }, [groupId]);
 
 
+    const updatePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (group) {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const updateGroup = await groupService.updatePicture(file, group.id);
+            setGroup(updateGroup);
+        }
+    };
+
     const updateNameOfAGroup = async () => {
         if (group && name) {
             group.name = name;
@@ -58,10 +68,14 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         <div className="flex pl-8 gap-4 items-start">
             <div>
                 <div>
-                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={() => { setIsEnable(true) }}>
-
-
-                    </button>
+                    <div className="z-30 rounded-full w-24 h-24 bg-zinc-300" onClick={() => { setIsEnable(true) }}>
+                        {/* <Image
+                            className="rounded-md"
+                            src={archiveToSrc(group?.picture)}
+                            alt="Group Picture"
+                            fill
+                        /> */}
+                    </div>
                 </div>
             </div>
             <div className="flex flex-col gap-10">
