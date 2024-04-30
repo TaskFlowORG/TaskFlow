@@ -14,7 +14,7 @@ import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
-import { OtherUser,  Project as ProjectModel, ProjectPut } from "@/models";
+import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
 import { EditIcon } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
@@ -27,7 +27,7 @@ export const Project = () => {
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
   const [description, setDescription] = useState<string | undefined>(
-    project?.description 
+    project?.description
   );
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export const Project = () => {
     setProject(updated);
   };
 
-  const projectToPutDTO= (project:ProjectModel) => {
+  const projectToPutDTO = (project: ProjectModel) => {
     return new ProjectPut(
       project.id,
       project.name,
@@ -77,10 +77,10 @@ export const Project = () => {
 
   useEffect(() => {
     (async () => {
-      if (!project|| !user) return;
+      if (!project || !user) return;
       const groups = await groupService.findGroupsByAProject(project?.id);
-      let list:OtherUser[] = []
-      for(let group of groups){
+      let list: OtherUser[] = []
+      for (let group of groups) {
         // list.push((await groupService.findOne(group.id)).owner)
       }
       setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));

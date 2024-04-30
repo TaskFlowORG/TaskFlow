@@ -1,21 +1,21 @@
-import { LocalModal } from "@/components/Modal"
-import { Group, Project } from "@/models"
 import { groupService } from "@/services"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useRouter } from 'next/navigation';
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import Image from "next/image";
+import { archiveToSrc } from "@/functions";
 
 interface Props {
     user: string;
     group: SimpleGroup;
 }
 
-export const GroupComponent = ({ user, group}: Props) => {
+export const GroupComponent = ({ user, group }: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const [groupImage, setGroupImage] = useState('');
     const router = useRouter();
 
-    
+
 
 
     const description = group?.description;
@@ -23,7 +23,7 @@ export const GroupComponent = ({ user, group}: Props) => {
     const name = group?.name;
     const displayFullName = name ? (name.length > 13 ? `${name.substring(0, 13)}...` : name) : '';
 
-     const deleteGroup = async () => {
+    const deleteGroup = async () => {
         try {
             await groupService.delete(group.id);
             router.push("/" + user);
@@ -39,8 +39,17 @@ export const GroupComponent = ({ user, group}: Props) => {
             onMouseEnter={() => setShowIcon(true)}
             onMouseLeave={() => setShowIcon(false)}
         >
-            {/* colocar aqui a imagem do grupo depois*/}
-            <div className="rounded-full w-14 h-14 bg-purple-300"> </div>
+            <div className="relative rounded-full w-14 h-14 bg-zinc-300">
+                <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <Image
+                        className="rounded-full"
+                        src={archiveToSrc(group?.picture)}
+                        alt="Group Picture"
+                        layout="fill"
+                        objectFit="cover"
+                    />
+                </div>
+            </div>
             <div className="flex flex-col">
                 <div key={group?.id} className="text-start p rounded-md h-7 w-full hover:brightness-95">{displayFullName}</div>
                 <div className="text-start m14 rounded-md h-7 w-full hover:brightness-95">{displayFullDescription}</div>

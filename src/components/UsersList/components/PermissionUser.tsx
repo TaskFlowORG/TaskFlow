@@ -1,7 +1,7 @@
 "use client";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react"
-import { GroupOptions } from "../GroupOptions/GroupOptions"
+import { GroupOptions } from "./GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
 import { PermissionComponent } from "./PermissionComponent";
@@ -17,7 +17,7 @@ export const PermissionUser = ({ group, user, project }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
 
   const { theme } = useTheme();
-  const [openModal, setOpenModal] = useState(false)
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   useEffect(() => {
     console.log(group.users);

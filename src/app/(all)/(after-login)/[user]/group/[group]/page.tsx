@@ -17,7 +17,7 @@ export default function Home({ params }: { params: { user: string, group: number
     useEffect(() => {
         const fetchData = async () => {
             console.log("eitaaa");
-            
+
             const fetchedGroup = await groupService.findOne(params.group);
             setGroup(fetchedGroup);
             const fetchedUser = await userService.findLogged();
@@ -26,7 +26,7 @@ export default function Home({ params }: { params: { user: string, group: number
         fetchData();
     }, [params.group]);
 
-    if(!user) return <Loading/>
+    if (!user) return <Loading />
 
     return (
         <div className="w-screen h-screen">
@@ -38,7 +38,7 @@ export default function Home({ params }: { params: { user: string, group: number
                     {project ? <></> : <Description user={user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    {project ? <></>: <UsersList group={group} />}
+                    {project ? <></> : <UsersList group={group} user={user} />}
                 </div>
             </div>
         </div>
