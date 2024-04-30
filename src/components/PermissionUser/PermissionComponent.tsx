@@ -12,8 +12,6 @@ export const PermissionComponent = ({group, user, permissions}:Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
 
     const findPermission = (selectedValue: number) => {
-        console.log(selectedValue);
-    
         try {
           if (permissions) {
             const selectedPermission = permissions.find(permission => permission.id === selectedValue);

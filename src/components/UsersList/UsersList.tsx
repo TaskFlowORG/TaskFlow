@@ -167,7 +167,6 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
             }
 
             {
-              project != null ?
               group?.users.map((u) => (
                 <PermissionUser
                   group={group}
@@ -175,7 +174,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
                   project={project}
                   key={u.username}
                 /> 
-              )) : ""
+              ))
             }
           </div>
           {addButton}

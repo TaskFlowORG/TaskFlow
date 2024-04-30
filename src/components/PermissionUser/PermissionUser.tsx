@@ -20,6 +20,8 @@ export const PermissionUser = ({ group, user, project }: Props) => {
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
+    console.log(group.users);
+    
     fetchData();
   }, [group]);
 
@@ -34,7 +36,12 @@ export const PermissionUser = ({ group, user, project }: Props) => {
 
   const fullName = `${user.name} ${user.surname}`;
 
-  const displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
+  let displayFullName = ""
+  if (project != null) {
+    displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
+  } else {
+    displayFullName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
+  }
 
   return (
     <div className="">
@@ -55,15 +62,18 @@ export const PermissionUser = ({ group, user, project }: Props) => {
         </div>
 
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">
-          <p className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
+          {
+            project?.id != null && (
+              <p className={user.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
 
-
+            )
+          }
 
           {project?.id != null && (
-                    <div className="flex md:justify-end relative">
-                        <PermissionComponent permissions={permissions} group={group} user={user} />
-                    </div>
-                )}
+            <div className="flex md:justify-end relative">
+              <PermissionComponent permissions={permissions} group={group} user={user} />
+            </div>
+          )}
         </div>
       </div>
       <div></div>
