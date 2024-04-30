@@ -4,6 +4,8 @@ import { groupService, permissionService } from '@/services';
 import { PermissionComponent } from './PermissionComponent';
 import Image from "next/image";
 import { archiveToSrc } from '@/functions';
+import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';
+import { If } from '../If';
 
 interface Props {
     project?: Project;
@@ -67,17 +69,38 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     return (
         <div className="flex pl-8 gap-4 items-start">
             <div>
-                <div>
-                    <div className="z-30 rounded-full w-24 h-24 bg-zinc-300" onClick={() => { setIsEnable(true) }}>
-                        {/* <Image
-                            className="rounded-md"
+                <div className="relative rounded-full w-24 h-24 bg-zinc-300">
+                    <div className="absolute inset-0 overflow-hidden rounded-full">
+                        <Image
+                            className="rounded-full"
                             src={archiveToSrc(group?.picture)}
                             alt="Group Picture"
-                            fill
-                        /> */}
+                            layout="fill"
+                            objectFit="cover"
+                        />
                     </div>
+                    <div>
+                    <If condition={group?.owner.id == user?.id}>
+                            <span
+                                className="absolute rounded-full bottom-1 -right-1 border-2 border-primary 
+                                dark:border-secondary h-6 w-6 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
+                            >
+                                <IconEditColoured />
+                                <input
+                                    onChange={updatePicture}
+                                    type="file"
+                                    className="w-full h-full absolute cursor-pointer opacity-0"
+                                />
+                            </span>
+                        </If>
+                    </div>
+                    
+                    {/* <div className="absolute inset-0 bg-black opacity-0 hover:opacity-50 flex items-center justify-center rounded-full">
+                    <p className="text-white">Editar</p>
+                </div> */}
                 </div>
             </div>
+
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
