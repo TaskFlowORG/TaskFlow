@@ -7,9 +7,10 @@ import { PermissionUser } from "./components/PermissionUser";
 interface Props {
   project?: Project;
   group: Group | undefined;
+  user: OtherUser
 }
 
-export const UsersList: React.FC<Props> = ({ project, group }) => {
+export const UsersList: React.FC<Props> = ({ project, group, user }) => {
   const [text, setText] = useState<string>("");
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
@@ -100,6 +101,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
       className={`h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={() => verifyUser()}
+      disabled={group?.owner.id != user?.id}
       style={{
         backgroundImage: `linear-gradient(to right, ${theme == "dark" ? "var(--secondary-color)" : "var(--primary-color)"} 0%, ${theme == "dark" ? "var(--primary-color)" : "var(--secondary-color)"} 80%)`,
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
@@ -156,7 +158,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
               group != undefined ?
                 <PermissionUser
                   group={group}
-                  user={group?.owner} 
+                  user={group?.owner}
                   project={project}
                   key={group?.owner && group.owner.username}
                 /> : ""
@@ -169,7 +171,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
                   user={u}
                   project={project}
                   key={u.username}
-                /> 
+                />
               ))
             }
           </div>

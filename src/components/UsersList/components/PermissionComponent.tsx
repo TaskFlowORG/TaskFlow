@@ -53,6 +53,7 @@ export const PermissionComponent = ({group, user, permissions}:Props) => {
                         className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
+                        disabled={group?.owner.id != user?.id}
                         value={selectedPermission}
                         onChange={(e) => findPermission(+e.target.value)}
                     >

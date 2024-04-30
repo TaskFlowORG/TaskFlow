@@ -1,4 +1,4 @@
-export {UsersList} from "./UsersList"
+export { UsersList } from "./UsersList"
 export { GroupOptions } from "./components/GroupOptions"
 export { PermissionUser } from "./components/PermissionUser"
 export { PermissionComponent } from "./components/PermissionComponent"
