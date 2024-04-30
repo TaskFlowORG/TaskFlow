@@ -8,7 +8,7 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 interface Props {
     user: OtherUser;
-    project: Project;
+    project?: Project;
     groupId?: number;
 }
 

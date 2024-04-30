@@ -61,7 +61,7 @@ class UserService {
     }
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
-        const response = await Api.patch<Permission>(`${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
+        const response = await Api.patch<Permission>(`user${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
         return response.data;
     }
 }

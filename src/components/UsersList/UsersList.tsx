@@ -5,7 +5,7 @@ import { Group, GroupPut, OtherUser, Project, User } from "@/models";
 import { PermissionUser } from "../PermissionUser";
 
 interface Props {
-  project: Project;
+  project?: Project;
   group: Group | undefined;
 }
 
@@ -20,7 +20,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
 
   useEffect(() => {
     fetchData();
-  }, [project.id]);
+  }, [group?.id]);
 
   const fetchData = async () => {
     const fetchedUsers = await userService.findAll();
@@ -173,7 +173,7 @@ export const UsersList: React.FC<Props> = ({ project, group }) => {
                   user={u}
                   project={project}
                   key={u.username}
-                />
+                /> 
               ))
             }
           </div>
