@@ -57,7 +57,7 @@ export const SideBarProjects = ({ user, project }: Props) => {
       />
 
       <CenterModal stylesTailwind="w-96" condition={wantLeave} setCondition={setWantLeave}>
-        <div className="w-full h-min py-6 gap-6 flex flex-col items-center justify-around">
+        <div className="w-full sidebar h-min py-6 gap-6 flex flex-col items-center justify-around">
           <h4 className="text-h4 font-alata text-primary  dark:text-secondary flex-wrap w-3/4 text-center">
             {t("want-leave")}
           </h4>

@@ -57,7 +57,7 @@ export const PageSide = (
   return (
 
     <>
-      <div className="w-full h-max flex flex-col gap-10">
+      <div className="w-full h-max flex flex-col gap-10 pages">
         <Navigate modalPages setCondition={setModalPages} />
         <ProjectInformations project={project} />
       </div>

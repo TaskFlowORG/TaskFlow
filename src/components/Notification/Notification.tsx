@@ -46,6 +46,8 @@ export const Notification = ({
       }
   }, [notification.link]);
 
+
+
   useEffect(() => {
     if (!project) return;
     const page = project.pages.find((p) => p.id == pageId);
@@ -56,6 +58,7 @@ export const Notification = ({
   }, [project]);
 
   const { t } = useTranslation();
+  
   const getMessage = (notification: NotificationModel) => {
     switch (notification.type) {
       case TypeOfNotification.CHANGETASK:

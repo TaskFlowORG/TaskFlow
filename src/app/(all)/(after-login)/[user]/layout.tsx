@@ -12,12 +12,12 @@ import Projects from "./projects/page";
 import { projectService, userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { useTheme } from "next-themes";
-import Joyride from "react-joyride";
 import { Loading } from "@/components/Loading";
 import { steps } from "@/utils/tutorial";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { PageContext } from "@/utils/pageContext";
 import { generateContrast } from "@/functions";
+import { Tutorial } from "@/components/Tutorial";
 
 //UseClickAway Hook
 export default function Layout({
@@ -91,13 +91,12 @@ export default function Layout({
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-{/* Esse tutoras vai ter que ser controlado */}
-        {/* <Joyride showSkipButton run steps={steps.steps} spotlightClicks  continuous={!user.configuration.isTutorialMade} /> */}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
         <TaskModalContext.Provider
           value={{ isOpen, setIsOpen, task, setSelectedTask }}
         >
+          <Tutorial />
           <Header setSidebarOpen={setOpenSideBar}></Header>
           <main className="w-screen h-screen flex flex-col items-center justify-start">
             <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
