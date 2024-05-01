@@ -15,7 +15,7 @@ export const ProjectInformations = ({ project }: Props) => {
           <div className="bg-zinc-200 dark:bg-zinc-500 overflow-clip relative w-16 h-16 bg-clip-border rounded-md"><Image fill alt="Project Image" src={src} /></div>
         <div className="w-[calc(100%_-100px)]">
           <p
-            className="tex-h4 font-alata text-primary truncate dark:text-secondary w-full"
+            className="text-h4 font-alata text-primary truncate dark:text-secondary w-full"
             style={{ opacity: project?.name ? 1 : 0.5 }}
           >
             {project?.name ?? t("withoutname")}

@@ -69,12 +69,13 @@ export const PageSide = (
               className="flex gap-[1.15rem] w-full items-center"
             >
               <If condition={merging && pageMerging != page}>
+
                 <input
                   type="checkbox"
                   id={`${page.id}`}
                   value={page.id}
                   onChange={(e) => changeInput(e, page)}
-                  className="w-8 h-4"
+                  className="w-4 aspect-square h-4"
                 />
               </If>
               <PageComponent

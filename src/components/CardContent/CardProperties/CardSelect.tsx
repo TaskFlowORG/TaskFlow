@@ -26,13 +26,13 @@ export const CardSelect = ({
   return (
     <div className="flex gap-2 w-max items-center">
       {showNameProperty && (
-        <p className="text-[14px] w-max text-[#797979] dark:text-white">
+        <p className="text-p14 w-max text-[#797979] dark:text-white">
           {property}:
         </p>
       )}
 
       <div className="flex gap-2">
-        <p style={styled_P} className="text-[14px] w-max">
+        <p style={styled_P} className="text-p14 w-max">
           {value}
         </p>
         <SelectIcon

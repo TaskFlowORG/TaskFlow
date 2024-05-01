@@ -17,7 +17,7 @@ export const CardTag = ({ tags, nameProperty, showNameProperty }: Props) => {
         style={{ width: showNameProperty ? "100%" : "max-content" }}
       >
         {showNameProperty && (
-          <p className="text-[14px] w-max text-[#797979] dark:text-white">
+          <p className="text-p14 w-max text-[#797979] dark:text-white">
             {nameProperty}:
           </p>
         )}

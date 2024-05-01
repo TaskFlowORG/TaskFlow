@@ -9,7 +9,7 @@ import { IconFilter } from "../icons/OptionsFilter/Filter";
 import { IconOrder } from "../icons/OptionsFilter/Order";
 import { IconSearch } from "../icons/OptionsFilter/Search";
 
-interface Props {
+interface Props { 
   order?: boolean;
   search?: boolean;
   filter?: boolean;

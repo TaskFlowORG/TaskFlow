@@ -49,7 +49,8 @@ export default function Layout({
       document.documentElement.style.setProperty('--font-size-h4', `${1.5 * user.configuration.fontSize}px`);
       document.documentElement.style.setProperty('--font-size-h5', `${1.25 * user.configuration.fontSize}px`);
       document.documentElement.style.setProperty('--font-size-p', `${user.configuration.fontSize}px`);
-      document.documentElement.style.setProperty('--font-size-mn', `${0.875 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-p14', `${0.875 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-mn', `${0.75 * user.configuration.fontSize}px`);
       document.documentElement.style.setProperty('--font-size-mnAlata', `${0.75 * user.configuration.fontSize}px`);
       console.log("JALJLSDALKSJ")
       setTutorialIsMaded(user.configuration.isTutorialMade);

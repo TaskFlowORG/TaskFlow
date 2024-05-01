@@ -30,7 +30,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
         onKeyDown={(e)=> {if(e.key ==="Escape"){
           setInput!(""); setIsModalOpen(false)
         }} }
-        className="w-full h-full outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
+        className="w-full text-p h-full outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
         onChange={(e) => {
           setInput!(e.target.value);
         }}
