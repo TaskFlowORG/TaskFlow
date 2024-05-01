@@ -1,1 +1,0 @@
-export { ArrowPermissions } from "./Arrow";

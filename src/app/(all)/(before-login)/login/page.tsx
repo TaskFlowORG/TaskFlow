@@ -10,6 +10,7 @@ import { useContext, useEffect } from "react";
 export default function LoginPage() {
   const { theme } = useTheme();
 
+
   const imgLogin =
     theme === "light" ? (
       <img src="/img/themeLight/Login.png" />

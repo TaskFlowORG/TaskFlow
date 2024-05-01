@@ -110,7 +110,7 @@ export const Login = () => {
               <p
                 className={
                   "font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary "
-                }
+                } onClick={() => route.push("/forgotPassword")}
               >
                 Esqueceu sua senha?
               </p>

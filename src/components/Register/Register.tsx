@@ -72,16 +72,21 @@ export const Register = () => {
     setError,
     formState: { errors },
   } = useForm<FormData>({
+
     mode: "all",
     reValidateMode: "onChange",
     resolver: zodResolver(schema),
   });
-  const { theme } = useTheme();
+
+  const { theme, setTheme } = useTheme();
+  const router = useRouter();
+
   const handleNextStep = () => {
     if (step < 2) {
       setStep(step + 1);
     }
   };
+
   const handlePrevStep = () => {
     if (step > 0) {
       setStep(step - 1);
@@ -109,6 +114,7 @@ export const Register = () => {
         }
       });
   };
+
 
   const verifyStep = () => {
     errors.confirmPassword && setStep(2)
@@ -141,31 +147,32 @@ export const Register = () => {
         <h4 className="h4 leading-6 flex py-2 md:py-0 mb-2">{t("register")}</h4>
         <ProgressBar step={step} color={color} /> 
         <div className="h-4/5 w-4/5 flex flex-col mt-6 items-center justify-between py-2 md:py-0">
+
           {step === 0 && (
             <>
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder={t("register-name")}
-                value={user.name}
+                placeholder="Digite seu nome"
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
                 required
                 classNameInput={
                   "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
                 }
+
               />
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder={t("register-surname")}
-                value={user.surname}
+                placeholder="Digite seu sobrenome"
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
                 required
                 classNameInput={
                   "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
                 }
+
               />
             </>
           )}
@@ -175,7 +182,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder={t("register-username")}
+                placeholder="Digite seu nome de usuário"
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
                 required
@@ -186,8 +193,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconMail}
-                placeholder={t("register-email")}
-                value={user.mail}
+                placeholder="Digite seu email"
                 helperText={errors.mail?.message}
                 register={{ ...register("mail") }}
                 required
@@ -204,7 +210,7 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconPassword}
                 type="password"
-                placeholder={t("register-password")}
+                placeholder="Digite sua senha"
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
                 required
@@ -215,7 +221,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconPassword}
-                placeholder={t("confirm-password")}
+                placeholder="Confirme sua senha"
                 type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
@@ -258,6 +264,7 @@ export const Register = () => {
         </div>
         <Transition label={t("already-have-account")} href="/login" />
       </form>
+
     </div>
   );
 };

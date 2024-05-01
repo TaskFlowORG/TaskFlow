@@ -1,1 +1,0 @@
-export {PermissionUser} from "./PermissionUser"

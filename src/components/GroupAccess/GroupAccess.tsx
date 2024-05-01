@@ -1,179 +1,131 @@
-import React, { useState, useEffect } from 'react';
-import { getListData, putData } from '@/services/http/api';
-import { Group, GroupPut, Permission, Project } from '@/models';
-import { boolean, set } from 'zod';
+import React, { useState, useEffect, useRef } from 'react';
+import { Group, GroupPut, OtherUser, Permission, Project } from '@/models';
 import { groupService, permissionService } from '@/services';
-import { useTheme } from 'next-themes';
-import { log } from 'console';
-import { Arrow } from './Arrow';
-import { SimpleGroup } from '@/models/user/group/SimpleGroup';
+import { PermissionComponent } from './componets/PermissionComponent';
+import Image from "next/image";
+import { archiveToSrc } from '@/functions';
+import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';
+import { If } from '../If';
 
 interface Props {
-    project: Project;
+    project?: Project;
     groupId: number;
+    user: OtherUser;
 }
 
-export const GroupAccess: React.FC<Props> = ({ project, groupId }) => {
+export const GroupAccess = ({ project, groupId, user }: Props) => {
     const [permissions, setPermissions] = useState<Permission[]>([]);
-    const [selectedPermission, setSelectedPermission] = useState<number | undefined>();
     const [group, setGroup] = useState<Group>();
     const [isEnable, setIsEnable] = useState(false);
-    const [newName, setNewName] = useState(group?.name);
-    const [newDescription, setNewDescription] = useState(group?.description);
+    const [name, setName] = useState<string | undefined>(group?.name);
+    const [description, setDescription] = useState<string | undefined>(group?.description);
+
+    const refDescription = useRef<HTMLTextAreaElement>(null);
+    const refName = useRef<HTMLInputElement>(null);
 
     const fetchData = async () => {
-        const fetchedPermissions = await permissionService.findAll(project.id);
-        setPermissions(fetchedPermissions);
+        if (project != null) {
+            const fetchedPermissions = await permissionService.findAll(project.id);
+            setPermissions(fetchedPermissions);
+        }
         const fetchedGroup = await groupService.findOne(groupId);
         setGroup(fetchedGroup);
+        if (fetchedGroup) {
+            setName(fetchedGroup?.name || "");
+            setDescription(fetchedGroup?.description || "");
+        }
     };
 
     useEffect(() => {
         fetchData();
+        console.log(permissions);
+
     }, [groupId]);
 
-    const findPermission = (selectedValue: number) => {
-        try {
-            if (permissions) {
-                const selectedPermission = permissions.find(permission => permission.id === selectedValue);
 
-                if (selectedPermission) {
-                    if (group?.permissions && group.permissions.find(permission => permission.id === selectedPermission.id)) {
-                        setSelectedPermission(undefined);
-                        alert('Este grupo já possui esta permissão.');
-                    } else {
-                        savePermission(selectedPermission);
-                    }
-                }
-            }
-        } catch (error: any) {
-            console.error('Erro ao atualizar permissão:', error.message);
-            alert('Não foi possível atualizar a permissão do grupo.');
+    const updatePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (group) {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            const updateGroup = await groupService.updatePicture(file, group.id);
+            setGroup(updateGroup);
+        }
+    };
+
+    const updateNameOfAGroup = async () => {
+        if (group && name) {
+            group.name = name;
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
 
-    const savePermission = async (selectedPermission: Permission) => {
-        try {
-            const updateGroup = await groupService.findOne(groupId)
-            updateGroup.permissions = [selectedPermission];
-            console.log(updateGroup.users);
-
-            await groupService.update(new GroupPut(updateGroup.id, updateGroup.name, updateGroup.description, updateGroup.permissions, updateGroup.users), updateGroup.id);
-            setSelectedPermission(undefined);
-            alert('Permissão atualizada com sucesso!');
-            fetchData();
-        } catch (error: any) {
-            alert("Não foi possível atualizar a permissão.");
-        }
-    }
-
-    const updateTheInformationsOFAGroup = async () => {
-        try {
-            const updateGroup = await groupService.findOne(groupId)
-            console.log("esse aqui", group);
-            
-            if (group != undefined) {
-                group.name = newName ?? ''
-                groupService.update(new GroupPut(groupId, newName ?? '', newDescription ?? '', group.permissions, updateGroup.users), group.id);
-                
-            }
-            setIsEnable(false)
-
-        } catch (error: any) {
-            console.error("Erro ao atualizar o grupo: ", error.message)
-            alert("Erro ao atualizar o grupo!")
-            setIsEnable(false)
+    const updateDescriptionOfAGroup = async () => {
+        if (group && description) {
+            group.description = description;
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
 
     return (
         <div className="flex pl-8 gap-4 items-start">
             <div>
-                <div>
-                    <button className="z-30 rounded-full w-24 h-24 bg-cyan-500" onClick={() => { setIsEnable(true) }}>
-
-                    </button>
+                <div className="relative rounded-full w-24 h-24 bg-zinc-300">
+                    <div className="absolute inset-0 overflow-hidden rounded-full">
+                        <Image
+                            className="rounded-full"
+                            src={archiveToSrc(group?.picture)}
+                            alt="Group Picture"
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                    <div>
+                    <If condition={group?.owner.id == user?.id}>
+                            <span
+                                className="absolute rounded-full bottom-1 -right-1 border-2 border-primary 
+                                dark:border-secondary h-6 w-6 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
+                            >
+                                <IconEditColoured />
+                                <input
+                                    onChange={updatePicture}
+                                    type="file"
+                                    className="w-full h-full absolute cursor-pointer opacity-0"
+                                />
+                            </span>
+                        </If>
+                    </div>
                 </div>
             </div>
+
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
                         className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
+                        ref={refName}
+                        disabled={group?.owner.id != user?.id}
                         type="text"
-                        value={isEnable ? newName : group?.name}
-                        onChange={(e) => setNewName(e.target.value)}
-                        disabled={!isEnable}
+                        value={name}
+                        onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
+                        onChange={(e) => setName(e.target.value)}
+                        onBlur={updateNameOfAGroup}
                     />
                     <textarea
                         className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
-                        value={isEnable ? newDescription : group?.description}
-                        onChange={(e) => setNewDescription(e.target.value)}
-                        disabled={!isEnable}
+                        ref={refDescription}
+                        disabled={group?.owner.id != user?.id}
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        onBlur={updateDescriptionOfAGroup}
                     />
                 </div>
-                <div className="flex md:justify-end relative">
-                    <select
-                        className="flex mr-6 text-primary dark:text-secondary  text-center w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
-                        name="permission"
-                        id="permission"
-                        value={selectedPermission}
-                        onChange={(e) => findPermission(+e.target.value)}
-                    >
-                        {group?.permissions ? (
-                            group.permissions.map((permission) => {
-                                setSelectedPermission(permission.id);
-                                return (
-                                    <option key={permission.id} value="" disabled>
-                                        {permission.name}
-                                    </option>
-                                );
-                            })
-                        ) : (
-                            <option value="" disabled>
-                                Permissão
-                            </option>
-                        )}
-
-                        {permissions.map((permission) => {
-                            return (
-                                <option className="flex justify-center" key={permission.name} value={permission.id}>
-                                    {permission.name}
-                                </option>
-                            );
-                        })}
-                    </select>
-
-                    <div>
-                        <Arrow className={"absolute inset-y-5 border-l-[2px] left-[35%] md:left-[85%] flex items-center pointer-events-none"} />
+                { project?.id != null && (
+                    <div className="flex md:justify-end relative">
+                        <PermissionComponent permissions={permissions} group={group} />
                     </div>
-
-                </div>
-
-                <div className=''>
-                    {isEnable ? (
-                        <div className='flex gap-11 md:justify-between '>
-                            <button className="font-alata text-sm rounded z-30 w-20 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => {
-                                setIsEnable(false), setNewName(group?.name,
-                                ), setNewDescription(group?.description)
-                            }}>Cancelar</button>
-                            <button className="font-alata text-sm rounded z-30 w-16 h-5 bg-primary dark:bg-secondary text-[#FCFCFC]" onClick={() => updateTheInformationsOFAGroup()}>Salvar</button>
-                        </div>
-                    ) :
-                        <div className="flex px-48 md:px-0 md:justify-end">
-                            <button className='z-30' onClick={() => setIsEnable(true)}>
-                                <div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="34" viewBox="0 0 60 64" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
-                                        <path d="M27.5 13.3334H15C13.6739 13.3334 12.4021 13.8953 11.4645 14.8955C10.5268 15.8957 10 17.2523 10 18.6668V48.0001C10 49.4146 10.5268 50.7711 11.4645 51.7713C12.4021 52.7715 13.6739 53.3334 15 53.3334H42.5C43.8261 53.3334 45.0979 52.7715 46.0355 51.7713C46.9732 50.7711 47.5 49.4146 47.5 48.0001V34.6668M43.965 9.56277C44.4262 9.05339 44.978 8.64708 45.588 8.36757C46.198 8.08805 46.8541 7.94093 47.518 7.93477C48.1819 7.92862 48.8403 8.06356 49.4548 8.33173C50.0693 8.59989 50.6275 8.99591 51.097 9.49667C51.5664 9.99743 51.9377 10.5929 52.1891 11.2484C52.4405 11.9038 52.567 12.6061 52.5613 13.3142C52.5555 14.0224 52.4176 14.7222 52.1555 15.3729C51.8935 16.0236 51.5125 16.6121 51.035 17.1041L29.57 40.0001H22.5V32.4588L43.965 9.56277Z"
-                                        />
-                                    </svg>
-                                </div>
-                            </button>
-                        </div>
-                    }
-                </div>
+                )}
 
             </div>
-
         </div >
     )
 }
+

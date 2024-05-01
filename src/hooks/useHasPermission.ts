@@ -19,10 +19,10 @@ export const
                 if (!project) return;
                 const groupsPromise = await groupService.findGroupsByAProject(project.id);
                 let owners: OtherUser[] = [];
-                for(let group of groupsPromise){
-                    let groupData = await groupService.findOne(group.id);
-                    owners.push(groupData.owner);
-                }
+                // for(let group of groupsPromise){
+                //     let groupData = await groupService.findOne(group.id);
+                //     owners.push(groupData.owner);
+                // }
                 setOwners(owners);
             })()
         }, [project]);
