@@ -36,9 +36,10 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                                 </span>
                                                 <Scrollable>
                                                     <div className="flex h-12 w-96   items-center gap-1 " >
-
                                                         {
-                                                            tasks.filter(t => new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value).getHours() == h).map((t) => (
+                                                            tasks.filter(t => new Date(
+                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value)
+                                                            .toLocaleString()).getHours() == h).map((t) => (
                                                                 <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))
                                                         }

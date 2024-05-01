@@ -3,7 +3,7 @@ import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
 import { IconArchive } from "@/components/icons";
 import { generateContrast } from "@/functions";
-import { Property, PropertyValue, TypeOfProperty, OtherUser, Option, TaskOrdered, ArchiveValued, Archive } from "@/models";
+import { Property, PropertyValue, TypeOfProperty, OtherUser, Option, TaskOrdered, ArchiveValued, Archive, TimeValued } from "@/models";
 import { useTranslation } from "next-i18next";
 
 interface Props {
@@ -53,7 +53,7 @@ const {t} = useTranslation();
             {propVl?.value.value == undefined ?
                 <p className="h-min w-min truncate" >Sem Data</p>
                 :
-                <div className="h-min w-min truncate">{new Date(propVl?.value.value).toLocaleDateString()}</div>
+                <div className="h-min w-min truncate">{new Date(new Date(propVl?.value.value)).toLocaleDateString()}</div>
             }
           </If>
           <If condition={property?.type == TypeOfProperty.NUMBER}>
@@ -80,7 +80,12 @@ const {t} = useTranslation();
           </If>
           <If condition={property?.type == TypeOfProperty.TIME}>
             <div className="h-min w-min truncate">
-              {propVl?.value.value ? propVl?.value.value.toString().slice(0, 8) : "00:00:00"}
+              {propVl?.value.value ? 
+              (propVl.value as TimeValued).value.time.hours + ":"+
+              (propVl.value as TimeValued).value.time.minutes + ":"+
+              (propVl.value as TimeValued).value.time.seconds
+              :
+              "00:00:00"}
             </div>
           </If>
           <If condition={property?.type == TypeOfProperty.USER}>
