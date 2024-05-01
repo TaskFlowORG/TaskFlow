@@ -43,7 +43,7 @@ export const TaskLegend = ({
       }}
     >
       {tasks.length == 0 ? (
-        <div className="h5 flex-col text-primary dark:text-secondary flex-warp text-center h-full w-full flex items-center justify-center">
+        <div className="text-h5 font-alata flex-col text-primary dark:text-secondary flex-warp text-center h-full w-full flex items-center justify-center">
           {t("no-tasks-in-page")}
         </div>
       ) : (
@@ -68,7 +68,7 @@ export const TaskLegend = ({
                         : "var(--primary-color)"),
                   }}
                 />
-                <span className="max-w-full w-min h-min sm:text-center truncate font-montserrat text-[12px]">
+                <span className="max-w-full w-min h-min sm:text-center truncate font-montserrat text-mn">
                   {task.name ?? t("withoutname")}
                 </span>
               </div>

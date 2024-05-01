@@ -42,7 +42,7 @@ export const List = ({ list:listPrev, page }: Props) => {
   return (
     <div
       key={page.id}
-      className=" min-w-[16rem] w-full h-full p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10  ">
+      className=" min-w-[16rem] w-full max-w-[24rem] h-full p-2 px-6  bg-white dark:bg-modal-grey flex flex-col items-center rounded-sm truncate shadow-blur-10  ">
       <HeaderList page={page} name={page.name} />
       <DragDropContext
         key={page.id}

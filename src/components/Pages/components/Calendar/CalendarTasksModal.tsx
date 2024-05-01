@@ -16,25 +16,10 @@ interface Props {
 
 
 export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, withotTime, notDay }: Props) => {
-
-    const pointerScroll = (elem: HTMLElement) => {
-
-        let isDrag = false;
-
-        const dragStart = () => isDrag = true;
-        const dragEnd = () => isDrag = false;
-        const drag = (ev: PointerEvent) => isDrag && (elem.scrollLeft -= ev.movementX);
-
-        elem.addEventListener("pointerdown", dragStart);
-        addEventListener("pointerup", dragEnd);
-        addEventListener("pointermove", drag);
-    };
-
-
     return (
         <CenterModal condition={modal} setCondition={setModal} >
             <div className="h-96 flex flex-col p-6 items-start gap-5 justify-start w-full">
-                <h5 className="h5 ">
+                <h5 className="text-h4 font-alata ">
                     {title}
                 </h5>
                 <div className="h-64 w-full items-center justify-center overflow-y-auto flex-wrap gap-1 flex">
@@ -46,14 +31,15 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                     return (
                                         <div className="w-full flex justify-evenly flex-col" key={h}>
                                             <div className="w-full items-center flex gap-4" onLoad={e => console.log(e.target)}>
-                                                <span className="flex items-center">
+                                                <span className="flex items-center font-alata text-p w-min whitespace-nowrap">
                                                     {h < 10 ? "0" + h : h}:00 - {h < 10 ? "0" + h : h}:59
                                                 </span>
                                                 <Scrollable>
                                                     <div className="flex h-12 w-96   items-center gap-1 " >
-
                                                         {
-                                                            tasks.filter(t => new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value).getHours() == h).map((t) => (
+                                                            tasks.filter(t => new Date(
+                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value)
+                                                            .toLocaleString()).getHours() == h).map((t) => (
                                                                 <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))
                                                         }
@@ -73,7 +59,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                         <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                     ))
                                     :
-                                    <p className="text-montserrat text-[24px] opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
+                                    <p className="font-montserrat text-h5 text-center w-full opacity-50">Não há tarefas {notDay ? "sem data cadastradas...":"nesse dia..."}</p>
                             }
                         </div>
                     </If>

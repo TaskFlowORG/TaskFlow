@@ -95,7 +95,7 @@ export const Page = ({
 
 
   return (
-    <div className="w-screen h-screen mt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
+    <div className="w-screen h-screen pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
       <div className="w-full h-full">
         <If
           condition={
@@ -105,7 +105,7 @@ export const Page = ({
           <div className=" flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
             <div className="flex gap-4 items-center">
               <h1
-                className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
+                className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white"
                 onClick={() => console.log(page)}
               >
                 {page?.name}

@@ -11,7 +11,7 @@ import {
 } from "@/models";
 import { useTranslation } from "next-i18next";
 import { useContext, useState } from "react";
-import {
+import { 
   Cell,
   DefaultLegendContent,
   DefaultLegendContentProps,
@@ -52,7 +52,8 @@ export const SelectPropertiesSection = () => {
 
   if (!property)
     return (
-      <div className="shadow-blur-10 w-full h-64 md:h-1/2 text-center rounded-md p-4 flex flex-col justify-center items-center">
+      <div className="shadow-blur-10 w-full font-montserrat text-alata h-64 md:h-1/2 text-center 
+      rounded-md p-4 flex flex-col justify-center items-center">
         <p>{t("no-properties-select")}</p>
       </div>
     );
@@ -102,7 +103,7 @@ export const SelectPropertiesSection = () => {
         <span className="flex justify-between w-full">
           <span>
             <select
-              className="w-32 flex text-start text-primary dark:text-secondary p-1 h-min   "
+              className="w-32 flex font-montserrat text-p text-start text-primary dark:text-secondary p-1 h-min   "
               onChange={(e) =>
                 setProperty(properties.find((p) => p.id == +e.target.value))
               }
@@ -128,7 +129,7 @@ export const SelectPropertiesSection = () => {
             <div id="legend-container" className="overflow-y-auto none-scrollbar flex flex-col justify-between  h-full text-p font-montserrat">
               {
                 data.map((d, index) => (
-                  <div key={index} className="flex gap-2 h-min items-center" >
+                  <div key={index} className="flex gap-2 h-min text-p font-alata items-center" >
                     <span
                       style={{
                         backgroundColor: d.fill,

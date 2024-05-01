@@ -80,7 +80,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
       <Navigate modalPages={false} setCondition={setModalGroups} />
       <ProjectInformations project={project} />
 
-      <div className="flex flex-col w-72 justify-center items-center h-4/6">
+      <div className="flex flex-col w-72 justify-center items-center h-4/6 groups-side">
         <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
           <div className="flex flex-col items-start max-w-full h-min w-full">
             <div className="max-w-full h-min w-full pt-2">

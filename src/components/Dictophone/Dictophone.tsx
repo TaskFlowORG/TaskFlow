@@ -1,7 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-import * as Recognition from "react-speech-recognition";
+import * as   Recognition from "react-speech-recognition";
 import { useClickAway } from "react-use";
 
 export const Dictophone = ({setText}:{setText:(value:string)=> void}) => {
@@ -19,7 +19,7 @@ export const Dictophone = ({setText}:{setText:(value:string)=> void}) => {
   useClickAway(ref, () => Recognition.default.stopListening());
 
   if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesnt support speech recognition.</span>;
+    return <span></span>;
   }
 
   const start = () => {

@@ -134,7 +134,7 @@ export const PermissionComponent = ({
           onChange={(e: any) => {
             setName(e.target.value);
           }}
-          className="max-w-full w-full truncate text-contrast bg-transparent"
+          className="max-w-full w-full truncate text-contrast bg-transparent text-p font-montserrat"
           style={{ opacity: name || editing ? 1 : 0.5 }}
           title={name == null || name == "" ? t("withoutname") : name}
         />
@@ -179,7 +179,7 @@ export const PermissionComponent = ({
                   >
                     {permissions.length > 1 ? (
                       <div className="bg-input-grey flex justify-center gap-2 flex-col items-center dark:bg-modal-grey p-2 h-36 2xl:w-40 xl:w-32 sm:w-24 w-full smm:w-48  rounded-md">
-                        <p className="text-modal-grey text-[14px] text-center pt-2">
+                        <p className="text-modal-grey text-p14 text-center pt-2 dark:text-white">
                           {t("choice-another-permission")}
                         </p>
                         <select
@@ -194,8 +194,8 @@ export const PermissionComponent = ({
                           {permissions
                             .filter((p) => p.id != permission.id)
                             .map((p, index) => (
-                              <option key={index} value={p.id}>
-                                {p.name ?? t("withoutname")}
+                              <option key={index} value={p.id} className="text-mn">
+                                {p.name == null  ? p.name :  t("withoutname")}
                               </option>
                             ))}
                         </select>
@@ -252,23 +252,23 @@ export const PermissionComponent = ({
             <Button
               text={t("cancel")}
               width="w-full"
-              textSize="text-[14px]"
               textColor="text-contrast"
               border="border-2 border-contrast"
               padding="p-1"
-              hover="hover:bg-contrast hover:text-primary"
+              hover="hover:brightness-110"
               paddingY="py-px"
+              textSize="text-p14"
               fnButton={cancelUpdate}
             />
             <Button
               text={t("save")}
               width="w-full"
-              textSize="text-[14px]"
               textColor="text-contrast"
               border="border-2 border-contrast"
-              hover="hover:bg-contrast hover:text-primary"
+              hover="hover:brightness-110"
               padding="p-1"
               paddingY="py-px"
+              textSize="text-p14"
               fnButton={updateFinal}
             />
           </div>

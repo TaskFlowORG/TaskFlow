@@ -9,10 +9,14 @@ import {
   TaskOrdered,
   TaskPage,
   PropertyValue,
+  Language,
 } from "@/models";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Date as DateProp } from "@/models";
 import { SearchBar } from "../SearchBar";
+import { useTranslation } from "react-i18next";
+import { UserContext } from "@/contexts/UserContext";
+import { languageToString } from "@/functions/selectLanguage";
 
 interface Day {
   day: Date;
@@ -28,9 +32,11 @@ export const Calendar = ({ page }: Props) => {
   const [tasks, setTasks] = useState<TaskOrdered[]>(
     page.tasks as TaskOrdered[]
   );
+  const {t} = useTranslation  ();
   const [month, setMonth] = useState<number>(0);
   const [year, setYear] = useState<number>(0);
   const [modal, setModal] = useState<boolean>(false);
+  const {user} = useContext(UserContext);
 
   useEffect(() => {
     const temporaryMonth = new Date().getMonth() + 1;
@@ -126,15 +132,17 @@ export const Calendar = ({ page }: Props) => {
   }
   function getMonthName(): string {
     const date: Date = new Date(year, month - 1);
-    const name: string = date.toLocaleString("pt-br", { month: "long" });
-    return name[0].toUpperCase() + name.slice(1, name.length);
+    const lang = user?.configuration.language;
+    const locale = languageToString(lang as Language);
+    const name: string = date.toLocaleString(  locale , { month: "long" });
+    return name[0].toUpperCase() + name.slice(1);
   }
 
   return (
-    <div className="w-full h-full flex justify-center items-start">
-      <div className="max-w-[80%] h-5/6 flex items-center flex-col aspect-square ">
-        <div className="h-fit w-full flex items-center justify-between">
-          <div className="font-alata text-[16px] dark:text-white smm:text-[24px] sm:text-[40px] md:text-[48px]  w-min text-primary">
+    <div className="w-full h-full flex justify-center pb-14 items-start">
+      <div className="max-w-full h-full flex items-center flex-col aspect-square ">
+        <div className="h-min w-full flex items-center justify-between gap-2">
+          <div className="font-alata text-p dark:text-white smm:text-h4 sm:text-h3  w-min text-primary">
             {year}
           </div>
           <div className="w-full h-min flex justify-center items-center">
@@ -142,10 +150,10 @@ export const Calendar = ({ page }: Props) => {
               <Arrow />
             </button>
             <span
-              className=" sm:text-[40px] text-[16px] font-alata smm:text-[24px]  md:text-[48px] h-min text-secondary
-                         dark:text-white w-24 smm:w-36  md:w-64 text-center"
+              className=" font-alata text-p dark:text-white smm:text-h4 sm:text-h3   h-min text-secondary
+                       w-full text-center"
             >
-              {getMonthName()}
+              {t(getMonthName())}
             </span>
             <button onClick={incMonth} className="h-4 sm:h-6">
               <Arrow />
@@ -160,33 +168,33 @@ export const Calendar = ({ page }: Props) => {
             ></SearchBar>
           </div>
         </div>
-        <div className="grid grid-cols-7 smm:gap-1 w-full h-fit">
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            DOM
+        <div className="grid grid-cols-7 smm:gap-1 w-full h-max max-h-full">
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("sunday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            SEG
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("monday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            TER
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("tuesday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            QUA
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("wednesday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            QUI
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("thursday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center">
-            SEX
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center">
+            {t("friday").slice(0, 3).toUpperCase()}
           </span>
-          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-[0.7rem] w-full font-alata sm:text-[1.5rem] text-center relative">
-            SAB
+          <span className="text-back-grey dark:text-white h-3 mb-1 smm:mb-0 sm:h-10 text-mn w-full font-alata sm:text-h4 text-center relative">
+            {t("saturday").slice(0, 3).toUpperCase()}
             <button
-              className="[writing-mode:vertical-rl] font-montserrat h-min w-min px-px smm:px-1 rounded-r-md text-contrast text-[8px] sm:text-[12px] md:text-[13px] lg:text-[14px]
-                            py-2 smm:py-3 xl:text-[16px] bg-primary dark:bg-secondary whitespace-nowrap absolute left-[95%] smm:left-full ml-1 cursor-pointer top-full mt-1"
+              className="[writing-mode:vertical-rl] font-montserrat h-min w-min px-px smm:px-1 rounded-r-md text-contrast text-[8px] sm:text-mn lg:text-p14
+                            py-2 smm:py-3 xl:text-p bg-primary dark:bg-secondary whitespace-nowrap absolute left-[95%] smm:left-full ml-1 cursor-pointer top-full mt-1"
               onClick={() => setModal(true)}
             >
-              Tarefas sem Data...
+             {t("tasks-without-date")}
             </button>
           </span>
           {getDays().map((d) => (
@@ -205,7 +213,7 @@ export const Calendar = ({ page }: Props) => {
         </div>
       </div>
       <CalendarTasksModal
-        title="Tarefas Sem Data"
+        title={t("tasks-without-date")}
         modal={modal}
         setModal={setModal}
         propOrd={page.propertyOrdering as DateProp}

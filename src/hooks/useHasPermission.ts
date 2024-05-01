@@ -64,6 +64,9 @@ export const
                 }
 
             }
+            return () => {
+                setSucess(false);
+            }
         }, [user, project, owners]);
         return sucess;
 

@@ -5,6 +5,7 @@ import { InputCheckbox } from "../Properties/InputCheckbox";
 import { Select } from "../Select";
 import { OptionsInput } from "../OptionsInput";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { useEffect, useState } from "react";
 
 type ContentModalPropertyProps = {
   property?: Property;
@@ -19,6 +20,9 @@ export const ContentModalProperty = ({
   property,
 }: ContentModalPropertyProps) => {
   const permissionUpdate = useHasPermission("update");
+  const [content, setContent] = useState<JSX.Element>(<></>);
+
+  
   const fnReturnCheckbox = () => {
     if (
       [
@@ -53,6 +57,7 @@ export const ContentModalProperty = ({
       console.log("a", property)
       return <OptionsInput disabled={!permissionUpdate} property={property} label="Opções" />;
     } else {
+      console.log("b", property)
       return (
         <>
           <InputCheckbox
@@ -85,6 +90,11 @@ export const ContentModalProperty = ({
     }
   };
 
+  useEffect(() => {
+    const cotentTemp = fnReturnCheckbox();
+    setContent(cotentTemp);
+  }, [type, property, permissionUpdate  ]);
+
   return (
     <div className="h-full w-full flex justify-between px-6  items-center ">
       <div className="w-1/2 h-full flex flex-col ">  
@@ -102,7 +112,7 @@ export const ContentModalProperty = ({
         ></InputCheckbox>
       </div>
       <div className="w-1/2 h-full flex flex-col justify-center">
-        {fnReturnCheckbox()}
+        {content}
       </div>
     </div>
   );

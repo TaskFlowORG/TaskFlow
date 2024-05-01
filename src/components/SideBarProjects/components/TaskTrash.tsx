@@ -6,6 +6,7 @@ import { Button } from "../../Button"
 import { useTranslation } from "next-i18next"
 import { ProjectComponent } from "@/components/InitialAndProjectsPage"
 import { ProjectContext } from "@/contexts"
+import { IconTrashBin, IconRedo } from "@/components/icons"
 
 interface Props {
     task: Task
@@ -30,8 +31,8 @@ export const TaskTrash = ({ task, userId }: Props) => {
     return (
         <>
             <div className="flex justify-between gap-3 items-center z-50 w-full">
-                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}>E</button>
-                <div className="truncate  h-full w-min flex items-center cursor-default"
+                <button className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}><span className="stroke-contrast"><IconTrashBin/></span></button>
+                <div className="truncate  text-p font-montserrat  h-full w-min flex items-center cursor-default"
                     title={`Tarefa "${task.name ?? t("withoutname")}" foi exluida por "${user?.name}"`}>
                     <span className="truncate h-full w-min">
 
@@ -40,7 +41,7 @@ export const TaskTrash = ({ task, userId }: Props) => {
 
                     </span>
                 </div>
-                <button className="bg-primary dark:bg-secondary cursor-pointer min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}>R</button>
+                <button className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md" onClick={redo}><IconRedo/></button>
             </div>
             <If condition={modalDelete}>
                 <>
@@ -50,10 +51,10 @@ export const TaskTrash = ({ task, userId }: Props) => {
                     </div>
                     <div className="fixed bg-white shadow-blur-10 top-1/2 -translate-x-1/2 flex-col  gap-16
                                 -translate-y-1/2 left-1/2 z-[60] rounded-md w-[35rem] h-80 flex justify-center items-center">
-                        <h4 className="h4 text-primary dark:text-secondary flex-wrap w-3/4 text-center">Você tem certeza de que deseja deletar essa tarefa permanentemente?</h4>
+                        <h4 className="text-h4 font-alata text-primary dark:text-secondary flex-wrap w-3/4 text-center">{t("have-sure-delete-permanently")}</h4>
                         <div className="flex justify-between w-3/4">
-                            <Button text="Cancelar" width="w-min" fnButton={() => setModalDelete(false)} />
-                            <Button text="Excluir" width="w-min" secondary fnButton={deleteTask} />
+                            <Button text="Cancelar" textSize="font-p"  width="w-min" fnButton={() => setModalDelete(false)} />
+                            <Button text="Excluir"  textSize="font-p" width="w-min" secondary fnButton={deleteTask} />
                         </div>
                     </div>
                 </>

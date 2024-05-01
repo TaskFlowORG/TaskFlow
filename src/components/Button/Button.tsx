@@ -50,7 +50,7 @@ export const Button = ({
                    ? "bg-primary dark:bg-secondary"
                    : "bg-transparent "
                } 
-               ${textSize ? textSize : "text-[20px]"} 
+               ${textSize ? textSize : "text-h5"} 
                ${
                  textColor
                    ? textColor
@@ -75,7 +75,7 @@ export const Button = ({
                    : "border-secondary border-2 dark:border-primary"
                }`}
       >
-        <p className="w-full h-full truncate">{text ? text : t("continue")}</p>
+        <p className="w-full h-full flex justify-center items-center truncate">{text ? text : t("continue")}</p>
       </button>
     </>
   );

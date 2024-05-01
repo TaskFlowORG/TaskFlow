@@ -198,7 +198,7 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
 
   return (
     <>
-      <div className="h-min w-full flex justify-evenly items-center">
+      <div className="h-min w-full flex justify-evenly items-center properties">
         <h4 className="h4 text-primary dark:text-secondary">{t("property")}</h4>
       </div>
       <If condition={page != undefined}>

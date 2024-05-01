@@ -7,18 +7,15 @@ import { Project, ProjectSimple, Task, Theme } from "@/models";
 import { SideBarProjects } from "@/components/SideBarProjects";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { SideModal } from "@/components/Modal";
-import { useClickAway } from "react-use";
-import Projects from "./projects/page";
 import { projectService, userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { useTheme } from "next-themes";
-import Joyride from "react-joyride";
 import { Loading } from "@/components/Loading";
-import { steps } from "@/utils/tutorial";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { PageContext } from "@/utils/pageContext";
 import { generateContrast } from "@/functions";
-
+import { Tutorial } from "@/components/Tutorial";
+import Joyride from "react-joyride";
 //UseClickAway Hook
 export default function Layout({
   children,
@@ -30,6 +27,7 @@ export default function Layout({
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
   const [openSideBar, setOpenSideBar] = useState(false);
+  const [tutorialIsMaded, setTutorialIsMaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { setTheme, theme } = useTheme();
   const {user, setUser} = useContext(UserContext);
@@ -45,6 +43,17 @@ export default function Layout({
       document.documentElement.style.setProperty('--primary-color', user.configuration.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', user.configuration.secondaryColor);
       document.documentElement.style.setProperty( "--contrast-color", generateContrast(theme == "light" ? user.configuration.primaryColor : user.configuration.secondaryColor) );
+      document.documentElement.style.setProperty('--font-size-h1', `${3.5 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-h2', `${3 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-h3', `${2 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-h4', `${1.5 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-h5', `${1.25 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-p', `${user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-p14', `${0.875 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-mn', `${0.75 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--font-size-mnAlata', `${0.75 * user.configuration.fontSize}px`);
+      console.log("JALJLSDALKSJ")
+      setTutorialIsMaded(user.configuration.isTutorialMade);
     })();
   },[user] );
   
@@ -82,15 +91,14 @@ export default function Layout({
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-{/* Esse tutoras vai ter que ser controlado */}
-        {/* <Joyride showSkipButton run steps={steps.steps} spotlightClicks  continuous={!user.configuration.isTutorialMade} /> */}
+        {tutorialIsMaded ? <></> : <Tutorial/>}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
         <TaskModalContext.Provider
           value={{ isOpen, setIsOpen, task, setSelectedTask }}
         >
           <Header setSidebarOpen={setOpenSideBar}></Header>
-          <main className="w-screen h-full flex flex-col items-center justify-start">
+          <main className="w-screen h-screen flex flex-col items-center justify-start">
             <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
               <SideBarProjects user={params.user} project={project} />
             </SideModal>

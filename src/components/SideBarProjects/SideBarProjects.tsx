@@ -27,21 +27,23 @@ export const SideBarProjects = ({ user, project }: Props) => {
     router.push("/login");
   };
   return (
-    <>
+    <div className="w-full h-full sidebar">
+
       <If condition={project != undefined}>
         <ProjectInformations project={project} />
-        <div className="w-full h-16 flex items-center brightness-0 opacity-80 dark:invert justify-between">
-          <img
-            src="/Assets/logo/IconLight.svg"
-            alt="logo"
-            className="w-20 h-20"
-          />
-          <div>
-            <p className="text-3xl font-alata text-primary dark:text-secondary truncate">
-              Task Flow
-            </p>
-          </div>
-        </div>
+        {//<div className="w-full h-16 flex items-center brightness-0 opacity-80 dark:invert justify-start gap-4">
+        //  <img
+        //    src="/Assets/logo/IconLight.svg"
+        //    alt="logo"
+        //    className="w-20 h-20"
+        //  />
+        //  <div>
+        //    <p className="text-h4 font-alata text-primary dark:text-secondary truncate">
+        //      Task Flow
+        //    </p>
+        //  </div>
+        //</div>
+      }
       </If>
       <SideMain
         setModalGroups={setModalGroups}
@@ -55,21 +57,25 @@ export const SideBarProjects = ({ user, project }: Props) => {
         project={project}
       />
 
-      <CenterModal condition={wantLeave} setCondition={setWantLeave}>
-        <div className="w-full h-80 flex flex-col items-center justify-around">
-          <h4 className="h4 text-primary  dark:text-secondary flex-wrap w-3/4 text-center">
+      <CenterModal stylesTailwind="w-96" condition={wantLeave} setCondition={setWantLeave}>
+        <div className="w-full h-min py-6 gap-6 flex flex-col items-center justify-around">
+          <h4 className="text-h4 font-alata text-primary  dark:text-secondary flex-wrap w-3/4 text-center">
             {t("want-leave")}
           </h4>
           <div className="w-3/4 flex justify-between">
             <Button
               width="w-min"
               text={t("cancel")}
+              
+              padding="p-2" paddingY="py-2" textSize="font-p"
               fnButton={() => setWantLeave(false)}
             />
-            <Button width="w-min" fnButton={leave} secondary />
+            <Button width="w-min" 
+            padding="p-2" paddingY="py-2" textSize="font-p"
+            fnButton={leave} secondary />
           </div>
         </div>
       </CenterModal>
-    </>
+    </div>
   );
 };

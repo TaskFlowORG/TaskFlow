@@ -75,7 +75,7 @@ export const Table = ({ page }: Props) => {
                   className="overflow-y-auto none-scrollbar h-[87%] flex relative w-full">
                     {page.tasks.length == 0 ?
                     
-                    <div className="h4 text-primary items-center pb-10 dark:text-secondary w-full h-full flex   justify-center">
+                    <div className="text-h4 font-alata text-primary items-center pb-10 dark:text-secondary w-full h-full flex   justify-center">
                        {t("no-tasks-in-page")}
                     </div>
                    :
