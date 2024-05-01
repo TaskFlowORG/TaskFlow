@@ -248,6 +248,9 @@
   "tuto-step12": "E aqui estão as propriedades valoradas no projeto.",
   "tuto-step13": "Aqui estão as propriedades do projeto que seriam valoradas nas tarefas, ou seja, que o valor final seria atribuida tarefa por tarefa. Caso você esteja em uma página você poderá ver as propriedades da página juntamente com as do projeto.",
   "tuto-step14": "Aqui estão as páginas do projeto. Você pode criar novas páginas e visualizar e editar as existentes.",
-  "tuto-step15": "Aqui estão as configurações da sua conta. Você pode alterar suas informações, suas preferencias e notificações."
+  "tuto-step15": "Aqui estão as configurações da sua conta. Você pode alterar suas informações, suas preferencias e notificações.",
+  "close":"Fechar",
+  "last":"Finalizar",
+  "skip":"Pular"
 
 }

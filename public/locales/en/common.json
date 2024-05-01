@@ -259,5 +259,8 @@
   "tuto-step12": "And here are the properties valued in the project.",
   "tuto-step13": "Here are the project properties that would be valued in the tasks, that is, the final value would be assigned task by task. If you are on a page, you can see the page properties along with the project properties.",
   "tuto-step14": "Here are the project pages. You can create new pages and view and edit existing ones.",
-  "tuto-step15": "Here are your account settings. You can change your information, preferences, and notifications."
+  "tuto-step15": "Here are your account settings. You can change your information, preferences, and notifications.",
+  "close": "Close",
+  "last": "Finish",
+  "skip": "Skip"
 }

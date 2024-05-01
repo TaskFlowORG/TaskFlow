@@ -9,6 +9,7 @@ import ReactJoyride from "react-joyride";
 import { useTheme } from "next-themes";
 import { useTutorial } from "./hooks/useTutorial";
 import { userService } from "@/services";
+import { useTranslation } from "react-i18next";
 
 export const Tutorial = () => {
   const [step, setStep] = useState(0);
@@ -16,6 +17,7 @@ export const Tutorial = () => {
   const { user , setUser} = useContext(UserContext);
   const {theme} = useTheme();
   const steps = useTutorial();
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (!user) return;
@@ -67,6 +69,15 @@ export const Tutorial = () => {
       disableCloseOnEsc
       run={run}
       continuous
+      locale={
+        {
+          back: t("back"),
+          close: t("close"),
+          last: t("end"),
+          next: t("next"),
+          skip: t("skip"),
+        }
+      }
       styles={{
         options: {
           primaryColor: theme == "light" ? "var(--primary-color)" : "var(--secondary-color)", 
