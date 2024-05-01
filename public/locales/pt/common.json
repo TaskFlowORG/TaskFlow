@@ -233,5 +233,21 @@
   "property-registration": "Cadastro de propriedade",
   "task-registration": "Cadastro de tarefa",
   "add-property": "Adicionar propriedade",
-  "page": "Página"
+  "page": "Página",
+  "tuto-step1": "Esta é a página inicial. Aqui você pode ver as tarefas de hoje e os projetos em que está envolvido.",
+  "tuto-step2": "Este é o cabeçalho do nosso site. Aqui, você pode realizar algumas configurações simples, como tema e idioma, além de acessar nosso chat, configurações e visualizar notificações quando existirem.",
+  "tuto-step3": "Neste botão, você pode abrir a navegação da barra lateral.",
+  "tuto-step4": "Esta é a nossa barra lateral simplificada. Quando você estiver dentro de um projeto, ela terá mais opções. Por enquanto, você pode ver projetos, grupos e sua página inicial.",
+  "tuto-step5": "Essa é a barra lateral dos seus grupos, os grupos em que você é dono ou faz parte.",
+  "tuto-step6": "Essa é a página do grupo. Aqui você pode visualizar e editar as informações do grupo (caso seja o dono), além de visualizar outros membros desse grupo.",
+  "tuto-step7": "Essa é página de projetos, você pode registrar novos projetos e visualizar e filtrar os existentes. Vamos criar um projeto!",
+  "tuto-step8": "Esta é a página do projeto. Aqui você pode visualizar e editar, se for o proprietário do projeto, as informações deste projeto.",
+  "tuto-step9": "Ao clicar neste botão, você pode abrir o painel de controle do projeto e visualizar alguns gráficos relacionados a ele.",
+  "tuto-step10": "Nesta seção, você pode visualizar os logs do projeto.",
+  "tuto-step11": "Aqui estão os comentários do projeto.",
+  "tuto-step12": "E aqui estão as propriedades valoradas no projeto.",
+  "tuto-step13": "Aqui estão as propriedades do projeto que seriam valoradas nas tarefas, ou seja, que o valor final seria atribuida tarefa por tarefa. Caso você esteja em uma página você poderá ver as propriedades da página juntamente com as do projeto.",
+  "tuto-step14": "Aqui estão as páginas do projeto. Você pode criar novas páginas e visualizar e editar as existentes.",
+  "tuto-step15": "Aqui estão as configurações da sua conta. Você pode alterar suas informações, suas preferencias e notificações."
+
 }

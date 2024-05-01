@@ -17,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode, user: 
     if(!user) return null;
     return (
         <>
-        <span className="w-min h-min configs">
+        <span className="w-full h-full configs">
 
             <ConfigContext.Provider value={{ title: pageTitle, setTitle: setPageTitle }}>
                 <SideBarConfig user={user} pageTitle={pageTitle}></SideBarConfig>

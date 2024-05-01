@@ -4,25 +4,31 @@ import { useContext, useState } from "react";
 import { userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const TutorialConfig = () => {
     const [modalRefazer, setModalRefazer] = useState<boolean>(false);
     const { user, setUser } = useContext(UserContext);
+    const router = useRouter();
 
     const { t } = useTranslation();
 
     const refazerTutorial = () => {
         if (!user || !setUser) return;
-        return <CenterModal setCondition={() => setModalRefazer(true)} condition={modalRefazer}><ModalTutorial close={() => setModalRefazer(false)} updateTutorial={() => updateBack()} /></CenterModal>
+        return( 
+        <CenterModal setCondition={() => setModalRefazer(true)} condition={modalRefazer}><ModalTutorial close={() => setModalRefazer(false)} updateTutorial={() => updateBack()} /></CenterModal>
+       )
+
 
     }
 
-    const updateBack = () => {
+    const updateBack = async () => {
         if (!user || !setUser) return;
         user.configuration.isTutorialMade = false;
-        userService.patch(user).then((updatedUser) => {
-            setUser(updatedUser);
-        });
+        const updated = await userService.patch(user);
+        setUser({...updated});
+        router.push("/"+user.username);
     }
 
     return (
