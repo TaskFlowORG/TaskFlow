@@ -1,12 +1,10 @@
 "use client";
 
 import { ChatContent } from "./components/ChatContent";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { chatService } from "@/services";
-import { Chat, Message, NumberValued, OtherUser } from "@/models";
+import { Chat, Message } from "@/models";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
-import { UserContext } from "@/contexts/UserContext";
-import { useEffectOnce, useMount } from "react-use";
 type chattype = {
     chatId: number;
 }
@@ -14,7 +12,6 @@ type chattype = {
 export const Chatt = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
-    const [quantityUnvisualized, setQuantityUnvisualized] = useState<number>();
 
     useEffect(() => {
         (async function getChats() {
@@ -23,21 +20,16 @@ export const Chatt = ({ chatId }: chattype) => {
             const chat = [...response, ...response2].find(chat => chat.id === chatId)
             setChatContent(chat);
             setMessages(chat?.messages || [])
-            
         })()
     }, [chatId]);
 
-
     useEffect(() => {
-        console.log("play")
         if (!chatContent) return;
-        // Establish WebSocket connection and subscribe to chat channel
         const conect = onConnect(`/chat/${chatContent.id}`, (message) => {
             const messagetemp = JSON.parse(message.body);
             console.log(message.body);
             setMessages(prev => [...prev, messagetemp]);
         });
-        
         return () => {
             conect.disconnect();
         }
@@ -59,6 +51,7 @@ export const Chatt = ({ chatId }: chattype) => {
                             messages={messages}
                             type={chatContent.type}
                             equals={chatContent.equals}
+                            chatContent={chatContent}
                         />
                     }
                 </div>

@@ -12,7 +12,6 @@ import { InputCheckboxConfig } from "./components/InputCheckboxConfig";
 import { useTranslation } from "next-i18next";
 import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
-import { TextToSpeechTeste } from "./components/TextToSpeechTeste/TextToSpeechTeste";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);

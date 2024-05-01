@@ -51,9 +51,8 @@ export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: ch
                                 </div>
                             </If>
 
-                            <div className="p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tl-lg flex flex-row-reverse justify-start" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                            <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tl-lg flex flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
-
                                 <div className="self-end h-3 opacity-60 pr-2 text-mn font-alata">
                                     <p>{hour}</p>
                                 </div>
@@ -83,7 +82,7 @@ export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: ch
                                 </div>
                             </If>
 
-                            <div className="bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tr-lg flex justify-start">
+                            <div className={`bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tr-lg flex justify-start ${penultimaMensagem ? "mb-6" : ""}`}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
                                 <div className="self-end pl-2 text-mn font-alata h-3 opacity-60">
                                     <p>{hour}</p>

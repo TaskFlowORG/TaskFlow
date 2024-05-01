@@ -7,25 +7,38 @@ import { Keyboard } from "@/components/Keyboard";
 import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
+import { archiveToSrc } from "@/functions";
+import Image from 'next/image'
 
 interface MessageGroup {
-    message: Message, 
+    id: number,
+    lastMessage: Message,
+    name: string,
+    messages: Message[],
+    message: Message,
     isFirst: boolean
+    chatContent: Chat
 }
 
-export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
+export const ChatContent = ({ id, lastMessage, name, messages, message, isFirst, chatContent }: MessageGroup) => {
 
     const [mensagem, setMensagem] = useState<string>("")
     const [mensagens, setMensagens] = useState<MessageGroup[]>()
     const { user, setUser } = useContext(UserContext)
-    const [ allMessages, setAllMessages ] = useState<Message[]>(messages)
+    const [allMessages, setAllMessages] = useState<Message[]>(messages)
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const [photoUrl, setPhotoUrl] = useState<string>(chatContent ? archiveToSrc(chatContent.picture) : "");
+
+
+    useEffect(() => {
+        setPhotoUrl(archiveToSrc(chatContent?.picture));
+    }, [chatContent]);
 
     useEffect(() => {
 
         scrollToBottom();
-        const k = messages.map((message, index )=> ({
-            message:message, isFirst:messages.indexOf(message) == messages.length-1 ? true :  message.sender.id != messages[index+1].sender.id
+        const k:any = messages.map((message, index) => ({
+            message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? true : message.sender.id != messages[index + 1].sender.id
         }))
         setMensagens(k)
     }, [messages]);
@@ -33,7 +46,7 @@ export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
-    
+
     const scrollToBottom = () => {
         if (messagesEndRef.current) {
             messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
@@ -89,7 +102,8 @@ export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
         <>
             <div className={`w-full h-full gap-10`}>
                 <div className="flex bg-input-grey w-full h-full rounded-lg items-center justify-around shadow-blur-10">
-                    <div className="flex bg-primary rounded-full lg:w-[4%] h-11 mx-5">
+                    <div className="relative flex bg-primary rounded-full lg:w-[4%] h-11 mx-5">
+                        <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
                     </div>
                     <div className="w-[80%] lg:mx-2">
                         <h5 className=" text-xl">{name}</h5>
@@ -103,7 +117,7 @@ export const ChatContent = ({ lastMessage, name, messages, id }: Chat) => {
                         </div>
                     </div>
                 </div>
-                <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 ">
+                <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4 ">
                     <div className="flex  w-full flex-col gap-1">
                         <div className="flex justify-center py-5 text-p font-alata text-primary">
                             <p>Este é o começo de sua conversa com {name} </p>

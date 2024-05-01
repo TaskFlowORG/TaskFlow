@@ -1,7 +1,7 @@
 "use client";
 
 import { Chat, ChatGroupPost, ChatPrivatePost } from "@/models";
-import React, {useContext } from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
 import { Chats } from "../../../../../components/Chat/components/Chats";
 import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
@@ -17,7 +17,6 @@ import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 
 export default function ChatMessages({
   children,
-  params,
 }: {
   children: React.ReactNode;
   params: { chatId: string };
@@ -27,19 +26,19 @@ export default function ChatMessages({
   const [listaChats, setListaChats] = useState<Chat[]>([]);
   const [searchin, setSearching] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
-  const [possibleChats, setPossibleChats] = useState<
-    Array<ChatGroupPost | ChatPrivatePost>
-  >([]);
+  const [possibleChats, setPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatContenteType, setChatContentType] = useState<String>("PRIVATE")
-
   const { projects } = useContext(ProjectsContext);
+  const { user } = useContext(UserContext);
+  const [creatingChat, setCreatingChat] = useState<boolean>(false);
+  const [searchNewChat, setSearchNewChat] = useState<string>("");
+  const { t } = useTranslation();
+  const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
+  const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
 
   const handleChatClick = (chatId: number) => {
     route.replace(`/${user?.username}/chat/${chatId}`);
-
   };
-
-
 
   useEffect(() => {
     async function buscarChats() {
@@ -48,16 +47,13 @@ export default function ChatMessages({
       setListaChats([...response, ...response2]);
     }
     buscarChats();
-  }, []);
-
-  const { user } = useContext(UserContext);
+  }, [user]);
 
   useEffect(() => {
     (async () => {
       if (!user || !projects) return;
       const alreadyExistsGroups = await chatService.findAllGroup();
       const myGrous = await groupService.findGroupsByUser();
-
       const possibleGroups = myGrous.filter(
         (g) => !alreadyExistsGroups.find((ag) => ag.group.id === g.id)
       );
@@ -71,8 +67,6 @@ export default function ChatMessages({
         const g = await groupService.findOne(group.id);
         myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
       }
-
-      //isso tirou os duplicados
       myCoparticipants = myCoparticipants
         .filter((u) => u.id !== user.id)
         .filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
@@ -85,12 +79,9 @@ export default function ChatMessages({
       setPossibleChats([...possibleChatsGroups, ...possibleChatsPrivates]);
     })();
   }, [search]);
-  const [creatingChat, setCreatingChat] = useState<boolean>(false);
-  const [searchNewChat, setSearchNewChat] = useState<string>("");
-  const { t } = useTranslation();
+
 
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
-
     if (chat instanceof ChatGroupPost) {
       await chatService.saveGroup(chat);
     } else {
@@ -98,11 +89,6 @@ export default function ChatMessages({
     }
     setCreatingChat(false);
   };
-
-  const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
-  const [filteredPossibleChats, setFilteredPossibleChats] = useState<
-    Array<ChatGroupPost | ChatPrivatePost>
-  >([]);
 
   useEffect(() => {
     setFilteredChats(
@@ -120,26 +106,24 @@ export default function ChatMessages({
     );
   }, [searchNewChat, possibleChats]);
 
-
   useEffect(() => {
-  
-//rever aqui amanha
-
     if (!user) return;
-    const conect = onConnect(`/chats/${user.id}`, (chat) => {
-        const chatTemp:Chat = JSON.parse(chat.body);
-        const chatUpdated = listaChats.find((c) => {
-          console.log(c.id, chatTemp.id)
-          return c.id == chatTemp.id
-        });
-        if(!chatUpdated) return;
-        chatUpdated.quantityUnvisualized++
-        setListaChats(prev => [...prev.filter(c => c.id != chatUpdated.id), chatUpdated]);
-    })
+    const connect = onConnect(`/chats/${user.id}`, (chat) => {
+      const chatTemp: Chat = JSON.parse(chat.body);
+      const list = [...listaChats]
+      const oldChat = list.find((c) => c.id == chatTemp.id
+      );
+      if (!oldChat) return
+      const index = list.indexOf(oldChat);
+      list[index].quantityUnvisualized++;
+      list[index].lastMessage = chatTemp.lastMessage;
+      setListaChats(list);
+    });
     return () => {
-        conect.disconnect();
-    }
-}, [user]); 
+      connect.disconnect();
+    };
+  }, [user, listaChats]);
+
 
   return (
     <>
@@ -155,7 +139,7 @@ export default function ChatMessages({
                   <div onClick={() => setSearching(!searchin)}
                     className={`flex-row-reverse cursor-pointer flex items-center justify-center w-10 h-10 bg-primary ${!searchin ? "rounded-full" : "rounded-l-lg"}`}>
                     <div>
-                      <IconSearch classes="text-contrast"/>
+                      <IconSearch classes="text-contrast" />
                     </div>
                   </div>
                   <div className={`w-[80%]  ${searchin ? "visible" : "hidden"}`}>
@@ -226,7 +210,7 @@ export default function ChatMessages({
                   <ChatDontExists />
                 )
                   :
-                  filteredChats.map((chat) => (
+                  filteredChats.map((chat, key) => (
 
                     (chat.type.toString() == chatContenteType ?
                       <Chats
