@@ -13,7 +13,9 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   return (
     <CenterModal
       // stylesTailwind={" w-[1308px] w-max p-12"}
-      stylesTailwind={"2xl:w-[1308px] xl:w-[1000px] w-max  shadow-blur-10 p-12"}
+      stylesTailwind={
+        "2xl:max-w-[1308px] xl:max-w-[1000px] w-max h-[70%] md:w-3/5 lg:w-[85%] lg:h-min w-[85%] shadow-blur-10 p-12"
+      }
       condition={isOpen}
       setCondition={() => {
         setIsOpen(false);

@@ -51,8 +51,8 @@ export const TaskModalContent = ({
   }, [project]);
 
   return (
-    <div className="flex justify-between flex-col md:flex-row  w-full h-full max-w-[1300px]">
-      <div className="flex flex-col gap-12 w-full md:w-2/5">
+    <div className="flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0  w-full max-h-full overflow-y-auto max-w-[1300px]">
+      <div className="flex flex-col gap-12 w-full lg:w-2/5">
         {isInModal && <TaskName task={task} />}
         <div className="flex flex-col w-full gap-6">
           <div className="flex gap-0 w-full">
@@ -85,7 +85,9 @@ export const TaskModalContent = ({
           setList: setList,
         }}
       >
-        <div className=" w-[2px] min-h-full bg-[#F2F2F2]"></div>
+        <div className="hidden lg:block w-[2px]  min-h-full bg-[#F2F2F2]"></div>
+        <div className=" lg:hidden w-full min-h-[2px] bg-[#F2F2F2]"></div>
+
         <PropertiesSide
           filter={filter}
           setFilter={setFilter}

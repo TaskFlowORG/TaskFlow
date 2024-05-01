@@ -10,15 +10,6 @@ import {
   DatePost,
   SelectPost,
   LimitedPost,
-  ArchiveValued,
-  DateValued,
-  MultiOptionValued,
-  NumberValued,
-  TextValued,
-  TimeValued,
-  UniOptionValued,
-  UserValued,
-  Value,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
@@ -26,15 +17,11 @@ import { FooterTask } from "./FooterTask";
 import { ProjectContext } from "@/contexts";
 import { useContext, useState } from "react";
 import { PageContext } from "@/utils/pageContext";
-import { Select as Selectt } from "@/components/Select";
-import { propertyService, taskService } from "@/services";
+import { taskService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { Duration } from "@/models/values/Duration";
-import { Interval } from "@/models/values/Interval";
 import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
-import { log } from "console";
 
 type Props = {
   task: Task;
@@ -224,7 +211,7 @@ export const PropertiesSide = ({
   }
 
   return (
-    <div className="w-full md:w-2/5 flex flex-col justify-between min-h-full ">
+    <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
       <div className="w-full  ">
         {/* bg-black */}
         <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px] overflow-auto bah pr-4 w-full">

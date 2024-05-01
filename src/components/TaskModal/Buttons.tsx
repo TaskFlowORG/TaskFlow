@@ -1,4 +1,3 @@
-
 import { Button } from "../Button";
 import { useContext } from "react";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -10,26 +9,26 @@ type Props = {
 };
 export const Buttons = ({ updateTask }: Props) => {
   const { setFilterProp, setList } = useContext(FilterContext);
-  const {project, setProject} = useContext(ProjectContext)
-  const {t} = useTranslation()
+  const { project, setProject } = useContext(ProjectContext);
+  const { t } = useTranslation();
   return (
     <div className="flex gap-4  w-full h-min justify-end items-center">
       <Button
         font="font-alata"
-        textSize="text-base"
+        textSize=" text-mn md:text-p14 lg:text-p"
         text={t("cancel")}
         secondary={true}
         fnButton={() => {
           setList!(undefined);
           setFilterProp!([]);
-          setProject!({...project!})
+          setProject!({ ...project! });
         }}
         paddingY="py-1"
-        padding="p-4"
+        padding="p-2"
       />
       <Button
         font="font-alata"
-        textSize="text-base"
+        textSize=" text-mn md:text-p14 lg:text-p max-w-[80px] sm:max-w-full"
         text={t("save-changes")}
         fnButton={() => updateTask()}
         paddingY="py-1"

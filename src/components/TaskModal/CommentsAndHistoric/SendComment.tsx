@@ -16,7 +16,7 @@ export const SendComment = ({ input, sendComment, setInput }: Props) => {
         className="h-full items-center flex justify-center aspect-square rounded-lg bg-primary dark:bg-secondary"
         onClick={sendComment}
       >
-        <div className="w-[16px] h-[18px] relative">
+        <div className="w-[12px] h-[14px] md:w-[16px] md:h-[18px] relative">
           <Image src={"/send.svg"} alt="Enviar mensagem" fill />
         </div>
       </div>

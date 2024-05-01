@@ -47,7 +47,7 @@ export const TaskName = ({ task }: Props) => {
   return (
     <div className="flex gap-4 items-center">
       <input
-        className="h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
+        className=" text-h4 font-alata xl:text-h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
         ref={taskNameRef}
         placeholder={t("withoutname")}
         value={taskName}
