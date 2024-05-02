@@ -222,6 +222,7 @@
         "property-registration": "Property registration",
         "task-registration": "Task registration",
         "add-property": "Add property",
-        "page": "Page"
+        "page": "Page",
+        "generate-report":"Generate report"
 
 }

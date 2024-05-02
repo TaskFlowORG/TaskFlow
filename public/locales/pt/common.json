@@ -214,5 +214,6 @@
         "property-registration": "Cadastro de propriedade",
         "task-registration": "Cadastro de tarefa",
         "add-property": "Adicionar propriedade",
-        "page": "Página"
+        "page": "Página",
+        "generate-report":"Gerar relatório"
 }
