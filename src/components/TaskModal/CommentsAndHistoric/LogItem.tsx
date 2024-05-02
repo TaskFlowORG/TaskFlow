@@ -25,7 +25,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
     const dia = String(date.getDate()).padStart(2, "0");
     const mes = String(date.getMonth() + 1).padStart(2, "0");
     const ano = date.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+    return `${dia}/${mes}/${ano} - ${date.getHours()}:${date.getMinutes()}`;
   };
 
   const setValue = (property: Property, log: Log) => {
@@ -63,6 +63,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:
+        return log.value.value.value;
     }
 
     return "Calma lá bicho";
