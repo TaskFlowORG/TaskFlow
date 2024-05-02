@@ -51,7 +51,13 @@ export const TaskName = ({ task }: Props) => {
         ref={taskNameRef}
         placeholder={t("withoutname")}
         value={taskName}
-        onChange={(e) => updateNameTask(e)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            updateNameTask(e);
+          }
+        }}
+        onChange={(e) => setTaskName(e.target.value)}
+        onBlur={(e) => updateNameTask(e)}
       ></input>
     </div>
   );
