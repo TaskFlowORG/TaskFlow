@@ -31,8 +31,8 @@ const schema = z
     )
 
 
-
 type FormData = z.infer<typeof schema>;
+
 export const Step3 = () => {
     const [user, setUser] = useState<FormData>({ password: "", confirmPassword: ""});
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({

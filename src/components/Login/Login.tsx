@@ -67,7 +67,7 @@ export const Login = () => {
 
   return (
     <>
-      <div className="flex h-full w-full  absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+      <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
         <form
           id="modalLogin"
           onSubmit={handleSubmit(login)}
