@@ -77,8 +77,17 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
   return (
     <>
-      <Navigate modalPages={false} setCondition={setModalGroups} />
-      <ProjectInformations project={project} />
+      {
+        project != undefined && (
+          <>
+            <Navigate modalPages={false} setCondition={setModalGroups} />
+            <ProjectInformations project={project} />
+          </>
+
+
+
+        )
+      }
 
       <div className="flex flex-col w-72 justify-center items-center h-4/6 groups-side">
         <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
@@ -88,13 +97,11 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                 groups.map((group, index) => (
                   <div
                     key={index}
-                    className="w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
+                    className="w-48 md:w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
                                      dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
                   >
                     <button
-                      onClick={() => sendRoute(group.id)
-
-                      }
+                      onClick={() => sendRoute(group.id)}
                     >
                       <GroupComponent
                         user={user}
@@ -109,7 +116,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
         <div className="h-min relative w-full flex justify-center pt-4 ">
           <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
           <button
-            className="h-10 w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+            className="h-10 mr-32 w-48 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
             onClick={() =>
               global == "userGroups" ? addNewGroup() : setOpenModal(true)
             }
