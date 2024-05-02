@@ -75,7 +75,9 @@ export const TaskModalContent = ({
             />
           </div>
           {isInComments && <CommentsSection task={task} user={user} />}
-          {isInHistorics && <HistoricSection task={task}  />}
+          {isInHistorics && (
+            <HistoricSection isInModal={isInModal} task={task} />
+          )}
         </div>
       </div>
       <FilterContext.Provider

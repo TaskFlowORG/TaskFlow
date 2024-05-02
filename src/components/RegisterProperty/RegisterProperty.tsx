@@ -32,7 +32,7 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
   const [propertiesArray, setPropertiesArray] = useState<Property[]>(
     isInProject ? project.properties : page?.properties || []
   );
-  const {setProject} = useContext(ProjectContext);
+  const { setProject } = useContext(ProjectContext);
   useEffect(() => {
     setPropertiesArray(
       isInProject ? project.properties : page?.properties || []
@@ -103,9 +103,9 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
           )
         );
       }
-        setPropertiesArray([...propertiesArray, propertyObj]);
+      setPropertiesArray([...propertiesArray, propertyObj]);
       const projectTemp = await projectService.findOne(project.id);
-        setProject!(projectTemp);
+      setProject!(projectTemp);
     } catch (error) {
       console.log(error);
     }
@@ -116,7 +116,7 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
       propertyService.delete(project.id, property.id);
       setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
       const projectTemp = await projectService.findOne(project.id);
-        setProject!(projectTemp);
+      setProject!(projectTemp);
     } catch (error) {
       console.log(error);
     }
@@ -181,10 +181,9 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
           )
         );
       }
-      
+
       const projectTemp = await projectService.findOne(project.id);
-        setProject!(projectTemp);
-      
+      setProject!(projectTemp);
     } catch (error) {
       console.log(error);
     }
@@ -217,7 +216,12 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
           </span>
         </div>
       </If>
-      <div className={"w-full flex flex-col items-center gap-5 " + (page ? "h-[58%]" :"h-[70%]")}>
+      <div
+        className={
+          "w-full flex flex-col items-center gap-5 " +
+          (page ? "h-[58%]" : "h-[70%]")
+        }
+      >
         <ModalRegisterProperty
           postProperty={postProperty}
           open={modalProperty}
@@ -241,15 +245,14 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
         </div>
       </div>
       <NeedPermission permission="create">
-
-      <Button
-        width="w-full "
-        text={t("add-property")}
-        fnButton={() => setModalProperty(true)}
-        padding="p-2"
-        paddingY="p-1"
-        textSize="font-[14re]"
-      />
+        <Button
+          width="w-full "
+          text={t("add-property")}
+          fnButton={() => setModalProperty(true)}
+          padding="p-2"
+          paddingY="p-1"
+          textSize="font-[14re]"
+        />
       </NeedPermission>
     </>
   );
