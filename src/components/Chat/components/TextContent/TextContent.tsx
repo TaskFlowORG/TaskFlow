@@ -14,10 +14,7 @@ type chattype = {
 }
 
 export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: chattype) => {
-    const currentDate = new Date();
     const messageDate = new Date(message.dateCreate);
-    const daysDifference = Math.floor((currentDate.getTime() - messageDate.getTime()) / (1000 * 3600 * 24)); // Calcula a diferença em dias
-    const date = daysDifference > 1 ? `${daysDifference} dias atrás` : messageDate.toLocaleDateString(); // Exibe a data em dias se for maior que 1, caso contrário, mostra a data normalmente
     const hour = messageDate.toLocaleTimeString().slice(0, 5);
     const { user } = useContext(UserContext);
     const [photo, setPhoto] = useState(message.sender.picture)

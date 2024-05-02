@@ -140,7 +140,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, message, isFirst,
                                 </If>
                                 <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.message.id}>
                                     <div className="w-full flex justify-center">
-                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                        <div className="flex justify-center min-w-[5rem] max-w-24 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                             <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDay() + "/" + new Date(mensagem.message.dateCreate).getMonth() + "/" + new Date(mensagem.message.dateCreate).getFullYear()}</p>
                                         </div>
                                     </div>
