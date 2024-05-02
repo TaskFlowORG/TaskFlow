@@ -7,8 +7,10 @@ import Image from "next/image";
 
 export const Keyboard = ({
   setValue,
+  bottom,
 }: {
   setValue: (value: string) => void;
+  bottom?: boolean;
 }) => {
   const [layoutName, setLayoutName] = useState("default");
   const [open, setOpen] = useState(false);
@@ -29,7 +31,7 @@ export const Keyboard = ({
   return (
     <div className="w-8 h-full relative hidden sm:flex ">
       <Image src="/keyboard.svg" height={24} width={24} className="cursor-pointer" onClick={() => setOpen(!open)} alt="" />
-      <LocalModal condition={open} setCondition={setOpen} right>
+      <LocalModal condition={open} bottom={bottom} setCondition={setOpen} right>
         <KeyboardReact
           layoutName={layoutName}
           onChange={onChange}

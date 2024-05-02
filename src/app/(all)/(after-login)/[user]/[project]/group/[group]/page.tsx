@@ -30,6 +30,7 @@ export default function Home({ params }: { params: { user: string, project: numb
         <div className="w-screen h-screen">
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 lg:z-10">
                 <SVGGroupPage />
+                
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
                 <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">

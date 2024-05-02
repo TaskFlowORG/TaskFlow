@@ -1,4 +1,4 @@
-export  enum TypeOfChat {
+export enum TypeOfChat {
 
     GROUP,
     PRIVATE
