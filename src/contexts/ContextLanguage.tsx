@@ -1,9 +1,10 @@
+"use client";
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { UserContext } from './UserContext';
 import { Language } from '@/models';
 import { languageToString } from '@/functions/selectLanguage';
 import { useTranslation } from 'next-i18next';
-
+import Cookies from "js-cookie";
 // Definindo o tipo do contexto
 type LanguageContextType = {
   language: string;
@@ -30,7 +31,8 @@ export const LanguageProvider = ({ children }:{children:React.ReactNode}) => {
     if (user?.configuration?.language) {
       lang = languageToString(user.configuration.language);
     }else{
-      lang = navigator.language; 
+      const cookie = Cookies.get("language") as Language;
+      lang = languageToString(cookie);
     }
     changeLanguage(lang);
   }, [user]);

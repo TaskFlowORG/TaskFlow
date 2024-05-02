@@ -1,22 +1,11 @@
 "use client";
 
-import { Dictophone } from "@/components/Dictophone";
 import { Login } from "@/components/Login";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useContext, useEffect } from "react";
 
 export default function LoginPage() {
-  const { theme } = useTheme();
-
-
-  const imgLogin =
-    theme === "light" ? (
-      <img src="/img/themeLight/Login.png" />
-    ) : (
-      <img src="/img/themeDark/Login.png" />
-    );
 
   return (
     <div
@@ -24,10 +13,10 @@ export default function LoginPage() {
       id="login"
     >
       <div className="fixed -bottom-[2200px]  rotate-[35deg] -right-[1600px]  h-[3000px] w-[3000px]">
-        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
+        <Image src="/Assets/shapes/circleGradient.png"   fill alt="Circle" />
       </div>
       <div className="fixed -top-[150px] rotate-180 invisible xl:visible left-1/3  h-[300px] w-[300px]">
-        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
+        <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle"  />
       </div>
       <div className="fixed -top-[150px] rotate-180 invisible xl:visible -right-[calc(66.66%_+_300px)]  h-[300px] w-[300px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />

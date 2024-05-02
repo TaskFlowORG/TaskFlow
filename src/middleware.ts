@@ -36,7 +36,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!login|register|api|_next|fonts|examples|[\\w-]+\\.\\w+).*)",
+    "/((?!login|register|public|img|Assets|api|_next|fonts|examples|[\\w-]+\\.\\w+).*)",
     "/login",
     "/register",
   ],
