@@ -8,6 +8,7 @@ import { userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
+import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
 
 type Props = {
   isOpen: boolean;
@@ -74,7 +75,7 @@ export const TaskModalContent = ({
             />
           </div>
           {isInComments && <CommentsSection task={task} user={user} />}
-          {isInHistorics && <CommentsSection task={task} user={user} />}
+          {isInHistorics && <HistoricSection task={task}  />}
         </div>
       </div>
       <FilterContext.Provider
