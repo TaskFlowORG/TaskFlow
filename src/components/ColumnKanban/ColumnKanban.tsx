@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from "react";
 import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
-import {
+import { 
   Direction,
   DragDropContext,
   Draggable,
@@ -56,7 +56,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
               (theme == "dark" ? "#FCFCFC" : "#3d3d3d"),
           }}
         ></div>
-        <h4 className="h4 whitespace-nowrap text-black dark:text-white ">
+        <h4 className="text-h4 font-alata whitespace-nowrap text-black dark:text-white ">
           {option?.name ?? "Não marcadas"}
         </h4>
       </div>

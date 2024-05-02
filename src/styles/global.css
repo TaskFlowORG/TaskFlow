@@ -146,12 +146,14 @@
   --font-size-h2: 48px;
   --font-size-h3: 32px;
   --font-size-h4: 24px;
-  --font-size-h5: 20px;
+  --font-size-h5: 20px; 
   --font-size-p: 16px;
   --font-size-p14: 14px;
-  --font-size-mn: 12px;
+  --font-size-mn: 12px; 
   --font-size-mnAlata: 12px;
 }
+
+
 
 .m14 {
   @apply text-sm font-montserrat;
@@ -299,13 +301,6 @@ select {
 select::-ms-expand {
   display: none;
 }
-
-* {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke 150ms ease-in-out;
-  transition-duration: 150ms;
-}
-
 @keyframes custom-pulse {
   0% {
     opacity: 1;
@@ -582,6 +577,10 @@ select::-ms-expand {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
+.inputCode{
+  @apply w-16 h-20 shadow-xl bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-10 dark:border-[#414141] text-4xl text-center
+}
+
 .swiper-type-of-page-light {
   --swiper-pagination-color: var(--primary-color);
   --swiper-navigation-color: var(--primary-color);
@@ -608,8 +607,12 @@ select::-ms-expand {
   --swiper-navigation-sides-offset: 0px;
 }
 
+.simple-keyboard{
+  @apply bg-white dark:bg-modal-grey text-modal-grey;
+}
+
 #configurations:checked {
-  @apply bg-primary dark:bg-secondary border-none;
+  @apply bg-primary dark:bg-secondary border-none p-6;
 }
 #configurations {
   appearance: none;
@@ -669,7 +672,7 @@ input[type="number"] {
   cursor: default
 }
 .react-calendar {
-  @apply bg-white dark:bg-modal-grey w-full  font-alata;
+  @apply bg-white dark:bg-modal-grey w-full text-mn font-alata;
 }
 .react-calendar__navigation {
   @apply flex justify-between items-center gap-2;
@@ -686,10 +689,10 @@ abbr[title] {
 }
 .react-calendar__month-view__days {
   @apply rounded-sm  bg-input-grey dark:bg-back-grey 
-relative text-[10px]  text-modal-grey dark:text-white;
+relative text-mn  text-modal-grey dark:text-white;
 }
 .react-calendar__tile {
-  @apply rounded-sm  bg-clip-border box-border  
+  @apply rounded-sm  bg-clip-border box-border
   border-[1px] border-white relative dark:border-modal-grey aspect-square;
 }
 .react-calendar__navigation__prev2-button,

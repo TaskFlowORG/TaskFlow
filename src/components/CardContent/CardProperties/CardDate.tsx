@@ -9,7 +9,7 @@ export const CardDate = ({ date, property, showNameProperty }: Props) => {
     <>
       <div className="flex gap-2 items-center w-max">
         {showNameProperty && (
-          <p className="text-[14px] text-[#797979] dark:text-white ">
+          <p className="text-p14 text-[#797979] dark:text-white ">
             {property}:
           </p>
         )}

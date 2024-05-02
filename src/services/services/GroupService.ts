@@ -2,6 +2,7 @@ import { Group, GroupPost, GroupPut, Permission, User } from "@/models";
 import { Api } from "../axios";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
+
 class GroupService {
 
     async insert(group: GroupPost): Promise<Group> {
@@ -56,7 +57,6 @@ class GroupService {
 
     async inviteUser(groupId: number, userId: number): Promise<void> {
          await Api.post<Group>(`group/${groupId}/add-user/${userId}`, {}, {withCredentials: true});
-
     }
 
 }

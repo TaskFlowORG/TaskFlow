@@ -1,6 +1,8 @@
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useContext, useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
+import { Keyboard } from "../Keyboard";
+import { Dictophone } from "../Dictophone";
 type Props = {
   setIsModalOpen:(a: boolean) => void;
 }
@@ -8,7 +10,7 @@ type Props = {
 export const SearchInput = ({setIsModalOpen}:Props) => {
   const inputRef = useRef<any>(null);
   // useClickAway(ref, () => setIsModalOpen(false));
-  const { setInput } = useContext(FilterContext);
+  const { setInput, input } = useContext(FilterContext);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -28,14 +30,15 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
         onKeyDown={(e)=> {if(e.key ==="Escape"){
           setInput!(""); setIsModalOpen(false)
         }} }
-        className="w-full h-full outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
+        className="w-full text-p h-8 outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
         onChange={(e) => {
           setInput!(e.target.value);
         }}
+        value={input}
       />
       <div className="gap-3 flex">
-        <img src="/keyboard.svg" className="w-6 h-6 self-center " alt="" />
-        <img src="/voice.svg" className="w-6 h-6 self-center " alt="" />
+        <Keyboard  setValue={(value:string) => setInput!(value)} />
+        <Dictophone  setText={setInput!}/>
       </div>
     </div>
   );

@@ -68,19 +68,16 @@ export const TimeLine = ({ page }: { page: Page }) => {
   const { t } = useTranslation();
 
 
+  useEffect(() => {
+    //getting the fontsize on variable css --font-size-p
+    const tempWidth  = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--font-size-p").replace("px", ""));
+    setWidthOfInterval(tempWidth * 12);
+  
+  });
 
   return (
-    <div className="w-full h-full pt-20 flex flex-col justify-start items-center">
-      <div className="h-full relative flex flex-col w-screen px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-72 gap-10">
-        <div className="h-min w-full flex items-center justify-between">
-          <div className="h4 dark:text-white sm:text-[40px] md:text-[48px] w-full text-primary">
-            {page.name ?? t("withoutname")}
-          </div>
-          <div className="w-min flex ">
-            <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
-            <div className=" aspect-square dark:bg-secondary h-6 md:h-12 bg-primary rounded-full"></div>
-          </div>
-        </div>
+    <div className="w-full h-full flex flex-col justify-start items-center">
+      <div className="h-full relative flex flex-col w-full gap-10">
         <div className=" w-full h-[75%] flex flex-col">
           <div className="w-full h-min flex justify-end">
             {/* Não consigo mudar o icone do input de data */}
@@ -94,11 +91,10 @@ export const TimeLine = ({ page }: { page: Page }) => {
           </div>
           <div className="w-full h-full flex relative">
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">
-              <h5
-                className="text-[18px] h-[3.4rem] md:text-[24px] text-alata 
-              flex items-center justify-center  text-primary w-full dark:text-secondary"
-              >
-                Tarefas
+
+              <h5 className="text-p h-[3.4rem] md:text-h4 text-alata 
+              flex items-center justify-center  text-primary w-full dark:text-secondary">
+                {t("tasks")}
               </h5>
               <TaskLegend
                 tasks={page.tasks.map((t) => t.task)}

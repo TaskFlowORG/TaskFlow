@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { RangeInput } from "../RangeInput";
 
 interface SectionFilterProps {
@@ -17,6 +18,15 @@ export const SectionFilter: React.FC<SectionFilterProps> = ({
   percentage,
   max
 }) => {
+
+
+  useEffect(() => {
+    if (number &&  number > max) {
+      setNumber(max);
+    }
+  }, [number, max, setNumber]);
+
+
   return (
     <>
       <span className="flex justify-between gap-2">

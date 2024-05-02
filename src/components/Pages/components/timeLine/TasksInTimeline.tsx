@@ -19,7 +19,7 @@ export const TasksInTimeline = ({
   date: string;
 }) => {
   const calcMarginLeft = (start: DateTimelines) => {
-    const date = new Date(start.date);
+    const date = new Date(new Date(start.date).toLocaleString());
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
@@ -29,8 +29,8 @@ export const TasksInTimeline = ({
   };
 
   const calcWidth = (start: DateTimelines, task: Task) => {
-    console.log(start);
-    const date = new Date(start.date);
+
+    const date = new Date(new Date(start.date).toLocaleString());
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
@@ -41,8 +41,12 @@ export const TasksInTimeline = ({
     if (!propVl.value.starts) return "00";
     if (!propVl.value.ends) return "00";
     const index = propVl.value.starts.indexOf(start);
-    let dateEnd = new Date(propVl.value.ends[index]?.date ?? Date.now());
-    if (!dateEnd) dateEnd = new Date();
+
+    let dateEndUTC = new Date(
+      propVl.value.ends[index] ? propVl.value.ends[index].date : Date.now()
+    );
+    if (!dateEndUTC) dateEndUTC = new Date();
+    const dateEnd = new Date(dateEndUTC.toLocaleString());
     const hoursEnd = dateEnd.getHours();
     const minutesEnd = dateEnd.getMinutes();
     const secondsEnd = dateEnd.getSeconds();
@@ -65,10 +69,12 @@ export const TasksInTimeline = ({
   const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
 
+
   const fixDate = (date: Date) => {
     date.setDate(date.getDate() + 1);
     return date;
   };
+
   return (
     <div className="h-min w-min flex flex-col box-border " ref={ref}>
       {tasks.map((task, index) => {
@@ -86,7 +92,11 @@ export const TasksInTimeline = ({
               propVl.value.starts &&
               propVl?.value.starts
                 .filter((start) =>
-                  compareDates(new Date(start.date), fixDate(new Date(date)))
+
+                  compareDates(
+                    new Date(new Date(start.date)),
+                    new Date(date)
+                  )
                 )
                 .map((start, index) => {
                   return (

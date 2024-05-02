@@ -29,10 +29,10 @@ export const CardContent = ({ task }: Props) => {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between"> 
         <h4
           style={{ opacity: task.name ? 1 : 0.25 }}
-          className="text-[20px] font-alata w-max text-black dark:text-white"
+          className="text-h5 font-alata w-max text-black dark:text-white"
         >
           {task.name ?? t("withoutname")}
         </h4>
@@ -42,7 +42,7 @@ export const CardContent = ({ task }: Props) => {
           <span className="w-7 h-7 rounded-full bg-[#E41CEF] shadowww absolute right-0"></span>
         </div>
       </div>
-      <div className="flex flex-wrap gap-1 w-full justify-between">
+      <div className="flex flex-wrap gap-1 w-full [&_*]:font-montserrat justify-between">
         {task.properties?.map((property) => {
           if (
             is(property, TypeOfProperty.TEXT) &&

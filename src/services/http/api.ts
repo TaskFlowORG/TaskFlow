@@ -137,3 +137,5 @@ async function deleteData(table: any, id: any) {
 
 
 
+
+

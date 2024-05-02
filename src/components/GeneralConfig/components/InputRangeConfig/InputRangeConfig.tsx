@@ -23,16 +23,7 @@ export const InputRangeConfig = ({title, description}:Props) => {
 
 
 
-    useEffect(() => {
-        document.documentElement.style.setProperty('--font-size-h1', `${3.5 * range}px`);
-        document.documentElement.style.setProperty('--font-size-h2', `${3 * range}px`);
-        document.documentElement.style.setProperty('--font-size-h3', `${2 * range}px`);
-        document.documentElement.style.setProperty('--font-size-h4', `${1.5 * range}px`);
-        document.documentElement.style.setProperty('--font-size-h5', `${1.25 * range}px`);
-        document.documentElement.style.setProperty('--font-size-p', `${range}px`);
-        document.documentElement.style.setProperty('--font-size-mn', `${0.875 * range}px`);
-        document.documentElement.style.setProperty('--font-size-mnAlata', `${0.75 * range}px`);
-      }, [range]);
+
 
 
     return (

@@ -35,17 +35,8 @@ export const SideModal = ({
             }
           >
             <div className="w-min h-full relative" ref={ref}>
-              <p
-                className={
-                  "absolute z-[80] top-8 cursor-pointer w-4 h-4 hover:brightness-200 hover:dark:brightness-90 " +
-                  (right ? "left-16" : "right-16")
-                }
-                onClick={() => setCondition(false)}
-              >
-                x
-              </p>
               <div className="max-h-screen h-full flex  relative">
-                <div className="flex flex-col sodebar  max-h-screen gap-8 pt-28 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-64 smm:w-72 sm:w-96 px-16">
+                <div className="flex flex-col sodebar  max-h-screen gap-8 py-16 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-64 smm:w-72 sm:w-96 px-16">
                   {children}
                 </div>
               </div>

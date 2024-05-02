@@ -9,6 +9,8 @@ export {IconLogout} from "./Slidebarprojects/IconLogout";
 export { Arrow } from "./GeneralIcons/IconArrow";
 export { IconTask } from "./GeneralIcons/IconTask";
 
+export { VisualizedChatOrMessage } from "./ChatIcons/Visualized";
+
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";
@@ -41,3 +43,4 @@ export {IconMenuTaskProperty} from "./IconMenuTaskProperty/IconMenuTaskProperty"
 
 export {IconInvert} from "./IconInvert";
 export { IconInvite } from "./Notifications/Invite";
+export {IconRedo} from "./IconRedo";

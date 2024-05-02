@@ -178,24 +178,6 @@ export const Kanban = ({ page }: Props) => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
-        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center  pb-4 max-w-[1560px] relative   h-max">
-          <div className="flex gap-4 items-center">
-            <h1
-              className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
-              onClick={() => console.log(page)}
-            >
-              {page?.name}
-            </h1>
-          </div>
-
-          <SearchBar
-            order
-            filter
-            search
-            page={page as OrderedPage}
-            properties={page?.properties as Property[]}
-          ></SearchBar>
-        </div>
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollKanban"

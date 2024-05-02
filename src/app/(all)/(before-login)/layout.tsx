@@ -1,24 +1,58 @@
-'use client'
-import { useTheme } from 'next-themes'
-import React, { useEffect } from 'react'
+"use client";
+import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
+import { Language } from "@/models";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import React, { useEffect } from "react";
+import Cookies from "js-cookie";
 
-export default function Layout({ children } : { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const { theme, setTheme } = useTheme();
+  const [language , setLanguage] = React.useState<Language>();
+  const changeLanguage = async (value: string) => {
+     setLanguage(value as Language);
+  }
   useEffect(() => {
-          setTheme(localStorage.getItem('theme') || 'light')
+    setTheme(localStorage.getItem("theme") || "light");
+    setLanguage(Cookies.get("language") as Language);
+    console.log(Cookies.get("language"));
     // eslint-disable-next-line
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    console.log(language);
+    if(!language) return;
+    Cookies.set("language",language);
+  }, [language]);
+
   return (
-        <>
-          <div className=" p-4 flex justify-between w-full items-center">
-            <img src="Icon.svg" alt="" className='w-16 dark:grayscale dark:brightness-[60] cursor-pointer' />
-            <div className="flex gap-6">     
-              <img src="moon.svg" className="dark:hidden cursor-pointer" alt="" onClick={() => setTheme("dark")} />
-             <img src="sun.svg" className="hidden dark:flex cursor-pointer" alt="" onClick={() => setTheme("light")} />              
-             <img src="language.svg" alt="" />
-            </div>
-          </div>
-          {children}
-        </>
-  )
+    <>
+      <div className=" p-4 flex justify-between w-full items-center fixed z-[99]">
+        <img
+          src="Icon.svg"
+          alt=""
+          className="w-16 grayscale brightness-[60] invert dark:invert-0 cursor-pointer"
+        />
+        <div className="flex gap-6">
+          <img
+            src="moon.svg"
+            className="dark:hidden cursor-pointer"
+            alt=""
+            onClick={() => setTheme("dark")}
+          />
+          <img
+            src="sun.svg"
+            className="hidden dark:flex cursor-pointer"
+            alt=""
+            onClick={() => setTheme("light")}
+          />
+           <SelectWithImage onChange={changeLanguage} selected={(language ? language : Language.PORTUGUESE)}
+            list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },
+            { value: Language.ENGLISH, image: <Image alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" /> },
+            { value: Language.SPANISH, image: <Image alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" /> }]} />
+        </div>
+      </div>
+      {children}
+    </>
+  );
 }

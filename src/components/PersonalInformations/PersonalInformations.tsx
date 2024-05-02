@@ -58,7 +58,7 @@ export const PersonalInformations = () => {
       user.permissions,
       user.notifications
     );
-    updatedUser = await userService.update(updatedUser);
+    updatedUser = await userService.patch(updatedUser);
     setUser(updatedUser);
   };
   
@@ -166,7 +166,7 @@ export const PersonalInformations = () => {
                 placeholder={user?.description || ""}
               />
             </label>
-            <SaveChangesButton onClick={() => saveChanges}></SaveChangesButton>
+            <SaveChangesButton onClick={saveChanges}></SaveChangesButton>
           </div>
         </div>
         <div className="z-[3] absolute lg:bottom-5 bottom-[6.5rem] right-0  flex-row-reverse px-6 flex items-center lg:w-[37%]">

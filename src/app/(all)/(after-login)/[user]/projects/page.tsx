@@ -11,15 +11,11 @@ import { permissionService, projectService } from "@/services";
 import { useRouter } from "next/navigation";
 import { ProjectsContext } from "@/contexts";
 import { LocalModal } from "@/components/Modal";
-import { RangeInput } from "@/components/RangeInput";
-import { InputNumber } from "@/components/Properties/InputNumber";
 import { useTranslation } from "next-i18next";
 import { UserContext } from "@/contexts/UserContext";
-import { set } from "zod";
 import { SearchBar, SearchIcon } from "@/components/SearchBar";
 import { IconFilter } from "@/components/icons/OptionsFilter/Filter";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
-import Providers from "@/services/Theme/providers";
 import { FilterContext } from "@/utils/FilterlistContext";
 
 export default function Projects({ params }: { params: { user: string } }) {
@@ -92,7 +88,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       <div className=" flex flex-col gap-6 items-center justify-center w-full h-full">
         <div className="flex items-center flex-col w-full h-4/5">
           <div className=" w-full justify-between items-center flex sm:text-[68px] sm:w-3/5  text-center px-6 lg:text-start text-white lg:stroke-text-white lg:text-primary dark:lg:text-white">
-            <h1 className="h2 stroke-text-white w-min">{t("projects")}</h1>
+            <h1 className="text-h1 font-alata stroke-text-white w-min">{t("projects")}</h1>
             <div className="w-full h-14 text-[16px] flex justify-end items-center gap-2 relative">
               <FilterContext.Provider
                 value={{
@@ -105,7 +101,7 @@ export default function Projects({ params }: { params: { user: string } }) {
               <div className="w-min relative h-min">
 
               <div
-                className="w-12 h-12 p-3 bg-contrast aspect-square  rounded-full flex justify-center items-center"
+                className="w-12 h-12 p-3 cursor-pointer bg-contrast aspect-square  rounded-full flex justify-center items-center"
                 onClick={() => setIsModalOpen((prev) => !prev)}
               >
                 <IconFilter classes="text-primary dark:text-secondary" />

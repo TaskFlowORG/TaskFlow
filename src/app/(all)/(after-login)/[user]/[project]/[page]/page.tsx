@@ -1,27 +1,19 @@
 "use client";
 
-import {
-  Calendar,
-  Canvas,
-  Kanban,
-  List,
-  Table,
-  TimeLine,
-} from "@/components/Pages";
+import { Loading } from "@/components/Loading";
+import { Page } from "@/components/Pages";
+import { showTask } from "@/components/Pages/functions";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
 import {
-  CanvasPage,
-  OrderedPage,
-  Page,
-  Project,
+  Page as PageModel,
+  TaskPage,
   TypeOfPage,
-  User,
 } from "@/models";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { PageContext } from "@/utils/pageContext";
-import { log } from "console";
+import { filterProps } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 
 export default function Pages({
@@ -30,7 +22,7 @@ export default function Pages({
   params: { user: string; project: number; page: number };
 }) {
   const { project } = useContext(ProjectContext);
-  const [page, setPage] = useState<Page | undefined>(
+  const [page, setPage] = useState<PageModel | undefined>(
     project?.pages.find((p) => p.id == params.page)
   );
   const { user } = useContext(UserContext);
@@ -38,6 +30,7 @@ export default function Pages({
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [input, setInput] = useState("");
   const [list, setList] = useState<FilteredProperty>();
+  const [tasks, setTasks] = useState<TaskPage[]>();
 
   useEffect(() => {
     const pageTemp = project?.pages.find((p) => p.id == params.page);
@@ -46,72 +39,28 @@ export default function Pages({
     if (!pageTemp || !setInPage || !setPageId) return;
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);
+    setTasks(pageTemp.tasks);
+    
   }, [params.page, project, project?.pages]);
 
-
-  if (!user) return <></>;
+  if (!user) return <Loading />;
   if (!page)
+    return <Loading />;
+  
+
     return (
-      <div className="h3 text-primary dark:text-secondary w-full h-full flex justify-center items-center">
-        Essa página não existe ou não pertence a esse projeto!
-      </div>
-    );
-  //     return (
-  //         <FilterContext.Provider
-  //         value={{
-  //           filterProp: filter,
-  //           setFilterProp: setFilter,
-  //           list,
-  //           setList: setList,
-  //           input: input,
-  //           setInput: setInput,
-  //         }}
-  //       >
-  // {page.type == TypeOfPage.CALENDAR && <Calendar page={page as OrderedPage} />}
+      <FilterContext.Provider
+        value={{
+          filterProp: filter,
+          setFilterProp: setFilter,
+          list,
+          setList: setList,
+          input,
+          setInput: setInput,
+        }}
+      >
+        <Page page={page} user={user} project={project} setPage={setPage} tasks={tasks ?? []} />
 
-  //       </FilterContext.Provider>
-  //     )
-
-  switch (page?.type) {
-    case TypeOfPage.CALENDAR:
-      return (
-        <span className="page">
-          <Calendar page={page as OrderedPage} />
-        </span>
-      );
-    case TypeOfPage.KANBAN:
-      return (
-        <span className="page">
-          <Kanban
-            user={user}
-            page={page as OrderedPage}
-            project={project as Project}
-          />
-        </span>
-      );
-    case TypeOfPage.LIST:
-      return (
-        <span className="page">
-          <List page={page} />
-        </span>
-      );
-    case TypeOfPage.TABLE:
-      return (
-        <span className="page">
-          <Table page={page} project={project} />
-        </span>
-      );
-    case TypeOfPage.TIMELINE:
-      return (
-        <span className="page">
-          <TimeLine page={page} />
-        </span>
-      );
-    case TypeOfPage.CANVAS:
-      return (
-        <span className="page">
-          <Canvas page={page as CanvasPage} user={user} />
-        </span>
-      );
-  }
+      </FilterContext.Provider>
+    )
 }

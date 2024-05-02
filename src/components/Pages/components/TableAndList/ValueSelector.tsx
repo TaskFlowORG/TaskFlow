@@ -3,7 +3,7 @@ import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
 import { IconArchive } from "@/components/icons";
 import { generateContrast } from "@/functions";
-import { Property, PropertyValue, TypeOfProperty, OtherUser, Option, TaskOrdered, ArchiveValued, Archive } from "@/models";
+import { Property, PropertyValue, TypeOfProperty, OtherUser, Option, TaskOrdered, ArchiveValued, Archive, TimeValued } from "@/models";
 import { useTranslation } from "next-i18next";
 
 interface Props {
@@ -34,12 +34,12 @@ const {t} = useTranslation();
                 <p >^</p>
                 <p className="rotate-180">^</p>
             </div>  
-            <span className="w-min truncate">
+            <span className="w-min truncate text-mn font-montserrat">
             {l.task.name ||t("withoutname")}
             </span>
         </div>
         :
-        <div className={"flex p ml-4 gap-4 p-3 h-14 w-[90%] items-center justify-start " +  (propVl?.value.value ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500")}>
+        <div className={"flex text-mn p ml-4 gap-4 p-3 h-14 w-[90%] [&_*]:text-mn [&_*]:font-montserrat items-center justify-start " +  (propVl?.value.value ? " text-zinc-600 dark:text-zinc-200":" text-zinc-400 dark:text-zinc-500")}>
           <If condition={property?.type == TypeOfProperty.ARCHIVE}>
             {propVl?.value.value == undefined ?
                 <div className="h-min w-min truncate">Sem Arquivo</div>
@@ -53,7 +53,7 @@ const {t} = useTranslation();
             {propVl?.value.value == undefined ?
                 <p className="h-min w-min truncate" >Sem Data</p>
                 :
-                <div className="h-min w-min truncate">{new Date(propVl?.value.value).toLocaleDateString()}</div>
+                <div className="h-min w-min truncate">{new Date(new Date(propVl?.value.value)).toLocaleDateString()}</div>
             }
           </If>
           <If condition={property?.type == TypeOfProperty.NUMBER}>
@@ -80,7 +80,12 @@ const {t} = useTranslation();
           </If>
           <If condition={property?.type == TypeOfProperty.TIME}>
             <div className="h-min w-min truncate">
-              {propVl?.value.value ? propVl?.value.value.toString().slice(0, 8) : "00:00:00"}
+              {propVl?.value.value ? 
+              (propVl.value as TimeValued).value.time.hours + ":"+
+              (propVl.value as TimeValued).value.time.minutes + ":"+
+              (propVl.value as TimeValued).value.time.seconds
+              :
+              "00:00:00"}
             </div>
           </If>
           <If condition={property?.type == TypeOfProperty.USER}>

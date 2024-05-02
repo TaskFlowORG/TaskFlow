@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useClickAway } from "react-use";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
@@ -61,6 +61,8 @@ export const ModalProperty = ({
       deadline: (property as Date).deadline,
     },
   });
+
+
 
   useClickAway(ref, () => setOpenOptions(false));
   const fnReturnImageProperty = (type: string) => {

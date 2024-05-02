@@ -83,7 +83,7 @@ export const TypeOfPageComponent = ({
           return (
             <SwiperSlide key={`${slide.title}`}>
               <div className="h-32 flex items-center text-modal-grey relative dark:text-white flex-col whitespace-nowrap gap-1 ">
-                <p className="w-full text-center h-12 flex items-center justify-center  whitespace-pre-wrap">
+                <p className="w-full text-center text-p font-alata h-12 flex items-center justify-center  whitespace-pre-wrap">
                   {t(slide.title.toLowerCase())}
                 </p>
                 <div className="w-14 h-14">
@@ -116,7 +116,7 @@ export const TypeOfPageComponent = ({
           padding="p-1"
           rounded="rounded-sm"
           paddingY="py-0"
-          textSize="12px"
+          textSize="text-mn"
           fnButton={() => {
             setChangingType(false);
           }}
@@ -130,7 +130,7 @@ export const TypeOfPageComponent = ({
           }}
           rounded="rounded-sm"
           paddingY="py-0"
-          textSize="12px"
+          textSize="text-mn"
           secondary
         />
       </div>

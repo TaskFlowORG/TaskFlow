@@ -11,7 +11,7 @@ import {
   TypeOfProperty,
   TypePermission,
 } from "@/models";
-import { useTheme } from "next-themes";
+import { useTheme } from "next-themes"; 
 import { ProjectContext } from "@/contexts";
 import { AnimatePresence, motion } from "framer-motion";
 import { useClickAway } from "react-use";
@@ -148,7 +148,7 @@ export const PermissionsAndCalendar = () => {
           <>
             <span className="flex flex-col">
               <select
-                className="w-full flex text-center p-1 h-min text-primary  dark:text-secondary "
+                className="w-full flex text-center p-1 h-min text-primary text-p font-montserrat  dark:text-secondary "
                 onChange={(e) =>
                   setProperty(properties.find((p) => p.id == +e.target.value))
                 }
@@ -170,7 +170,7 @@ export const PermissionsAndCalendar = () => {
               view="month"
             />
           </>
-          <p className="w-full h-full flex text-center justify-center items-center">
+          <p className="w-full h-full flex text-center text-p justify-center items-center">
             {t("no-properties-date")}
           </p>
         </If>
@@ -204,10 +204,10 @@ export const PermissionsAndCalendar = () => {
           className="w-min sm:w-full h-min whitespace-nowrap flex flex-col items-center"
           onClick={() => setOpenPermissions(!openPermissions)}
         >
-          <h5 className=" h5 w-min  whitespace-nowrap flex-nowrap text-contrast pt-6">
+          <h5 className=" tex-h5 font-alata w-min  whitespace-nowrap flex-nowrap text-contrast pt-6">
             {t("access-level")}
           </h5>
-          <p className="w-full whitespace-normal smm:whitespace-nowrap  sm:whitespace-normal font-montserrat text-[16px] sm:text-[14px] md:text-[16px]  text-contrast pb-6">
+          <p className="w-full whitespace-normal smm:whitespace-nowrap  sm:whitespace-normal font-montserrat text-p sm:text-p14 md:text-p  text-contrast pb-6">
             {t("permissions-user-levels")}
           </p>
         </button>
@@ -242,7 +242,7 @@ export const PermissionsAndCalendar = () => {
                     width="w-full"
                     paddingY="py-2"
                     padding="p-2"
-                    textSize="text-[14px] md:text-[16px] "
+                    textSize="text-p14 md:text-p "
                     fnButton={() => postPermission()}
                   />
                 </If>

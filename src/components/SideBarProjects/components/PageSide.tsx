@@ -57,7 +57,7 @@ export const PageSide = (
   return (
 
     <>
-      <div className="w-full h-max flex flex-col gap-14">
+      <div className="w-full h-max flex flex-col gap-10 pages">
         <Navigate modalPages setCondition={setModalPages} />
         <ProjectInformations project={project} />
       </div>
@@ -69,11 +69,13 @@ export const PageSide = (
               className="flex gap-[1.15rem] w-full items-center"
             >
               <If condition={merging && pageMerging != page}>
+
                 <input
                   type="checkbox"
                   id={`${page.id}`}
                   value={page.id}
                   onChange={(e) => changeInput(e, page)}
+                  className="w-4 aspect-square h-4"
                 />
               </If>
               <PageComponent
@@ -95,10 +97,10 @@ export const PageSide = (
             <div className="flex justify-between w-full h-full">
               <Button
                 width="w-32"
-                text={t("conect")}
+                text={t("cancel")}
                 padding="p-2"
-                paddingY="p-1"
-                textSize="font-[14rem]"
+                paddingY="py-1"
+                textSize="text-p"
                 fnButton={() => {
                   setListMerge([]);
                   setMerging(false);
@@ -110,8 +112,8 @@ export const PageSide = (
                 text={t("conect")}
                 fnButton={merge}
                 padding="p-2"
-                paddingY="p-1"
-                textSize="font-[14rem]"
+                paddingY="py-1"
+                textSize="text-p"
                 secondary
               />
             </div>
@@ -124,7 +126,7 @@ export const PageSide = (
               fnButton={() => setModal(!modal)}
               padding="p-2"
               paddingY="p-1"
-              textSize="font-[14re]"
+              textSize="text-p"
             />
             </NeedPermission>
           </If>

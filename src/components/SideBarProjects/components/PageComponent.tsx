@@ -162,8 +162,9 @@ export const PageComponent = ({
               : undefined
           }
         >
-          <div className="flex w-full  h-full justify-center ">
-            <div className="flex flex-col w-min px-8 h-full justify-center pb-2  gap-2 text-modal-grey dark:text-white ">
+          <div className="flex w-full px-6  h-full justify-start">
+            <div className="flex flex-col w-min  border-l-2 border-zinc-200 dark:border-zinc-800
+             h-full justify-center pb-2 px-3 gap-2 text-modal-grey dark:text-white ">
               <NeedPermission permission="delete">
                 <ButtonPageOption
                   fnButton={excludePage}
