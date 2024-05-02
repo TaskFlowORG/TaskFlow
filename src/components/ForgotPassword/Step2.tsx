@@ -1,7 +1,7 @@
 
 import { Code } from "@/models/Code";
 import { emailService } from "@/services/services/EmailService";
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { map } from "zod";
 
 interface Props {
@@ -13,11 +13,25 @@ export const Step2 = ({ setStep }: Props) => {
     const [number2, setNumber2] = useState<string>("");
     const [number3, setNumber3] = useState<string>("");
     const [number4, setNumber4] = useState<string>("");
+    
+    const ref1 = useRef(null);
+    const ref2 = useRef(null);
+    const ref3 = useRef(null);
+    const ref4 = useRef(null);
+
     const [code, setCode] = useState<Code[]>();
     const [email, setEmail] = useState<string>("")
 
+    
+
     const handleChange = (value: string, setter: (value: string) => void) => {
         setter(value);
+    };
+
+    const handleKeyDown = (event: React.KeyboardEvent, ref: React.RefObject<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            ref.current?.focus();
+        }
     };
 
     useEffect(() =>{
@@ -61,47 +75,39 @@ export const Step2 = ({ setStep }: Props) => {
                 <div className='gap-5 h-4/5 w-4/5  flex items-center justify-center'>
                     <input
                         className="inputCode"
+                        maxLength={1}
                         type="text"
                         value={number1}
-                        onChange={(e) => handleChange(e.target.value, setNumber1)}
-                        onKeyDown={(e) => {
-                            if (e.key === " ") {
-                                e.preventDefault();
-                            }
-                        }}
+                         onChange={(e) => handleChange(e.target.value, setNumber1)}
+                         onKeyDown={(e) => handleKeyDown(e, ref2)}
+                         ref={ref1}
                     />
                     <input
                         className="inputCode"
                         type="text"
+                        maxLength={1}
                         value={number2}
                         onChange={(e) => handleChange(e.target.value, setNumber2)}
-                        onKeyDown={(e) => {
-                            if (e.key === " ") {
-                                e.preventDefault();
-                            }
-                        }}
+                        onKeyDown={(e) => handleKeyDown(e, ref3)}
+                        ref={ref2}
                     />
                     <input
                         className="inputCode"
+                        maxLength={1}
                         type="text"
                         value={number3}
                         onChange={(e) => handleChange(e.target.value, setNumber3)}
-                        onKeyDown={(e) => {
-                            if (e.key === " ") {
-                                e.preventDefault(); 
-                            }
-                        }}
+                        onKeyDown={(e) => handleKeyDown(e, ref4)}
+                        ref={ref3}
                     />
                     <input
                         className="inputCode"
+                        maxLength={1}
                         type="text"
                         value={number4}
                         onChange={(e) => handleChange(e.target.value, setNumber4)}
-                        onKeyDown={(e) => {
-                            if (e.key === " ") {
-                                e.preventDefault(); 
-                            }
-                        }}
+                        onKeyDown={(e) => handleKeyDown(e, ref1)}
+                        ref={ref4}
                     />
                 </div>
 

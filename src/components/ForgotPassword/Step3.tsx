@@ -95,7 +95,7 @@ export const Step3 = () => {
                     />
 
                 <button type="submit" className="bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange">
-                    Enviar
+                    Confirmar
                 </button>
             </form>
         </div >
