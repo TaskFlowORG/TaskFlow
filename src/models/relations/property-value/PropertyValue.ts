@@ -5,9 +5,9 @@ import { Value } from "@/models/values/Value";
 export class PropertyValue {
 
     constructor(
-        public id: number,
         public property: Property,
         public value: Value,
+        public id?: number,
     ) { }
 
     equals(obj: any): boolean {

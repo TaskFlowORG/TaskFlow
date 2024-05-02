@@ -31,7 +31,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
     let bah = await propertyValueService.updateArchiveInTask(
       selectedFile,
       project!.id,
-      propertyValue.id
+      propertyValue.id!
     );
 
     propertyValue.value = bah;

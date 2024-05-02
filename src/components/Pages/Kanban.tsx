@@ -48,7 +48,7 @@ export const Kanban = ({ page }: Props) => {
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
   const { project, setProject } = useContext(ProjectContext);
-  const context = useContext(FilterContext)
+  const context = useContext(FilterContext);
 
   useEffect(() => {
     setTasks(
@@ -232,7 +232,7 @@ export const Kanban = ({ page }: Props) => {
                         ) &&
                         (property.value as MultiOptionValued).value.length == 0)
                     );
-                     } );
+                  });
                 })}
                 propertyId={id}
                 color="#767867"

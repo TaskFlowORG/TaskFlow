@@ -65,8 +65,6 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   // Timestamp em segundos
 
   useEffect(() => {
-
-
     console.log(value);
     if (value?.starts?.length > value?.ends?.length) {
       const date = new Date(value.starts[value.starts.length - 1].date);
@@ -161,13 +159,37 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   const handleClickPause = () => {
     setPlay(false);
     value.ends.push(new DateTimelines(now()));
+
+    // // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // // const userLocale: string = navigator.language;
+    // // console.log(userLocale);
+
+    // const timestampUTC = new Date(now());
+    // const dataLocal = new Date(timestampUTC).toLocaleString();
+    // console.log(dataLocal);
+
+    // console.log(userLocale); // Isso irá imprimir o código do idioma preferido do usuário
+
+    // // Exemplo de uso para exibir uma data no formato do idioma do usuário
+    // const agora: Date = new Date(Date.now());
+    // const options: Intl.DateTimeFormatOptions = {
+    //   weekday: "long",
+    //   year: "numeric",
+    //   month: "long",
+    //   day: "numeric",
+    // };
+
+    // // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // const dataFormatada: string = agora.toLocaleDateString(userLocale, {timeZone : userTimeZone});
+    // console.log("Data sem settar nada, por vidência", dataFormatada);
+
     console.log(value.time);
     if (value.time) {
       value.time.hours = hours;
       value.time.minutes = minutes;
       value.time.seconds = seconds;
     } else {
-      value.time = new Duration(seconds, minutes, hours, null);
+      value.time = new Duration(seconds, minutes, hours, undefined);
     }
 
     console.log(value);
