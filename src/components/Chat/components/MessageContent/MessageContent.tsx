@@ -13,7 +13,7 @@ type chattype = {
     key: number
 }
 
-export const TextContent = ({ penultimaMensagem, lastMessage, message, key }: chattype) => {
+export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }: chattype) => {
     const messageDate = new Date(message.dateCreate);
     const hour = messageDate.toLocaleTimeString().slice(0, 5);
     const { user } = useContext(UserContext);

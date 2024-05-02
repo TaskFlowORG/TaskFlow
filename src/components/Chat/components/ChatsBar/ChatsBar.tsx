@@ -16,32 +16,32 @@ interface ChatProps {
   date: Date
   onChatClick: (chatId: number) => void
 }
-export const Chats = ({ chat, onChatClick, lastMessage, date }: ChatProps) => {
+export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) => {
 
   const [quantityUnvisualized, setQuantityUnvisualized] = useState<number>(chat.quantityUnvisualized)
-  const [chatClicado, setChatClicado] = useState<number>(chat.id)
+  const [chatClicado, setChatClicado] = useState<number>()
   const [photoUrl, setPhotoUrl] = useState<string>(chat ? archiveToSrc(chat.picture) : "");
-  const { user } = useContext(UserContext)
+  const { user } = useContext(UserContext);
 
   const setarChat = () => {
     onChatClick(chat.id);
     chatService.upDateToVisualized(chat.id)
     setQuantityUnvisualized(0)
-    setChatClicado(chatClicado)
+    setChatClicado(chat.id)
   }
 
   useEffect(() => {
     setPhotoUrl(archiveToSrc(chat?.picture));
   }, [chat]);
-  
+
   return (
     <>
-      <div className="w-full h-32 lg:h-28 bg-white border rounded-xl flex shadow-blur-10 my-3 cursor-pointer duration- hover:bg-modal-grey hover:text-white">
+      <div className={`w-[96%] h-32 lg:h-28 bg-whit rounded-xl flex shadow-blur-10 my-3 cursor-pointer ${() => {}}`} >
         <div onClick={() => setarChat()}
           className="w-full h-full grid grid-cols-3 duration-0"
           style={{ gridTemplateColumns: "20% 55% 25%" }}>
           <div className="flex items-center pl-2">
-            <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary border-2">
+            <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary dark:border-secondary border-2">
               <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
             </div>
           </div>
@@ -49,17 +49,21 @@ export const Chats = ({ chat, onChatClick, lastMessage, date }: ChatProps) => {
             <div>
               <h5 className="h5">{chat.name}</h5>
             </div>
-            <If condition={user?.username == lastMessage.sender.username}>
+            <If condition={user?.username == lastMessage?.sender.username && lastMessage.value != null}>
               <div>
-                <p className="text-p font-montserrat">Você : {lastMessage.value}</p>
+                <p className="text-p font-montserrat">Você : {lastMessage?.value}</p>
               </div>
             </If>
-            <If condition={user?.username != lastMessage.sender.username}>
+            <If condition={user?.username != lastMessage?.sender.username && lastMessage?.value != null}>
               <div>
-                <p className="text-p font-montserrat">{lastMessage.sender.name} : {lastMessage?.value}</p>
+                <p className="text-p font-montserrat">{lastMessage?.sender.name} : {lastMessage?.value}</p>
               </div>
             </If>
-
+            <If condition={lastMessage?.value == null}>
+              <div>
+                <p className="text-p font-montserrat">Tudo quieto por aqui 😢</p>
+              </div>
+            </If>
           </div>
           <div className=" col-start-3 flex flex-col items-end justify-center px-2">
             <If condition={date != null}>
