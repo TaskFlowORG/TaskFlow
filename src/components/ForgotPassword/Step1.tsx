@@ -27,7 +27,8 @@ interface Props {
 export const Step1 = ({ setStep }: Props) => {
     const { theme } = useTheme();
     const route = useRouter();
-    const [user, setUser] = useState<FormData>({ username: "" });
+    const [user, setUser] = useState({} as FormData);
+    const [forgotPasswordError, setForgotPasswordError] = useState<string>("");
     const { register, formState: { errors } } = useForm<FormData>({
         mode: "all",
         reValidateMode: "onChange",
@@ -37,6 +38,8 @@ export const Step1 = ({ setStep }: Props) => {
     const sendEmail = async () => {
         try {
             if (user.username.length > 3) {
+                console.log(user.username);
+                
                 emailService.sendEmail(user.username)
                 setStep(2)
             }
@@ -46,15 +49,32 @@ export const Step1 = ({ setStep }: Props) => {
         }
     };
 
-    const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
+    const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/iconUser.svg";
 
     return (
         <>
             <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey justify-between py-9">
                 <h4 className="h4 leading-6 flex py-3 md:py-0">Esqueceu sua senha?</h4>
+                <span className="text-red-500 text-sm">{forgotPasswordError ?? ""}</span>
 
+                <form>
+
+                </form>
                 <div className='gap-2 w-4/5 pt-10 flex flex-col items-center justify-center'>
                     <Input
+                        className="inputRegister"
+                        image={iconUser}
+                        placeholder="Digite seu nome"
+                        value={user.username}
+                        helperText={errors.username?.message}
+                        register={{ ...register("username") }}
+                        required
+                        onChange={() => setForgotPasswordError("")}
+                        classNameInput={
+                            "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
+                        }
+                    />
+                    {/* <Input
                         className="inputRegister"
                         image={iconUser}
                         placeholder="Digite seu username"
@@ -64,7 +84,7 @@ export const Step1 = ({ setStep }: Props) => {
                         register={{ ...register("username") }}
                         required
                         classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
-                    />
+                    /> */}
 
                     <div className="w-4/5 md:w-4/6 flex justify-center pb-4 md:pt-0">
                         <p className={'font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary '} onClick={() => route.push("/login")}>Já possui uma conta</p>
@@ -81,3 +101,4 @@ export const Step1 = ({ setStep }: Props) => {
     );
 
 }
+
