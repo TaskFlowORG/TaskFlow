@@ -14,6 +14,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
   const [text, setText] = useState<string>("");
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
+  const [sucessInvite, setSucessInvite] = useState<boolean>(false)
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const { theme } = useTheme();
@@ -21,7 +22,11 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
 
   useEffect(() => {
     fetchData();
-  }, [group?.id]);
+    const timer = setTimeout(() => {
+      if (sucessInvite) setSucessInvite(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [sucessInvite]);
 
   const fetchData = async () => {
     const fetchedUsers = await userService.findAll();
@@ -84,7 +89,13 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
     try {
       if (group != null) {
         await groupService.inviteUser(group.id, user.id);
-        fetchData();
+        console.log(sucessInvite);
+        
+        console.log("bahhh");
+        
+        setSucessInvite(true)
+        console.log(sucessInvite);
+        
       }
     } catch (error) {
       console.error("Error adding user to group:", error);
@@ -178,6 +189,12 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
           {addButton}
         </div>
       </div>
+      {
+      sucessInvite && (
+        <div className="fixed inset-x-0 bottom-10 mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+          Convite enviado com sucesso
+        </div>
+      )}
     </div>
   );
 };
