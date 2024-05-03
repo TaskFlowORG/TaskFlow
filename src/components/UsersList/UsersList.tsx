@@ -8,9 +8,10 @@ interface Props {
   project?: Project;
   group: Group | undefined;
   user: OtherUser
+  setGroup: (group: Group) => void;
 }
 
-export const UsersList: React.FC<Props> = ({ project, group, user }) => {
+export const UsersList= ({ project, group, user, setGroup}: Props) => {
   const [text, setText] = useState<string>("");
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
@@ -170,6 +171,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
                   user={group?.owner}
                   project={project}
                   key={group?.owner && group.owner.username}
+                  setGroup={setGroup}
                 /> : ""
             }
 
@@ -180,6 +182,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
                   user={u}
                   project={project}
                   key={u.username}
+                  setGroup={setGroup}
                 />
               ))
             }

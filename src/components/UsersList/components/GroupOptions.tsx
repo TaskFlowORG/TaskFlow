@@ -4,21 +4,24 @@ import { useTheme } from "next-themes";
 import { ChatSvg } from "../svgs/ChatSvg";
 import { UserSvg } from "../svgs/UserSvg";
 import { RemoveSvg } from "../svgs/RemoveSvg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { ProjectContext } from "@/contexts";
 
 interface Props {
     isOpen: Boolean,
     group: Group,
     user: OtherUser
+    setGroup: (group: Group) => void;
 
 }
 
-export const GroupOptions = ({ isOpen, group, user }: Props) => {
+export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
+    const { project } = useContext(ProjectContext);
     const [userLogged, setUserLogged] = useState<OtherUser>()
     const router = useRouter();
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchData()
     })
 
@@ -32,7 +35,12 @@ export const GroupOptions = ({ isOpen, group, user }: Props) => {
             if (group != null) {
                 const updatedUsers = group.users.filter(u => u.username !== user.username);
                 group.users = updatedUsers;
+                if (userLogged && project) {
+                    const updatedPermissions = userLogged.permissions.filter(p => p.project.id !== project.id);
+                    userLogged.permissions = updatedPermissions;
+                }
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+                setGroup(group)
             }
         } catch (error) {
             console.error("Erro ao remover usuário:", error);
@@ -43,12 +51,12 @@ export const GroupOptions = ({ isOpen, group, user }: Props) => {
     if (isOpen && group?.owner.username == userLogged?.username) {
         return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-24 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col justify-around ml-2">
-                 <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
                         Perfil
                     </button>
-                </div> 
+                </div>
                 <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-3">
                         <div className="flex ml-[1.2px]">
@@ -70,14 +78,14 @@ export const GroupOptions = ({ isOpen, group, user }: Props) => {
     } else if (isOpen && group.owner.username != userLogged?.username) {
         return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-20 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col mt-4 gap-2 ml-2">
-                 <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
                         Perfil
                     </button>
-                </div> 
+                </div>
                 <div className="flex justify-start gap-3 mn">
-                    <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1" )}>
+                    <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1")}>
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
                         </div>

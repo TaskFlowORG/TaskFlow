@@ -12,7 +12,7 @@ import { set } from "react-hook-form";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { project } = useContext(ProjectContext);
-    const { theme, setTheme } = useTheme();
+    const {theme, setTheme } = useTheme();
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
 
@@ -37,7 +37,7 @@ export default function Home({ params }: { params: { user: string, project: numb
                     {project && user && <Description project={project} user={user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    {project && user && <UsersList project={project} group={group} user={user} />}
+                    {project && user && <UsersList project={project} group={group} user={user} setGroup={setGroup} />}
                 </div>
             </div>
         </div>

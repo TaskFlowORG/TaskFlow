@@ -5,52 +5,39 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props {
-    permissions : Permission[]
+    permissions: Permission[]
     group?: Group
-    project : Project
+    project: Project
 }
 
-export const PermissionComponent = ({permissions, group, project}: Props) => {
+export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
+    const [sucessPermission, setSucessPermission] = useState<boolean>(false)
+    const [text, setText] = useState<string>("")
     const [user, setUser] = useState<OtherUser>()
+    const { t } = useTranslation();
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchData()
     })
+
+    useEffect(() => {
+        fetchData();
+        const timer = setTimeout(() => {
+            if (sucessPermission) setSucessPermission(false);
+        }, 6000);
+        return () => clearTimeout(timer);
+    }, [sucessPermission]);
 
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUser(fetchedUser);
         if (group) {
-            const permission = group?.permissions.find(p => p.project.id == project.id )
-            
-            setSelectedPermission( permission ? permission.name : permissions.find(p => p.isDefault)!.name)
+            const permission = group?.permissions.find(p => p.project.id == project.id)
+            setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)!.name)
         }
     };
-
-    useEffect(() => {
-        fetchData();
-        console.log(permissions);
-
-    }, [group?.id]);
-
-    const findPermission = (selectedValue: number) => {
-        console.log(selectedValue);
-
-        try {
-            if (permissions) {
-                const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-
-                if (selectedPermission) {
-                    group?.permissions.slice(0, group.permissions.length);
-                    savePermission(selectedPermission);
-                }
-            }
-        } catch (error: any) {
-            alert('Não foi possível atualizar a permissão do grupo.');
-        }
-    }
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
@@ -58,18 +45,24 @@ export const PermissionComponent = ({permissions, group, project}: Props) => {
                 group.permissions = [selectedPermission]
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
                 setSelectedPermission(selectedPermission.name)
+                setText("Permissão atualizada com sucesso")
+                setSucessPermission(true)
             }
         } catch (error: any) {
-            alert("Não foi possível atualizar a permissão.");
+            setText("Erro ao atualizada permissão")
+            setSucessPermission(true)
         }
     }
 
-    useEffect(()=>{
-        console.log("aqui", selectedPermission);
-        
-    },  [selectedPermission])
 
-    const {t} = useTranslation();
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = parseInt(e.target.value, 10);
+        const foundPermission = permissions.find(p => p.id === selectedId);
+        if (foundPermission) {
+            setSelectedPermission(foundPermission.name);
+            savePermission(foundPermission);
+        }
+    };
 
     return (
         <>
@@ -77,35 +70,31 @@ export const PermissionComponent = ({permissions, group, project}: Props) => {
                 className="flex mr-6 text-primary dark:text-secondary text-center w-[55%] md:w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                 name="permission"
                 id="permission"
+                value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
                 disabled={group?.owner.id != user?.id}
-                onChange={(e) => findPermission(+e.target.value)}
+                onChange={handleSelectChange}
             >
-                {!group || (permissions && permissions.length === 0) ? (
-                    <option value="" disabled>
-                        Permissão
+                {permissions.map(p => (
+                    <option key={p.id} value={p.id}>
+                        {p.name ?? t("withoutname")}
                     </option>
-                ) :
-                    (
-                        permissions.map((p) => (
-                            <option key={p.id} value={p.id} selected={p.name == selectedPermission}>
-                                {p.name ?? t("withoutname")}
-                            </option>
-                        ))
-                    )}
-
-                {permissions && (
-                    permissions.map((p) => {
-                        return (
-                            <option className="flex justify-center" key={p.id} value={p.id}>
-                                {p.name}
-                            </option>
-                        );
-                    })
-                )}
+                ))}
             </select>
+            <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
+            {sucessPermission && (
+                <div className="fixed inset-x-0 mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                    {text}
+                </div>
+            )}
             <div>
                 <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
             </div>
+            {
+                sucessPermission && (
+                    <div className="fixed inset-x-0  mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                        {text}
+                    </div>
+                )}
         </>
     )
 }
