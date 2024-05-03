@@ -15,9 +15,10 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
   const [sucessInvite, setSucessInvite] = useState<boolean>(false)
+  const [invite, setInvite] = useState<string>("")
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  const { theme } = useTheme();
+  const {theme} = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -89,15 +90,12 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
     try {
       if (group != null) {
         await groupService.inviteUser(group.id, user.id);
-        console.log(sucessInvite);
-        
-        console.log("bahhh");
-        
+        setInvite("Convite enviado com sucesso")
         setSucessInvite(true)
-        console.log(sucessInvite);
-        
       }
     } catch (error) {
+      setInvite("Erro ao enviar o convite")
+      setSucessInvite(true)
       console.error("Error adding user to group:", error);
     }
   };
@@ -191,8 +189,8 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
       </div>
       {
       sucessInvite && (
-        <div className="fixed inset-x-0 bottom-10 mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
-          Convite enviado com sucesso
+        <div className="fixed right-28 bottom-10 mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+          {invite}
         </div>
       )}
     </div>
