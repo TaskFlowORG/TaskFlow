@@ -1,6 +1,6 @@
 import { MessageContent } from "../MessageContent/MessageContent"
-import { Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, use, useRef } from "react"
+import { Archive, Chat, Message, OtherUser } from "@/models"
+import { useState, useEffect, useContext, use, useRef, ChangeEvent } from "react"
 import { chatService, userService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
@@ -9,6 +9,7 @@ import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
 import Image from 'next/image'
+import { IconArchive, SendMessage } from "@/components/icons";
 
 interface MessageGroup {
     id: number,
@@ -28,6 +29,9 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [photoUrl, setPhotoUrl] = useState<string>(chatContent ? archiveToSrc(chatContent.picture) : "");
 
+    const [arquivoUrl, setArquivoUrl] = useState<string>();
+    const [arquivo, setArquivo] = useState<File>();
+    const arquivoParaEnviar = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -36,7 +40,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     useEffect(() => {
 
         scrollToBottom();
-        const k:any = messages.map((message, index) => ({
+        const k: any = messages.map((message, index) => ({
             message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? true : message.sender.id != messages[index + 1].sender.id
         }))
         setMensagens(k)
@@ -97,6 +101,12 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
         });
     }
 
+    const previewArquivo = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+        setArquivo(e.target.files[0]);
+        setArquivoUrl(URL.createObjectURL(e.target.files[0]));
+    };
+
     return (
         <>
             <div className={`w-full h-full gap-10`}>
@@ -155,11 +165,28 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                         <div className="w-full">
                             <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                         </div>
-                        <Keyboard setValue={setMensagem} bottom></Keyboard>
-                        <Dictophone setText={setMensagem}></Dictophone>
+                        <div className="">
+                            <Keyboard setValue={setMensagem} bottom></Keyboard>
+                        </div>
+                        <div className="ml-[5px]">
+                            <Dictophone setText={setMensagem}></Dictophone>
+                        </div>
+                        <div>
+                            <IconArchive></IconArchive>
+                            <input
+                                ref={arquivoParaEnviar}
+                                id="photo"
+                                className="opacity-0 w-full h-full absolute top-0 left-0"
+                                type="file"
+                                accept="image/*"
+                                onChange={previewArquivo}
+                            />
+                        </div>
                     </div>
+                    <Image fill className="rounded-full w-10 h-10" src={arquivoUrl!} alt="foto" />
+
                     <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-lg flex justify-center items-center">
-                        <img className="w-[50%] h-[50%] lg:w-[60%] lg:h-[60%]" src="/img/enviar.svg" alt="" />
+                        <SendMessage></SendMessage>
                     </button>
                 </div>
             </div>

@@ -10,6 +10,7 @@ export { Arrow } from "./GeneralIcons/IconArrow";
 export { IconTask } from "./GeneralIcons/IconTask";
 
 export { VisualizedChatOrMessage } from "./ChatIcons/Visualized";
+export { SendMessage } from "./ChatIcons/SendMessage";
 
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";

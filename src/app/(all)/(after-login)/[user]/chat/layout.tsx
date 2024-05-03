@@ -95,8 +95,6 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
       if (!oldChat) return;
       list.splice(list.indexOf(oldChat), 1);
       list.unshift(chatTemp);
-      // list[index].quantityUnvisualized++;
-      // list[index].lastMessage = chatTemp.lastMessage;
       setListaChats(list);
     });
     return () => {
