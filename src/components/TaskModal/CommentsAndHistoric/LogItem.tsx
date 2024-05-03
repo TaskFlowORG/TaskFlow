@@ -8,6 +8,7 @@ import {
   TypeOfProperty,
   ArchiveValued,
   UserValued,
+  User,
 } from "@/models";
 import { Interval } from "@/models/values/Interval";
 import { useTranslation } from "react-i18next";
@@ -29,6 +30,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
   };
 
   const setValue = (property: Property, log: Log) => {
+    console.log(log);
     switch (property.type) {
       case TypeOfProperty.CHECKBOX:
       case TypeOfProperty.TAG:
@@ -54,11 +56,12 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
           (log.value.value.value as Interval).time.seconds
         );
       case TypeOfProperty.USER:
-        return (log.value.value.value as UserValued).users.map((user, index) =>
-          index == (log.value.value.value as UserValued).users.length + 1
+        return (log.value.value as UserValued).value.map((user: User, index:any) =>
+          index == (log.value.value as UserValued).value.length + 1
             ? user.username + ", "
             : user.username
         );
+        break;
       case TypeOfProperty.DATE:
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:

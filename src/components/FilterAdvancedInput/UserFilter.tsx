@@ -29,7 +29,6 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   );
 
   useEffect(() => {
-    if (project) {
       const findGroups = async () => {
         if (!project) return;
         const users = await userService.findAll();
@@ -43,7 +42,6 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         );
       };
       findGroups();
-    }
     const prop = filterProp!.find((bah) => id == bah.id);
     console.log(prop);
     console.log(value);
