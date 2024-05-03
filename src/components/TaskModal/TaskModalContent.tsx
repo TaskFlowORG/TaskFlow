@@ -3,7 +3,7 @@ import { CommentsSection } from "./CommentsAndHistoric/CommentsSection";
 import { HeaderCommentAndHistoric } from "./CommentsAndHistoric/HeaderCommentAndHistoric";
 import { PropertiesSide } from "./PropertiesSide";
 import { ProjectContext } from "@/contexts";
-import { OtherUser, Task, User } from "@/models";
+import { OtherUser, Project, Task, User } from "@/models";
 import { userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { useState, useContext, useEffect } from "react";
@@ -13,7 +13,7 @@ import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
 type Props = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
-  task: Task;
+  task: Task | Project;
   user: User;
   isInModal?: boolean;
 };
@@ -96,7 +96,7 @@ export const TaskModalContent = ({
           setFilter={setFilter}
           setIsOpen={setIsOpen}
           setList={setList}
-          task={task}
+          task={task as Task}
           users={users}
         ></PropertiesSide>
       </FilterContext.Provider>

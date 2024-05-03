@@ -1,9 +1,9 @@
 import { PdfIcon } from "@/components/icons/PdfIcon";
-import { Task } from "@/models";
+import { Project, Task } from "@/models";
 import { LogItem } from "./LogItem";
 
 type HistoricSectionProps = {
-  task: Task;
+  task: Task | Project;
   isInModal: boolean;
 };
 
@@ -15,7 +15,7 @@ export const HistoricSection = ({ task, isInModal }: HistoricSectionProps) => {
   return (
     <div className=" flex flex-col gap-6">
       <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
-        {task.logs.map((log) => {
+        {(task as Task).logs.map((log) => {
           return (
             <LogItem item={task} isInModal={isInModal} key={log.id} log={log} />
           );

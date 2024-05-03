@@ -10,6 +10,7 @@ import {
   DatePost,
   SelectPost,
   LimitedPost,
+  Project,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
