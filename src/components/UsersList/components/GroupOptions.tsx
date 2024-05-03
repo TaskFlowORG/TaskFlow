@@ -4,9 +4,8 @@ import { useTheme } from "next-themes";
 import { ChatSvg } from "../svgs/ChatSvg";
 import { UserSvg } from "../svgs/UserSvg";
 import { RemoveSvg } from "../svgs/RemoveSvg";
-import { useContext, useEffect, useState } from "react";
-import { UserContext } from "@/contexts/UserContext";
-import { fetchData } from "next-auth/client/_utils";
+import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 
 interface Props {
     isOpen: Boolean,
@@ -17,6 +16,7 @@ interface Props {
 
 export const GroupOptions = ({ isOpen, group, user }: Props) => {
     const [userLogged, setUserLogged] = useState<OtherUser>()
+    const router = useRouter();
 
     useEffect(() =>{
         fetchData()
@@ -77,7 +77,7 @@ export const GroupOptions = ({ isOpen, group, user }: Props) => {
                     </button>
                 </div> 
                 <div className="flex justify-start gap-3 mn">
-                    <button className="flex flex-row gap-3">
+                    <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1" )}>
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
                         </div>

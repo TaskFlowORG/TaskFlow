@@ -27,6 +27,8 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         if (project != null) {
             const fetchedPermissions = await permissionService.findAll(project.id);
             setPermissions(fetchedPermissions);
+            console.log(permissions);
+            
         }
         const fetchedGroup = await groupService.findOne(groupId);
         setGroup(fetchedGroup);
@@ -120,7 +122,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                 </div>
                 { project?.id != null && (
                     <div className="flex md:justify-end relative">
-                        <PermissionComponent permissions={permissions} group={group} />
+                        <PermissionComponent permissions={permissions} group={group} project={project} />
                     </div>
                 )}
 

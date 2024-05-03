@@ -22,8 +22,6 @@ interface Props {
 }
 
 
-
-
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   const [groups, setGroups] = useState<SimpleGroup[]>([]);
   const router = useRouter();

@@ -1,14 +1,16 @@
-import { Group, GroupPut, OtherUser, Permission } from "@/models";
+import { Group, GroupPut, OtherUser, Permission, Project } from "@/models";
 import { Arrow } from "./Arrow";
 import { groupService, userService } from "@/services";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     permissions : Permission[]
     group?: Group
+    project : Project
 }
 
-export const PermissionComponent = ({permissions, group}: Props) => {
+export const PermissionComponent = ({permissions, group, project}: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
     const [user, setUser] = useState<OtherUser>()
 
@@ -21,7 +23,9 @@ export const PermissionComponent = ({permissions, group}: Props) => {
         const fetchedUser = await userService.findLogged();
         setUser(fetchedUser);
         if (group) {
-            setSelectedPermission(group?.permissions[0]?.name)
+            const permission = group?.permissions.find(p => p.project.id == project.id )
+            
+            setSelectedPermission( permission ? permission.name : permissions.find(p => p.isDefault)!.name)
         }
     };
 
@@ -60,6 +64,13 @@ export const PermissionComponent = ({permissions, group}: Props) => {
         }
     }
 
+    useEffect(()=>{
+        console.log("aqui", selectedPermission);
+        
+    },  [selectedPermission])
+
+    const {t} = useTranslation();
+
     return (
         <>
             <select
@@ -67,18 +78,17 @@ export const PermissionComponent = ({permissions, group}: Props) => {
                 name="permission"
                 id="permission"
                 disabled={group?.owner.id != user?.id}
-                value={selectedPermission}
                 onChange={(e) => findPermission(+e.target.value)}
             >
-                {!group || (group.permissions && group.permissions.length === 0) ? (
-                    <option value="" disabled selected>
+                {!group || (permissions && permissions.length === 0) ? (
+                    <option value="" disabled>
                         Permissão
                     </option>
                 ) :
                     (
-                        group.permissions.map((p) => (
-                            <option key={p.id} value={p.id}>
-                                {p.name}
+                        permissions.map((p) => (
+                            <option key={p.id} value={p.id} selected={p.name == selectedPermission}>
+                                {p.name ?? t("withoutname")}
                             </option>
                         ))
                     )}

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
-import { Group, GroupPut, OtherUser, Project, User } from "@/models";
+import { Group, OtherUser, Project } from "@/models";
 import { PermissionUser } from "./components/PermissionUser";
 
 interface Props {
@@ -189,7 +189,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
       </div>
       {
       sucessInvite && (
-        <div className="fixed right-28 bottom-10 mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+        <div className="fixed inset-x-0  mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
           {invite}
         </div>
       )}
