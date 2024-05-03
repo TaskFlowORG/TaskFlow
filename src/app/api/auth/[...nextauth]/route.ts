@@ -18,7 +18,7 @@ export const OPTIONS: NextAuthOptions = {
             },
 
             async authorize(credentials): Promise<any> {
-                return await authentication.login(new UserLogin(credentials!.username, credentials!.password)).then((response) => {
+                return await authentication.login(new UserLogin(credentials!.username, credentials!.password), cookies).then((response) => {
 
                     cookies().set("username", credentials!.username);
                     return response.data;

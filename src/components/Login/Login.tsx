@@ -127,6 +127,8 @@ export const Login = () => {
             </button>
           </div>
         </form>
+
+        <button onClick={() => route.push("http://localhost:9999/auth/login/code/github")}> git hub </button>
       </div>
     </>
   );
