@@ -6,6 +6,7 @@ import Image from "next/image";
 import { archiveToSrc } from '@/functions';
 import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';
 import { If } from '../If';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     project?: Project;
@@ -19,6 +20,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const [isEnable, setIsEnable] = useState(false);
     const [name, setName] = useState<string | undefined>(group?.name);
     const [description, setDescription] = useState<string | undefined>(group?.description);
+    const { t } = useTranslation();
 
     const refDescription = useRef<HTMLTextAreaElement>(null);
     const refName = useRef<HTMLInputElement>(null);
@@ -106,7 +108,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         ref={refName}
                         disabled={group?.owner.id != user?.id}
                         type="text"
-                        value={name}
+                        value={name || t("withoutname")}
                         onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                         onChange={(e) => setName(e.target.value)}
                         onBlur={updateNameOfAGroup}
@@ -115,7 +117,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         ref={refDescription}
                         disabled={group?.owner.id != user?.id}
-                        value={description}
+                        value={description || t("withoutdescription")}
                         onChange={(e) => setDescription(e.target.value)}
                         onBlur={updateDescriptionOfAGroup}
                     />

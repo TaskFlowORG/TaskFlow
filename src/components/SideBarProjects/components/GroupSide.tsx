@@ -54,8 +54,8 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     let groupPermission: Permission[] = [];
 
     const newGroup = new GroupPost(
-      "Nome do grupo",
-      "Descrição do Grupo",
+      "",
+      "",
       groupPermission,
       []
     );

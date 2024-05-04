@@ -18,10 +18,6 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        fetchData()
-    })
-
-    useEffect(() => {
         fetchData();
         const timer = setTimeout(() => {
             if (sucessPermission) setSucessPermission(false);
@@ -76,7 +72,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
             >
                 {permissions.map(p => (
                     <option key={p.id} value={p.id}>
-                        {p.name ?? t("withoutname")}
+                        {p.name || t("withoutname")}
                     </option>
                 ))}
             </select>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { archiveToSrc } from "@/functions";
 import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     user: string;
@@ -13,7 +14,7 @@ interface Props {
 const useWindowSize = () => {
     const [size, setSize] = useState<'sm' | 'md' | 'lg' | null>(null);
     const [showIcon, setShowIcon] = useState(false);
-
+    
     useEffect(() => {
         const updateSize = () => {
             if (window.innerWidth < 640) {
@@ -24,13 +25,13 @@ const useWindowSize = () => {
                 setSize('lg');
             }
         };
-
+        
         window.addEventListener('resize', updateSize);
         updateSize();
-
+        
         return () => window.removeEventListener('resize', updateSize);
     }, []);
-
+    
     return size;
 };
 
@@ -38,7 +39,8 @@ export const GroupComponent = ({ user, group }: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const router = useRouter();
     const screenSize = useWindowSize();
-
+    const { t } = useTranslation();
+    
     const getDescription = () => {
         const len = screenSize === 'sm' ? 10 : (screenSize === 'md' ? 13 : 15);
         return group?.description && group.description.length > len ? `${group.description.substring(0, len)}...` : group?.description;
@@ -47,6 +49,7 @@ export const GroupComponent = ({ user, group }: Props) => {
     const getName = () => {
         const len = screenSize === 'sm' ? 8 : (screenSize === 'md' ? 8 : 20);
         return group?.name && group.name.length > len ? `${group.name.substring(0, len)}...` : group?.name;
+        
     };
 
     const deleteGroup = async () => {
@@ -69,8 +72,8 @@ export const GroupComponent = ({ user, group }: Props) => {
                     <Image src={archiveToSrc(group?.picture)} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
                 </div>
                 <div className="flex flex-col ml-2">
-                    <div className="text-start p rounded-md">{getName()}</div>
-                    <div className="text-start rounded-md">{getDescription()}</div>
+                    <div className="text-start p rounded-md">{getName() || t("withoutname")}</div>
+                    <div className="text-start rounded-md">{getDescription() || t("withoutdescription")}</div>
                 </div>
             </div>
             <div className="flex items-center pr-2">
