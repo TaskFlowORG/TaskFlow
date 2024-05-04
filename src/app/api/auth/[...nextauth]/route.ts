@@ -8,7 +8,6 @@ import { JWTDecodeParams } from "next-auth/jwt";
 import { cookies } from "next/headers";
 
 export const OPTIONS: NextAuthOptions = {
-   
     providers: [
         CredentialProvider({
             name: "Credentials",
