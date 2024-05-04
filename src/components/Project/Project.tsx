@@ -11,7 +11,7 @@ import Image from "next/image";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { archiveToSrc } from "@/functions";
 import { UserContext } from "@/contexts/UserContext";
-import { groupService, projectService } from "@/services";
+import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
@@ -81,7 +81,7 @@ export const Project = () => {
       const groups = await groupService.findGroupsByAProject(project?.id);
       let list: OtherUser[] = []
       for (let group of groups) {
-        // list.push((await groupService.findOne(group.id)).owner)
+        list.push(await userService.findByUsername(group.ownerUsername))
       }
       setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));
     })();
