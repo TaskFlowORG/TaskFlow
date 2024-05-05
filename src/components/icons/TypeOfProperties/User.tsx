@@ -1,5 +1,5 @@
-export const IconUser = () => {
-    return (<svg width="33" height="44" viewBox="0 0 33 44" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  className="text-primary dark:text-secondary h-5 w-5">
+export const IconUser = ({contrast}:{contrast?:boolean}) => {
+    return (<svg width="33" height="44" viewBox="0 0 33 44" fill="currentColor" xmlns="http://www.w3.org/2000/svg"  className={" h-5 w-5 " +( contrast ? "text-contrast":"text-primary dark:text-secondary")}>
 <path d="M16.4995 21.3907C22.4233 21.3907 27.2255 16.6022 27.2255 10.6953C27.2255 4.78847 22.4233 0 16.4995 0C10.5757 0 5.77344 4.78847 5.77344 10.6953C5.77344 16.6022 10.5757 21.3907 16.4995 21.3907Z"/>
 <path d="M0.975589 39.9889C-3.24101 32.1845 7.62938 25.3906 16.5 25.3906V25.3906C25.3706 25.3906 36.241 32.1845 32.0244 39.9889C31.8468 40.3176 31.641 40.6199 31.4038 40.8902C30.0054 42.4846 27.4364 43.0635 25.6631 43.2729C24.3928 43.4229 23.1109 43.3902 21.8318 43.3902H16.5024H11.1682C9.88908 43.3902 8.60722 43.4229 7.33692 43.2729C5.5636 43.0635 2.99461 42.4846 1.59619 40.8902C1.35903 40.6199 1.1532 40.3176 0.975589 39.9889Z" />
 </svg>)

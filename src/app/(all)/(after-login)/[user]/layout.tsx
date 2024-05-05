@@ -16,6 +16,7 @@ import { PageContext } from "@/utils/pageContext";
 import { generateContrast } from "@/functions";
 import { Tutorial } from "@/components/Tutorial";
 import Joyride from "react-joyride";
+import { LanguageContext } from "@/contexts/ContextLanguage";
 //UseClickAway Hook
 export default function Layout({
   children,
@@ -36,6 +37,7 @@ export default function Layout({
   const [task, setSelectedTask] = useState<Task>();
   const [isOpen, setIsOpen] = useState(false);
   const { contrastColor } = useContrast();
+  const {changeLanguage} = useContext(LanguageContext)
   useEffect(() => {
     (async () => {
       if (!user) return;
@@ -82,6 +84,7 @@ export default function Layout({
     (async () => {
       if (!setUser) return;
       const loggedUser = await userService.findLogged();
+      changeLanguage(loggedUser.configuration.language)
       setUser(loggedUser);
     })();
   }, []);
