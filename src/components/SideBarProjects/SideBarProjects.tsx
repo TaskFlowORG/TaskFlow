@@ -8,9 +8,8 @@ import { SideMain } from "./components";
 import { CenterModal } from "../Modal";
 import { ProjectInformations } from "./components/ProjectInformations";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
 import { useTranslation } from "next-i18next";
-
+import { authentication } from "@/services/services/Authentication";
 interface Props {
   user: string;
   project?: Project;
@@ -22,8 +21,9 @@ export const SideBarProjects = ({ user, project }: Props) => {
   const [modalProjectGroups, setModalProjectGroups] = useState(false);
   const [wantLeave, setWantLeave] = useState(false);
   const { t } = useTranslation();
-  const leave = () => {
-    Cookies.remove("JWT");
+
+  const leave = async () => {
+    await authentication.logout();
     router.push("/login");
   };
   return (

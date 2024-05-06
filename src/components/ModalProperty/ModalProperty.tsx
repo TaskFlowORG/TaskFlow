@@ -147,9 +147,10 @@ export const ModalProperty = ({
       </SideBarButton>
       {ModalDelete && (
         <ModalDeleteProperty
+          isClosed={ModalDelete}
           property={property}
           deleteProperty={deleteProperty}
-          close={() => setModalDelete(false)}
+          close={() => setModalDelete}
           closeProperty={() => setOpenOptions(false)}
         />
       )}

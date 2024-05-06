@@ -27,7 +27,7 @@ export const DateFilter = ({
 
   useEffect(() => {
     const splitTimestamp: string[] = value?.split("T");
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     if (prop && isInModal) {
       const splitTimestamp: string[] = prop.value?.split("T");
       setValued(splitTimestamp[0] ?? "");
@@ -50,16 +50,16 @@ export const DateFilter = ({
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
             if (!e.target.value) {
-              filterProp.splice(filterProp.indexOf(thisProperty), 1);
-              setFilterProp!([...filterProp])
+              filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+              setFilterProp!([...filterProp!])
             } else {
               thisProperty.value = e.target.value;
-              setFilterProp!([...filterProp])
+              setFilterProp!([...filterProp!])
             }
           } else {
             if (e.target.value) {
               setFilterProp!([
-                ...filterProp,
+                ...filterProp!,
                 { id: id, value: e.target.value },
               ]);
             }

@@ -244,6 +244,7 @@
   "canvas-info": "El Canvas es una herramienta que permite visualizar las tareas en un formato de lienzo. Es ideal para ver las tareas de manera creativa e innovadora.",
   "add-property": "Agregar propiedad",
   "page": "Página",
+  "generate-report": "Generar informe",
   "tuto-step1": "Esta es la página inicial. Aquí puedes ver las tareas de hoy y los proyectos en los que estás involucrado.",
   "tuto-step2": "Este es el encabezado de nuestro sitio. Aquí puedes realizar algunas configuraciones simples, como el tema y el idioma, además de acceder a nuestro chat, configuraciones y ver notificaciones cuando las haya.",
   "tuto-step3": "En este botón, puedes abrir la navegación de la barra lateral.",
@@ -263,3 +264,4 @@
   "last": "Último",
   "skip": "Saltar"
 }
+

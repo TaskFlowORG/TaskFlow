@@ -11,7 +11,7 @@ import Image from "next/image";
 import { ProjectContext, ProjectsContext } from "@/contexts";
 import { archiveToSrc } from "@/functions";
 import { UserContext } from "@/contexts/UserContext";
-import { groupService, projectService } from "@/services";
+import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
@@ -81,7 +81,7 @@ export const Project = () => {
       const groups = await groupService.findGroupsByAProject(project?.id);
       let list: OtherUser[] = []
       for (let group of groups) {
-        // list.push((await groupService.findOne(group.id)).owner)
+        list.push(await userService.findByUsername(group.ownerUsername))
       }
       setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));
     })();
@@ -119,7 +119,7 @@ export const Project = () => {
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-center font-alata text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
+                className="bg-transparent w-full text-center  text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? t("withoutname")}

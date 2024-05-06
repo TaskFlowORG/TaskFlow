@@ -22,12 +22,14 @@ import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ContentModalProperty } from "../ContentModalProperty";
 import { useTranslation } from "next-i18next";
 import { Info } from "../Info";
+import { twMerge } from "tailwind-merge";
 type ModalRegisterPropertyProps = {
   open: boolean;
   close: () => void;
   project: Project;
   page?: Page;
   postProperty: (name: string, values: any, select: TypeOfProperty) => void;
+  isInModal?: boolean;
 };
 
 export const ModalRegisterProperty = ({
@@ -35,6 +37,7 @@ export const ModalRegisterProperty = ({
   close,
   page,
   project,
+  isInModal = false,
   postProperty,
 }: ModalRegisterPropertyProps) => {
   const [selected, setSelected] = useState<TypeOfProperty>(TypeOfProperty.TEXT);
@@ -57,6 +60,21 @@ export const ModalRegisterProperty = ({
     deadline: z.boolean().optional().default(false),
     color: z.string().optional().default("black"),
   });
+
+  const container = twMerge(
+    "h-16 w-full border-b-2 gap-2 border-primary-opacity dark:border-secondary-opacity flex  items-center  justify-evenly",
+    isInModal ? "border-b-0 justify-start " : " "
+  );
+
+  const input = twMerge(
+    "flex justify-center items-center",
+    isInModal ? "w-full flex-1 p-0" : ""
+  );
+  const contentInput = twMerge(
+    "bg-transparent p outline-none w-[90%] h-full",
+    isInModal ? "w-full" : ""
+  );
+  const select = twMerge("w-8", isInModal ? "ml-3" : "");
   const {
     register,
     handleSubmit,
@@ -74,13 +92,13 @@ export const ModalRegisterProperty = ({
       {open && (
         <div className="h-min w-full   flex flex-col justify-center items-center">
           <div className="h-min w-full flex flex-col">
-            <div className="h-16 w-full border-b-2 gap-2 border-primary-opacity dark:border-secondary-opacity flex  items-center  justify-evenly ">
+            <div className={container}>
               <Info
                 title={selected.toLowerCase()}
                 text={selected.toLowerCase() + "-info"}
                 right
               />
-              <span className="w-16">
+              <span className={select}>
                 <SelectWithImage
                   list={[
                     { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
@@ -105,8 +123,8 @@ export const ModalRegisterProperty = ({
               <Input
                 register={{ ...register("name") }}
                 value={object.name}
-                className="flex justify-center items-center"
-                classNameInput={"bg-transparent p outline-none w-[90%] h-full"}
+                className={input}
+                classNameInput={contentInput}
                 placeholder={t("name-property")}
               />
               <button

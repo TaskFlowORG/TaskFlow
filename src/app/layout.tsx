@@ -7,13 +7,13 @@ import ThemeSwitcher from "@/services/Theme/ThemeSwitcher";
 import VLibras from "vlibras-nextjs";
 import Cookies from "js-cookie";
 import { ReactNode, useEffect, useState } from "react";
-import { User } from "@/models";
+import { Language, User } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import Head from "next/head";
 import { LanguageProvider } from "@/contexts/ContextLanguage";
 import { AppProps } from "next/app";
 import { I18nextProvider } from 'react-i18next';
-import i18next from "../../i18n";
+import i18next, { i18n } from "../../i18n";
 import { TextToSpeechTeste } from "@/components/GeneralConfig/components/TextToSpeechTeste/TextToSpeechTeste";
 
 type Props = AppProps & {
@@ -23,18 +23,13 @@ type Props = AppProps & {
 
 export default function RootLayout({ children, text }: Props) {
   const [user, setUser] = useState<User>();
-  const [libras, setLibras] = useState(Cookies.getJSON("libras") || false);
-
-  useEffect(() => {
-    setLibras(Cookies.getJSON("libras"));
-  }, [libras])
-
+  const [language, setLanguage] = useState<Language>(Language.PORTUGUESE);
 
   return (
     <html lang="pt-br" className="w-screen h-screen">
       <UserContext.Provider value={{ user, setUser }}>
-        <LanguageProvider>
-          <I18nextProvider i18n={i18next } >
+        <LanguageProvider language={language} setLanguage={setLanguage}>
+          <I18nextProvider i18n={i18next} >
             <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
               {user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
               {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
@@ -50,3 +45,4 @@ export default function RootLayout({ children, text }: Props) {
   );
 }
 
+ 

@@ -27,7 +27,7 @@ export const ProgressFilter = ({
     }
     setList(lista);
     window.addEventListener("mouseup", () => setDrag(false));
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
       setValued(prop.value ?? "");
     } else {
@@ -39,15 +39,15 @@ export const ProgressFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (valueInput) {
-        filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!([...filterProp]);
+        filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+        setFilterProp!([...filterProp!]);
       } else {
         thisProperty.value = valueInput;
-        setFilterProp!([...filterProp]);
+        setFilterProp!([...filterProp!]);
       }
     } else {
       if (valueInput) {
-        setFilterProp!([...filterProp, { id: id, value: valueInput }]);
+        setFilterProp!([...filterProp!, { id: id, value: valueInput }]);
       }
     }
   }
@@ -71,17 +71,17 @@ export const ProgressFilter = ({
             const thisProperty = filterProp?.find((item) => item.id == id);
             if (thisProperty) {
               if (!e.target.value) {
-                filterProp.splice(filterProp.indexOf(thisProperty), 1);
-                setFilterProp!([...filterProp])
+                filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+                setFilterProp!([...filterProp!])
                 thisProperty.value = e.target.value;
               } else {
                 thisProperty.value = e.target.value;
-                setFilterProp!([...filterProp])
+                setFilterProp!([...filterProp!])
               }
             } else {
               if (e.target.value) {
                 setFilterProp!([
-                  ...filterProp,
+                  ...filterProp!,
                   { id: id, value: e.target.value },
                 ]);
               }

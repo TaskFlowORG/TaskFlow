@@ -115,9 +115,9 @@ export const GeneralConfig = () => {
   };
 
   return (
-    <div className="flex justify-center preferences-page items-center w-full h-full">
-      <div className="flex lg:justify-center items-center justify-start w-full h-full flex-col lg:py-0 py-20">
-        <div className="w-[85%] lg:h-[60%] flex flex-col lg:justify-around lg:gap-0 gap-10 lg:pb-0 pb-32">
+    <div className="flex justify-center preferences-page pt-32 items-start w-full h-full">
+      <div className="flex lg:justify-center items-center justify-start w-full h-min flex-col lg:py-0 py-20">
+        <div className="w-[85%] lg:h-min flex flex-col lg:justify-around lg:gap-0 gap-10 lg:pb-0 pb-32">
           <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
             <div className="w-[95%] ">
               <div className="w-full flex items-start lg:justify-normal h-28">

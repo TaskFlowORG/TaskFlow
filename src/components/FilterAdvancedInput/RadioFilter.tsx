@@ -27,7 +27,7 @@ export const RadioFilter = ({
   );
   const {t} = useTranslation()
   useEffect(() => {
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
       setSelectedOption(prop.value);
     } else {
@@ -38,19 +38,19 @@ export const RadioFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" && thisProperty && !isInModal) {
       setSelectedOption(event.target.value);
-      filterProp.splice(filterProp.indexOf(thisProperty), 1);
+      filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
     } else if (thisProperty) {
       setSelectedOption(event.target.value);
       if (!event.target.value) {
-        filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!([...filterProp])
+        filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+        setFilterProp!([...filterProp!])
       } else {
         thisProperty.value = event.target.value;
-        setFilterProp!([...filterProp])
+        setFilterProp!([...filterProp!])
       }
     } else {
       if (event.target.value) {
-        setFilterProp!([...filterProp, { id: id, value: event.target.value }]);
+        setFilterProp!([...filterProp!, { id: id, value: event.target.value }]);
       }
     }
   };

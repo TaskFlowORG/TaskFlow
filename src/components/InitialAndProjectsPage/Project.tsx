@@ -77,7 +77,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
                 isGroup
               ></Obj>
             </div>
-            <div className="mt-12">
+            <div className="mt-12 min-h-[5rem] min-w-[5rem]">
               <ProgressBar percent={project.progress} />
             </div>
           </motion.div>

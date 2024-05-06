@@ -22,13 +22,14 @@ export const TasksInTimeline = ({
     const date = new Date(new Date(start.date).toLocaleString());
     const hours = date.getHours();
     const minutes = date.getMinutes();
-
     const seconds = date.getSeconds();
+
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     return `${(totalSeconds / interval) * widthOfInterval}px`;
   };
 
   const calcWidth = (start: DateTimelines, task: Task) => {
+
     const date = new Date(new Date(start.date).toLocaleString());
     const hours = date.getHours();
     const minutes = date.getMinutes();
@@ -40,6 +41,7 @@ export const TasksInTimeline = ({
     if (!propVl.value.starts) return "00";
     if (!propVl.value.ends) return "00";
     const index = propVl.value.starts.indexOf(start);
+
     let dateEndUTC = new Date(
       propVl.value.ends[index] ? propVl.value.ends[index].date : Date.now()
     );
@@ -66,6 +68,13 @@ export const TasksInTimeline = ({
 
   const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
+
+
+  const fixDate = (date: Date) => {
+    date.setDate(date.getDate() + 1);
+    return date;
+  };
+
   return (
     <div className="h-min w-min flex flex-col box-border " ref={ref}>
       {tasks.map((task, index) => {
@@ -83,6 +92,7 @@ export const TasksInTimeline = ({
               propVl.value.starts &&
               propVl?.value.starts
                 .filter((start) =>
+
                   compareDates(
                     new Date(new Date(start.date)),
                     new Date(date)

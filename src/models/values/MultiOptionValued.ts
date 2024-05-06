@@ -4,8 +4,8 @@ import { Option } from "./Option";
 
 
 export class MultiOptionValued extends Value{
-    constructor(public id:number, public option:Option[]){
-        super(id, option);
+    constructor(public option:Option[],public id?:number){
+        super( option, id);
     }
 
 }

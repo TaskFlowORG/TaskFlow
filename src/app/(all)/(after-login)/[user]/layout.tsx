@@ -16,6 +16,7 @@ import { PageContext } from "@/utils/pageContext";
 import { generateContrast } from "@/functions";
 import { Tutorial } from "@/components/Tutorial";
 import Joyride from "react-joyride";
+import { LanguageContext } from "@/contexts/ContextLanguage";
 //UseClickAway Hook
 export default function Layout({
   children,
@@ -30,15 +31,16 @@ export default function Layout({
   const [tutorialIsMaded, setTutorialIsMaded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { setTheme, theme } = useTheme();
-  const {user, setUser} = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [pageId, setPageId] = useState<number>();
   const [inPage, setInPage] = useState(false);
   const [task, setSelectedTask] = useState<Task>();
   const [isOpen, setIsOpen] = useState(false);
-  const {contrastColor} = useContrast();
+  const { contrastColor } = useContrast();
+  const {changeLanguage} = useContext(LanguageContext)
   useEffect(() => {
     (async () => {
-      if(!user) return;
+      if (!user) return;
       setTheme(user.configuration.theme.toLowerCase());
       document.documentElement.style.setProperty('--primary-color', user.configuration.primaryColor);
       document.documentElement.style.setProperty('--secondary-color', user.configuration.secondaryColor);
@@ -55,16 +57,17 @@ export default function Layout({
       console.log("JALJLSDALKSJ")
       setTutorialIsMaded(user.configuration.isTutorialMade);
     })();
-  },[user] );
-  
+  }, [user]);
+
   useEffect(() => {
     (async () => {
-      if(!user || !setUser) return;
-      user.configuration.theme = Theme[theme?.toUpperCase() as keyof typeof Theme];
+      if (!user || !setUser) return;
+      user.configuration.theme =
+        Theme[theme?.toUpperCase() as keyof typeof Theme];
       const userTemp = await userService.update(user);
       setUser(userTemp);
-     })();
-  } , [theme]);
+    })();
+  }, [theme]);
 
   useEffect(() => {
     (async () => {
@@ -73,24 +76,24 @@ export default function Layout({
   }, [params.user]);
 
   useEffect(() => {
-    if(!project) return
-      projectService.setVisualizedNow(project.id)
+    if (!project) return;
+    projectService.setVisualizedNow(project.id);
   }, [project]);
 
   useEffect(() => {
     (async () => {
-      if(!setUser) return;
+      if (!setUser) return;
       const loggedUser = await userService.findLogged();
+      changeLanguage(loggedUser.configuration.language)
       setUser(loggedUser);
     })();
   }, []);
 
-
-
-  if(!user) return <Loading/>
+  if (!user) return <Loading />;
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
+
         {tutorialIsMaded ? <></> : <Tutorial/>}
         <ProjectContext.Provider value={{ project, setProject }}>
         <PageContext.Provider value={{ inPage, setInPage, pageId, setPageId }}>
