@@ -20,6 +20,7 @@ import { IconTrashBin } from "../icons";
 import { AnimatePresence, motion } from "framer-motion";
 
 export const PersonalInformations = () => {
+  const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
   const { user, setUser } = useContext(UserContext);
   const [name, setName] = useState(user ? user.name : "");
   const [surname, setSurname] = useState(user ? user.surname : "");
@@ -27,6 +28,9 @@ export const PersonalInformations = () => {
   const [mail, setMail] = useState(user ? user.mail : "");
   const [phone, setPhone] = useState(user ? user.phone : "");
   const [desc, setDesc] = useState(user ? user.description : "");
+  const [points, setPoints] = useState(user ? user.points : 0);
+  const [percentage, setPercentage] = useState<number>(0);
+  const [nextStep, setNextStep] = useState<number>(0);
   const [photoUrl, setPhotoUrl] = useState<string>(
     user ? archiveToSrc(user.picture) : ""
   );
@@ -46,6 +50,12 @@ export const PersonalInformations = () => {
     setPhone(user.phone);
     setDesc(user.description);
     setPhotoUrl(archiveToSrc(user.picture));
+    setPoints(user.points);
+    const next = steps.find((step) => step > user.points) || 0;
+    setNextStep(next);
+    setPercentage((user.points / next) * 100);
+
+
   }, [user]);
 
   useEffect(() => {
@@ -80,14 +90,20 @@ export const PersonalInformations = () => {
     userService.upDatePicture(e.target.files[0]);
   };
 
+
+  
+
   return (
     <div className=" overflow-y-auto z-10 flex w-full h-full personal items-center">
       <div className="flex flex-col relative z-20 mt-40 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
         <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
-          <div className="h-full">
+          <div className="h-min relative">
+            <div className="w-min h-min rounded-full overflow-clip relative p-1 bg-gradient-to-t from-primary to-secondary  dark:from-secondary dark:to-primary">
+
+            <span className="bg-input-grey dark:bg-modal-grey absolute top-0 left-0 w-full" style={{height:100-percentage+"%"}} />
             <div
               id="fotoDeUsuario"
-              className="relative z-0 rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28"
+              className="relative  rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28"
             >
               <Image
                 fill
@@ -95,7 +111,9 @@ export const PersonalInformations = () => {
                 src={photoUrl}
                 alt="foto"
               />
-              <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-1 bottom-3 cursor-pointer">
+            </div>
+            </div>
+              <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-0 bottom-3 cursor-pointer">
                 <div className="flex items-center justify-center w-full h-full">
                   <Image width={30} height={30} src="/img/imagem.svg" alt="" />
                 </div>
@@ -108,7 +126,7 @@ export const PersonalInformations = () => {
                   onChange={previewDaFoto}
                 />
               </label>
-            </div>
+              <span className="text-p font-alata w-full absolute text-center text-primary dark:text-secondary -bottom-5">{points}/{nextStep}</span>
           </div>
           <div className="flex flex-col w-full h-full justify-center item gap-4 text-modal-grey ">
             <div className="overflow-auto lg:text-[48px] text-[24px] font-alata">
