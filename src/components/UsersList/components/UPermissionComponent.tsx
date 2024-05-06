@@ -1,66 +1,65 @@
+import React, { useEffect, useState } from "react";
 import { Group, OtherUser, Permission } from "@/models";
 import { userService } from "@/services";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+
 interface Props {
-    group: Group,
-    user: OtherUser
-    permissions: Permission[]
+    group: Group;
+    user: OtherUser;
+    permissions: Permission[];
 }
 
 export const PermissionComponent = ({ group, user, permissions }: Props) => {
-    const [selectedPermission, setSelectedPermission] = useState<string | "">("");
-    const [userLogged, setUserLogged] = useState<OtherUser>()
-    const [sucessPermission, setSucessPermission] = useState<boolean>(false)
-    const [text, setText] = useState<string>("")
+    const [selectedPermissionId, setSelectedPermissionId] = useState<number | null>(null);
+    const [userLogged, setUserLogged] = useState<OtherUser>();
+    const [successPermission, setSuccessPermission] = useState<boolean>(false);
+    const [text, setText] = useState<string>("");
     const { t } = useTranslation();
 
     useEffect(() => {
-        fetchData()
-    }, [selectedPermission])
+        fetchData();
+    }, []);
 
     useEffect(() => {
-        fetchData();
         const timer = setTimeout(() => {
-            if (sucessPermission) setSucessPermission(false);
+            if (successPermission) {
+                setSuccessPermission(false);
+            }
         }, 6000);
         return () => clearTimeout(timer);
-    }, [sucessPermission]);
-
+    }, [successPermission]);
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUserLogged(fetchedUser);
-    }
-
-    async function savePermission(selectedPermission: Permission) {
-        try {
-            if (permissions) {
-                await userService.updatePermission(user.username, selectedPermission);
-                setSelectedPermission(selectedPermission.name);
-                setText("Permissão atualizada com sucesso")
-                setSucessPermission(true)
-
-            }
-        } catch (error: any) {
-            setText("Erro ao atualizar a permissão")
-            setSucessPermission(true)
+        if (group && group.permissions.length > 0) {
+            setSelectedPermissionId(group.permissions[0].id);
         }
-    }
+    };
+
+    const savePermission = async (selectedPermission: Permission) => {
+        try {
+            await userService.updatePermission(user.username, selectedPermission);
+            setSelectedPermissionId(selectedPermission.id);
+            setText(t("permissionUpdateSuccess"));
+            setSuccessPermission(true);
+        } catch (error) {
+            setText(t("permissionUpdateError"));
+            setSuccessPermission(true);
+        }
+    };
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = parseInt(e.target.value, 10);
         const foundPermission = permissions.find(p => p.id === selectedId);
         if (foundPermission) {
-            setSelectedPermission(foundPermission.name);
             savePermission(foundPermission);
         }
     };
 
-
     return (
-        <div className="text-primary dark:text-secondary w-24 flex justify-between ">
+        <div className="text-primary dark:text-secondary w-24 flex justify-between">
             {group.owner && user.username === group.owner.username ? (
                 <div className="flex items-center justify-center w-full">
                     <div>
@@ -69,7 +68,6 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                         </svg>
                     </div>
                 </div>
-
             ) : (
                 <div className="pl-4 md:pr-3">
                     <select
@@ -77,37 +75,22 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != userLogged?.id}
-                        value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
+                        value={selectedPermissionId || ""}
                         onChange={handleSelectChange}
                     >
-                        {/* {!group || (group.permissions && group.permissions.length === 0) ? (
-                            <option value="" disabled selected>
-                                Permissão
-                            </option>
-                        ) :
-                            (
-                                group.permissions.map((p) => (
-                                    <option key={p.id} value={p.id}>
-                                        {p.name}
-                                    </option>
-                                ))
-                            )} */}
-                       {
-                        permissions.map(p => (
+                        {permissions.map(p => (
                             <option key={p.id} value={p.id}>
-                                {p.name || t("withoutname")} 
+                                {p.name || t("withoutname")}
                             </option>
-                        ))
-                       }
+                        ))}
                     </select>
                 </div>
             )}
-            {
-                sucessPermission && (
-                    <div className="fixed inset-x-0  mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
-                        {text}
-                    </div>
-                )}
+            {successPermission && (
+                <div className="fixed inset-x-0 mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                    {text}
+                </div>
+            )}
         </div>
-    )
-}
+    );
+};
