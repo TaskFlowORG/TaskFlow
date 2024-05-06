@@ -27,7 +27,7 @@ export const Combobox = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [optionsMarked, setOptionsMarked] = useState<OtherUser[]>([]);
   const inputRef = useRef<any>(null);
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -48,7 +48,7 @@ export const Combobox = ({
       } else {
         thisProperty.value.push(selectedOption.username);
       }
-      setFilterProp!([...filterProp]);
+      setFilterProp!([...filterProp!]);
     } else if (selectedOption != null) {
       let newValue = value.map((value) => value.username);
       if (isRemoving) {
@@ -56,7 +56,7 @@ export const Combobox = ({
       } else {
         newValue.push(selectedOption.username);
       }
-      setFilterProp!([...filterProp, { id: id, value: [...newValue] }]);
+      setFilterProp!([...filterProp!, { id: id, value: [...newValue] }]);
     }
     setSelectedOption(null);
   };
@@ -86,7 +86,7 @@ export const Combobox = ({
           <p className="flex-1 w-full truncate">
             {selectedOption
               ? selectedOption.name + " " + selectedOption.surname
-              : t('select-user')}
+              : t("select-user")}
           </p>
           <div className="flex flex-col   gap-0">
             <p>{">"}</p>
@@ -121,11 +121,11 @@ export const Combobox = ({
               placeholder={
                 isRemoving
                   ? value.length > 0
-                    ? t('remove-user')
-                    : t('no-users-task')
+                    ? t("remove-user")
+                    : t("no-users-task")
                   : value.length == options.length
-                  ? t('all-users-task')
-                  : t('find-user')
+                  ? t("all-users-task")
+                  : t("find-user")
               }
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -168,7 +168,7 @@ export const Combobox = ({
           paddingY="py-1"
           width="w-full"
           textSize="text-[14px]"
-          text={isRemoving ? t('remove-user') : t('add-user')}
+          text={isRemoving ? t("remove-user") : t("add-user")}
           fnButton={handleConfirm}
         ></Button>
       </div>
