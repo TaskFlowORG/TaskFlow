@@ -46,7 +46,7 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
   return (
     <div
       id="sideBar"
-      className={`bg-primary overflow-hidden dark:bg-modal-grey lg:fixed fixed z-0 
+      className={`bg-primary overflow-hidden dark:bg-modal-grey lg:fixed fixed z-30 
       inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-screen  duration-300 ${
         extendida ? "lg:w-72" : "lg:w-16"
       } `}

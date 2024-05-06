@@ -81,13 +81,13 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className=" overflow-y-auto -z-10 flex w-full h-full personal items-center">
-      <div className="flex flex-col relative -z-[1] mt-32 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
+    <div className=" overflow-y-auto z-10 flex w-full h-full personal items-center">
+      <div className="flex flex-col relative z-20 mt-40 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
         <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
           <div className="h-full">
             <div
               id="fotoDeUsuario"
-              className="relative z-[-2] rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28"
+              className="relative z-0 rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28"
             >
               <Image
                 fill
@@ -102,7 +102,7 @@ export const PersonalInformations = () => {
                 <input
                   ref={fotoAindaNaoAtualizada}
                   id="photo"
-                  className="opacity-0 w-full h-full absolute top-0 left-0"
+                  className="opacity-0 w-full h-full  absolute z-0 top-0 left-0"
                   type="file"
                   accept="image/*"
                   onChange={previewDaFoto}
