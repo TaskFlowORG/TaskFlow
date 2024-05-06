@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Group, GroupPut, OtherUser, Permission, Project } from '@/models';
 import { groupService, permissionService } from '@/services';
-import { PermissionComponent } from './componets/PermissionComponent';
+import { PermissionComponent } from './componets/GPermissionComponent';
 import Image from "next/image";
 import { archiveToSrc } from '@/functions';
 import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';

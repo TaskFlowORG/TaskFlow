@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { GroupOptions } from "./GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
-import { PermissionComponent } from "./PermissionComponent";
+import { PermissionComponent } from "./UPermissionComponent";
 
 interface Props {
   group: Group;

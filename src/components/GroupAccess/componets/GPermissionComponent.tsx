@@ -1,61 +1,58 @@
+import React, { useEffect, useState } from "react";
 import { Group, GroupPut, OtherUser, Permission, Project } from "@/models";
-import { Arrow } from "./Arrow";
 import { groupService, userService } from "@/services";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Arrow } from "./Arrow";
 
 interface Props {
-    permissions: Permission[]
-    group?: Group
-    project: Project
+    permissions: Permission[];
+    group?: Group;
+    project: Project;
 }
 
 export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
-    const [sucessPermission, setSucessPermission] = useState<boolean>(false)
-    const [text, setText] = useState<string>("")
-    const [user, setUser] = useState<OtherUser>()
+    const [successPermission, setSuccessPermission] = useState<boolean>(false);
+    const [text, setText] = useState<string>("");
+    const [user, setUser] = useState<OtherUser>();
     const { t } = useTranslation();
 
     useEffect(() => {
         fetchData();
         const timer = setTimeout(() => {
-            if (sucessPermission) setSucessPermission(false);
+            if (successPermission) setSuccessPermission(false);
         }, 6000);
         return () => clearTimeout(timer);
-    }, [sucessPermission]);
-
+    }, [successPermission, group, permissions]);
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUser(fetchedUser);
         if (group) {
-            const permission = group?.permissions.find(p => p.project.id == project.id)
-            setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)!.name)
+            const permission = group.permissions.find(p => p.project.id === project.id);
+            setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)?.name || "");
         }
     };
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            if (group != undefined) {
-                group.permissions = [selectedPermission]
+            if (group) {
+                group.permissions = [selectedPermission];
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-                setSelectedPermission(selectedPermission.name)
-                setText("Permissão atualizada com sucesso")
-                setSucessPermission(true)
+                setSelectedPermission(selectedPermission.name);
+                setText("Permissão atualizada com sucesso");
+                setSuccessPermission(true);
             }
-        } catch (error: any) {
-            setText("Erro ao atualizada permissão")
-            setSucessPermission(true)
+        } catch (error) {
+            setText("Erro ao atualizar permissão");
+            setSuccessPermission(true);
         }
-    }
-
+    };
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = parseInt(e.target.value, 10);
         const foundPermission = permissions.find(p => p.id === selectedId);
         if (foundPermission) {
-            setSelectedPermission(foundPermission.name);
             savePermission(foundPermission);
         }
     };
@@ -67,7 +64,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
                 name="permission"
                 id="permission"
                 value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
-                disabled={group?.owner.id != user?.id}
+                disabled={group?.owner.id !== user?.id}
                 onChange={handleSelectChange}
             >
                 {permissions.map(p => (
@@ -77,20 +74,11 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
                 ))}
             </select>
             <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
-            {sucessPermission && (
+            {successPermission && (
                 <div className="fixed inset-x-0 mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
                     {text}
                 </div>
             )}
-            <div>
-                <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
-            </div>
-            {
-                sucessPermission && (
-                    <div className="fixed inset-x-0  mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
-                        {text}
-                    </div>
-                )}
         </>
-    )
-}
+    );
+};
