@@ -24,7 +24,6 @@ import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
 
-
 type Props = {
   task: Task;
   filter: FilteredProperty[];
@@ -41,22 +40,6 @@ export const PropertiesSide = ({
   setFilter,
   setList,
 }: Props) => {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
   const [openedConfig, setOpenedConfig] = useState(false);

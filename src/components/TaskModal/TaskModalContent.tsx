@@ -77,7 +77,7 @@ export const TaskModalContent = ({
           </div>
           {isInComments && <CommentsSection task={task} user={user} />}
           {isInHistorics && (
-            <HistoricSection isInModal={isInModal} task={task} />
+            <HistoricSection isInModal={isInModal} user={user} task={task} />
           )}
         </div>
       </div>

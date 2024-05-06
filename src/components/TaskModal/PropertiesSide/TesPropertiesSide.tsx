@@ -29,6 +29,8 @@ import * as z from "zod";
 import { FormState, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { log } from "console";
+import { filterProps } from "framer-motion";
 
 type Props = {
   task: Task;
@@ -48,98 +50,117 @@ export const TesPropertiesSide = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  // Array de propriedades (pode ser dinâmico)
-  const properties: (Limited | DateProp | Select)[] = task.properties.map(
-    (prop) => {
-      if (prop.property.type == TypeOfProperty.SELECT) {
-        return prop.property as Select;
-      } else if (prop.property.type == TypeOfProperty.DATE) {
-        return prop.property as DateProp;
-      } else {
-        return prop.property as Limited;
-      }
-    }
+  // // Array de propriedades (pode ser dinâmico)
+  // const properties: (Limited | DateProp | Select)[] = task.properties.map(
+  //   (prop) => {
+  //     if (prop.property.type == TypeOfProperty.SELECT) {
+  //       return prop.property as Select;
+  //     } else if (prop.property.type == TypeOfProperty.DATE) {
+  //       return prop.property as DateProp;
+  //     } else {
+  //       return prop.property as Limited;
+  //     }
+  //   }
+  // );
+  // // Adicione mais propriedades conforme necessário
+  // // Função para gerar o esquema Zod com base nas propriedades
+  // function generateSchema(
+  //   properties: (Limited | DateProp | Select)[]
+  // ): z.ZodObject<any> {
+  //   const schema: { [key: string]: z.ZodType<any, any> } = {};
+  //   properties.forEach((property) => {
+  //     const propertySchema: { [key: string]: z.ZodType<any, any> } = {};
+  //     propertySchema.name = z.string();
+  //     if ("maximum" in property) {
+  //       if (property.type == TypeOfProperty.TEXT) {
+  //         propertySchema.value = z
+  //           .string()
+  //           .max(
+  //             property.maximum,
+  //             `Essa propriedade tem um limite de caractéres de ${property.maximum}.`
+  //           );
+  //       } else if (
+  //         [TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS].includes(
+  //           property.type
+  //         )
+  //       ) {
+  //         propertySchema.value = z.number().max(property.maximum);
+  //       } else {
+  //         propertySchema.value = z
+  //           .array(z.string())
+  //           .max(
+  //             property.maximum,
+  //             `Essa propriedade tem um limite de usuários de ${property.maximum}.`
+  //           );
+  //       }
+  //     }
+  //     if ("canBePass" in property) {
+  //       propertySchema.value = z
+  //         .date()
+  //         .refine((data) => data.getTime() >= Date.now(), {
+  //           message: "A data deve ser igual ou posterior à data atual",
+  //         });
+  //     }
+  //     schema[property.name] = z.object(propertySchema);
+  //   });
+  //   return z.object(schema);
+  // }
+
+  // // Gerar o esquema com base nas propriedades
+  // const schema = generateSchema(properties);
+
+  // type MeuTipo = z.infer<typeof schema>;
+
+  // const handleValidate = () => {
+  //   validarDados(filter);
+  // };
+
+  // function validarDados(dados: any[]): MeuTipo | string {
+  //   try {
+  //     const resultado = schema.parse(dados);
+  //     console.log(resultado);
+  //     return resultado;
+  //   } catch (error) {
+  //     if (error instanceof z.ZodError) {
+  //       console.log(error);
+  //       // Se ocorrer um erro de validação, retorna a mensagem de erro
+  //       return error.errors.map((e) => e.message).join(", ");
+  //     }
+  //     // Se ocorrer um erro desconhecido, lança o erro para ser tratado em outro lugar
+  //     throw error;
+  //   }
+  // }
+
+  // // Use useForm com o resolver Zod
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   setValue,
+  //   formState: { errors },
+  // } = useForm<z.infer<typeof schema>>({
+  //   mode: "all",
+  //   reValidateMode: "onChange",
+  //   resolver: zodResolver(schema),
+  // });
+
+  const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
+    []
   );
-  // Adicione mais propriedades conforme necessário
-  // Função para gerar o esquema Zod com base nas propriedades
-  function generateSchema(
-    properties: (Limited | DateProp | Select)[]
-  ): z.ZodObject<any> {
-    const schema: { [key: string]: z.ZodType<any, any> } = {};
-    properties.forEach((property) => {
-      const propertySchema: { [key: string]: z.ZodType<any, any> } = {};
-      propertySchema.name = z.string();
-      if ("maximum" in property) {
-        if (property.type == TypeOfProperty.TEXT) {
-          propertySchema.value = z
-            .string()
-            .max(
-              property.maximum,
-              `Essa propriedade tem um limite de caractéres de ${property.maximum}.`
-            );
-        } else if (
-          [TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS].includes(
-            property.type
-          )
-        ) {
-          propertySchema.value = z.number().max(property.maximum);
-        } else {
-          propertySchema.value = z
-            .array(z.string())
-            .max(
-              property.maximum,
-              `Essa propriedade tem um limite de usuários de ${property.maximum}.`
-            );
-        }
-      }
-      if ("canBePass" in property) {
-        propertySchema.value = z
-          .date()
-          .refine((data) => data.getTime() >= Date.now(), {
-            message: "A data deve ser igual ou posterior à data atual",
-          });
-      }
-      schema[property.name] = z.object(propertySchema);
-    });
-    return z.object(schema);
-  }
 
-  // Gerar o esquema com base nas propriedades
-  const schema = generateSchema(properties);
-
-  type MeuTipo = z.infer<typeof schema>;
-
-  const handleValidate = () => {
-    validarDados(filter);
+  type PropsForm = {
+    property: PropertyValue;
+    errors: string[];
   };
 
-  function validarDados(dados: any[]): MeuTipo | string {
-    try {
-      const resultado = schema.parse(dados);
-      console.log(resultado);
-      return resultado;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        console.log(error);
-        // Se ocorrer um erro de validação, retorna a mensagem de erro
-        return error.errors.map((e) => e.message).join(", ");
-      }
-      // Se ocorrer um erro desconhecido, lança o erro para ser tratado em outro lugar
-      throw error;
-    }
-  }
-
-  // Use useForm com o resolver Zod
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
-    mode: "all",
-    reValidateMode: "onChange",
-    resolver: zodResolver(schema),
-  });
+  useEffect(() => {
+    let array: PropsForm[] = [];
+    task.properties.forEach((prop) => {
+      if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
+      array.push({ property: prop, errors: [] });
+      console.log(array);
+    });
+    setPropertiesToValidate(array);
+  }, [task.properties]);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -156,7 +177,83 @@ export const TesPropertiesSide = ({
     setIsOpen(false);
   }
 
+  const validateProps = (): boolean => {
+    filter.forEach((propInput) => {
+      const propertyForm =
+        propertiesToValidate.find(
+          (prop) => prop.property.property.id == propInput.id
+        ) ?? null;
+      console.log("Im here");
+      console.log(propInput);
+      console.log(propertyForm);
+      if (propertyForm) {
+        switch (propertyForm.property.property.type) {
+          case TypeOfProperty.TEXT:
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              propInput.value.length
+            ) {
+              console.log("Caralho lek");
+              propertyForm.errors.push(
+                `Essa propridade possuí um máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                } caractéres.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+          case TypeOfProperty.NUMBER:
+          case TypeOfProperty.PROGRESS:
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              parseFloat(propInput.value)
+            ) {
+              console.log("Caralho lek");
+              propertyForm.errors.push(
+                `Essa propridade possuí um valor máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                }.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+          case TypeOfProperty.DATE:
+            console.log("Eu entrei nas datas meu mano luka");
+            console.log(propertyForm.property.property as DateProp);
+            if (!(propertyForm.property.property as DateProp).canBePass) {
+              console.log("Entrei até aqui cara");
+              const currentDate = new Date();
+              console.log(new Date(propInput.value) < currentDate);
+              if (new Date(propInput.value) < currentDate) {
+                console.log("Entrei nesse ultimo if");
+                propertyForm.errors.push(
+                  `Essa propriedade não pode estar no passado!`
+                );
+              }
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+
+            break;
+          case TypeOfProperty.USER:
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              propInput.value.length
+            ) {
+              propertyForm.errors.push(
+                `Essa propridade possuí um máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                } usuários.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+        }
+      }
+    });
+    return false;
+  };
   async function updateTask() {
+    if (!validateProps()) return;
     console.log(filter);
     filter.forEach(async (value) => {
       let updateProp =
@@ -314,6 +411,7 @@ export const TesPropertiesSide = ({
 
   return (
     <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
+      {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}
         <div className="flex max-w-full flex-col gap-5 h-full max-h-[450px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
@@ -323,6 +421,15 @@ export const TesPropertiesSide = ({
                 key={prop.id}
                 className="bg-white dark:bg-modal-grey flex flex-col"
               >
+                <pre>
+                  {JSON.stringify(
+                    propertiesToValidate.find(
+                      (propV) => propV.property.property.id == prop.property.id
+                    )?.errors,
+                    null,
+                    2
+                  )}
+                </pre>
                 <div className="flex sm:gap-8 gap-4 w-full items-center">
                   <img
                     className="pt-2"
@@ -341,7 +448,7 @@ export const TesPropertiesSide = ({
                       <IconsSelector property={prop.property} />
                       <p
                         className="font-montserrat text-p14 md:text-p"
-                        onClick={() => handleValidate()}
+                        // onClick={() => handleValidate()}
                       >
                         {prop.property.name}
                       </p>

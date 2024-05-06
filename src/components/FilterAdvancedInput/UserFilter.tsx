@@ -24,24 +24,24 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   const [users, setUsers] = useState<OtherUser[]>([]);
 
   const style = twMerge(
-    "flex gap-4 w-full items-center border-b-[1px] relative  pb-2",
+    "flex gap-4 items-center border-b-[1px] relative  pb-2",
     isInModal ? " p-0 border-none pl-4" : " "
   );
 
   useEffect(() => {
-      const findGroups = async () => {
-        if (!project) return;
-        const users = await userService.findAll();
-        setUsers(
-          users.filter(
-            (user) =>
-              user.permissions.find(
-                (permission) => permission.project.id === project.id
-              ) != undefined
-          )
-        );
-      };
-      findGroups();
+    const findGroups = async () => {
+      if (!project) return;
+      const users = await userService.findAll();
+      setUsers(
+        users.filter(
+          (user) =>
+            user.permissions.find(
+              (permission) => permission.project.id === project.id
+            ) != undefined
+        )
+      );
+    };
+    findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
     console.log(prop);
     console.log(value);
@@ -55,7 +55,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   return (
     <div className={style}>
       {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
-      <div className="flex flex-1 justify-end">
+      <div className="flex  justify-end">
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
