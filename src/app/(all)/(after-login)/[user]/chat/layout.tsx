@@ -29,6 +29,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
   const [searchNewChat, setSearchNewChat] = useState<string>("");
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
   const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
+  const [chatAberto, setChatAberto] = useState<number>();
 
   useEffect(() => {
     async function buscarChats() {
@@ -94,6 +95,10 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
       list.splice(list.indexOf(oldChat), 1);
+
+      //precisa arrumar aq pra não aumentar o numero de mensagens nao visualizadas caso o chat ja esteja aberto
+
+      chatTemp.quantityUnvisualized++;
       list.unshift(chatTemp);
       setListaChats(list);
     });
@@ -103,6 +108,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
   }, [user, listaChats]);
 
   const handleChatClick = (chatId: number) => {
+    {setChatAberto(chatId)}
     route.replace(`/${user?.username}/chat/${chatId}`);
   };
 

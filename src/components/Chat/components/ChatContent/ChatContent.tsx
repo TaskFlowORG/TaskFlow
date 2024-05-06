@@ -1,7 +1,7 @@
 import { MessageContent } from "../MessageContent/MessageContent"
-import { Archive, Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, use, useRef, ChangeEvent } from "react"
-import { chatService, userService } from "@/services";
+import { Chat, Message, OtherUser } from "@/models"
+import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
+import { chatService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
 import { Dictophone } from "@/components/Dictophone";
@@ -23,14 +23,14 @@ interface MessageGroup {
 
 export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatContent }: MessageGroup) => {
 
+    const { user } = useContext(UserContext)
     const [mensagem, setMensagem] = useState<string>("")
     const [mensagens, setMensagens] = useState<MessageGroup[]>()
-    const { user } = useContext(UserContext)
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [photoUrl, setPhotoUrl] = useState<string>(chatContent ? archiveToSrc(chatContent.picture) : "");
 
     const [arquivoUrl, setArquivoUrl] = useState<string>();
-    const [arquivo, setArquivo] = useState<File>();
+    const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -57,9 +57,10 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     };
 
     async function enviarMensagem() {
-        if (mensagem != "") {
-            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [],))
+        if (mensagem != "" || arquivoUrl != null) {
+            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [],new Date()), arquivo!)
             setMensagem("")
+            setArquivo(null)
         }
         else {
             alert("Mensagem vazia")
@@ -171,19 +172,31 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                         <div className="ml-[5px]">
                             <Dictophone setText={setMensagem}></Dictophone>
                         </div>
-                        <div>
+
+                        <div className="w-[45px]">
                             <IconArchive></IconArchive>
                             <input
                                 ref={arquivoParaEnviar}
                                 id="photo"
-                                className="opacity-0 w-full h-full absolute top-0 left-0"
+                                className="opacity-0 w-[25px] h-fit absolute bottom-10"
                                 type="file"
                                 accept="image/*"
                                 onChange={previewArquivo}
                             />
                         </div>
+                        <If condition={arquivo != null}>
+                            <div className="h-full">
+                                <div className="opacity-80 bottom-36 relative rounded-md bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
+                                    <div onClick={() => setArquivo(null)} className="relative z-10  left-2 top-2 cursor-pointer">
+                                        <div className="flex justify-center items-center bg-red-600 w-7 h-7 rounded-full">
+                                            <p>X</p>
+                                        </div>
+                                    </div>
+                                    <Image fill className=" rounded-md w-full h-full" src={arquivoUrl!} alt="foto" />
+                                </div>
+                            </div>
+                        </If>
                     </div>
-                    <Image fill className="rounded-full w-10 h-10" src={arquivoUrl!} alt="foto" />
 
                     <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-lg flex justify-center items-center">
                         <SendMessage></SendMessage>
@@ -192,4 +205,4 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
             </div>
         </>
     )
-}   
+}

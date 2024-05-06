@@ -3,9 +3,8 @@ import Image from "next/image";
 import { If } from "@/components/If"
 import { UserContext } from "@/contexts/UserContext";
 import { archiveToSrc } from "@/functions";
-import { Chat, Message } from "@/models"
+import { Message } from "@/models"
 import { useContext, useEffect, useState } from "react"
-import { VisualizedChatOrMessage } from "@/components/icons";
 type chattype = {
     message: Message;
     lastMessage: Message
@@ -19,11 +18,13 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
     const { user } = useContext(UserContext);
     const [photo, setPhoto] = useState(message.sender.picture)
     const [photoUrl, setPhotoUrl] = useState<string>(user ? archiveToSrc(message.sender.picture) : "");
+    const [arquivoUrl, setArquivoUrl] = useState<string>(message ? archiveToSrc(message.annex) : "");
 
 
     useEffect(() => {
         setPhoto(message.sender.picture)
         setPhotoUrl(archiveToSrc(message.sender.picture));
+        setArquivoUrl(archiveToSrc(message.annex))
     }, [user])
 
     return (
@@ -48,8 +49,15 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 </div>
                             </If>
 
-                            <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tl-lg flex flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                            <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tl-lg  flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
+                                <div className="flex justify-end">
+                                    <If condition={message.annex != null}>
+                                        <div className="w-48 h-48">
+                                            <img src={arquivoUrl} alt="" />
+                                        </div>
+                                    </If>
+                                </div>
                                 <div className="self-end h-3 opacity-60 pr-2 text-mn font-alata">
                                     <p>{hour}</p>
                                 </div>
@@ -79,8 +87,15 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 </div>
                             </If>
 
-                            <div className={`bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tr-lg flex justify-start ${penultimaMensagem ? "mb-6" : ""}`}>
+                            <div className={`bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tr-lg flex flex-col justify-start ${penultimaMensagem ? "mb-6" : ""}`}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
+                                <div className="flex justify-start">
+                                    <If condition={message.annex != null}>
+                                        <div className="w-48 h-48">
+                                            <img src={arquivoUrl} alt="" />
+                                        </div>
+                                    </If>
+                                </div>
                                 <div className="self-end pl-2 text-mn font-alata h-3 opacity-60">
                                     <p>{hour}</p>
                                 </div>
