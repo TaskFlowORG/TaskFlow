@@ -119,7 +119,7 @@ export const Project = () => {
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-center font-alata text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
+                className="bg-transparent w-full text-center  text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? t("withoutname")}
