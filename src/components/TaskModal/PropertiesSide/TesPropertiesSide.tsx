@@ -11,19 +11,24 @@ import {
   SelectPost,
   LimitedPost,
   Project,
+  Limited,
+  Date as DateProp,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
 import { FooterTask } from "./FooterTask";
 import { ProjectContext } from "@/contexts";
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
 import { PageContext } from "@/utils/pageContext";
 import { taskService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
-
+import * as z from "zod";
+import { FormState, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
   task: Task;
@@ -33,7 +38,7 @@ type Props = {
   setFilter: (array: FilteredProperty[]) => void;
   setList: (value: FilteredProperty | undefined) => void;
 };
-export const PropertiesSide = ({
+export const TesPropertiesSide = ({
   task,
   setIsOpen,
   filter,
@@ -41,21 +46,100 @@ export const PropertiesSide = ({
   setFilter,
   setList,
 }: Props) => {
+  const { t } = useTranslation();
 
+  // Array de propriedades (pode ser dinâmico)
+  const properties: (Limited | DateProp | Select)[] = task.properties.map(
+    (prop) => {
+      if (prop.property.type == TypeOfProperty.SELECT) {
+        return prop.property as Select;
+      } else if (prop.property.type == TypeOfProperty.DATE) {
+        return prop.property as DateProp;
+      } else {
+        return prop.property as Limited;
+      }
+    }
+  );
+  // Adicione mais propriedades conforme necessário
+  // Função para gerar o esquema Zod com base nas propriedades
+  function generateSchema(
+    properties: (Limited | DateProp | Select)[]
+  ): z.ZodObject<any> {
+    const schema: { [key: string]: z.ZodType<any, any> } = {};
+    properties.forEach((property) => {
+      const propertySchema: { [key: string]: z.ZodType<any, any> } = {};
+      propertySchema.name = z.string();
+      if ("maximum" in property) {
+        if (property.type == TypeOfProperty.TEXT) {
+          propertySchema.value = z
+            .string()
+            .max(
+              property.maximum,
+              `Essa propriedade tem um limite de caractéres de ${property.maximum}.`
+            );
+        } else if (
+          [TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS].includes(
+            property.type
+          )
+        ) {
+          propertySchema.value = z.number().max(property.maximum);
+        } else {
+          propertySchema.value = z
+            .array(z.string())
+            .max(
+              property.maximum,
+              `Essa propriedade tem um limite de usuários de ${property.maximum}.`
+            );
+        }
+      }
+      if ("canBePass" in property) {
+        propertySchema.value = z
+          .date()
+          .refine((data) => data.getTime() >= Date.now(), {
+            message: "A data deve ser igual ou posterior à data atual",
+          });
+      }
+      schema[property.name] = z.object(propertySchema);
+    });
+    return z.object(schema);
+  }
 
+  // Gerar o esquema com base nas propriedades
+  const schema = generateSchema(properties);
 
+  type MeuTipo = z.infer<typeof schema>;
 
+  const handleValidate = () => {
+    validarDados(filter);
+  };
 
+  function validarDados(dados: any[]): MeuTipo | string {
+    try {
+      const resultado = schema.parse(dados);
+      console.log(resultado);
+      return resultado;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        console.log(error);
+        // Se ocorrer um erro de validação, retorna a mensagem de erro
+        return error.errors.map((e) => e.message).join(", ");
+      }
+      // Se ocorrer um erro desconhecido, lança o erro para ser tratado em outro lugar
+      throw error;
+    }
+  }
 
-
-
-
-
-
-
-
-
-
+  // Use useForm com o resolver Zod
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<z.infer<typeof schema>>({
+    mode: "all",
+    reValidateMode: "onChange",
+    resolver: zodResolver(schema),
+  });
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -255,7 +339,10 @@ export const PropertiesSide = ({
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
                       <IconsSelector property={prop.property} />
-                      <p className="font-montserrat text-p14 md:text-p">
+                      <p
+                        className="font-montserrat text-p14 md:text-p"
+                        onClick={() => handleValidate()}
+                      >
                         {prop.property.name}
                       </p>
                     </div>

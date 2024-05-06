@@ -9,6 +9,7 @@ import { FilteredProperty } from "@/types/FilteredProperty";
 import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
 import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
+import { TesPropertiesSide } from "./PropertiesSide/TesPropertiesSide";
 
 type Props = {
   isOpen: boolean;
@@ -91,14 +92,14 @@ export const TaskModalContent = ({
         <div className="hidden lg:block w-[2px]  min-h-full bg-[#F2F2F2]"></div>
         <div className=" lg:hidden w-full min-h-[2px] bg-[#F2F2F2]"></div>
 
-        <PropertiesSide
+        <TesPropertiesSide
           filter={filter}
           setFilter={setFilter}
           setIsOpen={setIsOpen}
           setList={setList}
           task={task as Task}
           users={users}
-        ></PropertiesSide>
+        ></TesPropertiesSide>
       </FilterContext.Provider>
     </div>
   );
