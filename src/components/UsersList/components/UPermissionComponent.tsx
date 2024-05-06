@@ -1,51 +1,64 @@
 import { Group, OtherUser, Permission } from "@/models";
 import { userService } from "@/services";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-interface Props{
+interface Props {
     group: Group,
     user: OtherUser
     permissions: Permission[]
 }
 
-export const PermissionComponent = ({group, user, permissions}:Props) => {
+export const PermissionComponent = ({ group, user, permissions }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
     const [userLogged, setUserLogged] = useState<OtherUser>()
+    const [sucessPermission, setSucessPermission] = useState<boolean>(false)
+    const [text, setText] = useState<string>("")
+    const { t } = useTranslation();
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchData()
-    })
+    }, [selectedPermission])
+
+    useEffect(() => {
+        fetchData();
+        const timer = setTimeout(() => {
+            if (sucessPermission) setSucessPermission(false);
+        }, 6000);
+        return () => clearTimeout(timer);
+    }, [sucessPermission]);
+
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUserLogged(fetchedUser);
     }
 
-    const findPermission = (selectedValue: number) => {
+    async function savePermission(selectedPermission: Permission) {
         try {
-          if (permissions) {
-            const selectedPermission = permissions.find(permission => permission.id === selectedValue);
-    
-            if (selectedPermission) {
-              savePermission(selectedPermission);
+            if (permissions) {
+                await userService.updatePermission(user.username, selectedPermission);
+                setSelectedPermission(selectedPermission.name);
+                setText("Permissão atualizada com sucesso")
+                setSucessPermission(true)
+
             }
-          }
         } catch (error: any) {
-          alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
+            setText("Erro ao atualizar a permissão")
+            setSucessPermission(true)
         }
-      }
-    
-      async function savePermission(selectedPermission: Permission) {
-        try {
-          if (permissions) {
-            await userService.updatePermission(user.username, selectedPermission);
-            setSelectedPermission(selectedPermission.name);
-    
-          }
-        } catch (error: any) {
-          alert('Não foi possível atualizar a permissão do grupo. Verifique se você possui a permissão necessária');
+    }
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = parseInt(e.target.value, 10);
+        const foundPermission = permissions.find(p => p.id === selectedId);
+        if (foundPermission) {
+            setSelectedPermission(foundPermission.name);
+            savePermission(foundPermission);
         }
-      }
+    };
+
+
     return (
         <div className="text-primary dark:text-secondary w-24 flex justify-between ">
             {group.owner && user.username === group.owner.username ? (
@@ -64,10 +77,10 @@ export const PermissionComponent = ({group, user, permissions}:Props) => {
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != userLogged?.id}
-                        value={selectedPermission}
-                        onChange={(e) => findPermission(+e.target.value)}
+                        value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
+                        onChange={handleSelectChange}
                     >
-                        {!group || (group.permissions && group.permissions.length === 0) ? (
+                        {/* {!group || (group.permissions && group.permissions.length === 0) ? (
                             <option value="" disabled selected>
                                 Permissão
                             </option>
@@ -78,20 +91,23 @@ export const PermissionComponent = ({group, user, permissions}:Props) => {
                                         {p.name}
                                     </option>
                                 ))
-                            )}
-
-                        {permissions && (
-                            permissions.map((p) => {
-                                return (
-                                    <option className="flex justify-center" key={p.id} value={p.id}>
-                                        {p.name}
-                                    </option>
-                                );
-                            })
-                        )}
+                            )} */}
+                       {
+                        permissions.map(p => (
+                            <option key={p.id} value={p.id}>
+                                {p.name || t("withoutname")} 
+                            </option>
+                        ))
+                       }
                     </select>
                 </div>
             )}
+            {
+                sucessPermission && (
+                    <div className="fixed inset-x-0  mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                        {text}
+                    </div>
+                )}
         </div>
     )
 }
