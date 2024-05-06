@@ -56,7 +56,7 @@ export const RadioFilter = ({
   };
 
   return (
-    <div className="text-black dark:text-white pb-2 border-b-[1px] ">
+    <div className={`text-black dark:text-white pb-2 border-b-[1px] ${isInModal && "border-none"}`}>
       {!isInModal && (
         <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
       )}

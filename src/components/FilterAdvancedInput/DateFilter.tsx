@@ -10,7 +10,7 @@ interface DateProps {
   isInModal?: boolean;
 }
 
-export const DateFilter = ({
+export const  DateFilter = ({
   name,
   value,
   id,
@@ -22,7 +22,7 @@ export const DateFilter = ({
 
   const style = twMerge(
     "flex gap-4 w-full items-center border-b-[1px]  pb-2",
-    isInModal ? " p-0 border-none pl-[160px]" : " "
+    isInModal ? " p-0 border-none w-[120px]" : " "
   );
 
   useEffect(() => {

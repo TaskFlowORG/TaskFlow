@@ -213,16 +213,16 @@ export const PropertiesSide = ({
 
   return (
     <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
-      <div className="w-full  ">
+      <div className="w-full">
         {/* bg-black */}
-        <div className="flex flex-col gap-5 h-full max-h-[450px] min-h-[450px] overflow-auto bah pr-4 w-full">
+        <div className="flex max-w-full flex-col gap-5 h-full max-h-[450px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
           {task?.properties.map((prop) => {
             return (
               <div
                 key={prop.id}
                 className="bg-white dark:bg-modal-grey flex flex-col"
               >
-                <div className="flex gap-8 w-full items-start">
+                <div className="flex sm:gap-8 gap-4 w-full items-center">
                   <img
                     className="pt-2"
                     onClick={() => {
@@ -235,27 +235,26 @@ export const PropertiesSide = ({
                     alt=""
                   />
 
-                  <div className="flex flex-col justify-center  gap-2 flex-1">
-                    <div className="flex-1 flex items-center relative   justify-between ">
-                      <div className="flex gap-3">
-                        <IconsSelector property={prop.property} />
-                        <p className="font-montserrat text-[16px] whitespace-nowrap">
-                          {prop.property.name}
-                        </p>
-                      </div>
-                      {[
-                        TypeOfProperty.SELECT,
-                        TypeOfProperty.ARCHIVE,
-                        TypeOfProperty.DATE,
-                        TypeOfProperty.NUMBER,
-                        TypeOfProperty.PROGRESS,
-                        TypeOfProperty.TEXT,
-                        TypeOfProperty.TIME,
-                        TypeOfProperty.USER,
-                      ].includes(prop.property.type) && (
-                        <RowProperty prop={prop} task={task} />
-                      )}
+                  <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
+                    <div className="flex w-full items-center flex-1 gap-3">
+                      <IconsSelector property={prop.property} />
+                      <p className="font-montserrat text-p14 md:text-p">
+                        {prop.property.name}
+                      </p>
                     </div>
+                    {[
+                      TypeOfProperty.SELECT,
+                      TypeOfProperty.ARCHIVE,
+                      TypeOfProperty.DATE,
+                      TypeOfProperty.NUMBER,
+                      TypeOfProperty.PROGRESS,
+                      TypeOfProperty.TEXT,
+                      TypeOfProperty.TIME,
+                      TypeOfProperty.USER,
+                    ].includes(prop.property.type) && (
+                      <RowProperty prop={prop} task={task} />
+                    )}
+
                     {[
                       TypeOfProperty.CHECKBOX,
                       TypeOfProperty.TAG,
