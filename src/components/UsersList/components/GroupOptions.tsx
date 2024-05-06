@@ -7,6 +7,7 @@ import { RemoveSvg } from "../svgs/RemoveSvg";
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { ProjectContext } from "@/contexts";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     isOpen: Boolean,
@@ -20,6 +21,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     const { project } = useContext(ProjectContext);
     const [userLogged, setUserLogged] = useState<OtherUser>()
     const router = useRouter();
+    const { t } = useTranslation();
 
     useEffect(() => {
         fetchData()
@@ -54,7 +56,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                 <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
-                        Perfil
+                        {t("profile")}
                     </button>
                 </div>
                 <div className="flex justify-start gap-3 mn">
@@ -62,13 +64,13 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
                         </div>
-                        Iniciar chat
+                        {t("startChat")}
                     </button>
                 </div>
                 <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-2" onClick={deleteUser}>
                         <RemoveSvg />
-                        Remover
+                        {t("remove")}
                     </button>
                 </div>
 
@@ -81,7 +83,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                 <div className="flex justify-start gap-3 mn">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
-                        Perfil
+                        {t("profile")}
                     </button>
                 </div>
                 <div className="flex justify-start gap-3 mn">
@@ -89,7 +91,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
                         </div>
-                        Iniciar chat
+                        {t("startChat")}
                     </button>
                 </div>
             </div>

@@ -40,11 +40,11 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
                 group.permissions = [selectedPermission];
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
                 setSelectedPermission(selectedPermission.name);
-                setText("Permissão atualizada com sucesso");
+                setText(t("permissionUpdateSuccess"));
                 setSuccessPermission(true);
             }
         } catch (error) {
-            setText("Erro ao atualizar permissão");
+            setText(t("permissionUpdateError"));
             setSuccessPermission(true);
         }
     };

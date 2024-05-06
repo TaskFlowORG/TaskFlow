@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
 import { Group, OtherUser, Project } from "@/models";
 import { PermissionUser } from "./components/PermissionUser";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   project?: Project;
@@ -21,6 +22,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const {theme} = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchData();
@@ -40,8 +42,6 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
 
     if (userFind) {
       setNewUser(userFind);
-    } else {
-      alert("Usuário não encontrado");
     }
     setText('');
     setShowSuggestions(false);
@@ -57,7 +57,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
     let usersName: string[] = [];
     if (filteredUsers != null) {
       filteredUsers.map(u => {
-        usersName.push(u.username)
+        usersName.push(u.username);
       });
       setSuggestedUsers(usersName);
     }
@@ -69,35 +69,30 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
   };
 
   const verifyUser = () => {
-    if (newUser == null) {
-      alert("Usuário inválido")
+    if (newUser == null || Object.keys(user).length === 0) {
+      setInvite(t("foundUser"));
+      setSucessInvite(true);
     } else {
-      addUser(newUser)
+      addUser(newUser);
     }
   }
 
   const addUser = async (user: OtherUser) => {
-    if (Object.keys(user).length === 0) {
-      alert("Adicione um usuário válido");
-      return;
-    }
-
     const userExists = group?.users.some((u) => u.username === user.username);
     if (userExists) {
-      alert("Este usuário já é um integrante do grupo");
+      setInvite(t("alreadyMember"));
+      setSucessInvite(true);
       return;
     }
-
     try {
       if (group != null) {
         await groupService.inviteUser(group.id, user.id);
-        setInvite("Convite enviado com sucesso")
+        setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)
       }
     } catch (error) {
-      setInvite("Erro ao enviar o convite")
+      setInvite(t("sendInvitationError"))
       setSucessInvite(true)
-      console.error("Error adding user to group:", error);
     }
   };
 
@@ -117,7 +112,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
       }}
     >
-      <h5 className="text-[#FCFCFC]">Adicionar Usuário</h5>
+      <h5 className="text-[#FCFCFC]">{t("add-user")}</h5>
     </button>
   );
 
@@ -129,7 +124,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
             <input
               ref={inputRef}
               className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
-              placeholder="Pesquisa"
+              placeholder={t("search")}
               type="text"
               id="campoTexto"
               value={text}
@@ -192,7 +187,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
       </div>
       {
       sucessInvite && (
-        <div className="fixed inset-x-0  mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+        <div className="fixed inset-x-0  mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
           {invite}
         </div>
       )}

@@ -42,10 +42,10 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
         try {
             await userService.updatePermission(user.username, selectedPermission);
             setSelectedPermissionId(selectedPermission.id);
-            setText("Permissão atualizada com sucesso");
+            setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
-            setText("Erro ao atualizar a permissão");
+            setText(t("permissionUpdateError"));
             setSuccessPermission(true);
         }
     };
