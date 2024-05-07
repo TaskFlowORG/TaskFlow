@@ -1,14 +1,11 @@
 import { If } from "@/components/If"
 import { IconBurguerList, IconGroups, IconLogout, IconProjects } from "@/components/icons"
 import { Project } from "@/models";
-import Link from "next/link"
 import { SideSecondary } from "./SideSecondary";
 import { PageSide } from "./PageSide";
 import { SideModal } from "@/components/Modal";
 import { GroupSide } from "./GroupSide";
 import { SideBarButton } from "./SideBarButton";
-
-
 import { useContext } from "react";
 import { ProjectContext } from "@/contexts";
 import { useTranslation } from "next-i18next";

@@ -1,17 +1,13 @@
 import { Group, GroupPost, Permission, Project, TypePermission } from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from "next/navigation";
-import { groupService, permissionService, projectService } from "@/services";
+import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
-import { LocalModal } from "@/components/Modal";
-import { ProjectContext } from "@/contexts";
 import { InviteGroupToProject } from "./InviteGroupToProject";
-import { useDebounce } from "react-use";
-
-
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -21,12 +17,12 @@ interface Props {
   global: string;
 }
 
-
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   const [groups, setGroups] = useState<SimpleGroup[]>([]);
   const router = useRouter();
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchData();
@@ -81,9 +77,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
             <Navigate modalPages={false} setCondition={setModalGroups} />
             <ProjectInformations project={project} />
           </>
-
-
-
         )
       }
 
@@ -104,6 +97,8 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                       <GroupComponent
                         user={user}
                         group={group}
+                        setGroups={setGroups}
+                        groups={groups}
                       />
                     </button>
                   </div>
@@ -120,7 +115,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
             }
           >
             {" "}
-            Adicionar Grupo
+            {t("addGroup")}
           </button>
         </div>
       </div>

@@ -30,7 +30,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
       if (sucessInvite) setSucessInvite(false);
     }, 6000);
     return () => clearTimeout(timer);
-  }, [sucessInvite]);
+  }, [group?.users, setGroup, sucessInvite]);
 
   const fetchData = async () => {
     const fetchedUsers = await userService.findAll();
