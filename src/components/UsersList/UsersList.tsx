@@ -69,13 +69,14 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
   };
 
   const verifyUser = () => {
-    if (newUser == null || Object.keys(user).length === 0) {
-      setInvite(t("foundUser"));
-      setSucessInvite(true);
+    if (newUser == null || Object.keys(newUser).length === 0) {
+      setInvite(t("foundUser")); 
+      setSucessInvite(true); 
     } else {
       addUser(newUser);
     }
-  }
+}
+
 
   const addUser = async (user: OtherUser) => {
     const userExists = group?.users.some((u) => u.username === user.username);
