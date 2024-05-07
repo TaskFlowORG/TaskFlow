@@ -3,27 +3,17 @@ import { SelectWithImage } from "@/components/SelectWithImage/SelectwithImage";
 import { Language } from "@/models";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
+import { LanguageContext, LanguageProvider } from "@/contexts/ContextLanguage";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { theme, setTheme } = useTheme();
-  const [language , setLanguage] = React.useState<Language>();
-  const changeLanguage = async (value: string) => {
-     setLanguage(value as Language);
-  }
+  const { theme, setTheme } = useTheme(); 
+  const {changeLanguage, language} = useContext(LanguageContext)
   useEffect(() => {
-    setTheme(localStorage.getItem("theme") || "light");
-    setLanguage(Cookies.get("language") as Language);
-    console.log(Cookies.get("language"));
+    changeLanguage(Cookies.get("language") as Language);
     // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    console.log(language);
-    if(!language) return;
-    Cookies.set("language",language);
-  }, [language]);
 
   return (
     <>
@@ -46,7 +36,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             alt=""
             onClick={() => setTheme("light")}
           />
-           <SelectWithImage onChange={changeLanguage} selected={(language ? language : Language.PORTUGUESE)}
+           <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={(language ? language : Language.PORTUGUESE)}
             list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },
             { value: Language.ENGLISH, image: <Image alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" /> },
             { value: Language.SPANISH, image: <Image alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" /> }]} />

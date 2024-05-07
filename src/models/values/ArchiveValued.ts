@@ -4,8 +4,8 @@ import { Archive } from "../others/Archive";
 
 
 export class ArchiveValued extends Value{
-    constructor(public id:number, public archive:Archive){
-        super(id, archive);
+    constructor( public archive?:Archive | null,public id?:number){
+        super(archive,id);
     }
 
 }

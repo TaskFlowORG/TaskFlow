@@ -507,7 +507,7 @@ select::-ms-expand {
 
 .link-underline-black {
   background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#f2c, #f2c);
+  linear-gradient(#f2c, #f2c);
 }
 
 .link-underline:hover {

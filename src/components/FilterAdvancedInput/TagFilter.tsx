@@ -23,13 +23,13 @@ export const TagFilter = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
   useEffect(() => {
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
       setSelectedOptions(prop.value);
     } else {
       setSelectedOptions(value ?? []);
     }
-  }, [value, setFilterProp, filterProp]);
+  }, [value, setFilterProp, filterProp!]);
 
 
   const handleOptionChange = (optionName:string) => {
@@ -50,7 +50,7 @@ export const TagFilter = ({
         if (thisProperty.value.length == 0) {
           thisProperty.value = []
         }
-        setFilterProp!([...filterProp])
+        setFilterProp!([...filterProp!])
 
 
 
@@ -58,13 +58,13 @@ export const TagFilter = ({
         setSelectedOptions([...selectedOptions, optionName]);
         console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
-        setFilterProp!([...filterProp])
+        setFilterProp!([...filterProp!])
       }
     } else {
       if (optionName) {
         setSelectedOptions([...(value ?? []) , optionName]);
         setFilterProp!([
-          ...filterProp,
+          ...filterProp!,
           { id: id, value: [...(value ?? []) , optionName] },
         ]);
       }

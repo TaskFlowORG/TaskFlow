@@ -38,13 +38,14 @@ export const ProgressBar = ({ percent }: Props) => {
   return (
     <div className="relative flex justify-center items-center h-full w-full">
       <div className="flex justify-center h-full items-center w-full">
-        <div className="w-min h-20 flex overflow-clip absolute   top-0 bottom-0">
-          <div className="h4 text-primary dark:text-white w-40 h-40 flex justify-center p-6 rounded-full
+        <div className=" aspect-square h-full flex absolute  overflow-y-clip top-0 bottom-0">
+          <div className="text-h4 font-alata text-primary dark:text-white   aspect-square h-[200%] flex justify-center p-6 rounded-full
           border-[14px] border-double border-transparent bg-origin-border "
-            style={gradient}>
+            style={gradient}
+            >
             {percCount}%
           </div>
-          <div className="h4 text-primary dark:text-white w-40 h-40 flex justify-center p-6 rounded-full
+          <div className="text-h4 font-alata text-primary dark:text-white aspect-square h-[200%] flex justify-center p-6 rounded-full
           border-[14px] border-double border-transparent bg-origin-border absolute"/>
         </div>
       </div>

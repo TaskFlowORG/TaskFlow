@@ -44,7 +44,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
       };
       findGroups();
     }
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     console.log(prop);
     console.log(value);
     if (prop) {

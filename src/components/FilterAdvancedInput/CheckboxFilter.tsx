@@ -46,7 +46,7 @@ export const CheckboxFilter = ({
         if (thisProperty.value.length == 0) {
           thisProperty.value = []
         }
-        setFilterProp!([...filterProp]);
+        setFilterProp!([...filterProp!]);
 
 
 
@@ -54,13 +54,13 @@ export const CheckboxFilter = ({
         setSelectedOptions([...selectedOptions, optionName]);
         console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
-        setFilterProp!([...filterProp])
+        setFilterProp!([...filterProp!])
       }
     } else {
       if (optionName) {
         setSelectedOptions([...(value ?? []) , optionName]);
         setFilterProp!([
-          ...filterProp,
+          ...filterProp!,
           { id: id, value: [...(value ?? []) , optionName] },
         ]);
       }
@@ -68,7 +68,7 @@ export const CheckboxFilter = ({
   };
 
   useEffect(() => {
-    const prop = filterProp.find((bah) => id == bah.id);
+    const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
       setSelectedOptions(prop.value);
     } else {

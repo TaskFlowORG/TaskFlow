@@ -18,17 +18,17 @@ class PropertyService {
         return (await Api.post(`property/project/${projectId}/date`, property, {withCredentials: true})).data;
     }
 
-    async updateLimited(projectId: number, property: Limited): Promise<void> {
+    async updateLimited(projectId: number, property: Limited): Promise<Limited> {
         console.log(property.maximum)
-        await Api.put(`property/project/${projectId}/limited`, property, {withCredentials: true});
+        return (await Api.put(`property/project/${projectId}/limited`, property, {withCredentials: true})).data;
     }
 
-    async updateSelect(projectId: number, property: Select): Promise<void> {
-        await Api.put(`property/project/${projectId}/select`, property, {withCredentials: true});
+    async updateSelect(projectId: number, property: Select): Promise<Select> {
+       return (await Api.put(`property/project/${projectId}/select`, property, {withCredentials: true})).data;
     }
 
-    async updateDate(projectId: number, property: Date): Promise<void> {
-        await Api.put(`property/project/${projectId}/date`, property, {withCredentials: true});
+    async updateDate(projectId: number, property: Date): Promise<Date> {
+        return (await Api.put(`property/project/${projectId}/date`, property, {withCredentials: true})).data;
     }
 
     async patchLimited(projectId: number, property: Limited): Promise<void> {

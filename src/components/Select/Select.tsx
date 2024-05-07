@@ -25,7 +25,7 @@ export const Select = ({
   const { t } = useTranslation();
 
   useEffect(() => {
-    const prop = filterProp.find((bah) => ids == bah.id);
+    const prop = filterProp!.find((bah) => ids == bah.id);
     if (prop) {
       setSelectedOption(prop.value);
     } else {
@@ -43,16 +43,16 @@ export const Select = ({
         event.target.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" &&
         !isInModal
       ) {
-        filterProp.splice(filterProp.indexOf(thisProperty), 1);
-        setFilterProp!([...filterProp]);
+        filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+        setFilterProp!([...filterProp!]);
       } else {
         thisProperty.value = event.target.value;
-        setFilterProp!([...filterProp]);
+        setFilterProp!([...filterProp!]);
       }
     } else {
       if (event.target.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {
         setSelectedOption(event.target.value);
-        setFilterProp!([...filterProp, { id: ids, value: event.target.value }]);
+        setFilterProp!([...filterProp!, { id: ids, value: event.target.value }]);
       }
     }
     // const select = document.querySelector(`#prop${id}`)

@@ -3,8 +3,8 @@ import { OtherUser } from "../user/user/OtherUser";
 import { Value } from "./Value";
 export class UserValued extends Value{
 
-    constructor(public id:number, public users: OtherUser[]){
-        super(id, users);
+    constructor( public users: OtherUser[],public id?:number,){
+        super(users,id);
     }
 
 

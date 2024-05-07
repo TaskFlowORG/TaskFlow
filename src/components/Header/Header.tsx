@@ -12,6 +12,7 @@ import Image from "next/image";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { notificationService } from "@/services/services/NotificationService";
 import { ErrorModal } from "../ErrorModal/ErrorModal";
+import { LanguageContext } from "@/contexts/ContextLanguage";
 export const Header = ({
   setSidebarOpen,
 }: {
@@ -22,6 +23,7 @@ export const Header = ({
   const [thereAreNotifications, setThereAreNotifications] = useState<boolean>(user?.notifications ? user.notifications.find((notification) => !notification.visualized) ? true : false : false);
   const [notifications, setNotifications] = useState<NotificationModel[]>(user?.notifications ? user.notifications ?? [] : []);
 
+  const {language, changeLanguage} = useContext(LanguageContext)
   const [error, setError] = useState(false);
   const [messageError, setMessageError] = useState("");
   const [titleError, setTitleError] = useState("");
@@ -44,16 +46,6 @@ export const Header = ({
     }
   }, [])
 
-
-
-  const changeLanguage = async (value: string) => {
-    if (!setUser || !user) return;
-    user.configuration.language = Language[value.toUpperCase() as keyof typeof Language];
-    const updatedUser = await userService.patch(user)
-    setUser(updatedUser);
-    console.log(value);
-  }
-
   const closeModal = () => {
     setShowNotification(false);
     (async () => {
@@ -67,7 +59,7 @@ export const Header = ({
 
 
   return (
-    <div className="h-14 w-full fixed z-[1] header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
+    <div className="h-14 w-full fixed z-40 header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
 
       <img
         src="/Icon.svg"
@@ -87,7 +79,7 @@ export const Header = ({
 
 
         <div className="w-10 h-min hidden sm:block" >
-          <SelectWithImage onChange={changeLanguage} selected={user?.configuration.language ?? Language.PORTUGUESE}
+          <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={language ?? Language.PORTUGUESE}
             list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },
             { value: Language.ENGLISH, image: <Image alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" /> },
             { value: Language.SPANISH, image: <Image alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" /> }]} />

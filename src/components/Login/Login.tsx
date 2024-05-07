@@ -4,12 +4,12 @@ import { Input } from "@/components/Input";
 import { set, useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignInResponse, signIn, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import { Transition } from "../Transition";
 import { Dictophone } from "../Dictophone";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const schema = z.object({
   username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
@@ -55,12 +55,15 @@ export const Login = () => {
       username: data.username,
       password: data.password,
       redirect: false,
-      callbackUrl: `/${data.username}`,
-    }).then((value?: SignInResponse) => {
-      if (value && value.ok) {
-        route.push(`/${data.username}`);
-      } else {
+    }).then((value) => {
+      console.log(value);
+      
+      if(!value || value.error?.includes('401')){
         setLoginError("Usuário ou senha incorretos");
+      }else if(value.error?.includes("403")){
+        route.push("/forgotPassword");
+      }else{
+        route.push("/"+data.username);
       }
     });
   };
@@ -127,6 +130,8 @@ export const Login = () => {
             </button>
           </div>
         </form>
+
+        <button onClick={() => route.push("http://localhost:9999/auth/login/code/github")}> git hub </button>
       </div>
     </>
   );
