@@ -11,6 +11,7 @@ export { IconTask } from "./GeneralIcons/IconTask";
 
 export { VisualizedChatOrMessage } from "./ChatIcons/Visualized";
 export { SendMessage } from "./ChatIcons/SendMessage";
+export { PhotoArchiveChat } from "./ChatIcons/photoArchiveChat";
 
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";

@@ -31,7 +31,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
-    const [modalArquivo, setModalArquivo] = useState<boolean>(false);
+    const [modalArquivo, setModalArquivo] = useState<boolean>(true);
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -158,27 +158,30 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                             <Dictophone setText={setMensagem}></Dictophone>
                         </div>
 
-                        <div onClick={() => setModalArquivo(true)} className="w-[45px]">
-                            <div>
-                                <IconArchive></IconArchive>
-                                <input
-                                    ref={arquivoParaEnviar}
-                                    id="photo"
-                                    className="opacity-0 w-[25px] h-fit absolute bottom-10"
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={previewArquivo}
-                                />
-                            </div>
+                        <div onClick={() => setModalArquivo(!modalArquivo)} className="w-[45px] cursor-pointer">
+                            <IconArchive></IconArchive>
                         </div>
+
                         <If condition={arquivo != null}>
-                            <div className="opacity-80 relative rounded-md bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
-                                <div onClick={() => setArquivo(null)} className="relative z-10  left-2 top-2 cursor-pointer">
-                                    <div className="flex justify-center items-center bg-red-600 w-7 h-7 rounded-full">
-                                        <p>X</p>
+                            <div className="h-full">
+                                <div className="opacity-80 bottom-36 relative rounded-md bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
+                                    <div onClick={() => setArquivo(null)} className="relative z-10  left-2 top-2 cursor-pointer">
+                                        <div className="flex justify-center items-center bg-red-600 w-7 h-7 rounded-full">
+                                            <p>X</p>
+                                        </div>
                                     </div>
+                                    <Image fill className=" rounded-md w-full h-full" src={arquivoUrl!} alt="foto" />
                                 </div>
-                                <Image fill className=" rounded-md w-full h-full" src={arquivoUrl!} alt="foto" />
+                            </div>
+                        </If>
+                        <If condition={modalArquivo}>
+                            <div className="bg-input-toggle-grey w-56 h-32 absolute bottom-24 right-36">
+                                <div className="w-14 h-16 cursor-pointer hover:bg-black duration-700 flex items-center justify-center">
+                                    <Image height={20} width={50} src={"/pdf.svg"} alt={""} ></Image>
+                                </div>
+                                <div className="w-14 h-16 cursor-pointer hover:bg-black duration-700 flex items-center justify-center">
+                                    <Image height={20} width={50} src={"/pdf.svg"} alt={""} ></Image>
+                                </div>
                             </div>
                         </If>
                     </div>
