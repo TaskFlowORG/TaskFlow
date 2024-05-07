@@ -1,6 +1,5 @@
 import { Group, GroupPut, OtherUser, User } from "@/models";
 import { groupService, userService } from "@/services";
-import { useTheme } from "next-themes";
 import { ChatSvg } from "../svgs/ChatSvg";
 import { UserSvg } from "../svgs/UserSvg";
 import { RemoveSvg } from "../svgs/RemoveSvg";
@@ -36,13 +35,16 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
         try {
             if (group != null) {
                 const updatedUsers = group.users.filter(u => u.username !== user.username);
-                group.users = updatedUsers;
+                group.users = [...updatedUsers];
                 if (userLogged && project) {
                     const updatedPermissions = userLogged.permissions.filter(p => p.project.id !== project.id);
                     userLogged.permissions = updatedPermissions;
                 }
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-                setGroup(group)
+                console.log(group.users);
+                
+                setGroup({...
+                    group})
             }
         } catch (error) {
             console.error("Erro ao remover usuário:", error);
@@ -73,8 +75,6 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                         {t("remove")}
                     </button>
                 </div>
-
-
             </div>
         </div>
     } else if (isOpen && group.owner.username != userLogged?.username) {

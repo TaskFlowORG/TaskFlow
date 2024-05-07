@@ -5,15 +5,17 @@ import { archiveToSrc } from "@/functions";
 import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "react-i18next";
+import { Group } from "@/models";
 
 interface Props {
-    user: string;
-    group: SimpleGroup;
+    user: string,
+    group: SimpleGroup,
+    setGroups: (groups: SimpleGroup[]) => void
+    groups: SimpleGroup[]
 }
 
 const useWindowSize = () => {
     const [size, setSize] = useState<'sm' | 'md' | 'lg' | null>(null);
-    const [showIcon, setShowIcon] = useState(false);
     
     useEffect(() => {
         const updateSize = () => {
@@ -35,7 +37,7 @@ const useWindowSize = () => {
     return size;
 };
 
-export const GroupComponent = ({ user, group }: Props) => {
+export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
     const [showIcon, setShowIcon] = useState(false);
     const router = useRouter();
     const screenSize = useWindowSize();
@@ -55,10 +57,12 @@ export const GroupComponent = ({ user, group }: Props) => {
     const deleteGroup = async () => {
         try {
             await groupService.delete(group.id);
+            const updatedGroups = groups.filter(g => g.id !== group.id);
+            setGroups([...updatedGroups]); 
             router.push("/" + user);
         } catch (error) {
-            console.error("Erro ao excluir o grupo:", error);
-            alert("Erro ao excluir o grupo!");
+            console.error("Error deleting the group:", error);
+            alert("Error while deleting the group!");
         }
     };
 
