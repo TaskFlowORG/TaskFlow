@@ -18,6 +18,8 @@ import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
 import { EditIcon } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
+import { ReportDowload } from "../Report/Report";
+import { Loading } from "../Loading";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -86,6 +88,8 @@ export const Project = () => {
       setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));
     })();
   }, [project]);
+
+  if(!user || !project) return <Loading/>
 
 
   return (

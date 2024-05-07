@@ -73,15 +73,15 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     <>
       {
         project != undefined && (
-          <>
+          <div className="w-full h-max flex flex-col gap-10 pages">
+
             <Navigate modalPages={false} setCondition={setModalGroups} />
             <ProjectInformations project={project} />
-          </>
+          </div>
         )
       }
 
-      <div className="flex flex-col w-72 justify-center items-center h-4/6 groups-side">
-        <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
+        <div className="flex items-start h-full w-full overflow-y-scroll none-scrollbar groups-side">
           <div className="flex flex-col items-start max-w-full h-min w-full">
             <div className="max-w-full h-min w-full pt-2">
               {Array.isArray(groups) &&
@@ -118,7 +118,6 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
             {t("addGroup")}
           </button>
         </div>
-      </div>
     </>
   );
 };

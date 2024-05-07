@@ -102,9 +102,7 @@ export default function Layout({
         >
           <Header setSidebarOpen={setOpenSideBar}></Header>
           <main className="w-screen h-screen flex flex-col items-center justify-start">
-            <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
-              <SideBarProjects user={params.user} project={project} />
-            </SideModal>
+              <SideBarProjects user={params.user} project={project} setOpenSideBar={setOpenSideBar} openSideBar={openSideBar} />
             {children}
           </main>
           </TaskModalContext.Provider>

@@ -14,6 +14,7 @@ import { TaskModal } from "@/components/TaskModal";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { Loading } from "@/components/Loading";
 
 interface Props {
   params: { project: number; user: string };
@@ -43,7 +44,7 @@ export default function Layout({ params, children }: Props) {
 
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
-  console.log(project?.properties);
+  if(!user || !project) return <Loading/>
   return (
     <>
       <TaskModal
@@ -82,16 +83,13 @@ export default function Layout({ params, children }: Props) {
               </p>
             </div>
 
-        <SideModal
-          condition={modalProperty}
-          setCondition={setModalProperty}
-          right
-        >
+     
           <RegisterProperty
             project={project!}
             page={page}
+            setModalProperty={setModalProperty}
+            modalProperty={modalProperty}
           />
-        </SideModal>
         {children}
       </div>
     </>
