@@ -18,6 +18,9 @@ import { SaveChangesButton } from "./components/SaveChangesButton/SaveChangesBut
 import { useTranslation } from "react-i18next";
 import { IconTrashBin } from "../icons";
 import { AnimatePresence, motion } from "framer-motion";
+import { ErrorModal } from "../ErrorModal";
+import { cookies } from "next/headers";
+import { authentication } from "@/services/services/Authentication";
 
 export const PersonalInformations = () => {
   const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
@@ -90,6 +93,17 @@ export const PersonalInformations = () => {
     userService.upDatePicture(e.target.files[0]);
   };
 
+  const [error, setError] = useState<boolean>(false);
+
+  const deleteUser = async () => {
+    if (!user || !setUser) return;
+    try {
+      await userService.delete(user.username);
+      authentication.logout();
+    } catch (error) {
+      setError(true);
+    }
+  };
 
   
 
@@ -235,9 +249,10 @@ export const PersonalInformations = () => {
           <CenterModal condition={deletarModal} setCondition={setDeletarModal}>
             <DeleteAccountModal
               close={() => setDeletarModal(false)}
-              deleteUser={() => userService.delete(user?.username || "")}
+              deleteUser={deleteUser}
             />
           </CenterModal>
+          <ErrorModal title={t("change-owners")} setCondition={setError} message={t("you-are-owner")} condition={error}  fnOk={() => setError(false)}/>
         </div>
       </div>
     </div>

@@ -291,5 +291,7 @@
   "skip": "Pular",
   "footer-report": "Rodapé do Relatório - Página",
   "task-report": "Relatório de Tarefas",
-  "project-report": "Relatório de Projetos"
+  "project-report": "Relatório de Projetos",
+  "you-are-owner":"Você tem projetos ou grupos em que você é o dono, e eles estão atribuidos a outros usuários também, para evitar que os outros percam o acesso a eles, você precisa trocar o dono dos seu projetos/grupos para outra pessoa.",
+  "change-owners":"Mude os donos"
 }

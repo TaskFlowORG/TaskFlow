@@ -302,5 +302,7 @@
   "skip": "Skip",
   "footer-report": "Report Footer - Page",
   "task-report": "Tasks Report",
-  "project-report": "Projects Report"
+  "project-report": "Projects Report",
+  "you-are-owner": "You have projects or groups where you are the owner, and they are assigned to other users as well. To prevent others from losing access to them, you need to change the owner of your projects/groups to someone else.",
+  "change-owners": "Change owners"
 }

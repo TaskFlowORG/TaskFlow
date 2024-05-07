@@ -266,5 +266,7 @@
   "skip": "Saltar",
   "footer-report": "Footer del informe - Página",
   "task-report": "Iforme de tarea",
-  "project-report": "Iforme de proyecto"
+  "project-report": "Iforme de proyecto",
+  "you-are-owner": "Tienes proyectos o grupos en los que eres el propietario, y están asignados a otros usuarios también. Para evitar que los demás pierdan el acceso a ellos, debes cambiar el propietario de tus proyectos/grupos a otra persona.",
+  "change-owners": "Cambiar propietarios"
 }
