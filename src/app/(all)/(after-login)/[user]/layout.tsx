@@ -25,6 +25,7 @@ export default function Layout({
   children: React.ReactNode;
   params: { project: number; user: string };
 }) {
+
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
   const [openSideBar, setOpenSideBar] = useState(false);

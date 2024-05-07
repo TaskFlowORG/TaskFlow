@@ -9,7 +9,6 @@ import Cookies from "js-cookie";
 import { ReactNode, useEffect, useState } from "react";
 import { Language, User } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
-import Head from "next/head";
 import { LanguageProvider } from "@/contexts/ContextLanguage";
 import { AppProps } from "next/app";
 import { I18nextProvider } from 'react-i18next';
@@ -21,7 +20,11 @@ type Props = AppProps & {
   children: ReactNode
 };
 
+
+
 export default function RootLayout({ children, text }: Props) {
+
+
   const [user, setUser] = useState<User>();
   const [language, setLanguage] = useState<Language>(Language.PORTUGUESE);
 
@@ -30,6 +33,7 @@ export default function RootLayout({ children, text }: Props) {
       <UserContext.Provider value={{ user, setUser }}>
         <LanguageProvider language={language} setLanguage={setLanguage}>
           <I18nextProvider i18n={i18next} >
+
             <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
               {user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
               {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
