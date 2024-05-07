@@ -36,14 +36,12 @@ export default function Layout({ params, children }: Props) {
     (async () => {
       const projectPromise = await projectService.findOne(params.project);
       setProject!(projectPromise);
-      console.log(params);
       projectService.setVisualizedNow(projectPromise.id);
     })();
   }, [params.project]);
 
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
-  console.log(project?.properties);
   return (
     <>
       <TaskModal

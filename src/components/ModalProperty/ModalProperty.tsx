@@ -27,8 +27,8 @@ import {
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
 import { ContentModalProperty } from "../ContentModalProperty";
-import { set } from "zod";
 import { NeedPermission } from "../NeedPermission";
+import { get } from "http";
 
 type ModalPropertyProps = {
   property: Property;
@@ -43,25 +43,40 @@ export const ModalProperty = ({
 }: ModalPropertyProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const [ModalDelete, setModalDelete] = useState(false);
+  const [prop, setProp] = useState<Property>(property);
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
+
+  useEffect(() => {
+    setProp(property);
+    if(property.type === TypeOfProperty.DATE){
+      console.log((property as Date).canBePass)
+    console.log(getValues());
+      setValue("pastDate", (property as Date).canBePass);
+      setValue("schedule", (property as Date).scheduling);
+      setValue("hours", (property as Date).includesHours);
+      setValue("deadline", (property as Date).deadline);
+      
+      console.log(getValues());
+    }
+    } ,[property])
   const {
     register,
     handleSubmit,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      visible: property.visible,
-      obligatory: property.obligatory,
-      maximum: (property as Limited).maximum,
-      pastDate: (property as Date).canBePass,
-      schedule: (property as Date).scheduling,
-      hours: (property as Date).includesHours,
-      deadline: (property as Date).deadline,
+      visible: prop.visible,
+      obligatory: prop.obligatory,
+      maximum: (prop as Limited).maximum,
+      pastDate: (prop as Date).canBePass,
+      schedule: (prop as Date).scheduling,
+      hours: (prop as Date).includesHours,
+      deadline: (prop as Date).deadline,
     },
   });
-
 
 
   useClickAway(ref, () => setOpenOptions(false));
@@ -91,7 +106,7 @@ export const ModalProperty = ({
         break;
     }
   };
-
+  
   return (
     <div
       key={property.id}
