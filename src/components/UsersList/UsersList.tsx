@@ -131,7 +131,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               onChange={combinedOnChange}
             />
             <button
-              className="relative"
+              className="search-user relative"
               type="button"
               onClick={findUser}
             >
