@@ -56,7 +56,6 @@ export const ModalProperty = ({
       setValue("schedule", (property as Date).scheduling);
       setValue("hours", (property as Date).includesHours);
       setValue("deadline", (property as Date).deadline);
-      
       console.log(getValues());
     }
     } ,[property])
