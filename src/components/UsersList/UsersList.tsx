@@ -41,8 +41,9 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     const userFind = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
     if (userFind) {
       setNewUser(userFind);
+    } else{
+      setNewUser(undefined)
     }
-    setNewUser(undefined)
     setText('');
     setShowSuggestions(false);
   };
