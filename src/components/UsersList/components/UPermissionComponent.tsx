@@ -87,7 +87,7 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                 </div>
             )}
             {successPermission && (
-                <div className="fixed inset-x-0 mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
                     {text}
                 </div>
             )}

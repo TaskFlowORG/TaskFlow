@@ -12,7 +12,7 @@ interface Props {
   setGroup: (group: Group) => void;
 }
 
-export const UsersList= ({ project, group, user, setGroup}: Props) => {
+export const UsersList = ({ project, group, user, setGroup }: Props) => {
   const [text, setText] = useState<string>("");
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
@@ -20,7 +20,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
   const [invite, setInvite] = useState<string>("")
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
-  const {theme} = useTheme();
+  const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
 
@@ -70,13 +70,12 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
 
   const verifyUser = () => {
     if (newUser == null || Object.keys(newUser).length === 0) {
-      setInvite(t("foundUser")); 
-      setSucessInvite(true); 
+      setInvite(t("foundUser"));
+      setSucessInvite(true);
     } else {
       addUser(newUser);
     }
-}
-
+  }
 
   const addUser = async (user: OtherUser) => {
     const userExists = group?.users.some((u) => u.username === user.username);
@@ -104,7 +103,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
 
   const addButton = (
     <button
-      className={`h-10 w-[80%] rounded-xl self-center`}
+      className={`text-p font-alata h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={() => verifyUser()}
       disabled={group?.owner.id != user?.id}
@@ -124,7 +123,7 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
           <div>
             <input
               ref={inputRef}
-              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
+              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] text-p14 font-alata rounded-xl px-5 placeholder:border-primary dark:border-secondary"
               placeholder={t("search")}
               type="text"
               id="campoTexto"
@@ -187,11 +186,11 @@ export const UsersList= ({ project, group, user, setGroup}: Props) => {
         </div>
       </div>
       {
-      sucessInvite && (
-        <div className="fixed inset-x-0  mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
-          {invite}
-        </div>
-      )}
+        sucessInvite && (
+          <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
+            {invite}
+          </div>
+        )}
     </div>
   );
 };

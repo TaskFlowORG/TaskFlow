@@ -55,13 +55,13 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     if (isOpen && group?.owner.username == userLogged?.username) {
         return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-24 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col justify-around ml-2">
-                <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
                         {t("profile")}
                     </button>
                 </div>
-                <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-3">
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
@@ -69,7 +69,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                         {t("startChat")}
                     </button>
                 </div>
-                <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-2" onClick={deleteUser}>
                         <RemoveSvg />
                         {t("remove")}
@@ -80,13 +80,13 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     } else if (isOpen && group.owner.username != userLogged?.username) {
         return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-20 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col mt-4 gap-2 ml-2">
-                <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-2">
                         <UserSvg />
                         {t("profile")}
                     </button>
                 </div>
-                <div className="flex justify-start gap-3 mn">
+                <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1")}>
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />

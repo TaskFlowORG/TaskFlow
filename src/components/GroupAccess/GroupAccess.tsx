@@ -104,7 +104,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className="pAlata h3 text-[#333] dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
+                        className="pAlata text-[#333] text-h3 font-alata dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
                         ref={refName}
                         disabled={group?.owner.id != user?.id}
                         type="text"
@@ -114,7 +114,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         onBlur={updateNameOfAGroup}
                     />
                     <textarea
-                        className={`mn whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
+                        className={`text-p14 font-montserrat whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         ref={refDescription}
                         disabled={group?.owner.id != user?.id}
                         value={description || t("withoutdescription")}

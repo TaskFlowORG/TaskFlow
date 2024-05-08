@@ -5,7 +5,6 @@ import { archiveToSrc } from "@/functions";
 import { groupService, userService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "react-i18next";
-import { Group } from "@/models";
 
 interface Props {
     user: string,
@@ -86,8 +85,8 @@ export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
                     <Image src={archiveToSrc(group?.picture)} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
                 </div>
                 <div className="flex flex-col ml-2">
-                    <div className="text-start p rounded-md">{getName() || t("withoutname")}</div>
-                    <div className="text-start rounded-md">{getDescription() || t("withoutdescription")}</div>
+                    <div className="text-start text-p font-montserrat rounded-md">{getName() || t("withoutname")}</div>
+                    <div className="text-start text-p14 font-montserrat rounded-md">{getDescription() || t("withoutdescription")}</div>
                 </div>
             </div>
             <div className="flex items-center pr-2">
