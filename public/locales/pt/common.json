@@ -277,5 +277,16 @@
   "tuto-step15": "Aqui estão as configurações da sua conta. Você pode alterar suas informações, suas preferencias e notificações.",
   "close":"Fechar",
   "last":"Finalizar",
-  "skip":"Pular"
+  "skip":"Pular",
+  "type-password" : "Digite sua senha",
+  "type-username" : "Digite seu nome de usuário",
+  "type-email" : "Digite seu email",
+  "type-name" : "Digite seu nome",
+  "type-surname" : "Digite seu sobrenome",
+  "type-confirm-password" : "Confirme sua senha",
+  "access-account" : "Acesse sua conta",
+  "forgot-password" : "Esqueceu sua senha?",
+  "login-error" : "Usuário ou senha incorretos",
+  "register-login" : "Registre-se!",
+  "access" : "Entrar"
 }

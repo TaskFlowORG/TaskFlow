@@ -29,7 +29,7 @@ export default function LoginPage() {
       </div>
       <div className="fixed top-0 px-6   h-full  w-screen bottom-0   justify-center flex items-center">
         <AnimatePresence initial={true}>
-          <motion.div initial={{transform: "scale(0)"}} className="w-[28rem] h-[24rem]  flex items-center justify-center" animate={{transform:"scale(1)"}} exit={{transform:"scale(0)"}}>
+          <motion.div initial={{transform: "scale(0)"}} className="w-[28rem] h-[25rem]  flex items-center justify-center" animate={{transform:"scale(1)"}} exit={{transform:"scale(0)"}}>
             <Login />
           </motion.div>
         </AnimatePresence>

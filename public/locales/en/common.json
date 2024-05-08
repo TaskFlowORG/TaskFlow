@@ -28,8 +28,6 @@
   "next" : "Next",
   "register" : "Register",
   "already-have-account" : "Already have an account?",
-  "register-name-max-characters" : "El nombre debe contener un máximo de 20 caracteres.",
-  "register-surname-min-characters" : "El apellido debe contener al menos 3 caracteres.",
   "withoutdescription": "Without description",
   "withoutvalue": "Without value",
   "no-tasks-today": "No tasks for today",
@@ -288,5 +286,16 @@
   "tuto-step15": "Here are your account settings. You can change your information, preferences, and notifications.",
   "close": "Close",
   "last": "Finish",
-  "skip": "Skip"
+  "skip": "Skip",
+  "type-password" : "Type your password",
+  "type-username" : "Type your username",
+  "type-email" : "Type your email",
+  "type-surname" : "Type your surname",
+  "type-name" : "Type your name",
+  "type-confirm-password" : "Type your password again",
+  "access-account" : "Access your account",
+  "forgot-password" : "Forgot your password?",
+  "login-error" : "Invalid username or password",
+  "register-login": "Register!",
+  "access" : "Access"
 }

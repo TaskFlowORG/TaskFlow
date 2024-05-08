@@ -153,7 +153,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome"
+                placeholder={t("type-name")}
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
                 required
@@ -165,7 +165,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu sobrenome"
+                placeholder={t("type-surname")}
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
                 required
@@ -182,7 +182,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome de usuário"
+                placeholder={t("type-username")}
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
                 required
@@ -193,7 +193,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconMail}
-                placeholder="Digite seu email"
+                placeholder={t("type-email")}
                 helperText={errors.mail?.message}
                 register={{ ...register("mail") }}
                 required
@@ -210,7 +210,7 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconPassword}
                 type="password"
-                placeholder="Digite sua senha"
+                placeholder={t("type-password")}
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
                 required
@@ -221,7 +221,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconPassword}
-                placeholder="Confirme sua senha"
+                placeholder={t("type-confirm-password")}
                 type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}

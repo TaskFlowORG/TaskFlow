@@ -7,8 +7,10 @@ import { useContext, useEffect } from "react";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen overflow-visible fixed top-0 flex" id="register">
-
+    <div
+      className="h-screen w-screen overflow-visible fixed top-0 flex"
+      id="register"
+    >
       <div className="fixed -bottom-[2200px]  rotate-[35deg]  -left-[1700px]  h-[3000px] w-[3000px]">
         <Image src="/Assets/shapes/circleGradient.png" fill alt="Circle" />
       </div>
@@ -26,8 +28,13 @@ export default function Home() {
       </div>
       <div className="fixed top-0 px-6   w-screen bottom-0   justify-center flex items-center">
         <AnimatePresence initial={true}>
-        <motion.div initial={{transform: "scale(0)"}} className="w-[28rem] h-[24rem]  flex items-center justify-center" animate={{transform:"scale(1)"}} exit={{transform:"scale(0)"}}>
- <Register />
+          <motion.div
+            initial={{ transform: "scale(0)" }}
+            className="w-[28rem] h-[24rem]  flex items-center justify-center"
+            animate={{ transform: "scale(1)" }}
+            exit={{ transform: "scale(0)" }}
+          >
+            <Register />
           </motion.div>
         </AnimatePresence>
       </div>

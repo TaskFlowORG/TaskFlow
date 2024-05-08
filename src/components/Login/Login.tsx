@@ -10,22 +10,26 @@ import { Dictophone } from "../Dictophone";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
-const schema = z.object({
-  username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
-    message: "No maximo 20 caracteres",
-  }),
-  password: z
-    .string()
-    .min(6, { message: "Senha deve conter no minimo 6 caracteres" })
-    .max(20, { message: "Senha deve conter no maximo 20 caracteres" }),
-});
 
-type FormData = z.infer<typeof schema>;
+
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
   const [loginError, setLoginError] = useState<string>("");
+  const { t } = useTranslation();
+  type FormData = z.infer<typeof schema>;
+  const schema = z.object({
+    username: z.string().min(3, { message: t("username-min") }).max(20, {
+      message: t("username-max")
+    }),
+    password: z
+      .string()
+      .min(6, { message: t("password-min") })
+  });
+  
   const {
     register,
     handleSubmit,
@@ -59,7 +63,7 @@ export const Login = () => {
       console.log(value);
 
       if (!value || value.error?.includes("401")) {
-        setLoginError("Usuário ou senha incorretos");
+        setLoginError(t("login-error"));
       } else if (value.error?.includes("403")) {
         route.push("/forgotPassword");
       } else {
@@ -72,7 +76,7 @@ export const Login = () => {
     <>
       <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
         <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
-        <h4 className="h4 leading-6 flex py-3 md:py-0">Acesse sua conta</h4>
+        <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
           <form
             id="modalLogin"
             onSubmit={handleSubmit(login)}
@@ -85,7 +89,7 @@ export const Login = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome"
+                placeholder={t("type-password")}
                 value={user.username}
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
@@ -100,7 +104,7 @@ export const Login = () => {
                 className="inputRegister"
                 image={iconPassword}
                 type="password"
-                placeholder="Digite sua senha"
+                placeholder={t("type-password")}
                 onChange={() => setLoginError("")}
                 value={user.password}
                 helperText={errors.password?.message}
@@ -118,9 +122,9 @@ export const Login = () => {
                   }
                   onClick={() => route.push("/forgotPassword")}
                 >
-                  Esqueceu sua senha?
+                  {t("forgot-password")}
                 </p>
-                <Transition href="/register" label="Registre-se!" />
+                <Transition href="/register" label={t("register-login")} />
               </div>
 
               <button
@@ -129,17 +133,19 @@ export const Login = () => {
                 }
                 type="submit"
               >
-                Entrar
+                {t("access")}
               </button>
             </div>
           </form>
 
           <button
-          className="w-[200px] h-[40px] bg-black text-white rounded-md hover:bg-gray-800 flex  items-center"
+          className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
             onClick={() =>
               route.push("http://localhost:9999/auth/login/code/github")
             }
-          ><img src="/Assets/GitHub.svg" alt="" />
+          >{theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> : 
+            <img src="/Assets/GitHubDark.svg" alt="" />
+          }
           Login com o GitHub
           </button>
         </div>
