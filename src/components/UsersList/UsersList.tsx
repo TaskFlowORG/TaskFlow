@@ -39,10 +39,10 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   const findUser = async () => {
     const userFind = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
-
     if (userFind) {
       setNewUser(userFind);
     }
+    setNewUser(undefined)
     setText('');
     setShowSuggestions(false);
   };
@@ -69,7 +69,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
   };
 
   const verifyUser = () => {
-    if (newUser == null || Object.keys(newUser).length === 0) {
+    if (newUser == undefined || Object.keys(newUser).length === 0) {
       setInvite(t("foundUser"));
       setSucessInvite(true);
     } else {
