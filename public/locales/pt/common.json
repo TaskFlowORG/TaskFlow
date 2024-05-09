@@ -293,5 +293,15 @@
   "task-report": "Relatório de Tarefas",
   "project-report": "Relatório de Projetos",
   "you-are-owner":"Você tem projetos ou grupos em que você é o dono, e eles estão atribuidos a outros usuários também, para evitar que os outros percam o acesso a eles, você precisa trocar o dono dos seu projetos/grupos para outra pessoa.",
-  "change-owners":"Mude os donos"
-}
+  "change-owners":"Mude os donos",
+   "page-not-found-title": "Ops! Página não encontrada",
+   "forbidden-title": "Ops! Acesso negado",
+   "other-error-title": "Ops! Algo deu errado!",
+   "page-not-found": "A página que você está tentando acessar não existe ou foi removida.",
+   "forbidden": "Você não tem permissão para acessar essa página.",
+   "other-error": "Algo deu errado ao tentar acessar essa página.",
+   "page-not-found-cause": "Possíveis causas: \n   - Você acessou um link que não existe; \n   - Você tentou acessar algo que não foi cadastrado; \n   - A página foi removida; \n   - O link está quebrado.",
+   "forbidden-cause": "Possíveis causas: \n   - Você não tem permissão para acessar essa página; \n   - Você tentou acessar algo que não é seu; \n   - A página foi removida; \n   - O link está quebrado.",
+   "other-error-cause": "Possíveis causas: \n   - O servidor está fora do ar; \n   - O link está quebrado; \n   - Ocorreu um erro interno no servidor.",
+    "retry":"Tentar novamente"
+  }

@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useState } from "react";
 
 type UserContext = {
     user?: User;
-    setUser?: (Users: User) => void;
+    setUser?: (Users: User|undefined) => void;
 }
 // eslint-disable-next-line react-hooks/rules-of-hooks
 export const UserContext = createContext<UserContext>({});

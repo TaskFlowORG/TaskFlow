@@ -3,13 +3,13 @@ import React, { use, useState } from "react";
 import { Input } from "@/components/Input";
 import { set, useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "next-themes";
 import { Transition } from "../Transition";
 import { Dictophone } from "../Dictophone";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
   username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
@@ -136,3 +136,5 @@ export const Login = () => {
     </>
   );
 };
+
+

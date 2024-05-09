@@ -6,14 +6,17 @@ import Image from "next/image";
 import React, { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import { LanguageContext, LanguageProvider } from "@/contexts/ContextLanguage";
+import { UserContext } from "@/contexts/UserContext";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { theme, setTheme } = useTheme(); 
   const {changeLanguage, language} = useContext(LanguageContext)
+  const {setUser} = useContext(UserContext);
   useEffect(() => {
     changeLanguage(Cookies.get("language") as Language);
-    // eslint-disable-next-line
-  }, []);
+    if(!setUser) return;
+    setUser(undefined);
+  }, [setUser]);
 
   return (
     <>
