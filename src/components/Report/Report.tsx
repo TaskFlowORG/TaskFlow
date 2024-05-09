@@ -1,5 +1,5 @@
 "use client";
-import { Log, Task, User } from "@/models";
+import { Action, ArchiveValued, Log, Option, Project, Property, Task, TypeOfProperty, User, UserValued } from "@/models";
 import {
   Document,
   Page,
@@ -11,7 +11,13 @@ import {
   PDFDownloadLink,
   PDFViewer,
 } from "@react-pdf/renderer";
-import { ReactNode, useState } from "react";
+import { log } from "console";
+import { ReactNode, useEffect, useState } from "react";
+import { compareDates } from "../Pages/functions";
+import { Index } from "@syncfusion/ej2-react-charts";
+import { useTranslation } from "react-i18next";
+import { Interval } from "@/models/values/Interval";
+import { TFunction } from "i18next";
 Font.register({
   family: "Montserrat",
   src: "/fonts/Montserrat/static/Montserrat-Regular.ttf",
@@ -86,10 +92,16 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
+  descriptionlog:{
+    width:"100%",
+    flexDirection:"row",
+    justifyContent:"space-between",
+  
+  }
 });
 
 // Componente para o cabeçalho
-const Header = ({ user }: { user: User }) => (
+const Header = ({ user, t, isInProject }: { user: User, t:TFunction, isInProject?:boolean }) => (
   <View style={styles.header} fixed>
     <View style={{ width: "20%" }}>
       <Image src={"/LogoTaskFlow.png"} style={styles.logo} />
@@ -103,7 +115,7 @@ const Header = ({ user }: { user: User }) => (
       }}
     >
       <Text>TaskFlow</Text>
-      <Text>Relatório de Tarefas</Text>
+      <Text>{isInProject ? t("project-report"):t("task-report")}</Text>
       <Text>{user.name + " " + user.surname}</Text>
     </View>
     <View
@@ -121,56 +133,196 @@ const Header = ({ user }: { user: User }) => (
 );
 
 // Componente para o rodapé
-const Footer = () => (
+const Footer = ({t}:{t:TFunction}) => (
   <View style={styles.fotter} fixed>
-    <Text>Rodapé do Documento PDF - Página </Text>
+    <Text>{t("footer-report")}</Text>
     <Text
-      render={({ pageNumber, totalPages }) => `${pageNumber} de ${totalPages}`}
+      render={({ pageNumber, totalPages }) => `${pageNumber} ${t("of")} ${totalPages}`}
     />
   </View>
 );
 
-export const Report = ({ task, user }: { task: Task; user: User }) => {
+type GroupedLog = {
+  logs: DescriptionLog[];
+  date: Date;
+}
+type DescriptionLog = Log & {description:string}
+
+export const Report = ({
+  logged,
+  user,
+  isInProject
+}: {
+  logged: Task | Project;
+  user: User;
+  isInProject?: boolean;
+}) => {
+  const [groupped, setGroupped] = useState<GroupedLog[]>([]);
+  const {t} = useTranslation();
+
+  const dateFormat = (date: Date) => {
+    const dia = String(date.getDate()).padStart(2, "0");
+    const mes = String(date.getMonth() + 1).padStart(2, "0");
+    const ano = date.getFullYear();
+    return `${dia}/${mes}/${ano}`;
+  };
+
+  const setValue = (property: Property, log: Log) => {
+    switch (property.type) {
+      case TypeOfProperty.CHECKBOX:
+      case TypeOfProperty.TAG:
+        return (log.value.value.value as Option[])
+          .map((option, index) =>
+            index == (log.value.value.value as Option[]).length + 1
+              ? option.name + ", "
+              : option.name
+          )
+          .concat();
+
+      case TypeOfProperty.SELECT:
+      case TypeOfProperty.RADIO:
+        return (log.value.value.value as Option).name;
+      case TypeOfProperty.ARCHIVE:
+        return (log.value.value.value as ArchiveValued).archive?.name ?? "";
+      case TypeOfProperty.TIME:
+        return (
+          (log.value.value.value as Interval).time.hours +
+          ":" +
+          (log.value.value.value as Interval).time.minutes +
+          ":" +
+          (log.value.value.value as Interval).time.seconds
+        );
+      case TypeOfProperty.USER:
+        return (log.value.value.value as UserValued).users.map((user, index) =>
+          index == (log.value.value.value as UserValued).users.length + 1
+            ? user.username + ", "
+            : user.username
+        );
+      case TypeOfProperty.DATE:
+        return dateFormat(new Date(log.value.value.value as string));
+      case TypeOfProperty.NUMBER:
+        case TypeOfProperty.TEXT:
+          return log.value.value.value;
+      case TypeOfProperty.PROGRESS:
+        return (log.value.value.value as number) + "%";
+    }
+  }
+  const getLogMessage = (log:Log): string => {
+    switch (log.action) {
+      case Action.COMPLETE:
+        return t("log-complete-task", {
+          username: log.user.username,
+        });
+      case Action.CREATE:
+        return t(!isInProject ? "log-create-task" : "log-create-project", {
+          username: log.user.username,
+        });
+      case Action.DELETE:
+        return t(!isInProject ? "log-delete-task" : "");
+      case Action.REDO:
+        return t(!isInProject ? "log-redo-task" : "", {
+          username: log.user.username,
+        });
+      case Action.UPDATE:
+        return t(!isInProject ? "log-update-task" : "log-update-project", {
+          propertyname: log.value.property.name,
+          propertyvalue: setValue(log.value.property, log),
+          username: log.user.username,
+        });
+      case Action.UPDATENAME:
+        // Mano, é só fazer na tradução ser item name tá
+        return t(
+          !isInProject ? "log-update-name-task" : "log-update-name-project",
+          { username: log.user.username }
+        );
+      case Action.UPDATEDESCRIPTION:
+        // Aqui eu preciso que o log tenha description, sem ele não é possível
+        return t("log-description-project", {
+          username: log.user.username,
+        });
+      case Action.UPDATEOWNER:
+        return t("log-owner-project", { username: log.user.username });
+      case Action.UPDATEPICTURE:
+        return t("log-picture-project", { username: log.user.username });
+    }
+  };
+
+  const groupLogs = () => {
+    const logs: GroupedLog[] = [];
+    logged.logs.forEach((log) => {
+      const date = new Date(log.datetime);
+      if (
+        logs.some((group) =>
+          compareDates(date, new Date(group.date))
+        )
+      ) {
+        logs
+          .find((group) =>
+            compareDates(date, new Date(group.date))
+          )
+          ?.logs.push({...log, description:getLogMessage(log)});
+      } else {
+        logs.push({ date, logs: [{...log, description:getLogMessage(log)}] });
+      }
+    });
+    setGroupped(logs);
+  };
+
+  useEffect(() => {
+    groupLogs();
+  }, [logged]);
+
   return (
     <Document>
       <Page style={styles.page}>
         <View style={styles.all}>
-          <Header user={user} />
-          <Text style={styles.title}>Task #{task.id}</Text>
+          <Header user={user} t={t} isInProject={isInProject} />
+          <Text style={styles.title}>{isInProject ? t("project"): t("task")} #{logged.id}</Text>
           <View style={styles.task}>
-            {task.logs.map((log, index) => (
+            {groupped.map((log, index) => (
               <View style={styles.changes} key={index}>
                 <View style={styles.action}>
-                  <Text>
-                    {log.action.charAt(0) +
-                      log.action.slice(1).toLocaleLowerCase()}
-                  </Text>
-                  <Text>{new Date(log.datetime).toLocaleDateString()}</Text>
+                  <Text>{log.date.toLocaleDateString()}</Text>
                 </View>
-                <Text>
-                  {log.description} by {log.user.name + " " + log.user.surname}
+                <Text style={styles.descriptionlog}>
+                  {log.logs.map((log, index) => (
+                    <View key={index} style={styles.descriptionlog}>
+                      <Text>
+                        {new Date(log.datetime).toLocaleTimeString() +"  "}
+                      </Text>
+                      <Text>
+                        {t(log.action.toLowerCase()) + " - " + log.description}
+                      </Text>
+                    </View>
+                  ))}
                 </Text>
               </View>
             ))}
           </View>
-          <Footer />
+          <Footer t={t} />
         </View>
       </Page>
     </Document>
   );
 };
 
-export const ReportDowload = ({ task, user }: { task: Task; user: User }) => {
+export const ReportDowload = ({
+  logged,
+  user,
+}: {
+  logged: Task | Project;
+  user: User;
+}) => {
   return (
     <>
       <PDFDownloadLink
-        fileName={`Task '#${task.id}' - By ${user.name} ${user.surname}.pdf`}
-        document={<Report user={user} task={task} />}
+        fileName={`'#${logged.id}' - By ${user.name} ${user.surname}.pdf`}
+        document={<Report user={user} logged={logged} />}
       >
         Baixe aqui
       </PDFDownloadLink>
-      <PDFViewer>
-        <Report user={user} task={task} />
+      <PDFViewer className="fixed h-screen py-10 w-auto">
+        <Report user={user} logged={logged} isInProject />
       </PDFViewer>
     </>
   );

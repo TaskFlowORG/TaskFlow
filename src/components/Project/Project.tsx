@@ -18,6 +18,8 @@ import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
 import { EditIcon } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
+import { ReportDowload } from "../Report/Report";
+import { Loading } from "../Loading";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -87,6 +89,8 @@ export const Project = () => {
     })();
   }, [project]);
 
+  if(!user || !project) return <Loading/>
+
 
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
@@ -119,7 +123,7 @@ export const Project = () => {
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-center  text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
+                className="bg-transparent w-full text-center text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
                 value={name ?? t("withoutname")}

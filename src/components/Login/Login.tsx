@@ -3,7 +3,6 @@ import React, { use, useState } from "react";
 import { Input } from "@/components/Input";
 import { set, useForm } from "react-hook-form";
 import { ZodError, z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useTheme } from "next-themes";
 import { Transition } from "../Transition";
 import { Dictophone } from "../Dictophone";
@@ -12,9 +11,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
-
-
-
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -153,3 +150,5 @@ export const Login = () => {
     </>
   );
 };
+
+

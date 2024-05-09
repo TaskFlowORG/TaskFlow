@@ -2,7 +2,6 @@
 import React, { FormEvent, use, useEffect, useState } from "react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { z, ZodError, ZodErrorMap, ZodIssue, ZodIssueCode } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
@@ -14,6 +13,7 @@ import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface UserData {
   name: string;
@@ -105,6 +105,7 @@ export const Register = () => {
         callbackUrl: `/${username}`,
       });
       }).catch((error) => {
+        if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {
             message: t("username-exists"),
@@ -268,3 +269,4 @@ export const Register = () => {
     </div>
   );
 };
+

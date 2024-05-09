@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialProvider from "next-auth/providers/credentials";
-import { authentication } from "@/services/services/Authentication"
+import { authentication } from "@/services/services/Authentication";
 import { UserLogin } from "@/models/user/user/UserLogin";
 import Cookies from "js-cookie";
 import { AuthOptions, NextAuthOptions } from "next-auth";
@@ -34,5 +34,6 @@ export const OPTIONS: NextAuthOptions = {
     },
 }
 
+
 const handler = NextAuth(OPTIONS);
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

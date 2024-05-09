@@ -8,6 +8,7 @@ import {
   TypeOfProperty,
   ArchiveValued,
   UserValued,
+  User,
 } from "@/models";
 import { Interval } from "@/models/values/Interval";
 import { useTranslation } from "react-i18next";
@@ -25,10 +26,11 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
     const dia = String(date.getDate()).padStart(2, "0");
     const mes = String(date.getMonth() + 1).padStart(2, "0");
     const ano = date.getFullYear();
-    return `${dia}/${mes}/${ano}`;
+    return `${dia}/${mes}/${ano} - ${date.getHours()}:${date.getMinutes()}`;
   };
 
   const setValue = (property: Property, log: Log) => {
+    console.log(log);
     switch (property.type) {
       case TypeOfProperty.CHECKBOX:
       case TypeOfProperty.TAG:
@@ -54,21 +56,22 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
           (log.value.value.value as Interval).time.seconds
         );
       case TypeOfProperty.USER:
-        return (log.value.value.value as UserValued).users.map((user, index) =>
-          index == (log.value.value.value as UserValued).users.length + 1
-            ? user.username + ", "
-            : user.username
+        return (log.value.value as UserValued).value.map(
+          (user: User, index: any) =>
+            index == (log.value.value as UserValued).value.length + 1
+              ? user.username + ", "
+              : user.username
         );
+        break;
       case TypeOfProperty.DATE:
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:
+        return log.value.value.value;
     }
 
     return "Calma lá bicho";
   };
-
-  console.log(log);
 
   // "log-update-task": "A propriedade '{{propertyname}}' da tarefa '{{taskname}}' foi atualizada para '{{propertyvalue}}' por '{{username}}'",
   // "log-update-project": "A propriedade '{{propertyname}}' do projeto '{{projectname}}' foi atualizada para '{{propertyvalue}}' por '{{username}}'",
@@ -114,7 +117,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
   };
   return (
     <div key={log.id} className="flex flex-col w-full gap-1 items-end relative">
-      <p className="font-montserrat focus:font-semibold  text-p outline-none text-[#343434] text-end dark:text-[#f2f2f2]">
+      <p className="font-montserrat focus:font-semibold  text-p14 md:text-p outline-none text-[#343434] text-end dark:text-[#f2f2f2]">
         {getLogMessage()}
       </p>
       <div className="h-[2px]  w-1/2 bg-[#D9D9D9]"></div>

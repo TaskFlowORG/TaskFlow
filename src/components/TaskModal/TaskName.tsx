@@ -1,5 +1,5 @@
 import { ProjectContext } from "@/contexts";
-import { Task } from "@/models";
+import { Project, Task } from "@/models";
 import { taskService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
 
@@ -7,7 +7,7 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  task: Task;
+  task: Task | Project;
 };
 
 export const TaskName = ({ task }: Props) => {
@@ -19,7 +19,7 @@ export const TaskName = ({ task }: Props) => {
   async function updateNameTask(e: any) {
     task.name = e.target.value;
     setTaskName(e.target.value);
-    await taskService.upDate(task, project!.id);
+    await taskService.upDate(task as Task, project!.id);
   }
 
   useEffect(() => {
@@ -51,7 +51,13 @@ export const TaskName = ({ task }: Props) => {
         ref={taskNameRef}
         placeholder={t("withoutname")}
         value={taskName}
-        onChange={(e) => updateNameTask(e)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            updateNameTask(e);
+          }
+        }}
+        onChange={(e) => setTaskName(e.target.value)}
+        onBlur={(e) => updateNameTask(e)}
       ></input>
     </div>
   );

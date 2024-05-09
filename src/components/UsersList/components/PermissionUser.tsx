@@ -58,7 +58,7 @@ export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
 
         <div className="flex gap-6 w-full ml-2">
           {userIcon}
-          <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
+          <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
 
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">
