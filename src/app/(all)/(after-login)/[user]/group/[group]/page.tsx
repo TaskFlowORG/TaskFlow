@@ -29,7 +29,7 @@ export default function Home({ params }: { params: { user: string, group: number
     if (!user) return <Loading />
 
     return (
-        <div className="w-screen h-screen">
+        <div className="group-page w-screen h-screen">
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 lg:z-10">
                 <SVGGroupPage />
             </div>

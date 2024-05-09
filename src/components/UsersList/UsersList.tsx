@@ -39,9 +39,10 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   const findUser = async () => {
     const userFind = users.find((u) => u.username.toLowerCase() === text.toLowerCase());
-
     if (userFind) {
       setNewUser(userFind);
+    } else{
+      setNewUser(undefined)
     }
     setText('');
     setShowSuggestions(false);
@@ -69,7 +70,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
   };
 
   const verifyUser = () => {
-    if (newUser == null || Object.keys(newUser).length === 0) {
+    if (newUser == undefined || Object.keys(newUser).length === 0) {
       setInvite(t("foundUser"));
       setSucessInvite(true);
     } else {
@@ -103,7 +104,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   const addButton = (
     <button
-      className={`text-p font-alata h-10 w-[80%] rounded-xl self-center`}
+      className={`add-user text-p font-alata h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={() => verifyUser()}
       disabled={group?.owner.id != user?.id}
@@ -131,7 +132,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               onChange={combinedOnChange}
             />
             <button
-              className="relative"
+              className="search-user relative"
               type="button"
               onClick={findUser}
             >
@@ -163,7 +164,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               group != undefined ?
                 <PermissionUser
                   group={group}
-                  user={group?.owner}
+                  showUser={group?.owner}
                   project={project}
                   key={group?.owner && group.owner.username}
                   setGroup={setGroup}
@@ -174,7 +175,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               group?.users.map((u) => (
                 <PermissionUser
                   group={group}
-                  user={u}
+                  showUser={u}
                   project={project}
                   key={u.username}
                   setGroup={setGroup}
