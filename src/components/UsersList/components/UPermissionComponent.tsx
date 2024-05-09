@@ -33,23 +33,24 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
 
     const findUserPermissionsInGroup = () => {
         console.log("oiii");
-        if (user && group) {
-            const listUserPermissions: Permission[] = permissions.filter(p => p.project.id == project.id)
+        // if (user && group) {
+        //     const listUserPermissions: Permission[] = permissions.filter(p => p.project.id == project.id)
             
-            // const 
-            // const groupProjectIds = group.permissions.map(p => p.project.id);
-            // const matchingPermissions = user.permissions.filter(p =>
-            //     groupProjectIds.includes(p.project.id)
-                 
-            // );
-            // console.log(matchingPermissions, "lista");
+        //     // const 
+        //     // const groupProjectIds = group.permissions.map(p => p.project.id);
+        //     // const matchingPermissions = user.permissions.filter(p =>
+        //     //     groupProjectIds.includes(p.project.id)
+                
+        //     // );
+        //     // console.log(matchingPermissions, "lista");
+
             
-            // if (matchingPermissions.length > 0) {
-            //     console.log("eu entrei aqui, bahhh");
-            //     setSelectedPermission(matchingPermissions[0].name);
-            //     console.log(selectedPermission, "oii");
-            // }
-        }
+        //     // if (matchingPermissions.length > 0) {
+        //     //     console.log("eu entrei aqui, bahhh");
+        //     //     setSelectedPermission(matchingPermissions[0].name);
+        //     //     console.log(selectedPermission, "oii");
+        //     // }
+        // }
     };
 
     const savePermission = async (selectedPermission: Permission) => {
