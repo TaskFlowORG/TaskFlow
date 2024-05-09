@@ -275,8 +275,7 @@
   "forgot-password" : "¿Olvidaste tu contraseña?",
   "login-error" : "Usuario o contraseña incorrectos",
   "register-login" : "¡Regístrate!",
-  "access" : "Acceder"
-
+  "access" : "Acceder",
   "footer-report": "Footer del informe - Página",
   "task-report": "Iforme de tarea",
   "project-report": "Iforme de proyecto",

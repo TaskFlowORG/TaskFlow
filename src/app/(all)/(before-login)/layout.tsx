@@ -39,7 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             alt=""
             onClick={() => setTheme("light")}
           />
-           <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={(language ? language : Language.PORTUGUESE)}
+           <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={(language ? language : Language.ENGLISH)}
             list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },
             { value: Language.ENGLISH, image: <Image alt="English" width={24} height={12} src="/img/flags/eua.jpg" className="select-none rounded-sm" /> },
             { value: Language.SPANISH, image: <Image alt="Spanish" width={24} height={12} src="/img/flags/spain.jpg" className="select-none rounded-sm" /> }]} />
