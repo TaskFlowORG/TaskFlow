@@ -57,7 +57,7 @@ export const TesPropertiesSide = ({
 
   useEffect(() => {
     let array: PropsForm[] = [];
-    task.properties.forEach((prop) => {
+    task?.properties.forEach((prop) => {
       if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
       array.push({ property: prop, errors: [] });
       console.log(array);
