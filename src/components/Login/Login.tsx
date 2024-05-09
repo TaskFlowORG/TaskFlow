@@ -9,6 +9,7 @@ import { Dictophone } from "../Dictophone";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const schema = z.object({
   username: z.string().min(3, { message: "No minimo 3 caracteres" }).max(20, {
@@ -135,7 +136,5 @@ export const Login = () => {
     </>
   );
 };
-function zodResolver(schema: z.ZodObject<{ username: z.ZodString; password: z.ZodString; }, "strip", z.ZodTypeAny, { username: string; password: string; }, { username: string; password: string; }>): import("react-hook-form").Resolver<{ username: string; password: string; }, any> | undefined {
-  throw new Error("Function not implemented.");
-}
+
 

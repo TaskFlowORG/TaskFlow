@@ -1,7 +1,8 @@
 
 
 import type { Metadata } from "next";
-
+import 'regenerator-runtime/runtime'
+import "@/styles/global.css";
 export const metadata: Metadata = {
   title: "TaskFlow",
   description:
@@ -19,6 +20,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children
+  return <html lang="pt-br" className="w-screen h-screen">
+    {children}
+  </html>
+
 
 }

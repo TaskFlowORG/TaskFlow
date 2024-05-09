@@ -13,6 +13,7 @@ import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface UserData {
   name: string;
@@ -268,7 +269,4 @@ export const Register = () => {
     </div>
   );
 };
-function zodResolver(schema: z.ZodEffects<z.ZodObject<{ name: z.ZodString; surname: z.ZodString; username: z.ZodString; mail: z.ZodString; password: z.ZodString; confirmPassword: z.ZodString; }, "strip", z.ZodTypeAny, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }>, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }>): import("react-hook-form").Resolver<{ name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, any> | undefined {
-  throw new Error("Function not implemented.");
-}
 
