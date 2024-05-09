@@ -80,7 +80,7 @@ export const Login = () => {
           <form
             id="modalLogin"
             onSubmit={handleSubmit(login)}
-            className="flex items-center flex-col h-4/5 w-full  justify-between py-5"
+            className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
           >
         
             <span className="text-red-500 text-sm">{loginError ?? ""}</span>
@@ -138,7 +138,7 @@ export const Login = () => {
             </div>
           </form>
 
-          <button
+          <button 
           className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
             onClick={() =>
               route.push("http://localhost:9999/auth/login/code/github")
