@@ -10,7 +10,6 @@ import {
   DatePost,
   SelectPost,
   LimitedPost,
-  Project,
   Limited,
   Date as DateProp,
 } from "@/models";
@@ -18,19 +17,15 @@ import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
 import { FooterTask } from "./FooterTask";
 import { ProjectContext } from "@/contexts";
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PageContext } from "@/utils/pageContext";
 import { taskService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
-import * as z from "zod";
-import { FormState, useForm } from "react-hook-form";
+
 import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { log } from "console";
-import { filterProps } from "framer-motion";
 
 type Props = {
   task: Task;
@@ -49,100 +44,6 @@ export const TesPropertiesSide = ({
   setList,
 }: Props) => {
   const { t } = useTranslation();
-
-  // // Array de propriedades (pode ser dinâmico)
-  // const properties: (Limited | DateProp | Select)[] = task.properties.map(
-  //   (prop) => {
-  //     if (prop.property.type == TypeOfProperty.SELECT) {
-  //       return prop.property as Select;
-  //     } else if (prop.property.type == TypeOfProperty.DATE) {
-  //       return prop.property as DateProp;
-  //     } else {
-  //       return prop.property as Limited;
-  //     }
-  //   }
-  // );
-  // // Adicione mais propriedades conforme necessário
-  // // Função para gerar o esquema Zod com base nas propriedades
-  // function generateSchema(
-  //   properties: (Limited | DateProp | Select)[]
-  // ): z.ZodObject<any> {
-  //   const schema: { [key: string]: z.ZodType<any, any> } = {};
-  //   properties.forEach((property) => {
-  //     const propertySchema: { [key: string]: z.ZodType<any, any> } = {};
-  //     propertySchema.name = z.string();
-  //     if ("maximum" in property) {
-  //       if (property.type == TypeOfProperty.TEXT) {
-  //         propertySchema.value = z
-  //           .string()
-  //           .max(
-  //             property.maximum,
-  //             `Essa propriedade tem um limite de caractéres de ${property.maximum}.`
-  //           );
-  //       } else if (
-  //         [TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS].includes(
-  //           property.type
-  //         )
-  //       ) {
-  //         propertySchema.value = z.number().max(property.maximum);
-  //       } else {
-  //         propertySchema.value = z
-  //           .array(z.string())
-  //           .max(
-  //             property.maximum,
-  //             `Essa propriedade tem um limite de usuários de ${property.maximum}.`
-  //           );
-  //       }
-  //     }
-  //     if ("canBePass" in property) {
-  //       propertySchema.value = z
-  //         .date()
-  //         .refine((data) => data.getTime() >= Date.now(), {
-  //           message: "A data deve ser igual ou posterior à data atual",
-  //         });
-  //     }
-  //     schema[property.name] = z.object(propertySchema);
-  //   });
-  //   return z.object(schema);
-  // }
-
-  // // Gerar o esquema com base nas propriedades
-  // const schema = generateSchema(properties);
-
-  // type MeuTipo = z.infer<typeof schema>;
-
-  // const handleValidate = () => {
-  //   validarDados(filter);
-  // };
-
-  // function validarDados(dados: any[]): MeuTipo | string {
-  //   try {
-  //     const resultado = schema.parse(dados);
-  //     console.log(resultado);
-  //     return resultado;
-  //   } catch (error) {
-  //     if (error instanceof z.ZodError) {
-  //       console.log(error);
-  //       // Se ocorrer um erro de validação, retorna a mensagem de erro
-  //       return error.errors.map((e) => e.message).join(", ");
-  //     }
-  //     // Se ocorrer um erro desconhecido, lança o erro para ser tratado em outro lugar
-  //     throw error;
-  //   }
-  // }
-
-  // // Use useForm com o resolver Zod
-  // const {
-  //   register,
-  //   handleSubmit,
-  //   setValue,
-  //   formState: { errors },
-  // } = useForm<z.infer<typeof schema>>({
-  //   mode: "all",
-  //   reValidateMode: "onChange",
-  //   resolver: zodResolver(schema),
-  // });
-
   const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
     []
   );
@@ -152,6 +53,8 @@ export const TesPropertiesSide = ({
     errors: string[];
   };
 
+  const [errors, setErrors] = useState(false);
+
   useEffect(() => {
     let array: PropsForm[] = [];
     task.properties.forEach((prop) => {
@@ -160,7 +63,7 @@ export const TesPropertiesSide = ({
       console.log(array);
     });
     setPropertiesToValidate(array);
-  }, [task.properties]);
+  }, [task?.properties, setPropertiesToValidate]);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -178,6 +81,27 @@ export const TesPropertiesSide = ({
   }
 
   const validateProps = (): boolean => {
+    propertiesToValidate.forEach((prop) => {
+      console.log(prop);
+      if (prop.property.property.obligatory) {
+        let propertyd = filter.find(
+          (propV) => propV.id == prop.property.property.id
+        );
+        console.log(propertyd);
+        if (!propertyd) return;
+        if (
+          !propertyd.value ||
+          propertyd.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
+          !(propertyd.value.length > 0)
+        ) {
+          prop.errors.push("Essa propriedade é obrigatória");
+          setPropertiesToValidate([...propertiesToValidate]);
+        } else {
+          prop.errors = [];
+          setPropertiesToValidate([...propertiesToValidate]);
+        }
+      }
+    });
     filter.forEach((propInput) => {
       const propertyForm =
         propertiesToValidate.find(
@@ -189,6 +113,7 @@ export const TesPropertiesSide = ({
       if (propertyForm) {
         switch (propertyForm.property.property.type) {
           case TypeOfProperty.TEXT:
+            if (!(propertyForm.property.property as Limited).maximum) return;
             if (
               (propertyForm.property.property as Limited).maximum <
               propInput.value.length
@@ -200,10 +125,14 @@ export const TesPropertiesSide = ({
                 } caractéres.`
               );
               setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
             }
             break;
           case TypeOfProperty.NUMBER:
           case TypeOfProperty.PROGRESS:
+            if (!(propertyForm.property.property as Limited).maximum) return;
             if (
               (propertyForm.property.property as Limited).maximum <
               parseFloat(propInput.value)
@@ -215,26 +144,28 @@ export const TesPropertiesSide = ({
                 }.`
               );
               setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
             }
             break;
           case TypeOfProperty.DATE:
-            console.log("Eu entrei nas datas meu mano luka");
-            console.log(propertyForm.property.property as DateProp);
             if (!(propertyForm.property.property as DateProp).canBePass) {
-              console.log("Entrei até aqui cara");
               const currentDate = new Date();
               console.log(new Date(propInput.value) < currentDate);
               if (new Date(propInput.value) < currentDate) {
-                console.log("Entrei nesse ultimo if");
                 propertyForm.errors.push(
                   `Essa propriedade não pode estar no passado!`
                 );
               }
               setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
             }
-
             break;
           case TypeOfProperty.USER:
+            if (!(propertyForm.property.property as Limited).maximum) return;
             if (
               (propertyForm.property.property as Limited).maximum <
               propInput.value.length
@@ -245,15 +176,25 @@ export const TesPropertiesSide = ({
                 } usuários.`
               );
               setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
             }
             break;
         }
       }
     });
-    return false;
+    return propertiesToValidate.find((prop) => prop.errors.length > 0)
+      ? false
+      : true;
   };
+
   async function updateTask() {
-    if (!validateProps()) return;
+    if (!validateProps()) {
+      setErrors(true);
+      return;
+    }
+
     console.log(filter);
     filter.forEach(async (value) => {
       let updateProp =
@@ -283,10 +224,16 @@ export const TesPropertiesSide = ({
           );
           updateProp.value.value = updatedValue;
         } else if (TypeOfProperty.USER == updateProp.property.type) {
-          users.filter((user) => value.value.includes(user.username));
+          console.log("PELO MENOS TEM EU AQUI CARAIO");
+          console.log(value);
+          console.log(
+            users.filter((user) => value.value.includes(user.username))
+          );
           updateProp.value.value = users.filter((user) =>
             value.value.includes(user.username)
           );
+          console.log("Calma qui vou salvar o usuário fi");
+          console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
@@ -301,8 +248,7 @@ export const TesPropertiesSide = ({
         }
       }
     });
-    // aqui tem problema, a porra do projeto as vezes é undefined
-    const taskReturned = await taskService.upDate(task, project!.id ?? 1);
+    const taskReturned = await taskService.upDate(task, project!.id);
     console.log(taskReturned);
     const page = project?.pages.find((page) => page.id == pageId);
     const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
@@ -421,15 +367,6 @@ export const TesPropertiesSide = ({
                 key={prop.id}
                 className="bg-white dark:bg-modal-grey flex flex-col"
               >
-                <pre>
-                  {JSON.stringify(
-                    propertiesToValidate.find(
-                      (propV) => propV.property.property.id == prop.property.id
-                    )?.errors,
-                    null,
-                    2
-                  )}
-                </pre>
                 <div className="flex sm:gap-8 gap-4 w-full items-center">
                   <img
                     className="pt-2"
@@ -463,7 +400,13 @@ export const TesPropertiesSide = ({
                       TypeOfProperty.TIME,
                       TypeOfProperty.USER,
                     ].includes(prop.property.type) && (
-                      <RowProperty prop={prop} task={task} />
+                      <RowProperty
+                        setErrors={setErrors}
+                        setFormProps={setPropertiesToValidate}
+                        formProps={propertiesToValidate}
+                        prop={prop}
+                        task={task}
+                      />
                     )}
 
                     {[
@@ -483,6 +426,21 @@ export const TesPropertiesSide = ({
                     )}
                   </div>
                 </div>
+                {errors &&
+                propertiesToValidate.find(
+                  (propV) => propV.property.property.id == prop.property.id
+                )!.errors?.length > 0 ? (
+                  <p className="text-xs text-red-600 font-montserrat">
+                    {
+                      propertiesToValidate.find(
+                        (propV) =>
+                          propV.property.property.id == prop.property.id
+                      )!.errors[0]
+                    }
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             );
           })}

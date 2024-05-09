@@ -4,7 +4,7 @@ import { HeaderCommentAndHistoric } from "./CommentsAndHistoric/HeaderCommentAnd
 import { PropertiesSide } from "./PropertiesSide";
 import { ProjectContext } from "@/contexts";
 import { OtherUser, Project, Task, User } from "@/models";
-import { userService } from "@/services";
+import { groupService, userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
@@ -39,15 +39,22 @@ export const TaskModalContent = ({
 
   useEffect(() => {
     const findGroups = async () => {
+      if (!project) return;
       const users = await userService.findAll();
-      setUsers(
-        users.filter(
-          (user) =>
-            user.permissions.find(
-              (permission) => permission.project.id === project?.id
-            ) != undefined
-        )
+      const list = users.filter(
+        (user) =>
+          user.permissions.find(
+            (permission) => permission.project.id === project.id
+          ) != undefined
       );
+      list.push(project.owner);
+      const groups = await groupService.findGroupsByAProject(project.id);
+      console.log(groups);
+      for (let group of groups) {
+        list.push(await userService.findByUsername(group.ownerUsername));
+      }
+      console.log(list);
+      setUsers(list);
     };
     findGroups();
   }, [project]);

@@ -32,14 +32,20 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
     const findGroups = async () => {
       if (!project) return;
       const users = await userService.findAll();
-      setUsers(
-        users.filter(
-          (user) =>
-            user.permissions.find(
-              (permission) => permission.project.id === project.id
-            ) != undefined
-        )
+      const list = users.filter(
+        (user) =>
+          user.permissions.find(
+            (permission) => permission.project.id === project.id
+          ) != undefined
       );
+      list.push(project.owner);
+      const groups = await groupService.findGroupsByAProject(project.id);
+      console.log(groups);
+      for (let group of groups) {
+        list.push(await userService.findByUsername(group.ownerUsername));
+      }
+      console.log(list);
+      setUsers(list);
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
