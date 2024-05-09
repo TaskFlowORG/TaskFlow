@@ -205,7 +205,7 @@ export const RegisterProperty = ({ project, page, setModalProperty, modalPropert
       <Button
         width="w-full "
         text={t("add-property")}
-        fnButton={() => setModalProperty(true)}
+        fnButton={() => setModalPropertyRegister(true)}
         padding="p-2"
         paddingY="p-1"
         textSize="font-[14re]"

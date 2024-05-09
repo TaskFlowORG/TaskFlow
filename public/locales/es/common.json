@@ -261,10 +261,11 @@
   "tuto-step13": "Aquí están las propiedades del proyecto que se valorarían en las tareas, es decir, que el valor final se asignaría tarea por tarea. Si estás en una página, también puedes ver las propiedades de la página junto con las del proyecto.",
   "tuto-step14": "Aquí están las páginas del proyecto. Puedes crear nuevas páginas y ver y editar las existentes.",
   "tuto-step15": "Aquí están las configuraciones de tu cuenta. Puedes cambiar tu información, tus preferencias y notificaciones.",
+  "tuto-step16": "Para agregar un usuario al grupo, ingrese el nombre del usuario en el campo de búsqueda y haga clic en este botón.",
+  "tuto-step17": "Después de escribir el nombre del usuario, haz clic aquí para enviar la invitación al grupo.",
   "close": "Cerrar",
   "last": "Último",
   "skip": "Saltar",
-
   "type-password" : "Escriba su contraseña",
   "type-username" : "Escriba su nombre de usuario",
   "type-email" : "Escriba su correo electrónico",
@@ -276,7 +277,6 @@
   "login-error" : "Usuario o contraseña incorrectos",
   "register-login" : "¡Regístrate!",
   "access" : "Acceder",
-
   "footer-report": "Footer del informe - Página",
   "task-report": "Iforme de tarea",
   "project-report": "Iforme de proyecto",

@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
 import { authentication } from "@/services/services/Authentication";
 import { SideBarButton } from "./components/SideBarButton";
+import { setConfigsDefault } from "@/utils/setConfigsDefault";
 interface Props {
   user: string;
   project?: Project;
@@ -27,6 +28,7 @@ export const SideBarProjects = ({ user, project, setOpenSideBar, openSideBar }: 
 
   const leave = async () => {
     await authentication.logout();
+    setConfigsDefault();
     router.push("/login");
   };
   return (

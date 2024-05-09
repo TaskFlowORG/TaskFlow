@@ -35,6 +35,16 @@ export const useTutorial = () => {
           content: t("tuto-step6")
         },
         {
+          target:".search-user", 
+          disableBeacon: true,
+          content: t("tuto-step16")
+        },
+        {
+          target:".add-user",
+          disableBeacon: true,
+          content: t("tuto-step17")
+        },
+        {
           target: ".projects-page",
           disableBeacon: true,
           content: t("tuto-step7")
@@ -78,7 +88,7 @@ export const useTutorial = () => {
           target:".configs", 
           disableBeacon: true,
           content: t("tuto-step15")
-        }
+        },
       ]
     }
 }

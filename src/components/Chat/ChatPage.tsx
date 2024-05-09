@@ -1,10 +1,11 @@
 "use client";
 
 import { ChatContent } from "./components/ChatContent";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { chatService } from "@/services";
 import { Chat, Message } from "@/models";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
+import { ChatContext } from "@/contexts/ChatsContext";
 type chattype = {
     chatId: number;
 }
@@ -12,7 +13,11 @@ type chattype = {
 export const ChatPage = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
+    const { setChat } = useContext(ChatContext);
 
+    useEffect(() => {
+        if(setChat) setChat(chatContent)
+    },[chatContent, setChat])
     useEffect(() => {
         (async function getChats() {
             const response = await chatService.findAllGroup()
