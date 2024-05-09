@@ -16,11 +16,13 @@ import { CenterModal } from "../Modal";
 import { UserContext } from "@/contexts/UserContext";
 import { SaveChangesButton } from "./components/SaveChangesButton/SaveChangesButton";
 import { useTranslation } from "react-i18next";
+import { ImagemEnviada } from "../icons";
 import { IconTrashBin } from "../icons";
 import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModal } from "../ErrorModal";
 import { cookies } from "next/headers";
 import { authentication } from "@/services/services/Authentication";
+
 
 export const PersonalInformations = () => {
   const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
@@ -129,7 +131,7 @@ export const PersonalInformations = () => {
             </div>
               <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-0 bottom-3 cursor-pointer">
                 <div className="flex items-center justify-center w-full h-full">
-                  <Image width={30} height={30} src="/img/imagem.svg" alt="" />
+                <ImagemEnviada></ImagemEnviada>
                 </div>
                 <input
                   ref={fotoAindaNaoAtualizada}

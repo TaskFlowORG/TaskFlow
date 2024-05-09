@@ -95,6 +95,7 @@ export const Notification = ({
           setTitleError("Convite já aceito");
         }
     });
+    if(!user.notifications) return;
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
   };
