@@ -4,7 +4,7 @@ import 'regenerator-runtime/runtime'
 import Providers from "@/services/Theme/providers";
 import ThemeSwitcher from "@/services/Theme/ThemeSwitcher";
 import VLibras from "vlibras-nextjs";
-import { ReactNode,useState } from "react";
+import { ReactNode,useEffect,useState } from "react";
 import { Language, User } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import { LanguageProvider } from "@/contexts/ContextLanguage";
@@ -25,7 +25,9 @@ export default function Layout({ children, text }: Props) {
 
   const {t} = useTranslation();
   const [user, setUser] = useState<User>();
-  const [language, setLanguage] = useState<Language>(Language.PORTUGUESE);
+  const [language, setLanguage] = useState<Language>(Language.ENGLISH);
+
+  
 
   return (
       <UserContext.Provider value={{ user, setUser }}>

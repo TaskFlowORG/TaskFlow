@@ -14,7 +14,7 @@ type LanguageContextType = {
 
 // Criando o contexto
 export const LanguageContext = createContext<LanguageContextType>({
-  language: Language.PORTUGUESE, // Idioma padrão
+  language: Language.ENGLISH, // Idioma padrão
   changeLanguage: () => {}, // Função vazia como padrão
 });
 

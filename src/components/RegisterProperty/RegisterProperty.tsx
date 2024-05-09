@@ -40,7 +40,7 @@ export const RegisterProperty = ({ project, page, setModalProperty, modalPropert
     setPropertiesArray(
       isInProject ? project.properties : page?.properties || []
     );
-  }, [isInProject]);
+  }, [isInProject, page, project]);
 
   const postProperty = async (
     name: string,
