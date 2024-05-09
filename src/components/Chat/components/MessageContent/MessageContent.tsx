@@ -63,10 +63,10 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                     <If condition={message.annex != null && message.annex.type == ("application/pdf")}>
 
                                         <div className="flex items-center justify-center">
-                                        <a href={arquivoUrl} download={message.annex?.name}>
-                                                <div className="flex flex-col items-center justify-center">
+                                            <a href={arquivoUrl} download={message.annex?.name}>
+                                                <div className="flex items-center justify-center">
+                                                    <Image width={60} height={60} src="/pdfArchive.webp" alt="" />
                                                     <p className="underline underline-offset-1 w-fit">{message.annex?.name}</p>
-                                                    <Image width={144} height={200} src="/pdfArchive.webp" alt="" />
                                                 </div>
                                             </a>
                                         </div>
