@@ -40,6 +40,11 @@ export const useTutorial = () => {
           content: t("tuto-step16")
         },
         {
+          target:".add-user",
+          disableBeacon: true,
+          content: t("tuto-step17")
+        },
+        {
           target: ".projects-page",
           disableBeacon: true,
           content: t("tuto-step7")

@@ -204,6 +204,8 @@
   "checkbox": "Checkbox",
   "radio": "Radio",
   "progress": "Progress",
+  "leave-group": "Leave group",
+  "delete-group": "Delete group",
   "time": "Time",
   "no-tasks-in-page": "There are no tasks in this page",
   "no-page-conected": "There are no pages connected to this page",
@@ -298,6 +300,7 @@
   "tuto-step14": "Here are the project pages. You can create new pages and view and edit existing ones.",
   "tuto-step15": "Here are your account settings. You can change your information, preferences, and notifications.",
   "tuto-step16": "To add a user to the group, enter the user's name in the search field and click on this button",
+  "tuto-step17": "After typing the user's name, click here to send the group invitation.",
   "close": "Close",
   "last": "Finish",
   "skip": "Skip"

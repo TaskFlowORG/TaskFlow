@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Group, OtherUser, Permission } from "@/models";
-import { userService } from "@/services";
+import { groupService, userService } from "@/services";
 import { useTranslation } from "react-i18next";
-
 
 interface Props {
     group: Group;
@@ -11,7 +10,7 @@ interface Props {
 }
 
 export const PermissionComponent = ({ group, user, permissions }: Props) => {
-    const [selectedPermissionId, setSelectedPermissionId] = useState<number | null>(null);
+    const [selectedPermission, setSelectedPermission] = useState<string | "">("");
     const [userLogged, setUserLogged] = useState<OtherUser>();
     const [successPermission, setSuccessPermission] = useState<boolean>(false);
     const [text, setText] = useState<string>("");
@@ -19,29 +18,53 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
 
     useEffect(() => {
         fetchData();
-    }, []);
-
-    useEffect(() => {
         const timer = setTimeout(() => {
             if (successPermission) {
                 setSuccessPermission(false);
             }
         }, 6000);
         return () => clearTimeout(timer);
-    }, [successPermission]);
+    }, [successPermission, userLogged, permissions]);
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUserLogged(fetchedUser);
-        if (group && group.permissions.length > 0) {
-            setSelectedPermissionId(group.permissions[0].id);
+        findUserPermissionsInGroup;
+
+    };
+
+    const findUserPermissionsInGroup = () => {
+        if (user && group) {
+            const groupProjectIds = group.permissions.map(p => p.project.id);
+            const matchingPermissions = user.permissions.filter(p =>
+                groupProjectIds.includes(p.project.id)
+            );
+
+            if (matchingPermissions.length > 0) {
+                console.log("eu entrei aqui, bahhh");
+                setSelectedPermission(matchingPermissions[0].id.toString() );
+            }
         }
     };
+
+    // const savePermission = async (selectedPermission: Permission) => {
+    //     try {
+    //         await userService.updatePermission(user.username, selectedPermission);
+    //         setSelectedPermission(selectedPermission.name);
+    //         console.log(selectedPermission);
+
+    //         setText(t("permissionUpdateSuccess"));
+    //         setSuccessPermission(true);
+    //     } catch (error) {
+    //         setText(t("permissionUpdateError"));
+    //         setSuccessPermission(true);
+    //     }
+    // };
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
             await userService.updatePermission(user.username, selectedPermission);
-            setSelectedPermissionId(selectedPermission.id);
+            setSelectedPermission(selectedPermission.id.toString());
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
@@ -75,7 +98,7 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != userLogged?.id}
-                        value={selectedPermissionId || ""}
+                        value={selectedPermission || ""}
                         onChange={handleSelectChange}
                     >
                         {permissions.map(p => (
@@ -84,6 +107,7 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                             </option>
                         ))}
                     </select>
+
                 </div>
             )}
             {successPermission && (

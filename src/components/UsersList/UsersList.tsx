@@ -104,7 +104,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   const addButton = (
     <button
-      className={`text-p font-alata h-10 w-[80%] rounded-xl self-center`}
+      className={`add-user text-p font-alata h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={() => verifyUser()}
       disabled={group?.owner.id != user?.id}

@@ -86,7 +86,8 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                         {t("profile")}
                     </button>
                 </div>
-                <div className="flex justify-start gap-3 text-mn font-montserrat">
+                <div className="flex justify-start gap-3 text-mn font-montserrat
+                ">
                     <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1")}>
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />
