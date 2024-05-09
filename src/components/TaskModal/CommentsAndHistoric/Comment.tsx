@@ -6,7 +6,7 @@ import { IconTrashBin } from "@/components/icons/Slidebarprojects/IconTrashBin";
 import { IconSave } from "@/components/icons/Slidebarprojects/IconSave";
 import { EditIcon } from "@/components/icons/PageOtpions/Edit";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "react-i18next";
 
 type CommentType = {
   sender: OtherUser;
@@ -35,14 +35,16 @@ export const Comment = ({
   const [commentUpdate, setCommentUpdate] = useState("");
   const commentRef = useRef<any>(null);
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const containerComment = twMerge(
     "flex flex-col gap-1 relative",
     sender.username == user?.username ? "items-end" : ""
   );
   const comment = twMerge(
-    "font-montserrat focus:font-semibold self-center text-[16px]  outline-none text-[#343434] dark:text-[#f2f2f2]",
-    sender.username == user.username ? "text-end" : ""
+    "font-montserrat focus:font-semibold self-center  outline-none text-[#343434] dark:text-[#f2f2f2]",
+    sender.username == user.username
+      ? "text-end text-p14 md:text-p"
+      : "text-p14 md:text-p"
   );
 
   useEffect(() => {
@@ -55,26 +57,12 @@ export const Comment = ({
     }
   }, [editing]);
 
-  function formatarHorario(data: string): string {
-    // Convertendo a string de data para o tipo Date
-    const dataObj = new Date(data);
-    // console.log(dataObj);
-
-    // Obtendo as partes da hora
-    const horas = pad(dataObj.getHours());
-    const minutos = pad(dataObj.getMinutes());
-
-    // Concatenando as partes da hora em uma string
-    const horarioFormatado = `${horas}:${minutos}`;
-
-    return horarioFormatado;
-  }
-
-  // Função auxiliar para adicionar um zero à esquerda se for necessário
-  function pad(n: number): string {
-    return n < 10 ? "0" + n : n.toString();
-  }
-
+  const dateFormat = (date: Date) => {
+    const dia = String(date.getDate()).padStart(2, "0");
+    const mes = String(date.getMonth() + 1).padStart(2, "0");
+    const ano = date.getFullYear();
+    return `${dia}/${mes}/${ano} - ${date.getHours()}:${date.getMinutes()}`;
+  };
 
   return (
     <div
@@ -116,8 +104,7 @@ export const Comment = ({
               onClick={() => {
                 setDeleting(true);
                 setOptions(false);
-                commentRef.current.innerText = t('delete-comment')
-                  ;
+                commentRef.current.innerText = t("delete-comment");
               }}
             >
               <IconTrashBin></IconTrashBin>
@@ -159,11 +146,11 @@ export const Comment = ({
           <div className="h-[18px] aspect-square rounded-full bg-primary"></div>
         )}
 
-        <p className="text-[12px] font-montserrat text-[#343434] dark:text-[#f2f2f2]">
-          {updatedAt && t('edited')+" - "}
+        <p className="text-mn font-montserrat text-[#343434] dark:text-[#f2f2f2]">
+          {updatedAt && t("edited") + " - "}
           {!(user.username == sender.username)
             ? sender?.username
-            : t('you')} - {formatarHorario(date!)}
+            : t("you")} - {dateFormat(new Date(date))}
         </p>
       </div>
     </div>

@@ -35,8 +35,6 @@ export const CheckboxFilter = ({
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
-
-
         setSelectedOptions(
           selectedOptions.filter((option) => option !== optionName) ?? []
         );
@@ -44,24 +42,21 @@ export const CheckboxFilter = ({
           (option: string) => option !== optionName
         );
         if (thisProperty.value.length == 0) {
-          thisProperty.value = []
+          thisProperty.value = [];
         }
         setFilterProp!([...filterProp!]);
-
-
-
       } else {
         setSelectedOptions([...selectedOptions, optionName]);
         console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
-        setFilterProp!([...filterProp!])
+        setFilterProp!([...filterProp!]);
       }
     } else {
       if (optionName) {
-        setSelectedOptions([...(value ?? []) , optionName]);
+        setSelectedOptions([...(value ?? []), optionName]);
         setFilterProp!([
           ...filterProp!,
-          { id: id, value: [...(value ?? []) , optionName] },
+          { id: id, value: [...(value ?? []), optionName] },
         ]);
       }
     }
@@ -77,7 +72,11 @@ export const CheckboxFilter = ({
   }, [value, setFilterProp, filterProp]);
 
   return (
-    <div className="text-black dark:text-white pb-2 border-b-[1px]  ">
+    <div
+      className={`text-black dark:text-white pb-2 border-b-[1px] ${
+        isInModal && "border-none"
+      }  `}
+    >
       {!isInModal && (
         <p className=" text-black dark:text-white whitespace-nowrap font-montserrat">
           {name}:

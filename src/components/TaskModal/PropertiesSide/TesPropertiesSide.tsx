@@ -10,19 +10,22 @@ import {
   DatePost,
   SelectPost,
   LimitedPost,
-  Project,
+  Limited,
+  Date as DateProp,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
 import { FooterTask } from "./FooterTask";
 import { ProjectContext } from "@/contexts";
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PageContext } from "@/utils/pageContext";
 import { taskService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { ColumnProperty } from "./ColumnProperty";
 import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
+
+import { useTranslation } from "react-i18next";
 
 type Props = {
   task: Task;
@@ -32,7 +35,7 @@ type Props = {
   setFilter: (array: FilteredProperty[]) => void;
   setList: (value: FilteredProperty | undefined) => void;
 };
-export const PropertiesSide = ({
+export const TesPropertiesSide = ({
   task,
   setIsOpen,
   filter,
@@ -40,6 +43,28 @@ export const PropertiesSide = ({
   setFilter,
   setList,
 }: Props) => {
+  const { t } = useTranslation();
+  const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
+    []
+  );
+
+  type PropsForm = {
+    property: PropertyValue;
+    errors: string[];
+  };
+
+  const [errors, setErrors] = useState(false);
+
+  useEffect(() => {
+    let array: PropsForm[] = [];
+    task.properties.forEach((prop) => {
+      if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
+      array.push({ property: prop, errors: [] });
+      console.log(array);
+    });
+    setPropertiesToValidate(array);
+  }, [task?.properties, setPropertiesToValidate]);
+
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
   const [openedConfig, setOpenedConfig] = useState(false);
@@ -55,7 +80,121 @@ export const PropertiesSide = ({
     setIsOpen(false);
   }
 
+  const validateProps = (): boolean => {
+    propertiesToValidate.forEach((prop) => {
+      console.log(prop);
+      if (prop.property.property.obligatory) {
+        let propertyd = filter.find(
+          (propV) => propV.id == prop.property.property.id
+        );
+        console.log(propertyd);
+        if (!propertyd) return;
+        if (
+          !propertyd.value ||
+          propertyd.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
+          !(propertyd.value.length > 0)
+        ) {
+          prop.errors.push("Essa propriedade é obrigatória");
+          setPropertiesToValidate([...propertiesToValidate]);
+        } else {
+          prop.errors = [];
+          setPropertiesToValidate([...propertiesToValidate]);
+        }
+      }
+    });
+    filter.forEach((propInput) => {
+      const propertyForm =
+        propertiesToValidate.find(
+          (prop) => prop.property.property.id == propInput.id
+        ) ?? null;
+      console.log("Im here");
+      console.log(propInput);
+      console.log(propertyForm);
+      if (propertyForm) {
+        switch (propertyForm.property.property.type) {
+          case TypeOfProperty.TEXT:
+            if (!(propertyForm.property.property as Limited).maximum) return;
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              propInput.value.length
+            ) {
+              console.log("Caralho lek");
+              propertyForm.errors.push(
+                `Essa propridade possuí um máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                } caractéres.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+          case TypeOfProperty.NUMBER:
+          case TypeOfProperty.PROGRESS:
+            if (!(propertyForm.property.property as Limited).maximum) return;
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              parseFloat(propInput.value)
+            ) {
+              console.log("Caralho lek");
+              propertyForm.errors.push(
+                `Essa propridade possuí um valor máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                }.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+          case TypeOfProperty.DATE:
+            if (!(propertyForm.property.property as DateProp).canBePass) {
+              const currentDate = new Date();
+              console.log(new Date(propInput.value) < currentDate);
+              if (new Date(propInput.value) < currentDate) {
+                propertyForm.errors.push(
+                  `Essa propriedade não pode estar no passado!`
+                );
+              }
+              setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+          case TypeOfProperty.USER:
+            if (!(propertyForm.property.property as Limited).maximum) return;
+            if (
+              (propertyForm.property.property as Limited).maximum <
+              propInput.value.length
+            ) {
+              propertyForm.errors.push(
+                `Essa propridade possuí um máximo de ${
+                  (propertyForm.property.property as Limited).maximum
+                } usuários.`
+              );
+              setPropertiesToValidate([...propertiesToValidate]);
+            } else {
+              propertyForm.errors = [];
+              setPropertiesToValidate([...propertiesToValidate]);
+            }
+            break;
+        }
+      }
+    });
+    return propertiesToValidate.find((prop) => prop.errors.length > 0)
+      ? false
+      : true;
+  };
+
   async function updateTask() {
+    if (!validateProps()) {
+      setErrors(true);
+      return;
+    }
+
     console.log(filter);
     filter.forEach(async (value) => {
       let updateProp =
@@ -85,10 +224,16 @@ export const PropertiesSide = ({
           );
           updateProp.value.value = updatedValue;
         } else if (TypeOfProperty.USER == updateProp.property.type) {
-          users.filter((user) => value.value.includes(user.username));
+          console.log("PELO MENOS TEM EU AQUI CARAIO");
+          console.log(value);
+          console.log(
+            users.filter((user) => value.value.includes(user.username))
+          );
           updateProp.value.value = users.filter((user) =>
             value.value.includes(user.username)
           );
+          console.log("Calma qui vou salvar o usuário fi");
+          console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
@@ -103,8 +248,7 @@ export const PropertiesSide = ({
         }
       }
     });
-    // aqui tem problema, a porra do projeto as vezes é undefined
-    const taskReturned = await taskService.upDate(task, project!.id ?? 1);
+    const taskReturned = await taskService.upDate(task, project!.id);
     console.log(taskReturned);
     const page = project?.pages.find((page) => page.id == pageId);
     const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
@@ -213,6 +357,7 @@ export const PropertiesSide = ({
 
   return (
     <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
+      {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}
         <div className="flex max-w-full flex-col gap-5 h-full max-h-[450px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
@@ -238,7 +383,10 @@ export const PropertiesSide = ({
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
                       <IconsSelector property={prop.property} />
-                      <p className="font-montserrat text-p14 md:text-p">
+                      <p
+                        className="font-montserrat text-p14 md:text-p"
+                        // onClick={() => handleValidate()}
+                      >
                         {prop.property.name}
                       </p>
                     </div>
@@ -252,7 +400,13 @@ export const PropertiesSide = ({
                       TypeOfProperty.TIME,
                       TypeOfProperty.USER,
                     ].includes(prop.property.type) && (
-                      <RowProperty prop={prop} task={task} />
+                      <RowProperty
+                        setErrors={setErrors}
+                        setFormProps={setPropertiesToValidate}
+                        formProps={propertiesToValidate}
+                        prop={prop}
+                        task={task}
+                      />
                     )}
 
                     {[
@@ -272,6 +426,21 @@ export const PropertiesSide = ({
                     )}
                   </div>
                 </div>
+                {errors &&
+                propertiesToValidate.find(
+                  (propV) => propV.property.property.id == prop.property.id
+                )!.errors?.length > 0 ? (
+                  <p className="text-xs text-red-600 font-montserrat">
+                    {
+                      propertiesToValidate.find(
+                        (propV) =>
+                          propV.property.property.id == prop.property.id
+                      )!.errors[0]
+                    }
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
             );
           })}
