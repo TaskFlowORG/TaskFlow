@@ -32,14 +32,14 @@ export const Step1 = ({ setStep }: Props) => {
         try {
             console.log(data.username);
             await emailService.sendEmail(data.username);
-            setStep(2);
+            setStep(2)
         } catch (error) {
             console.error("Error sending email", error);
-            setForgotError("Usuário inválido/inexistente");
+            setForgotError("Erro no envio do email, tente novamente mais tarde ");
         }
     };
 
-    const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/iconUser.svg";
+    const iconUser = theme === "light" ? "/img/themeLight/IconUser.svg" : "/img/themeDark/userIcon.svg";
 
     return (
         <>
@@ -48,7 +48,7 @@ export const Step1 = ({ setStep }: Props) => {
                 <span className="text-red-500 text-sm">{forgotError || errors.username?.message}</span>
 
                 <form onSubmit={handleSubmit(sendEmail)} className='gap-2 w-4/5 pt-10 flex flex-col items-center justify-center'>
-                <Input
+                    <Input
                         className="inputRegister"
                         image={iconUser}
                         type="username"
@@ -57,7 +57,7 @@ export const Step1 = ({ setStep }: Props) => {
                         register={{ ...register("username") }}
                         required
                         classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
-                        
+
                     />
 
                     <div className="w-4/5 md:w-4/6 flex justify-center pb-4 md:pt-0">

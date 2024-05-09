@@ -1,27 +1,36 @@
 import { useState, useEffect, useRef } from "react";
 import { useTheme } from "next-themes";
 import { groupService, userService } from "@/services";
-import { Group, GroupPut, OtherUser, Project, User } from "@/models";
+import { Group, OtherUser, Project } from "@/models";
 import { PermissionUser } from "./components/PermissionUser";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   project?: Project;
   group: Group | undefined;
   user: OtherUser
+  setGroup: (group: Group) => void;
 }
 
-export const UsersList: React.FC<Props> = ({ project, group, user }) => {
+export const UsersList = ({ project, group, user, setGroup }: Props) => {
   const [text, setText] = useState<string>("");
   const [newUser, setNewUser] = useState<OtherUser>();
   const [suggestedUsers, setSuggestedUsers] = useState<string[]>([]);
+  const [sucessInvite, setSucessInvite] = useState<boolean>(false)
+  const [invite, setInvite] = useState<string>("")
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchData();
-  }, [group?.id]);
+    const timer = setTimeout(() => {
+      if (sucessInvite) setSucessInvite(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [group?.users, setGroup, sucessInvite]);
 
   const fetchData = async () => {
     const fetchedUsers = await userService.findAll();
@@ -33,8 +42,6 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
 
     if (userFind) {
       setNewUser(userFind);
-    } else {
-      alert("Usuário não encontrado");
     }
     setText('');
     setShowSuggestions(false);
@@ -50,7 +57,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
     let usersName: string[] = [];
     if (filteredUsers != null) {
       filteredUsers.map(u => {
-        usersName.push(u.username)
+        usersName.push(u.username);
       });
       setSuggestedUsers(usersName);
     }
@@ -62,32 +69,30 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
   };
 
   const verifyUser = () => {
-    if (newUser == null) {
-      alert("Usuário inválido")
+    if (newUser == null || Object.keys(newUser).length === 0) {
+      setInvite(t("foundUser"));
+      setSucessInvite(true);
     } else {
-      addUser(newUser)
+      addUser(newUser);
     }
   }
 
   const addUser = async (user: OtherUser) => {
-    if (Object.keys(user).length === 0) {
-      alert("Adicione um usuário válido");
-      return;
-    }
-
     const userExists = group?.users.some((u) => u.username === user.username);
     if (userExists) {
-      alert("Este usuário já é um integrante do grupo");
+      setInvite(t("alreadyMember"));
+      setSucessInvite(true);
       return;
     }
-
     try {
       if (group != null) {
         await groupService.inviteUser(group.id, user.id);
-        fetchData();
+        setInvite(t("sendInvitationSuccess"))
+        setSucessInvite(true)
       }
     } catch (error) {
-      console.error("Error adding user to group:", error);
+      setInvite(t("sendInvitationError"))
+      setSucessInvite(true)
     }
   };
 
@@ -98,7 +103,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
 
   const addButton = (
     <button
-      className={`h-10 w-[80%] rounded-xl self-center`}
+      className={`text-p font-alata h-10 w-[80%] rounded-xl self-center`}
       type="button"
       onClick={() => verifyUser()}
       disabled={group?.owner.id != user?.id}
@@ -107,7 +112,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
         boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)"
       }}
     >
-      <h5 className="text-[#FCFCFC]">Adicionar Usuário</h5>
+      <h5 className="text-[#FCFCFC]">{t("add-user")}</h5>
     </button>
   );
 
@@ -118,8 +123,8 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
           <div>
             <input
               ref={inputRef}
-              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] rounded-xl px-5 placeholder:border-primary dark:border-secondary"
-              placeholder="Pesquisa"
+              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] text-p14 font-alata rounded-xl px-5 placeholder:border-primary dark:border-secondary"
+              placeholder={t("search")}
               type="text"
               id="campoTexto"
               value={text}
@@ -161,6 +166,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
                   user={group?.owner}
                   project={project}
                   key={group?.owner && group.owner.username}
+                  setGroup={setGroup}
                 /> : ""
             }
 
@@ -171,6 +177,7 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
                   user={u}
                   project={project}
                   key={u.username}
+                  setGroup={setGroup}
                 />
               ))
             }
@@ -178,6 +185,12 @@ export const UsersList: React.FC<Props> = ({ project, group, user }) => {
           {addButton}
         </div>
       </div>
+      {
+        sucessInvite && (
+          <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
+            {invite}
+          </div>
+        )}
     </div>
   );
 };

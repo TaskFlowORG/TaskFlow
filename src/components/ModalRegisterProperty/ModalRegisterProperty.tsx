@@ -11,6 +11,7 @@ import {
   IconProgress,
   IconRadio,
   IconSelect,
+  IconTag,
   IconText,
   IconTrashBin,
   IconUser,
@@ -102,6 +103,7 @@ export const ModalRegisterProperty = ({
                 <SelectWithImage
                   list={[
                     { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
+                    { value: TypeOfProperty.TAG, image: <IconTag /> },
                     { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
                     { value: TypeOfProperty.DATE, image: <IconCalendar /> },
                     { value: TypeOfProperty.NUMBER, image: <IconNumber /> },

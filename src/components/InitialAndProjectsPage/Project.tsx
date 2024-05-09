@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import { Obj } from "../Obj";
-import { getListData } from "@/services/http/api";
 import { set } from "zod";
 import { Group, Project, ProjectSimple } from "@/models";
 import Link from "next/link";
@@ -77,7 +76,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
                 isGroup
               ></Obj>
             </div>
-            <div className="mt-12">
+            <div className="mt-12 min-h-[5rem] min-w-[5rem]">
               <ProgressBar percent={project.progress} />
             </div>
           </motion.div>

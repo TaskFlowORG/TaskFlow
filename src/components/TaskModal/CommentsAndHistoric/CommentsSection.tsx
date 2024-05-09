@@ -1,4 +1,4 @@
-import { Message, Task, User } from "@/models";
+import { Message, Project, Task, User } from "@/models";
 import { SendComment } from "./SendComment";
 import { Comment } from "./Comment";
 import { useContext, useEffect, useState } from "react";
@@ -6,7 +6,7 @@ import { taskService } from "@/services";
 import { ProjectContext } from "@/contexts";
 
 type Props = {
-  task: Task;
+  task: Task | Project;
   user: User;
 };
 
@@ -44,7 +44,7 @@ export const CommentsSection = ({ task, user }: Props) => {
       comment.dateUpdate = new Date();
       console.log(updatedValue);
       console.log(task);
-      let taskUpdated = await taskService.upDate(task, project!.id);
+      let taskUpdated = await taskService.upDate(task as Task, project!.id);
       setCommentsTask(taskUpdated.comments);
     }
   }
@@ -53,7 +53,7 @@ export const CommentsSection = ({ task, user }: Props) => {
     let comment = task.comments[commentId];
     if (comment) {
       task.comments.splice(task.comments.indexOf(comment), 1);
-      let taskUpdated = await taskService.upDate(task, project!.id);
+      let taskUpdated = await taskService.upDate(task as Task, project!.id);
       setCommentsTask(taskUpdated.comments);
     }
   }
@@ -73,7 +73,7 @@ export const CommentsSection = ({ task, user }: Props) => {
       task.comments = [comment];
     }
 
-    await taskService.upDate(task, project!.id);
+    await taskService.upDate(task as Task, project!.id);
     setInput("");
   }
   return (

@@ -61,8 +61,12 @@ class UserService {
     }
 
     async updatePermission(username: string, permission: Permission): Promise<Permission> {
-        const response = await Api.patch<Permission>(`user${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
+        const response = await Api.patch<Permission>(`user/${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
         return response.data;
+    }
+    async getOutOfAGroup(groupId : number): Promise<void> {
+        // /exit/group/{groupId}
+        const response = await Api.patch<User>(`user/exit/group/${groupId}`)
     }
 }
 

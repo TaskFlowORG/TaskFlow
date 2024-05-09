@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 
 interface Props {
@@ -7,12 +7,16 @@ interface Props {
   condition: boolean;
   setCondition: (value: boolean) => void;
   right?: boolean;
+  header?:React.ReactNode;
+  footer?: React.ReactNode;
 }
 export const SideModal = ({
   children,
   condition,
   setCondition,
   right,
+  header,
+  footer
 }: Props) => {
   const ref = useRef(null);
   useClickAway(ref, () => setCondition(false));
@@ -36,8 +40,10 @@ export const SideModal = ({
           >
             <div className="w-min h-full relative" ref={ref}>
               <div className="max-h-screen h-full flex  relative">
-                <div className="flex flex-col sodebar  max-h-screen gap-8 py-16 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-64 smm:w-72 sm:w-96 px-16">
+                <div className="flex flex-col justify-between max-h-screen gap-4 py-16 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-64 smm:w-72 sm:w-96 px-16">
+                  {header}
                   {children}
+                  {footer}
                 </div>
               </div>
             </div>

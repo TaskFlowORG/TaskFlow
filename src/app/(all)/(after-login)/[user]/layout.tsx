@@ -16,6 +16,7 @@ import { PageContext } from "@/utils/pageContext";
 import { generateContrast } from "@/functions";
 import { Tutorial } from "@/components/Tutorial";
 import Joyride from "react-joyride";
+import { LanguageContext } from "@/contexts/ContextLanguage";
 //UseClickAway Hook
 export default function Layout({
   children,
@@ -24,6 +25,7 @@ export default function Layout({
   children: React.ReactNode;
   params: { project: number; user: string };
 }) {
+
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
   const [openSideBar, setOpenSideBar] = useState(false);
@@ -36,6 +38,7 @@ export default function Layout({
   const [task, setSelectedTask] = useState<Task>();
   const [isOpen, setIsOpen] = useState(false);
   const { contrastColor } = useContrast();
+  const {changeLanguage} = useContext(LanguageContext)
   useEffect(() => {
     (async () => {
       if (!user) return;
@@ -82,6 +85,7 @@ export default function Layout({
     (async () => {
       if (!setUser) return;
       const loggedUser = await userService.findLogged();
+      changeLanguage(loggedUser.configuration.language)
       setUser(loggedUser);
     })();
   }, []);
@@ -99,9 +103,7 @@ export default function Layout({
         >
           <Header setSidebarOpen={setOpenSideBar}></Header>
           <main className="w-screen h-screen flex flex-col items-center justify-start">
-            <SideModal condition={openSideBar} setCondition={setOpenSideBar}>
-              <SideBarProjects user={params.user} project={project} />
-            </SideModal>
+              <SideBarProjects user={params.user} project={project} setOpenSideBar={setOpenSideBar} openSideBar={openSideBar} />
             {children}
           </main>
           </TaskModalContext.Provider>

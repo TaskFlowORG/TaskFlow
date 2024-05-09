@@ -7,6 +7,7 @@ export class SimpleGroup {
         public id: number,
         public name: string,
         public picture: Archive,
+        public ownerUsername: string,
         public description: string,
     ) { }
 

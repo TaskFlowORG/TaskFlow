@@ -63,7 +63,6 @@ export const Step2 = ({ setStep }: Props) => {
                 alert("Código inválido, tente novamente!");
             }
         })
-       
     }
 
     return (
