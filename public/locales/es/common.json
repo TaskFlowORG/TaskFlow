@@ -264,6 +264,19 @@
   "close": "Cerrar",
   "last": "Último",
   "skip": "Saltar",
+
+  "type-password" : "Escriba su contraseña",
+  "type-username" : "Escriba su nombre de usuario",
+  "type-email" : "Escriba su correo electrónico",
+  "type-surname" : "Escriba su apellido",
+  "type-name" : "Escriba su nombre",
+  "type-confirm-password" : "Confirme su contraseña",
+  "access-account" : "Acceder a la cuenta",
+  "forgot-password" : "¿Olvidaste tu contraseña?",
+  "login-error" : "Usuario o contraseña incorrectos",
+  "register-login" : "¡Regístrate!",
+  "access" : "Acceder"
+
   "footer-report": "Footer del informe - Página",
   "task-report": "Iforme de tarea",
   "project-report": "Iforme de proyecto",
@@ -279,4 +292,5 @@
   "forbidden-cause": "Posibles causas: \n   - No tienes permiso para acceder a esta página; \n   - Has intentado acceder a algo que no te pertenece; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "other-error-cause": "Posibles causas: \n   - El servidor está fuera de servicio; \n   - El enlace está roto; \n   - Se produjo un error interno en el servidor.",
    "retry":"Intentar de nuevo"
+
 }
