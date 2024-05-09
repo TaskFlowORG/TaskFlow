@@ -40,7 +40,7 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
             // const groupProjectIds = group.permissions.map(p => p.project.id);
             // const matchingPermissions = user.permissions.filter(p =>
             //     groupProjectIds.includes(p.project.id)
-                
+                 
             // );
             // console.log(matchingPermissions, "lista");
             
