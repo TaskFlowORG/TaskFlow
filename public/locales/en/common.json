@@ -310,7 +310,7 @@
   "forgot-password" : "Forgot your password?",
   "login-error" : "Invalid username or password",
   "register-login": "Register!",
-  "access" : "Access"
+  "access" : "Access",
 
   "footer-report": "Report Footer - Page",
   "task-report": "Tasks Report",
