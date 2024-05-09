@@ -49,13 +49,31 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 </div>
                             </If>
 
-                            <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tl-lg  flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                            <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-md rounded-tl-md  flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
                                 <div className="flex justify-end">
-                                    <If condition={message.annex != null}>
-                                        <div className="w-48 h-48">
-                                            <img src={arquivoUrl} alt="" />
+                                    <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
+                                        <img className="rounded-md w-48 h-fit" src={arquivoUrl} alt="" />
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type.startsWith("video/")}>
+                                        <video className="rounded-md" src={arquivoUrl} controls ></video>
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type == ("application/pdf")}>
+
+                                        <div className="flex items-center justify-center">
+                                        <a href={arquivoUrl} download={message.annex?.name}>
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <p className="underline underline-offset-1 w-fit">{message.annex?.name}</p>
+                                                    <Image width={144} height={200} src="/pdfArchive.webp" alt="" />
+                                                </div>
+                                            </a>
                                         </div>
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type.startsWith("audio/")}>
+                                        <audio src={arquivoUrl} controls></audio>
                                     </If>
                                 </div>
                                 <div className="self-end h-3 opacity-60 pr-2 text-mn font-alata">
@@ -63,10 +81,6 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="pr-2">
-                        <img src="" alt="" />
                     </div>
                 </div>
             </If>
@@ -87,13 +101,31 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 </div>
                             </If>
 
-                            <div className={`bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-lg rounded-tr-lg flex flex-col justify-start ${penultimaMensagem ? "mb-6" : ""}`}>
+                            <div className={`bg-[#E9E7E7] dark:bg-gray-400 p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-md rounded-tr-md flex flex-col justify-start ${penultimaMensagem ? "mb-6" : ""}`}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
                                 <div className="flex justify-start">
-                                    <If condition={message.annex != null}>
-                                        <div className="w-48 h-48">
-                                            <img src={arquivoUrl} alt="" />
+
+                                    <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
+                                        <Image width={192} height={200} className="w-48 h-fit" src={arquivoUrl} alt="" />
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type.startsWith("video/")}>
+                                        <video src={arquivoUrl} controls ></video>
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type == ("application/pdf")}>
+                                        <div className="flex items-center justify-center">
+                                            <a href={arquivoUrl} download={message.annex?.name}>
+                                                <div className="flex flex-col items-center justify-center">
+                                                    <p className="underline underline-offset-1 w-fit">{message.annex?.name}</p>
+                                                    <Image width={144} height={200} src="/pdfArchive.webp" alt="" />
+                                                </div>
+                                            </a>
                                         </div>
+                                    </If>
+
+                                    <If condition={message.annex != null && message.annex.type.startsWith("audio/")}>
+                                        <audio className="" src={arquivoUrl} controls></audio>
                                     </If>
                                 </div>
                                 <div className="self-end pl-2 text-mn font-alata h-3 opacity-60">

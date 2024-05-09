@@ -9,6 +9,7 @@ import { CenterModal } from "../Modal";
 import { UserContext } from "@/contexts/UserContext";
 import { SaveChangesButton } from "./components/SaveChangesButton/SaveChangesButton";
 import { useTranslation } from "react-i18next";
+import { ImagemEnviada } from "../icons";
 
 export const PersonalInformations = () => {
   const { user, setUser } = useContext(UserContext);
@@ -78,7 +79,7 @@ export const PersonalInformations = () => {
               <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto"/>
               <label className="border-primary dark:border-secondary border-[1.5px] rounded-full p-2 bg-white dark:bg-back-grey  lg:w-12 lg:h-12 w-8 h-8 absolute -right-1 bottom-3 cursor-pointer">
                 <div className="flex items-center justify-center w-full h-full">
-                  <Image width={30} height={30} src="/img/imagem.svg" alt="" />
+                <ImagemEnviada></ImagemEnviada>
                 </div>
                 <input
                   ref={fotoAindaNaoAtualizada}

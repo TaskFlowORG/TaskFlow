@@ -26,13 +26,12 @@ export const ChatPage = ({ chatId }: chattype) => {
 
     useEffect(() => {
         if (!chatContent) return;
-        const conect = onConnect(`/chat/${chatContent.id}`, (message) => {
+        const connect = onConnect(`/chat/${chatContent.id}`, (message) => {
             const messagetemp = JSON.parse(message.body);
-            console.log("Aqui" , message);
             setMessages(prev => [...prev, messagetemp]);
         },);
         return () => {
-            conect.disconnect();
+            connect.disconnect();
         }
     }, [chatContent]);
 

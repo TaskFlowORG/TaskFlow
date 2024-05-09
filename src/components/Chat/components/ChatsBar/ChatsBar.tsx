@@ -1,7 +1,7 @@
 'use client'
 
 import { If } from "@/components/If";
-import { VisualizedChatOrMessage } from "@/components/icons";
+import { ImagemEnviada, VisualizedChatOrMessage } from "@/components/icons";
 import { UserContext } from "@/contexts/UserContext";
 import { Chat, Message } from "@/models";
 import { chatService } from "@/services";
@@ -31,13 +31,18 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
   }
 
   useEffect(() => {
+    if (chatClicado == chat.id) return
+    setQuantityUnvisualized(chat.quantityUnvisualized)
+  }, [chat])
+
+  useEffect(() => {
     setPhotoUrl(archiveToSrc(chat?.picture));
   }, [chat]);
 
   return (
     <>
-      <div className={`w-[96%] h-32 lg:h-28 rounded-xl flex shadow-blur-10 my-3 cursor-pointer ${() => { }}`} >
-        <div onClick={() => setarChat()} className="w-full h-full grid grid-cols-3 duration-0" style={{ gridTemplateColumns: "20% 55% 25%" }}>
+      <div className={`lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer `} >
+        <div onClick={() => setarChat()} className="w-full h-28 grid grid-cols-3 duration-0" style={{ gridTemplateColumns: "20% 55% 25%" }}>
           <div className="flex items-center pl-2">
             <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary dark:border-secondary border-2">
               <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
@@ -57,8 +62,8 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start ">
                   <p className="text-p font-montserrat truncate w-72 ">Você : {lastMessage?.value}</p>
-                  <div className="flex items-center w-14">
-                    <Image src={"/img/imagem.svg"} width={25} height={10} alt={""}></Image>
+                  <div className="flex items-center w-16 justify-between">
+                    <ImagemEnviada></ImagemEnviada>
                     <div>
                       <p className="text-p font-montserrat">Foto</p>
                     </div>
@@ -71,8 +76,8 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
 
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value == "" && lastMessage?.annex != null}>
-                <div className="flex items-center w-14">
-                  <Image src={"/img/imagem.svg"} width={25} height={10} alt={""}></Image>
+                <div className="flex items-center w-16 justify-between">
+                  <ImagemEnviada></ImagemEnviada>
                   <div>
                     <p className="text-p font-montserrat">Foto</p>
                   </div>
@@ -99,8 +104,8 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start">
                   <p className="text-p font-montserrat truncate w-72">{lastMessage?.sender.name}  : {lastMessage?.value}</p>
-                  <div className="flex items-center w-14">
-                    <Image src={"/img/imagem.svg"} width={25} height={10} alt={""}></Image>
+                  <div className="flex items-center w-16 justify-between">
+                    <ImagemEnviada></ImagemEnviada>
                     <div>
                       <p className="text-p font-montserrat">Foto</p>
                     </div>
@@ -113,8 +118,8 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
 
             <If condition={user?.username != lastMessage?.sender.username}>
               <If condition={lastMessage?.value == "" && lastMessage?.annex != null}>
-                <div className="flex items-center w-14">
-                  <Image src={"/img/imagem.svg"} width={25} height={10} alt={""}></Image>
+                <div className="flex items-center w-16 justify-between">
+                  <ImagemEnviada></ImagemEnviada>
                   <div>
                     <p className="text-p font-montserrat">Foto</p>
                   </div>

@@ -15,12 +15,13 @@ import { chatService, groupService } from "@/services";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { If } from "@/components/If";
 
-export default function ChatMessages({ children }: { children: React.ReactNode}) {
+export default function ChatMessages({ children }: { children: React.ReactNode }) {
   const route = useRouter();
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const { projects } = useContext(ProjectsContext);
   const [listaChats, setListaChats] = useState<Chat[]>([]);
+  const [chats, setChats] = useState<Chat[]>([]);
   const [searchin, setSearching] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [possibleChats, setPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
@@ -31,11 +32,12 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
   const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatAberto, setChatAberto] = useState<number>();
 
+
   useEffect(() => {
     async function buscarChats() {
       const response = await chatService.findAllGroup();
       const response2 = await chatService.findAllPrivate();
-      setListaChats([...response, ...response2]);
+      setChats([...response, ...response2]);
     }
     buscarChats();
   }, [user]);
@@ -72,6 +74,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
   }, [search]);
 
   useEffect(() => {
+
     setFilteredChats(
       listaChats.filter((c) =>
         c.name.toUpperCase().includes(search.toUpperCase())
@@ -94,22 +97,24 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
       const list = [...listaChats];
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
+      const qtty = oldChat.quantityUnvisualized;
+      chatTemp.quantityUnvisualized = qtty + 1;
       list.splice(list.indexOf(oldChat), 1);
-
-      //precisa arrumar aq pra não aumentar o numero de mensagens nao visualizadas caso o chat ja esteja aberto
-
-      chatTemp.quantityUnvisualized++;
-      list.unshift(chatTemp);
-      setListaChats(list);
+      const newList = [chatTemp, ...list];
+      setListaChats(newList);
     });
     return () => {
       connect.disconnect();
     };
-  }, [user, listaChats]);
+  }, [user, chats, listaChats]);
+
+  useEffect(() => {
+    setListaChats(chats);
+  }, [chats])
 
   const handleChatClick = (chatId: number) => {
-    {setChatAberto(chatId)}
-    route.replace(`/${user?.username}/chat/${chatId}`);
+      setChatAberto(chatId)
+      route.replace(`/${user?.username}/chat/${chatId}`);
   };
 
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
@@ -126,8 +131,8 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
       <div className="w-full h-[80vh] lg:h-[89vh] flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
         <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
           <div className="flex flex-col items-center w-full lg:h-full gap-4">
-            <div className="flex items-center w-full justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%] rounded-lg shadow-blur-10">
-              <div className="w-30 px-4">
+            <div className="flex items-center lg:w-full w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">
+              <div className="flex items-center w-30 px-6 lg:h-full h-20">
                 <h3 className="text-h3 font-alata">Chats</h3>
               </div>
               <span className="flex w-full justify-end">
@@ -195,8 +200,8 @@ export default function ChatMessages({ children }: { children: React.ReactNode})
                 <h5 className="text-h5 font-alata">Grupos</h5>
               </div>
             </div>
-            <div className={`w-full flex h-[72.5vh] lg:h-[73vh] overflow-y-scroll `}>
-              <div className="w-full h-full flex  flex-col items-center">
+            <div className={`w-full flex h-[72.5vh] lg:h-[73.5vh] lg:overflow-y-scroll overflow-auto`}>
+              <div className="w-full h-full flex  flex-col items-center ">
                 {filteredChats.length == 0 ? (
                   <div className="h-full flex justify-center items-center">
                     <ChatDontExists />
