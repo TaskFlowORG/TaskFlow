@@ -268,5 +268,15 @@
   "task-report": "Iforme de tarea",
   "project-report": "Iforme de proyecto",
   "you-are-owner": "Tienes proyectos o grupos en los que eres el propietario, y están asignados a otros usuarios también. Para evitar que los demás pierdan el acceso a ellos, debes cambiar el propietario de tus proyectos/grupos a otra persona.",
-  "change-owners": "Cambiar propietarios"
+  "change-owners": "Cambiar propietarios",
+  "page-not-found-title": "¡Ups! Página no encontrada",
+  "forbidden-title": "¡Ups! Acceso denegado",
+  "other-error-title": "¡Ups! Algo salió mal",
+  "page-not-found": "La página que estás intentando acceder no existe o ha sido eliminada.",
+  "forbidden": "No tienes permiso para acceder a esta página.",
+  "other-error": "Algo salió mal al intentar acceder a esta página.",
+  "page-not-found-cause": "Posibles causas: \n   - Has accedido a un enlace que no existe; \n   - Has intentado acceder a algo que no está registrado; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
+  "forbidden-cause": "Posibles causas: \n   - No tienes permiso para acceder a esta página; \n   - Has intentado acceder a algo que no te pertenece; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
+  "other-error-cause": "Posibles causas: \n   - El servidor está fuera de servicio; \n   - El enlace está roto; \n   - Se produjo un error interno en el servidor.",
+   "retry":"Intentar de nuevo"
 }

@@ -15,6 +15,7 @@ import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { Loading } from "@/components/Loading";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
   params: { project: number; user: string };
@@ -28,6 +29,7 @@ export default function Layout({ params, children }: Props) {
   const { task, setIsOpen, isOpen } = useContext(TaskModalContext);
   const { inPage, pageId, setInPage, setPageId } = useContext(PageContext);
   const [page, setPage] = useState<Page>();
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     setPage(project?.pages.find((p) => p.id === pageId));
@@ -35,10 +37,11 @@ export default function Layout({ params, children }: Props) {
 
   useEffect(() => {
     (async () => {
-      const projectPromise = await projectService.findOne(params.project);
-      setProject!(projectPromise);
+      const projectPromise = await  projectService.findOne(params.project).catch(asynThrow);
+      if(!projectPromise) return;
+      setProject!(projectPromise!);
       console.log(params);
-      projectService.setVisualizedNow(projectPromise.id);
+      projectService.setVisualizedNow(projectPromise!.id).catch(e => {asynThrow(e); return null;});
     })();
   }, [params.project]);
 

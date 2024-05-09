@@ -2,7 +2,6 @@
 import React, { FormEvent, use, useEffect, useState } from "react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { z, ZodError, ZodErrorMap, ZodIssue, ZodIssueCode } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
@@ -105,6 +104,7 @@ export const Register = () => {
         callbackUrl: `/${username}`,
       });
       }).catch((error) => {
+        if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {
             message: t("username-exists"),
@@ -268,3 +268,7 @@ export const Register = () => {
     </div>
   );
 };
+function zodResolver(schema: z.ZodEffects<z.ZodObject<{ name: z.ZodString; surname: z.ZodString; username: z.ZodString; mail: z.ZodString; password: z.ZodString; confirmPassword: z.ZodString; }, "strip", z.ZodTypeAny, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }>, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, { name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }>): import("react-hook-form").Resolver<{ name: string; surname: string; username: string; mail: string; password: string; confirmPassword: string; }, any> | undefined {
+  throw new Error("Function not implemented.");
+}
+

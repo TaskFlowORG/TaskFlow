@@ -304,5 +304,15 @@
   "task-report": "Tasks Report",
   "project-report": "Projects Report",
   "you-are-owner": "You have projects or groups where you are the owner, and they are assigned to other users as well. To prevent others from losing access to them, you need to change the owner of your projects/groups to someone else.",
-  "change-owners": "Change owners"
+  "change-owners": "Change owners",
+  "page-not-found-title": "Oops! Page not found",
+  "forbidden-title": "Oops! Access denied",
+  "other-error-title": "Oops! Something went wrong!",
+  "page-not-found": "The page you are trying to access does not exist or has been removed.",
+  "forbidden": "You do not have permission to access this page.",
+  "other-error": "Something went wrong while trying to access this page.",
+  "page-not-found-cause": "Possible causes: \n   - You accessed a non-existent link; \n   - You tried to access something that was not registered; \n   - The page has been removed; \n   - The link is broken.",
+  "forbidden-cause": "Possible causes: \n   - You do not have permission to access this page; \n   - You tried to access something that is not yours; \n   - The page has been removed; \n   - The link is broken.",
+  "other-error-cause": "Possible causes: \n   - The server is down; \n   - The link is broken; \n   - An internal server error occurred.",
+   "retry":"Retry"
 }

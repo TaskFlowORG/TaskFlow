@@ -1,19 +1,19 @@
 "use client";
 import 'regenerator-runtime/runtime'
-
 import "@/styles/global.css";
+
 import Providers from "@/services/Theme/providers";
 import ThemeSwitcher from "@/services/Theme/ThemeSwitcher";
 import VLibras from "vlibras-nextjs";
-import Cookies from "js-cookie";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode,useState } from "react";
 import { Language, User } from "@/models";
 import { UserContext } from "@/contexts/UserContext";
 import { LanguageProvider } from "@/contexts/ContextLanguage";
 import { AppProps } from "next/app";
-import { I18nextProvider } from 'react-i18next';
-import i18next, { i18n } from "../../../i18n";
+import { I18nextProvider, useTranslation } from 'react-i18next';
+import i18next from "../../../i18n";
 import { TextToSpeechTeste } from "@/components/GeneralConfig/components/TextToSpeechTeste/TextToSpeechTeste";
+import ErrorBoundary from '@/components/ErrorPage/ErrorBoudary';
 
 type Props = AppProps & {
   text: string
@@ -24,7 +24,7 @@ type Props = AppProps & {
 
 export default function Layout({ children, text }: Props) {
 
-
+  const {t} = useTranslation();
   const [user, setUser] = useState<User>();
   const [language, setLanguage] = useState<Language>(Language.PORTUGUESE);
 
@@ -33,15 +33,17 @@ export default function Layout({ children, text }: Props) {
       <UserContext.Provider value={{ user, setUser }}>
         <LanguageProvider language={language} setLanguage={setLanguage}>
           <I18nextProvider i18n={i18next} >
-
+            <ErrorBoundary t={t}>
             <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
-              {user?.configuration.libras ? <VLibras forceOnload={Cookies.getJSON("libras")} /> : null}
+              {user?.configuration.libras ? <VLibras forceOnload /> : null}
               {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
               <Providers>
                 <ThemeSwitcher />
                 {children}
               </Providers>
             </body>
+            </ErrorBoundary>
+
           </I18nextProvider>
         </LanguageProvider>
       </UserContext.Provider>
