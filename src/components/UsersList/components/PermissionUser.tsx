@@ -1,10 +1,12 @@
 "use client";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 import { GroupOptions } from "./GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
 import { PermissionComponent } from "./UPermissionComponent";
+import { LocalModal } from "@/components/Modal";
+import { OtherUserComponent } from "@/components/OtherUser";
 
 interface Props {
   group: Group;
@@ -18,10 +20,13 @@ export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const { theme } = useTheme();
   const [openModal, setOpenModal] = useState<boolean>(false)
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
 
   useEffect(() => {
     console.log(group.users);
-    
+
     fetchData();
   }, [group]);
 
@@ -30,6 +35,11 @@ export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
       const fetchedPermissions = await permissionService.findAll(project.id);
       setPermissions(fetchedPermissions);
     }
+  };
+  const openUser = (e: MouseEvent<HTMLDivElement>, user: OtherUser) => {
+    setX(e.clientX);
+    setY(e.clientY);
+    setIsOpened(!isOpened);
   };
 
   const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
@@ -56,7 +66,7 @@ export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
           </div>
         </button>
 
-        <div className="flex gap-6 w-full ml-2">
+        <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e, user)}>
           {userIcon}
           <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
@@ -71,13 +81,22 @@ export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
 
           {project?.id != null && (
             <div className="flex md:justify-end relative">
-              <PermissionComponent permissions={permissions} group={group} user={user} />
+              <PermissionComponent permissions={permissions} group={group} user={user} project={project} />
             </div>
           )}
         </div>
       </div>
-      <div></div>
       <GroupOptions isOpen={openModal} group={group} user={user} setGroup={setGroup} />
+
+      <LocalModal
+        z="z-[60]"
+        x={x}
+        y={y}
+        condition={isOpened}
+        setCondition={setIsOpened}
+      >
+        <OtherUserComponent user={user!} />
+      </LocalModal>
     </div>
   );
 };

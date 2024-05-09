@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Group, OtherUser, Permission } from "@/models";
+import { Group, OtherUser, Permission, Project } from "@/models";
 import { groupService, userService } from "@/services";
 import { useTranslation } from "react-i18next";
 
@@ -7,9 +7,10 @@ interface Props {
     group: Group;
     user: OtherUser;
     permissions: Permission[];
+    project: Project;
 }
 
-export const PermissionComponent = ({ group, user, permissions }: Props) => {
+export const PermissionComponent = ({ group, user, permissions, project }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
     const [userLogged, setUserLogged] = useState<OtherUser>();
     const [successPermission, setSuccessPermission] = useState<boolean>(false);
@@ -19,52 +20,44 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
     useEffect(() => {
         fetchData();
         const timer = setTimeout(() => {
-            if (successPermission) {
-                setSuccessPermission(false);
-            }
+            if (successPermission) setSuccessPermission(false); 
         }, 6000);
         return () => clearTimeout(timer);
-    }, [successPermission, userLogged, permissions]);
+    }, [successPermission, selectedPermission]);
 
     const fetchData = async () => {
         const fetchedUser = await userService.findLogged();
         setUserLogged(fetchedUser);
         findUserPermissionsInGroup;
-
     };
 
     const findUserPermissionsInGroup = () => {
+        console.log("oiii");
         if (user && group) {
-            const groupProjectIds = group.permissions.map(p => p.project.id);
-            const matchingPermissions = user.permissions.filter(p =>
-                groupProjectIds.includes(p.project.id)
-            );
-
-            if (matchingPermissions.length > 0) {
-                console.log("eu entrei aqui, bahhh");
-                setSelectedPermission(matchingPermissions[0].id.toString() );
-            }
+            const listUserPermissions: Permission[] = permissions.filter(p => p.project.id == project.id)
+            
+            // const 
+            // const groupProjectIds = group.permissions.map(p => p.project.id);
+            // const matchingPermissions = user.permissions.filter(p =>
+            //     groupProjectIds.includes(p.project.id)
+                
+            // );
+            // console.log(matchingPermissions, "lista");
+            
+            // if (matchingPermissions.length > 0) {
+            //     console.log("eu entrei aqui, bahhh");
+            //     setSelectedPermission(matchingPermissions[0].name);
+            //     console.log(selectedPermission, "oii");
+            // }
         }
     };
-
-    // const savePermission = async (selectedPermission: Permission) => {
-    //     try {
-    //         await userService.updatePermission(user.username, selectedPermission);
-    //         setSelectedPermission(selectedPermission.name);
-    //         console.log(selectedPermission);
-
-    //         setText(t("permissionUpdateSuccess"));
-    //         setSuccessPermission(true);
-    //     } catch (error) {
-    //         setText(t("permissionUpdateError"));
-    //         setSuccessPermission(true);
-    //     }
-    // };
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
             await userService.updatePermission(user.username, selectedPermission);
-            setSelectedPermission(selectedPermission.id.toString());
+            setSelectedPermission(selectedPermission.name);
+            console.log(selectedPermission);
+            
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
@@ -98,7 +91,7 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != userLogged?.id}
-                        value={selectedPermission || ""}
+                        value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
                         onChange={handleSelectChange}
                     >
                         {permissions.map(p => (
@@ -110,7 +103,7 @@ export const PermissionComponent = ({ group, user, permissions }: Props) => {
 
                 </div>
             )}
-            {successPermission && (
+             {successPermission && (
                 <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
                     {text}
                 </div>
