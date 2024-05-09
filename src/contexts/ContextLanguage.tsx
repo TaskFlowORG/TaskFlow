@@ -5,15 +5,16 @@ import { Language } from '@/models';
 import { languageToString } from '@/functions/selectLanguage';
 import { useTranslation } from 'next-i18next';
 import Cookies from "js-cookie";
+import { userService } from '@/services';
 // Definindo o tipo do contexto
 type LanguageContextType = {
-  language: string;
-  changeLanguage: (lang: string) => void;
+  language: Language;
+  changeLanguage: (lang: Language) => void;
 };
 
 // Criando o contexto
-const LanguageContext = createContext<LanguageContextType>({
-  language: 'en', // Idioma padrão
+export const LanguageContext = createContext<LanguageContextType>({
+  language: Language.PORTUGUESE, // Idioma padrão
   changeLanguage: () => {}, // Função vazia como padrão
 });
 
@@ -21,25 +22,29 @@ const LanguageContext = createContext<LanguageContextType>({
 export const useLanguage = () => useContext(LanguageContext);
 
 // Provedor do contexto de idioma
-export const LanguageProvider = ({ children }:{children:React.ReactNode}) => {
+
+type Props = {
+  children: React.ReactNode;
+  setLanguage: (lang: Language) => void;
+  language: Language;
+};
+export const LanguageProvider = ({ children, setLanguage, language }:Props) => {
   const { i18n} = useTranslation();
-  const [language, setLanguage] = useState<string>(i18n.language);
-  const {user} = useContext(UserContext);
+  const {user, setUser} = useContext(UserContext);
 
   useEffect(() => {
-    let lang = 'en';
-    if (user?.configuration?.language) {
-      lang = languageToString(user.configuration.language);
-    }else{
-      const cookie = Cookies.get("language") as Language;
-      lang = languageToString(cookie);
-    }
-    changeLanguage(lang);
-  }, [user]);
+    (async() => {
+      if (!user || !setUser) return;
+      user.configuration.language = language;
+      const updatedUser = await userService.patch(user)
+      setUser(updatedUser);
+    })()
+  }, [language]);
+
 
   // Função para alterar o idioma
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
+  const changeLanguage = (lang: Language) => {
+    i18n.changeLanguage(languageToString(lang));
     setLanguage(lang);
   };
 

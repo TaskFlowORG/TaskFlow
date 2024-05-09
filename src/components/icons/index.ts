@@ -44,3 +44,6 @@ export {IconMenuTaskProperty} from "./IconMenuTaskProperty/IconMenuTaskProperty"
 export {IconInvert} from "./IconInvert";
 export { IconInvite } from "./Notifications/Invite";
 export {IconRedo} from "./IconRedo";
+
+export {IconConfig} from "./ConfigIcon";
+export {IconNotification} from "./NotificationIcon";

@@ -31,10 +31,10 @@ const schema = z
     )
 
 
-
 type FormData = z.infer<typeof schema>;
+
 export const Step3 = () => {
-    const [user, setUser] = useState<FormData>({ password: "", confirmPassword: ""});
+    const [user, setUser] = useState<FormData>({ password: "", confirmPassword: "" });
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
         mode: "all",
         reValidateMode: "onChange",
@@ -44,13 +44,13 @@ export const Step3 = () => {
     const router = useRouter();
 
 
-    const resetPass = async (password: string) => {
+    const resetPass = async (data: FormData) => {
         try {
             const code = await emailService.getCode();
             code.map(async (c) => {
                 console.log("senha:", user.password);
 
-                await userService.upDatePassword(c.username, password);
+                await userService.upDatePassword(c.username, data.password);
             });
             router.push("/login");
         } catch (error) {
@@ -58,13 +58,17 @@ export const Step3 = () => {
         }
     };
 
-    const iconPassword = theme === "light" ? "/img/themeLight/password.svg" : "/img/themeDark/password.svg";
+    const iconPassword =
+        theme === "light"
+            ? "/img/themeLight/password.svg"
+            : "/img/themeDark/password.svg";
+
     return (
         <>
-            <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8">
-                <h4 className="h4 leading-6 flex py-3 md:py-0">Redefinir Senha</h4>
+            <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey justify-between py-9">
+                <h4 className="h4 leading-6 flex py-3 md:py-0">Redefinir senha</h4>
 
-                <div className='h-4/5 w-4/5 pt-10 flex flex-col items-center gap-2'>
+                <form onSubmit={handleSubmit(resetPass)} className='gap-2 w-4/5 pt-10 flex flex-col items-center justify-center'>
                     <Input
                         className="inputRegister"
                         image={iconPassword}
@@ -73,8 +77,9 @@ export const Step3 = () => {
                         helperText={errors.password?.message}
                         register={{ ...register("password") }}
                         required
-                        classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
-                        
+                        classNameInput={
+                            "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
+                        }
                     />
                     <Input
                         className="inputRegister"
@@ -84,18 +89,16 @@ export const Step3 = () => {
                         helperText={errors.confirmPassword?.message}
                         register={{ ...register("confirmPassword") }}
                         required
-                        classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
+                        classNameInput={
+                            "w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"
+                        }
                     />
-                </div>
 
-                <div className='flex justify-end w-4/5 pt-7 md:pt-0'>
-                    <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={() => resetPass(getValues("password"))}
-                   
-            >
-                        Confirmar
-                    </button>
-                </div>
-            </div>
+                <button type="submit" className="bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange">
+                    Confirmar
+                </button>
+            </form>
+        </div >
         </>
-    )
+    );
 }

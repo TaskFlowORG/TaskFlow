@@ -38,7 +38,7 @@ export default function Home({ params }: { params: { user: string, group: number
                     {project ? <></> : <Description user={user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    {project ? <></> : <UsersList group={group} user={user} />}
+                    {project ? <></> : <UsersList group={group} user={user} setGroup={setGroup}/>}
                 </div>
             </div>
         </div>

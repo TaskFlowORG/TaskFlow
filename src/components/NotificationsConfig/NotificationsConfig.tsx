@@ -69,7 +69,7 @@ export const NotificationsConfig = () => {
     return (
         <div className="flex items-center w-fit h-full ">
             <div className="flex justify-center w-full h-[80%]">
-                <div className="w-[85%] lg:grid lg:grid-cols-2 lg:grid-rows-4 gap-10 flex flex-col lg:justify-center items-center lg:h-fit h-[110rem]">
+                <div className="w-[85%] lg:grid pb-14 lg:grid-cols-2 lg:grid-rows-4 gap-10 flex flex-col lg:justify-center items-center lg:h-fit h-[110rem]">
                     <div className="flex justify-between col-span-2 row-start-1 w-full">
                         <div>
                             <h2 className="h2 text-primary dark:text-secondary">{t("notifications-side-bar")}</h2>

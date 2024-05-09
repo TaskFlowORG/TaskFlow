@@ -4,18 +4,18 @@ import { useEffect, useState } from "react"
 import { GroupOptions } from "./GroupOptions"
 import { permissionService, userService } from "@/services";
 import { Group, OtherUser, Permission, Project, User } from "@/models";
-import { PermissionComponent } from "./PermissionComponent";
+import { PermissionComponent } from "./UPermissionComponent";
 
 interface Props {
   group: Group;
   user: OtherUser;
   project?: Project;
+  setGroup: (group: Group) => void;
 
 }
 
-export const PermissionUser = ({ group, user, project }: Props) => {
+export const PermissionUser = ({ group, user, project, setGroup }: Props) => {
   const [permissions, setPermissions] = useState<Permission[]>([]);
-
   const { theme } = useTheme();
   const [openModal, setOpenModal] = useState<boolean>(false)
 
@@ -58,7 +58,7 @@ export const PermissionUser = ({ group, user, project }: Props) => {
 
         <div className="flex gap-6 w-full ml-2">
           {userIcon}
-          <p className="whitespace-nowrap overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
+          <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
 
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">
@@ -77,7 +77,7 @@ export const PermissionUser = ({ group, user, project }: Props) => {
         </div>
       </div>
       <div></div>
-      <GroupOptions isOpen={openModal} group={group} user={user} />
+      <GroupOptions isOpen={openModal} group={group} user={user} setGroup={setGroup} />
     </div>
   );
 };

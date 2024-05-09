@@ -9,7 +9,7 @@ type chattype = {
     chatId: number;
 }
 
-export const Chatt = ({ chatId }: chattype) => {
+export const ChatPage = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
 
@@ -33,7 +33,7 @@ export const Chatt = ({ chatId }: chattype) => {
         return () => {
             conect.disconnect();
         }
-    }, [chatContent]); 
+    }, [chatContent]);
 
     return (
         <>
@@ -44,14 +44,12 @@ export const Chatt = ({ chatId }: chattype) => {
                         <ChatContent
                             key={chatContent.id}
                             id={chatContent.id}
-                            picture={chatContent.picture}
                             name={chatContent.name}
-                            lastMessage={chatContent.lastMessage}
-                            quantityUnvisualized={chatContent.quantityUnvisualized}
                             messages={messages}
-                            type={chatContent.type}
-                            equals={chatContent.equals}
                             chatContent={chatContent}
+                            lastMessage={chatContent.lastMessage}
+                            message={chatContent.messages[chatContent.id]}
+                            isFirst={true}
                         />
                     }
                 </div>

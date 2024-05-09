@@ -1,17 +1,13 @@
 import { Group, GroupPost, Permission, Project, TypePermission } from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from "next/navigation";
-import { groupService, permissionService, projectService } from "@/services";
+import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
-import { LocalModal } from "@/components/Modal";
-import { ProjectContext } from "@/contexts";
 import { InviteGroupToProject } from "./InviteGroupToProject";
-import { useDebounce } from "react-use";
-
-
+import { useTranslation } from "react-i18next";
 
 
 interface Props {
@@ -21,14 +17,12 @@ interface Props {
   global: string;
 }
 
-
-
-
 export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   const [groups, setGroups] = useState<SimpleGroup[]>([]);
   const router = useRouter();
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     fetchData();
@@ -56,8 +50,8 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     let groupPermission: Permission[] = [];
 
     const newGroup = new GroupPost(
-      "Nome do grupo",
-      "Descrição do Grupo",
+      "",
+      "",
       groupPermission,
       []
     );
@@ -79,18 +73,15 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
     <>
       {
         project != undefined && (
-          <>
+          <div className="w-full h-max flex flex-col gap-10 pages">
+
             <Navigate modalPages={false} setCondition={setModalGroups} />
             <ProjectInformations project={project} />
-          </>
-
-
-
+          </div>
         )
       }
 
-      <div className="flex flex-col w-72 justify-center items-center h-4/6 groups-side">
-        <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
+        <div className="flex items-start h-full w-full overflow-y-scroll none-scrollbar groups-side">
           <div className="flex flex-col items-start max-w-full h-min w-full">
             <div className="max-w-full h-min w-full pt-2">
               {Array.isArray(groups) &&
@@ -106,6 +97,8 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                       <GroupComponent
                         user={user}
                         group={group}
+                        setGroups={setGroups}
+                        groups={groups}
                       />
                     </button>
                   </div>
@@ -122,10 +115,9 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
             }
           >
             {" "}
-            Adicionar Grupo
+            {t("addGroup")}
           </button>
         </div>
-      </div>
     </>
   );
 };

@@ -3,6 +3,7 @@ import { Archive } from "@/models/others/Archive";
 import { Page } from "@/models/page/page/Page";
 import { Property } from "@/models/property/property/Property";
 import { PropertyValue } from "@/models/relations/property-value/PropertyValue";
+import { Log } from "@/models/task/log/Log";
 import { OtherUser } from "@/models/user/user/OtherUser";
  
 
@@ -18,7 +19,8 @@ export class Project {
         public pages: Page[],
         public properties: Property[],
         public comments: Message[],
-        public values: PropertyValue[]
+        public values: PropertyValue[],
+        public logs:Log[]
     ) {
     }
     
