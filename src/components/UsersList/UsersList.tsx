@@ -164,7 +164,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               group != undefined ?
                 <PermissionUser
                   group={group}
-                  user={group?.owner}
+                  user1={group?.owner}
                   project={project}
                   key={group?.owner && group.owner.username}
                   setGroup={setGroup}
@@ -175,7 +175,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               group?.users.map((u) => (
                 <PermissionUser
                   group={group}
-                  user={u}
+                  user1={u}
                   project={project}
                   key={u.username}
                   setGroup={setGroup}
