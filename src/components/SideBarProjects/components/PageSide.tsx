@@ -61,7 +61,7 @@ export const PageSide = (
         <Navigate modalPages setCondition={setModalPages} />
         <ProjectInformations project={project} />
       </div>
-      <div className="h-full w-full flex flex-col mb-12  overflow-y-auto none-scrollbar">
+      <div className="h-full w-full flex flex-col   overflow-y-auto none-scrollbar">
         {project?.pages.map((page) => {
           return (
             <div
@@ -91,7 +91,8 @@ export const PageSide = (
             </div>
           );
         })}
-        <div className="h-12 w-32 smm:w-40 sm:w-64 absolute bottom-2">
+      </div>
+        <div className="h-12 w-32 smm:w-40 sm:w-64  bottom-2">
 
           <If condition={merging}>
             <div className="flex justify-between w-full h-full">
@@ -142,7 +143,6 @@ export const PageSide = (
               />
           </LocalModal>
         </div>
-      </div>
     </>
   );
 };

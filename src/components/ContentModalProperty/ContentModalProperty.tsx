@@ -34,6 +34,7 @@ export const ContentModalProperty = ({
         TypeOfProperty.TEXT,
       ].includes(type)
     ) {
+
       return (
         <Input
         disabled={!permissionUpdate}
@@ -54,10 +55,9 @@ export const ContentModalProperty = ({
         TypeOfProperty.SELECT,
       ].includes(type)
     ) {
-      console.log("a", property)
+  
       return <OptionsInput disabled={!permissionUpdate} property={property} label="Opções" />;
     } else {
-      console.log("b", property)
       return (
         <>
           <InputCheckbox
@@ -66,12 +66,14 @@ export const ContentModalProperty = ({
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2 truncate"
             title="Pode ser data passada"
             label="Pode ser data passada"
+           
           />
           <InputCheckbox
             disabled={!permissionUpdate}
             register={{ ...register("schedule") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
             label="Incluir agendamento"
+            checked={property ? (property as Date).scheduling : false}
           />
           <InputCheckbox
             disabled={!permissionUpdate}

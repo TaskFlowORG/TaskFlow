@@ -21,13 +21,16 @@ import { If } from "../If";
 import { NeedPermission } from "../NeedPermission";
 import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
+import { SideModal } from "../Modal";
 
 type RegisterPropertyProps = {
   project: Project;
   page?: Page;
+  setModalProperty: (value:boolean) => void;
+  modalProperty: boolean;
 };
 
-export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
+export const RegisterProperty = ({ project, page, setModalProperty, modalProperty }: RegisterPropertyProps) => {
   const [isInProject, setIsInProject] = useState<boolean>(true);
   const [propertiesArray, setPropertiesArray] = useState<Property[]>(
     isInProject ? project.properties : page?.properties || []
@@ -37,7 +40,7 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
     setPropertiesArray(
       isInProject ? project.properties : page?.properties || []
     );
-  }, [isInProject]);
+  }, [isInProject, page, project]);
 
   const postProperty = async (
     name: string,
@@ -121,7 +124,7 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
       console.log(error);
     }
   };
-  const [modalProperty, setModalProperty] = useState(false);
+  const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
 
   const upDateProperty = async (property: Property, getValues: any) => {
     try {
@@ -196,7 +199,21 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
     "w-full h-8 rounded-t-md flex items-center justify-center bg-tranparent border-2 border-primary dark:border-secondary text-primary dark:text-secondary";
 
   return (
-    <>
+    <SideModal
+    footer={
+      <NeedPermission permission="create">
+      <Button
+        width="w-full "
+        text={t("add-property")}
+        fnButton={() => setModalProperty(true)}
+        padding="p-2"
+        paddingY="p-1"
+        textSize="font-[14re]"
+      />
+    </NeedPermission>
+    }
+    header={
+      <>
       <div className="h-min w-full flex justify-evenly items-center properties">
         <h4 className="h4 text-primary dark:text-secondary">{t("property")}</h4>
       </div>
@@ -218,19 +235,25 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
       </If>
       <div
         className={
-          "w-full flex flex-col items-center gap-5 " +
-          (page ? "h-[58%]" : "h-[70%]")
-        }
+          "w-full flex flex-col items-center gap-5 h-min "}
       >
         <ModalRegisterProperty
           postProperty={postProperty}
-          open={modalProperty}
+          open={modalPropertyRegister}
           project={project && project}
           page={page}
           close={() => {
-            setModalProperty(false);
+            setModalPropertyRegister(false);
           }}
         />
+        </div>
+        </>
+    }
+    condition={modalProperty}
+    setCondition={setModalProperty}
+    right
+  >
+      
         <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
           {propertiesArray.map((property, index) => {
             return (
@@ -243,17 +266,8 @@ export const RegisterProperty = ({ project, page }: RegisterPropertyProps) => {
             );
           })}
         </div>
-      </div>
-      <NeedPermission permission="create">
-        <Button
-          width="w-full "
-          text={t("add-property")}
-          fnButton={() => setModalProperty(true)}
-          padding="p-2"
-          paddingY="p-1"
-          textSize="font-[14re]"
-        />
-      </NeedPermission>
-    </>
+      </SideModal>
+
+
   );
 };

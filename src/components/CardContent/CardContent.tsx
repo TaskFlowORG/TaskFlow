@@ -25,16 +25,16 @@ export const CardContent = ({ task }: Props) => {
   function is(property: PropertyValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
-      <div className="flex justify-between"> 
+      <div className="flex justify-between">
         <h4
           style={{ opacity: task.name ? 1 : 0.25 }}
           className="text-h5 font-alata w-max text-black dark:text-white"
         >
-          {task.name ?? t("withoutname")}
+          { task.name!=null ? (task.name.length > 0 ? task.name : t("withoutname")): t("withoutname")}
         </h4>
         <div className="  flex items-center relative w-16">
           <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>

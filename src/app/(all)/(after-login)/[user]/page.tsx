@@ -12,7 +12,6 @@ import { useTranslation } from "next-i18next"
 export default function InitialPage({params}:{params:{user:string}}) {
     const {projects} = useContext(ProjectsContext);
     const [tasks, setTasks] = useState<Task[]>([])
-
     useEffect(() => {
         (async () => {
             const tasks = await taskService.findTodaysTasks(params.user)

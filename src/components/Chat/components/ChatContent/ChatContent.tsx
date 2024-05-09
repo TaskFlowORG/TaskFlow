@@ -1,7 +1,7 @@
 import { MessageContent } from "../MessageContent/MessageContent"
 import { Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, use, useRef } from "react"
-import { chatService, userService } from "@/services";
+import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
+import { chatService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
 import { Dictophone } from "@/components/Dictophone";
@@ -9,6 +9,7 @@ import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
 import Image from 'next/image'
+import { AudioFile, AudioIcon, GaleryIcon, IconArchive, PdfIcon, SendMessage } from "@/components/icons";
 
 interface MessageGroup {
     id: number,
@@ -18,58 +19,55 @@ interface MessageGroup {
     message: Message,
     isFirst: boolean
     chatContent: Chat
+
 }
 
 export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatContent }: MessageGroup) => {
 
+    const { user } = useContext(UserContext)
     const [mensagem, setMensagem] = useState<string>("")
     const [mensagens, setMensagens] = useState<MessageGroup[]>()
-    const { user } = useContext(UserContext)
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const [photoUrl, setPhotoUrl] = useState<string>(chatContent ? archiveToSrc(chatContent.picture) : "");
-
+    const [arquivoUrl, setArquivoUrl] = useState<string>();
+    const [arquivo, setArquivo] = useState<File | null>();
+    const arquivoParaEnviar = useRef<HTMLInputElement>(null);
+    const [modalArquivo, setModalArquivo] = useState<boolean>(false);
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
     }, [chatContent]);
 
-    useEffect(() => {
+    const scrollToBottom = () => {
 
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
+        }
+    };
+
+    useEffect(() => {
         scrollToBottom();
-        const k:any = messages.map((message, index) => ({
+        const k: any = messages.map((message, index) => ({
             message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? true : message.sender.id != messages[index + 1].sender.id
         }))
         setMensagens(k)
     }, [messages]);
 
     const pegarMensagem = (event: any) => {
+
         setMensagem(event.target.value)
     }
 
-    const scrollToBottom = () => {
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
-        }
-    };
-
     async function enviarMensagem() {
-        if (mensagem != "") {
-            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [],))
+        if (mensagem != "" || arquivoUrl != null) {
+            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!)
             setMensagem("")
+            setArquivo(null)
+            setModalArquivo(false)
         }
         else {
             alert("Mensagem vazia")
         }
-    }
-
-    function verificarStatus() {
-        //mais para frente será implementado sistema para verificar se o usuário está online ou offline
-        return "Offline"
-    }
-
-    function alterarCorStatus() {
-        //mais para frente será implementado sistema para verificar se o usuário está online ou offline
-        return "bg-red-600"
     }
 
     const firstMessageToday = (date: Date) => {
@@ -97,72 +95,161 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
         });
     }
 
+    const previewArquivo = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+        setArquivo(e.target.files[0]);
+        setArquivoUrl(URL.createObjectURL(e.target.files[0]));
+    };
+
     return (
         <>
-            <div className={`w-full h-full gap-10`}>
-                <div className="flex bg-input-grey dark:bg-back-grey w-full h-full rounded-lg items-center justify-around shadow-blur-10">
-                    <div className="relative flex bg-primary rounded-full lg:w-[4%] h-11 mx-5  border-2 border-primary dark:border-secondary">
-                        <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
+            <If condition={chatContent != null}>
+                <div className={`lg:block flex flex-col items-center w-full h-full gap-10`}>
+                    <div className="flex bg-input-grey dark:bg-back-grey lg:w-full w-[95%] lg:h-full h-20 rounded-md items-center  shadow-blur-10">
+                        <div className="relative flex bg-primary rounded-full w-11 h-11 mx-5  border-2 border-primary dark:border-secondary">
+                            <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
+                        </div>
+                        <div className="w-[80%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
+                            <h5 >{name}</h5>
+                        </div>
                     </div>
-                    <div className="w-[80%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
-                        <h5 >{name}</h5>
+                    <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
+                        <div className="flex  w-full flex-col gap-1">
+                            <div className="flex justify-center py-5 text-p font-alata text-constrast">
+                                <p>Este é o começo de sua conversa com {name} </p>
+                            </div>
+                            {mensagens?.map((mensagem, index) => (
+                                <>
+                                    <If condition={firstMessageToday(new Date())?.id === mensagem.message.id}>
+                                        <div className="w-full flex justify-center">
+                                            <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                                <p className="text-p font-montserrat text-contrast">Hoje</p>
+                                            </div>
+                                        </div>
+                                    </If>
+                                    <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.message.id}>
+                                        <div className="w-full flex justify-center">
+                                            <div className="flex justify-center w-fit min-w-16 max-w-20 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                                <p className="text-p font-montserrat text-contrast">Ontem</p>
+                                            </div>
+                                        </div>
+                                    </If>
+                                    <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.message.id}>
+                                        <div className="w-full flex justify-center">
+                                            <div className="flex justify-center min-w-[5rem] max-w-24 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                                <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDay() + "/" + new Date(mensagem.message.dateCreate).getMonth() + "/" + new Date(mensagem.message.dateCreate).getFullYear()}</p>
+                                            </div>
+                                        </div>
+                                    </If>
+                                    <MessageContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} />
+                                </>
+                            ))}
+                            <div ref={messagesEndRef} />
+                        </div>
                     </div>
-                    <div className="w-[40%] lg:w-[20%] flex items-center lg:px-14 lg:justify-end  ">
-                        <div className="mx-2 rounded-full w-2 h-2 bg-red-600">
+                    <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2">
+                        <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-md   ">
+                            <div className="w-full">
+                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
+                            </div>
+                            <div className="">
+                                <Keyboard setValue={setMensagem} bottom></Keyboard>
+                            </div>
+                            <div className="ml-[5px]">
+                                <Dictophone setText={setMensagem}></Dictophone>
+                            </div>
 
-                        </div>
-                        <div className="mx-2 text-black dark:text-white text-p font-montserrat">
-                            <p>{verificarStatus()}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
-                    <div className="flex  w-full flex-col gap-1">
-                        <div className="flex justify-center py-5 text-p font-alata text-constrast">
-                            <p>Este é o começo de sua conversa com {name} </p>
-                        </div>
-                        {mensagens?.map((mensagem, index) => (
-                            <>
-                                <If condition={firstMessageToday(new Date())?.id === mensagem.message.id}>
-                                    <div className="w-full flex justify-center">
-                                        <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p className="text-p font-montserrat text-contrast">Hoje</p>
+                            <div onClick={() => setModalArquivo(!modalArquivo)} className="w-[45px] cursor-pointer">
+                                <IconArchive></IconArchive>
+                            </div>
+                            <If condition={modalArquivo && arquivo == null}>
+                                <div className="opacity- absolute rounded-md bg-slate-500 lg:w-56 lg:h-48 w-28 h-28 bottom-28 right-40 grid grid-cols-2 grid-rows-2">
+                                    <div className=" col-start-1 row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tl-md">
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <GaleryIcon></GaleryIcon>
+                                                <p className="text-p font-montserrat">Galeria</p>
+                                            </div>
+                                            <input
+                                                ref={arquivoParaEnviar}
+                                                id="photo"
+                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
+                                                type="file"
+                                                accept="image/*, video/*"
+                                                onChange={previewArquivo}
+                                            />
                                         </div>
                                     </div>
-                                </If>
-                                <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.message.id}>
-                                    <div className="w-full flex justify-center">
-                                        <div className="flex justify-center w-fit min-w-16 max-w-20 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p className="text-p font-montserrat text-contrast">Ontem</p>
+                                    <div className="col-span-2 row-start-2 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-b-md">
+                                        <div className="w-full h-full flex items-center justify-center">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <PdfIcon></PdfIcon>
+                                                <p className="text-p font-montserrat">PDF</p>
+                                            </div>
+                                            <input
+                                                ref={arquivoParaEnviar}
+                                                id="photo"
+                                                className="opacity-0 absolute w-12"
+                                                type="file"
+                                                accept=".pdf"
+                                                onChange={previewArquivo}
+                                            />
                                         </div>
                                     </div>
-                                </If>
-                                <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.message.id}>
-                                    <div className="w-full flex justify-center">
-                                        <div className="flex justify-center min-w-[5rem] max-w-24 h-6 rounded-md" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                            <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDay() + "/" + new Date(mensagem.message.dateCreate).getMonth() + "/" + new Date(mensagem.message.dateCreate).getFullYear()}</p>
+                                    <div className="col-start-2  row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tr-md cursor-pointer">
+                                        <div className="w-full h-full flex items-center justify-center cursor-pointer">
+                                            <div className="flex flex-col items-center justify-center">
+                                                <AudioFile></AudioFile>
+                                                <p className="text-p font-montserrat">Audio</p>
+                                            </div>
+                                            <input
+                                                ref={arquivoParaEnviar}
+                                                id="photo"
+                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
+                                                type="file"
+                                                accept="audio/*"
+                                                onChange={previewArquivo}
+                                            />
                                         </div>
                                     </div>
-                                </If>
-                                <MessageContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} />
-                            </>
-                        ))}
-                        <div ref={messagesEndRef} />
-                    </div>
-                </div>
-                <div className="flex w-full h-[67%] gap-3">
-                    <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-lg">
-                        <div className="w-full">
-                            <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
-                        </div>
-                        <Keyboard setValue={setMensagem} bottom></Keyboard>
-                        <Dictophone setText={setMensagem}></Dictophone>
-                    </div>
-                    <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-lg flex justify-center items-center">
-                        <img className="w-[50%] h-[50%] lg:w-[60%] lg:h-[60%]" src="/img/enviar.svg" alt="" />
-                    </button>
-                </div>
-            </div>
+                                </div>
+                            </If>
+                            <If condition={arquivo != null}>
+                                <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500   max-w-64 min-w-28 h-28 bottom-28 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
+                                    <div onClick={() => (setArquivo(null), setModalArquivo(false))} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
+                                        <p className="text-p font-montserrat">X</p>
+                                    </div>
+                                    <div className="w-full flex justify-around">
+                                        <If condition={arquivo != null && arquivo?.type.startsWith("image/")}>
+                                            <Image width={100} height={100} className="rounded-md " src={arquivoUrl!} alt="foto" />
+                                        </If>
+                                        <If condition={arquivo != null && arquivo?.type.startsWith("video/")}>
+                                            <video className="rounded-md" src={arquivoUrl} controls ></video>
+                                        </If>
+                                        <If condition={arquivo != null && arquivo?.type == "application/pdf"}>
+                                            <div className="flex items-center justify-center ">
+                                                <Image width={60} height={60} src="/pdfArchive.webp" alt="" />
+                                                <p className="underline underline-offset-1 ">{arquivo?.name}</p>
+                                            </div>
+                                        </If>
+                                        <If condition={arquivo != null && arquivo?.type.startsWith("audio/")}>
+                                            <div className="flex items-center justify-center ">
+                                                <AudioFile></AudioFile>
+                                                <p className="underline underline-offset-1 ">{arquivo?.name}</p>
+                                            </div>
+
+                                        </If>
+                                    </div>
+                                </div>
+                            </If>
+                        </div >
+
+                        <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-md    flex justify-center items-center">
+                            <SendMessage></SendMessage>
+                        </button>
+                    </div >
+                </div >
+            </If>
         </>
     )
-}   
+}

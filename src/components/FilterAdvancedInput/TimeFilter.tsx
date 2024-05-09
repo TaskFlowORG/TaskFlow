@@ -1,5 +1,5 @@
 import { ProjectContext } from "@/contexts";
-import { Task, TimeValued } from "@/models";
+import { Limited, Property, PropertyValue, Task, TimeValued } from "@/models";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 import { taskService } from "@/services";
@@ -13,12 +13,22 @@ import {
 import Image from "next/image";
 import { DateTimelines } from "@/models/values/DateTimelines";
 
+type PropsForm = {
+  property: PropertyValue;
+  errors: string[];
+};
+
 interface Props {
   id: number;
   name: string;
   value: Interval;
   isInModal?: boolean;
   task: Task;
+  property: Property;
+  formProp: PropsForm;
+  formProps: PropsForm[];
+  setFormProps: (prop: PropsForm[]) => void;
+  setErrors: (boolean: boolean) => void;
 }
 
 type typeFunctionChrono = {
@@ -27,7 +37,16 @@ type typeFunctionChrono = {
   callback: () => void;
 };
 
-export const TimeFilter = ({ value, task, id }: Props) => {
+export const TimeFilter = ({
+  value,
+  task,
+  id,
+  property,
+  formProp,
+  setFormProps,
+  formProps,
+  setErrors,
+}: Props) => {
   const [seconds, setSeconds] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
@@ -97,12 +116,29 @@ export const TimeFilter = ({ value, task, id }: Props) => {
       setMinutes(tempoTotal.minutos);
       setSeconds(Math.floor(tempoTotal.segundos));
       setPlay(true);
+      let time = tempoTotal.horas * 60 + tempoTotal.minutos;
+      if ((property as Limited).maximum <= time) {
+        let propFinded = formProps.find(
+          (prop) => prop.property.property.id == formProp.property.property.id
+        )!;
+        propFinded?.errors.push("O tempo acabou já fi, vai moscano");
+        setFormProps([...formProps]);
+        setErrors(true);
+        let exceeded = time - (property as Limited).maximum;
+        let date = new Date(now());
+        date.setTime(date.getTime() - exceeded * 60 * 1000);
+        value.ends.push(new DateTimelines(date.toJSON().slice(0, -1)));
+      }
     } else {
       setHours(value?.time?.hours ?? 0);
       setMinutes(value?.time?.minutes ?? 0);
       setSeconds(Math.floor(value?.time?.seconds) ?? 0);
     }
   }, []);
+
+  useEffect(() => {
+    verifyEnd();
+  }, [seconds]);
 
   interface Tempo {
     horas: number;
@@ -152,11 +188,15 @@ export const TimeFilter = ({ value, task, id }: Props) => {
   const now = () => {
     //  let date = new Date(Date.now()).toJSON().slice(0, -1);
     let date = new Date(Date.now());
-    date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
+    if (formProp?.errors.length > 0) {
+      date.setSeconds(Math.floor(new Date(Date.now()).getSeconds() - 1));
+    } else {
+      date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
+    }
     return date.toJSON().slice(0, -1);
   };
 
-  const handleClickPause = () => {
+  const handleClickPause = async () => {
     setPlay(false);
     value.ends.push(new DateTimelines(now()));
 
@@ -194,32 +234,44 @@ export const TimeFilter = ({ value, task, id }: Props) => {
 
     console.log(value);
 
-    let taskReturned = taskService.upDate(task, project!.id);
+    let taskReturned = await taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
 
-  const handleClickRestart = () => {
+  const handleClickRestart = async () => {
     value.time.hours = 0;
     value.time.minutes = 0;
     value.time.seconds = 0;
     setHours(value.time.hours);
     setMinutes(value.time.minutes);
     setSeconds(Math.floor(value.time.seconds));
-    let taskReturned = taskService.upDate(task, project!.id);
+    let taskReturned = await taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
 
-  const handleClickPlay = () => {
+  const handleClickPlay = async () => {
     setPlay(true);
     if (value?.starts == null) {
       value.starts = [];
     }
     value.starts.push(new DateTimelines(now()));
     console.log(value);
-    let taskReturned = taskService.upDate(task, project!.id);
+    let taskReturned = await taskService.upDate(task, project!.id);
     console.log(taskReturned);
   };
 
+  const verifyEnd = () => {
+    let totalTime = hours * 60 + minutes;
+    if ((property as Limited).maximum <= totalTime) {
+      let propFinded = formProps.find(
+        (prop) => prop.property.property.id == formProp.property.property.id
+      )!;
+      propFinded.errors.push("O tempo acabou já fi, vai moscano");
+      setFormProps([...formProps]);
+      setErrors(true);
+      handleClickPause();
+    }
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       calcsTimes(1);

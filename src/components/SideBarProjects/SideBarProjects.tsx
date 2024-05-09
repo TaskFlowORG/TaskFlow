@@ -5,16 +5,20 @@ import React, { useState } from "react";
 import { If } from "../If";
 import { Button } from "../Button";
 import { SideMain } from "./components";
-import { CenterModal } from "../Modal";
+import { CenterModal, SideModal } from "../Modal";
 import { ProjectInformations } from "./components/ProjectInformations";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
 import { authentication } from "@/services/services/Authentication";
+import { SideBarButton } from "./components/SideBarButton";
+import { setConfigsDefault } from "@/utils/setConfigsDefault";
 interface Props {
   user: string;
   project?: Project;
+  setOpenSideBar: (value: boolean) => void;
+  openSideBar: boolean;
 }
-export const SideBarProjects = ({ user, project }: Props) => {
+export const SideBarProjects = ({ user, project, setOpenSideBar, openSideBar }: Props) => {
   const router = useRouter();
   const [modalPages, setModalPages] = useState(false);
   const [modalGroups, setModalGroups] = useState(false);
@@ -24,35 +28,26 @@ export const SideBarProjects = ({ user, project }: Props) => {
 
   const leave = async () => {
     await authentication.logout();
+    setConfigsDefault();
     router.push("/login");
   };
   return (
-    <div className="w-full h-full sidebar">
-
+    <SideModal condition={openSideBar} setCondition={setOpenSideBar} header={
       <If condition={project != undefined}>
-        <ProjectInformations project={project} />
-        {//<div className="w-full h-16 flex items-center brightness-0 opacity-80 dark:invert justify-start gap-4">
-        //  <img
-        //    src="/Assets/logo/IconLight.svg"
-        //    alt="logo"
-        //    className="w-20 h-20"
-        //  />
-        //  <div>
-        //    <p className="text-h4 font-alata text-primary dark:text-secondary truncate">
-        //      Task Flow
-        //    </p>
-        //  </div>
-        //</div>
-      }
-      </If>
+      <ProjectInformations project={project} />
+    </If>
+    }>
+
+    <div className="w-full h-full sidebar">
+   
       <SideMain
         setModalGroups={setModalGroups}
+        setWantLeave={setWantLeave}
         modalGroups={modalGroups}
         setModalPages={setModalPages}
         modalPages={modalPages}
         setModalProjectGroups={setModalProjectGroups}
         modalProjectGroups={modalProjectGroups}
-        setWantLeave={setWantLeave}
         user={user}
         project={project}
       />
@@ -77,5 +72,6 @@ export const SideBarProjects = ({ user, project }: Props) => {
         </div>
       </CenterModal>
     </div>
+    </SideModal>
   );
 };

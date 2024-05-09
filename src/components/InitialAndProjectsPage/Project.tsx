@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { ProgressBar } from "../ProgressBar";
 import { Obj } from "../Obj";
-import { getListData } from "@/services/http/api";
 import { set } from "zod";
 import { Group, Project, ProjectSimple } from "@/models";
 import Link from "next/link";

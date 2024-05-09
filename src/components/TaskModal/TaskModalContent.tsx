@@ -3,17 +3,18 @@ import { CommentsSection } from "./CommentsAndHistoric/CommentsSection";
 import { HeaderCommentAndHistoric } from "./CommentsAndHistoric/HeaderCommentAndHistoric";
 import { PropertiesSide } from "./PropertiesSide";
 import { ProjectContext } from "@/contexts";
-import { OtherUser, Task, User } from "@/models";
-import { userService } from "@/services";
+import { OtherUser, Project, Task, User } from "@/models";
+import { groupService, userService } from "@/services";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
 import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
+import { TesPropertiesSide } from "./PropertiesSide/TesPropertiesSide";
 
 type Props = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
-  task: Task;
+  task: Task | Project;
   user: User;
   isInModal?: boolean;
 };
@@ -38,15 +39,22 @@ export const TaskModalContent = ({
 
   useEffect(() => {
     const findGroups = async () => {
+      if (!project) return;
       const users = await userService.findAll();
-      setUsers(
-        users.filter(
-          (user) =>
-            user.permissions.find(
-              (permission) => permission.project.id === project?.id
-            ) != undefined
-        )
+      const list = users.filter(
+        (user) =>
+          user.permissions.find(
+            (permission) => permission.project.id === project.id
+          ) != undefined
       );
+      list.push(project.owner);
+      const groups = await groupService.findGroupsByAProject(project.id);
+      console.log(groups);
+      for (let group of groups) {
+        list.push(await userService.findByUsername(group.ownerUsername));
+      }
+      console.log(list);
+      setUsers(list);
     };
     findGroups();
   }, [project]);
@@ -76,7 +84,7 @@ export const TaskModalContent = ({
           </div>
           {isInComments && <CommentsSection task={task} user={user} />}
           {isInHistorics && (
-            <HistoricSection isInModal={isInModal} task={task} />
+            <HistoricSection isInModal={isInModal} user={user} task={task} />
           )}
         </div>
       </div>
@@ -91,14 +99,14 @@ export const TaskModalContent = ({
         <div className="hidden lg:block w-[2px]  min-h-full bg-[#F2F2F2]"></div>
         <div className=" lg:hidden w-full min-h-[2px] bg-[#F2F2F2]"></div>
 
-        <PropertiesSide
+        <TesPropertiesSide
           filter={filter}
           setFilter={setFilter}
           setIsOpen={setIsOpen}
           setList={setList}
-          task={task}
+          task={task as Task}
           users={users}
-        ></PropertiesSide>
+        ></TesPropertiesSide>
       </FilterContext.Provider>
     </div>
   );

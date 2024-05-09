@@ -2,7 +2,6 @@
 import React, { FormEvent, use, useEffect, useState } from "react";
 import { SubmitHandler, set, useForm } from "react-hook-form";
 import { z, ZodError, ZodErrorMap, ZodIssue, ZodIssueCode } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/Input";
 import { userService } from "@/services";
 import { UserPost } from "@/models";
@@ -14,6 +13,7 @@ import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface UserData {
   name: string;
@@ -105,6 +105,7 @@ export const Register = () => {
         callbackUrl: `/${username}`,
       });
       }).catch((error) => {
+        if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {
             message: t("username-exists"),
@@ -153,7 +154,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome"
+                placeholder={t("type-name")}
                 helperText={errors.name?.message}
                 register={{ ...register("name") }}
                 required
@@ -165,7 +166,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu sobrenome"
+                placeholder={t("type-surname")}
                 helperText={errors.surname?.message}
                 register={{ ...register("surname") }}
                 required
@@ -182,7 +183,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconUser}
-                placeholder="Digite seu nome de usuário"
+                placeholder={t("type-username")}
                 helperText={errors.username?.message}
                 register={{ ...register("username") }}
                 required
@@ -193,7 +194,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconMail}
-                placeholder="Digite seu email"
+                placeholder={t("type-email")}
                 helperText={errors.mail?.message}
                 register={{ ...register("mail") }}
                 required
@@ -210,7 +211,7 @@ export const Register = () => {
                 className="inputRegister"
                 image={iconPassword}
                 type="password"
-                placeholder="Digite sua senha"
+                placeholder={t("type-password")}
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
                 required
@@ -221,7 +222,7 @@ export const Register = () => {
               <Input
                 className="inputRegister"
                 image={iconPassword}
-                placeholder="Confirme sua senha"
+                placeholder={t("type-confirm-password")}
                 type="password"
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
@@ -268,3 +269,4 @@ export const Register = () => {
     </div>
   );
 };
+

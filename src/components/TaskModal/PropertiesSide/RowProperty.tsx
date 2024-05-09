@@ -14,12 +14,20 @@ import {
   TypeOfProperty,
 } from "@/models";
 
+type PropsForm = {
+  property: PropertyValue;
+  errors: string[];
+};
+
 type Props = {
   prop: PropertyValue;
   task: Task;
+  formProps: PropsForm[];
+  setFormProps: (prop: PropsForm[]) => void;
+  setErrors:(boolean:boolean)=>void
 };
 
-export const RowProperty = ({ prop, task }: Props) => {
+export const RowProperty = ({ prop, task, formProps, setFormProps, setErrors }: Props) => {
   switch (prop.property.type) {
     case TypeOfProperty.SELECT:
       return (
@@ -68,13 +76,24 @@ export const RowProperty = ({ prop, task }: Props) => {
       );
     case TypeOfProperty.TIME:
       return (
-        <TimeFilter
-          task={task}
-          isInModal
-          id={prop.property.id}
-          name={prop.property.name}
-          value={prop.value?.value}
-        />
+        <>
+          <TimeFilter
+          setErrors={setErrors}
+            formProps={formProps}
+            setFormProps={setFormProps}
+            formProp={
+              formProps.find(
+                (propV) => propV.property.property.id == prop.property.id
+              )!
+            }
+            property={prop.property}
+            task={task}
+            isInModal
+            id={prop.property.id}
+            name={prop.property.name}
+            value={prop.value?.value}
+          />
+        </>
       );
     case TypeOfProperty.PROGRESS:
       return (

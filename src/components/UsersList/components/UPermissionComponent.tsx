@@ -43,6 +43,7 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
                 
         //     // );
         //     // console.log(matchingPermissions, "lista");
+
             
         //     // if (matchingPermissions.length > 0) {
         //     //     console.log("eu entrei aqui, bahhh");

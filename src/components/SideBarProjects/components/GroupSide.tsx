@@ -71,53 +71,52 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
   return (
     <>
-      {
-        project != undefined && (
-          <>
-            <Navigate modalPages={false} setCondition={setModalGroups} />
-            <ProjectInformations project={project} />
-          </>
-        )
-      }
+      <div className="w-full h-max flex flex-col gap-10 pages">
 
-      <div className="flex flex-col w-72 justify-center items-center h-4/6 groups-side">
-        <div className="flex items-start h-[95%] w-full overflow-y-scroll none-scrollbar ">
-          <div className="flex flex-col items-start max-w-full h-min w-full">
-            <div className="max-w-full h-min w-full pt-2">
-              {Array.isArray(groups) &&
-                groups.map((group, index) => (
-                  <div
-                    key={index}
-                    className="w-48 md:w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
+        <Navigate modalPages={false} setCondition={setModalGroups} />
+        {
+          project != undefined && (
+            <ProjectInformations project={project} />
+          )
+        }
+      </div>
+
+      <div className="flex items-start h-full w-full overflow-y-scroll none-scrollbar groups-side">
+        <div className="flex flex-col items-start max-w-full h-min w-full">
+          <div className="max-w-full h-min w-full pt-2">
+            {Array.isArray(groups) &&
+              groups.map((group, index) => (
+                <div
+                  key={index}
+                  className="w-48 md:w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
                                      dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
+                >
+                  <button
+                    onClick={() => sendRoute(group.id)}
                   >
-                    <button
-                      onClick={() => sendRoute(group.id)}
-                    >
-                      <GroupComponent
-                        user={user}
-                        group={group}
-                        setGroups={setGroups}
-                        groups={groups}
-                      />
-                    </button>
-                  </div>
-                ))}
-            </div>
+                    <GroupComponent
+                      user={user}
+                      group={group}
+                      setGroups={setGroups}
+                      groups={groups}
+                    />
+                  </button>
+                </div>
+              ))}
           </div>
         </div>
-        <div className="h-min relative w-full flex justify-center pt-4 ">
-          <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
-          <button
-            className="h-10 mr-32 w-48 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
-            onClick={() =>
-              global == "userGroups" ? addNewGroup() : setOpenModal(true)
-            }
-          >
-            {" "}
-            {t("addGroup")}
-          </button>
-        </div>
+      </div>
+      <div className="h-min relative w-full flex justify-center pt-4 ">
+        <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
+        <button
+          className="h-10 mr-32 w-48 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+          onClick={() =>
+            global == "userGroups" ? addNewGroup() : setOpenModal(true)
+          }
+        >
+          {" "}
+          {t("addGroup")}
+        </button>
       </div>
     </>
   );

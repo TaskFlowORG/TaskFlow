@@ -10,13 +10,19 @@ export { Arrow } from "./GeneralIcons/IconArrow";
 export { IconTask } from "./GeneralIcons/IconTask";
 
 export { VisualizedChatOrMessage } from "./ChatIcons/Visualized";
+export { SendMessage } from "./ChatIcons/SendMessage";
+export { GaleryIcon } from "./ChatIcons/GaleryIcon";
+export { AudioIcon } from "./ChatIcons/AudioIcon";
+export { PdfIcon } from "./ChatIcons/PdfIcon";
+export { ImagemEnviada } from "./ChatIcons/ImagemEnviada";
+export { AudioFile } from "./ChatIcons/AudioFile"
 
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";
 export { Pencil } from "./Canvas/Pencil";
 export { MoveIcon } from "./Canvas/Move";
-export{Triangle} from "./Canvas/Shapes/Triangle"
+export { Triangle } from "./Canvas/Shapes/Triangle"
 export { Circle } from "./Canvas/Shapes/Circle";
 export { Line } from "./Canvas/Shapes/Line";
 export { Square } from "./Canvas/Shapes/Square";

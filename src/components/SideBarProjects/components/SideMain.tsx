@@ -32,7 +32,6 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
         <div className="w-full h-full overflow-y-auto none-scrollbar">
             <If condition={!modalGroups && !modalPages}>
                 <div className="h-full flex flex-col justify-between">
-
                     <div className="w-full h-min flex flex-col items-center relative">
 
                         <SideBarButton icon={<IconBurguerList />} link={`/${user}`} text={t("initial-page")} fnClick={() => setProject && setProject(undefined)} />
@@ -49,13 +48,15 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
                     </div>
                 </div>
             </If >
-            <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}>
+            <SideModal condition={modalPages && project != undefined} setCondition={setModalPages}
+            
+            >
                 <PageSide setModalPages={setModalPages} user={user} project={project!} />
             </SideModal>
             <SideModal condition={modalGroups} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={"userGroups"} />
             </SideModal>
-            <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
+            <SideModal condsition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
                 <GroupSide setModalGroups={setModalProjectGroups} user={user} project={project!}  global={"projectGroups"}/>
             </SideModal>
         </div>)
