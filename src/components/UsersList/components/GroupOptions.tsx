@@ -18,7 +18,7 @@ interface Props {
 
 export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     const { project } = useContext(ProjectContext);
-    const [userLogged, setUserLogged] = useState<OtherUser>()
+    const [userLogged, setUserLogged] = useState<OtherUser>();
     const router = useRouter();
     const { t } = useTranslation();
 
