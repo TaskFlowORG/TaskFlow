@@ -110,7 +110,7 @@ export const TaskCanvasComponent = ({
       onMouseLeave={() => setMouseOver(false)}
     >
       <div className="w-min h-min pointer-events-none">
-        <RoundedCard>
+        <RoundedCard completed={task.task.completed} waiting={task.task.waitingRevision}>
           <CardContent task={task.task} />
         </RoundedCard>
       </div>
