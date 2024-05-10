@@ -57,7 +57,7 @@ export const TesPropertiesSide = ({
 
   useEffect(() => {
     let array: PropsForm[] = [];
-    task.properties.forEach((prop) => {
+    task?.properties.forEach((prop) => {
       if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
       array.push({ property: prop, errors: [] });
       console.log(array);
@@ -184,7 +184,15 @@ export const TesPropertiesSide = ({
         }
       }
     });
-    return propertiesToValidate.find((prop) => prop.errors.length > 0)
+    return propertiesToValidate
+      .filter(
+        (prop) =>
+          !(
+            prop.property.property.type == TypeOfProperty.TIME ||
+            prop.property.property.type == TypeOfProperty.ARCHIVE
+          )
+      )
+      .find((prop) => prop.errors.length > 0)
       ? false
       : true;
   };

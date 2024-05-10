@@ -7,8 +7,6 @@ import { useContext, useEffect, useState } from "react";
 import { set } from "zod";
 
 export const
-
-
     useHasPermission = (action: 'read' | 'create' | 'delete' | 'update'): boolean => {
         const { user } = useContext(UserContext);
         const { project } = useContext(ProjectContext);
