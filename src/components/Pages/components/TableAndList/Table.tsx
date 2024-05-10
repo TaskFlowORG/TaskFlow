@@ -97,7 +97,8 @@ export const Table = ({ page }: Props) => {
                                     {...providedDrag.draggableProps}
                                     {...providedDrag.dragHandleProps}
                                     ref={providedDrag.innerRef}
-                                    className="bg-white dark:bg-modal-grey flexhover:brightness-95 flex "
+                                    className={"bg-white dark:bg-modal-grey flexhover:brightness-95 flex " +
+                                    (l.task.completed || l.task.waitingRevision ? " border-green-500 border-2" : "") + (l.task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
                                     onClick={e => openModal(l.task.id)}
                                   >
                                     <div className=" bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-y-[1px] w-full">

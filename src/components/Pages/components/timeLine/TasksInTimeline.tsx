@@ -102,7 +102,9 @@ export const TasksInTimeline = ({
                   return (
                     <div
                       key={index}
-                      className="h-full rounded-md absolute top-0 left-0 "
+                      className={"h-full rounded-md absolute top-0 left-0 " + 
+                  (task.completed ||task.waitingRevision ? " border-green-500 border-2" : "") + (task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
+
                       style={{
                         backgroundColor:
                           propVl?.value.color ??

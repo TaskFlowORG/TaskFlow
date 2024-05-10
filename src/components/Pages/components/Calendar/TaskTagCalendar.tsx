@@ -19,7 +19,10 @@ export const TaskTagCalendar = ({t, closeModal}:Props) => {
   }
 
     return <div key={t.task.id} onClick={openTask}
-    className="bg-primary dark:bg-secondary text-contrast cursor-pointer hover:brightness-95 w-max h-min p py-2 px-4 rounded-md" >
+    className={"bg-primary dark:bg-secondary text-contrast cursor-pointer hover:brightness-95 w-max h-min p py-2 px-4 rounded-md " + 
+    (t.task.completed || t.task.waitingRevision ? " border-green-500 border-2" : "") + (t.task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")
+
+    } >
     <span className="w-max h-min whitespace-nowrap " style={{ opacity: t.task.name ? 1 : 0.7 }}>
         {t.task.name ?? translate("withoutname")}
     </span>
