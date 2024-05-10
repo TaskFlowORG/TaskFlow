@@ -14,7 +14,7 @@ interface Props {
   isInModal?: boolean;
   propertyValue: PropertyValue;
   task: Task;
-  property:Property;
+  property: Property;
 }
 
 export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
@@ -29,14 +29,11 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
 
   const handleFileChange = async (event: any) => {
     // Obtém o arquivo do evento
-    const selectedFile = event.target.files[0];
+    const selectedFile: File = event.target.files[0];
     console.log(event.target.files[0].size);
     let size = event.target.files[0].size / (1024 * 1024);
     console.log(size, "Soy o tamanho total");
-    console.log(
-      (property as Limited)?.maximum,
-      "Soy o tamanho que devia"
-    );
+    console.log((property as Limited)?.maximum, "Soy o tamanho que devia");
     if (size > (property as Limited)?.maximum) {
       console.log("Eu entrei aqui bro, rrelaxa pra karalho");
       setError(true);
@@ -48,15 +45,20 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
         project!.id,
         propertyValue.id!
       );
+      setName(selectedFile.name);
       propertyValue.value = bah;
       console.log(
         "e nkjdfbjk mz kcjgnfjk ndfjkg ndmkf nfkmdf ngnkfd jfd sdf d sd  sfd fd fds g s s ",
         bah
       );
-      setName(bah.value.name);
+      // setName(bah.value.name);
       setSrc(archiveToDownload(bah.value));
       let page = project?.pages.find((page) => page.id == pageId);
       let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
+      let propValue = task.properties.find(
+        (prop) => prop.property.id == property.id
+      );
+      propValue = propertyValue;
       taskPage!.task = task;
       // setSrc(archiveToDownload(bah.value));
       setProject!({ ...project! });
@@ -67,7 +69,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
 
   useEffect(() => {
     setFile(value);
-  }, []);
+  }, [value]);
   useEffect(() => {
     setFile(value);
     console.log("value", value);
@@ -86,7 +88,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
               >
                 i
               </a>
-              <p>{file.name ? value.name : "To sem nome caraio"}</p>
+              <p>{file.name ? file.name : name}</p>
             </div>
             <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
               <img src="/change.svg" width={8} height={8} alt="" />
@@ -110,7 +112,12 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           </button>
         )}
       </div>
-      {error &&  <p className="text-xs text-red-600 font-montserrat"> Tamanho de arquivo maior que o permitido! </p>}
+      {error && (
+        <p className="text-xs text-red-600 font-montserrat">
+          {" "}
+          Tamanho de arquivo maior que o permitido!{" "}
+        </p>
+      )}
     </>
   );
 };
