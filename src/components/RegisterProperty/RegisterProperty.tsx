@@ -45,7 +45,7 @@ export const RegisterProperty = ({
     setPropertiesArray(
       isInProject ? project.properties : page?.properties || []
     );
-  }, [isInProject]);
+  }, [isInProject, page, project]);
 
   const postProperty = async (
     name: string,
@@ -205,52 +205,53 @@ export const RegisterProperty = ({
 
   return (
     <SideModal
-      footer={
-        <NeedPermission permission="create">
-          <Button
-            width="w-full "
-            text={t("add-property")}
-            fnButton={() => setModalPropertyRegister(true)}
-            padding="p-2"
-            paddingY="p-1"
-            textSize="font-[14re]"
-          />
-        </NeedPermission>
-      }
-      header={
-        <>
-          <div className="h-min w-full flex justify-evenly items-center properties">
-            <h4 className="h4 text-primary dark:text-secondary">
-              {t("property")}
-            </h4>
-          </div>
-          <If condition={page != undefined}>
-            <div className="w-full h-min flex">
-              <span
-                className={isInProject ? classesIn : classesOut}
-                onClick={() => setIsInProject(true)}
-              >
-                {t("project")}
-              </span>
-              <span
-                className={!isInProject ? classesIn : classesOut}
-                onClick={() => setIsInProject(false)}
-              >
-                {t("page")}
-              </span>
-            </div>
-          </If>
-          <div className={"w-full flex flex-col items-center gap-5 h-min "}>
-            <ModalRegisterProperty
-              postProperty={postProperty}
-              open={modalPropertyRegister}
-              project={project && project}
-              page={page}
-              close={() => {
-                setModalPropertyRegister(false);
-              }}
-            />
-          </div>
+    footer={
+      <NeedPermission permission="create">
+      <Button
+        width="w-full "
+        text={t("add-property")}
+        fnButton={() => setModalPropertyRegister(true)}
+        padding="p-2"
+        paddingY="p-1"
+        textSize="font-[14re]"
+      />
+    </NeedPermission>
+    }
+    header={
+      <>
+      <div className="h-min w-full flex justify-evenly items-center properties">
+        <h4 className="h4 text-primary dark:text-secondary">{t("property")}</h4>
+      </div>
+      <If condition={page != undefined}>
+        <div className="w-full h-min flex">
+          <span
+            className={isInProject ? classesIn : classesOut}
+            onClick={() => setIsInProject(true)}
+          >
+            {t("project")}
+          </span>
+          <span
+            className={!isInProject ? classesIn : classesOut}
+            onClick={() => setIsInProject(false)}
+          >
+            {t("page")}
+          </span>
+        </div>
+      </If>
+      <div
+        className={
+          "w-full flex flex-col items-center gap-5 h-min "}
+      >
+        <ModalRegisterProperty
+          postProperty={postProperty}
+          open={modalPropertyRegister}
+          project={project && project}
+          page={page}
+          close={() => {
+            setModalPropertyRegister(false);
+          }}
+        />
+        </div>
         </>
       }
       condition={modalProperty}

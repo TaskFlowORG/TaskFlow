@@ -56,7 +56,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
             <SideModal condition={modalGroups} setCondition={setModalGroups}>
                 <GroupSide setModalGroups={setModalGroups} user={user} project={project!} global={"userGroups"} />
             </SideModal>
-            <SideModal condsition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
+            <SideModal condition={modalProjectGroups && project != undefined} setCondition={setModalProjectGroups}>
                 <GroupSide setModalGroups={setModalProjectGroups} user={user} project={project!}  global={"projectGroups"}/>
             </SideModal>
         </div>)

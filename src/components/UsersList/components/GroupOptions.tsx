@@ -18,7 +18,7 @@ interface Props {
 
 export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     const { project } = useContext(ProjectContext);
-    const [userLogged, setUserLogged] = useState<OtherUser>()
+    const [userLogged, setUserLogged] = useState<OtherUser>();
     const router = useRouter();
     const { t } = useTranslation();
 
@@ -53,14 +53,8 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     }
 
     if (isOpen && group?.owner.username == userLogged?.username) {
-        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-24 shadow-md rounded-md ml-4 mt-1">
+        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-16 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col justify-around ml-2">
-                <div className="flex justify-start gap-3 text-mn font-montserrat">
-                    <button className="flex flex-row gap-2">
-                        <UserSvg />
-                        {t("profile")}
-                    </button>
-                </div>
                 <div className="flex justify-start gap-3 text-mn font-montserrat">
                     <button className="flex flex-row gap-3">
                         <div className="flex ml-[1.2px]">
@@ -78,15 +72,9 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
             </div>
         </div>
     } else if (isOpen && group.owner.username != userLogged?.username) {
-        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-20 shadow-md rounded-md ml-4 mt-1">
+        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-14 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col mt-4 gap-2 ml-2">
-                <div className="flex justify-start gap-3 text-mn font-montserrat">
-                    <button className="flex flex-row gap-2">
-                        <UserSvg />
-                        {t("profile")}
-                    </button>
-                </div>
-                <div className="flex justify-start gap-3 text-mn font-montserrat">
+                <div className="flex mt-2 text-mn font-montserrat">
                     <button className="flex flex-row gap-3" onClick={() => router.push("/" + userLogged?.username + "/chat/1")}>
                         <div className="flex ml-[1.2px]">
                             <ChatSvg />

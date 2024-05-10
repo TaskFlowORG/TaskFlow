@@ -47,6 +47,7 @@ export default function Layout({ params, children }: Props) {
 
   const hasPermission = useHasPermission("create");
   const [modalProperty, setModalProperty] = useState(false);
+
   if(!user || !project) return <Loading/>
   return (
     <>
