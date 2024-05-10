@@ -38,7 +38,7 @@ export const InviteGroupToProject = ({openModal, setOpenModal}: Props) => {
 
   return (
     <LocalModal condition={openModal} setCondition={setOpenModal} bottom>
-      <div className="w-40 h-52 rounded-md p-2 overflow-y-auto bg-white dark:bg-modal-grey">
+      <div className="w-52 h-52 rounded-md p-2 overflow-y-auto bg-white dark:bg-modal-grey">
         {groupsGlobal.length > 0 ? (
           groupsGlobal.map((group, index) => (
             <button
@@ -50,7 +50,7 @@ export const InviteGroupToProject = ({openModal, setOpenModal}: Props) => {
             </button>
           ))
         ) : (
-          <p>Não há grupos disponíveis</p>
+          <p className="text-center">{t("without-groups")}</p>
         )}
       </div>
     </LocalModal>
