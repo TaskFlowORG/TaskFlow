@@ -112,6 +112,8 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
                               onClick={() => openModal!(item)}
                             >
                               <RoundedCard
+                              completed={item.task.completed}
+                              waiting={item.task.waitingRevision}
                                 color={
                                   option?.color ??
                                   (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
