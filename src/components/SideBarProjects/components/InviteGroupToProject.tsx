@@ -3,17 +3,16 @@ import { ProjectContext } from "@/contexts";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { groupService, projectService } from "@/services";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 interface Props {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
 }
 
-export const InviteGroupToProject = ({
-  openModal,
-  setOpenModal,
-}: Props) => {
+export const InviteGroupToProject = ({openModal, setOpenModal}: Props) => {
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const { project } = useContext(ProjectContext);
+  const { t } = useTranslation();
   useEffect(() => {
     fetchData();
   }, []);
@@ -22,9 +21,9 @@ export const InviteGroupToProject = ({
     try {
       const globalGroups = await groupService.findAll();
       console.log(globalGroups, "oq tá rolando?");
-      
+
       const alreadyInvitedGroups = await groupService.findGroupsByAProject(project!.id);
-        const availableGroups = globalGroups.filter((group) => !alreadyInvitedGroups.some((invitedGroup) => invitedGroup.id === group.id));
+      const availableGroups = globalGroups.filter((group) => !alreadyInvitedGroups.some((invitedGroup) => invitedGroup.id === group.id));
       setGroupsGlobal(availableGroups);
     } catch (error) {
       console.error("Error fetching groups:", error);
@@ -47,7 +46,7 @@ export const InviteGroupToProject = ({
               className="w-full rounded-md h-12 shadow-blur-10"
               onClick={() => inviteToProject(group)}
             >
-              <p>{group.name}</p>
+              <p>{group.name || t("withoutname")}</p>
             </button>
           ))
         ) : (
