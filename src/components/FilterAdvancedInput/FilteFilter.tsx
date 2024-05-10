@@ -1,5 +1,5 @@
 import { ProjectContext } from "@/contexts";
-import { Archive, Limited, PropertyValue, Task } from "@/models";
+import { Archive, Limited, Property, PropertyValue, Task } from "@/models";
 import { propertyValueService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
 import { useContext, useEffect, useState } from "react";
@@ -14,9 +14,10 @@ interface Props {
   isInModal?: boolean;
   propertyValue: PropertyValue;
   task: Task;
+  property:Property;
 }
 
-export const FileFilter = ({ propertyValue, task, value }: Props) => {
+export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
   const [file, setFile] = useState<Archive | null>(null);
   const [src, setSrc] = useState("");
   const [name, setName] = useState<string>("");
@@ -31,11 +32,17 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
     const selectedFile = event.target.files[0];
     console.log(event.target.files[0].size);
     let size = event.target.files[0].size / (1024 * 1024);
-    if (size > (propertyValue.property as Limited)?.maximum) {
+    console.log(size, "Soy o tamanho total");
+    console.log(
+      (property as Limited)?.maximum,
+      "Soy o tamanho que devia"
+    );
+    if (size > (property as Limited)?.maximum) {
+      console.log("Eu entrei aqui bro, rrelaxa pra karalho");
       setError(true);
     } else {
       setError(false);
-      console.log(size);
+      // console.log(size);
       let bah = await propertyValueService.updateArchiveInTask(
         selectedFile,
         project!.id,
@@ -60,6 +67,9 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
 
   useEffect(() => {
     setFile(value);
+  }, []);
+  useEffect(() => {
+    setFile(value);
     console.log("value", value);
   }, [value, propertyValue, task, handleFileChange]);
 
@@ -76,7 +86,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
               >
                 i
               </a>
-              <p>{file.name ?? name}</p>
+              <p>{file.name ? value.name : "To sem nome caraio"}</p>
             </div>
             <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
               <img src="/change.svg" width={8} height={8} alt="" />
@@ -100,7 +110,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
           </button>
         )}
       </div>
-      {error && <p>Arquivo grande pa carambolas</p>}
+      {error &&  <p className="text-xs text-red-600 font-montserrat"> Tamanho de arquivo maior que o permitido! </p>}
     </>
   );
 };

@@ -50,12 +50,15 @@ export const RowProperty = ({
         />
       );
     case TypeOfProperty.ARCHIVE:
-      console.log(prop);
+      console.log(prop
+        
+      );
       return (
         <FileFilter
           isInModal
           id={prop.property.id}
           task={task}
+          property={prop.property}
           propertyValue={prop.value as PropertyValue}
           name={prop.property.name}
           value={prop.value?.value}

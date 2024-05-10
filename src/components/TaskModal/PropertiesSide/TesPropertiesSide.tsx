@@ -184,7 +184,15 @@ export const TesPropertiesSide = ({
         }
       }
     });
-    return propertiesToValidate.find((prop) => prop.errors.length > 0)
+    return propertiesToValidate
+      .filter(
+        (prop) =>
+          !(
+            prop.property.property.type == TypeOfProperty.TIME ||
+            prop.property.property.type == TypeOfProperty.ARCHIVE
+          )
+      )
+      .find((prop) => prop.errors.length > 0)
       ? false
       : true;
   };

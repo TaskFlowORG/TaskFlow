@@ -14,14 +14,17 @@ import {
   TextValued,
   TypeOfProperty,
   UniOptionValued,
+  User,
 } from "@/models";
 import { useTranslation } from "next-i18next";
+import { CardUser } from "./CardProperties/CardUser";
 
 interface Props {
   task: Task;
   min?: boolean;
+  user: User;
 }
-export const CardContent = ({ task }: Props) => {
+export const CardContent = ({ task, user }: Props) => {
   function is(property: PropertyValue, type: TypeOfProperty) {
     return property.property.type == type && property.property.visible == true;
   }
@@ -34,13 +37,24 @@ export const CardContent = ({ task }: Props) => {
           style={{ opacity: task.name ? 1 : 0.25 }}
           className="text-h5 font-alata w-max text-black dark:text-white"
         >
-          { task.name!=null ? (task.name.length > 0 ? task.name : t("withoutname")): t("withoutname")}
+          {task.name != null
+            ? task.name.length > 0
+              ? task.name
+              : t("withoutname")
+            : t("withoutname")}
         </h4>
-        <div className="  flex items-center relative w-16">
-          <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>
-          <span className="w-7 h-7 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
-          <span className="w-7 h-7 rounded-full bg-[#E41CEF] shadowww absolute right-0"></span>
-        </div>
+
+        {task.properties.find(
+          (prop) => prop.property.type == TypeOfProperty.USER
+        ) && (
+          <CardUser
+            users={
+              task.properties.find(
+                (prop) => prop.property.type == TypeOfProperty.USER
+              )?.value.value
+            }
+          />
+        )}
       </div>
       <div className="flex flex-wrap gap-1 w-full [&_*]:font-montserrat justify-between">
         {task.properties?.map((property) => {
@@ -50,7 +64,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardText
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 property={property.property.name}
                 key={property.property.id.toString()}
                 text={(property.value as TextValued).value}
@@ -62,7 +76,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardDate
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 key={property.property.id.toString()}
                 date={property.value.value}
                 property={property.property.name}
@@ -74,7 +88,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardSelect
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 property={property.property.name}
                 color={(property.value as UniOptionValued).value?.color}
                 key={property.property.id.toString()}
@@ -87,7 +101,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardTag
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 nameProperty={property.property.name}
                 key={property.property.id.toString()}
                 tags={(property.value as MultiOptionValued).value}
@@ -99,7 +113,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardTag
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 nameProperty={property.property.name}
                 key={property.property.id.toString()}
                 tags={(property.value as MultiOptionValued).value}
@@ -111,7 +125,7 @@ export const CardContent = ({ task }: Props) => {
           ) {
             return (
               <CardRadio
-                showNameProperty={false}
+                showNameProperty={user.configuration.showPropertiesName}
                 key={property.property.id.toString()}
                 property={property.property.name}
                 value={(property.value as UniOptionValued).value?.name}
@@ -127,7 +141,17 @@ export const CardContent = ({ task }: Props) => {
               // />
               <></>
             );
-          }
+          } else if (is(property, TypeOfProperty.PROGRESS)) {
+            return (
+              // <CardNumber
+              //   showNameProperty={fafalse}
+              // key={property.property.id.toString()}
+              //   property={property.property.name}
+              //   value={property.value.value}
+              // />
+              <></>
+            );
+          } 
         })}
       </div>
     </>

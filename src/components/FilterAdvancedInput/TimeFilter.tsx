@@ -277,29 +277,42 @@ export const TimeFilter = ({
   };
 
   const verifyEnd = async () => {
-    let totalTime = hours * 60 * 60 + minutes * 60 + seconds;
+    // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
 
-    if ((property as Limited).maximum <= totalTime) {
+    let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
+
+    if ((property as Limited).maximum <= totalTimeInMinutes) {
       // console.log("Ended");
       let propFinded = formProps.find(
         (prop) => prop.property.property.id == formProp.property.property.id
       )!;
-      propFinded?.errors.push("O tempo acabou já fi, vai moscano");
+      propFinded?.errors.push("O valor chegou ao tempo máximo da propriedade!");
       setFormProps([...formProps]);
       setErrors(true);
       setPlay(false);
       console.log("EXECUTOU");
-      const exceededTime = totalTime - (property as Limited).maximum;
+      const exceededTime = totalTimeInMinutes - (property as Limited).maximum;
       const currentDate = new Date();
-      currentDate.setTime(currentDate.getTime() - exceededTime * 1000);
+
+      // currentDate.setTime(currentDate.getTime() - exceededTime  * 1000);
+
+      // Minutes Mode
+
+      currentDate.setTime(currentDate.getTime() - exceededTime * 60 * 1000);
       value.ends.push(new DateTimelines(currentDate.toJSON().slice(0, -1)));
       console.log(value);
 
-      value.time.hours = Math.floor((property as Limited).maximum / 3600);
-      value.time.minutes = Math.floor(
-        ((property as Limited).maximum % 3600) / 60
-      );
-      value.time.seconds = (property as Limited).maximum % 60;
+      // Seconds Mode
+
+      // value.time.hours = Math.floor((property as Limited).maximum / 3600);
+      // value.time.minutes = Math.floor(
+      //   ((property as Limited).maximum % 3600) / 60
+      // );
+      // value.time.seconds = (property as Limited).maximum % 60;
+
+      value.time.hours = Math.floor((property as Limited).maximum / 60); // Obtém as horas
+      value.time.minutes = Math.floor((property as Limited).maximum % 60); // Obtém os minutos
+      value.time.seconds = 0;
       setHours(value.time.hours);
       setMinutes(value.time.minutes);
       setSeconds(value.time.seconds);

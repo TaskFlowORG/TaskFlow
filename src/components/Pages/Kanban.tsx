@@ -6,7 +6,6 @@ import { RoundedCard } from "@/components/RoundedCard";
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
 import { SearchBar, SearchInput } from "@/components/SearchBar";
 import { useContext, useEffect } from "react";
-import { getData, getListData, getPage, putData } from "@/services/http/api";
 import { useState } from "react";
 import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
@@ -40,7 +39,7 @@ type Props = {
   project?: Project;
 };
 
-export const Kanban = ({ page }: Props) => {
+export const Kanban = ({ page, user }: Props) => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
@@ -187,6 +186,7 @@ export const Kanban = ({ page }: Props) => {
             {options?.map((option) => {
               return (
                 <ColumnKanban
+                  user={user}
                   allTasks={tasks}
                   input={input}
                   openModal={openModal}
@@ -217,6 +217,7 @@ export const Kanban = ({ page }: Props) => {
             })}
             {
               <ColumnKanban
+                user={user}
                 allTasks={tasks}
                 key={0}
                 openModal={openModal}
