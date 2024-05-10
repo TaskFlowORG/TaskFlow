@@ -1,7 +1,7 @@
 'use client'
 
 import { If } from "@/components/If";
-import { ImagemEnviada, VisualizedChatOrMessage } from "@/components/icons";
+import { ImagemEnviada, Visualized } from "@/components/icons";
 import { UserContext } from "@/contexts/UserContext";
 import { Chat, Message } from "@/models";
 import { chatService } from "@/services";
@@ -156,7 +156,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             </If>
             <If condition={quantityUnvisualized == 0}>
               <div>
-                <VisualizedChatOrMessage />
+                <Visualized />
               </div>
             </If>
           </div>

@@ -44,6 +44,7 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                             <If condition={!penultimaMensagem}>
                                 <div className="pr-5"></div>
                             </If>
+
                             <If condition={penultimaMensagem}>
                                 <div className="w-5 h-5 rounded-br-[100%]" style={{ backgroundImage: "linear-gradient(to left, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 </div>
@@ -52,6 +53,7 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                             <div className={`p-[10px] h-fit w-fit max-w-[30rem] min-w-[3rem] rounded-b-md rounded-tl-md  flex-row-reverse justify-start  ${penultimaMensagem ? "mb-6" : ""}`} style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 <p className="break-all max-w-[30rem]">{message.value}</p>
                                 <div className="flex justify-end">
+                                    
                                     <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
                                         <img className="rounded-md w-48 h-fit" src={arquivoUrl} alt="" />
                                     </If>
@@ -61,7 +63,6 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                     </If>
 
                                     <If condition={message.annex != null && message.annex.type == ("application/pdf")}>
-
                                         <div className="flex items-center justify-center">
                                             <a href={arquivoUrl} download={message.annex?.name}>
                                                 <div className="flex items-center justify-center">
@@ -75,6 +76,7 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                     <If condition={message.annex != null && message.annex.type.startsWith("audio/")}>
                                         <audio src={arquivoUrl} controls></audio>
                                     </If>
+
                                 </div>
                                 <div className="self-end h-3 opacity-60 pr-2 text-mn font-alata">
                                     <p>{hour}</p>
@@ -93,9 +95,11 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                             </If>
                         </div>
                         <div className="flex">
+
                             <If condition={!penultimaMensagem}>
                                 <div className="pr-5"></div>
                             </If>
+
                             <If condition={penultimaMensagem}>
                                 <div className="bg-[#E9E7E7] dark:bg-gray-400  w-5 h-5 rounded-bl-[100%]">
                                 </div>
@@ -106,27 +110,28 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                                 <div className="flex justify-start">
 
                                     <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
-                                        <Image width={192} height={200} className="w-48 h-fit" src={arquivoUrl} alt="" />
+                                        <img className="rounded-md w-48 h-fit" src={arquivoUrl} alt="" />
                                     </If>
 
                                     <If condition={message.annex != null && message.annex.type.startsWith("video/")}>
-                                        <video src={arquivoUrl} controls ></video>
+                                        <video className="rounded-md" src={arquivoUrl} controls ></video>
                                     </If>
 
                                     <If condition={message.annex != null && message.annex.type == ("application/pdf")}>
                                         <div className="flex items-center justify-center">
                                             <a href={arquivoUrl} download={message.annex?.name}>
-                                                <div className="flex flex-col items-center justify-center">
+                                                <div className="flex items-center justify-center">
+                                                    <Image width={60} height={60} src="/pdfArchive.webp" alt="" />
                                                     <p className="underline underline-offset-1 w-fit">{message.annex?.name}</p>
-                                                    <Image width={144} height={200} src="/pdfArchive.webp" alt="" />
                                                 </div>
                                             </a>
                                         </div>
                                     </If>
 
                                     <If condition={message.annex != null && message.annex.type.startsWith("audio/")}>
-                                        <audio className="" src={arquivoUrl} controls></audio>
+                                        <audio src={arquivoUrl} controls></audio>
                                     </If>
+                                    
                                 </div>
                                 <div className="self-end pl-2 text-mn font-alata h-3 opacity-60">
                                     <p>{hour}</p>
@@ -134,10 +139,6 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key }:
                             </div>
                         </div>
                     </div>
-                    {/* dar uma revisada dps */}
-                    {/* <If condition={message.destinations[key].visualized == true}>
-                        <VisualizedChatOrMessage />
-                    </If> */}
                 </div>
             </If >
         </>

@@ -32,6 +32,7 @@ export { TypePermission } from "./enums/TypePermission";
 export { Action } from "./enums/Action";
 export { Language } from "./enums/Language";
 export { Theme } from "./enums/Theme";
+export { ArchiveType } from "./enums/ArchiveType";
 
 export { Archive } from "./others/Archive";
 export { Configuration } from "./others/Configuration";

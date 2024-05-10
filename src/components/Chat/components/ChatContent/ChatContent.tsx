@@ -1,5 +1,5 @@
 import { MessageContent } from "../MessageContent/MessageContent"
-import { Chat, Message, OtherUser } from "@/models"
+import { ArchiveType, Chat, Message, OtherUser } from "@/models"
 import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
 import { chatService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
@@ -9,7 +9,8 @@ import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
 import Image from 'next/image'
-import { AudioFile, AudioIcon, GaleryIcon, IconArchive, PdfIcon, SendMessage } from "@/components/icons";
+import { AudioFile, SendMessage } from "@/components/icons";
+import { SelectArchive } from "../SelectArchive";
 
 interface MessageGroup {
     id: number,
@@ -19,7 +20,6 @@ interface MessageGroup {
     message: Message,
     isFirst: boolean
     chatContent: Chat
-
 }
 
 export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatContent }: MessageGroup) => {
@@ -31,8 +31,8 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     const [photoUrl, setPhotoUrl] = useState<string>(chatContent ? archiveToSrc(chatContent.picture) : "");
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
+    const [archiveType, setArchiveType] = useState<ArchiveType>(ArchiveType.NONE)
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
-    const [modalArquivo, setModalArquivo] = useState<boolean>(false);
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -63,7 +63,6 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
             await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!)
             setMensagem("")
             setArquivo(null)
-            setModalArquivo(false)
         }
         else {
             alert("Mensagem vazia")
@@ -152,71 +151,19 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                             <div className="w-full">
                                 <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                             </div>
-                            <div className="">
+                            <div className="flex items-center justify-center w-12">
                                 <Keyboard setValue={setMensagem} bottom></Keyboard>
                             </div>
-                            <div className="ml-[5px]">
+                            <div className="flex items-center justify-center w-12 ">
                                 <Dictophone setText={setMensagem}></Dictophone>
                             </div>
 
-                            <div onClick={() => setModalArquivo(!modalArquivo)} className="w-[45px] cursor-pointer">
-                                <IconArchive></IconArchive>
+                            <div className="w-14">
+                                <SelectArchive arquivoParaEnviar={arquivoParaEnviar} previewArquivo={previewArquivo}/>
                             </div>
-                            <If condition={modalArquivo && arquivo == null}>
-                                <div className="opacity- absolute rounded-md bg-slate-500 lg:w-56 lg:h-48 w-28 h-28 bottom-28 right-40 grid grid-cols-2 grid-rows-2">
-                                    <div className=" col-start-1 row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tl-md">
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <GaleryIcon></GaleryIcon>
-                                                <p className="text-p font-montserrat">Galeria</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
-                                                type="file"
-                                                accept="image/*, video/*"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-span-2 row-start-2 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-b-md">
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <PdfIcon></PdfIcon>
-                                                <p className="text-p font-montserrat">PDF</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-12"
-                                                type="file"
-                                                accept=".pdf"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-start-2  row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tr-md cursor-pointer">
-                                        <div className="w-full h-full flex items-center justify-center cursor-pointer">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <AudioFile></AudioFile>
-                                                <p className="text-p font-montserrat">Audio</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
-                                                type="file"
-                                                accept="audio/*"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </If>
                             <If condition={arquivo != null}>
                                 <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500   max-w-64 min-w-28 h-28 bottom-28 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
-                                    <div onClick={() => (setArquivo(null), setModalArquivo(false))} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
+                                    <div onClick={() => setArquivo(null)} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
                                         <p className="text-p font-montserrat">X</p>
                                     </div>
                                     <div className="w-full flex justify-around">
