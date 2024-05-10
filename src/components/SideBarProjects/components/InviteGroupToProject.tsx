@@ -21,6 +21,8 @@ export const InviteGroupToProject = ({
   const fetchData = async () => {
     try {
       const globalGroups = await groupService.findAll();
+      console.log(globalGroups, "oq tá rolando?");
+      
       const alreadyInvitedGroups = await groupService.findGroupsByAProject(project!.id);
         const availableGroups = globalGroups.filter((group) => !alreadyInvitedGroups.some((invitedGroup) => invitedGroup.id === group.id));
       setGroupsGlobal(availableGroups);
