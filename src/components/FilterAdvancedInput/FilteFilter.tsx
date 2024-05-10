@@ -1,10 +1,10 @@
 import { ProjectContext } from "@/contexts";
-import { Archive, ArchiveValued, Limited, PropertyValue, Task } from "@/models";
+import { Archive, Limited, PropertyValue, Task } from "@/models";
 import { propertyValueService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
 import { useContext, useEffect, useState } from "react";
 import { archiveToDownload } from "@/functions";
-import Link from "next/link";
+
 import { useTranslation } from "next-i18next";
 
 interface Props {
@@ -34,14 +34,13 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
     if (size > (propertyValue.property as Limited)?.maximum) {
       setError(true);
     } else {
-      setError(false)
+      setError(false);
       console.log(size);
       let bah = await propertyValueService.updateArchiveInTask(
         selectedFile,
         project!.id,
         propertyValue.id!
       );
-
       propertyValue.value = bah;
       console.log(
         "e nkjdfbjk mz kcjgnfjk ndfjkg ndmkf nfkmdf ngnkfd jfd sdf d sd  sfd fd fds g s s ",
@@ -61,6 +60,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
 
   useEffect(() => {
     setFile(value);
+    console.log("value", value);
   }, [value, propertyValue, task, handleFileChange]);
 
   return (
@@ -76,7 +76,7 @@ export const FileFilter = ({ propertyValue, task, value }: Props) => {
               >
                 i
               </a>
-              <p>{name}</p>
+              <p>{file.name ?? name}</p>
             </div>
             <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
               <img src="/change.svg" width={8} height={8} alt="" />
