@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { CardSelect } from "./CardProperties/CardSelect";
 import { ProgressBar } from "../ProgressBar";
 import {
+  ArchiveValued,
   MultiOptionValued,
   PropertyValue,
   Task,
@@ -18,6 +19,10 @@ import {
 } from "@/models";
 import { useTranslation } from "next-i18next";
 import { CardUser } from "./CardProperties/CardUser";
+import { CardNumber } from "./CardProperties/CardNumber";
+import { CardProgress } from "./CardProperties/CardProgress";
+import { CardCheckbox } from "./CardProperties/CardCheckbox";
+import { CardFile } from "./CardProperties/CardFile";
 
 interface Props {
   task: Task;
@@ -100,7 +105,7 @@ export const CardContent = ({ task, user }: Props) => {
             (property.value as MultiOptionValued).value.length > 0
           ) {
             return (
-              <CardTag
+              <CardCheckbox
                 showNameProperty={user.configuration.showPropertiesName}
                 nameProperty={property.property.name}
                 key={property.property.id.toString()}
@@ -131,27 +136,34 @@ export const CardContent = ({ task, user }: Props) => {
                 value={(property.value as UniOptionValued).value?.name}
               />
             );
-          } else if (is(property, TypeOfProperty.NUMBER)) {
-            return (
-              // <CardNumber
-              //   showNameProperty={fafalse}
-              // key={property.property.id.toString()}
-              //   property={property.property.name}
-              //   value={property.value.value}
-              // />
-              <></>
-            );
           } else if (is(property, TypeOfProperty.PROGRESS)) {
             return (
-              // <CardNumber
-              //   showNameProperty={fafalse}
-              // key={property.property.id.toString()}
-              //   property={property.property.name}
-              //   value={property.value.value}
-              // />
-              <></>
+              <CardProgress
+                showNameProperty={user.configuration.showPropertiesName}
+                key={property.property.id.toString()}
+                property={property.property.name}
+                percent={property.value.value}
+              />
             );
-          } 
+          } else if (is(property, TypeOfProperty.ARCHIVE)) {
+            return (
+              <CardFile
+                showNameProperty={user.configuration.showPropertiesName}
+                property={property.property.name}
+                key={property.property.id.toString()}
+                name={(property.value as ArchiveValued).value?.name as string}
+              />
+            );
+          } else if (is(property, TypeOfProperty.NUMBER)) {
+            return (
+              <CardNumber
+                showNameProperty={user.configuration.showPropertiesName}
+                key={property.property.id.toString()}
+                property={property.property.name}
+                number={property.value.value}
+              />
+            );
+          }
         })}
       </div>
     </>

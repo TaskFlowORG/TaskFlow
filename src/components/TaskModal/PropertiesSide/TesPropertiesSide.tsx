@@ -390,7 +390,9 @@ export const TesPropertiesSide = ({
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
-                      <IconsSelector property={prop.property} />
+                      <div className="w-5 aspect-square">
+                        <IconsSelector property={prop.property} />
+                      </div>
                       <p
                         className="font-montserrat text-p14 md:text-p"
                         // onClick={() => handleValidate()}

@@ -70,7 +70,10 @@ export const SideBarButton = ({
           className="h-full w-full flex gap-4 flex-row items-center px-6"
         >
           <div className="w-12 h-12 hidden sm:flex aspect-square justify-center items-center stroke-primary dark:stroke-secondary">
+            <div className="w-5 aspect-square">
             {icon}
+            </div>
+
           </div>
           <p
             className={
