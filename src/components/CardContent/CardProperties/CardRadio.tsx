@@ -16,7 +16,7 @@ export const CardRadio = ({ property, value, showNameProperty }: Props) => {
         </p>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex gap-1">
         <p className="text-p14 w-max text-primary dark:text-secondary">
           {value}
         </p>

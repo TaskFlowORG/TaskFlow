@@ -23,6 +23,7 @@ import { CardNumber } from "./CardProperties/CardNumber";
 import { CardProgress } from "./CardProperties/CardProgress";
 import { CardCheckbox } from "./CardProperties/CardCheckbox";
 import { CardFile } from "./CardProperties/CardFile";
+import { CardTime } from "./CardProperties/CardTime";
 
 interface Props {
   task: Task;
@@ -136,16 +137,7 @@ export const CardContent = ({ task, user }: Props) => {
                 value={(property.value as UniOptionValued).value?.name}
               />
             );
-          } else if (is(property, TypeOfProperty.PROGRESS)) {
-            return (
-              <CardProgress
-                showNameProperty={user.configuration.showPropertiesName}
-                key={property.property.id.toString()}
-                property={property.property.name}
-                percent={property.value.value}
-              />
-            );
-          } else if (is(property, TypeOfProperty.ARCHIVE)) {
+          }  else if (is(property, TypeOfProperty.ARCHIVE)) {
             return (
               <CardFile
                 showNameProperty={user.configuration.showPropertiesName}
@@ -161,6 +153,27 @@ export const CardContent = ({ task, user }: Props) => {
                 key={property.property.id.toString()}
                 property={property.property.name}
                 number={property.value.value}
+              />
+            );
+          } else if (is(property, TypeOfProperty.TIME)) {
+            return (
+              <CardTime
+                showNameProperty={user.configuration.showPropertiesName}
+                key={property.property.id.toString()}
+                property={property.property.name}
+                time={property.value.value}
+              />
+            );
+          }
+        })}
+        {task.properties?.map((property) => {
+          if (is(property, TypeOfProperty.PROGRESS)) {
+            return (
+              <CardProgress
+                showNameProperty={user.configuration.showPropertiesName}
+                key={property.property.id.toString()}
+                property={property.property.name}
+                percent={property.value.value}
               />
             );
           }

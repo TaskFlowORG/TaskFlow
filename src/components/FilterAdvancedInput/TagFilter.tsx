@@ -22,7 +22,7 @@ export const TagFilter = ({
   const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
-  const style = twMerge("", isInModal ? "max-h-2 items-center flex" : "");
+  const style = twMerge("", isInModal ? " items-center flex w-full" : "");
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -74,7 +74,7 @@ export const TagFilter = ({
           {name}:
         </p>
       )}
-      <div className="flex gap-4 overflow-x-auto w-full max-w-[360px] ">
+      <div className="oi w-full flex-wrap  flex gap-2 relative">
         {options.map((opt, index) => {
           return (
             <Tag

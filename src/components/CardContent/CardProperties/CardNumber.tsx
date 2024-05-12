@@ -7,8 +7,8 @@ interface Props {
 }
 
 export const CardNumber = ({ number, property, showNameProperty }: Props) => {
-  return (
-    <div className="flex gap-2 items-center w-max">
+  return number !=null && (
+    <div className="flex gap-1 items-center w-max">
       {showNameProperty && (
         <p className="text-p14 text-[#797979] dark:text-white ">{property}:</p>
       )}

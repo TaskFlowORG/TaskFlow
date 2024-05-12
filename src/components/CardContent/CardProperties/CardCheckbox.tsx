@@ -30,13 +30,13 @@ export const CardCheckbox = ({
         <div className="oi w-full  flex flex-wrap gap-2 relative">
           {/* Código svg do gradiente para "mostrar ao usuário que é scrollavel" */}
           {/* <img src="gradient.svg" className="absolute h-full left-[-0.1rem]" alt="" /> */}
-          <div className="flex gap-2">
+          <div className="oi w-full flex-wrap gap-y-0  flex gap-2 relative">
             {tags.map((tag) => {
               return (
                 <p
                   key={tag.id}
                   style={{ color: tag.color }}
-                  className="text-p14  dark:text-white whitespace-nowrap "
+                  className="text-mn whitespace-break-spaces rounded-md max-w-full"
                 >
                   {tag.name}
                 </p>

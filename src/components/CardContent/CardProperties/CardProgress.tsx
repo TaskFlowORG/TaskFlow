@@ -9,8 +9,8 @@ export const CardProgress = ({
   property,
   showNameProperty,
 }: Props) => {
-  return (
-    <div className="flex gap-2 items-center w-max">
+  return percent !=null && (
+    <div className="flex gap-1 items-center w-max justify-end">
       {showNameProperty && (
         <p className="text-p14 text-[#797979] dark:text-white ">{property}:</p>
       )}

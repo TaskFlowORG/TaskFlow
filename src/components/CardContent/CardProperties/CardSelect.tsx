@@ -32,7 +32,7 @@ export const CardSelect = ({
         </p>
       )}
 
-      <div className="flex gap-2">
+      <div className="flex gap-1">
         <p style={styled_P} className="text-p14 w-max">
           {value}
         </p>
