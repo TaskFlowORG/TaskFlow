@@ -70,7 +70,7 @@ export const TaskLegend = ({
                   }}
                 />
                 <span className="max-w-full w-min h-min sm:text-center truncate font-montserrat text-mn">
-                  {task.name ?? t("withoutname")}
+                  {task.name ? task.name : t("withoutname")}
                 </span>
               </div>
             );

@@ -58,6 +58,7 @@ export const Table = ({ page }: Props) => {
         <div
           key={page.id}
           className="w-min shadow-blur-10 flex flex-col gap-1 flex-nowrap min-w-full h-full"
+
         >
           <div className=" bg-white dark:bg-modal-grey  w-full h-min">
             <div className="w-full  flex">

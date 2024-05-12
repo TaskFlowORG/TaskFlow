@@ -58,6 +58,7 @@ export const List = ({ list:listPrev, page }: Props) => {
                 
               >
                 <div className="w-full relative h-min gap-1 flex flex-col">
+
                   {list
                     .map((l, index) => {
                       return (
@@ -71,8 +72,10 @@ export const List = ({ list:listPrev, page }: Props) => {
                             return (
                                 <div
                                   key={l.id}
+
                                   className={"bg-white dark:bg-modal-grey block   border-b-2 w-full " + 
                                   (l.task.completed || l.task.waitingRevision ? " border-green-500 border-2" : " border-zinc-400 dark:border-zinc-600 ") + (l.task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")
+
                                   }
                                   {...providedDrag.draggableProps}
                                   {...providedDrag.dragHandleProps}
