@@ -37,7 +37,6 @@ export const CardContent = ({ task, user }: Props) => {
   const [localTask, setLocalTask] = useState<Task>(task);
   const {project, setProject} = useContext(ProjectContext)
 
-  const {user} = useContext(UserContext)
   const clickComplete = async (e:any) => {
     if(project?.owner.id != user?.id) return;
     e.stopPropagation();
