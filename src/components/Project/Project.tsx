@@ -14,8 +14,13 @@ import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
+
 import { OtherUser, Project as ProjectModel, ProjectPut, Task } from "@/models";
 import { EditIcon } from "../icons";
+
+import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
+import { EditIcon, IconRedo } from "../icons";
+
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
 import { ReportDowload } from "../Report/Report";
@@ -57,7 +62,8 @@ export const Project = () => {
       project.name,
       project.description,
       project.comments,
-      project.values
+      project.values,
+      project.revision
     );
   };
 
@@ -98,9 +104,17 @@ export const Project = () => {
       );
     })();
   }, [project]);
+  const updateRevision = async (revision: boolean) => {
+    if (!project) return;
+    const projectDto = projectToPutDTO(project);
+    projectDto.revision = revision;
+    projectService.update(projectDto, project.id).then((updated) => {
+      if (!setProject) return;
+      setProject(updated);
+    });
+  };
 
   if (!user || !project) return <Loading />;
-
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
       <div className="w-full h-full flex-col justify-center items-center  py-8 400:flex 400:px-8 sm:px-24 md:px-48">
@@ -152,7 +166,7 @@ export const Project = () => {
               />
             </div>
           </div>
-          <div className="400:w-52 w-full  h-full justify-center relative  text-h5 font-alata text-modal-grey dark:text-white flex flex-col items-center">
+          <div className="400:w-52 w-full gap-2  h-full justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -191,18 +205,16 @@ export const Project = () => {
                     </If>
                   </div>
                 </LocalModal>
-                <Button
-                  text={t("change-owner")}
-                  padding="p-2"
-                  paddingY="py-1"
-                  textSize="text-p font-alata"
-                  fnButton={() => setChangingOwner(!changingOwner)}
-                />
+                <button
+                  className="p-1 rounded-md bg-primary w-6 h-6 dark:bg-secondary"
+                  onClick={() => setChangingOwner(!changingOwner)}
+                >
+                  <IconRedo />
+                </button>
               </span>
             </If>
           </div>
         </div>
-
         {project.pages[0].tasks[0].task && (
           <TaskModalWrapper>
             <TaskModalContent
@@ -212,6 +224,16 @@ export const Project = () => {
             />
           </TaskModalWrapper>
         )}
+        <If condition={project?.owner.id == user?.id}>
+          <span className="self-end flex items-center gap-2 h-min ">
+            <input
+              type="checkbox"
+              onChange={(e) => updateRevision(e.target.checked)}
+              checked={project.revision}
+            />
+            {t("revision")}
+          </span>
+        </If>
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>

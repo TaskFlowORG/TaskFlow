@@ -37,6 +37,12 @@ class TaskService {
         return response.data;
     }
 
+    async cancelComplete(taskId:number, projectId:number): Promise<Task> {
+        const response = await Api.patch<Task>(`task/${taskId}/project/${projectId}/complete-deny`, {withCredentials: true});
+        return response.data;
+    }
+
+
     async getDeletedTasks(project: number): Promise<Task[]> {
         const response = await Api.get<Task[]>(`task/project/${project}`, {withCredentials: true});
         return response.data;

@@ -70,6 +70,8 @@ export const TaskCanvasComponent = ({
     const mouseUp = (e: Event) => {
       setDragging(false);
       if (!page || !project) return;
+      task.x = x;
+      task.y = y;
       pageService.updateTaskPage(project.id, task);
     };
     if (window.matchMedia("(any-pointer: coarse)").matches) {
@@ -110,7 +112,7 @@ export const TaskCanvasComponent = ({
       onMouseLeave={() => setMouseOver(false)}
     >
       <div className="w-min h-min pointer-events-none">
-        <RoundedCard>
+        <RoundedCard completed={task.task.completed} waiting={task.task.waitingRevision}>
           <CardContent task={task.task} />
         </RoundedCard>
       </div>

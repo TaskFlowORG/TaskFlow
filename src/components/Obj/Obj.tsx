@@ -35,7 +35,7 @@ export const Obj = ({
 }: Props) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
-  const showed = objs.filter((o, index) => index < max);
+  const showed = objs.filter((o, index) => index <= max);
   const hidden = objs.filter((o, index) => index > max);
 
   const mrs = isHovering ? " -mr-2" : "xl:-mr-4 lg:-mr-3 sm:-mr-2 -mr-[0.35rem]";
@@ -70,7 +70,7 @@ export const Obj = ({
           />
         ))}
         {hidden.length > 0 && !isHovering && (
-          <div className={classes+ " rotate-45 p-1"} title="+">
+          <div className={classes+ " rotate-45 p-1 bg-white dark:bg-modal-grey"} title="+">
             <IconPlus />
           </div>
         )}
