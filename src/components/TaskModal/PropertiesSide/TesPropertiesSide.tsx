@@ -31,7 +31,7 @@ type Props = {
   task: Task;
   filter: FilteredProperty[];
   users: OtherUser[];
-  setIsOpen: (bool: boolean) => void;
+  setIsOpen?: (bool: boolean) => void;
   setFilter: (array: FilteredProperty[]) => void;
   setList: (value: FilteredProperty | undefined) => void;
 };
@@ -77,7 +77,9 @@ export const TesPropertiesSide = ({
     let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
     page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
     setProject!({ ...project! });
-    setIsOpen(false);
+    {
+      setIsOpen && setIsOpen(false);
+    }
   }
 
   const validateProps = (): boolean => {
@@ -390,7 +392,9 @@ export const TesPropertiesSide = ({
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
-                      <IconsSelector property={prop.property} />
+                      <div className="w-5 aspect-square">
+                        <IconsSelector property={prop.property} />
+                      </div>
                       <p
                         className="font-montserrat text-p14 md:text-p"
                         // onClick={() => handleValidate()}

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { getData, putData } from "@/services/http/api";
+
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";

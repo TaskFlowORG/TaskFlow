@@ -14,12 +14,19 @@ import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
+
+import { OtherUser, Project as ProjectModel, ProjectPut, Task } from "@/models";
+import { EditIcon } from "../icons";
+
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
 import { EditIcon, IconRedo } from "../icons";
+
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
 import { ReportDowload } from "../Report/Report";
 import { Loading } from "../Loading";
+import { TaskModalContent } from "../TaskModal/TaskModalContent";
+import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -208,6 +215,15 @@ export const Project = () => {
             </If>
           </div>
         </div>
+        {project.pages[0].tasks[0].task && (
+          <TaskModalWrapper>
+            <TaskModalContent
+              task={project.pages[0].tasks[0].task}
+              user={user}
+              isInModal={false}
+            />
+          </TaskModalWrapper>
+        )}
         <If condition={project?.owner.id == user?.id}>
           <span className="self-end flex items-center gap-2 h-min ">
             <input

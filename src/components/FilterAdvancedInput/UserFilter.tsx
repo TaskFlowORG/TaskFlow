@@ -7,6 +7,7 @@ import { groupService, projectService, userService } from "@/services";
 import { OtherUser } from "@/models";
 import { IconPlus } from "../icons/GeneralIcons/IconPlus";
 import { Combobox } from "./Combobox/Combobox";
+import { NeedPermission } from "../NeedPermission";
 
 interface Props {
   id: number;
@@ -108,26 +109,29 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                 id={id}
               />
             )}
-            <div className="flex gap-2">
-              <div
-                className="w-8 h-8 relative  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
-                onClick={(e) => {
-                  setIsOpen(!isOpen);
-                }}
-              >
-                <div className="stroke-white rotate-45">
-                  <IconPlus></IconPlus>
+
+            <NeedPermission permission="update">
+              <div className="flex gap-2">
+                <div
+                  className="w-8 h-8 relative  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
+                  onClick={(e) => {
+                    setIsOpen(!isOpen);
+                  }}
+                >
+                  <div className="stroke-white rotate-45">
+                    <IconPlus></IconPlus>
+                  </div>
+                </div>
+                <div
+                  className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
+                  onClick={() => setIsOpenRemove(!isOpenRemove)}
+                >
+                  <div className="stroke-white rotate-90">
+                    <p className="font-semibold leading-none text-[10px]">l</p>
+                  </div>
                 </div>
               </div>
-              <div
-                className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
-                onClick={() => setIsOpenRemove(!isOpenRemove)}
-              >
-                <div className="stroke-white rotate-90">
-                  <p className="font-semibold leading-none text-[10px]">l</p>
-                </div>
-              </div>
-            </div>
+            </NeedPermission>
           </div>
         </div>
         <div></div>
