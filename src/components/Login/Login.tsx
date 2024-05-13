@@ -12,6 +12,7 @@ import { signIn } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { userService } from "@/services";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -55,8 +56,8 @@ export const Login = () => {
     await signIn("credentials", {
       username: data.username,
       password: data.password,
-      redirect: false,
-    }).then((value) => {
+      redirect: true,
+    }).then(async (value) => {
       console.log(value);
 
       if (!value || value.error?.includes("401")) {

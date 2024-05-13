@@ -13,6 +13,7 @@ export const Step2 = ({ setStep }: Props) => {
     const [number2, setNumber2] = useState<string>("");
     const [number3, setNumber3] = useState<string>("");
     const [number4, setNumber4] = useState<string>("");
+    const [error, setError] = useState<string>("");
     
     const ref1 = useRef(null);
     const ref2 = useRef(null);
@@ -60,7 +61,7 @@ export const Step2 = ({ setStep }: Props) => {
             if (concatenatedNumber.toString() === c.code) {
                 setStep(3);
             } else {
-                alert("Código inválido, tente novamente!");
+                setError("Código inválido, tente novamente!");
             }
         })
     }
@@ -70,6 +71,7 @@ export const Step2 = ({ setStep }: Props) => {
             <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey justify-between py-9">
                 <h4 className="h4 leading-6 w-60 flex py-2 md:py-0 text-center">Insira o código enviado em seu email</h4>
                 <h3 className="font-alata flex pt-2">Para: {email}</h3>
+                <span className="text-red-500 text-sm">{error ?? ""}</span>
 
                 <div className='gap-5 h-4/5 w-4/5  flex items-center justify-center'>
                     <input

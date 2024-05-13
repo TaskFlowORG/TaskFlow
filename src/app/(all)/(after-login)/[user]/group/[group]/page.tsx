@@ -9,7 +9,7 @@ import { groupService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { Loading } from "@/components/Loading";
 
-export default function Home({ params }: { params: { user: string, group: number } }) {
+export default function Groups({ params }: { params: { user: string, group: number } }) {
     const { project } = useContext(ProjectContext);
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()

@@ -7,9 +7,7 @@ import { Permission } from "@/models/project/permission/Permission";
 
 export class User {
 
-         
-
-    //Adicionar a foto denovo depois
+    //Adicionar a foto de novo depois
     constructor(
         public id: number,
         public username: string,                  
