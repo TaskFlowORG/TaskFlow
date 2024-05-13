@@ -3,6 +3,7 @@ import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
 import { IconArchive } from "@/components/icons";
 import { ProjectContext } from "@/contexts";
+import { UserContext } from "@/contexts/UserContext";
 import { generateContrast } from "@/functions";
 import {
   Property,
@@ -55,9 +56,12 @@ export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
     
   }, [l])
 
+  const { user } = useContext(UserContext);
+
   const clickComplete = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
+    if(project?.owner.id != user?.id) return;
     console.log("clickComplete", e);
     if (localTask.completed || !project || !setProject) return;
     const updatedTask = await taskService.complete(localTask.id, project.id);

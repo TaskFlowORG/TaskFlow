@@ -20,6 +20,7 @@ import Image from "next/image";
 import { If } from "../If";
 import { taskService } from "@/services";
 import { ProjectContext } from "@/contexts";
+import { UserContext } from "@/contexts/UserContext";
 
 interface Props {
   task: Task;
@@ -33,7 +34,9 @@ export const CardContent = ({ task }: Props) => {
   const [localTask, setLocalTask] = useState<Task>(task);
   const {project, setProject} = useContext(ProjectContext)
 
+  const {user} = useContext(UserContext)
   const clickComplete = async (e:any) => {
+    if(project?.owner.id != user?.id) return;
     e.stopPropagation();
     e.preventDefault();
     console.log("clickComplete", e)

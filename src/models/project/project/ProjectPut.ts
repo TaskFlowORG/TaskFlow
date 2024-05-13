@@ -9,7 +9,8 @@ export class ProjectPut {
         public name: string |undefined,
         public description: string|undefined,
         public comments: Message[],
-        public values: PropertyValue[]
+        public values: PropertyValue[],
+        public revision: boolean
     ) {}
     
     equals = (obj: any) => {
