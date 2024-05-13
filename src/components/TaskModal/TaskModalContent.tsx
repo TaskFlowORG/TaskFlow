@@ -1,7 +1,6 @@
 import { FilterContext } from "@/utils/FilterlistContext";
 import { CommentsSection } from "./CommentsAndHistoric/CommentsSection";
 import { HeaderCommentAndHistoric } from "./CommentsAndHistoric/HeaderCommentAndHistoric";
-import { PropertiesSide } from "./PropertiesSide";
 import { ProjectContext } from "@/contexts";
 import { OtherUser, Project, Task, User } from "@/models";
 import { groupService, userService } from "@/services";
