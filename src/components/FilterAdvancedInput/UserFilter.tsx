@@ -66,7 +66,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
-              objs={valued
+      resposiveClasses=""
+      objs={valued
                 ?.map((userD) => users.find((user) => user.username == userD)!)
                 .filter((user) => user != null && user != undefined)}
               mawWidth="w-max"

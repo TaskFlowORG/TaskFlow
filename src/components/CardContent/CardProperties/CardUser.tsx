@@ -9,6 +9,7 @@ export const CardUser = ({ users }: CardProps) => {
   return (
     <div className="  flex items-center w-12  relative">
       <Obj
+      resposiveClasses=""
         objs={users}
         mawWidth="w-full"
         max={3}
