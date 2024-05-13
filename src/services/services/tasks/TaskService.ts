@@ -28,7 +28,7 @@ class TaskService {
         await Api.delete(`task/project/${projectId}/${id}/permanent`, {withCredentials: true});
     }
 
-    async redo(id: number, projectId: string): Promise<Task> {
+    async redo(id: number, projectId: number): Promise<Task> {
         return ((await Api.put<Task>(`task/project/${projectId}/redo/${id}`, {withCredentials: true})).data);
     }
 

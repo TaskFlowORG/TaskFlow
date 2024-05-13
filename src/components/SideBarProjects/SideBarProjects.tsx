@@ -28,8 +28,8 @@ export const SideBarProjects = ({ user, project, setOpenSideBar, openSideBar }: 
 
   const leave = async () => {
     await authentication.logout();
-    setConfigsDefault();
     router.push("/login");
+    setConfigsDefault();
   };
   return (
     <SideModal condition={openSideBar} setCondition={setOpenSideBar} header={

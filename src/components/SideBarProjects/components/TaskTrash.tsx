@@ -11,9 +11,11 @@ import { IconTrashBin, IconRedo } from "@/components/icons"
 interface Props {
     task: Task
     userId: string
+    arrayTasks: Task[]
+    setArrayTasks: (value: Task[]) => void
 }
 
-export const TaskTrash = ({ task, userId }: Props) => {
+export const TaskTrash = ({ task, userId , arrayTasks, setArrayTasks}: Props) => {
 
     const [modalDelete, setModalDelete] = useState(false)
     const {project} = useContext(ProjectContext)
@@ -22,15 +24,19 @@ export const TaskTrash = ({ task, userId }: Props) => {
     const deleteTask = () => {
         if(!project) return;
         taskService.deletePermanent(task.id, project.id)
+        setArrayTasks(arrayTasks.filter(t => t.id != task.id))
     }
     const redo = () => {
-        taskService.redo(task.id, userId)
+        if(project?.id != undefined){
+        taskService.redo(task.id,project.id)
+        setArrayTasks(arrayTasks.filter(t => t.id != task.id))
+        }
     }
     const {t} = useTranslation();
 
     return (
         <>
-            <div className="flex justify-between gap-3 items-center z-50 w-full">
+            <div className="flex justify-between gap-3 items-center z-50 w-[80%]">
                 <button className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md" onClick={() => setModalDelete(true)}><span className="stroke-contrast"><IconTrashBin/></span></button>
                 <div className="truncate  text-p font-montserrat  h-full w-min flex items-center cursor-default"
                     title={`Tarefa "${task.name ?? t("withoutname")}" foi exluida por "${user?.name}"`}>
