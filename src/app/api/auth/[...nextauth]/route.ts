@@ -2,12 +2,10 @@ import NextAuth from "next-auth/next";
 import CredentialProvider from "next-auth/providers/credentials";
 import { authentication } from "@/services/services/Authentication";
 import { UserLogin } from "@/models/user/user/UserLogin";
-import Cookies from "js-cookie";
-import { AuthOptions, NextAuthOptions } from "next-auth";
-import { JWTDecodeParams } from "next-auth/jwt";
 import { cookies } from "next/headers";
+import { AuthOptions } from "next-auth";
 
-export const OPTIONS: NextAuthOptions = {
+const options:AuthOptions = {
     providers: [
         CredentialProvider({
             name: "Credentials",
@@ -35,5 +33,5 @@ export const OPTIONS: NextAuthOptions = {
 }
 
 
-const handler = NextAuth(OPTIONS);
+const handler = NextAuth(options);
 export { handler as GET, handler as POST };

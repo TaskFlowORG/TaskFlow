@@ -211,15 +211,6 @@ export const Project = () => {
             </If>
           </div>
         </div>
-        {project?.pages[0]?.tasks[0]?.task && (
-          <TaskModalWrapper>
-            <TaskModalContent
-              task={project.pages[0].tasks[0].task}
-              user={user}
-              isInModal={false}
-            />
-          </TaskModalWrapper>
-        )}
         <If condition={project?.owner.id == user?.id}>
           <span className="self-end flex items-center gap-2 h-min ">
             <input
@@ -230,6 +221,16 @@ export const Project = () => {
             {t("revision")}
           </span>
         </If>
+        {project?.pages[0]?.tasks[0]?.task && (
+          <TaskModalWrapper>
+            <TaskModalContent
+              task={project.pages[0].tasks[0].task}
+              user={user}
+              isInModal={false}
+            />
+          </TaskModalWrapper>
+        )}
+       
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>
