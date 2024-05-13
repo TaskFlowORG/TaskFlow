@@ -14,10 +14,6 @@ import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
-
-import { OtherUser, Project as ProjectModel, ProjectPut, Task } from "@/models";
-import { EditIcon } from "../icons";
-
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
 import { EditIcon, IconRedo } from "../icons";
 
