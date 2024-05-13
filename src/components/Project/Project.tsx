@@ -211,7 +211,7 @@ export const Project = () => {
             </If>
           </div>
         </div>
-        {project.pages[0].tasks[0].task && (
+        {project?.pages[0]?.tasks[0]?.task && (
           <TaskModalWrapper>
             <TaskModalContent
               task={project.pages[0].tasks[0].task}

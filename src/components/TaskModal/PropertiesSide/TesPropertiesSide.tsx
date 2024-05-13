@@ -26,6 +26,8 @@ import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
 
 import { useTranslation } from "react-i18next";
+import { useHasPermission } from "@/hooks/useHasPermission";
+import { NeedPermission } from "@/components/NeedPermission";
 
 type Props = {
   task: Task;
@@ -47,6 +49,9 @@ export const TesPropertiesSide = ({
   const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
     []
   );
+
+  const hasPermissionUpdate = useHasPermission("update");
+  const hasPermissionDelete = useHasPermission("delete");
 
   type PropsForm = {
     property: PropertyValue;
@@ -458,8 +463,10 @@ export const TesPropertiesSide = ({
           })}
         </div>
       </div>
+      <NeedPermission permission="create">
+        <AddPropertyButton setModalProperty={setModalProperty} />
+      </NeedPermission>
 
-      <AddPropertyButton setModalProperty={setModalProperty} />
       {modalProperty && (
         <div className="h-min">
           <ModalRegisterProperty
@@ -475,7 +482,9 @@ export const TesPropertiesSide = ({
         </div>
       )}
 
-      <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+      {(hasPermissionDelete || hasPermissionUpdate) && (
+        <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+      )}
       <FooterTask deleteTask={deleteTask} updateTask={updateTask} />
     </div>
   );
