@@ -19,7 +19,7 @@ export const CardProgress = ({
         <p className="absolute bottom-0 left-2 z-[5] font-montserrat text-xs font-semibold text-primary dark:text-secondary">
           {percent ?? "0"}%
         </p>
-        <ProgressBar percent={percent as number}></ProgressBar>
+        <ProgressBar sizeBorder="border-[10px]" percent={percent as number}></ProgressBar>
       </div>
     </div>
   );

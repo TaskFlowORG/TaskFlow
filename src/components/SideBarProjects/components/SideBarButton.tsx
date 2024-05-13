@@ -58,7 +58,6 @@ export const SideBarButton = ({
         (pointerEventsNone ? " pointer-events-none" : "") +
         (openOptions ? "" : " hover:brightness-95 dark:hover:brightness-110")
       }
-      onClick={fnClick}
     >
       <div
         
@@ -66,6 +65,8 @@ export const SideBarButton = ({
         (renaming ? "cursor-text" : "cursor-pointer") + 
         (openOptions ? " border-b-2 border-zinc-200 dark:border-zinc-800" : "") }
         title={text}
+      onClick={fnClick}
+
       >
         <Link
           href={link ?? "#"}

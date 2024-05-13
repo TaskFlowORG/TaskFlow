@@ -27,6 +27,22 @@ export default function Layout({ children, text }: Props) {
   const [user, setUser] = useState<User>();
   const [language, setLanguage] = useState<Language>(Language.ENGLISH);
 
+  useEffect(()=> {
+    document.documentElement.style.removeProperty('--primary-color');
+    document.documentElement.style.removeProperty('--secondary-color');
+    document.documentElement.style.removeProperty('--contrast-color');
+    document.documentElement.style.removeProperty('--font-size-h1');
+    document.documentElement.style.removeProperty('--font-size-h2');
+    document.documentElement.style.removeProperty('--font-size-h3');
+    document.documentElement.style.removeProperty('--font-size-h4');
+    document.documentElement.style.removeProperty('--font-size-h5');
+    document.documentElement.style.removeProperty('--font-size-p');
+    document.documentElement.style.removeProperty('--font-size-p14');
+    document.documentElement.style.removeProperty('--font-size-mn');
+    document.documentElement.style.removeProperty('--font-size-mnAlata');
+    document.documentElement.style.removeProperty('--common-font');
+  }, [])
+
   
 
   return (
