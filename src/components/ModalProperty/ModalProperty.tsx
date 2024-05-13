@@ -123,8 +123,7 @@ export const ModalProperty = ({
         icon={fnReturnImageProperty(property.type)}
         openOptions={openOptions}
 
-        fnClick={() => {setOpenOptions(!openOptions
-        }}
+        fnClick={() => {setOpenOptions(!openOptions)}}
         fnOpenOptions={setOptionsFN}
 
         openOptionsRef={ref}

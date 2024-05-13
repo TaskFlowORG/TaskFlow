@@ -6,11 +6,7 @@ import { showTask } from "@/components/Pages/functions";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
-import {
-  Page as PageModel,
-  TaskPage,
-  TypeOfPage,
-} from "@/models";
+import { Page as PageModel, TaskPage, TypeOfPage } from "@/models";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { PageContext } from "@/utils/pageContext";
@@ -35,8 +31,6 @@ export default function Pages({
   const [tasks, setTasks] = useState<TaskPage[]>();
   const asynThrow = useAsyncThrow();
 
-
-
   useEffect(() => {
     const pageTemp = project?.pages.find((p) => p.id == params.page);
     setPage(pageTemp);
@@ -45,28 +39,34 @@ export default function Pages({
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);
     setTasks(pageTemp.tasks);
-    
+    console.log("FOI ");
   }, [params.page, project, project?.pages]);
 
   if (!user) return <Loading />;
   if (!page) {
-    throw new AxiosError(undefined, undefined, undefined, undefined, {status:404} as AxiosResponse)
+    throw new AxiosError(undefined, undefined, undefined, undefined, {
+      status: 404,
+    } as AxiosResponse);
   }
-  
 
-    return (
-      <FilterContext.Provider
-        value={{
-          filterProp: filter,
-          setFilterProp: setFilter,
-          list,
-          setList: setList,
-          input,
-          setInput: setInput,
-        }}
-      >
-        <Page page={page} user={user} project={project} setPage={setPage} tasks={tasks ?? []} />
-
-      </FilterContext.Provider>
-    )
+  return (
+    <FilterContext.Provider
+      value={{
+        filterProp: filter,
+        setFilterProp: setFilter,
+        list,
+        setList: setList,
+        input,
+        setInput: setInput,
+      }}
+    >
+      <Page
+        page={page}
+        user={user}
+        project={project}
+        setPage={setPage}
+        tasks={tasks ?? []}
+      />
+    </FilterContext.Provider>
+  );
 }
