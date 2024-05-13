@@ -12,6 +12,7 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import i18next from "../../../i18n";
 import { TextToSpeechTeste } from "@/components/GeneralConfig/components/TextToSpeechTeste/TextToSpeechTeste";
 import ErrorBoundary from '@/components/ErrorPage/ErrorBoudary';
+import "@/styles/global.css";
 
 type Props = AppProps & {
   text: string
