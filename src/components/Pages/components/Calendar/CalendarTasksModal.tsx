@@ -39,7 +39,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                                         {
                                                             tasks.filter(t => new Date(
                                                                 new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value)
-                                                            .toLocaleString()).getHours() == h).map((t) => (
+                                                            ).getHours() == h).map((t) => (
                                                                 <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))
                                                         }
