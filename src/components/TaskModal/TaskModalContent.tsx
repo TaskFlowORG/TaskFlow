@@ -10,10 +10,11 @@ import { useState, useContext, useEffect } from "react";
 import { TaskName } from "./TaskName";
 import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
 import { TesPropertiesSide } from "./PropertiesSide/TesPropertiesSide";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
-  isOpen: boolean;
-  setIsOpen: (boolean: boolean) => void;
+  isOpen?: boolean;
+  setIsOpen?: (boolean: boolean) => void;
   task: Task | Project;
   user: User;
   isInModal?: boolean;
@@ -59,8 +60,13 @@ export const TaskModalContent = ({
     findGroups();
   }, [project]);
 
+  const style = twMerge(
+    "flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0  w-full max-h-full overflow-y-auto",
+    isInModal ? "max-w-[1300px]" : ""
+  );
+
   return (
-    <div className="flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0  w-full max-h-full overflow-y-auto max-w-[1300px]">
+    <div className={style}>
       <div className="flex flex-col gap-12 w-full lg:w-2/5">
         {isInModal && <TaskName task={task} />}
         <div className="flex flex-col w-full gap-6">

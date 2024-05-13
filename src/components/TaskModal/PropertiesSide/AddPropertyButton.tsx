@@ -9,7 +9,7 @@ export const AddPropertyButton = ({ setModalProperty }: Props) => {
   return (
     <div
       onClick={() => setModalProperty(true)}
-      className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full max-w-[543px]"
+      className="bg-[#f2f2f2] border-2 border-[#d7d7d7]  dark:bg-modal-grey gap-8 p-2 rounded-lg shadow-comment flex justify-center w-full"
     >
       <p className="font-montserrat text-mn md:text-p14 xl:text-p truncate ">
         {t("add-task-property")}
