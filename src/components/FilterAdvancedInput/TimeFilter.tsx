@@ -12,6 +12,7 @@ import {
 } from "react";
 import Image from "next/image";
 import { DateTimelines } from "@/models/values/DateTimelines";
+import { PageContext } from "@/utils/pageContext";
 
 type PropsForm = {
   property: PropertyValue;
@@ -37,6 +38,12 @@ type typeFunctionChrono = {
   callback: () => void;
 };
 
+interface Tempo {
+  horas: number;
+  minutos: number;
+  segundos: number;
+}
+
 export const TimeFilter = ({
   value,
   task,
@@ -51,100 +58,8 @@ export const TimeFilter = ({
   const [minutes, setMinutes] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [play, setPlay] = useState(false);
-
-  const { project } = useContext(ProjectContext);
-
-  function diferencaEntreDatas(
-    data1: number,
-    data2: number
-  ): { horas: number; minutos: number; segundos: number } {
-    const diferenca = data2 - data1;
-    console.log(diferenca);
-    console.log(new Date(diferenca));
-    const horas = Math.floor(diferenca / 3600);
-    const minutos = Math.floor((diferenca % 3600) / 60);
-    const segundos = diferenca % 60;
-    return { horas, minutos, segundos };
-  }
-
-  const calcsTimes = (plus: number) => {
-    updateMinutes({
-      setPrincipal: setSeconds,
-      valueTest: seconds + plus,
-      callback: () =>
-        updateMinutes({
-          setPrincipal: setMinutes,
-          valueTest: minutes + plus,
-          callback: () => setHours((prev) => prev + plus),
-        }),
-    });
-  };
-
-  // Exemplo de uso:
-  // Timestamp em segundos
-
-  useEffect(() => {
-    console.log(value);
-    if (value?.starts?.length > value?.ends?.length) {
-      const date = new Date(value.starts[value.starts.length - 1].date);
-      date.setHours(date.getHours() - 3);
-      const data1 = date.getTime();
-      console.log("data 1", new Date(data1));
-      // Timestamp em segundos
-      const data2 = new Date().getTime();
-      console.log("data 2", new Date(data2));
-      const { horas, minutos, segundos } = diferencaEntreDatas(
-        data1 / 1000,
-        data2 / 1000
-      );
-
-      // Exemplo de uso:
-      const tempo1: Tempo = {
-        horas: value?.time?.hours,
-        minutos: value?.time?.minutes,
-        segundos: value?.time?.seconds,
-      };
-      const tempo2: Tempo = {
-        horas: horas,
-        minutos: minutos,
-        segundos: Math.floor(segundos),
-      };
-
-      const tempoTotal = somarTempos(tempo1, tempo2);
-
-      setHours(tempoTotal.horas);
-      setMinutes(tempoTotal.minutos);
-      setSeconds(Math.floor(tempoTotal.segundos));
-      setPlay(true);
-      let time = tempoTotal.horas * 60 + tempoTotal.minutos;
-      if ((property as Limited).maximum <= time) {
-        let propFinded = formProps.find(
-          (prop) => prop.property.property.id == formProp.property.property.id
-        )!;
-        propFinded?.errors.push("O tempo acabou já fi, vai moscano");
-        setFormProps([...formProps]);
-        setErrors(true);
-        let exceeded = time - (property as Limited).maximum;
-        let date = new Date(now());
-        date.setTime(date.getTime() - exceeded * 60 * 1000);
-        value.ends.push(new DateTimelines(date.toJSON().slice(0, -1)));
-      }
-    } else {
-      setHours(value?.time?.hours ?? 0);
-      setMinutes(value?.time?.minutes ?? 0);
-      setSeconds(Math.floor(value?.time?.seconds) ?? 0);
-    }
-  }, []);
-
-  useEffect(() => {
-    verifyEnd();
-  }, [seconds]);
-
-  interface Tempo {
-    horas: number;
-    minutos: number;
-    segundos: number;
-  }
+  const { pageId } = useContext(PageContext);
+  const { project, setProject } = useContext(ProjectContext);
 
   function somarTempos(tempo1: Tempo, tempo2: Tempo): Tempo {
     let totalSegundos = tempo1.segundos + tempo2.segundos;
@@ -175,7 +90,7 @@ export const TimeFilter = ({
     valueTest,
     callback,
   }: typeFunctionChrono) {
-    console.log(valueTest);
+    // console.log(valueTest);
     if (!play) return;
     if (valueTest > 59) {
       callback();
@@ -185,58 +100,33 @@ export const TimeFilter = ({
     }
   }
 
-  const now = () => {
-    //  let date = new Date(Date.now()).toJSON().slice(0, -1);
-    let date = new Date(Date.now());
-    if (formProp?.errors.length > 0) {
-      date.setSeconds(Math.floor(new Date(Date.now()).getSeconds() - 1));
-    } else {
-      date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
-    }
-    return date.toJSON().slice(0, -1);
+  function diferencaEntreDatas(
+    data1: number,
+    data2: number
+  ): { horas: number; minutos: number; segundos: number } {
+    const diferenca = data2 - data1;
+    const horas = Math.floor(diferenca / 3600);
+    const minutos = Math.floor((diferenca % 3600) / 60);
+    const segundos = diferenca % 60;
+    return { horas, minutos, segundos };
+  }
+
+  const calcsTimes = (plus: number) => {
+    updateMinutes({
+      setPrincipal: setSeconds,
+      valueTest: seconds + plus,
+      callback: () =>
+        updateMinutes({
+          setPrincipal: setMinutes,
+          valueTest: minutes + plus,
+          callback: () => setHours((prev) => prev + plus),
+        }),
+    });
   };
 
-  const handleClickPause = async () => {
-    setPlay(false);
-    value.ends.push(new DateTimelines(now()));
-
-    // // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // // const userLocale: string = navigator.language;
-    // // console.log(userLocale);
-
-    // const timestampUTC = new Date(now());
-    // const dataLocal = new Date(timestampUTC).toLocaleString();
-    // console.log(dataLocal);
-
-    // console.log(userLocale); // Isso irá imprimir o código do idioma preferido do usuário
-
-    // // Exemplo de uso para exibir uma data no formato do idioma do usuário
-    // const agora: Date = new Date(Date.now());
-    // const options: Intl.DateTimeFormatOptions = {
-    //   weekday: "long",
-    //   year: "numeric",
-    //   month: "long",
-    //   day: "numeric",
-    // };
-
-    // // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // const dataFormatada: string = agora.toLocaleDateString(userLocale, {timeZone : userTimeZone});
-    // console.log("Data sem settar nada, por vidência", dataFormatada);
-
-    console.log(value.time);
-    if (value.time) {
-      value.time.hours = hours;
-      value.time.minutes = minutes;
-      value.time.seconds = seconds;
-    } else {
-      value.time = new Duration(seconds, minutes, hours, undefined);
-    }
-
-    console.log(value);
-
-    let taskReturned = await taskService.upDate(task, project!.id);
-    console.log(taskReturned);
-  };
+  useEffect(() => {
+    verifyEnd();
+  }, [seconds]);
 
   const handleClickRestart = async () => {
     value.time.hours = 0;
@@ -246,7 +136,121 @@ export const TimeFilter = ({
     setMinutes(value.time.minutes);
     setSeconds(Math.floor(value.time.seconds));
     let taskReturned = await taskService.upDate(task, project!.id);
-    console.log(taskReturned);
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
+      console.log(
+        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+      );
+    }
+    setProject!({ ...project! });
+  };
+
+  const now = () => {
+    //  let date = new Date(Date.now()).toJSON().slice(0, -1);
+    let date = new Date(Date.now());
+    date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
+    return date.toJSON().slice(0, -1);
+  };
+
+  useEffect(() => {
+    console.log(value);
+    if (value?.starts?.length > value?.ends?.length) {
+      console.log("Eu entrei e que se foda o mundo");
+      const date = new Date(value.starts[value.starts.length - 1].date);
+      date.setHours(date.getHours() - 3);
+      const data1 = date.getTime();
+      console.log("data 1", new Date(data1));
+      // Timestamp em segundos
+      const data2 = new Date().getTime();
+      console.log("data 2", new Date(data2));
+      const { horas, minutos, segundos } = diferencaEntreDatas(
+        data1 / 1000,
+        data2 / 1000
+      );
+
+      const tempo1: Tempo = {
+        horas: value?.time?.hours,
+        minutos: value?.time?.minutes,
+        segundos: value?.time?.seconds,
+      };
+      const tempo2: Tempo = {
+        horas: horas,
+        minutos: minutos,
+        segundos: Math.floor(segundos),
+      };
+
+      const tempoTotal = somarTempos(tempo1, tempo2);
+      console.log("SOU O SEU TEMPO ANIMAL");
+      console.log(tempoTotal);
+      setHours(tempoTotal.horas);
+      setMinutes(tempoTotal.minutos);
+      setSeconds(Math.floor(tempoTotal.segundos));
+      setPlay(true);
+      let time = tempoTotal.horas * 60 + tempoTotal.minutos;
+      // if ((property as Limited).maximum <= time) {
+      //   console.log("Aqui eu me fudi");
+      //   let propFinded = formProps.find(
+      //     (prop) => prop.property.property.id == formProp.property.property.id
+      //   )!;
+      //   propFinded?.errors.push("O tempo acabou já fi, vai moscano");
+      //   setFormProps([...formProps]);
+      //   setErrors(true);
+      //   let exceeded = time - (property as Limited).maximum;
+      //   let date = new Date(now());
+      //   date.setTime(date.getTime() - exceeded * 60 * 1000);
+      //   value.ends.push(new DateTimelines(date.toJSON().slice(0, -1)));
+      //   updateTask(value);
+      // }
+    } else {
+      setHours(value?.time?.hours ?? 0);
+      setMinutes(value?.time?.minutes ?? 0);
+      setSeconds(Math.floor(value?.time?.seconds) ?? 0);
+    }
+  }, [value]);
+
+  const updateTask = async (value: Interval) => {
+    let propertyFinded = task.properties.find(
+      (prop) => prop.property.id == id
+    )!;
+    propertyFinded.value.value = value;
+    let taskReturned = await taskService.upDate(task, project!.id);
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
+      console.log(
+        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+      );
+    }
+    setProject!({ ...project! });
+  };
+  const handleClickPause = async () => {
+    setPlay(false);
+    value.ends.push(new DateTimelines(now()));
+    console.log(value.time);
+    if (value.time) {
+      value.time.hours = hours;
+      value.time.minutes = minutes;
+      value.time.seconds = seconds;
+    } else {
+      value.time = new Duration(seconds, minutes, hours, undefined);
+    }
+    let propertyFinded = task.properties.find(
+      (prop) => prop.property.id == id
+    )!;
+    propertyFinded.value.value = value;
+    let taskReturned = await taskService.upDate(task, project!.id);
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
+      console.log(
+        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+      );
+    }
+    setProject!({ ...project! });
   };
 
   const handleClickPlay = async () => {
@@ -256,20 +260,79 @@ export const TimeFilter = ({
     }
     value.starts.push(new DateTimelines(now()));
     console.log(value);
-    let taskReturned = await taskService.upDate(task, project!.id);
-    console.log(taskReturned);
+    let propertyFinded = task.properties.find(
+      (prop) => prop.property.id == id
+    )!;
+    propertyFinded.value.value = value;
+    const taskReturned = await taskService.upDate(task, project!.id);
+    const page = project?.pages.find((page) => page.id == pageId);
+    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+    if (taskPage) {
+      taskPage.task = taskReturned;
+      console.log(
+        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+      );
+    }
+    setProject!({ ...project! });
   };
 
-  const verifyEnd = () => {
-    let totalTime = hours * 60 + minutes;
-    if ((property as Limited).maximum <= totalTime) {
+  const verifyEnd = async () => {
+    // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
+
+    let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
+
+    if ((property as Limited).maximum <= totalTimeInMinutes) {
+      // console.log("Ended");
       let propFinded = formProps.find(
         (prop) => prop.property.property.id == formProp.property.property.id
       )!;
-      propFinded.errors.push("O tempo acabou já fi, vai moscano");
+      propFinded?.errors.push("O valor chegou ao tempo máximo da propriedade!");
       setFormProps([...formProps]);
       setErrors(true);
-      handleClickPause();
+      setPlay(false);
+      console.log("EXECUTOU");
+      const exceededTime = totalTimeInMinutes - (property as Limited).maximum;
+      const currentDate = new Date();
+
+      // currentDate.setTime(currentDate.getTime() - exceededTime  * 1000);
+
+      // Minutes Mode
+
+      currentDate.setTime(currentDate.getTime() - exceededTime * 60 * 1000);
+      value.ends.push(new DateTimelines(currentDate.toJSON().slice(0, -1)));
+      console.log(value);
+
+      // Seconds Mode
+
+      // value.time.hours = Math.floor((property as Limited).maximum / 3600);
+      // value.time.minutes = Math.floor(
+      //   ((property as Limited).maximum % 3600) / 60
+      // );
+      // value.time.seconds = (property as Limited).maximum % 60;
+
+      value.time.hours = Math.floor((property as Limited).maximum / 60); // Obtém as horas
+      value.time.minutes = Math.floor((property as Limited).maximum % 60); // Obtém os minutos
+      value.time.seconds = 0;
+      setHours(value.time.hours);
+      setMinutes(value.time.minutes);
+      setSeconds(value.time.seconds);
+
+      let propertyFinded = task.properties.find(
+        (prop) => prop.property.id == id
+      )!;
+      propertyFinded.value.value = value;
+      const taskReturned = await taskService.upDate(task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+        console.log(
+          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+        );
+      }
+      console.log(value);
+      setProject!({ ...project! });
+      // handleClickPause();
     }
   };
   useEffect(() => {
@@ -290,7 +353,7 @@ export const TimeFilter = ({
           {seconds < 10 ? "0" + seconds : seconds}
         </p>
 
-        {!play && (
+        {!play && minutes < (property as Limited).maximum && (
           <div
             onClick={handleClickPlay}
             className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"

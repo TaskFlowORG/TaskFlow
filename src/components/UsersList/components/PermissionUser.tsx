@@ -21,7 +21,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const [permissions, setPermissions] = useState<Permission[]>([]);
   const {user} = useContext(UserContext);
   const { theme } = useTheme();
-  const [openModal, setOpenModal] = useState<boolean>(false)
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0);
@@ -38,7 +38,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
       setPermissions(fetchedPermissions);
     }
   };
-  const openUser = (e: MouseEvent<HTMLDivElement>, showUser: OtherUser) => {
+  const openUser = (e: MouseEvent<HTMLDivElement>) => {
     setX(e.clientX);
     setY(e.clientY);
     setIsOpened(!isOpened);
@@ -75,7 +75,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
           )
         }
        
-        <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e, showUser)}>
+        <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e)}>
           {userIcon}
           <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>

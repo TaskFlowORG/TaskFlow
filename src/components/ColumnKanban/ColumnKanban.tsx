@@ -2,7 +2,6 @@
 
 import { RoundedCard } from "@/components/RoundedCard/RoundedCard";
 import { useContext, useEffect, useState } from "react";
-import { getListData } from "@/services/http/api";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
 import { 
@@ -12,7 +11,7 @@ import {
   Droppable,
 } from "@hello-pangea/dnd";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { Option, Task, TaskOrdered, TypeOfProperty } from "@/models";
+import { Option, Task, TaskOrdered, TypeOfProperty, User } from "@/models";
 
 import { useTheme } from "next-themes";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -28,9 +27,10 @@ interface Props {
   input?: string;
   openModal?: (task: TaskOrdered) => void;
   allTasks: TaskOrdered[];
+  user: User;
 }
 
-export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
+export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props) => {
   const { theme } = useTheme();
   const context = useContext(FilterContext);
   const { filterProp, setFilterProp, input } = context;
@@ -119,7 +119,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks }: Props) => {
                                   (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
                                 }
                               >
-                                <CardContent task={item.task as Task} />
+                                <CardContent user={user} task={item.task as Task} />
                               </RoundedCard>
                             </div>
                           );
