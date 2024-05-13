@@ -40,7 +40,7 @@ export const SideBarButton = ({
   hasButton,
   openOptions,
   fnOpenOptions,
-  iconOptions = <Arrow className="rotate-90" />,
+  iconOptions = <Arrow className={openOptions ? "-rotate-90": "rotate-90"} />,
   openOptionsRef,
   link,
   pointerEventsNone,
@@ -82,7 +82,7 @@ export const SideBarButton = ({
             className={
               "text-p font-montserrat text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
               (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
-              (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem]" : "smm:w-[6rem] sm:w-[9rem]")
+              (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem] " : "smm:w-[6rem] sm:w-[9rem]")
             }
             onBlur={fnRename}
             onKeyDown={fnRename}
@@ -95,6 +95,7 @@ export const SideBarButton = ({
         </Link>
         <If condition={isHovering != undefined && isHovering}>
           <div className="justify-center h-full w-8  flex flex-col">
+            
             <If condition={hasButton != undefined && hasButton}>
               <span
                 className={
@@ -104,6 +105,7 @@ export const SideBarButton = ({
                 onClick={fnOpenOptions}
               >
                 {iconOptions}
+                
               </span>
             </If>
           </div>
