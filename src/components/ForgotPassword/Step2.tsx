@@ -73,7 +73,7 @@ export const Step2 = ({ setStep }: Props) => {
                 <h3 className="font-alata flex pt-2">Para: {email}</h3>
                 <span className="text-red-500 text-sm">{error ?? ""}</span>
 
-                <div className='gap-5 h-4/5 w-4/5  flex items-center justify-center'>
+                <div className='gap-5 h-4/5 w-4/5 flex items-center justify-center'>
                     <input
                         className="inputCode"
                         maxLength={1}
