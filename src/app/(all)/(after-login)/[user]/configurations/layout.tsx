@@ -6,11 +6,9 @@ import {ConfigContext} from "@/utils";
 import { UserContext } from "@/contexts/UserContext";
 
 
-interface Props {
-    user: User;
-}
 
-export default function Layout({ children }: { children: React.ReactNode, user: Props }) {
+
+export default function Layout({ children }: { children: React.ReactNode}) {
     const [pageTitle, setPageTitle] = useState<string>('')
     const { user } = useContext(UserContext);
 

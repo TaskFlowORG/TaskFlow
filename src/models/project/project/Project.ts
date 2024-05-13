@@ -20,7 +20,8 @@ export class Project {
         public properties: Property[],
         public comments: Message[],
         public values: PropertyValue[],
-        public logs:Log[]
+        public logs:Log[],
+        public revision: boolean
     ) {
     }
     

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { getData, putData } from "@/services/http/api";
+
 import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";
@@ -76,7 +76,7 @@ export const OrderInput = ({
       ref={ref}
       className=" rounded-xl z-50 absolute top-16 shadowww  dark:bg-modal-grey bg-white flex flex-col p-4  gap-6 min-w-[300px]"
     >
-      <h5 className="text-h5 dark:text-white text-black">{t('sort-by')}</h5>
+      <h5 className="text-h5 font-alata dark:text-white text-black">{t('sort-by')}</h5>
       <div className="flex flex-col gap-4">
         {properties.map((property) => {
           if (property.id == orderingId) {

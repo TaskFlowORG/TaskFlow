@@ -59,7 +59,8 @@ export const TaskLegend = ({
                 onClick={() => openModal(task.id)}
               >
                 <div
-                  className=" smm:h-full sm:h-0 md:h-full  aspect-square rounded-md w-min"
+                  className={" smm:h-full sm:h-0 md:h-full  aspect-square rounded-md w-min " +
+                  (task.completed ||task.waitingRevision ? " border-green-500 border-2" : "") + (task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
                   style={{
                     backgroundColor:
                       propVl?.value ? propVl.value.color:
@@ -69,7 +70,7 @@ export const TaskLegend = ({
                   }}
                 />
                 <span className="max-w-full w-min h-min sm:text-center truncate font-montserrat text-mn">
-                  {task.name ?? t("withoutname")}
+                  {task.name ? task.name : t("withoutname")}
                 </span>
               </div>
             );

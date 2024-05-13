@@ -20,6 +20,7 @@ interface Props {
   isTaskPage?: boolean;
   isOtherUser?: boolean;
   white?: boolean;
+  resposiveClasses?: string;
 }
 
 export const Obj = ({
@@ -32,15 +33,16 @@ export const Obj = ({
   isTaskPage,
   isString,
   isOtherUser,
+  resposiveClasses,
 }: Props) => {
   const [isHovering, setIsHovering] = useState<boolean>(false);
 
-  const showed = objs.filter((o, index) => index < max);
+  const showed = objs.filter((o, index) => index <= max);
   const hidden = objs.filter((o, index) => index > max);
 
-  const mrs = isHovering ? " -mr-2" : "xl:-mr-4 lg:-mr-3 sm:-mr-2 -mr-[0.35rem]";
+  const mrs = isHovering ? " -mr-2" : resposiveClasses ?? "xl:-mr-4 lg:-mr-3 sm:-mr-2 " +" -mr-[0.35rem]";
   const classes =
-    `rounded-full xl:w-8  sm:w-5 smm:w-3 w-2 xl:h-8  sm:h-5 smm:h-3 h-2 cursor-pointer 
+    `rounded-full ${resposiveClasses ?? "xl:w-8  sm:w-5 smm:w-3 w-2 xl:h-8  sm:h-5 smm:h-3"} h-2 cursor-pointer 
     overflow-clip flex shadow-[0_0_4px_1px_rgba(0,0,0,0.1)] items-center ${mrs}
    justify-center ` +
     (color ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white" : " bg-primary dark:bg-secondary text-contrast ");
@@ -49,7 +51,7 @@ export const Obj = ({
     <AnimatePresence initial={false}>
       <div
         className={
-          "flex justify-center xl:pr-4  lg:pr-3 md:pr-2 pr-1 flex-wrap " +
+          `flex justify-center ${resposiveClasses ?? "xl:pr-4  lg:pr-3 md:pr-2"} pr-1 flex-wrap ` +
           mawWidth
         }
         onMouseEnter={() => setIsHovering(true)}
@@ -70,7 +72,7 @@ export const Obj = ({
           />
         ))}
         {hidden.length > 0 && !isHovering && (
-          <div className={classes+ " rotate-45 p-1"} title="+">
+          <div className={classes+ " rotate-45 p-1 bg-white dark:bg-modal-grey"} title="+">
             <IconPlus />
           </div>
         )}

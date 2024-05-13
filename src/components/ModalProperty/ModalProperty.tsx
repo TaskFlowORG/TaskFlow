@@ -122,10 +122,11 @@ export const ModalProperty = ({
         text={property.name}
         icon={fnReturnImageProperty(property.type)}
         openOptions={openOptions}
-        fnClick={() => {setOpenOptions(!openOptions)
-         
+
+        fnClick={() => {setOpenOptions(!openOptions
         }}
         fnOpenOptions={setOptionsFN}
+
         openOptionsRef={ref}
         isHovering={isHovering}
         hasButton

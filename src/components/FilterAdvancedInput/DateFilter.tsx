@@ -1,3 +1,4 @@
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
@@ -24,6 +25,7 @@ export const  DateFilter = ({
     "flex gap-4 w-full items-center border-b-[1px]  pb-2",
     isInModal ? " p-0 border-none w-[120px]" : " "
   );
+  const hasPermission = useHasPermission('update')
 
   useEffect(() => {
     const splitTimestamp: string[] = value?.split("T");
@@ -39,8 +41,9 @@ export const  DateFilter = ({
 
   return (
     <div className={style}>
-      {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
+      {!isInModal && <p className=" text-black dark:text-white text-p14">{name}:</p>}
       <input
+        disabled={ !isInModal ? false : !hasPermission}
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
         type="date"
         value={valued}

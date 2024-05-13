@@ -74,8 +74,7 @@ export const SideSecondary = ({
         <SideBarButton
           icon={<IconTrashBin />}
           openOptions={modalTrash}
-          fnClick={() => setModalTrash(true)}
-          fnOpenOptions={() => setModalTrash(true)}
+          fnClick={() => setModalTrash(!modalTrash)}
           text={t("trash")}
           iconOptions={<Arrow className="rotate-90" />}
           hasButton

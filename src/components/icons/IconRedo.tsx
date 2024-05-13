@@ -5,7 +5,7 @@ export const IconRedo = () => {
       height="54"
       viewBox="0 0 54 54"
       fill="currentColor"
-      className="stroke-contrast w-full h-full"
+      className="stroke-contrast w-full h-full text-primary"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

@@ -28,7 +28,10 @@ export const InputSelectConfig = ({ id, title, description, options, func, defau
                     language = Language.ENGLISH;
             }
             return language;
-        } else {
+        } else if(id == "font"){
+
+            return value;
+        }else {
             if (value == "Agendamento") {
                 dataProperty = "scheduling";
             } else {

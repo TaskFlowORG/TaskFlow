@@ -9,11 +9,13 @@ import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 import { UserContext } from "@/contexts/UserContext";
+import { ChatContext } from "@/contexts/ChatsContext";
 import { ProjectsContext } from "@/contexts";
 import { LocalModal } from "@/components/Modal";
 import { chatService, groupService } from "@/services";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { If } from "@/components/If";
+import Providers from "@/services/Theme/providers";
 
 export default function ChatMessages({ children }: { children: React.ReactNode }) {
   const route = useRouter();
@@ -31,6 +33,8 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [filteredChats, setFilteredChats] = useState<Chat[]>([]);
   const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatAberto, setChatAberto] = useState<number>();
+  const [chat, setChat] = useState<Chat>();
+  
 
 
   useEffect(() => {
@@ -92,13 +96,17 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (!user) return;
-    const connect = onConnect(`/chats/${user.id}`, (chat) => {
-      const chatTemp: Chat = JSON.parse(chat.body);
+    const connect = onConnect(`/chats/${user.id}`, (chatRes) => {
+      const chatTemp: Chat = JSON.parse(chatRes.body);
       const list = [...listaChats];
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
-      const qtty = oldChat.quantityUnvisualized;
-      chatTemp.quantityUnvisualized = qtty + 1;
+      if(chat && chat.id == chatTemp.id){
+        const qtty = oldChat.quantityUnvisualized;
+        chatTemp.quantityUnvisualized = qtty + 1;
+      }else{
+        chatTemp.quantityUnvisualized = 0;
+      }
       list.splice(list.indexOf(oldChat), 1);
       const newList = [chatTemp, ...list];
       setListaChats(newList);
@@ -123,11 +131,14 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     } else {
       await chatService.savePrivate(chat, chat.users[0].id);
     }
+    setPossibleChats(possibleChats.filter((c) => c != chat));
     setCreatingChat(false);
   };
 
   return (
     <>
+    <ChatContext.Provider value={{chat, setChat}}>
+
       <div className="w-full h-[80vh] lg:h-[89vh] flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
         <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
           <div className="flex flex-col items-center w-full lg:h-full gap-4">
@@ -227,6 +238,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
         </div>
         {children}
       </div>
+    </ChatContext.Provider>
     </>
   );
 }
