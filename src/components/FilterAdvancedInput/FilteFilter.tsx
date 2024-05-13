@@ -6,6 +6,8 @@ import { useContext, useEffect, useState } from "react";
 import { archiveToDownload } from "@/functions";
 
 import { useTranslation } from "next-i18next";
+import { NeedPermission } from "../NeedPermission";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 interface Props {
   id: number;
@@ -26,10 +28,12 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
   const { t } = useTranslation();
+  const hasPermission = useHasPermission('update')
 
   const handleFileChange = async (event: any) => {
     // Obtém o arquivo do evento
     const selectedFile: File = event.target.files[0];
+
     console.log(event.target.files[0].size);
     let size = event.target.files[0].size / (1024 * 1024);
     console.log(size, "Soy o tamanho total");
@@ -88,9 +92,11 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
               >
                 i
               </a>
-              <p>{file.name ? file.name : name}</p>
+              <p className="text-black dark:text-white text-p14">{file.name ? file.name : name}</p>
             </div>
+            <NeedPermission permission="update">
             <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
+              
               <img src="/change.svg" width={8} height={8} alt="" />
               <input
                 onChange={handleFileChange}
@@ -98,10 +104,12 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
                 className="opacity-0 w-8 absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
               />
             </button>
+            </NeedPermission>
+           
           </>
         )}
 
-        {!file && (
+        {!file && hasPermission ? (
           <button className="py-1 truncate  flex  px-2 bg-primary dark:bg-secondary rounded-lg relative  text-white">
             {t("browse-files")}
             <input
@@ -110,10 +118,12 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
               className="opacity-0 w-full absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
             />
           </button>
-        )}
+        ) : (
+          <p className="md:text-p14 text-black dark:text-white">Propriedade sem valor</p>
+        ) }
       </div>
       {error && (
-        <p className="text-xs text-red-600 font-montserrat">
+        <p className="text-mn text-red-600 font-montserrat">
           {" "}
           Tamanho de arquivo maior que o permitido!{" "}
         </p>
