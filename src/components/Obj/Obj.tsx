@@ -40,9 +40,9 @@ export const Obj = ({
   const showed = objs.filter((o, index) => index <= max);
   const hidden = objs.filter((o, index) => index > max);
 
-  const mrs = isHovering ? " -mr-2" : resposiveClasses ?? "xl:-mr-4 lg:-mr-3 sm:-mr-2 " +" -mr-[0.35rem]";
+  const mrs = isHovering ? " -mr-2" : resposiveClasses ? " -mr-4 "+ resposiveClasses : "xl:-mr-4 lg:-mr-3 sm:-mr-2 -mr-[0.35rem]";
   const classes =
-    `rounded-full ${resposiveClasses ?? "xl:w-8  sm:w-5 smm:w-3 w-2 xl:h-8  sm:h-5 smm:h-3"} h-2 cursor-pointer 
+    `rounded-full ${resposiveClasses ?" w-8 h-8 "+ resposiveClasses : "xl:w-8  sm:w-5 smm:w-3 w-2 xl:h-8  sm:h-5 h-2  smm:h-3"} cursor-pointer 
     overflow-clip flex shadow-[0_0_4px_1px_rgba(0,0,0,0.1)] items-center ${mrs}
    justify-center ` +
     (color ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white" : " bg-primary dark:bg-secondary text-contrast ");
@@ -51,7 +51,7 @@ export const Obj = ({
     <AnimatePresence initial={false}>
       <div
         className={
-          `flex justify-center ${resposiveClasses ?? "xl:pr-4  lg:pr-3 md:pr-2"} pr-1 flex-wrap ` +
+          `flex justify-center ${resposiveClasses ? " pr-4 " + resposiveClasses : "xl:pr-4  lg:pr-3 md:pr-2"} pr-1 flex-wrap ` +
           mawWidth
         }
         onMouseEnter={() => setIsHovering(true)}
