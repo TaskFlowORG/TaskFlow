@@ -24,7 +24,12 @@ interface Props {
   setModalProjectGroups: (value: boolean) => void;
 }
 
-export const SideSecondary = ({ user, project, setModalPages, setModalProjectGroups }: Props) => {
+export const SideSecondary = ({
+  user,
+  project,
+  setModalPages,
+  setModalProjectGroups,
+}: Props) => {
   const [tasksTrash, setTasksTrash] = useState<Task[]>([]);
   const [modalTrash, setModalTrash] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -43,7 +48,11 @@ export const SideSecondary = ({ user, project, setModalPages, setModalProjectGro
   const { t } = useTranslation();
   return (
     <>
-                        <SideBarButton icon={<IconGroups />} text={t("projects-groups")} fnClick={() => setModalProjectGroups(true)} />
+      <SideBarButton
+        icon={<IconGroups />}
+        text={t("projects-groups")}
+        fnClick={() => setModalProjectGroups(true)}
+      />
 
       <SideBarButton
         icon={<IconDashboard />}
@@ -57,7 +66,11 @@ export const SideSecondary = ({ user, project, setModalPages, setModalProjectGro
         }}
         text={t("pages")}
       />
-      <div className="relative w-full" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+      <div
+        className="relative w-full"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         <SideBarButton
           icon={<IconTrashBin />}
           openOptions={modalTrash}
@@ -76,11 +89,11 @@ export const SideSecondary = ({ user, project, setModalPages, setModalProjectGro
               </p>
             </div>
             <span className=" bg-white dark:bg-modal-grey ">
-              <div className="flex overflow-y-auto flex-col gap-4 max-h-44 p-4">
+              <div className="flex justify-center overflow-y-auto flex-col gap-4 max-h-44 p-4">
                 {tasksTrash.map((task, index) => {
                   return (
-                    <div key={task.id} className="flex flex-col gap-4 w-80">
-                      <TaskTrash task={task} userId={user} />
+                    <div key={task.id} className="flex flex-col gap-4 max-w-[280px] justify-center items-center">
+                      <TaskTrash task={task} userId={user} arrayTasks={tasksTrash} setArrayTasks={setTasksTrash} />
                       <If condition={index < tasksTrash.length - 1}>
                         <div className="bg-zinc-200 w-3/4 h-1 self-center" />
                       </If>
