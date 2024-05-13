@@ -47,7 +47,7 @@ module.exports = {
       },
       fontFamily: {
         'alata': ['Alata', 'sans-serif'],
-        'montserrat': ['Montserrat', 'sans-serif']
+        'montserrat': "var(--common-font)"
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

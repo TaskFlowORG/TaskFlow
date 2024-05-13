@@ -25,6 +25,7 @@ export class Configuration {
         public googleCalendar:boolean,
         public isTutorialMade:boolean,
         public showPropertiesName:boolean,
+        public font:string
     ) { }
 
 
