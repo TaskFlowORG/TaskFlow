@@ -50,6 +50,8 @@ export const SideBarButton = ({
 
   return (
     <div
+    ref={openOptionsRef}
+
       className={
         `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
        dark:border-secondary-opacity bg-white dark:bg-modal-grey ` +
@@ -70,7 +72,7 @@ export const SideBarButton = ({
           className="h-full w-full flex gap-4 flex-row items-center px-6"
         >
           <div className="w-12 h-12 hidden sm:flex aspect-square justify-center items-center stroke-primary dark:stroke-secondary">
-            <div className="w-5 aspect-square">
+            <div className={"w-5 aspect-square " }>
             {icon}
             </div>
 
@@ -95,8 +97,8 @@ export const SideBarButton = ({
             <If condition={hasButton != undefined && hasButton}>
               <span
                 className={
-                  "h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey " +
-                  (openOptions ? "" : " hover:brightness-95")
+                  "h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey duration-300 " +
+                  (openOptions ? "rotate-180" : " hover:brightness-95")
                 }
                 onClick={fnOpenOptions}
               >
@@ -115,7 +117,6 @@ export const SideBarButton = ({
               animate={{ height: "150px" }}
               exit={{ transition: { delay: 0.1 }, height: 0 }}
               transition={{ duration: 0.1 }}
-              ref={openOptionsRef}
             >
               {children}
             </motion.span>
