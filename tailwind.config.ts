@@ -7,8 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        pulseBorder: {
+          '0%': { borderColor: "rgba(34, 197, 94, 0.5)" },
+          '50%': { borderColor: "rgba(34, 197, 94, 1)" },
+          '100%': { borderColor: "rgba(34, 197, 94, 0.5)" },
+        }
+      },
       animation:{
-        'custom-pulse':'custom-pulse 1000ms ease-in-out infinite'
+        'custom-pulse':'custom-pulse 1000ms ease-in-out infinite',
+        'border-pulser':'pulseBorder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       },
       colors: {
         'white': '#FCFCFC',

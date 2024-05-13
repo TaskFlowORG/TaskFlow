@@ -34,7 +34,7 @@ export const SelectTypeObj = ({
           e.preventDefault();
           functionObj(o);
         }}
-        className={classes}
+        className={classes + ((o as TaskPage).task.completed || (o as TaskPage).task.waitingRevision ? " border-green-500 border-2" : "") + ((o as TaskPage).task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
         key={index}
         title={(o as TaskPage).task.name ?? t("withoutname")}
       ></div>
