@@ -44,11 +44,9 @@ export const TwoFactor = ({ password, username }: Props) => {
             try {
                 const response  = await axios.post("http://localhost:9999/verify-otp", { username: username, password: password, responseOtp: number.toString() }, {withCredentials:true})
         
-
             response.status == 200
             const data = await response.data;
             if (response.status == 200) {
-                setError('OTP verified, user authenticated successfully');
                 router.push("/" + username)
             } else {
                 setError(data.message || 'Failed to verify OTP');
