@@ -33,7 +33,7 @@ export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) =
         >
             <div onClick={() => !disabled && setShow(!show)} style={{ opacity: disabled ? "0.6" : '1' }} className={(show ?
                 "py-2 rounded-t-md h-full w-10 flex select-none justify-center items-center bg-white dark:bg-back-grey" : "")}>
-                {list.filter(item => item.value != selected)[0].image}
+                {list.filter(item => item.value == selected)[0].image}
             </div>
             <AnimatePresence mode="wait" initial={false} >
                 {
