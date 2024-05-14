@@ -172,6 +172,7 @@ export const CardContent = ({ task, user }: Props) => {
           ) {
             return (
               <CardRadio
+              color={(property.value as UniOptionValued).value?.color}
                 showNameProperty={user.configuration.showPropertiesName}
                 key={property.property.id.toString()}
                 property={property.property.name}

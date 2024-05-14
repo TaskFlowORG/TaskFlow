@@ -37,7 +37,7 @@ export const CardSelect = ({
           {value}
         </p>
         <div className="w-4 aspect-square">
-<IconSelect></IconSelect>
+<IconSelect color={color}></IconSelect>
         </div>
 
       </div>

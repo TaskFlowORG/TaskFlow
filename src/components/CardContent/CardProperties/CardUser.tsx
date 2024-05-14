@@ -16,7 +16,7 @@ export const CardUser = ({ users }: CardProps) => {
         mawWidth="w-full"
         max={1}
         functionObj={() => console.log("")}
-        isOtherUser
+      isOtherUser
       />
       {/* <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>
       <span className="w-7 h-7 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>
