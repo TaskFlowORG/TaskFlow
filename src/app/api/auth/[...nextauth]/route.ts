@@ -25,7 +25,7 @@ export const OPTIONS: NextAuthOptions = {
             },
         })
     ], pages: {
-        signIn: '/login',
+        signIn: '/login' || "//two-factor/login",
         signOut: '/login',
         error: '/login',
         verifyRequest: '/login',

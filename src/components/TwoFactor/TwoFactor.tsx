@@ -9,6 +9,8 @@ export const TwoFactor = () => {
     const [code, setCode] = useState<Code[]>();
     const [numberC, setNumberC] = useState<string>("");
     const [numbers, setNumbers] = useState<string[]>([]);
+    const [username, setUsername] = useState<string>("")
+    const [error, setError] = useState<string>("")
     const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
     const { theme } = useTheme();
 
@@ -22,9 +24,11 @@ export const TwoFactor = () => {
     const fetchData = async () => {
         const fetchedCode = await emailService.getCode();
         if (fetchedCode.length > 0) {
-            const randomCode = fetchedCode[0].code; // Assume fetching the first code
-            setNumberC(randomCode); // Update state
-            initNumbers(randomCode); // Initialize numbers with fetched code
+            const randomCode = fetchedCode[0].code; 
+            const userCode = fetchedCode[0].username;
+            setUsername(userCode);
+            setNumberC(randomCode);
+            initNumbers(randomCode); 
         }
     };
     
@@ -33,15 +37,18 @@ export const TwoFactor = () => {
         return Math.floor(Math.random() * (max - min + 1) + min);
     };
 
-    const initNumbers = (code1: string) => {
-        let randomNum1 = getRandomNumber(10, 99);
+    const initNumbers = (codeToShow: string) => {
+        let randomNum1;
+        do{
+            randomNum1 = getRandomNumber(10, 99);
+        } while(randomNum1.toString() === codeToShow);
         let randomNum2;
         do {
             randomNum2 = getRandomNumber(10, 99);
-        } while (randomNum2 === randomNum1);
+        } while (randomNum2 === randomNum1 && randomNum1.toString() === codeToShow);
 
-        const shuffledNumbers = [randomNum1.toString(), randomNum2.toString(), code1].sort(() => Math.random() - 0.5);
-        setNumbers(shuffledNumbers);
+        const listNumbers = [randomNum1.toString(), randomNum2.toString(), codeToShow].sort(() => Math.random() - 0.5);
+        setNumbers(listNumbers);
     };
 
     const handleSelectNumber = (number:number) => {
@@ -50,15 +57,18 @@ export const TwoFactor = () => {
 
     const verifyCode = () => {
         if (selectedNumber !== null && selectedNumber.toString() === numberC) {
-            router.push("/register"); 
-        }
+        router.push("/" + username)
+        // router.push("/register")
+    } else{
+        setError("Código inválido!")
+    }
     };
 
     return (
         <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
             <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey justify-between py-9 gap-2">
                 <h4 className="h4 leading-6 w-80 flex py-2 md:py-0 text-center ">Selecione o código enviado em seu email</h4>
-                <span className="text-red-500 text-sm">{""}</span>
+                <span className="text-red-500 text-sm">{error ?? ""}</span>
 
                 <div className='w-4/6 flex flex-row items-center justify-between md:pb-8'>
                     {numbers.map((number, index) => (

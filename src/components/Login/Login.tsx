@@ -13,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userService } from "@/services";
+import { emailService } from "@/services/services/EmailService";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -27,7 +28,7 @@ export const Login = () => {
       .string()
       .min(6, { message: t("password-min") })
   });
-  
+
   const {
     register,
     handleSubmit,
@@ -56,14 +57,20 @@ export const Login = () => {
     await signIn("credentials", {
       username: data.username,
       password: data.password,
-      redirect: true,
+      redirect: false,
     }).then(async (value) => {
       console.log(value);
 
-      if (!value || value.error?.includes("401")) {
-        setLoginError(t("login-error"));
-      } else if (value.error?.includes("403")) {
+      if (!value) return;
+
+      if (value.error?.includes("403")) {
         route.push("/forgotPassword");
+      } else if (value.error?.includes("CredentialsSignin")) {
+        localStorage.setItem("password", data.password);
+        emailService.sendEmailAuth(data.username);
+        route.push("/two-factor")
+      } else if (!value || value.status === 401) {
+        setLoginError(t("login-error"));
       } else {
         route.push("/" + data.username);
       }
@@ -74,13 +81,13 @@ export const Login = () => {
     <>
       <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
         <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
-        <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
+          <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
           <form
             id="modalLogin"
             onSubmit={handleSubmit(login)}
             className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
           >
-        
+
             <span className="text-red-500 text-sm">{loginError ?? ""}</span>
 
             <div className="h-[95%] w-4/5 flex flex-col items-center justify-between">
@@ -136,15 +143,15 @@ export const Login = () => {
             </div>
           </form>
 
-          <button 
-          className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
+          <button
+            className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
             onClick={() =>
               route.push("http://localhost:9999/auth/login/code/github")
             }
-          >{theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> : 
+          >{theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> :
             <img src="/Assets/GitHubDark.svg" alt="" />
-          }
-          Login com o GitHub
+            }
+            Login com o GitHub
           </button>
         </div>
       </div>
