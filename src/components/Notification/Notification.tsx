@@ -9,15 +9,11 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { ProjectContext } from "@/contexts";
 import { PageContext } from "@/utils/pageContext";
 import { useTranslation } from "next-i18next";
-import { TypeOfChat } from "@/models";
 import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
-import { Button } from "../Button";
 import { IconTrashBin } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { notificationService } from "@/services/services/NotificationService";
 import {useRouter} from "next/navigation";
-import { ErrorModal } from "../ErrorModal";
-import { get } from "http";
 
 export const Notification = ({
   notification,
@@ -43,7 +39,7 @@ export const Notification = ({
   const router = useRouter();
   useEffect(() => {
       setLink(notification.link);
-      if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
+      if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENTS){
         setIdTask(notification.objId);
       }
   }, [notification.link]);
@@ -109,7 +105,7 @@ export const Notification = ({
     }
 
     fnClick && fnClick();
-    if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
+    if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENTS){
       setIsOpen && setIsOpen(true);
       const task = (project?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == idTask)?.task);
       setSelectedTask && task && setSelectedTask(task);
