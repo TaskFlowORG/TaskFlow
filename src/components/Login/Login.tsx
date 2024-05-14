@@ -66,7 +66,7 @@ export const Login = () => {
       if (value.error?.includes("403")) {
         route.push("/forgotPassword");
       } else if (value.error?.includes("CredentialsSignin")) {
-    
+
         emailService.sendEmailAuth(data.username);
         route.push("/two-factor")
       } else if (!value || value.status === 401) {
