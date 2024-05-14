@@ -1,4 +1,4 @@
-import { calcLength } from "framer-motion";
+import { AnimatePresence,motion } from "framer-motion";
 import { useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -9,8 +9,9 @@ interface Props {
   step: number;
   setRange: (range: number | null) => void;
   disable?: boolean;
+  bgColor?: string;
 }
-export const  RangeInput = ({ range, setRange, max, step, disable, min = 0 }: Props) => {
+export const  RangeInput = ({ range, setRange, max, step, disable, min = 0, bgColor= "bg-white dark:bg-back-grey" }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
   const calculateWidth = (range: number | null) => {
     if (range == null) return min;
@@ -39,24 +40,39 @@ export const  RangeInput = ({ range, setRange, max, step, disable, min = 0 }: Pr
         max={max}
         onChange={(e) => setRange(+e.target.value)}
       />
-      <div className="absolute flex w-full left-0 top-0 z-10 h-2">
-        <div
+        <AnimatePresence mode="wait" initial={false}>
+      <div className="absolute flex  w-full left-0 top-0 z-10 h-2">
+
+        <motion.div
           className="bg-primary rounded-l-full dark:bg-secondary"
+          initial={{ width: calculateWidth(range) + "%" }}
+          animate={{ width: calculateWidth(range) + "%" }}
+          exit={{ width: calculateWidth(range) + "%" }}
+          transition={{ duration: 0.2 }}
           style={{ width: calculateWidth(range) + "%" }}
         />
-        <div
-          className={"bg-zinc-200 rounded-r-full dark:bg-zinc-600 " + (range == null ? "rounded-l-full" : "")}
-          style={{ width: calculateWidth(range == null ? 100 : max - range) + "%" }}
+        <motion.div
+          className={" rounded-r-full  " + bgColor + (range == null ? " rounded-l-full" : "")}
+          initial={{ width: 100 - calculateWidth(range) + "%" }}
+          animate={{ width: 100 - calculateWidth(range) + "%" }}
+          exit={{ width: 100 - calculateWidth(range) + "%" }}
+          transition={{ duration: 0.2 }}
+          style={{ width: 100 - calculateWidth(range) + "%" }}
         />
       </div>
       {
         range == null ? null : (
-          <div
+          <motion.div
           className="bg-primary h-3 w-3 rounded-full z-20 -top-[0.12rem] dark:bg-secondary absolute"
+          initial={{ left: calcLeft(range) }}
+          animate={{ left: calcLeft(range) }}
+          exit={{ left: calcLeft(range) }}
+          transition={{ duration: 0.2 }}
           style={{ left: calcLeft(range) }}
-        />
+          />
         )
       }
+      </AnimatePresence>
 
     </div>
   );

@@ -145,6 +145,7 @@ export const GeneralConfig = () => {
                 <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{id:"Português", value:"Português"}, {id:"Español", value:"Español"}, {id:"English", value:"English"}]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
                 <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
                 <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{id:"Montserrat", value:"Montserrat"}, {id:"Arial", value:"Arial"}, {id:"Poppins", value:"Poppins"}]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
+                
               </div>
             </div>
             <div className="w-[95%]">

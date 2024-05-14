@@ -1,8 +1,12 @@
+import { LocalModal } from "@/components/Modal";
+import { OtherUserComponent } from "@/components/OtherUser";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { archiveToSrc } from "@/functions";
 import { OtherUser, TaskPage } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "next-i18next";
+import { useState } from "react";
+import { set } from "zod";
 
 interface SelectTypeObjProps {
   isTaskPage?: boolean;
@@ -10,6 +14,9 @@ interface SelectTypeObjProps {
   isGroup?: boolean;
   isString?: boolean;
   classes?: string;
+  setOtherUser?: (o: OtherUser) => void;
+  setX?: (x: number) => void;
+  setY?: (y: number) => void;
   index: number;
   o: any; // replace 'any' with the actual type if known
   functionObj: (o: any) => void; // replace 'any' with the actual type if known
@@ -19,22 +26,35 @@ export const SelectTypeObj = ({
   isTaskPage,
   isOtherUser,
   isGroup,
+  setOtherUser,
+  setX,
+  setY,
+
   classes,
   isString,
   index,
   o,
   functionObj,
 }: SelectTypeObjProps) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   if (isTaskPage) {
     return (
       <div
-        onClick={(e) => {
+        onMouseUp={(e) => {
           e.preventDefault();
           functionObj(o);
         }}
-        className={classes + ((o as TaskPage).task.completed || (o as TaskPage).task.waitingRevision ? " border-green-500 border-2" : "") + ((o as TaskPage).task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
+        className={
+          classes +
+          ((o as TaskPage).task.completed ||
+          (o as TaskPage).task.waitingRevision
+            ? " border-green-500 border-2"
+            : "") +
+          ((o as TaskPage).task.waitingRevision
+            ? " animation-delay-1000 animate-border-pulser "
+            : "")
+        }
         key={index}
         title={(o as TaskPage).task.name ?? t("withoutname")}
       ></div>
@@ -42,9 +62,14 @@ export const SelectTypeObj = ({
   } else if (isOtherUser) {
     return (
       <div
-        onClick={(e) => {
+        onMouseUp={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           functionObj(o);
+          if (!setOtherUser || !setX || !setY) return;
+          setX(e.clientX);
+          setY(e.clientY);
+          setOtherUser(o as OtherUser);
         }}
         className={classes}
         key={index}
@@ -59,7 +84,7 @@ export const SelectTypeObj = ({
   } else if (isGroup) {
     return (
       <div
-        onClick={(e) => {
+        onMouseUp={(e) => {
           e.preventDefault();
           functionObj(o);
         }}
@@ -76,10 +101,12 @@ export const SelectTypeObj = ({
     if ((o as string) == "+") {
       return (
         <div className={classes + " relative"} style={{ backgroundColor: o }}>
-        <p className="absolute top-0 h-full w-full rotate-45 p-1" >            <IconPlus />
-</p>
+          <p className="absolute top-0 h-full w-full rotate-45 p-1">
+            {" "}
+            <IconPlus />
+          </p>
           <input
-             type="color"
+            type="color"
             onChange={(e) => functionObj(e.target.value)}
             className="w-full h-full opacity-0"
             style={{ backgroundColor: o as string }}
@@ -91,7 +118,7 @@ export const SelectTypeObj = ({
     }
     return (
       <div
-        onClick={(e) => {
+        onMouseUp={(e) => {
           e.preventDefault();
           functionObj(o);
         }}
