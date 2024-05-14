@@ -162,7 +162,7 @@ export const Project = () => {
               />
             </div>
           </div>
-          <div className="400:w-52 w-full gap-2  h-full justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
+          <div className="400:w-52 w-full gap-2  h-full justify-center smm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -212,7 +212,7 @@ export const Project = () => {
           </div>
         </div>
         <If condition={project?.owner.id == user?.id}>
-          <span className="self-end flex items-center gap-2 h-min ">
+          <span className="self-end w-full smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
             <input
               type="checkbox"
               onChange={(e) => updateRevision(e.target.checked)}
