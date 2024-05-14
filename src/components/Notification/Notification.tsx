@@ -17,6 +17,7 @@ import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { notificationService } from "@/services/services/NotificationService";
 import {useRouter} from "next/navigation";
 import { ErrorModal } from "../ErrorModal";
+import { get } from "http";
 
 export const Notification = ({
   notification,
@@ -35,6 +36,7 @@ export const Notification = ({
   const [link, setLink] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
+  const [message, setMessage] = useState<string>("");
   const { pageId } = useContext(PageContext);
   const { project } = useContext(ProjectContext);
   const [idTask, setIdTask] = useState<number>();
@@ -62,25 +64,25 @@ export const Notification = ({
   const getMessage = (notification: NotificationModel) => {
     switch (notification.type) {
       case TypeOfNotification.CHANGETASK:
-        return t("notification-task", {aux:notification.aux});
+        return t("notification-task", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.CHAT:
-        return t("notification-chat", {aux:notification.aux});
+        return t("notification-chat", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.ADDINGROUP:
-        return t("notification-add-group", {aux:notification.aux});
+        return t("notification-add-group", {aux:notification.aux ? notification.aux : t("withoutname")});
         case TypeOfNotification.REMOVEINGROUP:
-          return t("notification-rmv-group", {aux:notification.aux});
+          return t("notification-rmv-group", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.CHANGEPERMISSION:
-        return t("notification-permission", {aux:notification.aux});
-      case TypeOfNotification.COMMENT:
-        return t("notification-comment", {aux:notification.aux});
+        return t("notification-permission", {aux:notification.aux ? notification.aux : t("withoutname")});
+      case TypeOfNotification.COMMENTS:
+        return t("notification-comment", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.DEADLINE:
-        return t("notification-deadline", {aux:notification.aux});
+        return t("notification-deadline", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.POINTS:
-        return t("notification-points", {aux:notification.aux});
+        return t("notification-points", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.SCHEDULE:
-        return t("notification-schedule", {aux:notification.aux});
+        return t("notification-schedule", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.INVITETOPROJECT:
-        return t("notification-invite", {aux:notification.aux})};
+        return t("notification-invite", {aux:notification.aux ? notification.aux : t("withoutname")})};
   };
 
   const clickNotification = async (e:any) => {
@@ -117,10 +119,17 @@ export const Notification = ({
   const deleteNotification = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     if (!setUser || !user) return;
+    await notificationService.deleteNotification(notification.id);
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
-    await notificationService.deleteNotification(notification.id);
   };
+
+  useEffect(() => {
+    const message = getMessage(notification);
+    console.log("nOT", notification);
+    
+    setMessage(message);
+  }, [notification]);
 
   return (
     <div
@@ -135,7 +144,7 @@ export const Notification = ({
           <NotificationTitle type={notification.type} />
         </span>
         <p className="font-montserrat text-[12px] w-full text-start whitespace-pre-wrap" title={getMessage(notification)}>
-          {getMessage(notification)}
+          {message}
         </p>
       </div>
       <span className="w-min h-full flex flex-col gap-1 justify-between">
