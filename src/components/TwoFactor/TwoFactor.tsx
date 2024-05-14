@@ -43,19 +43,12 @@ export const TwoFactor = ({ password, username }: Props) => {
         if (number !== null && number?.toString() === numberC) {
             try {
                 const response  = await axios.post("http://localhost:9999/verify-otp", { username: username, password: password, responseOtp: number.toString() }, {withCredentials:true})
-            //     const response = await fetch('http://localhost:9999/verify-otp', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: { username: username, password: password, responseOtp: number.toString() }
-            // });
+        
 
             response.status == 200
             const data = await response.data;
             if (response.status == 200) {
                 setError('OTP verified, user authenticated successfully');
-                // console.error(response)
                 router.push("/" + username)
             } else {
                 setError(data.message || 'Failed to verify OTP');
@@ -63,8 +56,6 @@ export const TwoFactor = ({ password, username }: Props) => {
         } catch (error) {
             setError('Error connecting to server');
         }
-        // router.push("/" + username)
-        // router.push("/register")
     } else {
         setError("Código inválido!");
 }
