@@ -9,7 +9,8 @@ import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
 import Image from 'next/image'
-import { AudioFile, AudioIcon, GaleryIcon, IconArchive, PdfIcon, SendMessage } from "@/components/icons";
+import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
+import { SelectArchive } from "../SelectArchive";
 
 interface MessageGroup {
     id: number,
@@ -19,7 +20,6 @@ interface MessageGroup {
     message: Message,
     isFirst: boolean
     chatContent: Chat
-
 }
 
 export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatContent }: MessageGroup) => {
@@ -32,29 +32,26 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
-    const [modalArquivo, setModalArquivo] = useState<boolean>(false);
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
-    }, [chatContent]);
+    }, [chatContent])
 
     const scrollToBottom = () => {
-
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
+            messagesEndRef!.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     useEffect(() => {
         scrollToBottom();
         const k: any = messages.map((message, index) => ({
-            message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? true : message.sender.id != messages[index + 1].sender.id
+            message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? false : message.sender.id != messages[index - 1]?.sender.id
         }))
         setMensagens(k)
     }, [messages]);
 
     const pegarMensagem = (event: any) => {
-
         setMensagem(event.target.value)
     }
 
@@ -63,11 +60,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
             await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!)
             setMensagem("")
             setArquivo(null)
-            setModalArquivo(false)
-        }
-        else {
-            alert("Mensagem vazia")
-        }
+        } return
     }
 
     const firstMessageToday = (date: Date) => {
@@ -110,13 +103,13 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                             <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
                         </div>
                         <div className="w-[80%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
-                            <h5 >{name}</h5>
+                            <h5 >{name || "Grupo sem nome"}</h5>
                         </div>
                     </div>
                     <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
                         <div className="flex  w-full flex-col gap-1">
                             <div className="flex justify-center py-5 text-p font-alata text-constrast">
-                                <p>Este é o começo de sua conversa com {name} </p>
+                                <p>Este é o começo de sua conversa com {name || "um grupo sem nome"} </p>
                             </div>
                             {mensagens?.map((mensagem, index) => (
                                 <>
@@ -141,7 +134,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                                             </div>
                                         </div>
                                     </If>
-                                    <MessageContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} />
+                                    <MessageContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} chatContent={chatContent} />
                                 </>
                             ))}
                             <div ref={messagesEndRef} />
@@ -152,99 +145,46 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                             <div className="w-full">
                                 <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
                             </div>
-                            <div className="">
+                            <div className="flex items-center justify-center w-12">
                                 <Keyboard setValue={setMensagem} bottom></Keyboard>
                             </div>
-                            <div className="ml-[5px]">
+                            <div className="flex items-center justify-center w-12 ">
                                 <Dictophone setText={setMensagem}></Dictophone>
                             </div>
-
-                            <div onClick={() => setModalArquivo(!modalArquivo)} className="w-[45px] cursor-pointer">
-                                <IconArchive></IconArchive>
+                            <div className="w-14">
+                                <SelectArchive arquivoParaEnviar={arquivoParaEnviar} previewArquivo={previewArquivo} />
                             </div>
-                            <If condition={modalArquivo && arquivo == null}>
-                                <div className="opacity- absolute rounded-md bg-slate-500 lg:w-56 lg:h-48 w-28 h-28 bottom-28 right-40 grid grid-cols-2 grid-rows-2">
-                                    <div className=" col-start-1 row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tl-md">
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <GaleryIcon></GaleryIcon>
-                                                <p className="text-p font-montserrat">Galeria</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
-                                                type="file"
-                                                accept="image/*, video/*"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-span-2 row-start-2 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-b-md">
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <PdfIcon></PdfIcon>
-                                                <p className="text-p font-montserrat">PDF</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-12"
-                                                type="file"
-                                                accept=".pdf"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-start-2  row-start-1 hover:bg-primary hover:dark:bg-secondary duration-700 rounded-tr-md cursor-pointer">
-                                        <div className="w-full h-full flex items-center justify-center cursor-pointer">
-                                            <div className="flex flex-col items-center justify-center">
-                                                <AudioFile></AudioFile>
-                                                <p className="text-p font-montserrat">Audio</p>
-                                            </div>
-                                            <input
-                                                ref={arquivoParaEnviar}
-                                                id="photo"
-                                                className="opacity-0 absolute w-[7rem] h-[6rem] cursor-pointer"
-                                                type="file"
-                                                accept="audio/*"
-                                                onChange={previewArquivo}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </If>
                             <If condition={arquivo != null}>
-                                <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500   max-w-64 min-w-28 h-28 bottom-28 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
-                                    <div onClick={() => (setArquivo(null), setModalArquivo(false))} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
+                                <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500   max-w-72  min-w-28 h-28 bottom-28 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
+                                    <div onClick={() => setArquivo(null)} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
                                         <p className="text-p font-montserrat">X</p>
                                     </div>
                                     <div className="w-full flex justify-around">
                                         <If condition={arquivo != null && arquivo?.type.startsWith("image/")}>
-                                            <Image width={100} height={100} className="rounded-md " src={arquivoUrl!} alt="foto" />
+                                            <div className="w-[90%] h-[90%] flex-tem">
+                                                <Image fill className="rounded-md " src={arquivoUrl!} alt="foto" />
+                                            </div>
                                         </If>
                                         <If condition={arquivo != null && arquivo?.type.startsWith("video/")}>
                                             <video className="rounded-md" src={arquivoUrl} controls ></video>
                                         </If>
                                         <If condition={arquivo != null && arquivo?.type == "application/pdf"}>
                                             <div className="flex items-center justify-center ">
-                                                <Image width={60} height={60} src="/pdfArchive.webp" alt="" />
+                                                <PdfIcon classes="w-9 h-9"></PdfIcon>
                                                 <p className="underline underline-offset-1 ">{arquivo?.name}</p>
                                             </div>
                                         </If>
                                         <If condition={arquivo != null && arquivo?.type.startsWith("audio/")}>
-                                            <div className="flex items-center justify-center ">
-                                                <AudioFile></AudioFile>
-                                                <p className="underline underline-offset-1 ">{arquivo?.name}</p>
+                                            <div className="flex items-center  ">
+                                                <AudioFile classes="w-9"></AudioFile>
+                                                <p className="underline underline-offset-1 break-all">{arquivo?.name}</p>
                                             </div>
-
                                         </If>
                                     </div>
                                 </div>
                             </If>
                         </div >
-
-                        <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-md    flex justify-center items-center">
+                        <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-md flex justify-center items-center">
                             <SendMessage></SendMessage>
                         </button>
                     </div >
