@@ -3,6 +3,7 @@ import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "next-i18next";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 interface Props {
   id: number;
@@ -55,16 +56,20 @@ export const RadioFilter = ({
     }
   };
 
+  const hasPermission = useHasPermission('update')
+
+
   return (
     <div className={`text-black dark:text-white pb-2 border-b-[1px] ${isInModal && "border-none"}`}>
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14">{name}:</p>
       )}
       <div className={style}>
         {options.map((option, index) => (
           <div key={index} className="flex gap-1 items-center">
             <input
               type="radio"
+              disabled={ !isInModal ? false : !hasPermission}
               id={`prop${id}_${index}`}
               value={option.name}
               className="custom-radio"
@@ -73,7 +78,7 @@ export const RadioFilter = ({
               onChange={handleOptionChange}
             />
             <label
-              className="text-black font-montserrat text-[14px] dark:text-white "
+              className="text-black font-montserrat text-p14 dark:text-white "
               htmlFor={`prop${id}_${index}`}
             >
               {option.name}
@@ -84,6 +89,7 @@ export const RadioFilter = ({
         <div className="flex gap-1 items-center">
           <input
             type="radio"
+            disabled={ !isInModal ? false : !hasPermission}
             id="244a271c-ab15-4620-b4e2-a24c92fe4042"
             className="custom-radio"
             value={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
@@ -92,7 +98,7 @@ export const RadioFilter = ({
             onChange={handleOptionChange}
           />
           <label
-            className="text-black font-montserrat text-[14px] dark:text-white"
+            className="text-black font-montserrat text-p14 dark:text-white"
             htmlFor="244a271c-ab15-4620-b4e2-a24c92fe4042"
           >
             {t('any')}

@@ -17,7 +17,8 @@ export const InputCoresConfig = ({title, description, functionBall }: Props) => 
                         mawWidth="w-max"
                         max={2}
                         functionObj={e => functionBall(e)}
-                        color
+      resposiveClasses="hover:brightness-95"
+      color
                         isString
                     />
                 </div>

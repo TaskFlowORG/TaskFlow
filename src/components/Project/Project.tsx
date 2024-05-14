@@ -15,11 +15,14 @@ import { groupService, projectService, userService } from "@/services";
 import { Button } from "../Button";
 import { LocalModal } from "../Modal";
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
-import { EditIcon } from "../icons";
+import { EditIcon, IconRedo } from "../icons";
+
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { log } from "console";
 import { ReportDowload } from "../Report/Report";
 import { Loading } from "../Loading";
+import { TaskModalContent } from "../TaskModal/TaskModalContent";
+import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -42,7 +45,10 @@ export const Project = () => {
   const saveName = async () => {
     if (!project || !setProject) return;
     project.name = name;
-    const updated = await projectService.patch(projectToPutDTO(project), project.id);
+    const updated = await projectService.patch(
+      projectToPutDTO(project),
+      project.id
+    );
     setProject(updated);
   };
 
@@ -52,14 +58,18 @@ export const Project = () => {
       project.name,
       project.description,
       project.comments,
-      project.values
-    )
-  }
+      project.values,
+      project.revision
+    );
+  };
 
   const saveDescription = async () => {
     if (!project || !setProject) return;
     project.description = description;
-    const updated = await projectService.patch(projectToPutDTO(project), project.id);
+    const updated = await projectService.patch(
+      projectToPutDTO(project),
+      project.id
+    );
     setProject(updated);
   };
 
@@ -81,17 +91,26 @@ export const Project = () => {
     (async () => {
       if (!project || !user) return;
       const groups = await groupService.findGroupsByAProject(project?.id);
-      let list: OtherUser[] = []
+      let list: OtherUser[] = [];
       for (let group of groups) {
-        list.push(await userService.findByUsername(group.ownerUsername))
+        list.push(await userService.findByUsername(group.ownerUsername));
       }
-      setPossibleOwners(list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id));
+      setPossibleOwners(
+        list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id)
+      );
     })();
   }, [project]);
+  const updateRevision = async (revision: boolean) => {
+    if (!project) return;
+    const projectDto = projectToPutDTO(project);
+    projectDto.revision = revision;
+    projectService.update(projectDto, project.id).then((updated) => {
+      if (!setProject) return;
+      setProject(updated);
+    });
+  };
 
-  if(!user || !project) return <Loading/>
-
-
+  if (!user || !project) return <Loading />;
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
       <div className="w-full h-full flex-col justify-center items-center  py-8 400:flex 400:px-8 sm:px-24 md:px-48">
@@ -119,7 +138,6 @@ export const Project = () => {
               </If>
             </div>
             <div className="flex flex-col justify-between  white text-center w-2/3 ">
-
               <input
                 ref={refName}
                 disabled={project?.owner.id != user?.id}
@@ -139,14 +157,12 @@ export const Project = () => {
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
                 className="bg-transparent w-full text-p font-montserrat rounderd-md text-center 400:text-start"
-
-
                 rows={2}
                 cols={2}
               />
             </div>
           </div>
-          <div className="400:w-52 w-full  h-full justify-center relative  text-h5 font-alata text-modal-grey dark:text-white flex flex-col items-center">
+          <div className="400:w-52 w-full gap-2  h-full justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -166,9 +182,17 @@ export const Project = () => {
                   <div className="w-44 h-min max-h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
                     <If condition={possibleOwners.length > 0}>
                       <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
-
                         {possibleOwners.map((user) => (
-                          <button key={user.id} className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10" onClick={() => project && projectService.updateOwner(user, project.id)}>@{user.username}</button>
+                          <button
+                            key={user.id}
+                            className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
+                            onClick={() =>
+                              project &&
+                              projectService.updateOwner(user, project.id)
+                            }
+                          >
+                            @{user.username}
+                          </button>
                         ))}
                       </div>
                       <p className="w-full h-full flex justify-center font-montserrat text-p items-center text-center">
@@ -177,17 +201,36 @@ export const Project = () => {
                     </If>
                   </div>
                 </LocalModal>
-                <Button
-                  text={t("change-owner")}
-                  padding="p-2"
-                  paddingY="py-1"
-                  textSize="text-p font-alata"
-                  fnButton={() => setChangingOwner(!changingOwner)}
-                />
+                <button
+                  className="p-1 rounded-md bg-primary w-6 h-6 dark:bg-secondary"
+                  onClick={() => setChangingOwner(!changingOwner)}
+                >
+                  <IconRedo />
+                </button>
               </span>
             </If>
           </div>
         </div>
+        <If condition={project?.owner.id == user?.id}>
+          <span className="self-end flex items-center gap-2 h-min ">
+            <input
+              type="checkbox"
+              onChange={(e) => updateRevision(e.target.checked)}
+              checked={project.revision}
+            />
+            {t("revision")}
+          </span>
+        </If>
+        {project?.pages[0]?.tasks[0]?.task && (
+          <TaskModalWrapper>
+            <TaskModalContent
+              task={project.pages[0].tasks[0].task}
+              user={user}
+              isInModal={false}
+            />
+          </TaskModalWrapper>
+        )}
+       
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>

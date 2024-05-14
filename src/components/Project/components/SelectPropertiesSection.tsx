@@ -112,7 +112,7 @@ export const SelectPropertiesSection = () => {
               {properties.map((option, index) => (
                 <option
                   key={index}
-                  value={option.id}
+                  value={option.id }
                 >
                   {option.name}
                 </option>

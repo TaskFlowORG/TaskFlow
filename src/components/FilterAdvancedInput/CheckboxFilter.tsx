@@ -1,3 +1,4 @@
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
@@ -71,6 +72,8 @@ export const CheckboxFilter = ({
     }
   }, [value, setFilterProp, filterProp]);
 
+  const hasPermission = useHasPermission('update')
+
   return (
     <div
       className={`text-black dark:text-white pb-2 border-b-[1px] ${
@@ -78,7 +81,7 @@ export const CheckboxFilter = ({
       }  `}
     >
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap font-montserrat">
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">
           {name}:
         </p>
       )}
@@ -87,6 +90,7 @@ export const CheckboxFilter = ({
           <div key={index} className="flex gap-1 items-center">
             <input
               type="checkbox"
+              disabled={ !isInModal ? false : !hasPermission}
               id={`prop${id}_${index}`}
               value={option.name}
               className="custom-checkbox"
@@ -94,7 +98,7 @@ export const CheckboxFilter = ({
               onChange={handleOptionChange}
             />
             <label
-              className="text-black font-montserrat text-[14px] dark:text-white"
+              className="text-black font-montserrat text-p14 dark:text-white"
               htmlFor={`prop${id}_${index}`}
             >
               {option.name}

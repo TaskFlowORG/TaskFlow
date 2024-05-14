@@ -67,7 +67,8 @@ export const ProjectComponent = ({ project, user }: Props) => {
               <Obj
                 objs={project.groups}
                 max={4}
-                functionObj={(o) =>
+      resposiveClasses="hover:brightness-95"
+      functionObj={(o) =>
                   router.push(
                     `/${user}/${project.id}/group/${(o as SimpleGroup).id}`
                   )

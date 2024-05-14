@@ -22,6 +22,7 @@ interface Props {
 export const Canvas = ({ page, user }: Props) => {
   const canUpdate = useHasPermission("update");
   const [moving, setMoving] = useState<boolean>(!canUpdate);
+  const [idTaskDragged, setIdTaskDragged] = useState<number | undefined>();
   const elementRef = useRef<HTMLDivElement>(null);
   const {
     scrollX: x,
@@ -114,6 +115,8 @@ export const Canvas = ({ page, user }: Props) => {
             canvasRef={canvasRef}
             page={page}
             moving={moving}
+            idTaskDragged={idTaskDragged}
+            setIdTaskDragged={setIdTaskDragged}
           />
         ))}
         <NeedPermission permission="update">

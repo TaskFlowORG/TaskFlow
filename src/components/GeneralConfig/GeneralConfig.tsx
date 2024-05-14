@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+
 import { ChangeEvent, use, useContext, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { userService } from "@/services";
@@ -12,6 +12,8 @@ import { InputCheckboxConfig } from "./components/InputCheckboxConfig";
 import { useTranslation } from "next-i18next";
 import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
+import Cookies from "js-cookie";
+import { LanguageContext } from "@/contexts/ContextLanguage";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -21,7 +23,6 @@ export const GeneralConfig = () => {
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
   const [googleCalendar, setGoogleCalendar] = useState<boolean | undefined>(user!.configuration.googleCalendar);
   const [showPropertiesName, setShowPropertiesName] = useState<boolean | undefined>(user?.configuration.showPropertiesName);
-  const [isTutorialMade, setIsTutorialMade] = useState<boolean>(user!.configuration.isTutorialMade);
   const [initialPageTasksPerDeadline, setInitialPageTasksPerDeadline] = useState<boolean | undefined>(user?.configuration.initialPageTasksPerDeadline);
   const [fontSize, setFontSize] = useState<number | undefined>(user?.configuration.fontSize);
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
@@ -51,6 +52,7 @@ export const GeneralConfig = () => {
     })();
   };
 
+  const {changeLanguage:changeGlobal } = useContext(LanguageContext)
   const { t } = useTranslation();
 
   const functionBall = (value: Object) => {
@@ -66,6 +68,16 @@ export const GeneralConfig = () => {
     const configuration: Configuration = user.configuration;
     configuration.language = language as Language;
     user.configuration = configuration;
+    const updatedUser = await userService.patch(user)
+    setUser(updatedUser);
+    changeGlobal(language as Language)
+  }
+
+  const changeFont= async (font: string) => {
+    if (!user || !setUser) return;
+    console.log("font", font);
+    
+    user.configuration.font = font;
     const updatedUser = await userService.patch(user)
     setUser(updatedUser);
   }
@@ -132,6 +144,7 @@ export const GeneralConfig = () => {
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
                 <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{id:"Português", value:"Português"}, {id:"Español", value:"Español"}, {id:"English", value:"English"}]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
                 <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
+                <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{id:"Montserrat", value:"Montserrat"}, {id:"Arial", value:"Arial"}, {id:"Poppins", value:"Poppins"}]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
               </div>
             </div>
             <div className="w-[95%]">

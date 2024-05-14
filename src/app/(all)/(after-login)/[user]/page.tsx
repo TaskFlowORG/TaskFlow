@@ -15,6 +15,9 @@ export default function InitialPage({params}:{params:{user:string}}) {
     useEffect(() => {
         (async () => {
             const tasks = await taskService.findTodaysTasks(params.user)
+            console.log('====================================');
+            console.log(tasks);
+            console.log('====================================');
             setTasks(tasks)
         })()
     }, [])
