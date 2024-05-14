@@ -57,7 +57,7 @@ export const TwoFactor = () => {
 
     const verifyCode = () => {
         if (selectedNumber !== null && selectedNumber.toString() === numberC) {
-        router.push("/" + username)
+        // router.push("/" + username)
         // router.push("/register")
     } else{
         setError("Código inválido!")
