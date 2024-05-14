@@ -131,7 +131,7 @@ export const Project = () => {
                   <IconEditColoured />
                   <input
                     onChange={updatePicture}
-                    type="file"
+                    type="file" accept="image/*"
                     className="w-full h-full absolute cursor-pointer opacity-0"
                   />
                 </span>
