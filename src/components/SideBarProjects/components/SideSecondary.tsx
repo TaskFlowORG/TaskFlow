@@ -87,14 +87,14 @@ export const SideSecondary = ({
                 {t("no-tasks-trash")}
               </p>
             </div>
-            <span className=" bg-white dark:bg-modal-grey ">
-              <div className="flex justify-center overflow-y-auto flex-col gap-4 max-h-44 p-4">
+            <span className=" bg-white dark:bg-modal-grey h-full justify-center w-full overflow-y-auto none-scrollbar flex">
+              <div className="flex justify-center flex-col gap-4 h-min py-4 w-full">
                 {tasksTrash.map((task, index) => {
                   return (
-                    <div key={task.id} className="flex flex-col gap-4 max-w-[280px] justify-center items-center">
+                    <div key={task.id} className="flex flex-col gap-4 w-full justify-center items-center">
                       <TaskTrash task={task} userId={user} arrayTasks={tasksTrash} setArrayTasks={setTasksTrash} />
                       <If condition={index < tasksTrash.length - 1}>
-                        <div className="bg-zinc-200 w-3/4 h-1 self-center" />
+                        <div className="bg-zinc-200 w-3/4 h-px self-center" />
                       </If>
                     </div>
                   );
