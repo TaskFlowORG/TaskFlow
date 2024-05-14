@@ -24,10 +24,16 @@ type Props = {
   task: Task;
   formProps: PropsForm[];
   setFormProps: (prop: PropsForm[]) => void;
-  setErrors:(boolean:boolean)=>void
+  setErrors: (boolean: boolean) => void;
 };
 
-export const RowProperty = ({ prop, task, formProps, setFormProps, setErrors }: Props) => {
+export const RowProperty = ({
+  prop,
+  task,
+  formProps,
+  setFormProps,
+  setErrors,
+}: Props) => {
   switch (prop.property.type) {
     case TypeOfProperty.SELECT:
       return (
@@ -44,11 +50,15 @@ export const RowProperty = ({ prop, task, formProps, setFormProps, setErrors }: 
         />
       );
     case TypeOfProperty.ARCHIVE:
+      console.log(prop
+        
+      );
       return (
         <FileFilter
           isInModal
           id={prop.property.id}
           task={task}
+          property={prop.property}
           propertyValue={prop.value as PropertyValue}
           name={prop.property.name}
           value={prop.value?.value}
@@ -78,7 +88,7 @@ export const RowProperty = ({ prop, task, formProps, setFormProps, setErrors }: 
       return (
         <>
           <TimeFilter
-          setErrors={setErrors}
+            setErrors={setErrors}
             formProps={formProps}
             setFormProps={setFormProps}
             formProp={

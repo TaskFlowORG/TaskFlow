@@ -11,6 +11,7 @@ export class Task {
         public name: string,
         public deleted: boolean,
         public completed: boolean,
+        public waitingRevision: boolean,
         public properties: PropertyValue[],
         public logs: Log[],
         public comments: Message[]) { }

@@ -76,7 +76,7 @@ export function showTask(task: Task, context: FilterContextType): boolean {
   const textTypes = [TypeOfProperty.TEXT, TypeOfProperty.DATE];
   if (isValueMatchingInput(task.name ?? "", input!)) {
     let counter = 0;
-    filterProp.forEach((prop) => {
+    filterProp?.forEach((prop) => {
       const propertyInTask = findPropertyInTask(task, prop);
       if (multiOptionTypes.includes(propertyInTask?.property.type)) {
         counter = multiValuePropertyPassesFilter(counter, prop, propertyInTask);
@@ -92,7 +92,7 @@ export function showTask(task: Task, context: FilterContextType): boolean {
         );
       }
     });
-    if (hasPassedFilters(counter, filterProp.length)) {
+    if (hasPassedFilters(counter, filterProp?.length ?? 0)) {
       return true;
     }
   }

@@ -11,6 +11,13 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
   const inputRef = useRef<any>(null);
   // useClickAway(ref, () => setIsModalOpen(false));
   const { setInput, input } = useContext(FilterContext);
+  const ref = useRef(null);
+  useClickAway(ref, () => {
+  if (!input){
+    setIsModalOpen(false)
+  }
+
+  });
 
   useEffect(() => {
     if (inputRef.current) {
@@ -18,7 +25,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
     }
   }, []);
   return (
-    <div className="w-full h-full flex-1 flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
+    <div ref={ref} className="w-full h-full flex-1 flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
       <div className="gap-4 flex  ">
         <img src="/search.svg" alt="" className="w-6 h-6 self-center " />
         <p>|</p>

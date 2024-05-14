@@ -1,9 +1,6 @@
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { If } from "../If";
 import { useClickAway } from "react-use";
 import { AnimatePresence, motion } from "framer-motion";
-import { transform } from "next/dist/build/swc";
-import { set } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -36,7 +33,7 @@ export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) =
         >
             <div onClick={() => !disabled && setShow(!show)} style={{ opacity: disabled ? "0.6" : '1' }} className={(show ?
                 "py-2 rounded-t-md h-full w-10 flex select-none justify-center items-center bg-white dark:bg-back-grey" : "")}>
-                {list.filter(item => item.value === selected)[0].image}
+                {list.filter(item => item.value == selected)[0]?.image}
             </div>
             <AnimatePresence mode="wait" initial={false} >
                 {

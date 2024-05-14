@@ -15,7 +15,7 @@ import { LocalModal } from "@/components/Modal";
 import { chatService, groupService } from "@/services";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { If } from "@/components/If";
-import Providers from "@/services/Theme/providers";
+import { ErrorModal } from "@/components/ErrorModal";
 
 export default function ChatMessages({ children }: { children: React.ReactNode }) {
   const route = useRouter();
@@ -126,14 +126,20 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   };
 
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
+    let chatPost;
     if (chat instanceof ChatGroupPost) {
-      await chatService.saveGroup(chat);
+       chatPost = await chatService.saveGroup(chat).catch(e => setError(true));
     } else {
-      await chatService.savePrivate(chat, chat.users[0].id);
+      chatPost = await chatService.savePrivate(chat, chat.users[0].id).catch(e=> setError(true));
     }
+    if(!chatPost) return;
     setPossibleChats(possibleChats.filter((c) => c != chat));
     setCreatingChat(false);
+    setFilteredChats([...filteredChats, chatPost]);
   };
+
+  const[error, setError] = useState<boolean>(false);
+
 
   return (
     <>
@@ -156,7 +162,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                   <div className={`w-[80%] ${searchin ? "visible" : "hidden"}`}>
                     <input
                       onChange={(e) => setSearch(e.target.value)}
-                      className="rounded-r-lg  w-full h-full  text-black bg-input-grey outline-none px-4 font-montserrat"
+                      className="rounded-r-lg  w-full h-full  text-black bg-white outline-none px-4 font-montserrat"
                       type="text"
                     />
                   </div>
@@ -188,7 +194,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                           <div className="w-full h-full flex flex-col gap-1">
                             {filteredPossibleChats.map((chat, index) => (
                               <div
-                                onClick={() => postChat(chat)}
+                                onClick={() => (postChat(chat))}
                                 className="w-full cursor-pointer h-10 shadow-blur-10 rounded-md"
                                 key={index}
                               >
@@ -238,6 +244,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
         </div>
         {children}
       </div>
+      <ErrorModal condition={error} fnOk={()=> setError(false)} message={t("error-create-chat")} title={t("error-create-chat-title")} setCondition={setError}  />
     </ChatContext.Provider>
     </>
   );

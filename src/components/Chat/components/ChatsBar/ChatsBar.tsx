@@ -1,7 +1,7 @@
 'use client'
 
 import { If } from "@/components/If";
-import { ImagemEnviada, VisualizedChatOrMessage } from "@/components/icons";
+import { ImagemEnviada, Visualized } from "@/components/icons";
 import { UserContext } from "@/contexts/UserContext";
 import { Chat, Message } from "@/models";
 import { chatService } from "@/services";
@@ -41,7 +41,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
 
   return (
     <>
-      <div className={`lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer `} >
+      <div className="lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer">
         <div onClick={() => setarChat()} className="w-full h-28 grid grid-cols-3 duration-0" style={{ gridTemplateColumns: "20% 55% 25%" }}>
           <div className="flex items-center pl-2">
             <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary dark:border-secondary border-2">
@@ -50,15 +50,9 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
           </div>
           <div className=" col-start-2 col-end-3 flex flex-col justify-center items-start">
             <div>
-              <h5 className="h5">{chat.name}</h5>
+              <h5 className="text-h5 font-alata">{chat.name || "Grupo sem nome"}</h5>
             </div>
-
-            {/* Verificações usuario logado */}
-
             <If condition={user?.username == lastMessage?.sender.username}>
-
-              {/* Arquivo com foto */}
-
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start ">
                   <p className="text-p font-montserrat truncate w-72 ">Você : {lastMessage?.value}</p>
@@ -71,9 +65,6 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
-            {/* Arquivo sem texto */}
-
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value == "" && lastMessage?.annex != null}>
                 <div className="flex items-center w-16 justify-between">
@@ -84,9 +75,6 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
-            {/* Texto sem arquivo */}
-
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex == null}>
                 <div className="flex flex-col items-start">
@@ -94,13 +82,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
-            {/* Verificações usuario que recebe as mensagens */}
-
             <If condition={user?.username != lastMessage?.sender.username}>
-
-              {/* Arquivo com foto */}
-
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start">
                   <p className="text-p font-montserrat truncate w-72">{lastMessage?.sender.name}  : {lastMessage?.value}</p>
@@ -113,9 +95,6 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
-            {/* Arquivo sem texto */}
-
             <If condition={user?.username != lastMessage?.sender.username}>
               <If condition={lastMessage?.value == "" && lastMessage?.annex != null}>
                 <div className="flex items-center w-16 justify-between">
@@ -126,9 +105,6 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
-            {/* Texto sem arquivo */}
-
             <If condition={user?.username != lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex == null && lastMessage?.sender != null}>
                 <div className="flex flex-col items-start">
@@ -136,7 +112,6 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 </div>
               </If>
             </If>
-
             <If condition={lastMessage?.sender == null}>
               <div>
                 <p className="text-p font-montserrat">Tudo quieto por aqui 😢</p>
@@ -156,12 +131,12 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             </If>
             <If condition={quantityUnvisualized == 0}>
               <div>
-                <VisualizedChatOrMessage />
+                <Visualized />
               </div>
             </If>
           </div>
         </div>
       </div >
     </>
-  );
-};
+  )
+}

@@ -3,6 +3,7 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import { Tag } from "../CardContent/CardProperties/Tag";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 interface Props {
   options: Option[];
@@ -22,7 +23,7 @@ export const TagFilter = ({
   const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
-  const style = twMerge("", isInModal ? "max-h-2 items-center flex" : "");
+  const style = twMerge("", isInModal ? " items-center flex w-full" : "");
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -33,6 +34,9 @@ export const TagFilter = ({
     }
   }, [value, setFilterProp, filterProp!]);
 
+
+  const hasPermission = useHasPermission('update')
+  
   const handleOptionChange = (optionName: string) => {
     console.log("Me clicaro");
     const thisProperty = filterProp?.find((item) => item.id == id);
@@ -70,16 +74,19 @@ export const TagFilter = ({
   return (
     <div className={style}>
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap font-montserrat">
+        <p className=" text-black text-p14  dark:text-white whitespace-nowrap font-montserrat">
           {name}:
         </p>
       )}
-      <div className="flex gap-4 overflow-x-auto w-full max-w-[360px] ">
+      <div className="oi w-full flex-wrap  flex gap-2 relative">
         {options.map((opt, index) => {
           return (
             <Tag
               onClick={() => {
-                handleOptionChange(opt.name);
+                if(!isInModal || hasPermission){
+                  handleOptionChange(opt.name);
+                }
+
               }}
               value={opt.name}
               color={opt.color}

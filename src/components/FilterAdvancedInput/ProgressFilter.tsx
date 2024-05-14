@@ -1,3 +1,4 @@
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTheme } from "next-themes";
 import { useContext, useEffect, useState } from "react";
@@ -19,6 +20,7 @@ export const ProgressFilter = ({
   const {theme} = useTheme()
   const [valued, setValued] = useState<number>();
   const [drag, setDrag] = useState<boolean>();
+  const hasPermission = useHasPermission('update')
   const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     const lista = [];
@@ -55,11 +57,12 @@ export const ProgressFilter = ({
   return (
     <div className="flex justify-between">
       {!isInModal && (
-        <p className=" text-black h-full self-center dark:text-white whitespace-nowrap">{name}:</p>
+        <p className=" text-black h-full self-center text-p14 dark:text-white whitespace-nowrap">{name}:</p>
       )}
       <div className="flex flex-col gap-1 items-end ">
         <input
           type="number"
+          disabled={ !isInModal ? false : !hasPermission}
           step={0.01}
           name=""
           className="p-1 pb-0 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
@@ -108,7 +111,7 @@ export const ProgressFilter = ({
                     item < valued! ?( theme == "light?" ? "var(--primary-color)" : "var(--secondary-color)") : "#BABABA",
                 }}
                 onMouseOver={() => {
-                  if (drag) {
+                  if (drag && hasPermission) {
                     setValued(item);
                     change(item);
                   }

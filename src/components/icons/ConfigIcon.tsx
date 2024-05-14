@@ -5,7 +5,7 @@ export const IconConfig = () => {
       height="12"
       viewBox="0 0 12 12"
       fill="currentColor"
-      className="w-6 h-6 text-contrast"
+      className="w-6 h-6 text-contrast dark:text-white"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

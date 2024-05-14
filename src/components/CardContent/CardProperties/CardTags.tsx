@@ -22,7 +22,7 @@ export const CardTag = ({ tags, nameProperty, showNameProperty }: Props) => {
           </p>
         )}
 
-        <div className="oi w-full overflow-clip  flex gap-2 relative">
+        <div className="oi w-full flex-wrap  flex gap-2 relative">
           {/* Código svg do gradiente para "mostrar ao usuário que é scrollavel" */}
           {/* <img src="gradient.svg" className="absolute h-full left-[-0.1rem]" alt="" /> */}
           {tags.map((tag) => {
