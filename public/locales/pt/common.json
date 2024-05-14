@@ -320,6 +320,15 @@
    "page-not-found-cause": "Possíveis causas: \n   - Você acessou um link que não existe; \n   - Você tentou acessar algo que não foi cadastrado; \n   - A página foi removida; \n   - O link está quebrado.",
    "forbidden-cause": "Possíveis causas: \n   - Você não tem permissão para acessar essa página; \n   - Você tentou acessar algo que não é seu; \n   - A página foi removida; \n   - O link está quebrado.",
    "other-error-cause": "Possíveis causas: \n   - O servidor está fora do ar; \n   - O link está quebrado; \n   - Ocorreu um erro interno no servidor.",
-    "retry":"Tentar novamente"
+    "retry":"Tentar novamente",
+    "meet-taskFlow": "Conheça o TaskFlow!",
+    "start-now": "Começar Agora",
+    "our-features": "Nossas Funcionalidades",
+    "taskflow-functionality": "Como o TaskFlow funciona?",
+      "properties-importance": "As propriedades são fundamentais em nosso sistema, fornecendo valores importantes para projetos e tarefas ao categorizar, organizar e detalhar informações cruciais para a conclusão das atividades.",
+      "tasks-description": "As tarefas são unidades de trabalho em um projeto, atribuíveis, monitoráveis e atualizáveis para garantir transparência, responsabilidade e progresso contínuo em direção aos objetivos.",
+      "platform-focus": "Nossa plataforma é focada em projetos que agrupam tarefas. Cada projeto possui objetivos, prazos e recursos específicos, promovendo uma abordagem colaborativa para metas.",
+    
+     "taskFlow-intro": "Com o TaskFlow, você pode organizar suas tarefas diárias, gerenciar projetos complexos e colaborar eficientemente com equipes. Não importa se você é um indivíduo que busca mais organização ou uma empresa que deseja otimizar seus processos, estamos aqui para ajudar. Experimente agora mesmo e descubra como podemos transformar a maneira como você trabalha e se organiza!"
   }
 

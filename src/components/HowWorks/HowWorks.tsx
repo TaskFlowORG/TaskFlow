@@ -16,6 +16,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { useTranslation } from "react-i18next";
 
 export const HowWorks = () => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
@@ -26,6 +27,8 @@ export const HowWorks = () => {
     setWindowWidth(window.innerWidth);
   }, []);
 
+  const {t} = useTranslation()
+
   function changeView(): number {
     return windowWidth > 768 ? 2 : 1;
   }
@@ -34,7 +37,7 @@ export const HowWorks = () => {
     <>
       <div className="flex flex-col w-full  items-center gap-8 lg:gap-16">
         <h2 className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
-          Como o TaskFlow funciona?
+         {t('taskflow-functionality')}
         </h2>
         {windowWidth < 1024 ? <Carousel change={changeView} /> : <Default />}
       </div>
