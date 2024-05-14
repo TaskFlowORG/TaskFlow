@@ -1,11 +1,12 @@
 "use client";
 
 import { Login } from "@/components/Login";
+import { TwoFactor } from "@/components/TwoFactor";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 
-export default function LoginPage() {
+export default function Home() {
 
   return (
     <div
@@ -30,7 +31,7 @@ export default function LoginPage() {
       <div className="fixed top-0 px-6   h-full  w-screen bottom-0   justify-center flex items-center">
         <AnimatePresence initial={true}>
           <motion.div initial={{transform: "scale(0)"}} className="w-[28rem] h-[28rem] flex items-center justify-center" animate={{transform:"scale(1)"}} exit={{transform:"scale(0)"}}>
-            <Login />
+            <TwoFactor />
           </motion.div>
         </AnimatePresence>
       </div>
