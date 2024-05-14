@@ -72,17 +72,17 @@ export const Login = () => {
   return (
     <>
       <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-        <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
-        <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
+        <div className="h-full w-full gap-4 py-4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
+        <h4 className="h4 leading-6 flex  py-3 md:py-0">{t("access-account")}</h4>
           <form
             id="modalLogin"
             onSubmit={handleSubmit(login)}
-            className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
+            className="flex items-center  flex-col h-[55%] w-full  justify-between"
           >
         
             <span className="text-red-500 text-sm">{loginError ?? ""}</span>
 
-            <div className="h-[95%] w-4/5 flex flex-col items-center justify-between">
+            <div className="h-[90%] w-4/5 flex flex-col items-center justify-between">
               <Input
                 className="inputRegister"
                 image={iconUser}
@@ -112,17 +112,6 @@ export const Login = () => {
                 }
               />
 
-              <div className="w-4/5 md:w-4/6 flex justify-between py-2">
-                <p
-                  className={
-                    "font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary "
-                  }
-                  onClick={() => route.push("/forgotPassword")}
-                >
-                  {t("forgot-password")}
-                </p>
-                <Transition href="/register" label={t("register-login")} />
-              </div>
 
               <button
                 className={
@@ -134,7 +123,6 @@ export const Login = () => {
               </button>
             </div>
           </form>
-
           <button 
           className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
             onClick={() =>
@@ -145,6 +133,18 @@ export const Login = () => {
           }
           Login com o GitHub
           </button>
+
+              <div className="w-4/5 md:w-4/6 flex justify-between py-2">
+                <p
+                  className={
+                    "font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary "
+                  }
+                  onClick={() => route.push("/forgotPassword")}
+                >
+                  {t("forgot-password")}
+                </p>
+                <Transition href="/register" label={t("register-login")} />
+              </div>
         </div>
       </div>
     </>

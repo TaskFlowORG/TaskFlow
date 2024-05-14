@@ -34,12 +34,16 @@ export const PageSide = (
   const {t} = useTranslation();
   const route = useRouter();
 
-  const merge = () => {
+  const merge = async () => {
     console.log(listMerge, pageMerging);
-    pageService.merge(project.id, listMerge, pageMerging!.id);
+    const pages = await pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);
     setPageMerging(undefined);
+    const projectTemp = {...project};
+    projectTemp.pages = project.pages.filter((page) => pages.find((p) => p.id == page.id));
+    projectTemp.pages.push(...pages);
+    setProject!(projectTemp);
   };
   
   const insert = async () => {
