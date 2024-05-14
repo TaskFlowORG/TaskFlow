@@ -1,9 +1,7 @@
-import { ChangeEvent, ReactNode, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useClickAway } from "react-use";
 import { AnimatePresence, motion } from "framer-motion";
-import { useTranslation } from "react-i18next";
-import { IconArchive, PdfIcon } from "@/components/icons";
-import { AudioFile } from "@/components/icons/ChatIcons/AudioFile";
+import { AudioFile, GaleryIcon, IconArchive, PdfIcon } from "@/components/icons";
 
 interface Props {
     disabled?: boolean
@@ -27,14 +25,12 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
         }
     }, [show])
 
-    const { t } = useTranslation()
-
     return (
         <div ref={ref} className={"relative flex items-center select-none cursor-pointer rounded-md " + (openToTop ? "flex-col-reverse" : "flex-col")}
         >
             <div onClick={() => !disabled && setShow(!show)} style={{ opacity: disabled ? "0.6" : '1' }} className={(show ?
                 "py-2 rounded-b-md h-full w-10 flex select-none justify-center items-center" : "")}>
-                <IconArchive></IconArchive>
+                <IconArchive classes="text-[#BDBDBD]"></IconArchive>
             </div>
             <AnimatePresence mode="wait" initial={false} >
                 {
@@ -49,7 +45,7 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
                     z-20 dark:border-modal-grey absolute flex  py-1 items-start ${openToTop ? `bottom-10 flex-col-reverse origin-bottom` : "top-8 flex-col origin-top"}`}>
                         <div className="hover:bg-zinc-200  select-none hover:dark:bg-zinc-600 w-10 h-10  flex items-center justify-center px-2 bg-white dark:bg-back-grey  ">
                             <div className="flex flex-col items-center justify-center h-full w-full">
-                                <PdfIcon></PdfIcon>
+                                <AudioFile></AudioFile>
                             </div>
                             <input
                                 ref={arquivoParaEnviar}
@@ -57,6 +53,19 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
                                 className="opacity-0 absolute w-10 h-10 cursor-pointer"
                                 type="file"
                                 accept="audio/*"
+                                onChange={previewArquivo}
+                            />
+                        </div>
+                        <div className="hover:bg-zinc-200  select-none hover:dark:bg-zinc-600 w-10 h-10  flex items-center justify-center px-2 bg-white dark:bg-back-grey  ">
+                            <div className="flex flex-col items-center justify-center w-6 h-6">
+                                <GaleryIcon classes="w-6 h-6"></GaleryIcon>
+                            </div>
+                            <input
+                                ref={arquivoParaEnviar}
+                                id="photo"
+                                className="opacity-0 absolute w-10 h-10 cursor-pointer"
+                                type="file"
+                                accept="images/*"
                                 onChange={previewArquivo}
                             />
                         </div>
@@ -69,20 +78,7 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
                                 id="photo"
                                 className="opacity-0 absolute w-10 h-10 cursor-pointer"
                                 type="file"
-                                accept="audio/*"
-                                onChange={previewArquivo}
-                            />
-                        </div>
-                        <div className="hover:bg-zinc-200  select-none hover:dark:bg-zinc-600 w-10 h-10  flex items-center justify-center px-2 bg-white dark:bg-back-grey  ">
-                            <div className="flex flex-col items-center justify-center h-full w-full">
-                                <PdfIcon></PdfIcon>
-                            </div>
-                            <input
-                                ref={arquivoParaEnviar}
-                                id="photo"
-                                className="opacity-0 absolute w-10 h-10 cursor-pointer"
-                                type="file"
-                                accept="audio/*"
+                                accept="application/*"
                                 onChange={previewArquivo}
                             />
                         </div>
