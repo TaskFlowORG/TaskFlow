@@ -111,10 +111,10 @@ export const Obj = ({
         ))}
         {hidden.length > 0 && !isHovering && (
           <div
-            className={classes + " rotate-45 bg-white dark:bg-modal-grey"}
+            className={classes + " rotate-45 bg-white p-1 dark:bg-modal-grey"}
             title="+"
           >
-            <IconPlus classes="text-contrast w-full h-full p-1" />
+            <IconPlus />
           </div>
         )}
         {isHovering && (

@@ -51,7 +51,7 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
         extendida ? "lg:w-[341px]" : "lg:w-16"
       } `}
     >
-      <div className={`flex flex-col w-min`}>
+      <div className={`flex flex-col w-min dark:text-white `}>
         <span className="h-24 w-full">
           <div
             className={` h-max pt-32 w-full overflow-x-clip justify-center items-center ${
@@ -61,11 +61,11 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
             <h3 className={`font-alata text-h3 whitespace-pre-wrap w-1/2 text-center`}>{pageTitle}</h3>
           </div>
         </span>
-        <div className="w-min h-full flex justify-center lg:flex-col items-start gap-8">
+        <div className="w-min h-full flex justify-center dark:text-white lg:flex-col items-start gap-8">
           <NavItems
             extendida={extendida}
             href={`/${user.username}/configurations/account`}
-            icon={<IconUser contrast />}
+            icon={<IconUser sidebar />}
             text={t("personal-informations-side-bar")}
           />
           <NavItems
