@@ -60,7 +60,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   };
 
   const sendRoute = (groupId: number) => {
-    if (project?.id != undefined) {
+    if (project?.id != undefined && global == "projectGroups") {
       router.push(
         "/" + user + "/" + project?.id + "/group/" + groupId)
     } else {
