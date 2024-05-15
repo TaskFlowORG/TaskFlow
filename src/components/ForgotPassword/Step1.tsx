@@ -19,9 +19,10 @@ type FormData = z.infer<typeof schema>;
 
 interface Props {
     setStep: (number: number) => void;
+    setForgotPassword: ( forgotPassword: boolean) => void;
 }
 
-export const Step1 = ({ setStep }: Props) => {
+export const Step1 = ({ setStep, setForgotPassword }: Props) => {
     const [forgotError, setForgotError] = useState<string>("");
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(schema),
@@ -64,8 +65,8 @@ export const Step1 = ({ setStep }: Props) => {
                 />
 
                 <div className="w-4/5 md:w-4/6 flex justify-center pb-4 md:pt-0">
-                    <p className='font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary' onClick={() => route.push("/login")}>
-                    {t("already-have-account")}
+                    <p className='font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary' onClick={() => setForgotPassword(false)}>
+                    {t("back-login")}
                     </p>
                 </div>
 
