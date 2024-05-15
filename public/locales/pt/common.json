@@ -57,6 +57,7 @@
   "confirm" : "Confirmar",
   "for" : "Para",
   "newPassword" : "Redefinir senha",
+  "didn't-receive" : "Não recebeu nenhum email?",
   "verify-code" : "Digite o código que foi enviado em seu e-mail",
   "register": "Cadastrar",
   "already-have-account": "Já possui uma conta?",

@@ -68,6 +68,7 @@ export const Step2 = ({ setStep }: Props) => {
         })
     }
 
+
     return (
         <>
 
@@ -116,6 +117,11 @@ export const Step2 = ({ setStep }: Props) => {
 
                 </div>
             </div>
+            <div className="w-4/5 md:w-4/6 flex justify-center pb-4 md:pt-0">
+                    <p className='font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary' onClick={() => setStep(1)}>
+                    {t("didn't-receive")}
+                    </p>
+                </div>
             <div className='flex justify-center w-4/5 pt-8 md:pt-0'>
                 <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={verifyCode}>
                    {t("confirm")}

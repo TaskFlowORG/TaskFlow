@@ -32,6 +32,7 @@
   "confirm" : "Confirm",
   "newPassword" : "Redefine password",
   "for" : "To",
+  "didn't-receive" : "Did you not receive any email?",
   "verify-code" : "Enter the code sent to your email",
   "register" : "Register",
   "already-have-account" : "Already have an account?",
