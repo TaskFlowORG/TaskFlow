@@ -18,14 +18,9 @@ export class User {
         public mail: string,                  
         public phone: string,                 
         public description: string,                   
-<<<<<<< HEAD
         public points: number,       
-        public authenticate : boolean,                
-=======
-        public points: number,
-        public authenticate: boolean,       
-                
->>>>>>> c2954940089a6368ef1011077a58b7939a8cffb5
+        public authenticate : boolean,                  
+
         public configuration: Configuration,                  
         public permissions: Permission[],       
         public notifications: Notification[],  
