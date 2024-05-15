@@ -41,8 +41,13 @@ export const PageSide = (
     setMerging(false);
     setPageMerging(undefined);
     const projectTemp = {...project};
-    projectTemp.pages = project.pages.filter((page) => pages.find((p) => p.id == page.id));
-    projectTemp.pages.push(...pages);
+    const indexes:{index:number, pageId:number}[] = pages.map((page) => ({index:project.pages.findIndex((p) => p.id == page.id), pageId: page.id})) ?? [];
+    for (let index of indexes) {
+      projectTemp.pages.splice(index.index, 1);
+    }
+    for (let page of pages) {
+      projectTemp.pages.splice(indexes.find((i) => i.pageId == page.id)!.index, 0, page);
+    }
     setProject!(projectTemp);
   };
 

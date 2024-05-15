@@ -74,6 +74,7 @@ export const Login = () => {
     });
   };
 
+
   return (
     <>
       <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
@@ -108,7 +109,8 @@ export const Login = () => {
                     <Input
                       className="inputRegister"
                       image={iconPassword}
-                      type="password"
+                      
+                      type={"password"}
                       placeholder={t("type-password")}
                       onChange={() => setLoginError("")}
                       value={user.password}
