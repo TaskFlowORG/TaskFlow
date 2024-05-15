@@ -207,8 +207,6 @@
   "checkbox": "Checkbox",
   "radio": "Radio",
   "progress": "Progresso",
-  "leave-group": "Dejar el grupo",
-  "delete-group": "Eliminar grupo",
   "time": "Tempo",
   "text-info": "Uma propriedade de texto é um campo de texto que pode ser preenchido com qualquer informação que você desejar. Nela você pode definir um tamanho máximo de caracteres entre outras configurações.",
   "archive-info": "Uma propriedade de arquivo é um campo que permite o upload de arquivos de qualquer tipo. Você pode definir o tamanho máximo do arquivo e outras configurações.",
