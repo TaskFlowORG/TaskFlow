@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import { If } from "@/components/If"
 import { UserContext } from "@/contexts/UserContext";
 import { archiveToSrc } from "@/functions";
@@ -10,12 +9,12 @@ import { PdfIcon } from "@/components/icons";
 interface messageContent {
     message: Message;
     lastMessage: Message
-    penultimaMensagem: boolean
+    firstMessageSequency: boolean
     key: number
     chatContent: Chat
 }
 
-export const MessageContent = ({ penultimaMensagem, lastMessage, message, key, chatContent }: messageContent) => {
+export const MessageContent = ({firstMessageSequency, message, chatContent }: messageContent) => {
     const messageDate = new Date(message.dateCreate);
     const hour = messageDate.toLocaleTimeString().slice(0, 5);
     const { user } = useContext(UserContext);
@@ -34,16 +33,16 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key, c
             <If condition={message.sender.id === user?.id}>
                 <div className="flex flex-row-reverse items-end">
                     <div className="flex flex-row-reverse text-contrast text-p font-montserrat gap-2">
-                        <div className={"rounded-full w-7 h-7 " + (penultimaMensagem ? "bg-primary" : "")}>
-                            <If condition={penultimaMensagem}>
+                        <div className={"rounded-full w-7 h-7 " + (firstMessageSequency ? "bg-primary" : "") }>
+                            <If condition={firstMessageSequency}>
                                 <Image width={28} height={28} className="rounded-full w-7 h-7" src={photoUrl} alt="foto" />
                             </If>
                         </div>
                         <div className="flex flex-row-reverse">
-                            <If condition={!penultimaMensagem}>
+                            <If condition={!firstMessageSequency}>
                                 <div className="pr-5"></div>
                             </If>
-                            <If condition={penultimaMensagem}>
+                            <If condition={firstMessageSequency}>
                                 <div className="w-5 h-5 rounded-br-[60%]" style={{ backgroundImage: "linear-gradient(to left, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                 </div>
                             </If>
@@ -87,24 +86,24 @@ export const MessageContent = ({ penultimaMensagem, lastMessage, message, key, c
             <If condition={message.sender.id != user?.id}>
                 <div className="flex items-end">
                     <div className="flex dark:text-white text-black text-p font-montserrat gap-2">
-                        <div className={"rounded-full w-7 h-7 " + (penultimaMensagem ? "bg-primary mb-4" : "")}>
-                            <If condition={penultimaMensagem}>
+                        <div className={"rounded-full w-7 h-7 " + (firstMessageSequency ? "bg-primary mb-4" : "")}>
+                            <If condition={firstMessageSequency}>
                                 <Image width={28} height={28} className="rounded-full w-7 h-7" src={photoUrl} alt="foto" />
                             </If>
                         </div>
                         <div className="flex flex-col">
                             <div className="ml-5">
-                                <If condition={penultimaMensagem && chatContent.type.toString() == "GROUP"}>
+                                <If condition={firstMessageSequency && chatContent.type.toString() == "GROUP"}>
                                     <div className="self-start  text-p font-alata h-fit opacity-100">
                                         <p>{message.sender.name}</p>
                                     </div>
                                 </If>
                             </div>
                             <div className="flex ">
-                                <If condition={!penultimaMensagem}>
+                                <If condition={!firstMessageSequency}>
                                     <div className="pr-5"></div>
                                 </If>
-                                <If condition={penultimaMensagem}>
+                                <If condition={firstMessageSequency}>
                                     <div className="bg-[#E9E7E7] dark:bg-gray-400  w-5 h-5 rounded-bl-[60%]">
                                     </div>
                                 </If>

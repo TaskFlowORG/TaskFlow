@@ -1,4 +1,5 @@
-import { MessageContent } from "../MessageContent/MessageContent"
+import Image from 'next/image'
+import { MessageContent } from "@/components/Chat/components/MessageContent";
 import { Chat, Message, OtherUser } from "@/models"
 import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
 import { chatService } from "@/services";
@@ -8,7 +9,6 @@ import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
-import Image from 'next/image'
 import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
 
@@ -21,8 +21,7 @@ interface MessageGroup {
     isFirst: boolean
     chatContent: Chat
 }
-
-export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatContent }: MessageGroup) => {
+export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: MessageGroup) => {
 
     const { user } = useContext(UserContext)
     const [mensagem, setMensagem] = useState<string>("")
@@ -45,21 +44,31 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
 
     useEffect(() => {
         scrollToBottom();
-        const k: any = messages.map((message, index) => ({
-            message: message, isFirst: messages.indexOf(message) == messages.length - 1 ? false : message.sender.id != messages[index - 1]?.sender.id
-        }))
-        setMensagens(k)
+        const k: any = messages.map((message, index) => {
+            const yesterday = new Date();
+            const otherDay = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const IsFirstMessage = messages.indexOf(message) == messages.length ? false : message.sender.id != messages[index - 1]?.sender.id
+            const isFirstMessageDateYesterday = compareDates(new Date(message.dateCreate), yesterday) && !compareDates(new Date(messages[index - 1]?.dateCreate), yesterday)
+            const isFirstMessageDateToday = compareDates(new Date(message.dateCreate), otherDay) && !compareDates(new Date(messages[index - 1]?.dateCreate), otherDay)
+            return {
+                message: message,
+                isFirst: IsFirstMessage || isFirstMessageDateToday || isFirstMessageDateYesterday
+            };
+        });
+        setMensagens(k);
     }, [messages]);
-
+    
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
 
     async function enviarMensagem() {
-        if (mensagem != "" || arquivoUrl != null) {
+        if (mensagem != "" || arquivoUrl != "") {
             await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!)
             setMensagem("")
             setArquivo(null)
+            setArquivoUrl("")
         } return
     }
 
@@ -70,8 +79,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
         })
     }
 
-    const firstMessageOfYesterday = (date: Date) => {
-        const yesterday = new Date();
+    const firstMessageOfYesterday = (yesterday: Date) => {
         yesterday.setDate(yesterday.getDate() - 1);
         return messages.find((message) => {
             const messageDate = new Date(message.dateCreate);
@@ -79,8 +87,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
         });
     };
 
-    const firstMessageOfOtherDay = (date: Date) => {
-        const otherDay = new Date();
+    const firstMessageOfOtherDay = (otherDay: Date) => {
         otherDay.setDate(otherDay.getDate() - 2);
         return messages.find((message) => {
             const messageDate = new Date(message.dateCreate);
@@ -133,8 +140,9 @@ export const ChatContent = ({ id, lastMessage, name, messages, isFirst, chatCont
                                                 <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDay() + "/" + new Date(mensagem.message.dateCreate).getMonth() + "/" + new Date(mensagem.message.dateCreate).getFullYear()}</p>
                                             </div>
                                         </div>
-                                    </If>
-                                    <MessageContent penultimaMensagem={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} chatContent={chatContent} />
+                                    </If><div>
+                                    </div>
+                                    <MessageContent firstMessageSequency={mensagem.isFirst} lastMessage={lastMessage} message={mensagem.message} key={index} chatContent={chatContent} />
                                 </>
                             ))}
                             <div ref={messagesEndRef} />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
 import { Chat, ChatGroupPost, ChatPrivatePost } from "@/models";
@@ -34,7 +34,6 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatAberto, setChatAberto] = useState<number>();
   const [chat, setChat] = useState<Chat>();
-  
 
 
   useEffect(() => {
@@ -78,7 +77,6 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   }, [search]);
 
   useEffect(() => {
-
     setFilteredChats(
       listaChats.filter((c) =>
         c.name.toUpperCase().includes(search.toUpperCase())
@@ -101,10 +99,10 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
       const list = [...listaChats];
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
-      if(chat && chat.id == chatTemp.id){
+      if (chat && chat.id == chatTemp.id) {
         const qtty = oldChat.quantityUnvisualized;
         chatTemp.quantityUnvisualized = qtty + 1;
-      }else{
+      } else {
         chatTemp.quantityUnvisualized = 0;
       }
       list.splice(list.indexOf(oldChat), 1);
@@ -121,131 +119,119 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   }, [chats])
 
   const handleChatClick = (chatId: number) => {
-      setChatAberto(chatId)
-      route.replace(`/${user?.username}/chat/${chatId}`);
+    setChatAberto(chatId)
+    route.replace(`/${user?.username}/chat/${chatId}`);
   };
 
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
     let chatPost;
     if (chat instanceof ChatGroupPost) {
-       chatPost = await chatService.saveGroup(chat).catch(e => setError(true));
+      chatPost = await chatService.saveGroup(chat).catch(e => setError(true));
     } else {
-      chatPost = await chatService.savePrivate(chat, chat.users[0].id).catch(e=> setError(true));
+      chatPost = await chatService.savePrivate(chat, chat.users[0].id).catch(e => setError(true));
     }
-    if(!chatPost) return;
+    if (!chatPost) return;
     setPossibleChats(possibleChats.filter((c) => c != chat));
     setCreatingChat(false);
     setFilteredChats([...filteredChats, chatPost]);
   };
 
-  const[error, setError] = useState<boolean>(false);
-
+  const [error, setError] = useState<boolean>(false);
 
   return (
     <>
-    <ChatContext.Provider value={{chat, setChat}}>
-
-      <div className="w-full h-[80vh] lg:h-[89vh] flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
-        <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
-          <div className="flex flex-col items-center w-full lg:h-full gap-4">
-            <div className="flex items-center lg:w-full w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">
-              <div className="flex items-center w-30 px-6 lg:h-full h-20">
-                <h3 className="text-h3 font-alata">Chats</h3>
-              </div>
-              <span className="flex w-full justify-end">
-                <div className={`flex justify-center duration-200 ${searchin ? "w-full" : "w-20"}`}>
-                  <div onClick={() => setSearching(!searchin)} className={`flex-row-reverse cursor-pointer flex items-center justify-center w-10 h-10 bg-primary dark:bg-secondary ${!searchin ? "rounded-full" : "rounded-l-lg"}`}>
-                    <div>
-                      <IconSearch classes="text-contrast" />
+      <ChatContext.Provider value={{ chat, setChat }}>
+        <div className="w-full h-[80vh] lg:h-[89vh] flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
+          <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
+            <div className="flex flex-col items-center w-full lg:h-full gap-4">
+              <div className="flex items-center lg:w-full w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">
+                <div className="flex items-center w-30 px-6 lg:h-full h-20">
+                  <h3 className="text-h3 font-alata">{t("chat")}</h3>
+                </div>
+                <span className="flex w-full justify-end">
+                  <div className={`flex justify-center duration-200 w-full`}>
+                    <div className={"flex items-center justify-center w-10 h-10 bg-primary dark:bg-secondary rounded-l-lg"}>
+                      <div>
+                        <IconSearch classes="text-contrast" />
+                      </div>
+                    </div>
+                    <div className="w-[80%]">
+                      <input
+                        placeholder={t("search-chat")}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="rounded-r-lg  w-full h-full text-black bg-white dark:bg-modal-grey outline-none px-4 font-montserrat text-p"
+                        type="text"
+                      />
                     </div>
                   </div>
-                  <div className={`w-[80%] ${searchin ? "visible" : "hidden"}`}>
-                    <input
-                      onChange={(e) => setSearch(e.target.value)}
-                      className="rounded-r-lg  w-full h-full  text-black bg-white outline-none px-4 font-montserrat"
-                      type="text"
-                    />
-                  </div>
-                </div>
-                <span className="relative justify-center duration-200 w-20">
-                  <button
-                    className="w-10 h-10 bg-primary rounded-full dark:bg-secondary p-2 rotate-45 relative"
-                    onClick={() => setCreatingChat(!creatingChat)}
-                  >
-                    <IconPlus classes="w-full h-full text-contrast" />
-                  </button>
-                  <LocalModal
-                    condition={creatingChat}
-                    setCondition={setCreatingChat}
-                  >
-                    <div className="h-min max-h-72 rounded-md w-52 bg-white p-4 dark:bg-modal-grey flex flex-col gap-2">
-                      {filteredPossibleChats.length == 0 ? (
-                        <p className="w-full font-alata text-center h-full">
-                          {t("no-possible-chats")}
-                        </p>
-                      ) : (
+                  <span className="relative justify-center duration-200 w-20">
+                    <button className="w-10 h-10 bg-primary rounded-full dark:bg-secondary p-2 rotate-45 relative" onClick={() => setCreatingChat(!creatingChat)}>
+                      <IconPlus classes="w-full h-full text-contrast" />
+                    </button>
+                    <LocalModal condition={creatingChat} setCondition={setCreatingChat}>
+                      <div className="h-min max-h-72 rounded-md w-72 bg-white p-4 dark:bg-modal-grey flex flex-col gap-2">
                         <>
-                          <input
-                            type="text"
-                            placeholder={t("search-chat")}
-                            className="w-full h-10 shadow-blur-10 rounded-md"
-                            onChange={(e) => setSearchNewChat(e.target.value)}
-                          />
+                          <div className="flex justify-center duration-200 w-full">
+                            <div className="flex items-center justify-center w-10 h-10 bg-primary dark:bg-secondary rounded-l-lg">
+                              <div>
+                                <IconSearch classes="text-contrast" />
+                              </div>
+                            </div>
+                            <div className="w-[85%]">
+                              <input type="text" onChange={(e) => setSearchNewChat(e.target.value)}
+                                className="px-4 font-montserrat w-full h-10 shadow-blur-10 rounded-r-md" placeholder={t("search-chat")} />
+
+                            </div>
+                          </div>
+                          <If condition={filteredPossibleChats.length == 0}>
+                            <p className="w-full font-alata text-center h-full">
+                              {t("no-possible-chats-create")}
+                            </p>
+                          </If>
                           <div className="w-full h-full flex flex-col gap-1">
                             {filteredPossibleChats.map((chat, index) => (
-                              <div
-                                onClick={() => (postChat(chat))}
-                                className="w-full cursor-pointer h-10 shadow-blur-10 rounded-md"
-                                key={index}
-                              >
+                              <div onClick={() => (postChat(chat))} className="w-full cursor-pointer h-10 font-alata shadow-blur-10 rounded-md flex justify-center items-center" key={index}>
                                 {chat.getName()}
                               </div>
                             ))}
                           </div>
                         </>
-                      )}
-                    </div>
-                  </LocalModal>
+                      </div>
+                    </LocalModal>
+                  </span>
                 </span>
-              </span>
-            </div>
-            <div className="w-full flex justify-around ">
-              <div onClick={() => setChatContentType("PRIVATE")} className=" cursor-pointer link-underline link-underline-black">
-                <h5 className="text-h5 font-alata ">Perfis</h5>
               </div>
-              <div onClick={() => setChatContentType("GROUP")} className=" cursor-pointer link-underline link-underline-black">
-                <h5 className="text-h5 font-alata">Grupos</h5>
+              <div className="w-full flex justify-around ">
+                <div onClick={() => setChatContentType("PRIVATE")} className=" cursor-pointer link-underline link-underline-black">
+                  <h5 className="text-h5 font-alata ">{t("profiles")}</h5>
+                </div>
+                <div onClick={() => setChatContentType("GROUP")} className=" cursor-pointer link-underline link-underline-black">
+                  <h5 className="text-h5 font-alata">{t("groups")}</h5>
+                </div>
               </div>
-            </div>
-            <div className={`w-full flex h-[72.5vh] lg:h-[73.5vh] lg:overflow-y-scroll overflow-auto`}>
-              <div className="w-full h-full flex  flex-col items-center ">
-                {filteredChats.length == 0 ? (
-                  <div className="h-full flex justify-center items-center">
-                    <ChatDontExists />
-                  </div>
-                ) : (
-                  filteredChats.map((chat, key) => (
-                    <>
-                      <If condition={chatContenteType == chat.type.toString()}>
-                        <ChatsBar
-                          key={chat.id}
-                          chat={chat}
-                          lastMessage={chat.lastMessage}
-                          date={chat.lastMessage?.dateCreate}
-                          onChatClick={handleChatClick}
-                        />
-                      </If>
-                    </>
-                  ))
-                )}
+              <div className={`w-full flex h-[72.5vh] lg:h-[73.5vh] lg:overflow-y-scroll overflow-auto`}>
+                <div className="w-full h-full flex  flex-col items-center ">
+                  {filteredChats.length == 0 ? (
+                    <div className="h-full flex justify-center items-center">
+                      <ChatDontExists />
+                    </div>
+                  ) : (
+                    filteredChats.map((chat) => (
+                      <>
+                        <If condition={chatContenteType == chat.type.toString()}>
+                          <ChatsBar key={chat.id} chat={chat} lastMessage={chat.lastMessage} date={chat.lastMessage?.dateCreate} onChatClick={handleChatClick} />
+                        </If>
+                      </>
+                    ))
+                  )}
+                </div>
               </div>
             </div>
           </div>
+          {children}
         </div>
-        {children}
-      </div>
-      <ErrorModal condition={error} fnOk={()=> setError(false)} message={t("error-create-chat")} title={t("error-create-chat-title")} setCondition={setError}  />
-    </ChatContext.Provider>
+        <ErrorModal condition={error} fnOk={() => setError(false)} message={t("error-create-chat")} title={t("error-create-chat-title")} setCondition={setError} />
+      </ChatContext.Provider>
     </>
-  );
+  )
 }

@@ -1,1 +1,1 @@
-export { ChatDontExists } from './ChatDontExists';
+export { ChatDontExists } from './ChatDontExists'

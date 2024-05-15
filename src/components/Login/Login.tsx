@@ -88,7 +88,7 @@ export const Login = () => {
                   id="modalLogin"
                   onSubmit={handleSubmit(login)}
                   className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
-                >
+             >
 
                   <span className="text-red-500 text-sm">{loginError ?? ""}</span>
 
@@ -96,7 +96,7 @@ export const Login = () => {
                     <Input
                       className="inputRegister"
                       image={iconUser}
-                      placeholder={t("type-password")}
+                      placeholder={t("type-username")}
                       value={user.username}
                       helperText={errors.username?.message}
                       register={{ ...register("username") }}

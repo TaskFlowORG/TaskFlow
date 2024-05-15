@@ -1,1 +1,1 @@
-export { SelectArchive } from './SelectArchive';
+export { SelectArchive } from './SelectArchive'

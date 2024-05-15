@@ -1,12 +1,12 @@
 'use client'
 
+import Image from 'next/image'
 import { If } from "@/components/If";
 import { ImagemEnviada, Visualized } from "@/components/icons";
 import { UserContext } from "@/contexts/UserContext";
 import { Chat, Message } from "@/models";
 import { chatService } from "@/services";
 import { useContext, useEffect, useState } from "react";
-import Image from 'next/image'
 import { archiveToSrc } from "@/functions";
 
 interface ChatProps {
@@ -16,6 +16,7 @@ interface ChatProps {
   date: Date
   onChatClick: (chatId: number) => void
 }
+
 export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) => {
 
   const [quantityUnvisualized, setQuantityUnvisualized] = useState<number>(chat.quantityUnvisualized)

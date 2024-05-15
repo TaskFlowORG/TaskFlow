@@ -291,6 +291,13 @@
   "page-not-found-cause": "Posibles causas: \n   - Has accedido a un enlace que no existe; \n   - Has intentado acceder a algo que no está registrado; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "forbidden-cause": "Posibles causas: \n   - No tienes permiso para acceder a esta página; \n   - Has intentado acceder a algo que no te pertenece; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "other-error-cause": "Posibles causas: \n   - El servidor está fuera de servicio; \n   - El enlace está roto; \n   - Se produjo un error interno en el servidor.",
+
+  "retry":"Intentar de nuevo",
+  "no-chat-opened":"Iniciar un chat con alguien para empezar a chatear",
+  "profiles": "Perfiles",
+  "no-possible-chats-create": "No hay ninguno chat para crear!",
+  "search-chat":"Buscar un chat",
+  "no-possible-chat":"No se encontraron chats", 
    "retry":"Intentar de nuevo",
    "without-groups" : "No hay grupos disponibles",
   "page-quantity":"Cantidad de páginas",

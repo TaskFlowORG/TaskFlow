@@ -6,6 +6,7 @@ import { chatService } from "@/services";
 import { Chat, Message } from "@/models";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { ChatContext } from "@/contexts/ChatsContext";
+
 type chattype = {
     chatId: number;
 }
@@ -27,7 +28,6 @@ export const ChatPage = ({ chatId }: chattype) => {
             setMessages(chat?.messages || [])
         })()
     }, [chatId]);
-
 
     useEffect(() => {
         if (!chatContent) return;
