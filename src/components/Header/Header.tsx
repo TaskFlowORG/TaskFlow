@@ -68,7 +68,7 @@ export const Header = ({
       />
 
       <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
-        <Link href={`/${user?.username}/chat/1`}>
+        <Link href={`/${user?.username}/chat`}>
           <img
             src="/Assets/themeLight/notification.svg"
             alt=""

@@ -26,8 +26,7 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
     }, [show])
 
     return (
-        <div ref={ref} className={"relative flex items-center select-none cursor-pointer rounded-md " + (openToTop ? "flex-col-reverse" : "flex-col")}
-        >
+        <div ref={ref} className={"relative flex items-center select-none cursor-pointer rounded-md " + (openToTop ? "flex-col-reverse" : "flex-col")}>
             <div onClick={() => !disabled && setShow(!show)} style={{ opacity: disabled ? "0.6" : '1' }} className={(show ?
                 "py-2 rounded-b-md h-full w-10 flex select-none justify-center items-center" : "")}>
                 <IconArchive classes="text-[#BDBDBD]"></IconArchive>
@@ -86,7 +85,5 @@ export const SelectArchive = ({ arquivoParaEnviar, previewArquivo, disabled }: P
                 }
             </AnimatePresence>
         </div>
-
     )
-
 }
