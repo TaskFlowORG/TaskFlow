@@ -15,7 +15,7 @@ export const Buttons = ({ updateTask }: Props) => {
     <div className="flex gap-4  w-full h-min justify-end items-center">
       <Button
         font="font-alata"
-        textSize=" text-mn md:text-p14 lg:text-p"
+        textSize=" text-mn md:text-p14  lg:text-p"
         text={t("cancel")}
         secondary={true}
         fnButton={() => {
@@ -29,7 +29,7 @@ export const Buttons = ({ updateTask }: Props) => {
       <Button
         font="font-alata"
         textSize=" text-mn md:text-p14 lg:text-p max-w-[80px] sm:max-w-full"
-        text={t("save-changes")}
+        text={"Salvar"}
         fnButton={() => updateTask()}
         paddingY="py-1"
         padding="p-4"

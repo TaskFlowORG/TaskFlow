@@ -34,6 +34,7 @@ export const Calendar = ({ page }: Props) => {
   );
   const {t} = useTranslation  ();
   const [month, setMonth] = useState<number>(0);
+  const [days, setDays] = useState<Array<Day>>([]);
   const [year, setYear] = useState<number>(0);
   const [modal, setModal] = useState<boolean>(false);
   const {user} = useContext(UserContext);
@@ -44,7 +45,8 @@ export const Calendar = ({ page }: Props) => {
     setYear(new Date().getUTCFullYear());
     const tasksPromise = page.tasks as TaskOrdered[];
     setTasks(tasksPromise);
-  }, [page.tasks]);
+    setDays(getDays());
+  }, [page.tasks, page]);
 
   function getPropertyValueOfOrdering(
     task: TaskOrdered,
@@ -197,7 +199,7 @@ export const Calendar = ({ page }: Props) => {
              {t("tasks-without-date")}
             </button>
           </span>
-          {getDays().map((d) => (
+          {days.map((d) => (
             <CalendarDay
               propOrd={page.propertyOrdering as DateProp}
               date={d}

@@ -33,7 +33,7 @@ export const Dictophone = ({setText}:{setText:(value:string)=> void}) => {
 
   return (
 <div>
-      <div className="w-8 h-full relative hidden sm:flex ">
+      <div className="w-8 h-full relative hidden sm:flex justify-center items-center">
         <Image
           src="/voice.svg"
           height={16}

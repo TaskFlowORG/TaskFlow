@@ -26,11 +26,16 @@ import { SideModal } from "../Modal";
 type RegisterPropertyProps = {
   project: Project;
   page?: Page;
-  setModalProperty: (value:boolean) => void;
+  setModalProperty: (value: boolean) => void;
   modalProperty: boolean;
 };
 
-export const RegisterProperty = ({ project, page, setModalProperty, modalProperty }: RegisterPropertyProps) => {
+export const RegisterProperty = ({
+  project,
+  page,
+  setModalProperty,
+  modalProperty,
+}: RegisterPropertyProps) => {
   const [isInProject, setIsInProject] = useState<boolean>(true);
   const [propertiesArray, setPropertiesArray] = useState<Property[]>(
     isInProject ? project.properties : page?.properties || []
@@ -205,7 +210,7 @@ export const RegisterProperty = ({ project, page, setModalProperty, modalPropert
       <Button
         width="w-full "
         text={t("add-property")}
-        fnButton={() => setModalProperty(true)}
+        fnButton={() => setModalPropertyRegister(true)}
         padding="p-2"
         paddingY="p-1"
         textSize="font-[14re]"
@@ -248,26 +253,23 @@ export const RegisterProperty = ({ project, page, setModalProperty, modalPropert
         />
         </div>
         </>
-    }
-    condition={modalProperty}
-    setCondition={setModalProperty}
-    right
-  >
-      
-        <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
-          {propertiesArray.map((property, index) => {
-            return (
-              <ModalProperty
-                key={index}
-                property={property}
-                deleteProperty={deleteProperty}
-                upDateProperties={upDateProperty}
-              />
-            );
-          })}
-        </div>
-      </SideModal>
-
-
+      }
+      condition={modalProperty}
+      setCondition={setModalProperty}
+      right
+    >
+      <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
+        {propertiesArray.map((property, index) => {
+          return (
+            <ModalProperty
+              key={index}
+              property={property}
+              deleteProperty={deleteProperty}
+              upDateProperties={upDateProperty}
+            />
+          );
+        })}
+      </div>
+    </SideModal>
   );
 };

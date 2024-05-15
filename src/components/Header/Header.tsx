@@ -4,7 +4,6 @@ import { useContext, useEffect, useState } from "react";
 import { LocalModal } from "../Modal";
 import { Notification as NotificationModel } from "@/models/Notification";
 import { Notification } from "../Notification";
-import { userService } from "@/services";
 import { IconSwitcherTheme } from "../icons/GeneralIcons/IconSwitcherTheme";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
 import { Language } from "@/models";
@@ -30,11 +29,13 @@ export const Header = ({
 
   useEffect(() => {
     if (!user?.notifications) return;
+    setNotifications(user.notifications);
+    setThereAreNotifications(user.notifications.find((notification) => !notification.visualized) ? true : false);
+
   }, [user]);
 
   const sound = new Audio("/Assets/sounds/pop.mp3");
   useEffect(() => {
-    console.log("play")
     const conection = onConnect(`/notifications/${user!.id}`, (message) => {
       const notification = JSON.parse(message.body);
       setNotifications((prev) => [notification, ...prev]);

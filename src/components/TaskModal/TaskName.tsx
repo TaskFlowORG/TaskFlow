@@ -1,4 +1,5 @@
 import { ProjectContext } from "@/contexts";
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { Project, Task } from "@/models";
 import { taskService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
@@ -23,12 +24,13 @@ export const TaskName = ({ task }: Props) => {
   }
 
   useEffect(() => {
-    if (taskNameRef.current) {
+    if (taskNameRef.current && hasPermission) {
       taskNameRef.current.focus();
       console.log(`FOQUEI PA CARALHO`);
     }
   }, [task]);
 
+  const hasPermission = useHasPermission("update");
   useEffect(() => {
     setTaskName(task?.name ?? "");
     if (task?.name) {
@@ -49,6 +51,7 @@ export const TaskName = ({ task }: Props) => {
       <input
         className=" text-h4 font-alata xl:text-h3 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
         ref={taskNameRef}
+        disabled={!hasPermission}
         placeholder={t("withoutname")}
         value={taskName}
         onKeyDown={(e) => {

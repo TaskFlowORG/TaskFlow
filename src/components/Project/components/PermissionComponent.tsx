@@ -140,18 +140,19 @@ export const PermissionComponent = ({
         />
         <If condition={project?.owner.id == user?.id}>
           <span className="flex items-center w-min h-min gap-2">
-            <If condition={!editing}>
-              <>
-                <span className="w-4 h-4 flex">
+          <span className="w-4 h-4 flex">
                   <IconDefault
                     isDefault={permission.isDefault}
+                    editing={editing}
                     className={
                       "text-contrast w-full h-full " +
                       (permission.isDefault ? "" : "cursor-pointer")
                     }
                     onClick={updateToDefault}
                   />
-                </span>
+                </span> 
+            <If condition={!editing}>
+              <>
                 <button
                   onClick={() => setEditing(true)}
                   className="w-4 h-4 stroke-contrast"
