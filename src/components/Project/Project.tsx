@@ -110,6 +110,11 @@ export const Project = () => {
     });
   };
 
+  const [src, setSrc] = useState<string>("/Assets/noImage.png");
+  useEffect(() => {
+    setSrc(archiveToSrc(project?.picture));
+  }, [project]);
+
   if (!user || !project) return <Loading />;
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
@@ -119,7 +124,7 @@ export const Project = () => {
             <div className="400:h-full h-16 w-16 400:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
-                src={archiveToSrc(project?.picture)}
+                src={src}
                 alt="Project Picture"
                 fill
               />

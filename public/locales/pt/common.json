@@ -207,7 +207,7 @@
   "text-info": "Uma propriedade de texto é um campo de texto que pode ser preenchido com qualquer informação que você desejar. Nela você pode definir um tamanho máximo de caracteres entre outras configurações.",
   "archive-info": "Uma propriedade de arquivo é um campo que permite o upload de arquivos de qualquer tipo. Você pode definir o tamanho máximo do arquivo e outras configurações.",
   "number-info": "Uma propriedade de número é um campo que aceita apenas números. Você pode definir um valor máximo, além de outras configurações.",
-  "date-info": "Uma propriedade de data é um campo que aceita apenas datas. Você pode definir como um agendamento ou prazo, dentre outras configurações.",
+  "date-info": "Uma propriedade de data é um campo que aceita apenas datas. \n - Agendamento/Prazo: ajuda o sistema a gerar notificações e as tarefas a serem exibidas na página inicial. \n - Pode Ser Passado: define se o valor da data pode ser no passado. \n - Incluir Horas: define se a data irá incluir horário",
   "select-info": "Uma propriedade de seleção é um campo que permite a escolha de uma opção entre várias. Você pode definir as opções disponíveis, além de outras configurações.",
   "user-info": "Uma propriedade de usuário é um campo que permite a escolha de um usuário ou mais. Você pode definir um número máximo de usuários, além de outras configurações.",
   "tag-info": "Uma propriedade de etiqueta é um campo que permite a escolha de uma ou mais etiquetas. Você pode definir as opções de etiquetas, além de outras configurações.",

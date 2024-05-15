@@ -69,7 +69,10 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
-
+    const [src, setSrc] = useState<string>("/Assets/noImage.png");
+    useEffect(() => {
+      setSrc(archiveToSrc(group?.picture));
+    }, [group]);
     return (
         <div className="flex pl-8 gap-4 items-start">
             <div>
@@ -77,7 +80,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     <div className="absolute inset-0 overflow-hidden rounded-full">
                         <Image
                             className="rounded-full"
-                            src={archiveToSrc(group?.picture)}
+                            src={src}
                             alt="Group Picture"
                             layout="fill"
                             objectFit="cover"

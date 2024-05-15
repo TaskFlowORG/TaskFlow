@@ -75,6 +75,11 @@ export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
         }
     }
 
+    const [src, setSrc] = useState<string >("/Assets/noImage.png");
+    useEffect(() => {
+      setSrc(archiveToSrc(group?.picture));
+    }, [group]);
+
     return (
         <div className="flex flex-row w-full gap-2 justify-between"
             onMouseEnter={() => setShowIcon(true)}
@@ -84,7 +89,7 @@ export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
                 {
                     screenSize != 'sm' ? (
                         <div className="relative rounded-full w-14 h-14 bg-zinc-300">
-                            <Image src={archiveToSrc(group?.picture)} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
+                            <Image src={src} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
                         </div>
 
                     ) : (
