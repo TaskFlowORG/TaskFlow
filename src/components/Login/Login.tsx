@@ -1,18 +1,15 @@
 "use client";
-import React, { use, useState } from "react";
+import React, {  useState } from "react";
 import { Input } from "@/components/Input";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useTheme } from "next-themes";
 import { Transition } from "../Transition";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userService } from "@/services";
-import { emailService } from "@/services/services/EmailService";
 import { TwoFactor } from "../TwoFactor";
+import { authentication } from "@/services/services/Authentication";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -58,23 +55,23 @@ export const Login = () => {
     console.log(data);
     setPasswordT(data.password.toString());
     setUsernameT(data.username.toString());
-    await signIn("credentials", {
+    await authentication.login({
       username: data.username,
-      password: data.password,
-      redirect: false,
-    }).then(async (value) => {
-      console.log(value);
-
+      password: data.password}).then(async (value) => {
       if (!value) return;
-
-      if (value.error?.includes("403")) {
-        route.push("/forgotPassword");
-      } else if (value.error?.includes("CredentialsSignin")) {
-        setTwoFactor(1)
-      } else if (!value || value.status === 401) {
-        setLoginError(t("login-error"));
-      } else {
+     else {
         route.push("/" + data.username);
+      }
+    }).catch((error) => {
+      console.log(error);
+      
+      if (error.response.status== 403) {
+        route.push("/forgotPassword");
+      } else if (error.response.status == 406) {
+        console.log('two factor');
+        setTwoFactor(1)
+      } else if (error.response.status == 401) {
+        setLoginError(t("login-error"));
       }
     });
   };
