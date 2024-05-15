@@ -321,6 +321,18 @@
    "page-not-found-cause": "Possíveis causas: \n   - Você acessou um link que não existe; \n   - Você tentou acessar algo que não foi cadastrado; \n   - A página foi removida; \n   - O link está quebrado.",
    "forbidden-cause": "Possíveis causas: \n   - Você não tem permissão para acessar essa página; \n   - Você tentou acessar algo que não é seu; \n   - A página foi removida; \n   - O link está quebrado.",
    "other-error-cause": "Possíveis causas: \n   - O servidor está fora do ar; \n   - O link está quebrado; \n   - Ocorreu um erro interno no servidor.",
-    "retry":"Tentar novamente"
+    "retry":"Tentar novamente",
+    "page-quantity":"Quantidade de páginas",
+    "groups-quantity":"Quantidade de grupos",
+    "properties-quantity":"Quantidade de propriedades",
+    "owner/member":"Dono/Membro",
+    "member":"Membro",
+    "all":"Todos",
+    "clear":"Limpar",
+
+    "revision":"Revisão de Tarefas",
+    "font-config":"Configuração de Fonte",
+    "font-config-desc":"Escolha um estilo de fonte para o seu texto, personalize a sua experiência de acordo com seus gostos pessoais."
+
   }
 

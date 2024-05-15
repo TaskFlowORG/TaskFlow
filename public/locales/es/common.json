@@ -292,6 +292,16 @@
   "forbidden-cause": "Posibles causas: \n   - No tienes permiso para acceder a esta página; \n   - Has intentado acceder a algo que no te pertenece; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "other-error-cause": "Posibles causas: \n   - El servidor está fuera de servicio; \n   - El enlace está roto; \n   - Se produjo un error interno en el servidor.",
    "retry":"Intentar de nuevo",
-   "without-groups" : "No hay grupos disponibles"
+   "without-groups" : "No hay grupos disponibles",
+  "page-quantity":"Cantidad de páginas",
+  "groups-quantity":"Cantidad de grupos",
+  "properties-quantity":"Cantidad de propiedades",
+  "owner/member":"Propietario/Miembro",
+  "member":"Miembro",
+  "all":"Todos",
+  "clear":"Limpiar",
+  "revision":"Revisión de Tareas",
+  "font-config":"Configuración de Fuente",
+  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales."
 
 }
