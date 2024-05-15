@@ -330,11 +330,14 @@
   "page-not-found-cause": "Possible causes: \n   - You accessed a non-existent link; \n   - You tried to access something that was not registered; \n   - The page has been removed; \n   - The link is broken.",
   "forbidden-cause": "Possible causes: \n   - You do not have permission to access this page; \n   - You tried to access something that is not yours; \n   - The page has been removed; \n   - The link is broken.",
   "other-error-cause": "Possible causes: \n   - The server is down; \n   - The link is broken; \n   - An internal server error occurred.",
+  "retry":"Retry",
+  "no-chat-opened":"Start a chat with someone to start talking!",
+  "profiles": "Profiles",
+  "no-possible-chats-create": "There are no chats to create!",
+  "search-chat":"Search for a chat",
+  "no-possible-chat":"No chats were found",
    "retry":"Retry",
    "without-groups" : "No groups available",
-   
-
-
    "page-quantity":"Pages quantity",
    "groups-quantity":"Groups quantity",
    "properties-quantity":"Propertys quantity",
