@@ -532,6 +532,10 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
+.thin-scrollbar::-webkit-scrollbar{
+  @apply w-[2px];
+}
+
 .none-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
