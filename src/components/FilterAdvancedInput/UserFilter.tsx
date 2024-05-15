@@ -66,6 +66,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
+            openUser
       resposiveClasses="hover:brightness-95"
       objs={valued
                 ?.map((userD) => users.find((user) => user.username == userD)!)

@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex gap-6">
           <img
             src="moon.svg"
-            className="dark:hidden cursor-pointer"
+            className="dark:hidden cursor-pointer brightness-[0.1]"
             alt=""
             onClick={() => setTheme("dark")}
           />

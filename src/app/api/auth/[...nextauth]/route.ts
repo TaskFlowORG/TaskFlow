@@ -5,7 +5,7 @@ import { UserLogin } from "@/models/user/user/UserLogin";
 import { cookies } from "next/headers";
 import { AuthOptions } from "next-auth";
 
-const options:AuthOptions = {
+const OPTIONS:AuthOptions = {
     providers: [
         CredentialProvider({
             name: "Credentials",
@@ -13,8 +13,10 @@ const options:AuthOptions = {
                 username: { label: "username", type: "text" },
                 password: { label: "password", type: "password" }
             },
+            
 
             async authorize(credentials): Promise<any> {
+                
                 return await authentication.login(new UserLogin(credentials!.username, credentials!.password), cookies).then((response) => {
 
                     cookies().set("username", credentials!.username);
@@ -33,5 +35,5 @@ const options:AuthOptions = {
 }
 
 
-const handler = NextAuth(options);
+const handler = NextAuth(OPTIONS);
 export { handler as GET, handler as POST };

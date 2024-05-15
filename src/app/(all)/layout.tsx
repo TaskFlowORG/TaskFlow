@@ -13,6 +13,7 @@ import i18next from "../../../i18n";
 import { TextToSpeechTeste } from "@/components/GeneralConfig/components/TextToSpeechTeste/TextToSpeechTeste";
 import ErrorBoundary from '@/components/ErrorPage/ErrorBoudary';
 import "@/styles/global.css";
+import Cookies from 'js-cookie';
 
 type Props = AppProps & {
   text: string
@@ -42,7 +43,6 @@ export default function Layout({ children, text }: Props) {
     document.documentElement.style.removeProperty('--font-size-mnAlata');
     document.documentElement.style.removeProperty('--common-font');
   }, [])
-
   
 
   return (

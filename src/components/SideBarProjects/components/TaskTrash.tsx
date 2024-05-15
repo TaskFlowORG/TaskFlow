@@ -22,6 +22,7 @@ export const TaskTrash = ({
 }: Props) => {
   const [modalDelete, setModalDelete] = useState(false);
   const { project, setProject } = useContext(ProjectContext);
+  const {t:translate} = useTranslation();
 
   const [user] = useState(
     task.logs.find((l) => l.action == Action.DELETE)?.user
@@ -55,18 +56,19 @@ export const TaskTrash = ({
           </span>
         </button>
         <div
-          className="truncate  text-p font-montserrat  h-full w-min flex items-center cursor-default"
-          title={`Tarefa "${task.name ?? t("withoutname")}" foi exluida por "${
-            user?.name
-          }"`}
+          className="truncate  text-p font-montserrat  h-full w-full flex items-center cursor-default"
+          title = {(task.name ? task.name : translate("withoutname")) + " " + translate("by")+ " @" + task.logs.reverse().find((l) => l.action == Action.DELETE)?.user?.username}
+
         >
-          <span className="truncate h-full w-min">
-            Tarefa &quot;{task.name ?? t("withoutname")}&quot; foi exluida por{" "}
-            {`"${user?.name}"`}
+          <span className="truncate h-full w-min flex flex-col text-start items-start">
+          &quot;{(task.name ? task.name : translate("withoutname"))}&quot;
+            <span className="text-primary-opacity dark:text-secondary-opacity text-mn">
+            {"@"+task.logs.reverse().find((l) => l.action == Action.DELETE)?.user?.username}
+            </span>
           </span>
         </div>
         <button
-          className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md"
+          className="bg-primary dark:bg-secondary cursor-pointer p-1 min-w-[2rem] min-h-[2rem] rounded-md"
           onClick={redo}
         >
           <IconRedo />

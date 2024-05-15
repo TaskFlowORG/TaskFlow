@@ -45,6 +45,7 @@ export const LanguageProvider = ({ children, setLanguage, language }:Props) => {
   // Função para alterar o idioma
   const changeLanguage = (lang: Language) => {
     i18n.changeLanguage(languageToString(lang));
+    Cookies.set("language", lang);
     setLanguage(lang);
   };
 

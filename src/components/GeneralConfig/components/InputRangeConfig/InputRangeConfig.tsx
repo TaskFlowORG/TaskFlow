@@ -35,8 +35,9 @@ export const InputRangeConfig = ({title, description}:Props) => {
                         <p className="text-p font-alata">{range}</p>
                     </div>
                     <RangeInput
-                        step={2}
+                        step={1}
                         min={12}
+                        bgColor= "bg-input-grey dark:bg-modal-grey"
                         max={18}
                         range={range}
                         setRange={(newValue) => { setRange(newValue ? +newValue : range), console.log(newValue) }}
