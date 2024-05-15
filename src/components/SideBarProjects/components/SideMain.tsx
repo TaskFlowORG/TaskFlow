@@ -61,5 +61,3 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
             </SideModal>
         </div>)
 }
-
-

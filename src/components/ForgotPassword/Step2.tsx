@@ -2,6 +2,7 @@
 import { Code } from "@/models/Code";
 import { emailService } from "@/services/services/EmailService";
 import { useState, useEffect, useRef } from "react"
+import { useTranslation } from "react-i18next";
 import { map } from "zod";
 
 interface Props {
@@ -14,7 +15,7 @@ export const Step2 = ({ setStep }: Props) => {
     const [number3, setNumber3] = useState<string>("");
     const [number4, setNumber4] = useState<string>("");
     const [error, setError] = useState<string>("");
-    
+
     const ref1 = useRef(null);
     const ref2 = useRef(null);
     const ref3 = useRef(null);
@@ -22,8 +23,9 @@ export const Step2 = ({ setStep }: Props) => {
 
     const [code, setCode] = useState<Code[]>();
     const [email, setEmail] = useState<string>("")
+    const { t } = useTranslation();
 
-    
+
 
     const handleChange = (value: string, setter: (value: string) => void) => {
         setter(value);
@@ -35,15 +37,15 @@ export const Step2 = ({ setStep }: Props) => {
         }
     };
 
-    useEffect(() =>{
+    useEffect(() => {
         fetchData()
     })
 
-    
-    const fetchData = async () =>{
+
+    const fetchData = async () => {
         const fetchedCode = await emailService.getCode()
         setCode(fetchedCode);
-        code?.map(c =>{
+        code?.map(c => {
             setEmail(c.email)
         })
     }
@@ -57,7 +59,7 @@ export const Step2 = ({ setStep }: Props) => {
 
         console.log(code);
 
-        code.map(c => { 
+        code.map(c => {
             if (concatenatedNumber.toString() === c.code) {
                 setStep(3);
             } else {
@@ -66,22 +68,24 @@ export const Step2 = ({ setStep }: Props) => {
         })
     }
 
+
     return (
         <>
-            <div className="flex items-center flex-col md:h-96 lg:w-2/6 md:w-1/2 w-10/12 1.5xl:w-1/4 shadow-blur-10 rounded-md bg-white dark:bg-modal-grey justify-between py-9">
-                <h4 className="h4 leading-6 w-60 flex py-2 md:py-0 text-center">Insira o código enviado em seu email</h4>
-                <h3 className="font-alata flex pt-2">Para: {email}</h3>
-                <span className="text-red-500 text-sm">{error ?? ""}</span>
 
-                <div className='gap-5 h-4/5 w-4/5 flex items-center justify-center'>
+            <h4 className="h4 leading-6 flex py-3 md:py-0 text-center">{t("verify-code")}</h4>
+            <h3 className="font-alata flex pt-2">{t("for")}: {email}</h3>
+            <span className="text-red-500 text-sm">{error ?? ""}</span>
+
+            <div className='flex items-center flex-col h-[40%] w-full '>
+                <div className='w-4/6 flex flex-row items-center justify-between py-8'>
                     <input
                         className="inputCode"
                         maxLength={1}
                         type="text"
                         value={number1}
-                         onChange={(e) => handleChange(e.target.value, setNumber1)}
-                         onKeyDown={(e) => handleKeyDown(e, ref2)}
-                         ref={ref1}
+                        onChange={(e) => handleChange(e.target.value, setNumber1)}
+                        onKeyDown={(e) => handleKeyDown(e, ref2)}
+                        ref={ref1}
                     />
                     <input
                         className="inputCode"
@@ -110,13 +114,20 @@ export const Step2 = ({ setStep }: Props) => {
                         onKeyDown={(e) => handleKeyDown(e, ref1)}
                         ref={ref4}
                     />
-                </div>
 
-                <div className='flex justify-end w-4/5 pt-8 md:pt-0'>
-                    <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={verifyCode}>
-                        Confirmar
-                    </button>
                 </div>
+            </div>
+            <div className="w-4/5 md:w-4/6 flex justify-center pb-4 md:pt-0">
+                    <p className='font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-primary' onClick={() => setStep(1)}>
+                    {t("didn't-receive")}
+                    </p>
+                </div>
+            <div className='flex justify-center w-4/5 pt-8 md:pt-0'>
+                <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={verifyCode}>
+                   {t("confirm")}
+                </button>
+
+
             </div>
         </>
     )
