@@ -32,7 +32,7 @@ export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) =
         <div ref={ref} className={"relative flex duration-100 select-nonecursor-pointer rounded-md " + (show ? " items-center shadow-[0_0_1px_1px_rgba(0,0,0,0.1)] justify-start  " : " items-center justify-center ") + (openToTop?"flex-col-reverse":"flex-col")}
         >
             <div onClick={() => !disabled && setShow(!show)} style={{ opacity: disabled ? "0.6" : '1' }} className={(show ?
-                " rounded-t-md p-2 w-10 h-8 flex select-none justify-center items-center bg-white dark:bg-back-grey" : "h-8  p-2")}>
+                " rounded-t-md p-2 w-10 h-8 flex select-none justify-center items-center bg-white dark:bg-back-grey " : "h-8  p-2")}>
                 {list.filter(item => item.value == selected)[0]?.image}
             </div>
             <AnimatePresence mode="wait" initial={false} >

@@ -26,11 +26,11 @@ export const RoundedCard = ({
   let style: Object = {};
   if (theme == "light") {
     style = {
-      borderColor: color ?? "#F04A94",
+      borderColor: color ?? "#var(--primary-color)",
     };
   } else {
     style = {
-      borderColor: dark ? dark : color ?? "#f76858",
+      borderColor: dark ? dark : color ?? "var(--secondary-color)",
     };
   }
   const {setSelectedTask, setIsOpen} = useContext(TaskModalContext);

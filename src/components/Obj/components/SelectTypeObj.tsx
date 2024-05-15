@@ -67,7 +67,7 @@ export const SelectTypeObj = ({
           setY(e.clientY);
           setOtherUser(o as OtherUser);
         }}
-        className={classes}
+        className={classes + " relative"}
         key={index}
         title={(o as OtherUser).name ?? t("withoutname")}
       >
@@ -84,7 +84,7 @@ export const SelectTypeObj = ({
           e.preventDefault();
           functionObj(o);
         }}
-        className={classes}
+        className={classes+ " relative"}
         key={index}
         title={(o as SimpleGroup).name ?? t("withoutname")}
       >
