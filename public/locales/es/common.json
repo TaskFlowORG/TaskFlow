@@ -306,6 +306,8 @@
   "no-possible-chat":"No se encontraron chats", 
    "retry":"Intentar de nuevo",
    "without-groups" : "No hay grupos disponibles",
+   "leave-group" : "Dejar el grupo",
+   "delete-group" : "Eliminar grupo",
   "page-quantity":"Cantidad de páginas",
   "groups-quantity":"Cantidad de grupos",
   "properties-quantity":"Cantidad de propiedades",
