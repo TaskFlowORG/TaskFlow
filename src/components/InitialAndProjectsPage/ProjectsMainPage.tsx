@@ -19,7 +19,7 @@ export const ProjectsMainPage = ({projects, user}:{projects?:ProjectSimple[], us
         </Link>
       </div>
       <div className="w-full projects-initial-page lg:h-full p-2 hidden lg:flex overflow-scroll none-scrollbar  flex-wrap gap-6">
-        {projects?.map((p) => {
+        {projects?.sort((p1, p2) => new Date(p2.visualizedAt).getTime()- new Date(p1.visualizedAt).getTime()).map((p) => {
           return <ProjectComponent project={p} key={p.id} user={user} />;
         })}
       </div>

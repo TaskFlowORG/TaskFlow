@@ -217,7 +217,7 @@
   "text-info": "A text property is a text field that can be filled with any information you want. You can define a maximum character size and other settings.",
   "archive-info": "An archive property is a field that allows the upload of files of any type. You can define the maximum file size and other settings.",
   "number-info": "A number property is a field that only accepts numbers. You can define a maximum value, among other settings.",
-  "date-info": "A date property is a field that only accepts dates. You can define it as a schedule or deadline, among other settings.",
+  "date-info": "A date property is a field that only accepts dates. \n - Scheduling/Deadline: helps the system generate notifications and tasks to be displayed on the home page. \n - Can Be Pass: defines whether the date value can be in the past. \n - Include Hours: defines whether the date will include time.",
   "select-info": "A select property is a field that allows the choice of one option among several. You can define the available options and other settings.",
   "user-info": "A user property is a field that allows the choice of one or more users. You can define a maximum number of users and other settings.",
   "tag-info": "A tag property is a field that allows the choice of one or more tags. You can define the tag options and other settings.",
@@ -336,7 +336,23 @@
   "page-not-found-cause": "Possible causes: \n   - You accessed a non-existent link; \n   - You tried to access something that was not registered; \n   - The page has been removed; \n   - The link is broken.",
   "forbidden-cause": "Possible causes: \n   - You do not have permission to access this page; \n   - You tried to access something that is not yours; \n   - The page has been removed; \n   - The link is broken.",
   "other-error-cause": "Possible causes: \n   - The server is down; \n   - The link is broken; \n   - An internal server error occurred.",
+  "retry":"Retry",
+  "no-chat-opened":"Start a chat with someone to start talking!",
+  "profiles": "Profiles",
+  "no-possible-chats-create": "There are no chats to create!",
+  "search-chat":"Search for a chat",
+  "no-possible-chat":"No chats were found",
    "retry":"Retry",
-   "without-groups" : "No groups available"
+   "without-groups" : "No groups available",
+   "page-quantity":"Pages quantity",
+   "groups-quantity":"Groups quantity",
+   "properties-quantity":"Propertys quantity",
+   "owner/member":"Owner/Member",
+   "member":"Member",
+   "all":"All",
+   "clear":"Clear",
+  "revision": "Task Revision",
+  "font-config": "Font Configuration",
+  "font-config-desc": "Choose a font style for your text, personalize your experience according to your personal preferences."
 
 }

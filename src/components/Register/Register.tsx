@@ -9,11 +9,11 @@ import { useTheme } from "next-themes";
 import { ProgressBar } from "./ProgressBar";
 import { useRouter } from "next/navigation";
 import { UserDetails } from "@/models/user/user/UserDetails";
-import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { authentication } from "@/services/services/Authentication";
 
 interface UserData {
   name: string;
@@ -98,12 +98,7 @@ export const Register = () => {
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
-        signIn("credentials", {
-        username,
-        password,
-        redirect: true,
-        callbackUrl: `/${username}`,
-      });
+        authentication.login({username, password});
       }).catch((error) => {
         if(!error.response) return;
         if(error.response.status == 409){

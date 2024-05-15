@@ -1,12 +1,8 @@
-import { LocalModal } from "@/components/Modal";
-import { OtherUserComponent } from "@/components/OtherUser";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
-import { archiveToSrc } from "@/functions";
 import { OtherUser, TaskPage } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
-import { set } from "zod";
+import { ImageObj } from "./ImageObj";
 
 interface SelectTypeObjProps {
   isTaskPage?: boolean;
@@ -77,7 +73,7 @@ export const SelectTypeObj = ({
       >
         {" "}
         {(o as OtherUser).picture && (
-          <img src={archiveToSrc((o as OtherUser).picture)} />
+          <ImageObj obj={o as OtherUser} />
         )}
       </div>
     );
@@ -93,7 +89,7 @@ export const SelectTypeObj = ({
         title={(o as SimpleGroup).name ?? t("withoutname")}
       >
         {(o as SimpleGroup).picture && (
-          <img src={archiveToSrc((o as SimpleGroup).picture)} />
+          <ImageObj obj={o as SimpleGroup} />
         )}
       </div>
     );

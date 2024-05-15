@@ -75,7 +75,7 @@ export const ModalRegisterProperty = ({
     "bg-transparent p outline-none w-[90%] h-full",
     isInModal ? "w-full" : ""
   );
-  const select = twMerge("w-8", isInModal ? "ml-3" : "");
+  const select = twMerge("w-14", isInModal ? "ml-3" : "");
   const {
     register,
     handleSubmit,

@@ -134,7 +134,6 @@ export const Canvas = ({ page, user }: Props) => {
             setShape={setShape}
           />
         </NeedPermission>
-        {/* <img src={archiveToSrc(page!.draw)} alt="" /> */}
       </div>
       <SelectedArea canvasRef={canvasRef} shape={shape} moving={moving} />
     </div>

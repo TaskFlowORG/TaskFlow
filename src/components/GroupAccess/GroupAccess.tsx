@@ -69,7 +69,10 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
         }
     }
-
+    const [src, setSrc] = useState<string>("/Assets/noImage.png");
+    useEffect(() => {
+      setSrc(archiveToSrc(group?.picture));
+    }, [group]);
     return (
         <div className="flex pl-8 gap-4 items-start">
             <div>
@@ -77,7 +80,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     <div className="absolute inset-0 overflow-hidden rounded-full">
                         <Image
                             className="rounded-full"
-                            src={archiveToSrc(group?.picture)}
+                            src={src}
                             alt="Group Picture"
                             layout="fill"
                             objectFit="cover"
@@ -93,6 +96,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                                 <input
                                     onChange={updatePicture}
                                     type="file"
+                                    accept="image/*"
                                     className="w-full h-full absolute cursor-pointer opacity-0"
                                 />
                             </span>
@@ -104,7 +108,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             <div className="flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
                     <input
-                        className=" text-[#333] text-h5 font-pAlata dark:text-[#FCFCFC] dark:bg-[#3C3C3C]"
+                        className=" text-[#333] text-h5 font-pAlata dark:text-[#FCFCFC] bg-transparent"
                         ref={refName}
                         disabled={group?.owner.id != user?.id}
                         type="text"
@@ -114,7 +118,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         onBlur={updateNameOfAGroup}
                     />
                     <textarea
-                        className={`text-p14 font-montserrat whitespace-pre-wrap w-56 md:w-[403px] dark:bg-[#3C3C3C] text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
+                        className={`text-p14 font-montserrat whitespace-pre-wrap w-56 md:w-[403px] bg-transparent text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         ref={refDescription}
                         disabled={group?.owner.id != user?.id}
                         value={description || t("withoutdescription")}

@@ -52,7 +52,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       listOfLists.push([]);
     }
     let count = 0;
-    projects?.filter(p => searchProject(p)).forEach((project) => {
+    projects?.sort((p1, p2) => new Date(p2.visualizedAt).getTime()- new Date(p1.visualizedAt).getTime()).filter(p => searchProject(p)).forEach((project) => {
       listOfLists[count].push(project);
       count = count === quantity - 1 ? 0 : count + 1;
     });
