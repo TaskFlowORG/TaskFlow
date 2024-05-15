@@ -11,7 +11,7 @@ export const Dev = ({ name, description }:Props) => {
             <div className="h-[92px] w-[92px] bg-white dark:bg-modal-grey absolute centeredAbsoluteTop z-[10] rounded-full shadowww">
 
             </div>
-            <p className="p h-full  text-justify  text-modal-grey dark:text-whites">{description} </p>
+            <p className="p h-full  text-justify  text-modal-grey dark:text-white">{description} </p>
         </div>
     )
 }

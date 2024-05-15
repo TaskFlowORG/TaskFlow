@@ -610,6 +610,7 @@ select::-ms-expand {
   @apply swiper-type-of-page;
 }
 
+
 .swiper-type-of-page-dark {
   --swiper-navigation-color: var(--secondary-color);
   --swiper-pagination-color: var(--secondary-color);

@@ -7,6 +7,7 @@ export const Headline = () => {
   return (
     <div
       className={`flex flex-col lg:w-1/2 1.5xl:w-1/3 p-4 md:p-6 gap-6 relative `}
+    
     >
       <h1 className="text-primary dark:text-white h2 lg:text-[56px] 1.5xl:whitespace-nowrap">
       {t('meet-taskFlow')

@@ -2,9 +2,13 @@ import { Dev } from "@/components/Dev";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "next-themes";
 
 export const Devs = () => {
   const [windowWidth, setWindowWidth] = useState<number>(0);
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   useEffect(() => {
     window.addEventListener("resize", () => {
       setWindowWidth(window.innerWidth);
@@ -52,14 +56,14 @@ export const Devs = () => {
   ];
 
   return (
-    <div className="w-full flex flex-col items-center gap-[5rem] py-10">
+    <div className="w-full flex flex-col items-center gap-[5rem] py-10" id="devs">
       <h2
         onClick={() => {
           // console.log(document.querySelector(".swiper-button-next"));
         }}
         className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center "
       >
-        Conheça nossos desenvolvedores!
+        {t("meet-our-developers")}
       </h2>
 
       <div className="flex gap-3 h-max items-center">
@@ -68,8 +72,8 @@ export const Devs = () => {
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           slidesPerView={changeView()}
           navigation={{
-            prevEl: ".swiper-button-prev",
-            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prevs",
+            nextEl: ".swiper-button-nexts",
           }}
           pagination={{ clickable: true }}
           onSwiper={(swiper: any) => console.log(swiper)}
@@ -82,8 +86,20 @@ export const Devs = () => {
               </SwiperSlide>
             );
           })}
-          <div className="swiper-button-prev "></div>
-          <div className="swiper-button-next"></div>
+          <div
+            className={`swiper-button-prevs ${
+              theme == "dark"
+                ? "swiper-type-of-page-k"
+                : "swiper-type-of-page-s"
+            }`}
+          ></div>
+          <div
+            className={`swiper-button-nexts ${
+              theme == "dark"
+                ? "swiper-type-of-page-k"
+                : "swiper-type-of-page-s"
+            }`}
+          ></div>
         </Swiper>
       </div>
     </div>

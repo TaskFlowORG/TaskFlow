@@ -20,14 +20,14 @@ export const Carousel = ({ change }: Props) => {
       img: "project.jpg",
       color: "#F04A94",
       text: t('platform-focus'),
-      title: "Projetos",
+      title: t('projects'),
       dark: "#FF871A",
     },
     {
       img: "moon.svg",
       color: "#EA35BE",
       text: t('tasks-description'),
-      title: "Tarefas",
+      title: t('tasks'),
       dark: "#D7541C",
     },
     {
@@ -35,7 +35,7 @@ export const Carousel = ({ change }: Props) => {
       color: "#E41CEF",
 
       text: t('properties-importance'),
-      title: "Propriedades",
+      title: t('property'),
       dark: "#F76858",
     },
   ];
