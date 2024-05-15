@@ -4,7 +4,6 @@ import { Api } from "../axios";
 import { User } from "@/models";
 import { AxiosResponse } from "axios";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
-import { UserRequest } from "@/models/user/user/UserRequest";
 class Authentication {
 
     async login(userlogin : UserLogin, cookies:() => ReadonlyRequestCookies): Promise<AxiosResponse<User>>{

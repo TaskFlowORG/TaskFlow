@@ -215,9 +215,7 @@ export const Register = () => {
                 helperText={errors.password?.message}
                 register={{ ...register("password") }}
                 required
-                classNameInput={
-                  "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
-                }
+                classNameInput={ "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"}
               />
               <Input
                 className="inputRegister"
@@ -227,9 +225,7 @@ export const Register = () => {
                 helperText={errors.confirmPassword?.message}
                 register={{ ...register("confirmPassword") }}
                 required
-                classNameInput={
-                  "w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"
-                }
+                classNameInput={"w-5/6 h-10 md:h-full outline-none px-5 dark:bg-modal-grey"}
               />
             </>
           )}

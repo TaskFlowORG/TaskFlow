@@ -99,7 +99,7 @@ export const Login = () => {
                     <Input
                       className="inputRegister"
                       image={iconUser}
-                      placeholder={t("type-password")}
+                      placeholder={t("register-username")}
                       value={user.username}
                       helperText={errors.username?.message}
                       register={{ ...register("username") }}
