@@ -77,7 +77,7 @@ export const Step2 = ({ setStep }: Props) => {
             <span className="text-red-500 text-sm">{error ?? ""}</span>
 
             <div className='flex items-center flex-col h-[40%] w-full '>
-                <div className='w-4/5 flex flex-row items-center justify-between py-8'>
+                <div className='w-4/6 flex flex-row items-center justify-between py-8'>
                     <input
                         className="inputCode"
                         maxLength={1}
