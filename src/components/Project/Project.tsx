@@ -212,7 +212,7 @@ export const Project = () => {
           </div>
         </div>
         <If condition={project?.owner.id == user?.id}>
-          <span className="self-end w-full smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
+          <span className="self-end w-full whitespace-nowrap smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
             <input
               type="checkbox"
               onChange={(e) => updateRevision(e.target.checked)}
