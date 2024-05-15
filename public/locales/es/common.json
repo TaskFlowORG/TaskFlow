@@ -229,7 +229,7 @@
   "text-info": "Una propiedad de texto es un campo de texto que puede ser llenado con cualquier información que desees. Puedes definir un tamaño máximo de caracteres y otras configuraciones.",
   "archive-info": "Una propiedad de archivo es un campo que permite subir archivos de cualquier tipo. Puedes definir el tamaño máximo del archivo y otras configuraciones.",
   "number-info": "Una propiedad de número es un campo que acepta solo números. Puedes definir un valor máximo y otras configuraciones.",
-  "date-info": "Una propiedad de fecha es un campo que acepta solo fechas. Puedes definirlo como una programación o fecha límite, entre otras configuraciones.",
+  "date-info": "Una propiedad de fecha es un campo que acepta solo fechas. \n - Programación/Fecha límite: ayuda al sistema a generar notificaciones y mostrar tareas en la página principal. \n - Puede ser en el pasado: define si el valor de la fecha puede ser en el pasado. \n - Incluir horas: define si la fecha incluirá la hora",
   "select-info": "Una propiedad de selección es un campo que permite elegir una opción entre varias. Puedes definir las opciones disponibles y otras configuraciones.",
   "user-info": "Una propiedad de usuario es un campo que permite elegir uno o más usuarios. Puedes definir un número máximo de usuarios y otras configuraciones.",
   "tag-info": "Una propiedad de etiqueta es un campo que permite elegir una o más etiquetas. Puedes definir las opciones de etiquetas y otras configuraciones.",
@@ -291,6 +291,17 @@
   "page-not-found-cause": "Posibles causas: \n   - Has accedido a un enlace que no existe; \n   - Has intentado acceder a algo que no está registrado; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "forbidden-cause": "Posibles causas: \n   - No tienes permiso para acceder a esta página; \n   - Has intentado acceder a algo que no te pertenece; \n   - La página ha sido eliminada; \n   - El enlace está roto.",
   "other-error-cause": "Posibles causas: \n   - El servidor está fuera de servicio; \n   - El enlace está roto; \n   - Se produjo un error interno en el servidor.",
-   "retry":"Intentar de nuevo"
+   "retry":"Intentar de nuevo",
+   "without-groups" : "No hay grupos disponibles",
+  "page-quantity":"Cantidad de páginas",
+  "groups-quantity":"Cantidad de grupos",
+  "properties-quantity":"Cantidad de propiedades",
+  "owner/member":"Propietario/Miembro",
+  "member":"Miembro",
+  "all":"Todos",
+  "clear":"Limpiar",
+  "revision":"Revisión de Tareas",
+  "font-config":"Configuración de Fuente",
+  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales."
 
 }

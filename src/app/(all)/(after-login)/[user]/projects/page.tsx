@@ -19,9 +19,9 @@ import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { FilterContext } from "@/utils/FilterlistContext";
 
 export default function Projects({ params }: { params: { user: string } }) {
-  
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [search, setSearch] = useState<string>("");
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] = useState<string>("");
   const router = useRouter();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects, setProjects } = useContext(ProjectsContext);
@@ -52,7 +52,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       listOfLists.push([]);
     }
     let count = 0;
-    projects?.filter(p => searchProject(p)).forEach((project) => {
+    projects?.sort((p1, p2) => new Date(p2.visualizedAt).getTime()- new Date(p1.visualizedAt).getTime()).filter(p => searchProject(p)).forEach((project) => {
       listOfLists[count].push(project);
       count = count === quantity - 1 ? 0 : count + 1;
     });
@@ -64,7 +64,7 @@ export default function Projects({ params }: { params: { user: string } }) {
     const searchLower = search.toLowerCase();
     return (
       project.name?.toLowerCase().includes(searchLower) ||
-      project.description?.toLowerCase().includes(searchLower) 
+      project.description?.toLowerCase().includes(searchLower)
     );
   }
 
@@ -78,7 +78,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       const projectsTemp = [...projects!];
       projectsTemp.push(newProject);
       setProjects!(projectsTemp);
-      router.push(`/${params.user}/${newProject.id}`);  
+      router.push(`/${params.user}/${newProject.id}`);
     });
   };
 
@@ -100,22 +100,22 @@ export default function Projects({ params }: { params: { user: string } }) {
               </FilterContext.Provider>
               <div className="w-min relative h-min">
 
-              <div
-                className="w-12 h-12 p-3 cursor-pointer bg-contrast aspect-square  rounded-full flex justify-center items-center"
-                onClick={() => setIsModalOpen((prev) => !prev)}
-              >
-                <IconFilter classes="text-primary dark:text-secondary" />
-              </div>
-              <LocalModal
-                right
-                condition={isModalOpen}
-                setCondition={setIsModalOpen}
-              >
-                <FilterProject
-                  projects={projects}
-                  generateList={generateList}
-                />
-              </LocalModal>
+                <div
+                  className="w-12 h-12 p-3 cursor-pointer bg-contrast aspect-square  rounded-full flex justify-center items-center"
+                  onClick={() => setIsModalOpen((prev) => !prev)}
+                >
+                  <IconFilter classes="text-primary dark:text-secondary" />
+                </div>
+                <LocalModal
+                  right
+                  condition={isModalOpen}
+                  setCondition={setIsModalOpen}
+                >
+                  <FilterProject
+                    projects={projects}
+                    generateList={generateList}
+                  />
+                </LocalModal>
               </div>
             </div>
           </div>

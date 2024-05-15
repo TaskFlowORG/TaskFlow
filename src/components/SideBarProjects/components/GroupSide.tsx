@@ -60,7 +60,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   };
 
   const sendRoute = (groupId: number) => {
-    if (project?.id != undefined) {
+    if (project?.id != undefined && global == "projectGroups") {
       router.push(
         "/" + user + "/" + project?.id + "/group/" + groupId)
     } else {
@@ -109,7 +109,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
       <div className="h-min relative w-full flex justify-center pt-4 ">
         <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
         <button
-          className="h-10 mr-32 w-48 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+          className="h-10 w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
           onClick={() =>
             global == "userGroups" ? addNewGroup() : setOpenModal(true)
           }
