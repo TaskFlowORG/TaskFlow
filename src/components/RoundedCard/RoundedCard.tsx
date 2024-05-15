@@ -26,7 +26,7 @@ export const RoundedCard = ({
   let style: Object = {};
   if (theme == "light") {
     style = {
-      borderColor: color ?? "#var(--primary-color)",
+      borderColor: color ?? "var(--primary-color)",
     };
   } else {
     style = {

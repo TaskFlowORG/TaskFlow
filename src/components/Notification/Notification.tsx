@@ -106,10 +106,12 @@ export const Notification = ({
       router.push(link);
       return;
     }
-    const projectTemp = await projectService.findOne(notification.auxObjId);
-    router.push(link);
+
     fnClick && fnClick();
+
+    router.push(link);
     if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
+      const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);
       const task = (projectTemp?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == notification.objId)?.task);
       console.log("TASK", task);

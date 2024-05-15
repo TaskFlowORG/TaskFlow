@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 import { InputComments } from "./Input";
 import Image from "next/image";
+import { IconSend } from "@/components/icons/GeneralIcons/IconSend";
 
 type Props = {
   input: string;
@@ -17,7 +18,7 @@ export const SendComment = ({ input, sendComment, setInput }: Props) => {
         onClick={sendComment}
       >
         <div className="w-[12px] h-[14px] md:w-[16px] md:h-[18px] relative">
-          <Image src={"/send.svg"} alt="Enviar mensagem" fill />
+          <IconSend />
         </div>
       </div>
     </div>
