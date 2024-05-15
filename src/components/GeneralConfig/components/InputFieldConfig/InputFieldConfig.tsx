@@ -23,7 +23,7 @@ export const InputFieldConfig = ({ id, type, label, value, onChange, checked}:Pr
                 </div>
             </div>
             <div className='flex items-center h-fit'>
-                <p className='text-p font-alata'>{value}</p>
+                <p className='text-p font-montserrat'>{value}</p>
             </div>
         </div>
 

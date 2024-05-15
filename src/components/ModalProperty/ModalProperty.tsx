@@ -47,6 +47,11 @@ export const ModalProperty = ({
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
 
+
+  const setOptionsFN = () => {
+    setOpenOptions(openOptions)
+    console.log(openOptions);
+  }
   useEffect(() => {
     setProp(property);
     if(property.type === TypeOfProperty.DATE){
@@ -117,12 +122,15 @@ export const ModalProperty = ({
         text={property.name}
         icon={fnReturnImageProperty(property.type)}
         openOptions={openOptions}
-        fnClick={() => setOpenOptions(true)}
-        fnOpenOptions={() => setOpenOptions(true)}
+
+        fnClick={() => {setOpenOptions(!openOptions)}}
+        fnOpenOptions={setOptionsFN}
+
         openOptionsRef={ref}
         isHovering={isHovering}
         hasButton
-      >
+      > 
+      
         <div className="w-full h-[90%] flex flex-col justify-center items-center dark:bg-modal-grey">
           <ContentModalProperty
             register={register}
@@ -158,6 +166,7 @@ export const ModalProperty = ({
             </NeedPermission>
           </div>
         </div>
+
       </SideBarButton>
       {ModalDelete && (
         <ModalDeleteProperty

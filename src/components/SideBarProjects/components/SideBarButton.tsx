@@ -40,7 +40,7 @@ export const SideBarButton = ({
   hasButton,
   openOptions,
   fnOpenOptions,
-  iconOptions = <Arrow className="rotate-90" />,
+  iconOptions = <Arrow className={openOptions ? "-rotate-90": "rotate-90"} />,
   openOptionsRef,
   link,
   pointerEventsNone,
@@ -50,13 +50,14 @@ export const SideBarButton = ({
 
   return (
     <div
+    ref={openOptionsRef}
+
       className={
         `w-full h-min relative border-b-2 flex flex-col border-primary-opacity 
        dark:border-secondary-opacity bg-white dark:bg-modal-grey ` +
         (pointerEventsNone ? " pointer-events-none" : "") +
         (openOptions ? "" : " hover:brightness-95 dark:hover:brightness-110")
       }
-      onClick={fnClick}
     >
       <div
         
@@ -64,19 +65,24 @@ export const SideBarButton = ({
         (renaming ? "cursor-text" : "cursor-pointer") + 
         (openOptions ? " border-b-2 border-zinc-200 dark:border-zinc-800" : "") }
         title={text}
+      onClick={fnClick}
+
       >
         <Link
           href={link ?? "#"}
           className="h-full w-full flex gap-4 flex-row items-center px-6"
         >
           <div className="w-12 h-12 hidden sm:flex aspect-square justify-center items-center stroke-primary dark:stroke-secondary">
+            <div className={"w-8 justify-center flex items-center" }>
             {icon}
+            </div>
+
           </div>
           <p
             className={
               "text-p font-montserrat text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
               (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
-              (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem]" : "smm:w-[6rem] sm:w-[9rem]")
+              (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem] " : "smm:w-[6rem] sm:w-[9rem]")
             }
             onBlur={fnRename}
             onKeyDown={fnRename}
@@ -89,15 +95,17 @@ export const SideBarButton = ({
         </Link>
         <If condition={isHovering != undefined && isHovering}>
           <div className="justify-center h-full w-8  flex flex-col">
+            
             <If condition={hasButton != undefined && hasButton}>
               <span
                 className={
-                  "h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey " +
-                  (openOptions ? "" : " hover:brightness-95")
+                  "h-8 w-8 p-2 mr-2 rounded-full bg-white dark:bg-modal-grey duration-300 " +
+                  (openOptions ? "rotate-180" : " hover:brightness-95")
                 }
                 onClick={fnOpenOptions}
               >
                 {iconOptions}
+                
               </span>
             </If>
           </div>
@@ -112,7 +120,6 @@ export const SideBarButton = ({
               animate={{ height: "150px" }}
               exit={{ transition: { delay: 0.1 }, height: 0 }}
               transition={{ duration: 0.1 }}
-              ref={openOptionsRef}
             >
               {children}
             </motion.span>

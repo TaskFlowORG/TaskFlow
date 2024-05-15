@@ -12,6 +12,7 @@ import {
   LimitedPost,
   Limited,
   Date as DateProp,
+  DateValued,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
@@ -26,12 +27,14 @@ import { RowProperty } from "./RowProperty";
 import { createValue } from "@/functions/createValue";
 
 import { useTranslation } from "react-i18next";
+import { useHasPermission } from "@/hooks/useHasPermission";
+import { NeedPermission } from "@/components/NeedPermission";
 
 type Props = {
   task: Task;
   filter: FilteredProperty[];
   users: OtherUser[];
-  setIsOpen: (bool: boolean) => void;
+  setIsOpen?: (bool: boolean) => void;
   setFilter: (array: FilteredProperty[]) => void;
   setList: (value: FilteredProperty | undefined) => void;
 };
@@ -48,6 +51,9 @@ export const TesPropertiesSide = ({
     []
   );
 
+  const hasPermissionUpdate = useHasPermission("update");
+  const hasPermissionDelete = useHasPermission("delete");
+
   type PropsForm = {
     property: PropertyValue;
     errors: string[];
@@ -57,7 +63,7 @@ export const TesPropertiesSide = ({
 
   useEffect(() => {
     let array: PropsForm[] = [];
-    task.properties.forEach((prop) => {
+    task?.properties.forEach((prop) => {
       if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
       array.push({ property: prop, errors: [] });
       console.log(array);
@@ -77,7 +83,9 @@ export const TesPropertiesSide = ({
     let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
     page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
     setProject!({ ...project! });
-    setIsOpen(false);
+    {
+      setIsOpen && setIsOpen(false);
+    }
   }
 
   const validateProps = (): boolean => {
@@ -152,8 +160,8 @@ export const TesPropertiesSide = ({
           case TypeOfProperty.DATE:
             if (!(propertyForm.property.property as DateProp).canBePass) {
               const currentDate = new Date();
-              console.log(new Date(propInput.value) < currentDate);
-              if (new Date(propInput.value) < currentDate) {
+              let isPass = testIfIsPass(propertyForm, currentDate, propInput)              
+              if (isPass) {
                 propertyForm.errors.push(
                   `Essa propriedade não pode estar no passado!`
                 );
@@ -184,10 +192,28 @@ export const TesPropertiesSide = ({
         }
       }
     });
-    return propertiesToValidate.find((prop) => prop.errors.length > 0)
+    return propertiesToValidate
+      .filter(
+        (prop) =>
+          !(
+            prop.property.property.type == TypeOfProperty.TIME ||
+            prop.property.property.type == TypeOfProperty.ARCHIVE
+          )
+      )
+      .find((prop) => prop.errors.length > 0)
       ? false
       : true;
   };
+
+  function testIfIsPass(propertyForm:PropsForm, currentDate:Date, propInput:FilteredProperty) {
+    if((propertyForm.property.property as DateProp).includesHours){
+     return  new Date(propInput.value) < currentDate
+    }else{
+      return new Date(propInput.value).getDate() < currentDate.getDate() && 
+      new Date(propInput.value).getMonth() < currentDate.getMonth() && 
+      new Date(propInput.value).getFullYear() < currentDate.getFullYear()
+    }
+  }
 
   async function updateTask() {
     if (!validateProps()) {
@@ -382,7 +408,9 @@ export const TesPropertiesSide = ({
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
-                      <IconsSelector property={prop.property} />
+                      <div className="w-5 aspect-square">
+                        <IconsSelector property={prop.property} />
+                      </div>
                       <p
                         className="font-montserrat text-p14 md:text-p"
                         // onClick={() => handleValidate()}
@@ -446,8 +474,10 @@ export const TesPropertiesSide = ({
           })}
         </div>
       </div>
+      <NeedPermission permission="create">
+        <AddPropertyButton setModalProperty={setModalProperty} />
+      </NeedPermission>
 
-      <AddPropertyButton setModalProperty={setModalProperty} />
       {modalProperty && (
         <div className="h-min">
           <ModalRegisterProperty
@@ -463,7 +493,9 @@ export const TesPropertiesSide = ({
         </div>
       )}
 
-      <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+      {(hasPermissionDelete || hasPermissionUpdate) && (
+        <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
+      )}
       <FooterTask deleteTask={deleteTask} updateTask={updateTask} />
     </div>
   );

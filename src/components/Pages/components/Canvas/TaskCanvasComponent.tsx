@@ -15,6 +15,8 @@ import { ProjectContext } from "@/contexts";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { If } from "@/components/If";
 import { useTranslation } from "next-i18next";
+import { UserContext } from "@/contexts/UserContext";
+import { Loading } from "@/components/Loading";
 
 interface Props {
   task: TaskCanvas;
@@ -22,6 +24,8 @@ interface Props {
   canvasRef: React.RefObject<HTMLCanvasElement>;
   page: CanvasPage | undefined;
   moving: boolean;
+  idTaskDragged: number | undefined;
+  setIdTaskDragged: (id: number | undefined) => void;
 }
 
 export const TaskCanvasComponent = ({
@@ -29,6 +33,8 @@ export const TaskCanvasComponent = ({
   elementRef,
   page,
   moving,
+  idTaskDragged, 
+  setIdTaskDragged
 }: Props) => {
   const [x, setX] = useState(task.x);
   const [y, setY] = useState(task.y);
@@ -43,6 +49,7 @@ export const TaskCanvasComponent = ({
   const mouseDown = (e: MouseEventReact) => {
     if (e.button == 1) return;
     setDragging(!moving);
+    setIdTaskDragged(task.id);
   };
 
   useEffect(() => {
@@ -69,7 +76,7 @@ export const TaskCanvasComponent = ({
     };
     const mouseUp = (e: Event) => {
       setDragging(false);
-      if (!page || !project) return;
+      if (!page || !project || task.id != idTaskDragged) return;
       pageService.updateTaskPage(project.id, task);
     };
     if (window.matchMedia("(any-pointer: coarse)").matches) {
@@ -98,6 +105,9 @@ export const TaskCanvasComponent = ({
     setSelectedTask(task.task);
   };
   const { t } = useTranslation();
+
+  const {user}= useContext(UserContext)
+  if(!user)return <Loading/>
   return (
     <div
       className="w-min h-min p-2 absolute transition-none select-none cursor-[url('/img/grabLight.svg'),auto] dark:cursor-[url('/img/grabDark.svg'),auto] "
@@ -110,8 +120,8 @@ export const TaskCanvasComponent = ({
       onMouseLeave={() => setMouseOver(false)}
     >
       <div className="w-min h-min pointer-events-none">
-        <RoundedCard>
-          <CardContent task={task.task} />
+        <RoundedCard completed={task.task.completed} waiting={task.task.waitingRevision}>
+          <CardContent task={task.task} user={user} />
         </RoundedCard>
       </div>
       <p className={"fixed left-10 bottom-5 duration-300 transition-opacity font-montserrat text-[14px] " + (mouseOver ? "" : "opacity-0")}>

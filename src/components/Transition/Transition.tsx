@@ -17,11 +17,11 @@ export const  Transition =({
   };
 
   return (
-    <button
+    <p
       className='font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary '
-      onClick={handleClick}
+      onMouseUp={handleClick}
     >
       {label}
-    </button>
+    </p>
   );
 }

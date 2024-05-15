@@ -1,4 +1,5 @@
 import { LocalModal } from "@/components/Modal";
+import { ImageObj } from "@/components/Obj/components/ImageObj";
 import { OtherUserComponent } from "@/components/OtherUser";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
@@ -78,11 +79,7 @@ export const FeaturedUser = () => {
             >
               <span className="flex gap-2 ">
                 <div className="w-8 h-8 rounded-full relative overflow-clip bg-zinc-400">
-                  <Image
-                    src={archiveToSrc(user.picture)}
-                    alt="User Picture"
-                    fill
-                  />
+                  <ImageObj obj={user} />
                 </div>
                 <p
                   className="w-40 truncate h-full items-center flex text-p font-montserrat"

@@ -1,1 +1,1 @@
-export {SVGGroupPage} from "./SVGGroupPage"
+export { SVGGroupPage } from "./SVGGroupPage";

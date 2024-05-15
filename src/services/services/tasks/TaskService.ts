@@ -28,7 +28,7 @@ class TaskService {
         await Api.delete(`task/project/${projectId}/${id}/permanent`, {withCredentials: true});
     }
 
-    async redo(id: number, projectId: string): Promise<Task> {
+    async redo(id: number, projectId: number): Promise<Task> {
         return ((await Api.put<Task>(`task/project/${projectId}/redo/${id}`, {withCredentials: true})).data);
     }
 
@@ -36,6 +36,12 @@ class TaskService {
         const response = await Api.patch<Task>(`task/${taskId}/project/${projectId}/complete`, {withCredentials: true});
         return response.data;
     }
+
+    async cancelComplete(taskId:number, projectId:number): Promise<Task> {
+        const response = await Api.patch<Task>(`task/${taskId}/project/${projectId}/complete-deny`, {withCredentials: true});
+        return response.data;
+    }
+
 
     async getDeletedTasks(project: number): Promise<Task[]> {
         const response = await Api.get<Task[]>(`task/project/${project}`, {withCredentials: true});

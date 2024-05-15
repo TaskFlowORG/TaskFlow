@@ -9,11 +9,11 @@ import { useTheme } from "next-themes";
 import { ProgressBar } from "./ProgressBar";
 import { useRouter } from "next/navigation";
 import { UserDetails } from "@/models/user/user/UserDetails";
-import { signIn } from "next-auth/react";
 import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { authentication } from "@/services/services/Authentication";
 
 interface UserData {
   name: string;
@@ -98,12 +98,7 @@ export const Register = () => {
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
-        signIn("credentials", {
-        username,
-        password,
-        redirect: true,
-        callbackUrl: `/${username}`,
-      });
+        authentication.login({username, password});
       }).catch((error) => {
         if(!error.response) return;
         if(error.response.status == 409){
@@ -139,11 +134,11 @@ export const Register = () => {
   const color = theme === "light" ? "#F04A94" : "#F76858";
 
   return (
-    <div className="flex h-full w-full  absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+    <div className="flex h-full w-full flex-col shadow-blur-10 rounded-md pb-8 absolute justify-center items-center bg-white dark:bg-modal-grey text-[#333] dark:text-[#FCFCFC]">
       <form
         onSubmit={handleSubmit(onSubmit, verifyStep)}
         id="modalRegister"
-        className="flex h-full items-center flex-col w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey  justify-between py-8"
+        className="flex h-full items-center flex-col w-full    justify-between pt-8"
       >
         <h4 className="h4 leading-6 flex py-2 md:py-0 mb-2">{t("register")}</h4>
         <ProgressBar step={step} color={color} /> 
@@ -234,7 +229,7 @@ export const Register = () => {
             </>
           )}
         </div>
-        <div className="flex justify-between w-5/6 mt-4">
+        <div className="flex justify-between w-5/6">
           {step === 0 && <span className="w-28 h-7"></span>}
           {step > 0 && (
             <button
@@ -263,8 +258,8 @@ export const Register = () => {
             </button>
           )}
         </div>
-        <Transition label={t("already-have-account")} href="/login" />
       </form>
+        <Transition label={t("already-have-account")} href="/login" />
 
     </div>
   );

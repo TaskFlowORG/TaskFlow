@@ -3,8 +3,14 @@ import { OtherUser } from "@/models"
 import { t } from "i18next"
 import { useTranslation } from "next-i18next"
 import Image from "next/image"
+import { use, useEffect, useState } from "react"
 
 export const OtherUserComponent = ({user}:{user:OtherUser}) => {
+    const [src, setSrc] = useState<string>("")
+
+    useEffect(() => {
+        setSrc(archiveToSrc(user.picture))
+    }, [user])
 
     const {t} = useTranslation();
     return (
@@ -12,7 +18,7 @@ export const OtherUserComponent = ({user}:{user:OtherUser}) => {
             <div className=" w-64  h-16 flex gap-2">
                 <div className=" rounded-full relative h-full aspect-square bg-zinc-400">
                     <Image
-                        src={archiveToSrc(user.picture)}
+                        src={src}
                         alt="User Picture"
                         fill
                     />

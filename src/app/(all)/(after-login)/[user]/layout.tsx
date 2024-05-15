@@ -55,6 +55,7 @@ export default function Layout({
       document.documentElement.style.setProperty('--font-size-p14', `${0.875 * user.configuration.fontSize}px`);
       document.documentElement.style.setProperty('--font-size-mn', `${0.75 * user.configuration.fontSize}px`);
       document.documentElement.style.setProperty('--font-size-mnAlata', `${0.75 * user.configuration.fontSize}px`);
+      document.documentElement.style.setProperty('--common-font', user.configuration.font);
       console.log("JALJLSDALKSJ")
       setTutorialIsMaded(user.configuration.isTutorialMade);
     })();

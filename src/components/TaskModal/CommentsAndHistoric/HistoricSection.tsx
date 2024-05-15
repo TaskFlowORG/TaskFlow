@@ -30,7 +30,7 @@ export const HistoricSection = ({
       </div>
       <PDFDownloadLink
         className="lg:text-p  text-p14 w-full flex gap-2 items-center justify-center  text-white border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
-        document={<Report task={task as Task} user={user} />}
+        document={<Report logged={task} user={user} />}
       >
         Gerar Relatório
         <PdfIcon />

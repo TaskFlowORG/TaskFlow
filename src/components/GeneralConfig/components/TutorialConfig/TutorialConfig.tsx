@@ -45,7 +45,7 @@ export const TutorialConfig = () => {
                 <div className="w-fit h-full flex flex-col justify-around">
                     <div className="bg-primary dark:bg-secondary w-40 h-11 rounded-md flex items-center justify-center cursor-pointer " onClick={() => setModalRefazer(true)}>
 
-                        <p className="text-p font-alata text-white ">{t("redo-tutorial-config")}</p>
+                        <p className="text-p font-alata text-contrast ">{t("redo-tutorial-config")}</p>
 
                     </div>
                 </div>

@@ -87,7 +87,9 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
           username: log.user.username,
         });
       case Action.DELETE:
-        return t(isInModal ? "log-delete-task" : "");
+        return t(isInModal ? "log-delete-task" : "", {
+          username: log.user.username,
+        });
       case Action.REDO:
         return t(isInModal ? "log-redo-task" : "", {
           username: log.user.username,

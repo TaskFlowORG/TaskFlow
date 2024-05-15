@@ -23,7 +23,7 @@ export const NotificationIcon = (props: { type: TypeOfNotification }) => {
             return <IconCalendar />;
         case TypeOfNotification.CHAT:
             return <IconChat />
-        case TypeOfNotification.COMMENT:
+        case TypeOfNotification.COMMENTS:
             return <IconChat />
         case TypeOfNotification.INVITETOPROJECT:
             return <IconInvite classes="text-primary dark:text-secondary"/>

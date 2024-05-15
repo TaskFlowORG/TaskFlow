@@ -13,6 +13,7 @@ export class    OtherUser {
         public phone: string = "",
         public description: string = "",
         public points: number = 0,
+        public authenticate?: boolean,     
         public permissions:Permission[] = [],
         ){
             
