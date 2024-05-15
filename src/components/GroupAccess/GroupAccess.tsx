@@ -93,6 +93,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                                 <input
                                     onChange={updatePicture}
                                     type="file"
+                                    accept="image/*"
                                     className="w-full h-full absolute cursor-pointer opacity-0"
                                 />
                             </span>
