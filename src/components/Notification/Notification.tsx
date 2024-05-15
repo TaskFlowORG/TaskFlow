@@ -1,6 +1,6 @@
 import { UserContext } from "@/contexts/UserContext";
 import { Notification as NotificationModel } from "@/models/Notification";
-import { userService } from "@/services";
+import { projectService, userService } from "@/services";
 import Link from "next/link";
 import {  useContext, useEffect, useState } from "react";
 import { NotificationIcon, NotificationTitle } from "./components";
@@ -99,15 +99,20 @@ export const Notification = ({
   };
 
   const handleClick = async (e:any) => {
-    console.log("not stoped")
     if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
       clickNotification(e);
     }
-
+    if(notification.auxObjId == null) {
+      router.push(link);
+      return;
+    }
+    const projectTemp = await projectService.findOne(notification.auxObjId);
+    router.push(link);
     fnClick && fnClick();
-    if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENTS){
+    if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
       setIsOpen && setIsOpen(true);
-      const task = (project?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == idTask)?.task);
+      const task = (projectTemp?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == notification.objId)?.task);
+      console.log("TASK", task);
       setSelectedTask && task && setSelectedTask(task);
     }
   }

@@ -34,7 +34,6 @@ export const InputCoresConfig = ({
               isString
             />
           </div>
-          <div className="w-8 h-8 bg-secondary dark:bg-primary rounded-full " />
         </span>
       </div>
       <div>
