@@ -9,6 +9,7 @@ import {
   ArchiveValued,
   UserValued,
   User,
+  Archive,
 } from "@/models";
 import { Interval } from "@/models/values/Interval";
 import { useTranslation } from "react-i18next";
@@ -46,7 +47,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
       case TypeOfProperty.RADIO:
         return (log.value.value.value as Option).name;
       case TypeOfProperty.ARCHIVE:
-        return (log.value.value.value as ArchiveValued).archive?.name ?? "";
+        return (log.value.value.value as Archive).name;
       case TypeOfProperty.TIME:
         return (
           (log.value.value.value as Interval).time.hours +
@@ -64,7 +65,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
               ? user.username + ", "
               : user.username
         );
-        break;
+      
       case TypeOfProperty.DATE:
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
