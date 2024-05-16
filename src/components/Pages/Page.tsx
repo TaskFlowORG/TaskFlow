@@ -45,14 +45,21 @@ export const Page = ({
 }) => {
   const context = useContext(FilterContext);
   useEffect(() => {
+    console.log("FOI AQUI TBM");
+
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
       showTask(task.task, context)
     ) as TaskPage[];
     setPage(pageTemp as PageModel);
-  }, [context.filterProp, context.input]);
+  }, [context.filterProp, context.input, tasks]);
 
-  if(page.type == TypeOfPage.CANVAS) return <span className="page"><Canvas page={page as CanvasPage} /></span>
+  if (page.type == TypeOfPage.CANVAS)
+    return (
+      <span className="page">
+        <Canvas page={page as CanvasPage} />
+      </span>
+    );
 
   function getPage(page: PageModel) {
     switch (page?.type) {
@@ -93,15 +100,10 @@ export const Page = ({
     }
   }
 
-
   return (
     <div className="w-screen h-screen pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
       <div className="w-full h-full">
-        <If
-          condition={
-            page?.type != TypeOfPage.CALENDAR
-          }
-        >
+        <If condition={page?.type != TypeOfPage.CALENDAR}>
           <div className=" flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
             <div className="flex gap-4 items-center">
               <h1

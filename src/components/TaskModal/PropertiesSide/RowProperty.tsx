@@ -118,6 +118,7 @@ export const RowProperty = ({
       return (
         <DateFilter
           isInModal
+          property={prop.property}
           id={prop.property.id}
           name={prop.property.name}
           value={prop.value?.value}

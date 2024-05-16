@@ -11,29 +11,36 @@ interface Props {
 }
 
 export const Carousel = ({ change }: Props) => {
+
+  const {theme} = useTheme()
     
-  const [image, setImage] = useState<string>("project.jpg");
+  const [image, setImage] = useState<string>("projectsSide.svg");
+  const [imageDark, setImageDark] = useState<string>("projectsSideDark.svg");
   const {t} = useTranslation()
+
+
 
   const functions = [
     {
-      img: "project.jpg",
+      img: "projectsSide.svg",
+      imgDark:"projectsSideDark.svg",
       color: "#F04A94",
       text: t('platform-focus'),
       title: t('projects'),
       dark: "#FF871A",
     },
     {
-      img: "moon.svg",
+      img:"tasksSide.svg",
+      imgDark:"tasksSideDark.svg" ,
       color: "#EA35BE",
       text: t('tasks-description'),
       title: t('tasks'),
       dark: "#D7541C",
     },
     {
-      img: "language.svg",
+      img: "propertiesSide.svg",
+      imgDark:"propertiesSideDark.svg" ,
       color: "#E41CEF",
-
       text: t('properties-importance'),
       title: t('property'),
       dark: "#F76858",
@@ -56,7 +63,7 @@ export const Carousel = ({ change }: Props) => {
             <SwiperSlide key={index}>
               <div className="p-4 flex justify-center w-full">
                 <RoundedCard
-                  changeImage={() => setImage(slide.img)}
+              changeImage={() => {setImage(slide.img); setImageDark(slide.imgDark)}}
                   dark={slide.dark}
                   color={slide.color}
                 >
@@ -74,7 +81,7 @@ export const Carousel = ({ change }: Props) => {
       </Swiper>
 
       <div className="w-full p-8">
-        <img src={image} alt="" className="w-full" />
+        <img src={theme == 'light' ? "/"+image : "/"+imageDark} alt="" className="w-full" />
       </div>
     </>
   );

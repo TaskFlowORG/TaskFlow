@@ -64,6 +64,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
           } else if (property.type === TypeOfProperty.DATE) {
             return (
               <DateFilter
+              property={property}
                 name={property.name}
                 id={property.id}
                 value={prop?.value ?? ""}

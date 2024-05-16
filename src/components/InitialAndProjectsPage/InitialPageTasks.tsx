@@ -3,12 +3,14 @@ import { useTranslation } from "next-i18next";
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
 import { Task } from "@/models";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { UserContext } from "@/contexts/UserContext";
 
 
 export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
 
     const {t} = useTranslation()
+    const {user} = useContext(UserContext)
 
 
     return (
@@ -22,7 +24,7 @@ export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
                     tasks.map(t => {
                         return <div className="h-min w-min flex items-center" key={t.id}>
                             <RoundedCard>
-                                <CardContent task={t} />
+                                <CardContent user={user!} task={t} />
                             </RoundedCard>
                         </div>
                     }) :

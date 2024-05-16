@@ -1,4 +1,6 @@
+
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { Date, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
@@ -9,12 +11,14 @@ interface DateProps {
   name: string;
   value: string;
   isInModal?: boolean;
+  property:Property;
 }
 
 export const  DateFilter = ({
   name,
   value,
   id,
+  property,
   isInModal = false,
 }: DateProps) => {
   const [valued, setValued] = useState("");
@@ -45,7 +49,7 @@ export const  DateFilter = ({
       <input
         disabled={ !isInModal ? false : !hasPermission}
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
-        type="date"
+        type={ (property as Date).includesHours ? "datetime-local" : "date"}
         value={valued}
         placeholder={t('insert-expected-value')}
         onChange={(e) => {

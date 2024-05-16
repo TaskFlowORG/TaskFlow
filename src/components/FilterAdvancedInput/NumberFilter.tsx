@@ -104,7 +104,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             }}
             className="bg-primary dark:bg-secondary bah rounded-l-lg w-6 relative -order-1"
           >
-            <p className="absolute  text-white left-1/2 top-[6px] leading-none -translate-x-1/2">
+            <p className="absolute  text-contrast left-1/2 top-[6px] leading-none -translate-x-1/2">
               -
             </p>
           </span>
@@ -130,7 +130,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
             }}
             className="bg-primary dark:bg-secondary bah rounded-r-lg w-6 relative right"
           >
-            <p className="absolute  text-white leading-none left-1/2 top-[6px] -translate-x-1/2">
+            <p className="absolute  text-contrast leading-none left-1/2 top-[6px] -translate-x-1/2">
               +
             </p>
           </span>

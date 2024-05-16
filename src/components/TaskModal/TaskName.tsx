@@ -18,9 +18,11 @@ export const TaskName = ({ task }: Props) => {
   const taskNameRef = useRef<any>(null);
   const { t } = useTranslation();
   async function updateNameTask(e: any) {
-    task.name = e.target.value;
-    setTaskName(e.target.value);
-    await taskService.upDate(task as Task, project!.id);
+    if (task.name != e.target.value){
+      task.name = e.target.value;
+      setTaskName(e.target.value);
+      await taskService.upDate(task as Task, project!.id);
+    }
   }
 
   useEffect(() => {

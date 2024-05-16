@@ -8,9 +8,9 @@ export const Footer = () => {
         <div className="h-[250px] w-full bg-primary dark:bg-secondary flex justify-center flex-col items-center">
 
             <div className="h-5/6 w-4/5 lg:w-3/5 flex justify-between" >
-                <div className="flex flex-col justify-center w-1/3">
+                <div className="flex flex-col justify-center w-2/5">
                     <img src="/Assets/logo/iconDark.svg" alt="" className="h-[80px] lg:h-[128px] md:h-[100px] lg:w-[121px] md:w-[98px] w-[78px]" />
-                    <p className=" font-alata h5 text-white">A organização que te liberta! </p>
+                    <p className=" font-alata h5 text-white">{t('organization-freedom')}</p>
                 </div>
 
                 <div className="flex flex-col justify-start w-[60%] lg:w-full ">
@@ -25,7 +25,7 @@ export const Footer = () => {
             </div>
 
             <div className="h-1/6 w-full bg-white dark:bg-back-grey flex justify-center items-center">
-                    <p className="font-alata text-primary dark:text-white">© TaskFlow. Todos os direitos reservados</p>
+                    <p className="font-alata text-primary dark:text-white">{t('copyright')}</p>
 
                 </div>
 

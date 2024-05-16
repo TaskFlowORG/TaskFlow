@@ -36,7 +36,7 @@ export const HowWorks = () => {
   return (
     <>
       <div className="flex flex-col w-full  items-center gap-8 lg:gap-16 " id="howworks">
-        <h2 className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
+        <h2 className="text-h3 font-alata w-full text-primary lg:text-h2 dark:text-white  text-center ">
          {t('taskflow-functionality')}
         </h2>
         {windowWidth < 1024 ? <Carousel change={changeView} /> : <Default />}

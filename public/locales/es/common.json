@@ -206,6 +206,8 @@
   "commitment-to-excellence": "En TaskFlow, nos comprometemos con la excelencia en cada aspecto de nuestro trabajo. Nuestro principio fundamental es la búsqueda constante de calidad en todas nuestras acciones.",
   "values": "Valores",
   "our-values": "¡Nuestros Valores!",
+  "copyright": "© TaskFlow. Todos los derechos reservados",
+  "organization-freedom": "¡La organización que te libera!",
   "choice-another-permission": "Elige otro permiso",
   "cant-delete-permission": "No puedes eliminar este permiso",
   "notification-invite": "Tu grupo ha sido invitado a unirse al proyecto '{{aux}}'",

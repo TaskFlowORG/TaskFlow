@@ -321,6 +321,7 @@
   "project-report": "Projects Report",
   "you-are-owner": "You have projects or groups where you are the owner, and they are assigned to other users as well. To prevent others from losing access to them, you need to change the owner of your projects/groups to someone else.",
   "change-owners": "Change owners",
+  "organization-freedom": "The organization that sets you free!",
   "page-not-found-title": "Oops! Page not found",
   "mission-statement": "Our mission is to simplify task management, empowering teams with innovative and collaborative solutions. We value continuous improvement in everything we do.",
   "mission": "Mission",
@@ -331,6 +332,8 @@
   "commitment-to-excellence": "At TaskFlow, we are committed to excellence in every aspect of our work. Our fundamental principle is the relentless pursuit of quality in all our actions.",
   "values": "Values",
   "our-values": "Our Values!",
+  "copyright": "© TaskFlow. All rights reserved",
+
   "forbidden-title": "Oops! Access denied",
   "other-error-title": "Oops! Something went wrong!",
   "page-not-found": "The page you are trying to access does not exist or has been removed.",

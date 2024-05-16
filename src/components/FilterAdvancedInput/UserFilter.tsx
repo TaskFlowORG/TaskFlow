@@ -118,7 +118,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                     setIsOpen(!isOpen);
                   }}
                 >
-                  <div className="stroke-white rotate-45">
+                  <div className="stroke-contrast rotate-45">
                     <IconPlus></IconPlus>
                   </div>
                 </div>
@@ -126,8 +126,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                   className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
                   onClick={() => setIsOpenRemove(!isOpenRemove)}
                 >
-                  <div className="stroke-white rotate-90">
-                    <p className="font-semibold leading-none text-[10px]">l</p>
+                  <div className=" rotate-90">
+                    <p className="font-semibold leading-none text-[10px] text-contrast">l</p>
                   </div>
                 </div>
               </div>
