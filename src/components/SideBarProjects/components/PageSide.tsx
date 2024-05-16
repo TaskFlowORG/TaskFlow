@@ -101,7 +101,7 @@ export const PageSide = (
           );
         })}
       </div>
-      <div className="h-12 w-32 smm:w-40 sm:w-64  bottom-2">
+      <div className="h-12 w-32 smm:w-40 sm:w-64 relative bottom-2">
 
         <If condition={merging}>
           <div className="flex justify-between w-full h-full">
@@ -139,7 +139,9 @@ export const PageSide = (
             />
           </NeedPermission>
         </If>
-        <LocalModal condition={modal} setCondition={setModal} bottom>
+      </div>
+        <LocalModal condition={modal} setCondition={setModal} bottom 
+        classesPosition="right-[32%] smm:-right-[20%] bottom-[8%]  absolute" classesOrigin="origin-bottom smm:origin-bottom-left">
           <TypeOfPageComponent
             type={type}
 
@@ -150,7 +152,6 @@ export const PageSide = (
             changeType={insert}
           />
         </LocalModal>
-      </div>
     </>
   );
 };

@@ -29,7 +29,7 @@ export const SideMain = ({ project, user, setWantLeave, modalGroups,
     const { setProject } = useContext(ProjectContext)
     const { t } = useTranslation()
     return (
-        <div className="w-full h-full overflow-y-auto none-scrollbar">
+        <div className="w-full h-full relative overflow-y-auto none-scrollbar">
             <If condition={!modalGroups && !modalPages}>
                 <div className="h-full flex flex-col justify-between">
                     <div className="w-full h-min flex flex-col items-center relative">

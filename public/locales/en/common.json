@@ -383,7 +383,8 @@
    "clear":"Clear",
   "revision": "Task Revision",
   "font-config": "Font Configuration",
-  "font-config-desc": "Choose a font style for your text, personalize your experience according to your personal preferences."
+  "font-config-desc": "Choose a font style for your text, personalize your experience according to your personal preferences.",
 
-
+  "timeline-scroll" :"Scroll the mouse to zoom in or out",
+  "timeline-scroll-desc" :"Hover over the timeline to increase or decrease the interval between each section of the timeline."
 }

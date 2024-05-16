@@ -19,18 +19,18 @@ export const TasksInTimeline = ({
   date: string;
 }) => {
   const calcMarginLeft = (start: DateTimelines) => {
-    const date = new Date(new Date(start.date).toLocaleString());
+    const date = new Date(new Date(start.date));
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
 
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    return `${(totalSeconds / interval) * widthOfInterval}px`;
+    return `${((totalSeconds / interval) * widthOfInterval) + 8}px`;
   };
 
   const calcWidth = (start: DateTimelines, task: Task) => {
 
-    const date = new Date(new Date(start.date).toLocaleString());
+    const date = new Date(new Date(start.date));
     const hours = date.getHours();
     const minutes = date.getMinutes();
     const seconds = date.getSeconds();
@@ -46,7 +46,7 @@ export const TasksInTimeline = ({
       propVl.value.ends[index] ? propVl.value.ends[index].date : Date.now()
     );
     if (!dateEndUTC) dateEndUTC = new Date();
-    const dateEnd = new Date(dateEndUTC.toLocaleString());
+    const dateEnd = new Date(dateEndUTC);
     const hoursEnd = dateEnd.getHours();
     const minutesEnd = dateEnd.getMinutes();
     const secondsEnd = dateEnd.getSeconds();
@@ -91,30 +91,28 @@ export const TasksInTimeline = ({
             {propVl.value &&
               propVl.value.starts &&
               propVl?.value.starts
-                // .filter((start) =>
-
-                //   compareDates(
-                //     new Date(new Date(start.date)),
-                //     new Date(date)
-                //   )
-                // )
+                .filter((start) =>
+                  compareDates(
+                    new Date(new Date(start.date)),
+                    new Date(fixDate(new Date(date)))
+                  )
+                )
                 .map((start, index) => {
-
                   console.log(start)
                   return (
                     <div
                       key={index}
-                      className={"h-8 rounded-md absolute w-8 top-0 left-0 " + 
+                      className={"h-8 rounded-md absolute  top-0 left-0 " + 
                   (task.completed ||task.waitingRevision ? " border-green-500 border-2" : "") + (task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
 
                       style={{
-                        backgroundColor: "@ff0000",
-                          // propVl?.value.color ??
-                          // (theme == "dark"
-                          //   ? "var(--secondary-color)" 
-                          //   : "var(--primary-color)"),
-                        // marginLeft: calcMarginLeft(start),
-                        // minWidth: calcWidth(start, task),
+                        backgroundColor: 
+                          propVl?.value.color ??
+                          (theme == "dark"
+                            ? "var(--secondary-color)" 
+                            : "var(--primary-color)"),
+                        marginLeft: calcMarginLeft(start),
+                        minWidth: calcWidth(start, task),
                       }}
                     />
                   );

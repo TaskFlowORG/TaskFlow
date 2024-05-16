@@ -11,6 +11,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   y?: number;
   x?: number;
   z?: string;
+  center?: boolean;
   bottom?: boolean;
   classesPosition?: string;
   classesOrigin?: string;
@@ -22,6 +23,7 @@ export const LocalModal = ({
   classesShadow = "shadow-blur-10",
   setCondition,
   right,
+  center,
   y,
   x,
   z="z-[101] ",
