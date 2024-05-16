@@ -95,7 +95,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
 
               <h5 className="text-p h-[3.4rem] md:text-h4 text-alata 
               flex items-center justify-center  gap-2 text-primary w-full dark:text-secondary">
-                <Info text="timeline-scroll" title="timeline-scroll-desc" />
+                <Info text="timeline-scroll-desc" title="timeline-scroll" />
                 {t("tasks")}
               </h5>
               <TaskLegend

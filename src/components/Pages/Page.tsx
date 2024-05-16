@@ -104,7 +104,7 @@ export const Page = ({
     <div className="w-screen h-screen pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
       <div className="w-full h-full">
         <If condition={page?.type != TypeOfPage.CALENDAR}>
-          <div className=" flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
+          <div className="flex-col sm:flex-row flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
             <div className="flex gap-4 items-center">
               <h1
                 className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white"
@@ -113,6 +113,7 @@ export const Page = ({
                 {page?.name}
               </h1>
             </div>
+            <div className="w-max">
 
             <SearchBar
               order={[
@@ -125,6 +126,7 @@ export const Page = ({
               page={page as OrderedPage}
               properties={page?.properties as Property[]}
             ></SearchBar>
+            </div>
           </div>
         </If>
         {getPage(page)}
