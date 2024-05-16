@@ -386,7 +386,7 @@ export const TesPropertiesSide = ({
       {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}
-        <div className="flex max-w-full flex-col gap-5 h-full max-h-[450px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
+        <div className="flex max-w-full flex-col gap-5 h-full max-h-[460px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
           {task?.properties.map((prop) => {
             return (
               <div

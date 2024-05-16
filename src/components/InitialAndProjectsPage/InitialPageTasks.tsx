@@ -2,6 +2,9 @@
 import { useTranslation } from "next-i18next";
 import { CardContent } from "../CardContent";
 import { RoundedCard } from "../RoundedCard";
+import { Task } from "@/models";
+import { useContext, useEffect } from "react";
+import { UserContext } from "@/contexts/UserContext";
 import { Project, Task } from "@/models";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/contexts/UserContext";
@@ -20,8 +23,6 @@ export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
     const {user} = useContext(UserContext)
     const router = useRouter()
     const {projects} = useContext(ProjectsContext)
-
-
 
     const open = async (task:Task) => {
         if(!projects) return

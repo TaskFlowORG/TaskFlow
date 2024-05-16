@@ -1,55 +1,72 @@
-"use client"
+"use client";
 
-import { RoundedCard } from '@/components/RoundedCard';
-import { LandingPageCardContent } from '@/components/CardContent';
-import { useState } from 'react';
+import { RoundedCard } from "@/components/RoundedCard";
+import { LandingPageCardContent } from "@/components/CardContent";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export const Default = () => {
-
+    const {t} = useTranslation()
+    const {theme} = useTheme()
 
     const functions = [
-        {
-            img: "project.jpg",
-            color: "#F04A94",
-            text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Projetos",
-            dark: "#FF871A"
-        },
-        {
-            img: "moon.svg",
-            color: "#EA35BE",
-            text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Tarefas",
-            dark: "#D7541C"
-        },
-        {
-            img: "language.svg",
-            color: "#E41CEF",
-            text: "Lorem ipsum dolor sit amet consectetur. In quis molestie a at placerat morbi vitae aenean. Viverra mauris imperdiet ac at habitant ut diam. Id id adipiscing aenean facilisi et mi. Viverra tristique ac bibendum arcu.",
-            title: "Propriedades",
-            dark: "#F76858"
-        },
+      {
+        img: "projectsSide.svg",
+        imgDark:"projectsSideDark.svg",
+        color: "#F04A94",
+        text: t('platform-focus'),
+        title: t('projects'),
+        dark: "#FF871A",
+      },
+      {
+        img:"tasksSide.svg",
+        imgDark:"tasksSideDark.svg" ,
+        color: "#EA35BE",
+        text: t('tasks-description'),
+        title: t('tasks'),
+        dark: "#D7541C",
+      },
+      {
+        img: "propertiesSide.svg",
+        imgDark:"propertiesSideDark.svg" ,
+        color: "#E41CEF",
+        text: t('properties-importance'),
+        title: t('property'),
+        dark: "#F76858",
+      },
+    ];
 
-    ]
+    const [image, setImage] = useState<string>("projectsSide.svg");
+    const [imageDark, setImageDark] = useState<string>("projectsSideDark.svg");
 
-    const [image, setImage] = useState<string>("project.jpg")
+  return (
+    <div className="flex gap-16 p-8">
+      <div className="flex flex-col items-end  gap-12 w-max  ">
+        {functions.map((card, index) => {
+          return (
+            <RoundedCard
+              key={index}
+              dark={card.dark}
+              changeImage={() => {setImage(card.img); setImageDark(card.imgDark)}}
+              color={card.color}
+            >
+              <LandingPageCardContent
+                color={card.color}
+                dark={card.dark}
+                title={card.title}
+                text={card.text}
+              />
+            </RoundedCard>
+          );
+        })}
+      </div>
 
-    return (
-        <div className="flex gap-16 p-8">
-            <div className="flex flex-col gap-12 xl:w-[550px]  1.5xl:w-[700px] ">
-                {
-                    functions.map((card, index) => {
-                        return (
-                            <RoundedCard key={index} dark={card.dark} changeImage={() => setImage(card.img)} color={card.color} >
-                                <LandingPageCardContent color={card.color} dark={card.dark} title={card.title} text={card.text} />
-                            </RoundedCard>
-                        )
-                    })
-                }
+      <div className='relative  w-[550px] 1.5xl:w-[700px] h-full shadowww'>
+                    <Image src={theme == 'light' ? image : imageDark} fill alt="How Works" objectFit='cover' layout='fill' objectPosition='center' />
             </div>
-            <div className='w-full'>
-                <img src={image} alt="" className='w-full' />
-            </div>
-        </div>
-    )
-}
+
+    </div>
+  );
+};
