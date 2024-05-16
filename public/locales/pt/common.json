@@ -107,7 +107,7 @@
   "delete-account-cancel": "Cancelar",
   "permissionUpdateSuccess": "Permissão atualizada com sucesso",
   "permissionUpdateError": "Erro ao atualizar permissão",
-  "personal-informations-address": "Endereço",
+  "personal-informations-username": "Nome de usuário",
   "personal-informations-name": "Nome",
   "personal-informations-surname": "Sobrenome",
   "personal-informations-email": "Email",
@@ -350,7 +350,16 @@
     "clear":"Limpar",
     "revision":"Revisão de Tarefas",
     "font-config":"Configuração de Fonte",
-    "font-config-desc":"Escolha um estilo de fonte para o seu texto, personalize a sua experiência de acordo com seus gostos pessoais."
-
+    "font-config-desc":"Escolha um estilo de fonte para o seu texto, personalize a sua experiência de acordo com seus gostos pessoais.",
+    "all-quiet": "Tudo quieto por aqui 😢",
+    "photo": "Foto",
+    "today": "Hoje",
+    "yesterday": "Ontem",
+    "beginning-conversation":"Este é o começo de sua conversa com",
+    "group-without-name":"Grupo sem nome",
+    "write-here": "Escreva aqui...",
+    "authenticate-title": "Autenticação de dois fatores (2FA)",
+    "authenticate-configs": "Ativando a autenticação de dois farores, você da a sua conta mais segurança, pois além de sua senha, você precisará de um código que será enviado para seu email do qual só você tem acesso.",
+    "personal-informations-change-name": "Mudar nome de usuário"
   }
 

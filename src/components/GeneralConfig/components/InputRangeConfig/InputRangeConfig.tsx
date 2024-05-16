@@ -45,7 +45,7 @@ export const InputRangeConfig = ({title, description}:Props) => {
                 </div>
             </div>
             <div>
-                <p className="text-p font-alata">{description}</p>
+                <p className="text-p font-montserrat">{description}</p>
             </div>
         </div>
     );

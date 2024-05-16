@@ -59,7 +59,7 @@ export const InputSelectConfig = ({ id, title, description, options, func, defau
                 </div>
             </div>
             <div>
-                <p className="text-p font-alata">
+                <p className="text-p font-montserrat">
                     {description}
                 </p>
             </div>

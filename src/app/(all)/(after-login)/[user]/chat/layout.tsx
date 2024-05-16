@@ -159,7 +159,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                       <input
                         placeholder={t("search-chat")}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="rounded-r-lg  w-full h-full text-black bg-white dark:bg-modal-grey outline-none px-4 font-montserrat text-p"
+                        className="rounded-r-lg  w-full h-full text-constrast font-montserrat shadow-blur-10 outline-none px-4 text-p"
                         type="text"
                       />
                     </div>

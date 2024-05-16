@@ -108,7 +108,7 @@
   "delete-account-cancel": "Cancelar",
   "permissionUpdateSuccess": "Permiso actualizado con éxito",
   "permissionUpdateError": "Error al actualizar permiso",
-  "personal-informations-address": "Dirección",
+  "personal-informations-username": "Nombre de usuario",
   "personal-informations-name": "Nombre",
   "personal-informations-surname": "Apellido",
   "personal-informations-email": "Email",
@@ -317,6 +317,15 @@
   "clear":"Limpiar",
   "revision":"Revisión de Tareas",
   "font-config":"Configuración de Fuente",
-  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales."
-
+  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales.",
+  "all-quiet": "Todo tranquilo aqui 😢",
+  "photo": "Foto",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "beginning-conversation":"Este es el comienzo de tu conversación con",
+  "group-without-name":"Grupo sin nombre",
+  "write-here": "Escribe aquí...",
+  "authenticate-title": "Autenticación de dos factores (2FA)",
+  "authenticate-configs": "Al activar la autenticación bidireccional, le das más seguridad a tu cuenta, ya que además de tu contraseña, necesitarás un código que te será enviado a tu correo electrónico al que solo tú tienes acceso.",
+  "personal-informations-change-name": "Cambiar nombre de usuario"
 }

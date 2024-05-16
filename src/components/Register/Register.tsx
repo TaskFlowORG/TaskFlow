@@ -9,7 +9,6 @@ import { useTheme } from "next-themes";
 import { ProgressBar } from "./ProgressBar";
 import { useRouter } from "next/navigation";
 import { UserDetails } from "@/models/user/user/UserDetails";
-import { subscribe } from "diagnostics_channel";
 import { useTranslation } from "next-i18next";
 import { Transition } from "../Transition";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -92,6 +91,7 @@ export const Register = () => {
       setStep(step - 1);
     }
   };
+
   const onSubmit = async (data: FormData) => {
       const { username, name, surname, password, mail } = data;
       console.log("data", data)

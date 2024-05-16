@@ -6,7 +6,7 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     image?: string;
     helperText?: string;
-    register: any;
+    register?: any;
     classNameInput: string;
     onChange?: () => void;
 };
@@ -31,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ disabled,  onCh
                 <S.Input className={classNameInput + " bg-transparent"} title={placeholder} type={type} id={inputId} disabled={disabled}  {...register} placeholder={placeholder} {...props}
                     onChange={(e) => {
                         onChange();
-                        register.onChange(e);
+                        register?.onChange(e);
                     }}
                     required={required} />
 

@@ -3,22 +3,29 @@
 import { Permission, User, UserPost, UserPut } from "@/models";
 import { Api } from "../axios";
 import { OtherUser } from "@/models";
-import { use } from "react";
+import { UserChangeUsername } from "@/models/user/user/UserChangeUsername";
 class UserService {
 
     async insert(user: UserPost): Promise<User> {
         const response = await Api.post<User>("user", user, { withCredentials: true });
         return response.data;
     }
+
     async update(user: User): Promise<User> {
-        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
+        const userPut = new UserPut(user.id, user.name, user.surname, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
         const response = await Api.put<User>("user", userPut, { withCredentials: true });
         return response.data;
     }
 
+    async changeUsername(username:string): Promise<User> {
+        const response = await Api.put<User>("user/changeUsername", username, {withCredentials: true, headers:{
+            'Content-Type': 'application/string'
+          }});
+        return response.data;
+    }
     async patch(user: User): Promise<User> {
-        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
-        const response = await Api.patch<User>("user", userPut, { withCredentials: true });
+        const userPut = new UserPut(user.id, user.name, user.surname, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
+        const response = await Api.patch<User>("user",  userPut, { withCredentials: true });
         return response.data;
     }
 
