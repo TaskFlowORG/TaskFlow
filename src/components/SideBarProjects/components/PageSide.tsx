@@ -31,20 +31,29 @@ export const PageSide = (
   const [type, setType] = useState<TypeOfPage>(TypeOfPage.KANBAN);
   const [merging, setMerging] = useState(false);
   const { setProject } = useContext(ProjectContext);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const route = useRouter();
 
-  const merge = () => {
+  const merge = async () => {
     console.log(listMerge, pageMerging);
-    pageService.merge(project.id, listMerge, pageMerging!.id);
+    const pages = await pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);
     setPageMerging(undefined);
+    const projectTemp = {...project};
+    const indexes:{index:number, pageId:number}[] = pages.map((page) => ({index:project.pages.findIndex((p) => p.id == page.id), pageId: page.id})) ?? [];
+    for (let index of indexes) {
+      projectTemp.pages.splice(index.index, 1);
+    }
+    for (let page of pages) {
+      projectTemp.pages.splice(indexes.find((i) => i.pageId == page.id)!.index, 0, page);
+    }
+    setProject!(projectTemp);
   };
-  
+
   const insert = async () => {
     const page = await pageService.insert(project.id, new PagePost("Nova Página", type, project))
-    const projectTemp = {...project};
+    const projectTemp = { ...project };
     projectTemp.pages.push(page)
     setProject!(projectTemp)
     route.push(`/${user}/${project.id}/${page.id}`);
@@ -92,34 +101,33 @@ export const PageSide = (
           );
         })}
       </div>
-        <div className="h-12 w-32 smm:w-40 sm:w-64  bottom-2">
+      <div className="h-12 w-32 smm:w-40 sm:w-64  bottom-2">
 
-          <If condition={merging}>
-            <div className="flex justify-between w-full h-full">
-              <Button
-                width="w-32"
-                text={t("cancel")}
-                padding="p-2"
-                paddingY="py-1"
-                textSize="text-p"
-                fnButton={() => {
-                  setListMerge([]);
-                  setMerging(false);
-                  setPageMerging(undefined);
-                }}
-              />
-              <Button
-                width="w-32"
-                text={t("conect")}
-                fnButton={merge}
-                padding="p-2"
-                paddingY="py-1"
-                textSize="text-p"
-                secondary
-              />
-            </div>
-            <NeedPermission permission="create">
-
+        <If condition={merging}>
+          <div className="flex justify-between w-full h-full">
+            <Button
+              width="w-32"
+              text={t("cancel")}
+              padding="p-2"
+              paddingY="py-1"
+              textSize="text-p"
+              fnButton={() => {
+                setListMerge([]);
+                setMerging(false);
+                setPageMerging(undefined);
+              }}
+            />
+            <Button
+              width="w-32"
+              text={t("conect")}
+              fnButton={merge}
+              padding="p-2"
+              paddingY="py-1"
+              textSize="text-p"
+              secondary
+            />
+          </div>
+          <NeedPermission permission="create">
 
             <Button
               width="w-full "
@@ -129,20 +137,20 @@ export const PageSide = (
               paddingY="p-1"
               textSize="text-p"
             />
-            </NeedPermission>
-          </If>
-          <LocalModal condition={modal} setCondition={setModal} bottom>
-              <TypeOfPageComponent
-              type={type}
+          </NeedPermission>
+        </If>
+        <LocalModal condition={modal} setCondition={setModal} bottom>
+          <TypeOfPageComponent
+            type={type}
 
-                changingType={modal}
-                setType={setType}
-                setChangingType={setModal}
-                closeModals={() => setModal(false)}
-                changeType={insert}
-              />
-          </LocalModal>
-        </div>
+            changingType={modal}
+            setType={setType}
+            setChangingType={setModal}
+            closeModals={() => setModal(false)}
+            changeType={insert}
+          />
+        </LocalModal>
+      </div>
     </>
   );
 };

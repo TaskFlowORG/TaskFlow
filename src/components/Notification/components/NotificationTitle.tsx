@@ -20,7 +20,7 @@ export const NotificationTitle = ({ type }: { type: TypeOfNotification }) => {
       return <h5>{t("deadline")}</h5>;
     case TypeOfNotification.CHAT:
       return <h5>{t("chat")}</h5>;
-    case TypeOfNotification.COMMENT:
+    case TypeOfNotification.COMMENTS:
       return <h5>{t("comment")}</h5>;
     case TypeOfNotification.INVITETOPROJECT:
         return <h5>{t("invite")}</h5>;

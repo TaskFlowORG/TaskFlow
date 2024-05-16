@@ -3,17 +3,16 @@ import { ProjectContext } from "@/contexts";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { groupService, projectService } from "@/services";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 interface Props {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
 }
 
-export const InviteGroupToProject = ({
-  openModal,
-  setOpenModal,
-}: Props) => {
+export const InviteGroupToProject = ({openModal, setOpenModal}: Props) => {
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const { project } = useContext(ProjectContext);
+  const { t } = useTranslation();
   useEffect(() => {
     fetchData();
   }, []);
@@ -21,8 +20,10 @@ export const InviteGroupToProject = ({
   const fetchData = async () => {
     try {
       const globalGroups = await groupService.findAll();
+      console.log(globalGroups, "oq tá rolando?");
+
       const alreadyInvitedGroups = await groupService.findGroupsByAProject(project!.id);
-        const availableGroups = globalGroups.filter((group) => !alreadyInvitedGroups.some((invitedGroup) => invitedGroup.id === group.id));
+      const availableGroups = globalGroups.filter((group) => !alreadyInvitedGroups.some((invitedGroup) => invitedGroup.id === group.id));
       setGroupsGlobal(availableGroups);
     } catch (error) {
       console.error("Error fetching groups:", error);
@@ -37,7 +38,7 @@ export const InviteGroupToProject = ({
 
   return (
     <LocalModal condition={openModal} setCondition={setOpenModal} bottom>
-      <div className="w-40 h-52 rounded-md p-2 overflow-y-auto bg-white dark:bg-modal-grey">
+      <div className="w-52 h-52 rounded-md p-2 overflow-y-auto bg-white dark:bg-modal-grey">
         {groupsGlobal.length > 0 ? (
           groupsGlobal.map((group, index) => (
             <button
@@ -45,11 +46,11 @@ export const InviteGroupToProject = ({
               className="w-full rounded-md h-12 shadow-blur-10"
               onClick={() => inviteToProject(group)}
             >
-              <p>{group.name}</p>
+              <p>{group.name || t("withoutname")}</p>
             </button>
           ))
         ) : (
-          <p>Não há grupos disponíveis</p>
+          <p className="text-center">{t("without-groups")}</p>
         )}
       </div>
     </LocalModal>

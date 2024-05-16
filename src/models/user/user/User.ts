@@ -7,9 +7,7 @@ import { Permission } from "@/models/project/permission/Permission";
 
 export class User {
 
-         
-
-    //Adicionar a foto denovo depois
+    //Adicionar a foto de novo depois
     constructor(
         public id: number,
         public username: string,                  
@@ -20,7 +18,9 @@ export class User {
         public mail: string,                  
         public phone: string,                 
         public description: string,                   
-        public points: number,                    
+        public points: number,       
+        public authenticate : boolean,                  
+
         public configuration: Configuration,                  
         public permissions: Permission[],       
         public notifications: Notification[],  

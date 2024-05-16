@@ -17,8 +17,8 @@ export const Info = ({text, title, right}: {text:string, title:string, right?:bo
              >
                 ?
             </div>
-            <LocalModal condition={show} setCondition={setShow}  right={right}>
-                <div className="w-48 h-min bg-white rounded-md dark:bg-modal-grey flex flex-col p-2 ">
+            <LocalModal condition={show} setCondition={setShow}  right={right}  classesShadow="shadow-[0_0_2px_1px_rgba(0,0,0,0.1)]  dark:border-[1px] dark:border-zinc-600 ">
+                <div className="w-48 h-min bg-white rounded-md dark:bg-modal-grey  flex flex-col p-2 ">
                     <span className="w-full font-alata whitespace-pre-wrap text-p14 text-center">{t(title)}</span>
                     <span className="w-full font-montserrat whitespace-pre-wrap text-mn">{t(text)}</span>
                 </div>

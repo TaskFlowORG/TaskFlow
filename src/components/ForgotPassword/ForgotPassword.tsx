@@ -10,12 +10,12 @@ export const ForgotPassword = () => {
 
     return (
         <>
-            <div className="flex h-5/6 w-screen absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-
-                {step === 1 && <Step1 setStep={setStep} />}
-                {step === 2 && <Step2 setStep={setStep} />}
-                {step === 3 && <Step3 />}
-
+            <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+                <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
+                    {step === 1 && <Step1 setStep={setStep} />}
+                    {step === 2 && <Step2 setStep={setStep} />}
+                    {step === 3 && <Step3 />}
+                </div>
             </div>
         </>
     );

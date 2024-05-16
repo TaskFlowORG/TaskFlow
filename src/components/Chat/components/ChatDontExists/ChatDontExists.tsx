@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next"
+
 export const ChatDontExists = () => {
+    const {t} = useTranslation()
 
     return (
-        <div className="flex justify-center ">
-            <h1 className="text-p font-alata">Nenhum chat foi encontrado</h1>
+        <div className="flex justify-center text-p font-alata">
+            <h1>{t("no-possible-chat")}</h1>
         </div>
     )
 }

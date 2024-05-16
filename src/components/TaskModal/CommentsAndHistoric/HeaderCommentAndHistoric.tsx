@@ -24,8 +24,8 @@ export const HeaderCommentAndHistoric = ({
       : ""
   );
   const text = twMerge(
-    "text-h5 xl:text-h4 font-alata w-full md:w-min",
-    !isSelected ? "text-contrast " : ""
+    "text-h5 xl:text-h4 font-alata text-contrast w-full md:w-min",
+    !isSelected ? "text-[#343434] dark:text-white " : ""
   );
   return (
     <button className={container} onClick={() => setIsInComments(!isSelected)}>

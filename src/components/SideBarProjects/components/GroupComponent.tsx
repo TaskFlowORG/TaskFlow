@@ -65,15 +65,20 @@ export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
     };
 
     const getOutGroup = async () => {
-        try{
+        try {
             await userService.getOutOfAGroup(group.id)
             const updatedGroups = groups.filter(g => g.id !== group.id);
             setGroups([...updatedGroups]);
             router.push("/" + user);
-        } catch(error){
+        } catch (error) {
             console.error("Error getting out of the group:", error);
         }
-    } 
+    }
+
+    const [src, setSrc] = useState<string >("/Assets/noImage.png");
+    useEffect(() => {
+      setSrc(archiveToSrc(group?.picture));
+    }, [group]);
 
     return (
         <div className="flex flex-row w-full gap-2 justify-between"
@@ -81,15 +86,22 @@ export const GroupComponent = ({ user, group, setGroups, groups }: Props) => {
             onMouseLeave={() => setShowIcon(false)}
         >
             <div className="flex flex-row items-center flex-grow">
-                <div className="relative rounded-full w-14 h-14 bg-zinc-300">
-                    <Image src={archiveToSrc(group?.picture)} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
-                </div>
+                {
+                    screenSize != 'sm' ? (
+                        <div className="relative rounded-full w-14 h-14 bg-zinc-300">
+                            <Image src={src} alt="Group Picture" layout="fill" objectFit="cover" className="rounded-full" />
+                        </div>
+
+                    ) : (
+                        ""
+                    )
+                }
                 <div className="flex flex-col ml-2">
                     <div className="text-start text-p font-montserrat rounded-md">{getName() || t("withoutname")}</div>
                     <div className="text-start text-p14 font-montserrat rounded-md">{getDescription() || t("withoutdescription")}</div>
                 </div>
             </div>
-            <div className="flex items-center pr-2">
+            <div className="flex items-center pr-9 md:pr-2">
                 {showIcon && group.ownerUsername == user ? (
                     <div onClick={() => deleteGroup()}>
                         <span className="h-8 w-8 rounded-lg bg-white dark:bg-modal-grey hover:brightness-95 flex justify-center items-center">

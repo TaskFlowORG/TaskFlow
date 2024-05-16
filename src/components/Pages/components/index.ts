@@ -1,5 +1,5 @@
 export { IconsSelector } from "./tableAndList/IconsSelector";
-export { ValueSelector } from "./tableAndList/ValueSelector";
+export { ValueSelectorTable } from "./tableAndList/ValueSelectorTable";
 
 //===============Calendar===================
 export { CalendarDay } from "./calendar/CalendarDay";

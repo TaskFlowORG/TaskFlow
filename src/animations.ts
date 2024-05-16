@@ -1,51 +1,7 @@
 import gsap from "gsap";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { ModalRegisterProperty } from "./components/ModalRegisterProperty";
-import { CustomEase } from "gsap/CustomEase";
 
 export const animatePageOut = (href: string, router: AppRouterInstance) => {
-    const transitionElementModalRegister = document.getElementById("modalRegister");
-    const transitionElementModalLogin = document.getElementById("modalLogin");
-
-    // if (transitionElementModalRegister) {
-    //     const tlModal = gsap.timeline({
-    //         stagger: {
-    //             _amount: 0, // No pause between animations within the timeline
-    //             get amount() {
-    //                 return this._amount;
-    //             },
-    //             set amount(value) {
-    //                 this._amount = value;
-    //             },
-    //         }
-    //     });
-
-    //     // Animation for the modal
-    //     tlModal.to(transitionElementModalRegister, {
-    //         opacity: 0,
-    //         duration: 0.4,
-    //         ease: "power1.inOut"
-    //     });
-    // } else if (transitionElementModalLogin) {
-    //     const tlModal = gsap.timeline({
-    //         stagger: {
-    //             _amount: 0, // No pause between animations within the timeline
-    //             get amount() {
-    //                 return this._amount;
-    //             },
-    //             set amount(value) {
-    //                 this._amount = value;
-    //             },
-    //         }
-    //     });
-
-    //     // Animation for the modal
-    //     tlModal.to(transitionElementModalLogin, {
-    //         opacity: 0,
-    //         duration: 0.5,
-    //         ease: "power1.inOut"
-    //     });
-    // }
     const x = (window.innerWidth + 300);
 
     // Animations for the register
@@ -61,7 +17,7 @@ export const animatePageOut = (href: string, router: AppRouterInstance) => {
                 delay: equal0 ? 0.5 : 0,
                 yPercent:50 -((50 - (i)) * ((50 - (i))/50)),
                 x: x / 100 * ( i <= 50 ? ( i * (i/50)) : 100 - ( (50 - (i - 50)) * ((50 - (i - 50))/50))),
-                duration: 0.01,
+                duration: 0.02,
                 ease: equal0 ? "power1.in" : equal99 ? "power1.out" : "none",
                 onComplete: () => {
                     if (i == 100) {
@@ -84,7 +40,7 @@ export const animatePageOut = (href: string, router: AppRouterInstance) => {
                 delay: equal0 ? 0.6 : 0,
                 yPercent:50 -((50 - (i)) * ((50 - (i))/50)),
                 x: -(x / 100 * ( i <= 50 ? ( i * (i/50)) : 100 - ( (50 - (i - 50)) * ((50 - (i - 50))/50)))),
-                duration: 0.01,
+                duration: 0.02,
                 ease: equal0 ? "power1.in" : equal99 ? "power2.out" : "none",
                 onComplete: () => {
                     if (i == 99) {
@@ -96,52 +52,3 @@ export const animatePageOut = (href: string, router: AppRouterInstance) => {
     }
 }
 
-export const animatePageIn = () => {
-
-    const transitionElementModalRegister = document.getElementById("modalRegister");
-    const transitionElementModalLogin = document.getElementById("modalLogin");
-
-    if (transitionElementModalRegister) {
-        const tlModal = gsap.timeline({
-            stagger: {
-                _amount: 0, // No pause between animations within the timeline
-                get amount() {
-                    return this._amount;
-                },
-                set amount(value) {
-                    this._amount = value;
-                },
-            }
-        });
-
-        // Animation for the modal
-        tlModal.from(transitionElementModalRegister, {
-            opacity: 1,
-            delay: 1,
-            duration: 0.5,
-            ease: "power1.inOut"
-        });
-    } else if (transitionElementModalLogin) {
-        const tlModal = gsap.timeline({
-            stagger: {
-                _amount: 0, // No pause between animations within the timeline
-                get amount() {
-                    return this._amount;
-                },
-                set amount(value) {
-                    this._amount = value;
-                },
-            }
-        });
-
-        // Animation for the modal
-        tlModal.from(transitionElementModalLogin, {
-            opacity: 1,
-            delay: 1,
-            duration: 0.5,
-            ease: "power1.inOut"
-        });
-
-    }
-
-}

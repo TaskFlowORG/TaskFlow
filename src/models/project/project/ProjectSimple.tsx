@@ -16,6 +16,7 @@ export class ProjectSimple {
         public owner: OtherUser,
         public qttyPages: number,
         public qttyProperties: number,
+        public visualizedAt:Date
     ) {}
     
     equals = (obj: any) => {

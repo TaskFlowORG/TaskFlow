@@ -28,7 +28,7 @@ export default function Home({ params }: { params: { user: string, project: numb
 
     return (
         <div className="w-screen h-screen">
-            <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 lg:z-10">
+            <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
                 
             </div>

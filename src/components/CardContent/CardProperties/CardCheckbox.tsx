@@ -43,7 +43,7 @@ export const CardCheckbox = ({
               );
             })}
             <div className="w-3 aspect-square">
-              <IconCheckbox></IconCheckbox>
+              <IconCheckbox ></IconCheckbox>
             </div>
           </div>
         </div>

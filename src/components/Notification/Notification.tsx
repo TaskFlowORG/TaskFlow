@@ -1,6 +1,6 @@
 import { UserContext } from "@/contexts/UserContext";
 import { Notification as NotificationModel } from "@/models/Notification";
-import { userService } from "@/services";
+import { projectService, userService } from "@/services";
 import Link from "next/link";
 import {  useContext, useEffect, useState } from "react";
 import { NotificationIcon, NotificationTitle } from "./components";
@@ -9,14 +9,11 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { ProjectContext } from "@/contexts";
 import { PageContext } from "@/utils/pageContext";
 import { useTranslation } from "next-i18next";
-import { TypeOfChat } from "@/models";
 import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
-import { Button } from "../Button";
 import { IconTrashBin } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { notificationService } from "@/services/services/NotificationService";
 import {useRouter} from "next/navigation";
-import { ErrorModal } from "../ErrorModal";
 
 export const Notification = ({
   notification,
@@ -35,13 +32,14 @@ export const Notification = ({
   const [link, setLink] = useState<string>("");
   const { user, setUser } = useContext(UserContext);
   const { setIsOpen, setSelectedTask } = useContext(TaskModalContext);
+  const [message, setMessage] = useState<string>("");
   const { pageId } = useContext(PageContext);
   const { project } = useContext(ProjectContext);
   const [idTask, setIdTask] = useState<number>();
   const router = useRouter();
   useEffect(() => {
       setLink(notification.link);
-      if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
+      if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENTS){
         setIdTask(notification.objId);
       }
   }, [notification.link]);
@@ -62,25 +60,25 @@ export const Notification = ({
   const getMessage = (notification: NotificationModel) => {
     switch (notification.type) {
       case TypeOfNotification.CHANGETASK:
-        return t("notification-task", {aux:notification.aux});
+        return t("notification-task", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.CHAT:
-        return t("notification-chat", {aux:notification.aux});
+        return t("notification-chat", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.ADDINGROUP:
-        return t("notification-add-group", {aux:notification.aux});
+        return t("notification-add-group", {aux:notification.aux ? notification.aux : t("withoutname")});
         case TypeOfNotification.REMOVEINGROUP:
-          return t("notification-rmv-group", {aux:notification.aux});
+          return t("notification-rmv-group", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.CHANGEPERMISSION:
-        return t("notification-permission", {aux:notification.aux});
-      case TypeOfNotification.COMMENT:
-        return t("notification-comment", {aux:notification.aux});
+        return t("notification-permission", {aux:notification.aux ? notification.aux : t("withoutname")});
+      case TypeOfNotification.COMMENTS:
+        return t("notification-comment", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.DEADLINE:
-        return t("notification-deadline", {aux:notification.aux});
+        return t("notification-deadline", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.POINTS:
-        return t("notification-points", {aux:notification.aux});
+        return t("notification-points", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.SCHEDULE:
-        return t("notification-schedule", {aux:notification.aux});
+        return t("notification-schedule", {aux:notification.aux ? notification.aux : t("withoutname")});
       case TypeOfNotification.INVITETOPROJECT:
-        return t("notification-invite", {aux:notification.aux})};
+        return t("notification-invite", {aux:notification.aux ? notification.aux : t("withoutname")})};
   };
 
   const clickNotification = async (e:any) => {
@@ -101,15 +99,22 @@ export const Notification = ({
   };
 
   const handleClick = async (e:any) => {
-    console.log("not stoped")
     if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
       clickNotification(e);
     }
+    if(notification.auxObjId == null) {
+      router.push(link);
+      return;
+    }
 
     fnClick && fnClick();
-    if(notification.type == TypeOfNotification.CHANGETASK || notification.type == TypeOfNotification.COMMENT){
+
+    router.push(link);
+    if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
+      const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);
-      const task = (project?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == idTask)?.task);
+      const task = (projectTemp?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == notification.objId)?.task);
+      console.log("TASK", task);
       setSelectedTask && task && setSelectedTask(task);
     }
   }
@@ -117,10 +122,17 @@ export const Notification = ({
   const deleteNotification = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     if (!setUser || !user) return;
+    await notificationService.deleteNotification(notification.id);
     user.notifications = user.notifications.filter((n) => n.id != notification.id);
     setUser({...user});
-    await notificationService.deleteNotification(notification.id);
   };
+
+  useEffect(() => {
+    const message = getMessage(notification);
+    console.log("nOT", notification);
+    
+    setMessage(message);
+  }, [notification]);
 
   return (
     <div
@@ -135,7 +147,7 @@ export const Notification = ({
           <NotificationTitle type={notification.type} />
         </span>
         <p className="font-montserrat text-[12px] w-full text-start whitespace-pre-wrap" title={getMessage(notification)}>
-          {getMessage(notification)}
+          {message}
         </p>
       </div>
       <span className="w-min h-full flex flex-col gap-1 justify-between">

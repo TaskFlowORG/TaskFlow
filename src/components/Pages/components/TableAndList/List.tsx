@@ -7,7 +7,6 @@ import {
   DropResult,
 } from "@hello-pangea/dnd";
 import { Page, Property, Task, TaskOrdered } from "@/models";
-import { ValueSelector } from "..";
 import { useEffect, WheelEvent, useRef, useState, useContext } from "react";
 import { PageTypeIcons } from "../../../icons";
 import { HeaderList } from "./HeaderList";
@@ -16,6 +15,7 @@ import { ProjectContext } from "@/contexts";
 import { updateIndexes } from "../../functions/updateIndexes";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { ValueSelectorTable } from "./ValueSelectorTable";
 
 interface Props {
   list: Array<TaskOrdered>;
@@ -82,7 +82,7 @@ export const List = ({ list:listPrev, page }: Props) => {
                                   ref={providedDrag.innerRef}
                                   onClick={e => openModal(l.task.id)}
                                 >
-                                  <ValueSelector l={l} justName={true} />
+                                  <ValueSelectorTable l={l} justName={true} />
                                 </div>
                             );
                           }}

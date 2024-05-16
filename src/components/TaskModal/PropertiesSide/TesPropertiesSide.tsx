@@ -12,6 +12,7 @@ import {
   LimitedPost,
   Limited,
   Date as DateProp,
+  DateValued,
 } from "@/models";
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
@@ -159,8 +160,8 @@ export const TesPropertiesSide = ({
           case TypeOfProperty.DATE:
             if (!(propertyForm.property.property as DateProp).canBePass) {
               const currentDate = new Date();
-              console.log(new Date(propInput.value) < currentDate);
-              if (new Date(propInput.value) < currentDate) {
+              let isPass = testIfIsPass(propertyForm, currentDate, propInput)              
+              if (isPass) {
                 propertyForm.errors.push(
                   `Essa propriedade não pode estar no passado!`
                 );
@@ -203,6 +204,16 @@ export const TesPropertiesSide = ({
       ? false
       : true;
   };
+
+  function testIfIsPass(propertyForm:PropsForm, currentDate:Date, propInput:FilteredProperty) {
+    if((propertyForm.property.property as DateProp).includesHours){
+     return  new Date(propInput.value) < currentDate
+    }else{
+      return new Date(propInput.value).getDate() < currentDate.getDate() && 
+      new Date(propInput.value).getMonth() < currentDate.getMonth() && 
+      new Date(propInput.value).getFullYear() < currentDate.getFullYear()
+    }
+  }
 
   async function updateTask() {
     if (!validateProps()) {

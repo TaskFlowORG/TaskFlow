@@ -29,7 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex gap-6">
           <img
             src="moon.svg"
-            className="dark:hidden cursor-pointer"
+            className="dark:hidden cursor-pointer brightness-[0.1]"
             alt=""
             onClick={() => setTheme("dark")}
           />
@@ -39,6 +39,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             alt=""
             onClick={() => setTheme("light")}
           />
+            
            <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={(language ? language : Language.ENGLISH
            )}
             list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },

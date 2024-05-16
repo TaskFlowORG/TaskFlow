@@ -77,7 +77,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           max={100}
           setNumber={setProgress}
           step={0.01}
-          title={t("progresso")}
+          title={t("progress")}
         />
         <If condition={maxPages > 0}>
 

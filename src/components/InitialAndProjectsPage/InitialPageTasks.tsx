@@ -5,14 +5,44 @@ import { RoundedCard } from "../RoundedCard";
 import { Task } from "@/models";
 import { useContext, useEffect } from "react";
 import { UserContext } from "@/contexts/UserContext";
+import { Project, Task } from "@/models";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "@/contexts/UserContext";
+import { Loading } from "../Loading";
+import { TaskModalContent } from "../TaskModal/TaskModalContent";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useRouter } from "next/navigation";
+import { ProjectsContext } from "@/contexts";
+import { projectService } from "@/services";
 
 
 export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
 
     const {t} = useTranslation()
+    const {setIsOpen, setSelectedTask} = useContext(TaskModalContext)
     const {user} = useContext(UserContext)
+    const router = useRouter()
+    const {projects} = useContext(ProjectsContext)
+
+    const open = async (task:Task) => {
+        if(!projects) return
+        let projectsTemp = [];
+        for(let p of projects){
+            if(p.qttyPages > 0){
+                projectsTemp.push(await projectService.findOne(p.id))
+            }
+        }
+        const pages = projectsTemp.map(p => p.pages).flat() 
+        const pageWithTask = pages.find(p => p.tasks.find(t => t.task.id === task.id))
+        const projectWithPage = projectsTemp.find(p => p.pages.find(page => page.id === pageWithTask?.id))
+        if(!setIsOpen || !setSelectedTask) return
+        setSelectedTask(task)
+        setIsOpen(true)
+        router.push(`/${user?.username}/${projectWithPage?.id}/${pageWithTask?.id}`)
+    }
 
 
+    if(!user) return <Loading/>
     return (
         <div className="flex-col justify-start h-full w-full gap-8 py-4 p-7
          items-center flex bg-white dark:bg-modal-grey rounded-sm shadow-blur-10">
@@ -22,9 +52,9 @@ export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
                 {
                     tasks.length > 0? 
                     tasks.map(t => {
-                        return <div className="h-min w-min flex items-center" key={t.id}>
+                        return <div className="h-min w-min flex items-center cursor-pointer" key={t.id} onClick={() => open(t)}>
                             <RoundedCard>
-                                <CardContent user={user!} task={t} />
+                                <CardContent user={user} task={t} />
                             </RoundedCard>
                         </div>
                     }) :

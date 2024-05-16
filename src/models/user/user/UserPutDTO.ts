@@ -16,6 +16,7 @@ export class UserPut {
         public description: string,
         public configuration: Configuration,
         public permissions: Permission[],
+        public authenticate: boolean,    
         public notifications: Notification[]
         ) {}
 

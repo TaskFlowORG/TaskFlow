@@ -7,13 +7,16 @@ type CardProps = {
 
 export const CardUser = ({ users }: CardProps) => {
   return (
-    <div className="  flex items-center w-12  relative">
+    <div className="  flex items-start w-24  relative">
+
+
       <Obj
+      resposiveClasses="hover:brightness-95"
         objs={users}
         mawWidth="w-full"
-        max={3}
+        max={1}
         functionObj={() => console.log("")}
-        isOtherUser
+      isOtherUser
       />
       {/* <span className="w-7 h-7 rounded-full bg-primary absolute shadowww  right-8"></span>
       <span className="w-7 h-7 rounded-full bg-[#EA35BE] shadowww absolute right-4"></span>

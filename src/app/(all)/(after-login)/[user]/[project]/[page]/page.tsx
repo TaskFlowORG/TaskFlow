@@ -41,7 +41,7 @@ export default function Pages({
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);
     setTasks(pageTemp.tasks);
-  }, [params.page, project]);
+  }, [params.page, project, project?.pages]);
   if (!user) return <Loading />;
   if (!page) {
     throw new AxiosError(undefined, undefined, undefined, undefined, {

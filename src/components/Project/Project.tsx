@@ -110,6 +110,11 @@ export const Project = () => {
     });
   };
 
+  const [src, setSrc] = useState<string>("/Assets/noImage.png");
+  useEffect(() => {
+    setSrc(archiveToSrc(project?.picture));
+  }, [project]);
+
   if (!user || !project) return <Loading />;
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
@@ -119,7 +124,7 @@ export const Project = () => {
             <div className="400:h-full h-16 w-16 400:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
-                src={archiveToSrc(project?.picture)}
+                src={src}
                 alt="Project Picture"
                 fill
               />
@@ -131,7 +136,7 @@ export const Project = () => {
                   <IconEditColoured />
                   <input
                     onChange={updatePicture}
-                    type="file"
+                    type="file" accept="image/*"
                     className="w-full h-full absolute cursor-pointer opacity-0"
                   />
                 </span>
@@ -162,7 +167,7 @@ export const Project = () => {
               />
             </div>
           </div>
-          <div className="400:w-52 w-full gap-2  h-full justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
+          <div className="400:w-52 w-full gap-2  h-full justify-center smm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <p>
               <span className="text-primary dark:text-secondary">
                 {t("owner") + ": "}
@@ -211,6 +216,16 @@ export const Project = () => {
             </If>
           </div>
         </div>
+        <If condition={project?.owner.id == user?.id}>
+          <span className="self-end w-full whitespace-nowrap smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
+            <input
+              type="checkbox"
+              onChange={(e) => updateRevision(e.target.checked)}
+              checked={project.revision}
+            />
+            {t("revision")}
+          </span>
+        </If>
         {project?.pages[0]?.tasks[0]?.task && (
           <TaskModalWrapper>
             <TaskModalContent
@@ -220,16 +235,7 @@ export const Project = () => {
             />
           </TaskModalWrapper>
         )}
-        <If condition={project?.owner.id == user?.id}>
-          <span className="self-end flex items-center gap-2 h-min ">
-            <input
-              type="checkbox"
-              onChange={(e) => updateRevision(e.target.checked)}
-              checked={project.revision}
-            />
-            {t("revision")}
-          </span>
-        </If>
+       
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>

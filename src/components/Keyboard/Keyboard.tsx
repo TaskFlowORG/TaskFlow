@@ -29,7 +29,7 @@ export const Keyboard = ({
   };
 
   return (
-    <div className="w-8 h-full relative hidden sm:flex ">
+    <div className="w-8 h-full relative hidden sm:flex justify-center items-center">
       <Image src="/keyboard.svg" height={24} width={24} className="cursor-pointer" onClick={() => setOpen(!open)} alt="" />
       <LocalModal condition={open} bottom={bottom} setCondition={setOpen} right>
         <KeyboardReact

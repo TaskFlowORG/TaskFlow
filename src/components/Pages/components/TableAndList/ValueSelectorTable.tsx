@@ -1,6 +1,8 @@
+import { CardSelect } from "@/components/CardContent/CardProperties/CardSelect";
 import { Tag } from "@/components/CardContent/CardProperties/Tag";
 import { If } from "@/components/If";
 import { Obj } from "@/components/Obj";
+import { ValueSelector } from "@/components/ValueSelector";
 import { IconArchive } from "@/components/icons";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
@@ -29,7 +31,12 @@ interface Props {
   propVl?: PropertyValue;
   l: TaskOrdered;
 }
-export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
+export const ValueSelectorTable = ({
+  justName,
+  property,
+  propVl,
+  l,
+}: Props) => {
   function generateList(
     value: PropertyValue | null | undefined
   ): Array<Option> {
@@ -49,24 +56,23 @@ export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
   const { project, setProject } = useContext(ProjectContext);
   const { t } = useTranslation();
 
-  const [localTask, setLocalTask] = useState<Task>(l.task)
+  const [localTask, setLocalTask] = useState<Task>(l.task);
 
-  useEffect(()=> {
-    setLocalTask(l.task)
-    
-  }, [l])
+  useEffect(() => {
+    setLocalTask(l.task);
+  }, [l]);
 
   const { user } = useContext(UserContext);
 
   const clickComplete = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
-    if(project?.owner.id != user?.id) return;
+    if (project?.owner.id != user?.id) return;
     console.log("clickComplete", e);
     if (localTask.completed || !project || !setProject) return;
     const updatedTask = await taskService.complete(localTask.id, project.id);
     const pages = project.pages;
-    setLocalTask(updatedTask)
+    setLocalTask(updatedTask);
     const pageWithTask = pages.find((page) =>
       page.tasks.find((t) => t.id === localTask.id)
     );
@@ -84,7 +90,7 @@ export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
   return justName ? (
     <div
       className={
-        "py-4 px-3 ml-4 gap-6 h-12 sm:h-16 select-none justify-start items-center flex w-[98%]" +
+        "py-4 px-3 ml-4 gap-6 h-12 sm:h-16 select-none  justify-start items-center flex w-[98%]" +
         (localTask.name
           ? " text-zinc-600 dark:text-zinc-200"
           : " text-zinc-400 dark:text-zinc-500")
@@ -98,7 +104,9 @@ export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
         <span
           className={
             "w-6 relative h-6 " +
-            (localTask.waitingRevision && !localTask.completed ? "animate-pulse" : "")
+            (localTask.waitingRevision && !localTask.completed
+              ? "animate-pulse"
+              : "")
           }
           onMouseUp={clickComplete}
         >
@@ -118,80 +126,20 @@ export const ValueSelector = ({ justName, property, propVl, l }: Props) => {
           : " text-zinc-400 dark:text-zinc-500")
       }
     >
-      <If condition={property?.type == TypeOfProperty.ARCHIVE}>
-        {propVl?.value.value == undefined ? (
-          <div className="h-min w-min truncate">Sem Arquivo</div>
-        ) : (
-          <div className="p-1 rounded-full border-1 border-zinc-300 dark:border-zinc-800 w-min truncate">
-            {(propVl?.value.value as Archive).name +
-              "." +
-              (propVl?.value.value as Archive).type}
-          </div>
-        )}
-      </If>
-      <If condition={property?.type == TypeOfProperty.DATE}>
-        {propVl?.value.value == undefined ? (
-          <p className="h-min w-min truncate">Sem Data</p>
-        ) : (
-          <div className="h-min w-min truncate">
-            {new Date(new Date(propVl?.value.value)).toLocaleDateString()}
-          </div>
-        )}
-      </If>
-      <If condition={property?.type == TypeOfProperty.NUMBER}>
-        <div className="h-min w-min truncate">
-          {propVl?.value.value ?? t("withoutvalue")}
-        </div>
-      </If>
+      <ValueSelector property={propVl!} />
+
       <If condition={property?.type == TypeOfProperty.PROGRESS}>
         <div className="h-min w-min truncate">
           {propVl?.value.value ? propVl?.value.value + "%" : t("withoutvalue")}
         </div>
       </If>
-      <If
-        condition={[TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
-          property?.type!
-        )}
-      >
-        {propVl?.value.value == null ?? (
-          <Tag
-            color={propVl?.value.value.color}
-            value={propVl?.value.value.name}
-          />
-        )}
-      </If>
-      <If
-        condition={[TypeOfProperty.TAG, TypeOfProperty.CHECKBOX].includes(
-          property?.type!
-        )}
-      >
-        <div className="flex gap-1 h-full w-full items-start overflow-y-auto flex-wrap">
-          {generateList(propVl).map((opt) => {
-            return <Tag key={opt.id} color={opt.color} value={opt.name} />;
-          })}
-        </div>
-      </If>
-      <If condition={property?.type == TypeOfProperty.TEXT}>
-        <div className="h-min w-min truncate">
-          {propVl?.value.value ?? t("withoutvalue")}
-        </div>
-      </If>
-      <If condition={property?.type == TypeOfProperty.TIME}>
-        <div className="h-min w-min truncate">
-          {propVl?.value.value
-            ? (propVl.value as TimeValued).value.time.hours +
-              ":" +
-              (propVl.value as TimeValued).value.time.minutes +
-              ":" +
-              (propVl.value as TimeValued).value.time.seconds
-            : "00:00:00"}
-        </div>
-      </If>
+
       <If condition={property?.type == TypeOfProperty.USER}>
         <div className="relative w-full h-min">
           <Obj
             objs={propVl?.value.value as Array<OtherUser>}
-            max={5}
+            max={2}
+            isOtherUser
             functionObj={() => {}}
           />
         </div>

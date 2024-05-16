@@ -2,14 +2,25 @@
 
 import { ChatContext } from "@/contexts/ChatsContext";
 import { useContext, useEffect } from "react";
+import { useTranslation } from "next-i18next";
 
 export default function ChatPageConst() {
     const { setChat } = useContext(ChatContext);
+    const { t } = useTranslation();
+
     useEffect(() => {
-        if(!setChat) return;
+        if (!setChat) return;
         setChat(undefined)
-    },[setChat])
-    return(
-        <p>adsasdad</p>
+    }, [setChat])
+
+
+    return (
+        <>
+            <div className="flex flex-col justify-center items-center w-full h-full gap-10">
+                <div className="flex justify-center text-p font-alata text-constrast">
+                    <p>{t("no-chat-opened")}</p>
+                </div >
+            </div>
+        </>
     )
 }
