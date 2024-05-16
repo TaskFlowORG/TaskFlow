@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export const Interval = ({ interval }: { interval: number }) => {
+export const Interval = ({ interval, specificInterval, isEnd }: { interval: number, specificInterval:number, isEnd:boolean }) => {
   const [formated, setFormated] = useState<string>("");
   const formatInterval = (intervalToFormat: number) => {
     const initialTime = getInitialTimeOfInterval(intervalToFormat);
@@ -21,6 +21,7 @@ export const Interval = ({ interval }: { interval: number }) => {
   };
 
   const getLatestTimeOfInterval = (intervalToFormat: number) => {
+    if (isEnd) return "23:59:59";
     const hours = Math.floor((intervalToFormat + interval) / 3600);
     const minutes = Math.floor(((intervalToFormat + interval) % 3600) / 60);
     const seconds = Math.floor(((intervalToFormat + interval) % 60) - 1);
@@ -33,7 +34,7 @@ export const Interval = ({ interval }: { interval: number }) => {
     ).padStart(2, "0")}:${String(date.getSeconds()).padStart(2, "0")}`;
   };
   useEffect(() => {
-    setFormated(formatInterval(interval));
+    setFormated(formatInterval(specificInterval));
   }, [interval]);
 
   return <>{formated}</>;

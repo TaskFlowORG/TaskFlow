@@ -193,7 +193,7 @@ export const Report = ({
           (log.value.value.value as Interval).time.seconds
         );
       case TypeOfProperty.USER:
-        return (log.value.value.value as UserValued).users.map((user, index) =>
+        return (log.value.value as UserValued).users?.map((user, index) =>
           index == (log.value.value.value as UserValued).users.length + 1
             ? user.username + ", "
             : user.username
@@ -249,7 +249,7 @@ export const Report = ({
 
   const groupLogs = () => {
     const logs: GroupedLog[] = [];
-    logged.logs.forEach((log) => {
+    logged.logs?.forEach((log) => {
       const date = new Date(log.datetime);
       if (
         logs.some((group) =>
@@ -285,7 +285,7 @@ export const Report = ({
                   <Text>{log.date.toLocaleDateString()}</Text>
                 </View>
                 <Text style={styles.descriptionlog}>
-                  {log.logs.map((log, index) => (
+                  {log.logs?.map((log, index) => (
                     <View key={index} style={styles.descriptionlog}>
                       <Text>
                         {new Date(log.datetime).toLocaleTimeString() +"  "}

@@ -104,7 +104,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
               />
             </div>
             <div className="h-full flex w-3/5 sm:w-4/5 p-2">
-              <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content z-50 ">
+              <div className="w-full h-full flex overflow-x-auto pl-2 pb-2 box-content z-20 ">
                 <div
                   className="flex w-min h-full relative"
                   onWheelCapture={handleWheel}
@@ -117,7 +117,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
                   <div
                     className="flex h-full w-min pt-12 overflow-y-hidden  none-scrollbar"
                     onScroll={(e) => {
-                      setScrollY(e.currentTarget.scrollTop);
+                      setScrollY(e.currentTarget.scrollTop); 
                     }}
                     ref={ref}
                   >

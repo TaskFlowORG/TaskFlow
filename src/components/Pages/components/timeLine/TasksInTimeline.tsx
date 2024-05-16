@@ -84,35 +84,37 @@ export const TasksInTimeline = ({
         return (
           <div
             key={index}
-            className="h-8 my-[2px] relative flex hover:brightness-95"
+            className="h-8 my-[2px]  relative flex hover:brightness-95"
             onClick={(e) => openModal(task.id)}
             style={{ width: ((24 * 60 * 60) / interval) * widthOfInterval }}
           >
             {propVl.value &&
               propVl.value.starts &&
               propVl?.value.starts
-                .filter((start) =>
+                // .filter((start) =>
 
-                  compareDates(
-                    new Date(new Date(start.date)),
-                    new Date(date)
-                  )
-                )
+                //   compareDates(
+                //     new Date(new Date(start.date)),
+                //     new Date(date)
+                //   )
+                // )
                 .map((start, index) => {
+
+                  console.log(start)
                   return (
                     <div
                       key={index}
-                      className={"h-full rounded-md absolute top-0 left-0 " + 
+                      className={"h-8 rounded-md absolute w-8 top-0 left-0 " + 
                   (task.completed ||task.waitingRevision ? " border-green-500 border-2" : "") + (task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
 
                       style={{
-                        backgroundColor:
-                          propVl?.value.color ??
-                          (theme == "dark"
-                            ? "var(--secondary-color)"
-                            : "var(--primary-color)"),
-                        marginLeft: calcMarginLeft(start),
-                        minWidth: calcWidth(start, task),
+                        backgroundColor: "@ff0000",
+                          // propVl?.value.color ??
+                          // (theme == "dark"
+                          //   ? "var(--secondary-color)" 
+                          //   : "var(--primary-color)"),
+                        // marginLeft: calcMarginLeft(start),
+                        // minWidth: calcWidth(start, task),
                       }}
                     />
                   );

@@ -12,7 +12,7 @@ export const TimeLineHeader = ({
   
   return (
     <div className="w-min h-full min-w-full flex absolute pl-[0.4rem]">
-      {listOfIntervals.map((interval, index) => {
+      {listOfIntervals.map((specificInterval, index) => {
         return (
           <div
             key={index}
@@ -24,7 +24,7 @@ export const TimeLineHeader = ({
               className=" flex whitespace-nowrap justify-center py-2 text-p font-alata text-modal-grey dark:text-white
                bg-white dark:bg-modal-grey absolute z-30 border-b-2 h-12 border-primary dark:border-secondary"
             >
-              <Interval interval={interval} />
+              <Interval interval={interval}  specificInterval={specificInterval} isEnd={index == listOfIntervals.length -1}/>
             </div>
             <div className="absolute h-full border-r-2 w-0 border-dashed border-zinc-300 dark:border-zinc-900 z-40" />
           </div>

@@ -98,7 +98,9 @@ export const Register = () => {
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
-        authentication.login({username, password});
+        authentication.login({username, password}).then(() => {
+          router.push("/" + username);
+        });
       }).catch((error) => {
         if(!error.response) return;
         if(error.response.status == 409){

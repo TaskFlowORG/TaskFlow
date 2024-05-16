@@ -56,6 +56,8 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
           (log.value.value.value as Interval).time.seconds
         );
       case TypeOfProperty.USER:
+        console.log(log);
+        
         return (log.value.value as UserValued).value.map(
           (user: User, index: any) =>
             index == (log.value.value as UserValued).value.length + 1
