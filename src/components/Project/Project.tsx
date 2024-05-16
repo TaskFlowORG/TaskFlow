@@ -1,9 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
-import { use, useContext, useEffect, useRef, useState } from "react";
-import { useClickAway } from "react-use";
-import { set } from "zod";
-import { Dashboard } from "./components";
+import {  useContext, useEffect, useRef, useState } from "react";
 import { If } from "../If";
 import { DashboardSide } from "./components/DashBoardSide";
 import { DashboardBottom } from "./components/DashBoardBottom";
@@ -12,14 +8,10 @@ import { ProjectContext, ProjectsContext } from "@/contexts";
 import { archiveToSrc } from "@/functions";
 import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService, userService } from "@/services";
-import { Button } from "../Button";
 import { LocalModal } from "../Modal";
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
-import { EditIcon, IconRedo } from "../icons";
-
+import { IconRedo } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
-import { log } from "console";
-import { ReportDowload } from "../Report/Report";
 import { Loading } from "../Loading";
 import { TaskModalContent } from "../TaskModal/TaskModalContent";
 import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
@@ -28,7 +20,6 @@ export const Project = () => {
   const { t } = useTranslation();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { project, setProject } = useContext(ProjectContext);
-  const { projects } = useContext(ProjectsContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
   const [description, setDescription] = useState<string | undefined>(
