@@ -24,12 +24,12 @@ export const HeaderCommentAndHistoric = ({
       : ""
   );
   const text = twMerge(
-    "text-h5 xl:text-h4 font-alata text-white w-full md:w-min",
-    !isSelected ? "text-[#343434] dark:text-white " : ""
+    "text-h5 xl:text-h4 font-alata w-full md:w-min",
+    !isSelected ? "text-contrast " : ""
   );
   return (
     <button className={container} onClick={() => setIsInComments(!isSelected)}>
-      <div className="hidden md:block   w-4 h-4 rounded-full bg-white"></div>
+      <div className="hidden md:block w-4 h-4 rounded-full bg-white"></div>
       <p className={text}>{t(title)}</p>
     </button>
   );
