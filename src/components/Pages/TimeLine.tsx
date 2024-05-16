@@ -13,6 +13,7 @@ import { InputCalendar } from "../InputCalendar";
 import { IconCalendar } from "../icons";
 import { useTranslation } from "next-i18next";
 import { compareDates } from "./functions";
+import { Info } from "../Info";
 
 export const TimeLine = ({ page }: { page: Page }) => {
   //in seconds
@@ -48,7 +49,7 @@ export const TimeLine = ({ page }: { page: Page }) => {
         let intervalTemp;
         if (interval > 60) intervalTemp = interval - 60;
         else intervalTemp = interval - 1;
-        setInterval(intervalTemp < 2 ? 2 : intervalTemp);
+        setInterval(intervalTemp < 60 ? 60 : intervalTemp);
         // setWidthOfInterval((prev) => prev * 2);
       }
     } else {
@@ -93,7 +94,8 @@ export const TimeLine = ({ page }: { page: Page }) => {
             <div className=" w-2/5 sm:w-1/5 h-full flex flex-col pb-4 p-2 z-30">
 
               <h5 className="text-p h-[3.4rem] md:text-h4 text-alata 
-              flex items-center justify-center  text-primary w-full dark:text-secondary">
+              flex items-center justify-center  gap-2 text-primary w-full dark:text-secondary">
+                <Info text="timeline-scroll" title="timeline-scroll-desc" />
                 {t("tasks")}
               </h5>
               <TaskLegend

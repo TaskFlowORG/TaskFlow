@@ -345,5 +345,7 @@
   "clear":"Limpiar",
   "revision":"Revisión de Tareas",
   "font-config":"Configuración de Fuente",
-  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales."
+  "font-config-desc":"Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales.",
+  "timeline-scroll" :"Desplaza el mouse para aumentar o disminuir",
+  "timeline-scroll-desc" :"Desplaza el mouse sobre la línea de tiempo para aumentar o disminuir el intervalo entre cada sección de la línea de tiempo."
 }

@@ -11,9 +11,8 @@ export const Info = ({text, title, right}: {text:string, title:string, right?:bo
         onMouseEnter={() => setShow(prev => !prev)}
                 onMouseLeave={() => setShow(prev => !prev)}>
             <div className="w-4 h-4 flex justify-center items-center rounded-full 
-            p-1 text-[80%] bg-white  font-alata
+            p-1 text-[12px] bg-white  font-alata
              dark:bg-modal-grey border-2 border-modal-grey dark:border-white opacity-25 cursor-default"
-                
              >
                 ?
             </div>
