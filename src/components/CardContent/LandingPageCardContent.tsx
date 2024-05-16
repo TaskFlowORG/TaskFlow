@@ -10,7 +10,7 @@ interface Props {
 }
 export const LandingPageCardContent = ({ title, text, dark, color }: Props) => {
 
-    const { theme, setTheme } = useTheme()
+    const { theme } = useTheme()
     let style = null;
 
     if (theme == "light") {
@@ -25,8 +25,8 @@ export const LandingPageCardContent = ({ title, text, dark, color }: Props) => {
 
     return (
         <div className="w-full  flex flex-col gap-4">
-            <h3 style={style} className={" text-[24px]   md:text-[32px] " + color}>{title}</h3>
-            <p className=" text-[12px] font-montserrat md:text-[16px] text-modal-grey dark:text-white"> {text}</p>
+            <h3 style={style} className={" text-h4 lg:text-h3 font-alata " + color}>{title}</h3>
+            <p className=" text-xs font-montserrat md:text-p text-modal-grey leading-relaxed dark:text-white"> {text}</p>
         </div>
     )
 }

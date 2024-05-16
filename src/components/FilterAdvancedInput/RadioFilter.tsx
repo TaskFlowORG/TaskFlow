@@ -11,6 +11,7 @@ interface Props {
   value?: string;
   options: Option[];
   isInModal?: boolean;
+
 }
 
 export const RadioFilter = ({
@@ -73,7 +74,7 @@ export const RadioFilter = ({
               id={`prop${id}_${index}`}
               value={option.name}
               className="custom-radio"
-              name="radioGroup"
+              name={id.toString()}
               checked={option.name == selectedOption}
               onChange={handleOptionChange}
             />
@@ -90,10 +91,10 @@ export const RadioFilter = ({
           <input
             type="radio"
             disabled={ !isInModal ? false : !hasPermission}
-            id="244a271c-ab15-4620-b4e2-a24c92fe4042"
+            id={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
             className="custom-radio"
             value={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
-            name="radioGroup"
+            name={id.toString()}
             checked={"244a271c-ab15-4620-b4e2-a24c92fe4042" == selectedOption}
             onChange={handleOptionChange}
           />

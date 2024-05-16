@@ -279,6 +279,7 @@ export const TimeFilter = ({
 
   const verifyEnd = async () => {
     // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
+    if ((property as Limited).maximum==undefined)return
 
     let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
 
@@ -354,7 +355,7 @@ export const TimeFilter = ({
           {seconds < 10 ? "0" + seconds : seconds}
         </p>
         <NeedPermission permission="update">
-          {!play && minutes < (property as Limited).maximum && (
+          {!play && ((minutes < (property as Limited).maximum) || ((property as Limited).maximum == undefined))  && (
             <div
               onClick={handleClickPlay}
               className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"

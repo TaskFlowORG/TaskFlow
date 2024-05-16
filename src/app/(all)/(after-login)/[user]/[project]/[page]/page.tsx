@@ -32,6 +32,8 @@ export default function Pages({
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
+    console.log("FOI AQUI MEU");
+
     const pageTemp = project?.pages.find((p) => p.id == params.page);
     setPage(pageTemp);
     console.log(pageTemp);
@@ -39,9 +41,7 @@ export default function Pages({
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);
     setTasks(pageTemp.tasks);
-    console.log("FOI ");
   }, [params.page, project, project?.pages]);
-
   if (!user) return <Loading />;
   if (!page) {
     throw new AxiosError(undefined, undefined, undefined, undefined, {
