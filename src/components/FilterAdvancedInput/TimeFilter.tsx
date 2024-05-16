@@ -152,7 +152,7 @@ export const TimeFilter = ({
     //  let date = new Date(Date.now()).toJSON().slice(0, -1);
     let date = new Date(Date.now());
     date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
-    return date.toJSON().slice(0, -1);
+    return date.toJSON();
   };
 
   useEffect(() => {
