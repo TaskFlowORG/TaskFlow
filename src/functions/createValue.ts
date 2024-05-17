@@ -18,7 +18,7 @@ export function createValue(propertyObj: Property): Value | undefined {
   let prop: Value | null = null;
   switch (propertyObj.type) {
     case TypeOfProperty.TIME:
-      prop = new TimeValued(new Interval(new Duration(0, 0, 0)));
+      prop = new TimeValued(new Interval(new Duration(0, 0, 0), "#f04A94"));
     case TypeOfProperty.DATE:
       prop = new DateValued(null);
     case TypeOfProperty.CHECKBOX:

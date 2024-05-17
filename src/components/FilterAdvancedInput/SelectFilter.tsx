@@ -11,7 +11,7 @@ interface Props {
 
 export const SelectFilter = ({ options, name, id, value }: Props) => {
   const [selectedOption, setSelectedOption] = useState("");
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSelectedOption(value ?? "");
@@ -30,14 +30,16 @@ export const SelectFilter = ({ options, name, id, value }: Props) => {
         id={"prop" + id.toString()}
         onChange={handleOptionChange}
       >
-        <option value="">{t('select')}...</option>
+        <option value="">{t("select")}...</option>
         {options.map((option, index) => (
           <option key={index} value={option.name}>
             {option.name}
           </option>
         ))}
       </select>
-      <p>{t('selected-option')}: {selectedOption}</p>
+      <p>
+        {t("selected-option")}: {selectedOption}
+      </p>
     </div>
   );
 };

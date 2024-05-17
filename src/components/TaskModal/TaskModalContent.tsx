@@ -55,8 +55,15 @@ export const TaskModalContent = ({
       }
       console.log(list);
       setUsers(list);
+      users.filter((user, index) => {
+        let indexL = users.findLastIndex((userL) => userL.id == user.id);
+        return indexL == index;
+      });
+  
+      setUsers([...users]);
     };
     findGroups();
+
   }, [project]);
 
   const style = twMerge(

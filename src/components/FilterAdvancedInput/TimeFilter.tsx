@@ -160,7 +160,7 @@ export const TimeFilter = ({
     if (value?.starts?.length > value?.ends?.length) {
       console.log("Eu entrei e que se foda o mundo");
       const date = new Date(value.starts[value.starts.length - 1].date);
-      date.setHours(date.getHours() - 3);
+      date.setHours(date.getHours());
       const data1 = date.getTime();
       console.log("data 1", new Date(data1));
       // Timestamp em segundos
@@ -187,7 +187,7 @@ export const TimeFilter = ({
       console.log(tempoTotal);
       setHours(tempoTotal.horas);
       setMinutes(tempoTotal.minutos);
-      setSeconds(Math.floor(tempoTotal.segundos));
+      setSeconds(Math.floor(tempoTotal.segundos) ?? 0);
       setPlay(true);
       let time = tempoTotal.horas * 60 + tempoTotal.minutos;
       // if ((property as Limited).maximum <= time) {
@@ -301,7 +301,7 @@ export const TimeFilter = ({
       // Minutes Mode
 
       currentDate.setTime(currentDate.getTime() - exceededTime * 60 * 1000);
-      value.ends.push(new DateTimelines(currentDate.toJSON().slice(0, -1)));
+      value.ends.push(new DateTimelines(currentDate.toJSON()));
       console.log(value);
 
       // Seconds Mode

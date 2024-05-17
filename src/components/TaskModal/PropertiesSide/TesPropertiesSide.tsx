@@ -261,14 +261,8 @@ export const TesPropertiesSide = ({
           console.log("Calma qui vou salvar o usuário fi");
           console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          let hours = new Date().getHours();
-          let minutes = new Date().getMinutes();
           updateProp.value.value =
-            value.value +
-            "T" +
-            ((hours as number) < 10 ? "0" + hours : hours) +
-            ":" +
-            ((minutes as number) < 10 ? "0" + minutes : minutes);
+            value.value;
         } else {
           updateProp.value.value = value.value;
         }
