@@ -422,5 +422,7 @@
   "font-config": "Configuração de Fonte",
   "font-config-desc": "Escolha um estilo de fonte para o seu texto, personalize a sua experiência de acordo com seus gostos pessoais.",
   "timeline-scroll": "Role para aumentar ou diminuir",
-  "timeline-scroll-desc": "Role o mouse acima da linha do tempo para aumentar ou diminuir o intervalo entre cada seção da linha do tempo."
+  "timeline-scroll-desc": "Role o mouse acima da linha do tempo para aumentar ou diminuir o intervalo entre cada seção da linha do tempo.",
+  "task-without-date": "Tarefas sem data",
+  "day tasks": "Tarefas do dia"
 }
