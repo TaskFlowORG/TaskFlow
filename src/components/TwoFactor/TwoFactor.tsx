@@ -17,6 +17,7 @@ export const TwoFactor = ({ password, username }: Props) => {
     const [numberC, setNumberC] = useState<string>("");
     const [number, setNumber] = useState<string>();
     const [error, setError] = useState<string>("")
+    const [color, setColor] = useState<string>("")
     const { theme } = useTheme();
     const { t } = useTranslation();
 
@@ -42,6 +43,10 @@ export const TwoFactor = ({ password, username }: Props) => {
     };
 
     const handleSubmit = async () => {
+        console.log(number);
+        console.log(numberC);
+        
+        
         if (number !== null && number?.toString() === numberC) {
             try {
                 const response  = await axios.post("http://localhost:9999/verify-otp", { username: username, password: password, responseOtp: number.toString() }, {withCredentials:true})
@@ -57,7 +62,8 @@ export const TwoFactor = ({ password, username }: Props) => {
             setError('Error connecting to server');
         }
     } else {
-        setError("Código inválido!");
+        setError(t("error-code"));
+        setColor("text-red-500")
 }
     };
 
@@ -67,10 +73,12 @@ export const TwoFactor = ({ password, username }: Props) => {
         try {
             if(username){
                 await emailService.sendEmailAuth(username);
+                setError(t("success-email"))
+                setColor("text-green-500")
             }
         } catch (error) {
-            console.error("Error sending email", error);
-            setError("Email enviado com sucesso!")
+            setError(t("error-email"))
+            setColor("text-red-500")
         }
     };
 
@@ -79,7 +87,7 @@ return (
         <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
             <h4 className="h4 leading-6 flex py-3 md:py-0">{t("two-factor")}</h4>
             <h4 className="p leading-6 flex py-3 md:py-3">{t("verify-code")}</h4>
-            <span className="text-red-500 text-sm">{error ?? ""}</span>
+            <span className={`${color} text-sm`}>{error ?? ""}</span>
 
 
             <div className="flex items-center flex-col h-3/5 w-full justify-between">
@@ -99,7 +107,7 @@ return (
                 </div>
                 <div className='flex justify-end w-4/5 pt-8 md:pt-0'>
                     <button className={"bg-primary rounded-md h5 text-white hover:bg-light-pink w-[150px] h-[44px] dark:bg-secondary dark:hover:bg-light-orange"} onClick={handleSubmit}>
-                        Confirmar
+                        {t("confirm")}
                     </button>
                 </div>
 

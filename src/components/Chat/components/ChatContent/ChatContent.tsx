@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { MessageContent } from "@/components/Chat/components/MessageContent";
 import { Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
+import { useState, useEffect, useContext, useRef, ChangeEvent, use } from "react"
 import { chatService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
@@ -11,6 +11,7 @@ import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
 import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
+import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 
 interface MessageGroup {
@@ -32,6 +33,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -118,27 +120,27 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                     <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
                         <div className="flex  w-full flex-col gap-1">
                             <div className="flex justify-center py-5 text-p font-alata text-constrast">
-                                <p>Este é o começo de sua conversa com {name || "um grupo sem nome"} </p>
+                                <p>{t("beginning-conversation")} {name || t("group-without-name")}</p>
                             </div>
                             {mensagens?.map((mensagem, index) => (
                                 <>
                                     <If condition={firstMessageToday(new Date())?.id === mensagem.message.id}>
                                         <div className="w-full flex justify-center">
-                                            <div className="flex justify-center w-fit min-w-14 max-w-20 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                                <p className="text-p font-montserrat text-contrast">Hoje</p>
+                                            <div className="flex justify-center w-fit min-w-[6rem] max-w-20 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                                <p className="text-p font-montserrat text-contrast">{t("today")}</p>
                                             </div>
                                         </div>
                                     </If>
                                     <If condition={firstMessageOfYesterday(new Date())?.id === mensagem.message.id}>
                                         <div className="w-full flex justify-center">
-                                            <div className="flex justify-center w-fit min-w-16 max-w-20 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
-                                                <p className="text-p font-montserrat text-contrast">Ontem</p>
+                                            <div className="flex justify-center w-fit min-w-[6rem] max-w-36 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                                <p className="text-p font-montserrat text-contrast">{t("yesterday")}</p>
                                             </div>
                                         </div>
                                     </If>
                                     <If condition={firstMessageOfOtherDay(new Date())?.id === mensagem.message.id}>
                                         <div className="w-full flex justify-center">
-                                            <div className="flex justify-center min-w-[5rem] max-w-24 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
+                                            <div className="flex justify-center min-w-[6rem] max-w-24 h-6 rounded-md my-5" style={{ backgroundImage: "linear-gradient(to right, var(--secondary-color) 0%, var(--primary-color) 80%)" }}>
                                                 <p className="text-p font-montserrat text-contrast">{new Date(mensagem.message.dateCreate).getDay() + "/" + new Date(mensagem.message.dateCreate).getMonth() + "/" + new Date(mensagem.message.dateCreate).getFullYear()}</p>
                                             </div>
                                         </div>
@@ -153,7 +155,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                     <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2">
                         <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-md   ">
                             <div className="w-full">
-                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder="Digite aqui..." />
+                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} />
                             </div>
                             <div className="flex items-center justify-center w-12">
                                 <Keyboard setValue={setMensagem} bottom></Keyboard>

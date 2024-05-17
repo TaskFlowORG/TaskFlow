@@ -10,7 +10,6 @@ export class UserPut {
         public id: number,
         public name: string,
         public surname: string,
-        public address: string,
         public mail: string,
         public phone: string,
         public description: string,
