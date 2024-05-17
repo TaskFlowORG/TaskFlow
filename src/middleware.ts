@@ -12,7 +12,6 @@ export async function middleware(req: NextRequest) {
     !token &&
     req.nextUrl.pathname !== "/login" &&
     req.nextUrl.pathname !== "/register" &&
-    req.nextUrl.pathname !== "/forgotPassword" &&
     req.nextUrl.pathname !== "/"
   ) {
     const domain = req.nextUrl.origin;
@@ -23,7 +22,6 @@ export async function middleware(req: NextRequest) {
     token &&
     (req.nextUrl.pathname === "/login" ||
       req.nextUrl.pathname === "/register" ||
-      req.nextUrl.pathname === "/forgotPassword" ||
       req.nextUrl.pathname === "/")
   ) {
     const username = req.cookies.get("username")?.value; 
