@@ -212,12 +212,18 @@ export const Report = ({
       case TypeOfProperty.ARCHIVE:
         return (log.value.value.value as Archive).name;
       case TypeOfProperty.TIME:
+        let duration = (log.value.value.value as Interval).time;
         return (
-          (log.value.value.value as Interval)?.time.hours +
+          (duration.hours < 10 ? "0" + duration.hours : "" + duration.hours) +
           ":" +
-          (log.value.value.value as Interval)?.time.minutes +
+          (duration.minutes < 10
+            ? "0" + duration.minutes
+            : "" + duration.minutes) +
           ":" +
-          (log.value.value.value as Interval)?.time.seconds
+          (duration.seconds < 10
+            ? "0" + duration.seconds
+            : "" + duration.seconds)
+
         );
       case TypeOfProperty.USER:
         return (log.value.value as UserValued).users?.map((user, index) =>

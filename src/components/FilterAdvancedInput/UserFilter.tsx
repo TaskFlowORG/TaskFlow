@@ -47,6 +47,14 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
       }
       console.log(list);
       setUsers(list);
+      
+      users.filter((user, index) => {
+        let indexL = users.findLastIndex((userL) => userL.id == user.id);
+        return indexL == index;
+      });
+
+      setUsers([...users]);
+
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -66,9 +74,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
-            openUser
-      resposiveClasses="hover:brightness-95"
-      objs={valued
+              openUser
+              resposiveClasses="hover:brightness-95"
+              objs={valued
                 ?.map((userD) => users.find((user) => user.username == userD)!)
                 .filter((user) => user != null && user != undefined)}
               mawWidth="w-max"
@@ -129,7 +137,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                   onClick={() => setIsOpenRemove(!isOpenRemove)}
                 >
                   <div className=" rotate-90">
-                    <p className="font-semibold leading-none text-[10px] text-contrast">l</p>
+                    <p className="font-semibold leading-none text-[10px] text-contrast">
+                      l
+                    </p>
                   </div>
                 </div>
               </div>

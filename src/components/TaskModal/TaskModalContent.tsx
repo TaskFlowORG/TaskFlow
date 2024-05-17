@@ -60,8 +60,15 @@ export const TaskModalContent = ({
       }
       console.log(list);
       setUsers(list);
+      users.filter((user, index) => {
+        let indexL = users.findLastIndex((userL) => userL.id == user.id);
+        return indexL == index;
+      });
+  
+      setUsers([...users]);
     };
     findGroups();
+
   }, [project]);
 
   const style = twMerge(
@@ -72,7 +79,7 @@ export const TaskModalContent = ({
   return (
     <div className={style}>
       <div className="flex flex-col gap-12 w-full lg:w-2/5">
-        {isInModal && <TaskName task={task} />}
+        {isInModal && <TaskName task={task as Task} />}
         <div className="flex flex-col w-full gap-6">
           <div className="flex gap-0 w-full">
             <HeaderCommentAndHistoric

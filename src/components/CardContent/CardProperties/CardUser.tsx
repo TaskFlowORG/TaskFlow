@@ -1,11 +1,14 @@
 import { Obj } from "@/components/Obj";
 import { OtherUser } from "@/models";
+import { log } from "console";
 
 type CardProps = {
   users: OtherUser[];
 };
 
 export const CardUser = ({ users }: CardProps) => {
+
+  console.log(users)
   return (
     <div className="  flex items-start w-24  relative">
 
