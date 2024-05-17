@@ -1,5 +1,12 @@
 import { ProjectContext } from "@/contexts";
-import { Limited, Property, PropertyValue, Task, TimeValued } from "@/models";
+import {
+  Limited,
+  Project,
+  Property,
+  PropertyValue,
+  Task,
+  TimeValued,
+} from "@/models";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 import { taskService } from "@/services";
@@ -14,6 +21,8 @@ import Image from "next/image";
 import { DateTimelines } from "@/models/values/DateTimelines";
 import { PageContext } from "@/utils/pageContext";
 import { NeedPermission } from "../NeedPermission";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 
 type PropsForm = {
   property: PropertyValue;
@@ -25,7 +34,7 @@ interface Props {
   name: string;
   value: Interval;
   isInModal?: boolean;
-  task: Task;
+  task: Task | Project;
   property: Property;
   formProp: PropsForm;
   formProps: PropsForm[];
@@ -136,23 +145,25 @@ export const TimeFilter = ({
     setHours(value.time.hours);
     setMinutes(value.time.minutes);
     setSeconds(Math.floor(value.time.seconds));
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+        console.log(
+          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+        );
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const now = () => {
     //  let date = new Date(Date.now()).toJSON().slice(0, -1);
     let date = new Date(Date.now());
     date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
-    return date.toJSON()
+    return date.toJSON();
   };
 
   useEffect(() => {
@@ -212,20 +223,22 @@ export const TimeFilter = ({
   }, [value]);
 
   const updateTask = async (value: Interval) => {
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+        console.log(
+          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+        );
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
   const handleClickPause = async () => {
     setPlay(false);
@@ -238,20 +251,23 @@ export const TimeFilter = ({
     } else {
       value.time = new Duration(seconds, minutes, hours, undefined);
     }
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+        console.log(
+          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+        );
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const handleClickPlay = async () => {
@@ -261,25 +277,27 @@ export const TimeFilter = ({
     }
     value.starts.push(new DateTimelines(now()));
     console.log(value);
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    const taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      const taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+        console.log(
+          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+        );
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const verifyEnd = async () => {
     // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
-    if ((property as Limited).maximum==undefined)return
+    if ((property as Limited).maximum == undefined) return;
 
     let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
 
@@ -319,21 +337,28 @@ export const TimeFilter = ({
       setMinutes(value.time.minutes);
       setSeconds(value.time.seconds);
 
-      let propertyFinded = task.properties.find(
+      let propertyFinded = valuesOfObjects(task).find(
         (prop) => prop.property.id == id
       )!;
       propertyFinded.value.value = value;
-      const taskReturned = await taskService.upDate(task, project!.id);
-      const page = project?.pages.find((page) => page.id == pageId);
-      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskPage) {
-        taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+
+      if (!isProject(task)) {
+        const taskReturned = await taskService.upDate(
+          task as Task,
+          project!.id
         );
+        const page = project?.pages.find((page) => page.id == pageId);
+        const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+        if (taskPage) {
+          taskPage.task = taskReturned;
+          console.log(
+            "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+          );
+        }
+        console.log(value);
+        setProject!({ ...project! });
       }
-      console.log(value);
-      setProject!({ ...project! });
+
       // handleClickPause();
     }
   };
@@ -355,16 +380,18 @@ export const TimeFilter = ({
           {seconds < 10 ? "0" + seconds : seconds}
         </p>
         <NeedPermission permission="update">
-          {!play && ((minutes < (property as Limited).maximum) || ((property as Limited).maximum == undefined))  && (
-            <div
-              onClick={handleClickPlay}
-              className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
-            >
-              <div className="h-[10px] aspect-square relative">
-                <Image src={"/play.svg"} alt="Play" fill></Image>
+          {!play &&
+            (minutes < (property as Limited).maximum ||
+              (property as Limited).maximum == undefined) && (
+              <div
+                onClick={handleClickPlay}
+                className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+              >
+                <div className="h-[10px] aspect-square relative">
+                  <Image src={"/play.svg"} alt="Play" fill></Image>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {play && (
             <div

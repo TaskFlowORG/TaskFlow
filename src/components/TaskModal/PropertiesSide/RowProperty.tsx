@@ -8,6 +8,7 @@ import { UserFilter } from "@/components/FilterAdvancedInput/UserFilter";
 import { Select as Selectt } from "@/components/Select";
 import {
   OtherUser,
+  Project,
   PropertyValue,
   Select,
   Task,
@@ -21,7 +22,7 @@ type PropsForm = {
 
 type Props = {
   prop: PropertyValue;
-  task: Task;
+  task: Task | Project;
   formProps: PropsForm[];
   setFormProps: (prop: PropsForm[]) => void;
   setErrors: (boolean: boolean) => void;
@@ -50,9 +51,7 @@ export const RowProperty = ({
         />
       );
     case TypeOfProperty.ARCHIVE:
-      console.log(prop
-        
-      );
+      console.log(prop);
       return (
         <FileFilter
           isInModal

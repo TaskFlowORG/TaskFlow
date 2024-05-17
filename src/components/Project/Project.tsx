@@ -225,16 +225,15 @@ export const Project = () => {
             />
             {t("revision")}
           </span>
-        </If>
-        {project?.pages[0]?.tasks[0]?.task && (
+        </If> 
           <TaskModalWrapper>
             <TaskModalContent
-              task={project.pages[0].tasks[0].task}
+              task={project}
               user={user}
               isInModal={false}
             />
           </TaskModalWrapper>
-        )}
+
        
         <div className="h-5/6 w-full "></div>
       </div>

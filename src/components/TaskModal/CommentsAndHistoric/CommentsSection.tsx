@@ -2,8 +2,11 @@ import { Message, Project, Task, User } from "@/models";
 import { SendComment } from "./SendComment";
 import { Comment } from "./Comment";
 import { useContext, useEffect, useState } from "react";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import { ProjectContext } from "@/contexts";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { PageContext } from "@/utils/pageContext";
 
 type Props = {
   task: Task | Project;
@@ -14,6 +17,8 @@ export const CommentsSection = ({ task, user }: Props) => {
   const [commentsTask, setCommentsTask] = useState<Message[]>([]);
   const { project } = useContext(ProjectContext);
   const [input, setInput] = useState("");
+  const { pageId } = useContext(PageContext);
+  const { setProject } = useContext(ProjectContext);
 
   useEffect(() => {
     setCommentsTask((prevComments) => {
@@ -44,8 +49,16 @@ export const CommentsSection = ({ task, user }: Props) => {
       comment.dateUpdate = new Date();
       console.log(updatedValue);
       console.log(task);
-      let taskUpdated = await taskService.upDate(task as Task, project!.id);
-      setCommentsTask(taskUpdated.comments);
+      if (!isProject(task)) {
+        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        setCommentsTask(taskUpdated.comments);
+      } else {
+        let projectUpdated = await projectService.update(
+          task as Project,
+          project!.id
+        );
+        setCommentsTask(projectUpdated.comments);
+      }
     }
   }
 
@@ -53,8 +66,16 @@ export const CommentsSection = ({ task, user }: Props) => {
     let comment = task.comments[commentId];
     if (comment) {
       task.comments.splice(task.comments.indexOf(comment), 1);
-      let taskUpdated = await taskService.upDate(task as Task, project!.id);
-      setCommentsTask(taskUpdated.comments);
+      if (!isProject(task)) {
+        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        setCommentsTask(taskUpdated.comments);
+      } else {
+        let projectUpdated = await projectService.update(
+          task as Project,
+          project!.id
+        );
+        setCommentsTask(projectUpdated.comments);
+      }
     }
   }
 
@@ -72,8 +93,21 @@ export const CommentsSection = ({ task, user }: Props) => {
     } else {
       task.comments = [comment];
     }
-
-    await taskService.upDate(task as Task, project!.id);
+    if (!isProject(task)) {
+      let taskUpdated = await taskService.upDate(task as Task, project!.id);
+      setCommentsTask(taskUpdated.comments);
+        let page = project?.pages.find((page) => page.id == pageId);
+        let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
+        taskPage!.task = task as Task;
+        setProject!({ ...project! });
+    } else {
+      let projectUpdated = await projectService.update(
+        task as Project,
+        project!.id
+      );
+      setCommentsTask(projectUpdated.comments);
+      setProject!({ ...projectUpdated! });
+    }
     setInput("");
   }
   return (
