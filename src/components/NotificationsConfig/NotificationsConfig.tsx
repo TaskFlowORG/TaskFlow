@@ -4,6 +4,7 @@ import { Configuration, User, UserPut } from '@/models';
 import { InputConfig } from './components/InputConfig';
 import { UserContext } from '@/contexts/UserContext';
 import { useTranslation } from 'react-i18next';
+import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 
 
 export const NotificationsConfig = () => {
@@ -17,6 +18,7 @@ export const NotificationsConfig = () => {
     const [notificDeadlines, setNotificDeadlines] = useState<boolean | undefined>(user?.configuration.notificDeadlines);
     const [notificChats, setNotificChats] = useState<boolean | undefined>(user?.configuration.notificChats);
     const [notificComments, setNotificComments] = useState<boolean | undefined>(user?.configuration.notificComments);
+    const asynThrow = useAsyncThrow();
 
     const { t } = useTranslation();
     
@@ -61,7 +63,8 @@ export const NotificationsConfig = () => {
                     break;
             }
             user.configuration[id] = e.target.checked;
-            const updatedUser = await userService.patch(user);
+            const updatedUser = await userService.patch(user).catch(asynThrow);
+            if(updatedUser)
             setUser(updatedUser);
         }
     }

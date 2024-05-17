@@ -3,6 +3,7 @@ import { Group, GroupPut, OtherUser, Permission, Project } from "@/models";
 import { groupService, userService } from "@/services";
 import { useTranslation } from "react-i18next";
 import { Arrow } from "./Arrow";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
     permissions: Permission[];
@@ -16,6 +17,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const [text, setText] = useState<string>("");
     const [user, setUser] = useState<OtherUser>();
     const { t } = useTranslation();
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         fetchData();
@@ -26,7 +28,8 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     }, [successPermission, group, permissions]);
 
     const fetchData = async () => {
-        const fetchedUser = await userService.findLogged();
+        const fetchedUser = await userService.findLogged().catch(asynThrow);
+        if (fetchedUser)
         setUser(fetchedUser);
         if (group) {
             const permission = group.permissions.find(p => p.project.id === project.id);
@@ -38,7 +41,8 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
         try {
             if (group) {
                 group.permissions = [selectedPermission];
-                await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+                await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id)
+                
                 setSelectedPermission(selectedPermission.name);
                 setText(t("permissionUpdateSuccess"));
                 setSuccessPermission(true);

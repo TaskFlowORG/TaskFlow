@@ -14,6 +14,7 @@ import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
 import Cookies from "js-cookie";
 import { LanguageContext } from "@/contexts/ContextLanguage";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -34,10 +35,12 @@ export const GeneralConfig = () => {
     setThemeToggle(theme === "dark");
     setFontSize(user?.configuration.fontSize);
     setLanguage(user?.configuration.language);
-    setShowPropertiesName(user?.configuration.showPropertiesName);
+    setShowPropertiesName(user?.configuration.showPropertiesName); 
     setGoogleCalendar(user?.configuration.googleCalendar);
     setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
+  const asynThrow = useAsyncThrow();
+
 
   const changeColor = (color: string) => {
     (async () => {
@@ -47,7 +50,8 @@ export const GeneralConfig = () => {
         theme === "dark" ? convertColor(color, true) : color;
       user.configuration.secondaryColor =
         theme === "dark" ? color : convertColor(color, false);
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     })();
   };
@@ -68,7 +72,8 @@ export const GeneralConfig = () => {
     const configuration: Configuration = user.configuration;
     configuration.language = language as Language;
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
     changeGlobal(language as Language)
   }
@@ -78,7 +83,8 @@ export const GeneralConfig = () => {
     console.log("font", font);
     
     user.configuration.font = font;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -91,7 +97,8 @@ export const GeneralConfig = () => {
       configuration.initialPageTasksPerDeadline = true;
     }
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -121,7 +128,8 @@ export const GeneralConfig = () => {
       const configuration: Configuration = user.configuration;
       configuration[id] = e.target.checked;
       user.configuration = configuration;
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     }
   };

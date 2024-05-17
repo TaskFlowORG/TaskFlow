@@ -29,6 +29,7 @@ import { createValue } from "@/functions/createValue";
 import { useTranslation } from "react-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type Props = {
   task: Task;
@@ -214,6 +215,8 @@ export const TesPropertiesSide = ({
       new Date(propInput.value).getFullYear() < currentDate.getFullYear()
     }
   }
+  const asynThrow = useAsyncThrow();
+
 
   async function updateTask() {
     if (!validateProps()) {
@@ -274,7 +277,8 @@ export const TesPropertiesSide = ({
         }
       }
     });
-    const taskReturned = await taskService.upDate(task, project!.id);
+    const taskReturned = await taskService.upDate(task, project!.id).catch(asynThrow);
+    if (!taskReturned) return;
     console.log(taskReturned);
     const page = project?.pages.find((page) => page.id == pageId);
     const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
@@ -358,7 +362,8 @@ export const TesPropertiesSide = ({
           createValue(propertyObj as unknown as Property)!
         )
       );
-      let taskReturned = await taskService.upDate(task, project!.id);
+      let taskReturned = await taskService.upDate(task, project!.id).catch(asynThrow);
+      if (!taskReturned) return;
       let page = project!.pages.find((page) => pageId == page.id);
       let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
       taskFinded!.task = taskReturned;

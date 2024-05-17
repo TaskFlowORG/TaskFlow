@@ -8,6 +8,7 @@ import { PermissionComponent } from "./UPermissionComponent";
 import { LocalModal } from "@/components/Modal";
 import { OtherUserComponent } from "@/components/OtherUser";
 import { UserContext } from "@/contexts/UserContext";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
   group: Group;
@@ -25,6 +26,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const [x, setX] = useState<number>(0);
   const [y, setY] = useState<number>(0);
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     console.log(group.users);
@@ -34,7 +36,8 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
 
   const fetchData = async () => {
     if (project) {
-      const fetchedPermissions = await permissionService.findAll(project.id);
+      const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
+      if (fetchedPermissions)
       setPermissions(fetchedPermissions);
     }
   };

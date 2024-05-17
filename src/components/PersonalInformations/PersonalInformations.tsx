@@ -22,6 +22,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModal } from "../ErrorModal";
 import { cookies } from "next/headers";
 import { authentication } from "@/services/services/Authentication";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 
 export const PersonalInformations = () => {
@@ -62,6 +63,7 @@ export const PersonalInformations = () => {
 
 
   }, [user]);
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     setPhotoUrl(archiveToSrc(user?.picture));
@@ -69,7 +71,7 @@ export const PersonalInformations = () => {
 
   const saveChanges = async () => {
     if (!user || !setUser) return;
-    let updatedUser = new User(
+    let updateUser = new User(
       user.id,
       user.username,
       name,
@@ -80,11 +82,13 @@ export const PersonalInformations = () => {
       phone,
       desc,
       user.points,
+      user.authenticate,
       user.configuration,
       user.permissions,
-      user.notifications
+      user.notifications,
     );
-    updatedUser = await userService.patch(updatedUser);
+    const updatedUser = await userService.patch(updateUser).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   };
 

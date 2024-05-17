@@ -7,6 +7,7 @@ import { archiveToSrc } from '@/functions';
 import { IconEditColoured } from '../icons/PageOtpions/IconEditCoulored';
 import { If } from '../If';
 import { useTranslation } from 'react-i18next';
+import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 
 interface Props {
     project?: Project;
@@ -21,18 +22,21 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const [name, setName] = useState<string | undefined>(group?.name);
     const [description, setDescription] = useState<string | undefined>(group?.description);
     const { t } = useTranslation();
+    const asynThrow = useAsyncThrow();
 
     const refDescription = useRef<HTMLTextAreaElement>(null);
     const refName = useRef<HTMLInputElement>(null);
 
     const fetchData = async () => {
         if (project != null) {
-            const fetchedPermissions = await permissionService.findAll(project.id);
+            const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
+            if (fetchedPermissions)
             setPermissions(fetchedPermissions);
             console.log(permissions);
             
         }
-        const fetchedGroup = await groupService.findOne(groupId);
+        const fetchedGroup = await groupService.findOne(groupId).catch(asynThrow);
+        if (fetchedGroup)
         setGroup(fetchedGroup);
         if (fetchedGroup) {
             setName(fetchedGroup?.name || "");
@@ -51,7 +55,8 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         if (group) {
             const file = e.target.files?.[0];
             if (!file) return;
-            const updateGroup = await groupService.updatePicture(file, group.id);
+            const updateGroup = await groupService.updatePicture(file, group.id).catch(asynThrow);
+            if (updateGroup)
             setGroup(updateGroup);
         }
     };
@@ -59,14 +64,15 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const updateNameOfAGroup = async () => {
         if (group && name) {
             group.name = name;
-            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id).catch(asynThrow);
+
         }
     }
 
     const updateDescriptionOfAGroup = async () => {
         if (group && description) {
             group.description = description;
-            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
+            await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id).catch(asynThrow);
         }
     }
     const [src, setSrc] = useState<string>("/Assets/noImage.png");

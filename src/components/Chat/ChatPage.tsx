@@ -6,6 +6,7 @@ import { chatService } from "@/services";
 import { Chat, Message } from "@/models";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { ChatContext } from "@/contexts/ChatsContext";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type chattype = {
     chatId: number;
@@ -15,14 +16,17 @@ export const ChatPage = ({ chatId }: chattype) => {
     const [chatContent, setChatContent] = useState<Chat>();
     const [messages, setMessages] = useState<Message[]>([]);
     const { setChat } = useContext(ChatContext);
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         if(setChat) setChat(chatContent)
     },[chatContent, setChat])
     useEffect(() => {
         (async function getChats() {
-            const response = await chatService.findAllGroup()
-            const response2 = await chatService.findAllPrivate()
+            const response = await chatService.findAllGroup().catch(asynThrow)
+
+            const response2 = await chatService.findAllPrivate().catch(asynThrow)
+            if (!response || !response2) return;
             const chat = [...response, ...response2].find(chat => chat.id === chatId)
             setChatContent(chat);
             setMessages(chat?.messages || [])

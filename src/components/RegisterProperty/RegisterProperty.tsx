@@ -22,6 +22,8 @@ import { NeedPermission } from "../NeedPermission";
 import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
 import { SideModal } from "../Modal";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { ErrorModal } from "../ErrorModal";
 
 type RegisterPropertyProps = {
   project: Project;
@@ -46,13 +48,15 @@ export const RegisterProperty = ({
       isInProject ? project.properties : page?.properties || []
     );
   }, [isInProject, page, project]);
+  const asynThrow = useAsyncThrow();
+
 
   const postProperty = async (
     name: string,
     values: any,
     selected: TypeOfProperty
   ) => {
-    try {
+
       let propertyObj;
       if (
         [
@@ -75,7 +79,7 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       } else if (
         [
           TypeOfProperty.CHECKBOX,
@@ -95,7 +99,7 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       } else {
         propertyObj = await propertyService.saveDate(
           project.id,
@@ -109,30 +113,29 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       }
+      if(propertyObj)
       setPropertiesArray([...propertiesArray, propertyObj]);
-      const projectTemp = await projectService.findOne(project.id);
+      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
+      if(projectTemp)
       setProject!(projectTemp);
-    } catch (error) {
-      console.log(error);
-    }
+
   };
 
   const deleteProperty = async (property: Property) => {
-    try {
+
       propertyService.delete(project.id, property.id);
       setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
-      const projectTemp = await projectService.findOne(project.id);
+      const projectTemp = await projectService.findOne(project.id).catch(() => setError(true));
+      if(projectTemp)
       setProject!(projectTemp);
-    } catch (error) {
-      console.log(error);
-    }
+
   };
   const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
 
   const upDateProperty = async (property: Property, getValues: any) => {
-    try {
+
       let v;
       if (
         [
@@ -152,7 +155,7 @@ export const RegisterProperty = ({
           getValues.obligatory,
           getValues.maximum
         );
-        v = await propertyService.updateLimited(project.id, limited);
+        v = await propertyService.updateLimited(project.id, limited).catch(asynThrow);
       } else if (
         [
           TypeOfProperty.CHECKBOX,
@@ -171,7 +174,7 @@ export const RegisterProperty = ({
             getValues.obligatory,
             (property as Select).options
           )
-        );
+        ).catch(asynThrow);
       } else {
         v = await propertyService.updateDate(
           project.id,
@@ -187,17 +190,18 @@ export const RegisterProperty = ({
             getValues.schedule,
             getValues.color
           )
-        );
+        ).catch(asynThrow);
       }
       console.log("COMO ASSIM");
 
-      const projectTemp = await projectService.findOne(project.id);
+      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
+      if(projectTemp)
       setProject!({ ...projectTemp });
-    } catch (error) {
-      console.log(error);
-    }
+
   };
   const { t } = useTranslation();
+
+  const [error, setError] = useState(false);
 
   const classesIn =
     "w-full h-8 rounded-t-md flex items-center justify-center bg-primary dark:bg-secondary text-contrast";
@@ -270,6 +274,8 @@ export const RegisterProperty = ({
           );
         })}
       </div>
+      <ErrorModal condition={error} setCondition={setError} title={t("cant-delete-prop")} message={t("cant-delete-prop-desc")} fnOk={() => setError(false)} />
+
     </SideModal>
   );
 };
