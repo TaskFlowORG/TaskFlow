@@ -37,7 +37,7 @@ export const InputCoresConfig = ({
         </span>
       </div>
       <div>
-        <p className="text-p font-alata">{description}</p>
+        <p className="text-p font-montserrat">{description}</p>
       </div>
     </div>
   );

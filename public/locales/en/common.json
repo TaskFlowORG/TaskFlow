@@ -114,7 +114,7 @@
   "delete-account-desc": "Are you sure you want to delete your account?",
   "delete-account-desc-recovery": "You can still recover your account for 1 month after deleting it, after which it is deleted forever!",
   "delete-account-cancel": "Cancel",
-  "personal-informations-address": "Address",
+  "personal-informations-username": "Username",
   "personal-informations-name": "Name",
   "personal-informations-surname": "Surname",
   "personal-informations-email": "Email",
@@ -392,7 +392,18 @@
   "revision": "Task Revision",
   "font-config": "Font Configuration",
   "font-config-desc": "Choose a font style for your text, personalize your experience according to your personal preferences.",
-
+  "all-quiet": "All quiet here 😢",
+  "photo": "Photo",
+  "today": "Today",
+  "yesterday": "Yesterday",
+  "beginning-conversation":"This is the beginning of your conversation with",
+  "group-without-name":"Group without name",
+  "write-here": "Write here...",
+  "authenticate-title": "Two-factor authentication (2FA)",
+  "authenticate-configs": "By activating two-way authentication, you give your account more security, as in addition to your password, you will need a code that will be sent to your email that only you have access to.",
+  "personal-informations-change-name": "Change username",
+  "personal-informations-change-password": "Change password",
+  "personal-informations-password": "Password",
   "timeline-scroll" :"Scroll the mouse to zoom in or out",
   "timeline-scroll-desc" :"Hover over the timeline to increase or decrease the interval between each section of the timeline."
 }

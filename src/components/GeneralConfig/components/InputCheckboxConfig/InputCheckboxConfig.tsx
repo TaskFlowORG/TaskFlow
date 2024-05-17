@@ -20,7 +20,7 @@ export const InputCheckboxConfig = ({checked, func, value, label}:Props) => {
                 checked={checked}
                 onChange={(e) => func(e, value)}
             />
-            <p className="text-p font-alata pl-4 ">{label}</p>
+            <p className="text-p font-montserrat pl-4 ">{label}</p>
         </div>
     )
 }

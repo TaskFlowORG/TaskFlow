@@ -6,8 +6,9 @@ import { ImagemEnviada, Visualized } from "@/components/icons";
 import { UserContext } from "@/contexts/UserContext";
 import { Chat, Message } from "@/models";
 import { chatService } from "@/services";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { archiveToSrc } from "@/functions";
+import { useTranslation } from 'react-i18next';
 
 interface ChatProps {
   key: number
@@ -23,6 +24,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
   const [chatClicado, setChatClicado] = useState<number>()
   const [photoUrl, setPhotoUrl] = useState<string>(chat ? archiveToSrc(chat.picture) : "");
   const { user } = useContext(UserContext);
+  const { t } = useTranslation();
 
   const setarChat = () => {
     onChatClick(chat.id);
@@ -56,11 +58,11 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start ">
-                  <p className="text-p font-montserrat truncate w-72 ">Você : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-72 ">{t("you")} : {lastMessage?.value}</p>
                   <div className="flex items-center w-16 justify-between">
                     <ImagemEnviada></ImagemEnviada>
                     <div>
-                      <p className="text-p font-montserrat">Foto</p>
+                      <p className="text-p font-montserrat">{t("photo")}</p>
                     </div>
                   </div>
                 </div>
@@ -71,7 +73,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 <div className="flex items-center w-16 justify-between">
                   <ImagemEnviada></ImagemEnviada>
                   <div>
-                    <p className="text-p font-montserrat">Foto</p>
+                    <p className="text-p font-montserrat">{t("photo")}</p>
                   </div>
                 </div>
               </If>
@@ -79,7 +81,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex == null}>
                 <div className="flex flex-col items-start">
-                  <p className="text-p font-montserrat truncate w-72">Você : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-72">{t("you")} : {lastMessage?.value}</p>
                 </div>
               </If>
             </If>
@@ -90,7 +92,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                   <div className="flex items-center w-16 justify-between">
                     <ImagemEnviada></ImagemEnviada>
                     <div>
-                      <p className="text-p font-montserrat">Foto</p>
+                      <p className="text-p font-montserrat">{t("photo")}</p>
                     </div>
                   </div>
                 </div>
@@ -101,7 +103,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 <div className="flex items-center w-16 justify-between">
                   <ImagemEnviada></ImagemEnviada>
                   <div>
-                    <p className="text-p font-montserrat">Foto</p>
+                    <p className="text-p font-montserrat">{t("photo")}</p>
                   </div>
                 </div>
               </If>
@@ -115,7 +117,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             </If>
             <If condition={lastMessage?.sender == null}>
               <div>
-                <p className="text-p font-montserrat">Tudo quieto por aqui 😢</p>
+                <p className="text-p font-montserrat">{t("all-quiet")}</p>
               </div>
             </If>
           </div>
