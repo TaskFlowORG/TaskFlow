@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import {  useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { If } from "../If";
 import { DashboardSide } from "./components/DashBoardSide";
 import { DashboardBottom } from "./components/DashBoardBottom";
@@ -127,7 +127,8 @@ export const Project = () => {
                   <IconEditColoured />
                   <input
                     onChange={updatePicture}
-                    type="file" accept="image/*"
+                    type="file"
+                    accept="image/*"
                     className="w-full h-full absolute cursor-pointer opacity-0"
                   />
                 </span>
@@ -159,15 +160,18 @@ export const Project = () => {
             </div>
           </div>
           <div className="400:w-52 w-full gap-2  h-full justify-center smm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
-            <p>
-              <span className="text-primary dark:text-secondary">
-                {t("owner") + ": "}
-              </span>
+            <span>
+              <span className="flex w-full justify-between">
 
-              {project?.owner.id == user?.id
-                ? t("you")
-                : project?.owner.username}
-            </p>
+              <p>
+                <span className="text-primary dark:text-secondary">
+                  {t("owner") + ": "}
+                </span>
+
+                {project?.owner.id == user?.id
+                  ? t("you")
+                  : project?.owner.username}
+              </p>
             <If condition={project?.owner.id == user?.id}>
               <span className="relative">
                 <LocalModal
@@ -180,12 +184,12 @@ export const Project = () => {
                       <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
                         {possibleOwners.map((user) => (
                           <button
-                            key={user.id}
-                            className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
-                            onClick={() =>
-                              project &&
-                              projectService.updateOwner(user, project.id)
-                            }
+                          key={user.id}
+                          className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
+                          onClick={() =>
+                            project &&
+                            projectService.updateOwner(user, project.id)
+                          }
                           >
                             @{user.username}
                           </button>
@@ -204,9 +208,8 @@ export const Project = () => {
                   <IconRedo />
                 </button>
               </span>
-            </If>
-          </div>
-        </div>
+        </If>
+              </span>
         <If condition={project?.owner.id == user?.id}>
           <span className="self-end w-full whitespace-nowrap smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
             <input
@@ -216,7 +219,11 @@ export const Project = () => {
             />
             {t("revision")}
           </span>
-        </If>
+            </If>
+      </span>
+          </div>
+        </div>
+
         {project?.pages[0]?.tasks[0]?.task && (
           <TaskModalWrapper>
             <TaskModalContent
@@ -226,7 +233,7 @@ export const Project = () => {
             />
           </TaskModalWrapper>
         )}
-       
+
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>
