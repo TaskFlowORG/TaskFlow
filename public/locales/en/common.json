@@ -363,6 +363,8 @@
   "write-here": "Write here...",
   "authenticate-title": "Two-factor authentication (2FA)",
   "authenticate-configs": "By activating two-way authentication, you give your account more security, as in addition to your password, you will need a code that will be sent to your email that only you have access to.",
-  "personal-informations-change-name": "Change username"
+  "personal-informations-change-name": "Change username",
+  "personal-informations-change-password": "Change password",
+  "personal-informations-password": "Password"
 
 }

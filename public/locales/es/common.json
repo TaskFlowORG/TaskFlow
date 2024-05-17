@@ -327,5 +327,8 @@
   "write-here": "Escribe aquí...",
   "authenticate-title": "Autenticación de dos factores (2FA)",
   "authenticate-configs": "Al activar la autenticación bidireccional, le das más seguridad a tu cuenta, ya que además de tu contraseña, necesitarás un código que te será enviado a tu correo electrónico al que solo tú tienes acceso.",
-  "personal-informations-change-name": "Cambiar nombre de usuario"
+  "personal-informations-change-name": "Cambiar nombre de usuario",
+  "personal-informations-change-password": "Cambiar contraseña",
+  "personal-informations-password": "Contraseña"
+
 }

@@ -10,9 +10,11 @@ ${({hasError}) => hasError && `border-color: red;` }
 
 
 export const Label = styled.label`
-display: flex;
-width: 100%;
-  justify-content: start;
+  display: flex;
+  width: 100%;
+  justify-content: start
+  
+  ;
 `
 
 interface ContainerProps {

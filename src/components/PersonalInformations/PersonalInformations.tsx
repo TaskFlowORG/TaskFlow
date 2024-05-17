@@ -1,12 +1,5 @@
 import Image from "next/image";
-import {
-  ChangeEvent,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, SetStateAction, useContext, useEffect, useRef, useState } from "react";
 import { userService } from "@/services";
 import { User } from "@/models";
 import { InputFieldConfig } from "@/components/PersonalInformations/components/InputFieldConfig";
@@ -22,6 +15,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModal } from "@/components/ErrorModal/index";
 import { authentication } from "@/services/services/Authentication";
 import { ChangeAccountNameModal } from "./components/ChangeAccountNameModal";
+import { ChangePasswordModal } from "./components/ChangePasswordModal";
 
 export const PersonalInformations = () => {
   const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
@@ -39,6 +33,7 @@ export const PersonalInformations = () => {
   const [deletarModal, setDeletarModal] = useState(false);
   const [photo, setPhoto] = useState<File>();
   const [changeNameModal, setChangeNameModal] = useState(false);
+  const [changePasswordModal, setChangePasswordModal] = useState(false);
   const [error, setError] = useState<boolean>(false);
   const { t } = useTranslation();
   const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
@@ -138,22 +133,40 @@ export const PersonalInformations = () => {
                 {name} {surname}
               </h2>
             </div>
-            <div className="flex w-80">
-              <InputFieldConfig
-                type="text"
-                id="username"
-                disabled={true}
-                label={t("personal-informations-username")}
-                value={user?.username as string}
-                placeholder={user?.username as string}
-                onChange={() => { }}
-              />
+            <div className="flex gap-5">
+              <div className="flex flex-col gap-4">
+                <InputFieldConfig
+                  type="text"
+                  id="username"
+                  disabled={true}
+                  label={t("personal-informations-username")}
+                  value={user?.username as string}
+                  placeholder={user?.username as string}
+                  onChange={() => { }}
+                />
+                <div onClick={() => setChangeNameModal(true)} className="cursor-pointer bg-primary dark:bg-secondary w-[14rem] h-10 flex justify-center items-center rounded-md">
+                  <span className="text-contrast font-alata text-p">
+                    {t("personal-informations-change-name")}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-4">
+                <InputFieldConfig
+                  type="text"
+                  id="password"
+                  disabled={true}
+                  value="********"
+                  label={t("personal-informations-password")}
+                  onChange={() => { }}
+                />
+                <div onClick={() => setChangePasswordModal(true)} className="cursor-pointer bg-primary dark:bg-secondary w-[14rem] h-10 flex justify-center items-center rounded-md">
+                  <span className="text-contrast font-alata text-p">
+                    {t("personal-informations-change-password")}
+                  </span>
+                </div>
+              </div>
             </div>
-            <div onClick={() => setChangeNameModal(true)} className="cursor-pointer bg-primary dark:bg-secondary w-[14rem] h-10 flex justify-center items-center rounded-md">
-              <span className="text-contrast font-alata text-p">
-                {t("personal-informations-change-name")}
-              </span>
-            </div>
+
           </div>
         </div>
         <div className="flex justify-center w-full h-full">
@@ -257,7 +270,11 @@ export const PersonalInformations = () => {
           <CenterModal condition={changeNameModal} setCondition={setChangeNameModal}>
             <ChangeAccountNameModal
               close={() => setChangeNameModal(false)}
-              deleteUser={deleteUser}
+            />
+          </CenterModal>
+          <CenterModal condition={changePasswordModal} setCondition={setChangePasswordModal}>
+            <ChangePasswordModal
+              close={() => setChangePasswordModal(false)}
             />
           </CenterModal>
           <ErrorModal title={t("change-owners")} setCondition={setError} message={t("you-are-owner")} condition={error} fnOk={() => setError(false)} />

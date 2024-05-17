@@ -360,6 +360,9 @@
     "write-here": "Escreva aqui...",
     "authenticate-title": "Autenticação de dois fatores (2FA)",
     "authenticate-configs": "Ativando a autenticação de dois farores, você da a sua conta mais segurança, pois além de sua senha, você precisará de um código que será enviado para seu email do qual só você tem acesso.",
-    "personal-informations-change-name": "Mudar nome de usuário"
+    "personal-informations-change-name": "Alterar nome de usuário",
+    "personal-informations-change-password": "Alterar senha",
+    "personal-informations-password": "Senha"
+
   }
 

@@ -4,6 +4,7 @@ import { Permission, User, UserPost, UserPut } from "@/models";
 import { Api } from "../axios";
 import { OtherUser } from "@/models";
 import { UserChangeUsername } from "@/models/user/user/UserChangeUsername";
+import { UserChangePassword } from "@/models/user/user/UserChangePassword";
 class UserService {
 
     async insert(user: UserPost): Promise<User> {
@@ -18,7 +19,7 @@ class UserService {
     }
 
     async changeUsername(user:UserChangeUsername): Promise<User> {
-        const response = await Api.put<User>("user/changeUsername", user, {withCredentials: true});
+        const response = await Api.patch<User>("user/changeUsername", user, {withCredentials: true});
         return response.data;
     }
     
@@ -35,7 +36,10 @@ class UserService {
     async findLogged(): Promise<User> {
         return (await Api.get<User>(`user/logged`, { withCredentials: true })).data;
     }
-
+    async changePassword(user: UserChangePassword): Promise<User> {
+        const response = await Api.patch<User>(`user/changePassword`, user, { withCredentials: true });
+        return response.data;
+    }
 
     async upDatePicture(picture: File): Promise<User> {
         const formData = new FormData();
