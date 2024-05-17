@@ -66,6 +66,7 @@ export const Login = () => {
         route.push("/" + data.username);
       }
     }).catch((error) => {
+      
       console.log(error);
 
       if (error.response.status == 403) {

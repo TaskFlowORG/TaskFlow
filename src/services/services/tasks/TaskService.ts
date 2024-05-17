@@ -8,6 +8,8 @@ class TaskService {
     }
 
     async upDate(task: Task, projectId:number): Promise<Task> {
+        console.log(task, "task");
+        
         return (await Api.put<Task>('task/project/'+projectId, task, {withCredentials: true})).data;
     }
 
