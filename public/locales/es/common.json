@@ -384,8 +384,8 @@
   "font-config-desc": "Elige un estilo de fuente para tu texto, personaliza tu experiencia de acuerdo a tus gustos personales.",
   "timeline-scroll": "Desplaza el mouse para aumentar o disminuir",
   "timeline-scroll-desc": "Desplaza el mouse sobre la línea de tiempo para aumentar o disminuir el intervalo entre cada sección de la línea de tiempo.", 
-  "task-without-date": "Tareas sin fecha",
-  "day tasks": "Tareas del día"
+  "tasks-without-date": "Tareas sin fecha",
+  "day-tasks": "Tareas del día"
 
 }
 

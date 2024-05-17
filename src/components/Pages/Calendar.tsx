@@ -51,11 +51,13 @@ export const Calendar = ({ page }: Props) => {
   function getPropertyValueOfOrdering(
     task: TaskOrdered,
     prop: Property | undefined
-  ): PropertyValue | null {
+  ): Date | null {
     if (!prop) return null;
     for (let p of task.task.properties) {
       if (p.property.id == prop.id) {
-        return p;
+        const date = new Date(p.value.value.dateTime);
+        date.setDate(date.getDate()+1)
+        return date;
       }
     }
     return null;
@@ -74,7 +76,7 @@ export const Calendar = ({ page }: Props) => {
         tasks: tasks.filter((t) =>
           compareDates(
             new Date(
-              getPropertyValueOfOrdering(t, page.propertyOrdering)?.value.value?.dateTime
+              getPropertyValueOfOrdering(t, page.propertyOrdering)??""
             ),
             date
           )
@@ -91,7 +93,7 @@ export const Calendar = ({ page }: Props) => {
         tasks: tasks.filter((t) =>
           compareDates(
             new Date(
-              getPropertyValueOfOrdering(t, page.propertyOrdering)?.value.value?.dateTime
+              getPropertyValueOfOrdering(t, page.propertyOrdering)??""
             ),
             date
           )
@@ -107,7 +109,7 @@ export const Calendar = ({ page }: Props) => {
         tasks: tasks.filter((t) =>
           compareDates(
             new Date(
-              getPropertyValueOfOrdering(t, page.propertyOrdering)?.value.value?.dateTime
+              getPropertyValueOfOrdering(t, page.propertyOrdering) ?? ""
             ),
             date
           )

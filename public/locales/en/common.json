@@ -406,6 +406,6 @@
   "personal-informations-password": "Password",
   "timeline-scroll" :"Scroll the mouse to zoom in or out",
   "timeline-scroll-desc" :"Hover over the timeline to increase or decrease the interval between each section of the timeline.",
-  "task-without-date": "Tasks without date",
-  "day tasks": "Day tasks"
+  "tasks-without-date": "Tasks without date",
+  "day-tasks": "Day tasks"
 }
