@@ -24,6 +24,7 @@ interface Props {
   openOptionsRef?: React.RefObject<HTMLDivElement>;
 
   isHovering?: boolean;
+  isLittle?: boolean;
 
   link?: string;
   pointerEventsNone?: boolean;
@@ -37,6 +38,7 @@ export const SideBarButton = ({
   fnRename,
   renaming,
   textRef,
+  isLittle,
   hasButton,
   openOptions,
   fnOpenOptions,
@@ -73,7 +75,7 @@ export const SideBarButton = ({
           className="h-full w-full flex gap-4 flex-row items-center px-6"
         >
           <div className="w-12 h-12 hidden sm:flex aspect-square justify-center items-center stroke-primary dark:stroke-secondary">
-            <div className={"w-8 justify-center flex items-center" }>
+            <div className={"w-8 justify-center flex items-center " + (isLittle ? "p-2" : "") }>
             {icon}
             </div>
 
@@ -117,7 +119,7 @@ export const SideBarButton = ({
             <motion.span
               className=" dark:bg-modal-grey w-full justify-center flex items-start overflow-y-clip"
               initial={{ height: 0 }}
-              animate={{ height: "150px" }}
+              animate={{ height: "min-content" }}
               exit={{ transition: { delay: 0.1 }, height: 0 }}
               transition={{ duration: 0.1 }}
             >

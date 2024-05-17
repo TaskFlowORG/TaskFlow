@@ -22,6 +22,8 @@ import { NeedPermission } from "../NeedPermission";
 import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
 import { SideModal } from "../Modal";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { ErrorModal } from "../ErrorModal";
 
 type RegisterPropertyProps = {
   project: Project;
@@ -46,13 +48,15 @@ export const RegisterProperty = ({
       isInProject ? project.properties : page?.properties || []
     );
   }, [isInProject, page, project]);
+  const asynThrow = useAsyncThrow();
+
 
   const postProperty = async (
     name: string,
     values: any,
     selected: TypeOfProperty
   ) => {
-    try {
+
       let propertyObj;
       if (
         [
@@ -75,7 +79,7 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       } else if (
         [
           TypeOfProperty.CHECKBOX,
@@ -95,7 +99,7 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       } else {
         propertyObj = await propertyService.saveDate(
           project.id,
@@ -109,30 +113,29 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        );
+        ).catch(asynThrow);
       }
+      if(propertyObj)
       setPropertiesArray([...propertiesArray, propertyObj]);
-      const projectTemp = await projectService.findOne(project.id);
+      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
+      if(projectTemp)
       setProject!(projectTemp);
-    } catch (error) {
-      console.log(error);
-    }
+
   };
 
   const deleteProperty = async (property: Property) => {
-    try {
+
       propertyService.delete(project.id, property.id);
       setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
-      const projectTemp = await projectService.findOne(project.id);
+      const projectTemp = await projectService.findOne(project.id).catch(() => setError(true));
+      if(projectTemp)
       setProject!(projectTemp);
-    } catch (error) {
-      console.log(error);
-    }
+
   };
   const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
 
   const upDateProperty = async (property: Property, getValues: any) => {
-    try {
+
       let v;
       if (
         [
@@ -152,7 +155,7 @@ export const RegisterProperty = ({
           getValues.obligatory,
           getValues.maximum
         );
-        v = await propertyService.updateLimited(project.id, limited);
+        v = await propertyService.updateLimited(project.id, limited).catch(asynThrow);
       } else if (
         [
           TypeOfProperty.CHECKBOX,
@@ -171,7 +174,7 @@ export const RegisterProperty = ({
             getValues.obligatory,
             (property as Select).options
           )
-        );
+        ).catch(asynThrow);
       } else {
         v = await propertyService.updateDate(
           project.id,
@@ -187,16 +190,18 @@ export const RegisterProperty = ({
             getValues.schedule,
             getValues.color
           )
-        );
+        ).catch(asynThrow);
       }
+      console.log("COMO ASSIM");
 
-      const projectTemp = await projectService.findOne(project.id);
-      setProject!(projectTemp);
-    } catch (error) {
-      console.log(error);
-    }
+      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
+      if(projectTemp)
+      setProject!({ ...projectTemp });
+
   };
   const { t } = useTranslation();
+
+  const [error, setError] = useState(false);
 
   const classesIn =
     "w-full h-8 rounded-t-md flex items-center justify-center bg-primary dark:bg-secondary text-contrast";
@@ -205,53 +210,52 @@ export const RegisterProperty = ({
 
   return (
     <SideModal
-    footer={
-      <NeedPermission permission="create">
-      <Button
-        width="w-full "
-        text={t("add-property")}
-        fnButton={() => setModalPropertyRegister(true)}
-        padding="p-2"
-        paddingY="p-1"
-        textSize="font-[14re]"
-      />
-    </NeedPermission>
-    }
-    header={
-      <>
-      <div className="h-min w-full flex justify-evenly items-center properties">
-        <h4 className="h4 text-primary dark:text-secondary">{t("property")}</h4>
-      </div>
-      <If condition={page != undefined}>
-        <div className="w-full h-min flex">
-          <span
-            className={isInProject ? classesIn : classesOut}
-            onClick={() => setIsInProject(true)}
-          >
-            {t("project")}
-          </span>
-          <span
-            className={!isInProject ? classesIn : classesOut}
-            onClick={() => setIsInProject(false)}
-          >
-            {t("page")}
-          </span>
-        </div>
-      </If>
-      <div
-        className={
-          "w-full flex flex-col items-center gap-5 h-min "}
-      >
-        <ModalRegisterProperty
-          postProperty={postProperty}
-          open={modalPropertyRegister}
-          project={project && project}
-          page={page}
-          close={() => {
-            setModalPropertyRegister(false);
-          }}
-        />
-        </div>
+      footer={
+        <NeedPermission permission="create">
+          <Button
+            width="w-full "
+            text={t("add-property")}
+            fnButton={() => setModalPropertyRegister(true)}
+            padding="p-2"
+            paddingY="p-1"
+            textSize="font-[14re]"
+          />
+        </NeedPermission>
+      }
+      header={
+        <>
+          <div className="h-min w-full flex justify-evenly items-center properties">
+            <h4 className="h4 text-primary dark:text-secondary">
+              {t("property")}
+            </h4>
+          </div>
+          <If condition={page != undefined}>
+            <div className="w-full h-min flex">
+              <span
+                className={isInProject ? classesIn : classesOut}
+                onClick={() => setIsInProject(true)}
+              >
+                {t("project")}
+              </span>
+              <span
+                className={!isInProject ? classesIn : classesOut}
+                onClick={() => setIsInProject(false)}
+              >
+                {t("page")}
+              </span>
+            </div>
+          </If>
+          <div className={"w-full flex flex-col items-center gap-5 h-min "}>
+            <ModalRegisterProperty
+              postProperty={postProperty}
+              open={modalPropertyRegister}
+              project={project && project}
+              page={page}
+              close={() => {
+                setModalPropertyRegister(false);
+              }}
+            />
+          </div>
         </>
       }
       condition={modalProperty}
@@ -270,6 +274,8 @@ export const RegisterProperty = ({
           );
         })}
       </div>
+      <ErrorModal condition={error} setCondition={setError} title={t("cant-delete-prop")} message={t("cant-delete-prop-desc")} fnOk={() => setError(false)} />
+
     </SideModal>
   );
 };

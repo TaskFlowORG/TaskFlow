@@ -8,6 +8,6 @@ export class Interval {
     public color: string = "#f04a94",
     public ends: DateTimelines[] = [],
     public starts: DateTimelines[] = [],
-    public id?: number
+    public id: number| null = null
   ) {}
 }

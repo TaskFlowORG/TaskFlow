@@ -16,6 +16,7 @@ import { chatService, groupService } from "@/services";
 import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { If } from "@/components/If";
 import { ErrorModal } from "@/components/ErrorModal";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export default function ChatMessages({ children }: { children: React.ReactNode }) {
   const route = useRouter();
@@ -35,12 +36,13 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [chatAberto, setChatAberto] = useState<number>();
   const [chat, setChat] = useState<Chat>();
 
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     async function buscarChats() {
-      const response = await chatService.findAllGroup();
-      const response2 = await chatService.findAllPrivate();
-      setChats([...response, ...response2]);
+      const response = await chatService.findAllGroup().catch(asynThrow);
+      const response2 = await chatService.findAllPrivate().catch(asynThrow);
+      if(response && response2) setChats([...response, ...response2]);
     }
     buscarChats();
   }, [user]);
@@ -48,19 +50,23 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   useEffect(() => {
     (async () => {
       if (!user || !projects) return;
-      const alreadyExistsGroups = await chatService.findAllGroup();
-      const myGrous = await groupService.findGroupsByUser();
+      const alreadyExistsGroups = await chatService.findAllGroup().catch(asynThrow);
+      const myGrous = await groupService.findGroupsByUser().catch(asynThrow);
+      if(!myGrous || !alreadyExistsGroups) return;
       const possibleGroups = myGrous.filter(
         (g) => !alreadyExistsGroups.find((ag) => ag.group.id === g.id)
       );
       const possibleChatsGroups = possibleGroups.map(
         (g) => new ChatGroupPost(g)
       );
-      const alreadyExistsPrivates = await chatService.findAllPrivate();
+      const alreadyExistsPrivates = await chatService.findAllPrivate().catch(asynThrow);
+      if(!alreadyExistsPrivates) return;
       let myCoparticipants = projects.map((p) => p.owner);
-      const groups = await groupService.findGroupsByUser();
+      const groups = await groupService.findGroupsByUser().catch(asynThrow);
+      if(!groups) return;
       for (let group of groups) {
-        const g = await groupService.findOne(group.id);
+        const g = await groupService.findOne(group.id).catch(asynThrow);
+        if(!g) return;
         myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
       }
       myCoparticipants = myCoparticipants

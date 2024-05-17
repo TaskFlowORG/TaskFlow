@@ -81,7 +81,7 @@ export const Tutorial = () => {
       styles={{
         options: {
           primaryColor: theme == "light" ? "var(--primary-color)" : "var(--secondary-color)", 
-          overlayColor: theme == "light" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)",
+          overlayColor: theme == "light" ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0)",
           textColor: theme == "light" ? "#3c3c3c" : "#fcfcfc",
           backgroundColor: theme == "light" ? "#fcfcfc" : "#3c3c3c",
           zIndex: 1000,

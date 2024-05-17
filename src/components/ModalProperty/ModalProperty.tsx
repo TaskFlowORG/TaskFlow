@@ -23,12 +23,16 @@ import {
   IconTrashBin,
   IconUser,
   IconClock,
+  IconTag,
 } from "../icons";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { useForm } from "react-hook-form";
 import { ContentModalProperty } from "../ContentModalProperty";
 import { NeedPermission } from "../NeedPermission";
 import { get } from "http";
+import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
+import { propertyService } from "@/services";
+import { ErrorModal } from "../ErrorModal";
 
 type ModalPropertyProps = {
   property: Property;
@@ -47,23 +51,22 @@ export const ModalProperty = ({
   const [openOptions, setOpenOptions] = useState(false);
   const ref = useRef(null);
 
-
   const setOptionsFN = () => {
-    setOpenOptions(openOptions)
+    setOpenOptions(openOptions);
     console.log(openOptions);
-  }
+  };
   useEffect(() => {
     setProp(property);
-    if(property.type === TypeOfProperty.DATE){
-      console.log((property as Date).canBePass)
-    console.log(getValues());
+    if (property.type === TypeOfProperty.DATE) {
+      console.log((property as Date).canBePass);
+      console.log(getValues());
       setValue("pastDate", (property as Date).canBePass);
       setValue("schedule", (property as Date).scheduling);
       setValue("hours", (property as Date).includesHours);
       setValue("deadline", (property as Date).deadline);
       console.log(getValues());
     }
-    } ,[property])
+  }, [property]);
   const {
     register,
     handleSubmit,
@@ -81,7 +84,6 @@ export const ModalProperty = ({
       deadline: (prop as Date).deadline,
     },
   });
-
 
   useClickAway(ref, () => setOpenOptions(false));
   const fnReturnImageProperty = (type: string) => {
@@ -106,11 +108,42 @@ export const ModalProperty = ({
         return <IconUser />;
       case "TIME":
         return <IconClock />;
-      default:
-        break;
+      case "TAG":
+        return <IconTag />;
     }
   };
-  
+
+  const [name, setName] = useState(property.name);
+  const [editing, setEditing] = useState(false);
+
+  const textRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editing && textRef.current) {
+      textRef.current.focus();
+    }
+  }, [editing]);
+
+  const saveName = () => {
+    setEditing(false);
+    if(property.type === TypeOfProperty.DATE){
+      propertyService.patchDate(property.id, {id:property.id, name: name} as Date);
+    }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
+      propertyService.patchLimited(property.id, {id:property.id, name: name} as Limited);
+    }else{
+      propertyService.patchSelect(property.id, {id:property.id, name: name} as Select);
+    }
+  }
+
+  const saveNewName = (e: any) => {
+      if (!e.key || e.key === "Enter") {
+        saveName();
+      }
+      setName(textRef.current?.textContent ?? property.name);
+
+  }
+
+
   return (
     <div
       key={property.id}
@@ -119,19 +152,35 @@ export const ModalProperty = ({
       className="w-full"
     >
       <SideBarButton
+        isLittle
         text={property.name}
-        icon={fnReturnImageProperty(property.type)}
+        fnRename={saveNewName}
+        renaming={editing}
+        icon={
+          editing ?
+          <span onClick={(e) => {e.stopPropagation();saveName()}}>
+              <IconSave />
+          </span>
+          :
+          isHovering ? (
+            <span onClick={(e) => {e.stopPropagation();setEditing(!editing)}}>
+              <IconEditColoured />
+            </span>
+          ) : (
+            fnReturnImageProperty(property.type)
+          )
+        }
         openOptions={openOptions}
-
-        fnClick={() => {setOpenOptions(!openOptions)}}
+        fnClick={() => {
+          setOpenOptions(editing ? false: !openOptions);
+        }}
         fnOpenOptions={setOptionsFN}
-
+        textRef={textRef}
         openOptionsRef={ref}
-        isHovering={isHovering}
+        isHovering={isHovering && !editing}
         hasButton
-      > 
-      
-        <div className="w-full h-[90%] flex flex-col justify-center items-center dark:bg-modal-grey">
+      >
+        <div className="w-full h-min flex flex-col justify-center items-center dark:bg-modal-grey">
           <ContentModalProperty
             register={register}
             property={property}
@@ -153,12 +202,9 @@ export const ModalProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                  try {
                     upDateProperties(property, getValues());
                     setOpenOptions(false);
-                  } catch (e) {
-                    console.log(e);
-                  }
+
                 }}
               >
                 <IconSave />
@@ -166,7 +212,6 @@ export const ModalProperty = ({
             </NeedPermission>
           </div>
         </div>
-
       </SideBarButton>
       {ModalDelete && (
         <ModalDeleteProperty

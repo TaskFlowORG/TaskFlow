@@ -8,8 +8,10 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { IconFilter } from "../icons/OptionsFilter/Filter";
 import { IconOrder } from "../icons/OptionsFilter/Order";
 import { IconSearch } from "../icons/OptionsFilter/Search";
+import { AnimatePresence, motion } from "framer-motion";
+import { LocalModal } from "../Modal";
 
-interface Props { 
+interface Props {
   order?: boolean;
   search?: boolean;
   filter?: boolean;
@@ -28,7 +30,7 @@ export const SearchBar = ({
   invert = false,
   // openedOrder,
   // setOpenedOrder,
-  properties =[],
+  properties = [],
   page,
   isInCalendar = false,
 }: Props) => {
@@ -55,32 +57,28 @@ export const SearchBar = ({
 
   return (
     <div className="justify-end w-full items-center  relative  h-full flex gap-2 ">
-      {search && openedSearch && (
-        <SearchInput
-          setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}
-        />
-      )}
-      {order && openedOrder && (
-        <OrderInput
-          setIsModalOpen={setOpenedOrder}
-          page={page!}
-          isInCalendar={isInCalendar}
-          orderingId={page?.propertyOrdering.id}
-          propertiesPage={properties}
-        ></OrderInput>
-      )}
-      {filter && openedFilter && (
-        <FilterAdvancedInput
-          properties={properties}
-          setIsModalOpen={setOpenedFilter}
-          // isModalOpen={openedFilter}
-          // setIsModalOpen={setOpenedFilter} />
-        />
-      )}
+      <AnimatePresence initial={false} mode="wait">
+        {search && openedSearch && (
+          <motion.span
+            initial={{ width: "0px" }}
+            animate={{ width: "fit-content" }}
+            exit={{ width: "0px" }}
+            className="overflow-clip p-1"
+          >
+            <SearchInput
+              setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
       {search && (
         <SearchIcon
-        invert={invert}
-          icon={<IconSearch classes={invert ? "text-primary dark:text-secondary" : undefined} />}
+          invert={invert}
+          icon={
+            <IconSearch
+              classes={invert ? "text-primary dark:text-secondary" : undefined}
+            />
+          }
           open={() => {
             change("search");
             setInput!("");
@@ -89,22 +87,60 @@ export const SearchBar = ({
         />
       )}
       {order && (
-        <SearchIcon
-        invert={invert}
-          icon={<IconOrder classes={invert ? "text-primary dark:text-secondary" : undefined} />}
-          open={() => {
-            change("order");
-          }}
-          acessibilityLabel="Ícone de ordenação"
-        />
+        <span className="relative">
+
+          <SearchIcon
+            invert={invert}
+            icon={
+              <IconOrder
+                classes={invert ? "text-primary dark:text-secondary" : undefined}
+              />
+            }
+            open={() => {
+              change("order");
+            }}
+            acessibilityLabel="Ícone de ordenação"
+          />
+          <LocalModal condition={openedOrder} setCondition={setOpenedOrder} right>
+
+
+          <OrderInput
+          setIsModalOpen={setOpenedOrder}
+          page={page!}
+          isInCalendar={isInCalendar}
+          orderingId={page?.propertyOrdering.id}
+          propertiesPage={properties}
+        ></OrderInput>
+          </LocalModal>
+        </span>
       )}
       {filter && (
-        <SearchIcon
-        invert={invert}
-          icon={<IconFilter classes={invert ? "text-primary dark:text-secondary" : undefined} />}
-          acessibilityLabel="Ícone de filtragem"
-          open={() => change("filter")}
-        />
+        <span className="relative">
+          <SearchIcon
+            invert={invert}
+            icon={
+              <IconFilter
+                classes={
+                  invert ? "text-primary dark:text-secondary" : undefined
+                }
+              />
+            }
+            acessibilityLabel="Ícone de filtragem"
+            open={() => change("filter")}
+          />
+          <LocalModal
+            condition={openedFilter}
+            setCondition={setOpenedFilter}
+            right
+          >
+            <FilterAdvancedInput
+              properties={properties}
+              setIsModalOpen={setOpenedFilter}
+              // isModalOpen={openedFilter}
+              // setIsModalOpen={setOpenedFilter} />
+            />
+          </LocalModal>
+        </span>
       )}
     </div>
   );

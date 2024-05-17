@@ -38,7 +38,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
     let size = event.target.files[0].size / (1024 * 1024);
     console.log(size, "Soy o tamanho total");
     console.log((property as Limited)?.maximum, "Soy o tamanho que devia");
-    if (size > (property as Limited)?.maximum) {
+    if ((property as Limited).maximum!=undefined && size > (property as Limited).maximum) {
       console.log("Eu entrei aqui bro, rrelaxa pra karalho");
       setError(true);
     } else {
@@ -109,8 +109,8 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           </>
         )}
 
-        {!file && hasPermission ? (
-          <button className="py-1 truncate  flex  px-2 bg-primary dark:bg-secondary rounded-lg relative  text-white">
+        {!file && hasPermission && (
+          <button className="py-1 truncate  flex  px-2 bg-primary dark:bg-secondary rounded-lg relative  text-contrast">
             {t("browse-files")}
             <input
               onChange={handleFileChange}
@@ -118,9 +118,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
               className="opacity-0 w-full absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2"
             />
           </button>
-        ) : (
-          <p className="md:text-p14 text-black dark:text-white">Propriedade sem valor</p>
-        ) }
+        )  }
       </div>
       {error && (
         <p className="text-mn text-red-600 font-montserrat">

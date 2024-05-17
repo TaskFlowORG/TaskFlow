@@ -9,7 +9,7 @@ import {
   ResponderProvided,
 } from "@hello-pangea/dnd";
 import { Page, Property, Task, TaskOrdered } from "@/models";
-import { ValueSelector } from "..";
+import {  ValueSelectorTable } from "..";
 import { useRef, useContext, useState, useEffect, MouseEvent } from "react";
 import { HeaderList } from "./HeaderList";
 import { ProjectContext } from "@/contexts";
@@ -57,18 +57,18 @@ export const Table = ({ page }: Props) => {
       <div className="h-full w-min min-w-full flex">
         <div
           key={page.id}
-          className="w-min shadow-blur-10 flex flex-col gap-1 flex-nowrap min-w-full h-full"
+          className=" shadow-blur-10 flex flex-col gap-1 min-w-min w-full flex-nowrap  h-full"
 
         >
-          <div className=" bg-white dark:bg-modal-grey  w-full h-min">
-            <div className="w-full  flex">
+          <div className=" bg-white dark:bg-modal-grey min-w-min flex w-full h-min">
+            <div className="w-full min-w-min flex">
               <div className=" bg-white min-w-[14rem] dark:bg-modal-grey border-zinc-400 w-full dark:border-zinc-600 border-b-2">
                 <HeaderList name={"Tasks"} />
               </div>
               {props.map((p) => (
                 <div
                   key={p.id}
-                  className=" bg-white min-w-[14rem] dark:bg-modal-grey flex items-center border-zinc-400 w-full dark:border-zinc-600 border-b-2"
+                  className=" bg-white min-w-[14rem] w-full dark:bg-modal-grey flex items-center border-zinc-400 dark:border-zinc-600 border-b-2"
                 >
                   <div className="w-px bg-zinc-400 dark:bg-zinc-600 h-8" />
                   <HeaderList name={p.name} p={p} />
@@ -116,7 +116,7 @@ export const Table = ({ page }: Props) => {
                                   onClick={(e) => openModal(l.task.id)}
                                 >
                                   <div className=" bg-white dark:bg-modal-grey border-zinc-400  dark:border-zinc-600 border-y-[1px] w-full">
-                                    <ValueSelector l={l} justName={true} />
+                                    <ValueSelectorTable l={l} justName={true} />
                                   </div>
                                   {props.map((p, index) => {
                                     return (
@@ -126,7 +126,7 @@ export const Table = ({ page }: Props) => {
                                       >
                                         <span className="flex w-full items-center justify-start">
                                           <div className="w-px bg-zinc-400 dark:bg-zinc-600 h-8" />
-                                          <ValueSelector
+                                          <ValueSelectorTable
                                             l={l}
                                             justName={false}
                                             property={p}

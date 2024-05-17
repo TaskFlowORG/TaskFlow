@@ -18,5 +18,6 @@ export default function Dashboard({ params }: { params: { project: number, user:
     setPageId(0);
   }, []);
   if(!project || !user) return <Loading/>;
+//FICOU ASSIM 
   return <Project />
 }

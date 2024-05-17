@@ -38,8 +38,8 @@ export const SideModal = ({
               (right ? " justify-end" : " justify-start")
             }
           >
-            <div className="w-min h-full relative" ref={ref}>
-              <div className="max-h-screen h-full flex  relative">
+            <div className="w-min h-screen relative" ref={ref}>
+              <div className="h-screen  flex  relative">
                 <div className="flex flex-col justify-between max-h-screen gap-4 py-16 h-full p-4 bg-white dark:bg-modal-grey shadow-blur-10 dark:shadow-blur-20 w-64 smm:w-72 sm:w-96 px-16">
                   {header}
                   {children}

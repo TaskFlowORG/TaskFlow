@@ -4,6 +4,7 @@ import { useContext, useEffect, useRef } from "react";
 import { compareDates } from "../../functions";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { DateTimelines } from "@/models/values/DateTimelines";
+import { TaskInTimeline } from "./TaskInTimeline";
 
 export const TasksInTimeline = ({
   tasks,
@@ -18,43 +19,7 @@ export const TasksInTimeline = ({
   widthOfInterval: number;
   date: string;
 }) => {
-  const calcMarginLeft = (start: DateTimelines) => {
-    const date = new Date(new Date(start.date).toLocaleString());
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    return `${(totalSeconds / interval) * widthOfInterval}px`;
-  };
-
-  const calcWidth = (start: DateTimelines, task: Task) => {
-
-    const date = new Date(new Date(start.date).toLocaleString());
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-    const seconds = date.getSeconds();
-    const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    const propVl = task.properties.find(
-      (prop) => prop.property.id === propOrdering.id
-    )?.value as TimeValued;
-    if (!propVl.value.starts) return "00";
-    if (!propVl.value.ends) return "00";
-    const index = propVl.value.starts.indexOf(start);
-
-    let dateEndUTC = new Date(
-      propVl.value.ends[index] ? propVl.value.ends[index].date : Date.now()
-    );
-    if (!dateEndUTC) dateEndUTC = new Date();
-    const dateEnd = new Date(dateEndUTC.toLocaleString());
-    const hoursEnd = dateEnd.getHours();
-    const minutesEnd = dateEnd.getMinutes();
-    const secondsEnd = dateEnd.getSeconds();
-    const totalSecondsEnd = hoursEnd * 3600 + minutesEnd * 60 + secondsEnd;
-    return `${
-      ((totalSecondsEnd - totalSeconds) / interval) * widthOfInterval
-    }px`;
-  };
+  
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -84,7 +49,7 @@ export const TasksInTimeline = ({
         return (
           <div
             key={index}
-            className="h-8 my-[2px] relative flex hover:brightness-95"
+            className="h-8 my-[2px]  relative flex hover:brightness-95"
             onClick={(e) => openModal(task.id)}
             style={{ width: ((24 * 60 * 60) / interval) * widthOfInterval }}
           >
@@ -92,29 +57,15 @@ export const TasksInTimeline = ({
               propVl.value.starts &&
               propVl?.value.starts
                 .filter((start) =>
-
                   compareDates(
                     new Date(new Date(start.date)),
-                    new Date(date)
+                    new Date(fixDate(new Date(date)))
                   )
                 )
                 .map((start, index) => {
+                  console.log(start)
                   return (
-                    <div
-                      key={index}
-                      className={"h-full rounded-md absolute top-0 left-0 " + 
-                  (task.completed ||task.waitingRevision ? " border-green-500 border-2" : "") + (task.waitingRevision ? " animation-delay-1000 animate-border-pulser " : "")}
-
-                      style={{
-                        backgroundColor:
-                          propVl?.value.color ??
-                          (theme == "dark"
-                            ? "var(--secondary-color)"
-                            : "var(--primary-color)"),
-                        marginLeft: calcMarginLeft(start),
-                        minWidth: calcWidth(start, task),
-                      }}
-                    />
+                    <TaskInTimeline  key={index} widthOfInterval={widthOfInterval} propOrdering={propOrdering} interval={interval} propVl={propVl} task={task} start={start} index={index}  />
                   );
                 })}
           </div>

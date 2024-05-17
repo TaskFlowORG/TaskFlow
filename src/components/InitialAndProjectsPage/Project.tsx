@@ -32,7 +32,6 @@ export const ProjectComponent = ({ project, user }: Props) => {
       onMouseLeave={() => setIsHovering(false)}
     >
       <div className="flex gap-2 w-full h-min items-center">
-        {/* Imagem do Projeto */}
         <div className="w-min">
           <div className="bg-zinc-200 rounded-md w-12 h-12 relative">
             <Image  src={src} fill alt="Image Project" />

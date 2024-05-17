@@ -1,5 +1,17 @@
 "use client";
-import { Action, ArchiveValued, Log, Option, Project, Property, Task, TypeOfProperty, User, UserValued } from "@/models";
+import {
+  Action,
+  Archive,
+  ArchiveValued,
+  Log,
+  Option,
+  Project,
+  Property,
+  Task,
+  TypeOfProperty,
+  User,
+  UserValued,
+} from "@/models";
 import {
   Document,
   Page,
@@ -92,16 +104,29 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
   },
-  descriptionlog:{
-    width:"100%",
-    flexDirection:"row",
-    justifyContent:"space-between",
-  
-  }
+  descriptionlog: {
+    paddingRight: "2cm",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  logs: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    gap: 4,  
+  },
 });
 
 // Componente para o cabeçalho
-const Header = ({ user, t, isInProject }: { user: User, t:TFunction, isInProject?:boolean }) => (
+const Header = ({
+  user,
+  t,
+  isInProject,
+}: {
+  user: User;
+  t: TFunction;
+  isInProject?: boolean;
+}) => (
   <View style={styles.header} fixed>
     <View style={{ width: "20%" }}>
       <Image src={"/LogoTaskFlow.png"} style={styles.logo} />
@@ -115,7 +140,7 @@ const Header = ({ user, t, isInProject }: { user: User, t:TFunction, isInProject
       }}
     >
       <Text>TaskFlow</Text>
-      <Text>{isInProject ? t("project-report"):t("task-report")}</Text>
+      <Text>{isInProject ? t("project-report") : t("task-report")}</Text>
       <Text>{user.name + " " + user.surname}</Text>
     </View>
     <View
@@ -133,11 +158,13 @@ const Header = ({ user, t, isInProject }: { user: User, t:TFunction, isInProject
 );
 
 // Componente para o rodapé
-const Footer = ({t}:{t:TFunction}) => (
+const Footer = ({ t }: { t: TFunction }) => (
   <View style={styles.fotter} fixed>
     <Text>{t("footer-report")}</Text>
     <Text
-      render={({ pageNumber, totalPages }) => `${pageNumber} ${t("of")} ${totalPages}`}
+      render={({ pageNumber, totalPages }) =>
+        `${pageNumber} ${t("of")} ${totalPages}`
+      }
     />
   </View>
 );
@@ -145,20 +172,20 @@ const Footer = ({t}:{t:TFunction}) => (
 type GroupedLog = {
   logs: DescriptionLog[];
   date: Date;
-}
-type DescriptionLog = Log & {description:string}
+};
+type DescriptionLog = Log & { description: string };
 
 export const Report = ({
   logged,
   user,
-  isInProject
+  isInProject,
 }: {
   logged: Task | Project;
   user: User;
   isInProject?: boolean;
 }) => {
   const [groupped, setGroupped] = useState<GroupedLog[]>([]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const dateFormat = (date: Date) => {
     const dia = String(date.getDate()).padStart(2, "0");
@@ -183,17 +210,17 @@ export const Report = ({
       case TypeOfProperty.RADIO:
         return (log.value.value.value as Option).name;
       case TypeOfProperty.ARCHIVE:
-        return (log.value.value.value as ArchiveValued).archive?.name ?? "";
+        return (log.value.value.value as Archive).name;
       case TypeOfProperty.TIME:
         return (
-          (log.value.value.value as Interval).time.hours +
+          (log.value.value.value as Interval)?.time.hours +
           ":" +
-          (log.value.value.value as Interval).time.minutes +
+          (log.value.value.value as Interval)?.time.minutes +
           ":" +
-          (log.value.value.value as Interval).time.seconds
+          (log.value.value.value as Interval)?.time.seconds
         );
       case TypeOfProperty.USER:
-        return (log.value.value.value as UserValued).users.map((user, index) =>
+        return (log.value.value as UserValued).users?.map((user, index) =>
           index == (log.value.value.value as UserValued).users.length + 1
             ? user.username + ", "
             : user.username
@@ -201,13 +228,13 @@ export const Report = ({
       case TypeOfProperty.DATE:
         return dateFormat(new Date(log.value.value.value as string));
       case TypeOfProperty.NUMBER:
-        case TypeOfProperty.TEXT:
-          return log.value.value.value;
+      case TypeOfProperty.TEXT:
+        return log.value.value.value;
       case TypeOfProperty.PROGRESS:
         return (log.value.value.value as number) + "%";
     }
-  }
-  const getLogMessage = (log:Log): string => {
+  };
+  const getLogMessage = (log: Log): string => {
     switch (log.action) {
       case Action.COMPLETE:
         return t("log-complete-task", {
@@ -249,20 +276,17 @@ export const Report = ({
 
   const groupLogs = () => {
     const logs: GroupedLog[] = [];
-    logged.logs.forEach((log) => {
+    logged.logs?.forEach((log) => {
       const date = new Date(log.datetime);
-      if (
-        logs.some((group) =>
-          compareDates(date, new Date(group.date))
-        )
-      ) {
+      if (logs.some((group) => compareDates(date, new Date(group.date)))) {
         logs
-          .find((group) =>
-            compareDates(date, new Date(group.date))
-          )
-          ?.logs.push({...log, description:getLogMessage(log)});
+          .find((group) => compareDates(date, new Date(group.date)))
+          ?.logs.push({ ...log, description: getLogMessage(log) });
       } else {
-        logs.push({ date, logs: [{...log, description:getLogMessage(log)}] });
+        logs.push({
+          date,
+          logs: [{ ...log, description: getLogMessage(log) }],
+        });
       }
     });
     setGroupped(logs);
@@ -277,25 +301,27 @@ export const Report = ({
       <Page style={styles.page}>
         <View style={styles.all}>
           <Header user={user} t={t} isInProject={isInProject} />
-          <Text style={styles.title}>{isInProject ? t("project"): t("task")} #{logged.id}</Text>
+          <Text style={styles.title}>
+            {isInProject ? t("project") : t("task")} #{logged.id}
+          </Text>
           <View style={styles.task}>
             {groupped.map((log, index) => (
               <View style={styles.changes} key={index}>
                 <View style={styles.action}>
                   <Text>{log.date.toLocaleDateString()}</Text>
                 </View>
-                <Text style={styles.descriptionlog}>
-                  {log.logs.map((log, index) => (
+                <View style={styles.logs}>
+                  {log.logs?.map((log, index) => (
                     <View key={index} style={styles.descriptionlog}>
                       <Text>
-                        {new Date(log.datetime).toLocaleTimeString() +"  "}
+                        {new Date(log.datetime).toLocaleTimeString() + "  "}
                       </Text>
                       <Text>
                         {t(log.action.toLowerCase()) + " - " + log.description}
                       </Text>
                     </View>
                   ))}
-                </Text>
+                </View>
               </View>
             ))}
           </View>

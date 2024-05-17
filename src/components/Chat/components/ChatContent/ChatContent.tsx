@@ -12,6 +12,7 @@ import { archiveToSrc } from "@/functions";
 import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
 import { useTranslation } from 'react-i18next';
+import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 
 interface MessageGroup {
     id: number,
@@ -64,10 +65,11 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
+    const asynThrow = useAsyncThrow();
 
     async function enviarMensagem() {
         if (mensagem != "" || arquivoUrl != "") {
-            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!)
+            await chatService.updateMessages(id, new Message(mensagem, (user as OtherUser), new Date(), [], new Date()), arquivo!).catch(asynThrow);
             setMensagem("")
             setArquivo(null)
             setArquivoUrl("")

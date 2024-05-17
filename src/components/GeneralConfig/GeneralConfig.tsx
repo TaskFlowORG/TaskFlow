@@ -14,6 +14,7 @@ import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
 import Cookies from "js-cookie";
 import { LanguageContext } from "@/contexts/ContextLanguage";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -38,8 +39,11 @@ export const GeneralConfig = () => {
     setLanguage(user?.configuration.language);
     setShowPropertiesName(user?.configuration.showPropertiesName);
     setAuthenticate(user?.authenticate);
+
     setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
+  const asynThrow = useAsyncThrow();
+
 
   const changeColor = (color: string) => {
     (async () => {
@@ -49,7 +53,8 @@ export const GeneralConfig = () => {
         theme === "dark" ? convertColor(color, true) : color;
       user.configuration.secondaryColor =
         theme === "dark" ? color : convertColor(color, false);
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     })();
   };
@@ -67,7 +72,8 @@ export const GeneralConfig = () => {
     const configuration: Configuration = user.configuration;
     configuration.language = language as Language;
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
     changeGlobal(language as Language)
   }
@@ -75,7 +81,8 @@ export const GeneralConfig = () => {
   const changeFont = async (font: string) => {
     if (!user || !setUser) return;
     user.configuration.font = font;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -88,7 +95,8 @@ export const GeneralConfig = () => {
       configuration.initialPageTasksPerDeadline = true;
     }
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -118,7 +126,8 @@ export const GeneralConfig = () => {
       const configuration: Configuration = user.configuration;
       configuration[id] = e.target.checked;
       user.configuration = configuration;
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     }
   };

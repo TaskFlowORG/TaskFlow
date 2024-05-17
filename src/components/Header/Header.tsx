@@ -132,7 +132,7 @@ export const Header = ({
                     >
                       <Notification
                         notification={notification}
-                        fnClick={closeModal}
+                        fnClick={() => setShowNotification(false)}
                         setError={setError}
                         setMessageError={setMessageError}
                         setTitleError={setTitleError}

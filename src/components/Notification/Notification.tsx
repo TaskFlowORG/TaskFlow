@@ -87,14 +87,13 @@ export const Notification = ({
 
      await notificationService.clickNotification(notification.id).catch((e) => {
         if(e.response.status == 409){
-          console.log("ALOU")
           setError(true);
           setMessageError("Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o.");
           setTitleError("Convite já aceito");
         }
     });
     if(!user.notifications) return;
-    user.notifications = user.notifications.filter((n) => n.id != notification.id);
+    user.notifications.splice(user.notifications.findIndex((n) => n.id == notification.id), 1);
     setUser({...user});
   };
 
@@ -106,10 +105,12 @@ export const Notification = ({
       router.push(link);
       return;
     }
-    const projectTemp = await projectService.findOne(notification.auxObjId);
-    router.push(link);
+
     fnClick && fnClick();
+
+    router.push(link);
     if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
+      const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);
       const task = (projectTemp?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == notification.objId)?.task);
       console.log("TASK", task);

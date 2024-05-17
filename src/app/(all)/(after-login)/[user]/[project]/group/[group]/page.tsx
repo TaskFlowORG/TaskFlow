@@ -9,19 +9,21 @@ import { Group, GroupPut, OtherUser, Project, User } from "@/models";
 import { groupService, projectService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { project } = useContext(ProjectContext);
     const {theme, setTheme } = useTheme();
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         const fetchData = async () => {
-            const fetchedGroup = await groupService.findOne(params.group);
-            setGroup(fetchedGroup);
-            const fetchedUser = await userService.findLogged();
-            setUser(fetchedUser);
+            const fetchedGroup = await groupService.findOne(params.group).catch(asynThrow);
+           if(fetchedGroup) setGroup(fetchedGroup)
+            const fetchedUser = await userService.findLogged().catch(asynThrow);
+            if(fetchedUser) setUser(fetchedUser);
         }
         fetchData();
     }, [params.project]);

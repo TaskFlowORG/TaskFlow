@@ -4,6 +4,14 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 
 class GroupService {
+    async emoveOfPoject(groupId: number, pojectId: number | undefined):Promise<Group|undefined> {
+        console.log(pojectId, "pojectId");
+        
+        if(pojectId){
+            const response = await Api.patch<Group>("group/remove/"+groupId+"/from/"+pojectId, { withCredentials: true });
+            return response.data;
+        }
+    }
 
     async insert(group: GroupPost): Promise<Group> {
         const response = await Api.post<Group>("group", group, { withCredentials: true });

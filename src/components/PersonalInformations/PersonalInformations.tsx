@@ -16,6 +16,7 @@ import { ErrorModal } from "@/components/ErrorModal/index";
 import { authentication } from "@/services/services/Authentication";
 import { ChangeAccountNameModal } from "./components/ChangeAccountNameModal";
 import { ChangePasswordModal } from "./components/ChangePasswordModal";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const PersonalInformations = () => {
   const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
@@ -52,6 +53,7 @@ export const PersonalInformations = () => {
     setNextStep(next);
     setPercentage((user.points / next) * 100);
   }, [user]);
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     setPhotoUrl(archiveToSrc(user?.picture));
@@ -59,7 +61,7 @@ export const PersonalInformations = () => {
 
   const saveChanges = async () => {
     if (!user || !setUser) return;
-    let updatedUser = new User(
+    let updateUser = new User(
       user.id,
       user.username,
       name,
@@ -72,9 +74,10 @@ export const PersonalInformations = () => {
       user.authenticate,
       user.configuration,
       user.permissions,
-      user.notifications
+      user.notifications,
     );
-    updatedUser = await userService.patch(updatedUser);
+    const updatedUser = await userService.patch(updateUser).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   };
 

@@ -8,13 +8,18 @@ import { Project } from "@/models"
 import { Task } from "@/models"
 import { ProjectsContext } from "@/contexts"
 import { useTranslation } from "next-i18next"
+import { useAsyncThrow } from "@/hooks/useAsyncThrow"
 
 export default function InitialPage({params}:{params:{user:string}}) {
     const {projects} = useContext(ProjectsContext);
     const [tasks, setTasks] = useState<Task[]>([])
+  const asynThrow = useAsyncThrow();
+    
+  
     useEffect(() => {
         (async () => {
-            const tasks = await taskService.findTodaysTasks(params.user)
+            const tasks = await taskService.findTodaysTasks(params.user).catch(asynThrow);
+            if(!tasks) return;
             console.log('====================================');
             console.log(tasks);
             console.log('====================================');

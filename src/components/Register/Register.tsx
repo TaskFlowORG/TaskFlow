@@ -63,7 +63,6 @@ export const Register = () => {
     );
   type FormData = z.infer<typeof schema>;
 
-
   const {
     register,
     handleSubmit,
@@ -83,7 +82,7 @@ export const Register = () => {
   const handleNextStep = () => {
     if (step < 2) {
       setStep(step + 1);
-    }
+    } 
   };
 
   const handlePrevStep = () => {
@@ -98,8 +97,11 @@ export const Register = () => {
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
-        authentication.login({username, password});
+        authentication.login({username, password}).then(() => {
+          router.push("/" + username);
+        });
       }).catch((error) => {
+        console.log("error", error)
         if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {
@@ -113,6 +115,7 @@ export const Register = () => {
 
 
   const verifyStep = () => {
+    
     errors.confirmPassword && setStep(2)
     errors.password && setStep(2)
     errors.mail && setStep(1)

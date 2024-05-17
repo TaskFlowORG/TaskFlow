@@ -98,8 +98,8 @@ export const ContentModalProperty = ({
   }, [type, property, permissionUpdate  ]);
 
   return (
-    <div className="h-full w-full flex justify-between px-6  items-center ">
-      <div className="w-1/2 h-full flex flex-col ">  
+    <div className="h-full w-full justify-between px-6  items-center ">
+      <div className="w-full h-full flex flex-col ">  
         
         <p className="h-[35%] flex items-center">Ajustes</p>
         <InputCheckbox disabled={!permissionUpdate}
@@ -113,7 +113,7 @@ export const ContentModalProperty = ({
           label="Obligatory"
         ></InputCheckbox>
       </div>
-      <div className="w-1/2 h-full flex flex-col justify-center">
+      <div className="w-full h-full flex flex-col justify-center">
         {content}
       </div>
     </div>

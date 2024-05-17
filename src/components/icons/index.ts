@@ -52,3 +52,6 @@ export {IconRedo} from "./IconRedo";
 
 export {IconConfig} from "./ConfigIcon";
 export {IconNotification} from "./NotificationIcon";
+
+export {InvisibleIcon} from"./Password/InvisibleIcon";
+export {VisibleIcon} from"./Password/VisibleIcon";
