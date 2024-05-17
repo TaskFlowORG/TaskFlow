@@ -14,6 +14,7 @@ import { InputSelectConfig } from "./components/InputSelectConfig";
 import { InputRangeConfig } from "./components/InputRangeConfig";
 import Cookies from "js-cookie";
 import { LanguageContext } from "@/contexts/ContextLanguage";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -21,12 +22,14 @@ export const GeneralConfig = () => {
   const [themeToggle, setThemeToggle] = useState(false);
   const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
-  const [googleCalendar, setGoogleCalendar] = useState<boolean | undefined>(user!.configuration.googleCalendar);
+  const [authenticate, setAuthenticate] = useState<boolean | undefined>(user!.authenticate);
   const [showPropertiesName, setShowPropertiesName] = useState<boolean | undefined>(user?.configuration.showPropertiesName);
   const [initialPageTasksPerDeadline, setInitialPageTasksPerDeadline] = useState<boolean | undefined>(user?.configuration.initialPageTasksPerDeadline);
   const [fontSize, setFontSize] = useState<number | undefined>(user?.configuration.fontSize);
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
+  const { changeLanguage: changeGlobal } = useContext(LanguageContext)
+  const { t } = useTranslation();
 
   useEffect(() => {
     setLibras(user?.configuration.libras);
@@ -35,9 +38,12 @@ export const GeneralConfig = () => {
     setFontSize(user?.configuration.fontSize);
     setLanguage(user?.configuration.language);
     setShowPropertiesName(user?.configuration.showPropertiesName);
-    setGoogleCalendar(user?.configuration.googleCalendar);
+    setAuthenticate(user?.authenticate);
+
     setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
+  const asynThrow = useAsyncThrow();
+
 
   const changeColor = (color: string) => {
     (async () => {
@@ -47,13 +53,11 @@ export const GeneralConfig = () => {
         theme === "dark" ? convertColor(color, true) : color;
       user.configuration.secondaryColor =
         theme === "dark" ? color : convertColor(color, false);
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     })();
   };
-
-  const {changeLanguage:changeGlobal } = useContext(LanguageContext)
-  const { t } = useTranslation();
 
   const functionBall = (value: Object) => {
     if (value == "+") {
@@ -68,17 +72,17 @@ export const GeneralConfig = () => {
     const configuration: Configuration = user.configuration;
     configuration.language = language as Language;
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
     changeGlobal(language as Language)
   }
 
-  const changeFont= async (font: string) => {
+  const changeFont = async (font: string) => {
     if (!user || !setUser) return;
-    console.log("font", font);
-    
     user.configuration.font = font;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -91,7 +95,8 @@ export const GeneralConfig = () => {
       configuration.initialPageTasksPerDeadline = true;
     }
     user.configuration = configuration;
-    const updatedUser = await userService.patch(user)
+    const updatedUser = await userService.patch(user).catch(asynThrow);
+    if (updatedUser)
     setUser(updatedUser);
   }
 
@@ -111,17 +116,18 @@ export const GeneralConfig = () => {
           setThemeToggle(e.target.checked);
           setTheme(e.target.checked ? "dark" : "light");
           break;
-        case "googleCalendar":
-          setGoogleCalendar(e.target.checked);
-          break;
         case "showPropertiesName":
           setShowPropertiesName(e.target.checked);
           break
+        case "authenticate":
+          user.authenticate = e.target.checked;
+          break;
       }
       const configuration: Configuration = user.configuration;
       configuration[id] = e.target.checked;
       user.configuration = configuration;
-      const updatedUser = await userService.patch(user);
+      const updatedUser = await userService.patch(user).catch(asynThrow);
+      if (updatedUser)
       setUser(updatedUser);
     }
   };
@@ -137,23 +143,22 @@ export const GeneralConfig = () => {
               </div>
               <div className="w-fit h-16 flex flex-col justify-start">
                 <p className="text-h3 font-alata dark:text-white">{t("general-config-title")}</p>
-                <p className="text-p font-alata dark:text-white">{t("general-config-desc")}</p>
+                <p className="text-p font-montserrat dark:text-white">{t("general-config-desc")}</p>
               </div>
               <div className="w-full h-fit">
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
-                <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-agendas-title")} value={t("google-agendas-configs")} checked={googleCalendar} onChange={(e) => updateBack(e, "googleCalendar")} />
-                <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{id:"Português", value:"Português"}, {id:"Español", value:"Español"}, {id:"English", value:"English"}]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
+                <InputFieldConfig id={"authenticate"} type={"checkbox"} label={t("authenticate-title")} value={t("authenticate-configs")} checked={authenticate} onChange={(e) => updateBack(e, "authenticate")} />
+                <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{ id: "Português", value: "Português" }, { id: "Español", value: "Español" }, { id: "English", value: "English" }]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
                 <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
-                <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{id:"Montserrat", value:"Montserrat"}, {id:"Arial", value:"Arial"}, {id:"Poppins", value:"Poppins"}]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
-                
+                <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{ id: "Montserrat", value: "Montserrat" }, { id: "Arial", value: "Arial" }, { id: "Poppins", value: "Poppins" }]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
               </div>
             </div>
-            <div className="w-[95%]">
+            <div className="w-[95%] pt-6">
               <div className=" flex flex-col gap-3 lg:h-fit h-48 ">
                 <div className="w-fit flex flex-col ">
                   <div className="h-fit flex flex-col justify-start">
                     <p className="text-h3 font-alata dark:text-white ">{t("accessibility-config")}</p>
-                    <p className="text-p font-alata">
+                    <p className="text-p font-montserrat">
                       {t("accessibility-config-desc")}
                     </p>
                   </div>
@@ -167,11 +172,11 @@ export const GeneralConfig = () => {
                 <div className="w-fit flex flex-col">
                   <div className="h-fit">
                     <p className="text-h3 font-alata dark:text-white">{t("preferences-config-title")} </p>
-                    <p className="text-p font-alata">{t("preferences-config-desc")}</p>
+                    <p className="text-p font-montserrat">{t("preferences-config-desc")}</p>
                   </div>
                 </div>
                 <InputFieldConfig id={"showPropertiesName"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={(e) => updateBack(e, "showPropertiesName")} checked={showPropertiesName} ></InputFieldConfig>
-                <InputSelectConfig defaultValue={user?.configuration.initialPageTasksPerDeadline == true ? "Prazo Final" : "Agendamento"} id="dataProperty" title={t("property-data-config-title")} description={t("property-data-config-desc")} options={[{id:"deadLine", value:t("deadLine")}, {id:"Agendamento", value:t("Scheduling")}]} func={dataType}></InputSelectConfig>
+                <InputSelectConfig defaultValue={user?.configuration.initialPageTasksPerDeadline == true ? "Prazo Final" : "Agendamento"} id="dataProperty" title={t("property-data-config-title")} description={t("property-data-config-desc")} options={[{ id: "deadLine", value: t("deadLine") }, { id: "Agendamento", value: t("Scheduling") }]} func={dataType}></InputSelectConfig>
                 <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
 
               </div>

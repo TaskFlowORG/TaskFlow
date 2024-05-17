@@ -1,16 +1,17 @@
-import React, { forwardRef, useId, useState } from "react";
+import React, { ChangeEventHandler, forwardRef, useId, useState } from "react";
 import { InputHTMLAttributes } from "react";
 import * as S from "./style";
 import { If } from "@/components/If";
 import Image from "next/image";
 import { InvisibleIcon, VisibleIcon } from "../icons";
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
-  label?: string;
-  image?: string;
-  helperText?: string;
-  register: any;
-  classNameInput: string;
-  onChange?: () => void;
+    
+    label?: string;
+    image?: string;
+    helperText?: string;
+    register?: any;
+    classNameInput: string;
+    onChange?: () => void;
 };
 
 // forwardRef o primeiro parametro é o tipo de elemento que vai ser referenciado e o segundo é o tipo de props que ele vai receber;
@@ -50,7 +51,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {label}
             </label>
           )}
+          {image &&
+          
           <Image width={20} height={20} src={image} alt="" />
+          }
           <S.Input
             autoComplete="off"
             className={classNameInput + " bg-transparent"}

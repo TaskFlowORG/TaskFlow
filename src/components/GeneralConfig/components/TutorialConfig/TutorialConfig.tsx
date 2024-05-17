@@ -39,7 +39,7 @@ export const TutorialConfig = () => {
                         <p className="text-h3 font-alata dark:text-white ">{t("tutorial-config-title")} </p>
                     </div>
                     <div>
-                        <p className="text-p font-alata">{t("tutorial-config-desc")}</p>
+                        <p className="text-p font-montserrat">{t("tutorial-config-desc")}</p>
                     </div>
                 </div>
                 <div className="w-fit h-full flex flex-col justify-around">

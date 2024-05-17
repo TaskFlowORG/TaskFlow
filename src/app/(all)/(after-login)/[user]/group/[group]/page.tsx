@@ -8,20 +8,22 @@ import { Group, OtherUser } from "@/models";
 import { groupService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { Loading } from "@/components/Loading";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export default function Groups({ params }: { params: { user: string, group: number } }) {
     const { project } = useContext(ProjectContext);
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         const fetchData = async () => {
             console.log("eitaaa");
 
-            const fetchedGroup = await groupService.findOne(params.group);
-            setGroup(fetchedGroup);
-            const fetchedUser = await userService.findLogged();
-            setUser(fetchedUser);
+            const fetchedGroup = await groupService.findOne(params.group).catch(asynThrow);
+            if(fetchedGroup) setGroup(fetchedGroup);
+            const fetchedUser = await userService.findLogged().catch(asynThrow);
+            if(fetchedUser) setUser(fetchedUser);
         }
         fetchData();
     }, [params.group]);

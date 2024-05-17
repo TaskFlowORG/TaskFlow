@@ -2,9 +2,6 @@ import { UserDetails } from "./UserDetails";
 
 export class UserPost {
 
-
-
-
     constructor(
         public userDetailsEntity: UserDetails,    
         public name: string,

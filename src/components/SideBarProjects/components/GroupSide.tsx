@@ -95,6 +95,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                     onClick={() => sendRoute(group.id)}
                   >
                     <GroupComponent
+                    global ={global}
                       user={user}
                       group={group}
                       setGroups={setGroups}

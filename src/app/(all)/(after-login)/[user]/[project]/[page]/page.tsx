@@ -49,6 +49,7 @@ export default function Pages({
     } as AxiosResponse);
   }
 
+  //AQUI FICOU ASSIM
   return (
     <FilterContext.Provider
       value={{

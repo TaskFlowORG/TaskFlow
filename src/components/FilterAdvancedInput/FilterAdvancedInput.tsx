@@ -43,7 +43,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
 
   return (
     <div
-      className="flex flex-col p-4 fixed bg-white dark:bg-modal-grey  top-40 z-30 w-96 shadowww gap-4 rounded-lg"
+      className="flex flex-col p-4  bg-white dark:bg-modal-grey w-96  gap-4 rounded-lg"
       ref={ref}
     >
       <div className="flex flex-col gap-4 pr-4 max-h-[300px] overflow-auto">
@@ -67,7 +67,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
               property={property}
                 name={property.name}
                 id={property.id}
-                value={prop?.value ?? ""}
+                value={prop?.value?.dateTime ?? ""}
                 key={property.id}
               />
             );

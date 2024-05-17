@@ -69,7 +69,7 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
 
   return (
     <div className="h-min w-60 p-4 rounded-md text-p font-montserrat overflow-y-auto 
-    bg-input-grey dark:bg-modal-grey text-modal-grey dark:text-white">
+    bg-white dark:bg-modal-grey text-modal-grey dark:text-white">
       <div className="flex flex-col gap-2">
         <SectionFilter
           number={progress}
@@ -135,7 +135,8 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
       </div>
       <span className="w-full flex justify-end pt-2">
         
-      <Button fnButton={cleanFilter} paddingY="py-0" textSize=" text-p font-montserrat "  padding="p-4" font="text-[13px]" text={t("clear")} />
+      <Button fnButton={cleanFilter} paddingY="py-0" textSize=" text-p font-montserrat "  textColor="text-primary hover:text-contrast" 
+      padding="p-4" font="text-[13px]" text={t("clear")} background="bg-transparent hover:dark:bg-secondary hover:bg-primary" />
       </span>
     </div>
   );

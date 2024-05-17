@@ -11,6 +11,7 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { useRouter } from "next/navigation";
 import { ProjectsContext } from "@/contexts";
 import { projectService } from "@/services";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 
 export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
@@ -20,13 +21,15 @@ export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
     const {user} = useContext(UserContext)
     const router = useRouter()
     const {projects} = useContext(ProjectsContext)
+    const asynThrow = useAsyncThrow();
 
     const open = async (task:Task) => {
         if(!projects) return
         let projectsTemp = [];
         for(let p of projects){
             if(p.qttyPages > 0){
-                projectsTemp.push(await projectService.findOne(p.id))
+                const project = await projectService.findOne(p.id).catch(asynThrow)
+                if(project) projectsTemp.push(project)
             }
         }
         const pages = projectsTemp.map(p => p.pages).flat() 

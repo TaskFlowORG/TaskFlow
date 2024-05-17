@@ -3,6 +3,6 @@ export class Duration {
     public seconds: number = 0,
     public minutes: number = 0,
     public hours: number = 0,
-    public id?: number
+    public id: number|null = null
   ) {}
 }

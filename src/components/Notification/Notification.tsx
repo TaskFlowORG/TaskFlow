@@ -87,14 +87,13 @@ export const Notification = ({
 
      await notificationService.clickNotification(notification.id).catch((e) => {
         if(e.response.status == 409){
-          console.log("ALOU")
           setError(true);
           setMessageError("Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o.");
           setTitleError("Convite já aceito");
         }
     });
     if(!user.notifications) return;
-    user.notifications = user.notifications.filter((n) => n.id != notification.id);
+    user.notifications.splice(user.notifications.findIndex((n) => n.id == notification.id), 1);
     setUser({...user});
   };
 

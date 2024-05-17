@@ -74,7 +74,7 @@ export const OrderInput = ({
   return (
     <div
       ref={ref}
-      className=" rounded-xl z-50 absolute top-16 shadowww  dark:bg-modal-grey bg-white flex flex-col p-4  gap-6 min-w-[300px]"
+      className=" rounded-xl     dark:bg-modal-grey bg-white flex flex-col p-4  gap-6 min-w-[300px]"
     >
       <h5 className="text-h5 font-alata dark:text-white text-black">{t('sort-by')}</h5>
       <div className="flex flex-col gap-4">

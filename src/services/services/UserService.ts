@@ -3,22 +3,29 @@
 import { Permission, User, UserPost, UserPut } from "@/models";
 import { Api } from "../axios";
 import { OtherUser } from "@/models";
-import { use } from "react";
+import { UserChangeUsername } from "@/models/user/user/UserChangeUsername";
+import { UserChangePassword } from "@/models/user/user/UserChangePassword";
 class UserService {
 
     async insert(user: UserPost): Promise<User> {
         const response = await Api.post<User>("user", user, { withCredentials: true });
         return response.data;
     }
+
     async update(user: User): Promise<User> {
-        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
+        const userPut = new UserPut(user.id, user.name, user.surname, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
         const response = await Api.put<User>("user", userPut, { withCredentials: true });
         return response.data;
     }
 
+    async changeUsername(user:UserChangeUsername): Promise<User> {
+        const response = await Api.patch<User>("user/changeUsername", user, {withCredentials: true});
+        return response.data;
+    }
+    
     async patch(user: User): Promise<User> {
-        const userPut = new UserPut(user.id, user.name, user.surname, user.address, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
-        const response = await Api.patch<User>("user", userPut, { withCredentials: true });
+        const userPut = new UserPut(user.id, user.name, user.surname, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
+        const response = await Api.patch<User>("user",  userPut, { withCredentials: true });
         return response.data;
     }
 
@@ -29,7 +36,10 @@ class UserService {
     async findLogged(): Promise<User> {
         return (await Api.get<User>(`user/logged`, { withCredentials: true })).data;
     }
-
+    async changePassword(user: UserChangePassword): Promise<User> {
+        const response = await Api.patch<User>(`user/changePassword`, user, { withCredentials: true });
+        return response.data;
+    }
 
     async upDatePicture(picture: File): Promise<User> {
         const formData = new FormData();

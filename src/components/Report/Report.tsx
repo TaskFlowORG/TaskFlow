@@ -105,9 +105,15 @@ const styles = StyleSheet.create({
     height: 50,
   },
   descriptionlog: {
-    width: "100%",
+    paddingRight: "2cm",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+  },
+  logs: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    gap: 4,  
   },
 });
 
@@ -217,6 +223,7 @@ export const Report = ({
           (duration.seconds < 10
             ? "0" + duration.seconds
             : "" + duration.seconds)
+
         );
       case TypeOfProperty.USER:
         return (log.value.value as UserValued).users?.map((user, index) =>
@@ -225,7 +232,7 @@ export const Report = ({
             : user.username
         );
       case TypeOfProperty.DATE:
-        return dateFormat(new Date(log.value.value.value as string));
+        return dateFormat(new Date(log.value.value.value.dateTime as string));
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.TEXT:
         return log.value.value.value;
@@ -309,7 +316,7 @@ export const Report = ({
                 <View style={styles.action}>
                   <Text>{log.date.toLocaleDateString()}</Text>
                 </View>
-                <Text style={styles.descriptionlog}>
+                <View style={styles.logs}>
                   {log.logs?.map((log, index) => (
                     <View key={index} style={styles.descriptionlog}>
                       <Text>
@@ -320,7 +327,7 @@ export const Report = ({
                       </Text>
                     </View>
                   ))}
-                </Text>
+                </View>
               </View>
             ))}
           </View>

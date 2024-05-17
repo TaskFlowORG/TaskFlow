@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Group, OtherUser, Permission, Project } from "@/models";
 import { groupService, userService } from "@/services";
 import { useTranslation } from "react-i18next";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
     group: Group;
@@ -16,6 +17,8 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
     const [successPermission, setSuccessPermission] = useState<boolean>(false);
     const [text, setText] = useState<string>("");
     const { t } = useTranslation();
+    const asynThrow = useAsyncThrow();
+
 
     useEffect(() => {
         fetchData();
@@ -26,7 +29,8 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
     }, [successPermission, selectedPermission]);
 
     const fetchData = async () => {
-        const fetchedUser = await userService.findLogged();
+        const fetchedUser = await userService.findLogged().catch(asynThrow);
+        if (fetchedUser)
         setUserLogged(fetchedUser);
         findUserPermissionsInGroup;
     };

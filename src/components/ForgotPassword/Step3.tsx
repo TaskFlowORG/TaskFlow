@@ -34,7 +34,11 @@ const schema = z
 
 type FormData = z.infer<typeof schema>;
 
-export const Step3 = () => {
+interface Props{
+    setForgotPassword: ( forgotPassword: boolean) => void;
+}
+
+export const Step3 = ({setForgotPassword} : Props) => {
     const [user, setUser] = useState<FormData>({ password: "", confirmPassword: "" });
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>({
         mode: "all",
@@ -46,13 +50,14 @@ export const Step3 = () => {
     const { t } = useTranslation();
 
 
-    const resetPass = async (data: FormData) => {
+    const resetPassword = async (data: FormData) => {
         try {
             const code = await emailService.getCode();
             code.map(async (c) => {
                 console.log("senha:", user.password);
 
                 await userService.upDatePassword(c.username, data.password);
+                 setForgotPassword(false)
             });
             router.push("/login");
         } catch (error) {
@@ -71,7 +76,7 @@ export const Step3 = () => {
 
                 <div className='flex items-center flex-col h-[73%] w-full justify-between'>
 
-                    <form onSubmit={handleSubmit(resetPass)} className='w-4/5 flex flex-col items-center justify-between py-10'>
+                    <form onSubmit={handleSubmit(resetPassword)} className='w-4/5 flex flex-col items-center justify-between py-10'>
                         <Input
                             className="inputRegister"
                             image={iconPassword}

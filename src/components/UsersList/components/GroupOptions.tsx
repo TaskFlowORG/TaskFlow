@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 import { ProjectContext } from "@/contexts";
 import { useTranslation } from "react-i18next";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
     isOpen: Boolean,
@@ -21,13 +22,15 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
     const [userLogged, setUserLogged] = useState<OtherUser>();
     const router = useRouter();
     const { t } = useTranslation();
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         fetchData()
     })
 
     const fetchData = async () => {
-        const fetchedUser = await userService.findLogged();
+        const fetchedUser = await userService.findLogged().catch(asynThrow);
+        if (fetchedUser)
         setUserLogged(fetchedUser);
     }
 
@@ -47,6 +50,7 @@ export const GroupOptions = ({ isOpen, group, user, setGroup }: Props) => {
                     group})
             }
         } catch (error) {
+            //Falta error
             console.error("Erro ao remover usuário:", error);
             alert("Erro ao remover usuário");
         }

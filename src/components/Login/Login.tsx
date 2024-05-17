@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TwoFactor } from "../TwoFactor";
 import { authentication } from "@/services/services/Authentication";
+import { ForgotPassword } from "../ForgotPassword";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -38,7 +39,8 @@ export const Login = () => {
   });
   const route = useRouter();
   const { theme } = useTheme();
-  const [twoFactor, setTwoFactor] = useState<number>(0);
+  const [twoFactor, setTwoFactor] = useState<boolean>(false);
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
   const [usernameT, setUsernameT] = useState<string>("");
   const [passwordT, setPasswordT] = useState<string>("");
 
@@ -57,19 +59,23 @@ export const Login = () => {
     setUsernameT(data.username.toString());
     await authentication.login({
       username: data.username,
-      password: data.password}).then(async (value) => {
+      password: data.password
+    }).then(async (value) => {
+      console.log(value);
+      
       if (!value) return;
-     else {
+      else {
         route.push("/" + data.username);
       }
     }).catch((error) => {
+
       console.log(error);
-      
-      if (error.response.status== 403) {
-        route.push("/forgotPassword");
+
+      if (error.response.status == 403) {
+        setForgotPassword(true);
       } else if (error.response.status == 406) {
         console.log('two factor');
-        setTwoFactor(1)
+        setTwoFactor(true)
       } else if (error.response.status == 401) {
         setLoginError(t("login-error"));
       }
@@ -79,20 +85,24 @@ export const Login = () => {
 
   return (
     <>
-      <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
-        <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
-          {
-            twoFactor === 0 ? (
+       {forgotPassword ? (
+          <div className="absolute w-full h-full z-50 left-[44.5%] top-[60%] -translate-x-1/2 -translate-y-1/2">
+            <ForgotPassword setForgotPassword={setForgotPassword} />
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+          <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
+            {!twoFactor ? (
               <>
                 <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
                 <form
                   id="modalLogin"
                   onSubmit={handleSubmit(login)}
                   className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
-             >
-
+                >
                   <span className="text-red-500 text-sm">{loginError ?? ""}</span>
-
                   <div className="h-[95%] w-4/5 flex flex-col items-center justify-between">
                     <Input
                       className="inputRegister"
@@ -107,12 +117,10 @@ export const Login = () => {
                         "w-5/6 h-10 md:h-full outline-none  px-5 dark:bg-modal-grey"
                       }
                     />
-
                     <Input
                       className="inputRegister"
                       image={iconPassword}
-                      
-                      type={"password"}
+                      type="password"
                       placeholder={t("type-password")}
                       onChange={() => setLoginError("")}
                       value={user.password}
@@ -123,19 +131,17 @@ export const Login = () => {
                         "w-5/6  h-10 md:h-full outline-none px-5 dark:bg-modal-grey"
                       }
                     />
-
                     <div className="w-4/5 md:w-4/6 flex justify-between py-2">
                       <p
                         className={
                           "font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary "
                         }
-                        onClick={() => route.push("/forgotPassword")}
+                        onClick={() => setForgotPassword(true)}
                       >
                         {t("forgot-password")}
                       </p>
                       <Transition href="/register" label={t("register-login")} />
                     </div>
-
                     <button
                       className={
                         "bg-primary rounded-md h5 text-white hover:bg-light-pink w-[200px] h-[40px] dark:bg-secondary dark:hover:bg-light-orange"
@@ -146,26 +152,22 @@ export const Login = () => {
                     </button>
                   </div>
                 </form>
-
                 <button
                   className="w-[200px] h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
                   onClick={() =>
                     route.push("http://localhost:9999/auth/login/code/github")
                   }
-                >{theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> :
-                  <img src="/Assets/GitHubDark.svg" alt="" />
-                  }
-                  Login com o GitHub
+                >
+                  {theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> : <img src="/Assets/GitHubDark.svg" alt="" />}
+                  {t("login-github")}
                 </button>
               </>
-
             ) : (
-              <TwoFactor password={passwordT} username={usernameT}/>
-            )
-          }
+              <TwoFactor password={passwordT} username={usernameT} />
+            )}
+          </div>
         </div>
-      </div>
-    </>
+      </>
   );
 };
 

@@ -4,6 +4,7 @@ import { groupService, userService } from "@/services";
 import { Group, OtherUser, Project } from "@/models";
 import { PermissionUser } from "./components/PermissionUser";
 import { useTranslation } from "react-i18next";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 interface Props {
   project?: Project;
@@ -23,6 +24,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
   const { theme } = useTheme();
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
+  const asynThrow = useAsyncThrow();
 
   useEffect(() => {
     fetchData();
@@ -33,7 +35,8 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
   }, [group?.users, setGroup, sucessInvite]);
 
   const fetchData = async () => {
-    const fetchedUsers = await userService.findAll();
+    const fetchedUsers = await userService.findAll().catch(asynThrow);
+    if (fetchedUsers)
     setUsers(fetchedUsers)
   };
 
@@ -87,7 +90,8 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     }
     try {
       if (group != null) {
-        await groupService.inviteUser(group.id, user.id);
+        await groupService.inviteUser(group.id, user.id)
+        
         setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)
       }

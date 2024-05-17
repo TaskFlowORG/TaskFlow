@@ -32,6 +32,8 @@ import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { DateWithGoogle } from "@/models/values/DateValued";
 
 type Props = {
   task: Task | Project;
@@ -228,6 +230,8 @@ export const TesPropertiesSide = ({
       new Date(propInput.value).getFullYear() < currentDate.getFullYear()
     }
   }
+  const asynThrow = useAsyncThrow();
+
 
   async function updateTask() {
     if (!validateProps()) {
@@ -275,16 +279,23 @@ export const TesPropertiesSide = ({
           console.log("Calma qui vou salvar o usuário fi");
           console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          updateProp.value.value =
-            value.value;
+          let hours = new Date().getHours();
+          let minutes = new Date().getMinutes();
+          if(updateProp.value.value == null) updateProp.value.value = new DateWithGoogle(null, "", null)
+          updateProp.value.value.dateTime =
+            value.value +
+            "T" +
+            ((hours as number) < 10 ? "0" + hours : hours) +
+            ":" +
+            ((minutes as number) < 10 ? "0" + minutes : minutes);
+
         } else {
           updateProp.value.value = value.value;
         }
       }
     });
     if (!isProject(task)){
-
-      const taskReturned = await taskService.upDate(task as Task, project!.id);
+    const taskReturned = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
       console.log(taskReturned);
       const page = project?.pages.find((page) => page.id == pageId);
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
@@ -370,6 +381,7 @@ export const TesPropertiesSide = ({
           createValue(propertyObj as unknown as Property)!
         )
       );
+
       if (!isProject(task)){
         let taskReturned = await taskService.upDate(task as Task, project!.id);
         let page = project!.pages.find((page) => pageId == page.id);

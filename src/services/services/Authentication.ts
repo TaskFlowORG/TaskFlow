@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 class Authentication {
 
     async login(userlogin : UserLogin): Promise<AxiosResponse<User>>{
-        return Api.post<User>("login", userlogin);
+        return await Api.post<User>("login", userlogin);
     }
     
     async logout(): Promise<void> {

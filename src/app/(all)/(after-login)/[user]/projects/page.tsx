@@ -17,6 +17,7 @@ import { SearchBar, SearchIcon } from "@/components/SearchBar";
 import { IconFilter } from "@/components/icons/OptionsFilter/Filter";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export default function Projects({ params }: { params: { user: string } }) {
 
@@ -67,6 +68,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       project.description?.toLowerCase().includes(searchLower)
     );
   }
+  const asynThrow = useAsyncThrow();
 
   const postProject = async () => {
     projectService.insert(
@@ -74,7 +76,7 @@ export default function Projects({ params }: { params: { user: string } }) {
     ).then(async (newProject) => {
       const permission = new PermissionPost("", TypePermission.READ, true, newProject);
       console.log(permission);
-      await permissionService.insert(permission, newProject.id)
+      await permissionService.insert(permission, newProject.id).catch(asynThrow);
       const projectsTemp = [...projects!];
       projectsTemp.push(newProject);
       setProjects!(projectsTemp);

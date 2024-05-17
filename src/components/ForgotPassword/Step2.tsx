@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { map } from "zod";
 
 interface Props {
-    setStep: (number: number) => void
+    setStep: (number: number) => void;
 }
 
 export const Step2 = ({ setStep }: Props) => {
@@ -67,7 +67,6 @@ export const Step2 = ({ setStep }: Props) => {
             }
         })
     }
-
 
     return (
         <>

@@ -7,6 +7,7 @@ import { ProjectContext } from "@/contexts";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 import { PageContext } from "@/utils/pageContext";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type Props = {
   task: Task | Project;
@@ -41,6 +42,7 @@ export const CommentsSection = ({ task, user }: Props) => {
     }
     return true;
   }
+  const asynThrow = useAsyncThrow();
 
   async function updateComment(commentId: number, updatedValue: string) {
     let comment = task.comments[commentId];
@@ -59,6 +61,7 @@ export const CommentsSection = ({ task, user }: Props) => {
         );
         setCommentsTask(projectUpdated.comments);
       }
+
     }
   }
 
@@ -108,6 +111,7 @@ export const CommentsSection = ({ task, user }: Props) => {
       setCommentsTask(projectUpdated.comments);
       setProject!({ ...projectUpdated! });
     }
+
     setInput("");
   }
   return (

@@ -1,9 +1,5 @@
-import { AnimatePresence, motion } from "framer-motion";
 import { useTranslation } from "next-i18next";
-import { use, useContext, useEffect, useRef, useState } from "react";
-import { useClickAway } from "react-use";
-import { set } from "zod";
-import { Dashboard } from "./components";
+import { useContext, useEffect, useRef, useState } from "react";
 import { If } from "../If";
 import { DashboardSide } from "./components/DashBoardSide";
 import { DashboardBottom } from "./components/DashBoardBottom";
@@ -12,14 +8,10 @@ import { ProjectContext, ProjectsContext } from "@/contexts";
 import { archiveToSrc } from "@/functions";
 import { UserContext } from "@/contexts/UserContext";
 import { groupService, projectService, userService } from "@/services";
-import { Button } from "../Button";
 import { LocalModal } from "../Modal";
 import { OtherUser, Project as ProjectModel, ProjectPut } from "@/models";
-import { EditIcon, IconRedo } from "../icons";
-
+import { IconRedo } from "../icons";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
-import { log } from "console";
-import { ReportDowload } from "../Report/Report";
 import { Loading } from "../Loading";
 import { TaskModalContent } from "../TaskModal/TaskModalContent";
 import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
@@ -28,7 +20,6 @@ export const Project = () => {
   const { t } = useTranslation();
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { project, setProject } = useContext(ProjectContext);
-  const { projects } = useContext(ProjectsContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
   const [description, setDescription] = useState<string | undefined>(
@@ -136,7 +127,8 @@ export const Project = () => {
                   <IconEditColoured />
                   <input
                     onChange={updatePicture}
-                    type="file" accept="image/*"
+                    type="file"
+                    accept="image/*"
                     className="w-full h-full absolute cursor-pointer opacity-0"
                   />
                 </span>
@@ -168,15 +160,18 @@ export const Project = () => {
             </div>
           </div>
           <div className="400:w-52 w-full gap-2  h-full justify-center smm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
-            <p>
-              <span className="text-primary dark:text-secondary">
-                {t("owner") + ": "}
-              </span>
+            <span>
+              <span className="flex w-full justify-between">
 
-              {project?.owner.id == user?.id
-                ? t("you")
-                : project?.owner.username}
-            </p>
+              <p>
+                <span className="text-primary dark:text-secondary">
+                  {t("owner") + ": "}
+                </span>
+
+                {project?.owner.id == user?.id
+                  ? t("you")
+                  : project?.owner.username}
+              </p>
             <If condition={project?.owner.id == user?.id}>
               <span className="relative">
                 <LocalModal
@@ -189,12 +184,12 @@ export const Project = () => {
                       <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
                         {possibleOwners.map((user) => (
                           <button
-                            key={user.id}
-                            className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
-                            onClick={() =>
-                              project &&
-                              projectService.updateOwner(user, project.id)
-                            }
+                          key={user.id}
+                          className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
+                          onClick={() =>
+                            project &&
+                            projectService.updateOwner(user, project.id)
+                          }
                           >
                             @{user.username}
                           </button>
@@ -213,9 +208,8 @@ export const Project = () => {
                   <IconRedo />
                 </button>
               </span>
-            </If>
-          </div>
-        </div>
+        </If>
+              </span>
         <If condition={project?.owner.id == user?.id}>
           <span className="self-end w-full whitespace-nowrap smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
             <input
@@ -225,7 +219,11 @@ export const Project = () => {
             />
             {t("revision")}
           </span>
-        </If> 
+
+            </If>
+      </span>
+          </div>
+        </div>
           <TaskModalWrapper>
             <TaskModalContent
               task={project}
@@ -234,7 +232,6 @@ export const Project = () => {
             />
           </TaskModalWrapper>
 
-       
         <div className="h-5/6 w-full "></div>
       </div>
       <If condition={windowWidth > 768}>

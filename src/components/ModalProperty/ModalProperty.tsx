@@ -32,6 +32,7 @@ import { NeedPermission } from "../NeedPermission";
 import { get } from "http";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { propertyService } from "@/services";
+import { ErrorModal } from "../ErrorModal";
 
 type ModalPropertyProps = {
   property: Property;
@@ -142,6 +143,7 @@ export const ModalProperty = ({
 
   }
 
+
   return (
     <div
       key={property.id}
@@ -200,12 +202,9 @@ export const ModalProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                  try {
                     upDateProperties(property, getValues());
                     setOpenOptions(false);
-                  } catch (e) {
-                    console.log(e);
-                  }
+
                 }}
               >
                 <IconSave />
