@@ -37,6 +37,8 @@ export const TaskModalContent = ({
   useEffect(() => {
     setList(undefined);
     setFilter([]);
+    console.log(task);
+    
   }, [isOpen]);
 
   useEffect(() => {
