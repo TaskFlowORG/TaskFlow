@@ -30,6 +30,7 @@ import { useTranslation } from "react-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { DateWithGoogle } from "@/models/values/DateValued";
 
 type Props = {
   task: Task;
@@ -266,7 +267,8 @@ export const TesPropertiesSide = ({
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           let hours = new Date().getHours();
           let minutes = new Date().getMinutes();
-          updateProp.value.value =
+          if(updateProp.value.value == null) updateProp.value.value = new DateWithGoogle(null, "", null)
+          updateProp.value.value.dateTime =
             value.value +
             "T" +
             ((hours as number) < 10 ? "0" + hours : hours) +

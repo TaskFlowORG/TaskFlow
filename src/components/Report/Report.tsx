@@ -226,7 +226,7 @@ export const Report = ({
             : user.username
         );
       case TypeOfProperty.DATE:
-        return dateFormat(new Date(log.value.value.value as string));
+        return dateFormat(new Date(log.value.value.value.dateTime as string));
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.TEXT:
         return log.value.value.value;

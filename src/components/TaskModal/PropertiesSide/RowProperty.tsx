@@ -121,7 +121,7 @@ export const RowProperty = ({
           property={prop.property}
           id={prop.property.id}
           name={prop.property.name}
-          value={prop.value?.value.dateTime}
+          value={prop.value?.value?.dateTime}
         />
       );
 

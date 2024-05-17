@@ -67,7 +67,8 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
         );
       
       case TypeOfProperty.DATE:
-      case TypeOfProperty.NUMBER:
+        return log.value.value.value.dateTime;
+        case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:
         return log.value.value.value;
