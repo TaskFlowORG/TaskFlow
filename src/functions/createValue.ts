@@ -16,28 +16,39 @@ import { Interval } from "@/models/values/Interval";
 
 export function createValue(propertyObj: Property): Value | undefined {
   let prop: Value | null = null;
+  console.log(propertyObj.type);
+  
   switch (propertyObj.type) {
     case TypeOfProperty.TIME:
       prop = new TimeValued(new Interval(new Duration(0, 0, 0)));
+      break;
     case TypeOfProperty.DATE:
       prop = new DateValued(null);
-    case TypeOfProperty.CHECKBOX:
+      break;
+      case TypeOfProperty.CHECKBOX:
     case TypeOfProperty.TAG:
       prop = new MultiOptionValued([]);
-    case TypeOfProperty.SELECT:
+      break;
+      case TypeOfProperty.SELECT:
     case TypeOfProperty.RADIO:
       prop = new UniOptionValued(null);
-    case TypeOfProperty.TEXT:
+      break;
+      case TypeOfProperty.TEXT:
       prop = new TextValued(null);
-    case TypeOfProperty.NUMBER:
+      break;
+      case TypeOfProperty.NUMBER:
       prop = new NumberValued(null);
-    case TypeOfProperty.NUMBER:
+      break;
+      case TypeOfProperty.NUMBER:
     case TypeOfProperty.PROGRESS:
       prop = new NumberValued(null);
-    case TypeOfProperty.USER:
+      break;
+      case TypeOfProperty.USER:
       prop = new UserValued([]);
-    case TypeOfProperty.ARCHIVE:
+      break;
+      case TypeOfProperty.ARCHIVE:
       prop = new ArchiveValued(null);
+      break;
   }
 
   prop.id = null;
