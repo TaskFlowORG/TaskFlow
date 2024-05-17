@@ -101,6 +101,7 @@ export const Register = () => {
           router.push("/" + username);
         });
       }).catch((error) => {
+        console.log("error", error)
         if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {

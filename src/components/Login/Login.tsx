@@ -69,7 +69,8 @@ export const Login = () => {
       console.log(error);
 
       if (error.response.status == 403) {
-        route.push("/forgotPassword");
+        setForgotPassword(true);
+
       } else if (error.response.status == 406) {
         console.log('two factor');
         setTwoFactor(true)
@@ -85,14 +86,11 @@ export const Login = () => {
      {
                           forgotPassword ? (
                            <div className="absolute w-full h-full z-50 left-[44.5%] top-[60%] -translate-x-1/2 -translate-y-1/2"> <ForgotPassword setForgotPassword={setForgotPassword} /> </div>
-                          ) : (
-                            ""
-                          )
-                        }
-      <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
+                          ) : 
+     <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
         <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
           {
-            !twoFactor ? (
+            !twoFactor  ? (
               <>
                 <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
                 <form
@@ -171,11 +169,11 @@ export const Login = () => {
               </>
 
             ) : (
-              <TwoFactor password={passwordT} username={usernameT} />
+                <TwoFactor password={passwordT} username={usernameT} />
             )
           }
         </div>
-      </div>
+      </div>}
     </>
   );
 };

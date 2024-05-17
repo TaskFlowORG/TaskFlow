@@ -384,6 +384,7 @@
    "owner/member":"Owner/Member",
    "member":"Member",
    "all":"All",
+   "username-exists":"Username already exists",
    "clear":"Clear",
   "revision": "Task Revision",
   "font-config": "Font Configuration",

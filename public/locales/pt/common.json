@@ -206,6 +206,7 @@
   "remove": "Remover",
   "profile": "Perfil",
   "select": "Seleção",
+  "username-exists":"Nome de usuário já existe",
   "user": "Usuário",
   "tag": "Etiqueta",
   "checkbox": "Checkbox",

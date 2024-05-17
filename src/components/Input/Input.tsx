@@ -50,7 +50,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               {label}
             </label>
           )}
+          {image &&
+          
           <Image width={20} height={20} src={image} alt="" />
+          }
           <S.Input
             autoComplete="off"
             className={classNameInput + " bg-transparent"}

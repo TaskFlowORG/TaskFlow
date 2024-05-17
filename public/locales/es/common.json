@@ -234,6 +234,8 @@
   "group": "Grupo",
   "text": "Texto",
   "archive": "Archivo",
+  "username-exists":"El nombre de usuario ya existe",
+
   "number": "Número",
   "date": "Fecha",
   "search": "Buscar",

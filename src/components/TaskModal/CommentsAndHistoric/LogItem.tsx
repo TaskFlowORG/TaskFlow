@@ -50,11 +50,11 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
         return (log.value.value.value as Archive).name;
       case TypeOfProperty.TIME:
         return (
-          (log.value.value.value as Interval).time.hours +
+          (log.value.value.value as Interval)?.time.hours +
           ":" +
-          (log.value.value.value as Interval).time.minutes +
+          (log.value.value.value as Interval)?.time.minutes +
           ":" +
-          (log.value.value.value as Interval).time.seconds
+          (log.value.value.value as Interval)?.time.seconds
         );
       case TypeOfProperty.USER:
         console.log(log);
