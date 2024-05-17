@@ -1,5 +1,5 @@
 "use client";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/Input";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { TwoFactor } from "../TwoFactor";
 import { authentication } from "@/services/services/Authentication";
+import { ForgotPassword } from "../ForgotPassword";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -38,7 +39,8 @@ export const Login = () => {
   });
   const route = useRouter();
   const { theme } = useTheme();
-  const [twoFactor, setTwoFactor] = useState<number>(0);
+  const [twoFactor, setTwoFactor] = useState<boolean>(false);
+  const [forgotPassword, setForgotPassword] = useState<boolean>(false);
   const [usernameT, setUsernameT] = useState<string>("");
   const [passwordT, setPasswordT] = useState<string>("");
 
@@ -57,19 +59,20 @@ export const Login = () => {
     setUsernameT(data.username.toString());
     await authentication.login({
       username: data.username,
-      password: data.password}).then(async (value) => {
+      password: data.password
+    }).then(async (value) => {
       if (!value) return;
-     else {
+      else {
         route.push("/" + data.username);
       }
     }).catch((error) => {
       console.log(error);
-      
-      if (error.response.status== 403) {
+
+      if (error.response.status == 403) {
         route.push("/forgotPassword");
       } else if (error.response.status == 406) {
         console.log('two factor');
-        setTwoFactor(1)
+        setTwoFactor(true)
       } else if (error.response.status == 401) {
         setLoginError(t("login-error"));
       }
@@ -79,17 +82,24 @@ export const Login = () => {
 
   return (
     <>
+     {
+                          forgotPassword ? (
+                           <div className="absolute w-full h-full z-50 left-[44.5%] top-[60%] -translate-x-1/2 -translate-y-1/2"> <ForgotPassword setForgotPassword={setForgotPassword} /> </div>
+                          ) : (
+                            ""
+                          )
+                        }
       <div className="flex h-full w-full absolute justify-center items-center text-[#333] dark:text-[#FCFCFC]">
         <div className="h-full w-full shadow-blur-10 rounded-md bg-white dark:bg-modal-grey flex flex-col justify-center items-center">
           {
-            twoFactor === 0 ? (
+            !twoFactor ? (
               <>
                 <h4 className="h4 leading-6 flex py-3 md:py-0">{t("access-account")}</h4>
                 <form
                   id="modalLogin"
                   onSubmit={handleSubmit(login)}
                   className="flex items-center flex-col h-[75%] w-full  justify-between py-5"
-             >
+                >
 
                   <span className="text-red-500 text-sm">{loginError ?? ""}</span>
 
@@ -129,9 +139,10 @@ export const Login = () => {
                         className={
                           "font-alata text-xs lg:text-sm underline hover:cursor-pointer hover:text-secondary "
                         }
-                        onClick={() => route.push("/forgotPassword")}
+                        onClick={() => setForgotPassword(true)}
                       >
                         {t("forgot-password")}
+                       
                       </p>
                       <Transition href="/register" label={t("register-login")} />
                     </div>
@@ -155,12 +166,12 @@ export const Login = () => {
                 >{theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> :
                   <img src="/Assets/GitHubDark.svg" alt="" />
                   }
-                  Login com o GitHub
+                  {t("login-github")}
                 </button>
               </>
 
             ) : (
-              <TwoFactor password={passwordT} username={usernameT}/>
+              <TwoFactor password={passwordT} username={usernameT} />
             )
           }
         </div>
