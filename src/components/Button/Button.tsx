@@ -75,7 +75,7 @@ export const Button = ({
                    : "border-secondary border-2 dark:border-primary"
                }`}
       >
-        <p className="w-full h-full flex justify-center items-center truncate">{text ? text : t("continue")}</p>
+        <p className="w-full h-full flex justify-center items-center ">{text ? text : t("continue")}</p>
       </button>
     </>
   );

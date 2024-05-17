@@ -21,7 +21,6 @@ import { IconTrashBin } from "@/components/icons/index";
 import { AnimatePresence, motion } from "framer-motion";
 import { ErrorModal } from "@/components/ErrorModal/index";
 import { authentication } from "@/services/services/Authentication";
-import { UserChangeUsername } from "@/models/user/user/UserChangeUsername";
 import { ChangeAccountNameModal } from "./components/ChangeAccountNameModal";
 
 export const PersonalInformations = () => {
@@ -39,7 +38,7 @@ export const PersonalInformations = () => {
   const [extenderBotaoDel, setExtenderBotaoDel] = useState(false);
   const [deletarModal, setDeletarModal] = useState(false);
   const [photo, setPhoto] = useState<File>();
-  const [changeNameModal, setChangeNameModal] = useState(true);
+  const [changeNameModal, setChangeNameModal] = useState(false);
   const [error, setError] = useState<boolean>(false);
   const { t } = useTranslation();
   const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
@@ -101,14 +100,6 @@ export const PersonalInformations = () => {
     }
   };
 
-  const changeName = async (newUsername: string) => {
-    if (!user || !setUser) return;
-    await userService.changeUsername(newUsername);
-    authentication.logout();
-    window.location.reload();
-    console.log(user.username);
-  }
-
   return (
     <div className=" overflow-y-auto z-10 flex w-full h-full personal items-center">
       <div className="flex flex-col relative z-20 mt-40 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
@@ -149,7 +140,6 @@ export const PersonalInformations = () => {
             </div>
             <div className="flex w-80">
               <InputFieldConfig
-                hasError={false}
                 type="text"
                 id="username"
                 disabled={true}
@@ -169,7 +159,6 @@ export const PersonalInformations = () => {
         <div className="flex justify-center w-full h-full">
           <div className="lg:w-[60%] w-full h-full lg:grid lg:grid-cols-2 lg:grid-rows-4 flex flex-col justify-between text-modal-grey p">
             <InputFieldConfig
-              hasError={false}
               type={"text"}
               id={"name"}
               disabled={false}
@@ -182,7 +171,6 @@ export const PersonalInformations = () => {
               placeholder={user?.name || ""}
             ></InputFieldConfig>
             <InputFieldConfig
-              hasError={false}
               type={"text"}
               id={"surname"}
               disabled={false}
@@ -195,7 +183,6 @@ export const PersonalInformations = () => {
               placeholder={user?.surname || ""}
             ></InputFieldConfig>
             <InputFieldConfig
-              hasError={false}
               type={"mail"}
               id={"mail"}
               disabled={false}
@@ -208,7 +195,6 @@ export const PersonalInformations = () => {
               placeholder={user?.mail || ""}
             ></InputFieldConfig>
             <InputFieldConfig
-              hasError={false}
               type={"tel"}
               id={"phone"}
               disabled={false}

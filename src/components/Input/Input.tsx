@@ -1,4 +1,4 @@
-import React, { forwardRef, useId } from "react";
+import React, { ChangeEventHandler, forwardRef, useId } from "react";
 import { InputHTMLAttributes } from "react";
 import * as S from './style';
 import { If } from "@/components/If"
@@ -37,7 +37,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ disabled,  onCh
 
             </S.Container>
             <div className="h-8">
-            {hasError && <S.Label className="text-red-500 text-sm">{helperText}</S.Label>}
+            {hasError && <S.Label className="text-red-500 text-sm ">{helperText}</S.Label>}
             </div>
         </>
     )
