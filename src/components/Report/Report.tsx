@@ -105,9 +105,15 @@ const styles = StyleSheet.create({
     height: 50,
   },
   descriptionlog: {
-    width: "100%",
+    paddingRight: "2cm",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
+  },
+  logs: {
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    gap: 4,  
   },
 });
 
@@ -304,7 +310,7 @@ export const Report = ({
                 <View style={styles.action}>
                   <Text>{log.date.toLocaleDateString()}</Text>
                 </View>
-                <Text style={styles.descriptionlog}>
+                <View style={styles.logs}>
                   {log.logs?.map((log, index) => (
                     <View key={index} style={styles.descriptionlog}>
                       <Text>
@@ -315,7 +321,7 @@ export const Report = ({
                       </Text>
                     </View>
                   ))}
-                </Text>
+                </View>
               </View>
             ))}
           </View>
