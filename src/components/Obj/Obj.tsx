@@ -47,8 +47,6 @@ export const Obj = ({
   const showed = objs.filter((o, index) => index <= max);
   const hidden = objs.filter((o, index) => index > max);
 
-  console.log(max)
-  console.log(showed)
   const mrs =
     isHovering || objs.length <= 1
       ? " -mr-2"

@@ -67,7 +67,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
               property={property}
                 name={property.name}
                 id={property.id}
-                value={prop?.value ?? ""}
+                value={prop?.value?.dateTime ?? ""}
                 key={property.id}
               />
             );

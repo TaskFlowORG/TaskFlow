@@ -1,6 +1,5 @@
-
 import { useHasPermission } from "@/hooks/useHasPermission";
-import { Date, Property } from "@/models";
+import { Date as DateP, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
@@ -11,10 +10,10 @@ interface DateProps {
   name: string;
   value: string;
   isInModal?: boolean;
-  property:Property;
+  property: Property;
 }
 
-export const  DateFilter = ({
+export const DateFilter = ({
   name,
   value,
   id,
@@ -23,51 +22,76 @@ export const  DateFilter = ({
 }: DateProps) => {
   const [valued, setValued] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const style = twMerge(
     "flex gap-4 w-full items-center border-b-[1px]  pb-2",
-    isInModal ? " p-0 border-none w-[120px]" : " "
+    isInModal ? ((property as DateP).includesHours ? "p-0 border-none w-[200px]" : " p-0 border-none w-[120px]") : " "
   );
-  const hasPermission = useHasPermission('update')
+  const hasPermission = useHasPermission("update");
 
   useEffect(() => {
-    const splitTimestamp: string[] = value?.split("T");
+    // const splitTimestamp: string[] = value?.split("T");
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop && isInModal) {
-      const splitTimestamp: string[] = prop.value?.split("T");
-      setValued(splitTimestamp[0] ?? "");
-    } else if (splitTimestamp) {
-      const datePart: string = splitTimestamp[0];
-      setValued(datePart ?? "");
+      // const splitTimestamp: string[] = prop.value?.split("T");
+      setValued(prop.value);
+      console.log("É NO IF");
+    } else {
+      setValued(value);
+      console.log("É NO ELSE");
     }
+    // } else if (value) {
+    //   // const datePart: string = splitTimestamp[0];
+    //   setValued(value ?? "");
+    // }
   }, [value, setFilterProp, filterProp]);
 
   return (
     <div className={style}>
-      {!isInModal && <p className=" text-black dark:text-white text-p14">{name}:</p>}
+      {!isInModal && (
+        <p className=" text-black dark:text-white text-p14">{name}:</p>
+      )}
       <input
-        disabled={ !isInModal ? false : !hasPermission}
-        className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
-        type={ (property as Date).includesHours ? "datetime-local" : "date"}
-        value={valued}
-        placeholder={t('insert-expected-value')}
+        step="1"
+        disabled={!isInModal ? false : !hasPermission}
+        className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
+        type={(property as DateP).includesHours ? "datetime-local" : "date"}
+        value={
+          (property as DateP).includesHours
+            ? valued?.split("T")[0] +
+              "T" +
+              new Date(valued).toLocaleTimeString()
+            : valued?.split("T")[0]
+        }
+        placeholder={t("insert-expected-value")}
         onChange={(e) => {
+          console.log(
+            "ALSDJASJDAÇ<",
+            new Date(valued).toLocaleDateString() +
+              "T" +
+              new Date(valued).toLocaleTimeString()
+          );
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
+            console.log("thisprop");
             if (!e.target.value) {
+              console.log("taget");
               filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
-              setFilterProp!([...filterProp!])
+              setFilterProp!([...filterProp!]);
             } else {
-              thisProperty.value = e.target.value;
-              setFilterProp!([...filterProp!])
+              console.log("else");
+              thisProperty.value = new Date(e.target.value).toISOString();
+              setFilterProp!([...filterProp!]);
             }
           } else {
+            console.log("elsão");
             if (e.target.value) {
+              console.log("if do elsão", e.target.value);
               setFilterProp!([
                 ...filterProp!,
-                { id: id, value: e.target.value },
+                { id: id, value: new Date(e.target.value).toISOString() },
               ]);
             }
           }

@@ -38,7 +38,7 @@ export const ValueSelector = ({property, showNames = false}:Props) => {
             <CardDate
               showNameProperty={showNames}
               key={property.property.id.toString()}
-              date={property.value.value}
+              date={property.value.value?.dateTime}
               property={property.property.name}
             />
           );

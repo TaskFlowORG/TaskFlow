@@ -11,6 +11,7 @@ import {
   ArchiveValued,
   Value,
 } from "@/models";
+import { DateWithGoogle } from "@/models/values/DateValued";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 
@@ -20,10 +21,10 @@ export function createValue(propertyObj: Property): Value | undefined {
   
   switch (propertyObj.type) {
     case TypeOfProperty.TIME:
-      prop = new TimeValued(new Interval(new Duration(0, 0, 0)));
-      break;
+      prop = new TimeValued(new Interval(new Duration(0, 0, 0), "#f04A94"));
+
     case TypeOfProperty.DATE:
-      prop = new DateValued(null);
+      prop = new DateValued(new DateWithGoogle(null, "", null));
       break;
       case TypeOfProperty.CHECKBOX:
     case TypeOfProperty.TAG:
