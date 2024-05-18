@@ -8,7 +8,7 @@ interface InputFieldConfigProps {
     onChange?: ChangeEventHandler<HTMLInputElement>
     placeholder?: string
     disabled?: boolean
-    classes?: string
+    classes?: string,
     helperText?: string
 }
 

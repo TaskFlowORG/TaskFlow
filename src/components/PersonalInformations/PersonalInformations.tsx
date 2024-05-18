@@ -63,7 +63,7 @@ export const PersonalInformations = () => {
     if (!user || !setUser) return;
     let updateUser = new User(
       user.id,
-      user.username,
+      user.username, 
       name,
       surname,
       user.picture,
@@ -74,7 +74,7 @@ export const PersonalInformations = () => {
       user.authenticate,
       user.configuration,
       user.permissions,
-      user.notifications,
+      user.notifications
     );
     const updatedUser = await userService.patch(updateUser).catch(asynThrow);
     if (updatedUser)

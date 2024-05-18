@@ -10,7 +10,7 @@ export const DashboardSide = () => {
   const ref = useRef<HTMLDivElement>(null);
   useClickAway(ref, () => setDashboardOpen(false));
   return (
-    <div className="w-min h-5/6 z-50 absolute right-0 flex" ref={ref}>
+    <div className="w-min h-5/6 z-50 fixed right-0 flex" ref={ref}>
       <button
         onClick={() => setDashboardOpen((prev) => !prev)}
         className="w-12 h-full bg-primary dark:bg-secondary dashboard-button  rounded-l-xl flex justify-center items-center"

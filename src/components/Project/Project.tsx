@@ -112,7 +112,7 @@ export const Project = () => {
       <div className="w-full h-full flex-col justify-center items-center  py-8 sm:flex  sm:px-24 md:px-48">
         <div className="sm:h-1/6 w-full justify-center  sm:justify-start flex flex-col gap-2 sm:flex-row">
           <div className="w-full gap-2 sm:gap-4 justify-center smm:flex-row flex-col items-center flex ">
-            <div className="sm:h-full h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
+            <div className="sm:h-full max-h-24 h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
                 src={src}
@@ -223,13 +223,15 @@ export const Project = () => {
             </span>
           </div>
         </div>
+    
+
+        <div className="h-5/6 w-full ">
         <TaskModalWrapper>
           <TaskModalContent task={project} user={user} isInModal={false} />
         </TaskModalWrapper>
-
-        <div className="h-5/6 w-full "></div>
+        </div>
       </div>
-      <If condition={windowWidth > 768}>
+      <If condition={windowWidth > 934}>
         <DashboardSide />
         <DashboardBottom />
       </If>
