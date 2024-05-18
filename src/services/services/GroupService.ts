@@ -1,4 +1,4 @@
-import { Group, GroupPost, GroupPut, Permission, User } from "@/models";
+import { Group, GroupPost, GroupPut, OtherUser, Permission, User } from "@/models";
 import { Api } from "../axios";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
@@ -58,7 +58,7 @@ class GroupService {
         return response.data;
     }
 
-    async updateOwner(newOwner: User, groupId: number): Promise<Group> {
+    async updateOwner(newOwner: OtherUser, groupId: number): Promise<Group> {
         const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner, { withCredentials: true });
         return response.data;
     }
