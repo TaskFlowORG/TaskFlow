@@ -385,7 +385,9 @@
   "timeline-scroll": "Desplaza el mouse para aumentar o disminuir",
   "timeline-scroll-desc": "Desplaza el mouse sobre la línea de tiempo para aumentar o disminuir el intervalo entre cada sección de la línea de tiempo.", 
   "tasks-without-date": "Tareas sin fecha",
-  "day-tasks": "Tareas del día"
+  "day-tasks": "Tareas del día",
+  "have-sure-delete-permanently": "¿Estás seguro de que quieres eliminar esto permanentemente?"
+
 
 }
 

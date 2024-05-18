@@ -87,7 +87,7 @@ export const SideSecondary = ({
                 {t("no-tasks-trash")}
               </p>
             </div>
-            <span className=" bg-white dark:bg-modal-grey h-full justify-center w-full overflow-y-auto none-scrollbar flex">
+            <span className=" bg-white dark:bg-modal-grey h-full max-h-64 justify-center w-full overflow-y-auto none-scrollbar flex">
               <div className="flex justify-center flex-col gap-4 h-min py-4 w-full">
                 {tasksTrash.map((task, index) => {
                   return (

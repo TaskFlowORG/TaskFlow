@@ -424,5 +424,6 @@
   "timeline-scroll": "Role para aumentar ou diminuir",
   "timeline-scroll-desc": "Role o mouse acima da linha do tempo para aumentar ou diminuir o intervalo entre cada seção da linha do tempo.",
   "tasks-without-date": "Tarefas sem data",
-  "day-tasks": "Tarefas do dia"
+  "day-tasks": "Tarefas do dia",
+  "have-sure-delete-permanently": "Tem certeza de que deseja excluir permanentemente isso?"
 }

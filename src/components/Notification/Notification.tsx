@@ -135,7 +135,7 @@ export const Notification = ({
 
   return (
     <div
-      className="flex items-center gap-3 justify-between min-h-16 h-min  w-full pb-2 pt-4"
+      className="flex items-center gap-3 justify-between min-h-16 h-min  w-full max-w-70 pb-2 pt-4"
       onMouseUp={handleClick}
     >
       <div className="w-1/12 h-full flex items-center">
