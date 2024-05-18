@@ -79,7 +79,6 @@ export const GroupComponent = ({
       }
     } else {
       //remove from project
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
       
       try {
         await groupService.emoveOfPoject(group.id, project?.id);
@@ -184,7 +183,8 @@ export const GroupComponent = ({
             )
           )
         ) : (
-          <div onClick={(e)=> {e.stopPropagation(); deleteGroup()}}>
+          group.ownerUsername == user && (
+            <div onClick={(e)=> {e.stopPropagation(); deleteGroup()}}>
             <svg
               width="20"
               height="20"
@@ -198,6 +198,10 @@ export const GroupComponent = ({
               />
             </svg>
           </div>
+          )
+
+        
+         
         )}
       </div>
     </div>

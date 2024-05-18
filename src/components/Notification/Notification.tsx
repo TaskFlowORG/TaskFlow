@@ -101,14 +101,14 @@ export const Notification = ({
     if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
       clickNotification(e);
     }
-    if(notification.auxObjId == null) {
+    if(notification.auxObjId == null && link) {
       router.push(link);
       return;
     }
 
     fnClick && fnClick();
 
-    router.push(link);
+    if(link) router.push(link);
     if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
       const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);

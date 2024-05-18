@@ -18,7 +18,7 @@ export const Role = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="w-full h-min flex justify-between text-p items-center">
+    <div className="w-full h-min flex justify-between  font-montserrat text-p items-center">
       <span className="flex h-min text-contrast gap-2  items-center">
         <If
           condition={selected}

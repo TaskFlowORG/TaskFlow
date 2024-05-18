@@ -94,6 +94,8 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
         
         setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)
+      setNewUser(undefined);
+
       }
     } catch (error) {
       setInvite(t("sendInvitationError"))
@@ -125,16 +127,17 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     <div className="flex w-full justify-center h-full lg:justify-start">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
         <div className="flex flex-col gap-12 justify-between">
-          <div>
+          <div >
             <input
               ref={inputRef}
-              className="pAlata relative left-8 lg:left-12 h-10 w-[80%] dark:bg-[#3C3C3C] text-p14 font-alata rounded-xl px-5 placeholder:border-primary dark:border-secondary"
+              className=" relative left-[10%] h-10 w-[80%] dark:bg-[#3C3C3C] text-p14 font-alata rounded-xl px-5 placeholder:border-primary dark:border-secondary"
               placeholder={t("search")}
               type="text"
               id="campoTexto"
               value={text}
               onChange={combinedOnChange}
             />
+            <span className="absolute w-[80%] opacity-50 top-6 left-[10%] text-p14 font-alata text-modal-grey dark:text-white">{newUser ? "@"+newUser.username : ""}</span>
             <button
               className="search-user relative"
               type="button"
@@ -147,7 +150,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               </div>
             </button>
             {showSuggestions && suggestedUsers.length > 0 && (
-              <ul className="absolute z-10 bg-white dark:bg-[#333] border border-gray-300 dark:border-gray-700 w-full mt-2 rounded-md overflow-hidden shadow-md">
+              <ul className="absolute z-10 bg-white left-[10%] dark:bg-[#333] w-[80%] border border-gray-300 dark:border-gray-700  mt-2 rounded-md overflow-hidden shadow-md">
                 {suggestedUsers.map((username) => (
                   <li
                     key={username}
