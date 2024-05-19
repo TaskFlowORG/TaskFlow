@@ -281,7 +281,6 @@ export const TesPropertiesSide = ({
       setProject!({ ...project! });
     } else {
       const projectReturned = await projectService.update(task as Project, project!.id).catch(asynThrow);
-      console.log(projectReturned);
       setProject!({ ...projectReturned! });
     }
    
