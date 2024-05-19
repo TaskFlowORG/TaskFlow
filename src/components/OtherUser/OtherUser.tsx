@@ -30,8 +30,8 @@ export const OtherUserComponent = ({user}:{user:OtherUser}) => {
                     <span style={{opacity: user.mail? 1 : 0.5}} className="w-full truncate font-montserrat text-mn text-modal-grey dark:text-white"><span className="font-semibold opacity-100">Mail:</span> {user.mail ? user.mail : t("withoutemail")}</span>
                 </div>
             </div>
-            <div className="w-64 ">
-                <p className="font-montserrat w-full flex flex-wrap text-modal-grey dark:text-white text-ellipsis whitespace-pre-wrap text-wrap text-p14 overflow-hidden">{user.description}</p>
+            <div className="w-64 "> 
+                <p className="font-montserrat w-full flex flex-wrap text-modal-grey dark:text-white text-ellipsis whitespace-pre-wrap text-wrap text-p14 overflow-hidden">{user.description ? '"' + user.description + '"' : ""}</p>
             </div>
         </div>
     )

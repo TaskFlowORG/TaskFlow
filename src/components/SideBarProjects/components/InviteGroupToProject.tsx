@@ -1,3 +1,4 @@
+import { ErrorModal } from "@/components/ErrorModal";
 import { LocalModal } from "@/components/Modal";
 import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 import { ProjectContext } from "@/contexts";
@@ -8,9 +9,10 @@ import { useTranslation } from "react-i18next";
 interface Props {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
+  setError: (value: boolean) => void;
 }
 
-export const InviteGroupToProject = ({ openModal, setOpenModal }: Props) => {
+export const InviteGroupToProject = ({ openModal, setOpenModal, setError }: Props) => {
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const { project } = useContext(ProjectContext);
   const [filteredGroups, setFilteredGroups] = useState<SimpleGroup[]>([]);
@@ -22,6 +24,7 @@ export const InviteGroupToProject = ({ openModal, setOpenModal }: Props) => {
   const fetchData = async () => {
     try {
       const globalGroups = await groupService.findAll();
+
       console.log(globalGroups, "oq tá rolando?");
 
       const alreadyInvitedGroups = await groupService.findGroupsByAProject(
@@ -41,8 +44,7 @@ export const InviteGroupToProject = ({ openModal, setOpenModal }: Props) => {
 
   const inviteToProject = (group: SimpleGroup) => {
     if (!project) return;
-    setOpenModal(false);
-    projectService.inviteGroup(project.id, group);
+    projectService.inviteGroup(project.id, group).then(() => setOpenModal(false)).catch((error) => setError(true));
   };
 
   const [search, setSearch] = useState("");
@@ -55,6 +57,8 @@ export const InviteGroupToProject = ({ openModal, setOpenModal }: Props) => {
   }, [search, groupsGlobal]);
 
   return (
+    <>
+    
     <LocalModal condition={openModal} setCondition={setOpenModal} bottom>
       <div className="w-52 h-min max-h-52 rounded-md p-2 flex bg-white dark:bg-modal-grey">
         {groupsGlobal.length > 0 ? (
@@ -85,5 +89,6 @@ export const InviteGroupToProject = ({ openModal, setOpenModal }: Props) => {
         )}
       </div>
     </LocalModal>
+    </>
   );
 };

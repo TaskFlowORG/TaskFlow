@@ -12,6 +12,7 @@ import { Button } from "@/components/Button";
 import { permissionService } from "@/services";
 import { LocalModal } from "@/components/Modal";
 import { IconDefault } from "@/components/icons/IconDefault";
+import { set } from "zod";
 
 export const PermissionComponent = ({
   permission,
@@ -92,7 +93,9 @@ export const PermissionComponent = ({
     console.log(otherPermission);
 
     if (!otherPermission || !project) return;
-    setPermissions(permissions.filter((p) => p.id != permission.id));
+    const permissionsTemp = permissions.filter((p) => p.id != permission.id);
+    if(permission.isDefault) permissionsTemp.find((p) => p.id == otherPermission.id)!.isDefault = true;
+    setPermissions([...permissionsTemp]);
     permissionService.delete(permission.id, project?.id, otherPermission.id);
   }
 

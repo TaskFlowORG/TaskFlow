@@ -101,14 +101,14 @@ export const Notification = ({
     if(notification.type != TypeOfNotification.ADDINGROUP && notification.type != TypeOfNotification.INVITETOPROJECT){
       clickNotification(e);
     }
-    if(notification.auxObjId == null) {
+    if(notification.auxObjId == null && link) {
       router.push(link);
       return;
     }
 
     fnClick && fnClick();
 
-    router.push(link);
+    if(link) router.push(link);
     if([TypeOfNotification.COMMENTS, TypeOfNotification.CHANGETASK, TypeOfNotification.DEADLINE, TypeOfNotification.SCHEDULE].includes(notification.type)){
       const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);
@@ -135,7 +135,7 @@ export const Notification = ({
 
   return (
     <div
-      className="flex items-center gap-3 justify-between min-h-16 h-min  w-full pb-2 pt-4"
+      className="flex items-center gap-3 justify-between min-h-16 h-min  w-full max-w-70 pb-2 pt-4"
       onMouseUp={handleClick}
     >
       <div className="w-1/12 h-full flex items-center">

@@ -405,5 +405,14 @@
   "personal-informations-change-password": "Change password",
   "personal-informations-password": "Password",
   "timeline-scroll" :"Scroll the mouse to zoom in or out",
-  "timeline-scroll-desc" :"Hover over the timeline to increase or decrease the interval between each section of the timeline."
+  "timeline-scroll-desc" :"Hover over the timeline to increase or decrease the interval between each section of the timeline.",
+  "tasks-without-date": "Tasks without date",
+  "day-tasks": "Day tasks",
+  "have-sure-delete-permanently": "Are you sure you want to delete this permanently?",
+  "your-group-project":"Group At Project",
+  "withoutphone":"Without phone",
+  "withoutemail":"Without email",
+  
+  "some-user-in-project-desc": "Someone from this group already has access to this project, which could result in permission conflicts, so you cannot add this group.",
+  "some-user-in-project": "Someone is already in the project"
 }

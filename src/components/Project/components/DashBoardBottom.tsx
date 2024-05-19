@@ -15,7 +15,7 @@ export const DashboardBottom = () => {
         onClick={() => setDashboardOpen((prev) => !prev)}
         className="w-full h-12 bg-primary dark:bg-secondary dashboard-button  rounded-t-xl flex justify-center items-center"
       >
-        <p className="font-montserrat  w-24 h-6 text-contrast text-p">
+        <p className="font-alata  w-24 h-6 text-contrast text-p">
           {t("dashboard")}
         </p>
       </button>

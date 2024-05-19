@@ -75,6 +75,7 @@ export const TwoFactor = ({ password, username }: Props) => {
                 await emailService.sendEmailAuth(username);
                 setError(t("success-email"))
                 setColor("text-green-500")
+                fetchData()
             }
         } catch (error) {
             setError(t("error-email"))

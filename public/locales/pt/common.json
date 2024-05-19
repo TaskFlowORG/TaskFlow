@@ -422,5 +422,13 @@
   "font-config": "Configuração de Fonte",
   "font-config-desc": "Escolha um estilo de fonte para o seu texto, personalize a sua experiência de acordo com seus gostos pessoais.",
   "timeline-scroll": "Role para aumentar ou diminuir",
-  "timeline-scroll-desc": "Role o mouse acima da linha do tempo para aumentar ou diminuir o intervalo entre cada seção da linha do tempo."
+  "timeline-scroll-desc": "Role o mouse acima da linha do tempo para aumentar ou diminuir o intervalo entre cada seção da linha do tempo.",
+  "tasks-without-date": "Tarefas sem data",
+  "day-tasks": "Tarefas do dia",
+  "have-sure-delete-permanently": "Tem certeza de que deseja excluir permanentemente isso?",
+  "your-group-project": "Grupo no projeto",
+  "withoutphone": "Sem telefone",
+  "withoutemail": "Sem email",
+  "some-user-in-project-desc":"Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
+  "some-user-in-project":"Alguém já está no projeto"
 }

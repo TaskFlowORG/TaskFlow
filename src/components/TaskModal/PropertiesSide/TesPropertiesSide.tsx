@@ -239,11 +239,9 @@ export const TesPropertiesSide = ({
       return;
     }
 
-    console.log(filter);
     filter.forEach(async (value) => {
       let updateProp =
         valuesOfObjects(task)?.find((prop) => prop.property.id == value.id) ?? null;
-      console.log(updateProp?.value);
       if (updateProp) {
         if (
           [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
@@ -268,26 +266,13 @@ export const TesPropertiesSide = ({
           );
           updateProp.value.value = updatedValue;
         } else if (TypeOfProperty.USER == updateProp.property.type) {
-          console.log("PELO MENOS TEM EU AQUI CARAIO");
-          console.log(value);
-          console.log(
-            users.filter((user) => value.value.includes(user.username))
-          );
           updateProp.value.value = users.filter((user) =>
             value.value.includes(user.username)
           );
-          console.log("Calma qui vou salvar o usuário fi");
-          console.log(updateProp);
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          let hours = new Date().getHours();
-          let minutes = new Date().getMinutes();
           if(updateProp.value.value == null) updateProp.value.value = new DateWithGoogle(null, "", null)
           updateProp.value.value.dateTime =
-            value.value +
-            "T" +
-            ((hours as number) < 10 ? "0" + hours : hours) +
-            ":" +
-            ((minutes as number) < 10 ? "0" + minutes : minutes);
+            value.value 
 
         } else {
           updateProp.value.value = value.value;
@@ -299,8 +284,8 @@ export const TesPropertiesSide = ({
       console.log(taskReturned);
       const page = project?.pages.find((page) => page.id == pageId);
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskPage) {
-        taskPage.task = taskReturned!;
+      if (taskReturned && taskPage) {
+        taskPage.task = taskReturned;
       }
   
       setProject!({ ...project! });
