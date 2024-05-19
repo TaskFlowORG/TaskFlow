@@ -62,19 +62,23 @@ export const Header = ({
   return (
     <div className="h-14 w-full fixed z-40 header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
 
-      <img
+      <Image
         src="/Icon.svg"
-        alt=""
-        className="w-12 select-none h-12 cursor-pointer sidebar-button dark:grayscale dark:brightness-[60]"
+        alt="icon"
+        width={48}
+        height={48}
+        className="select-none cursor-pointer sidebar-button dark:grayscale dark:brightness-[60]"
         onClick={() => setSidebarOpen(true)}
       />
 
       <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
         <Link href={`/${user?.username}/chat`}>
-          <img
+          <Image
             src="/Assets/themeLight/notification.svg"
-            alt=""
-            className=" select-none dark:invert  cursor-pointer h-5 w-5"
+            alt="notification"
+            className=" select-none dark:invert  cursor-pointer"
+            width={20}
+            height={20}
           />
         </Link>
 

@@ -129,7 +129,7 @@ const Header = ({
 }) => (
   <View style={styles.header} fixed>
     <View style={{ width: "20%" }}>
-      <Image src={"/LogoTaskFlow.png"} style={styles.logo} />
+      <Image src={"/LogoTaskFlow.png"} style={styles.logo}   />
     </View>
     <View
       style={{

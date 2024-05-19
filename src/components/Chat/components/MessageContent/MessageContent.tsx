@@ -50,7 +50,7 @@ export const MessageContent = ({firstMessageSequency, message, chatContent }: me
                                 <div className="flex flex-col justify-end items-end">
                                     <div className="flex justify-center w-full ">
                                         <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
-                                            <img className="rounded-md w-48 h-fit" src={arquivoUrl} alt="" />
+                                            <Image width={192} className="rounded-md h-fit" src={arquivoUrl} alt="" />
                                         </If>
                                         <If condition={message.annex != null && message.annex.type.startsWith("video/")}>
                                             <video className="rounded-md" src={arquivoUrl} controls ></video>
@@ -114,7 +114,7 @@ export const MessageContent = ({firstMessageSequency, message, chatContent }: me
                                             <p className="break-all max-w-[30rem]">{message.value}</p>
                                             <div className="flex justify-start">
                                                 <If condition={message.annex != null && message.annex.type.startsWith("image/")}>
-                                                    <img className="rounded-md w-48 h-fit" src={arquivoUrl} alt="" />
+                                                    <Image width={192} className="rounded-md h-fit" src={arquivoUrl} alt="" />
                                                 </If>
                                                 <If condition={message.annex != null && message.annex.type.startsWith("video/")}>
                                                     <video className="rounded-md" src={arquivoUrl} controls ></video>

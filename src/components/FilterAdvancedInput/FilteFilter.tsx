@@ -17,6 +17,7 @@ import { NeedPermission } from "../NeedPermission";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import Image from "next/image";
 
 interface Props {
   id: number;
@@ -103,7 +104,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
             </div>
             <NeedPermission permission="update">
               <button className="w-[23px] aspect-square bg-primary dark:bg-secondary rounded-md relative flex items-center justify-center  text-white">
-                <img src="/change.svg" width={8} height={8} alt="" />
+                <Image src="/change.svg" width={8} height={8} alt="change" />
                 <input
                   onChange={handleFileChange}
                   type="file"

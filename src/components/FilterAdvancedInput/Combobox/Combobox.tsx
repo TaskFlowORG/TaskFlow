@@ -4,6 +4,7 @@ import { SearchIcon } from "@/components/SearchBar";
 import { OtherUser } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 import { useContext, useEffect, useRef, useState } from "react";
 
 interface ComboBoxProps {
@@ -102,7 +103,7 @@ export const Combobox = ({
           }}
         >
           <div className="flex-1 flex gap-2 py-2 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-t-lg text-sm  ">
-            <img src="/searchIcons/search.svg" alt="" />
+            <Image  src="/searchIcons/search.svg" alt="search" width={20} height={20} />
             <input
               ref={inputRef}
               value={input}

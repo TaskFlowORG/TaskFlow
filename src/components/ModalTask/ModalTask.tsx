@@ -55,9 +55,10 @@ export const ModalTarefa = () => {
         <div className="w-full flex flex-col gap-[4.5rem] ">
           <h2 className="h2 text-primary self-center">Nossas Funcionalidades</h2>
           <div className="flex flex-col gap-32 items-center">
-            <Function text={"text-[#E41CEF]"} bg={"timeline__primaryToPurple"} size={"h-[400px]"} />
+            {/* DESCOMENTAR */}
+            {/* <Function  text={"text-[#E41CEF]"} bg={"timeline__primaryToPurple"} size={"h-[400px]"} />
             <Function text={"text-primary"} bg={"timeline__purpleTosecondary"} size={"h-[600px]"} />
-            <Function text={"text-secondary"} bg={"bg-secondary"} size={"h-[400px]"} />
+            <Function text={"text-secondary"} bg={"bg-secondary"} size={"h-[400px]"} /> */}
           </div>
         </div>
         <div className="w-full flex flex-col">

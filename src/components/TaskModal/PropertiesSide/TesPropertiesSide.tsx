@@ -34,6 +34,7 @@ import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects"
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { DateWithGoogle } from "@/models/values/DateValued";
+import Image from "next/image";
 
 type Props = {
   task: Task | Project;
@@ -398,7 +399,7 @@ export const TesPropertiesSide = ({
                 className="bg-white dark:bg-transparent flex flex-col"
               >
                 <div className="flex sm:gap-8 gap-4 w-full items-center">
-                  <img
+                  <Image
                     className="pt-2"
                     onClick={() => {
                       if (isTaskProperty(prop.property)) {
@@ -407,7 +408,9 @@ export const TesPropertiesSide = ({
                       }
                     }}
                     src="/config.svg"
-                    alt=""
+                    alt="config"
+                    width={16}
+                    height={16}
                   />
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">

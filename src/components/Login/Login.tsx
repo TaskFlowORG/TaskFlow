@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { TwoFactor } from "../TwoFactor";
 import { authentication } from "@/services/services/Authentication";
 import { ForgotPassword } from "../ForgotPassword";
+import Image from "next/image";
 
 export const Login = () => {
   const [user, setUser] = useState({} as FormData);
@@ -154,7 +155,7 @@ export const Login = () => {
                     route.push("http://localhost:9999/auth/login/code/github")
                   }
                 >
-                  {theme == "dark" ? <img src="/Assets/GitHub.svg" alt="" /> : <img src="/Assets/GitHubDark.svg" alt="" />}
+                  {theme == "dark" ? <Image width={20} height={20} src="/Assets/GitHub.svg" alt="github" /> : <Image width={20} height={20} src="/Assets/GitHubDark.svg" alt="github" />}
                   {t("login-github")}
                 </button>
               </>
