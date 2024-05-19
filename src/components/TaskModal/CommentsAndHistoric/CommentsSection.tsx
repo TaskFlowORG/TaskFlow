@@ -32,10 +32,10 @@ export const CommentsSection = ({ task, user }: Props) => {
   }, [task?.comments, deleteComment, updateComment]);
 
   function arraysAreEqual(arr1: any, arr2: any) {
-    if (arr1.length !== arr2.length) {
+    if (arr1?.length !== arr2?.length) {
       return false;
     }
-    for (let i = 0; i < arr1.length; i++) {
+    for (let i = 0; i < arr1?.length; i++) {
       if (arr1[i] !== arr2[i]) {
         return false;
       }
@@ -61,7 +61,6 @@ export const CommentsSection = ({ task, user }: Props) => {
         );
         setCommentsTask(projectUpdated.comments);
       }
-
     }
   }
 
@@ -99,10 +98,10 @@ export const CommentsSection = ({ task, user }: Props) => {
     if (!isProject(task)) {
       let taskUpdated = await taskService.upDate(task as Task, project!.id);
       setCommentsTask(taskUpdated.comments);
-        let page = project?.pages.find((page) => page.id == pageId);
-        let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
-        taskPage!.task = task as Task;
-        setProject!({ ...project! });
+      let page = project?.pages.find((page) => page.id == pageId);
+      let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
+      taskPage!.task = task as Task;
+      setProject!({ ...project! });
     } else {
       let projectUpdated = await projectService.update(
         task as Project,

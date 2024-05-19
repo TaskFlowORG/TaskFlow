@@ -98,7 +98,7 @@ export const CardContent = ({ task, user }: Props) => {
             : t("withoutname")}
         </h4>
 
-        {task.properties.find(
+        {task.properties?.find(
           (prop) => prop.property.type == TypeOfProperty.USER
         ) && (
           <CardUser

@@ -79,7 +79,7 @@ export const TagFilter = ({
         </p>
       )}
       <div className="oi w-full flex-wrap  flex gap-2 relative">
-        {options.map((opt, index) => {
+        {options?.map((opt, index) => {
           return (
             <Tag
               onClick={() => {

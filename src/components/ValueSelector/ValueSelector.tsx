@@ -112,13 +112,14 @@ export const ValueSelector = ({property, showNames = false}:Props) => {
           );
         } else if (is(property, TypeOfProperty.TIME)) {
           return (
-            <CardTime
-              showNameProperty={showNames}
-              key={property.property.id.toString()}
-              property={property.property.name}
-              time={property.value.value}
-            />
+<CardTime
+showNameProperty={showNames}
+key={property.property.id.toString()}
+property={property.property.name}
+time={property.value.value}
+/>
           );
         }
       
 }
+
