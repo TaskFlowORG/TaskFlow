@@ -23,6 +23,8 @@ import { PageContext } from "@/utils/pageContext";
 import { NeedPermission } from "../NeedPermission";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { CardTime } from "../CardContent/CardProperties/CardTime";
+import { UserContext } from "@/contexts/UserContext";
 
 type PropsForm = {
   property: PropertyValue;
@@ -33,6 +35,7 @@ interface Props {
   id: number;
   name: string;
   value: Interval;
+  isCardContent?: boolean;
   isInModal?: boolean;
   task: Task | Project;
   property: Property;
@@ -55,6 +58,7 @@ interface Tempo {
 }
 
 export const TimeFilter = ({
+  isCardContent = false,
   value,
   task,
   id,
@@ -70,6 +74,7 @@ export const TimeFilter = ({
   const [play, setPlay] = useState(false);
   const { pageId } = useContext(PageContext);
   const { project, setProject } = useContext(ProjectContext);
+  const { user } = useContext(UserContext);
 
   function somarTempos(tempo1: Tempo, tempo2: Tempo): Tempo {
     let totalSegundos = tempo1.segundos + tempo2.segundos;
@@ -347,49 +352,60 @@ export const TimeFilter = ({
     return () => clearInterval(intervalId);
   }, [seconds, minutes, play]); // O segundo argumento é uma matriz de dependências vazia, o que significa que o efeito só é executado uma vez após a montagem do componente
 
-  return (
-    <div className="flex gap-8">
-      <div className="flex gap-1">
-        <p className="pr-4 text-p14">
-          {hours < 10 ? "0" + hours : hours}:
-          {minutes < 10 ? "0" + minutes : minutes}:
-          {seconds < 10 ? "0" + seconds : seconds}
-        </p>
-        <NeedPermission permission="update">
-          {!play &&
-            (minutes < (property as Limited).maximum ||
-              (property as Limited).maximum == undefined) && (
+  if (!isCardContent) {
+    return (
+      <div className="flex gap-8">
+        <div className="flex gap-1">
+          <p className="pr-4 text-p14">
+            {hours < 10 ? "0" + hours : hours}:
+            {minutes < 10 ? "0" + minutes : minutes}:
+            {seconds < 10 ? "0" + seconds : seconds}
+          </p>
+          <NeedPermission permission="update">
+            {!play &&
+              (minutes < (property as Limited).maximum ||
+                (property as Limited).maximum == undefined) && (
+                <div
+                  onClick={handleClickPlay}
+                  className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+                >
+                  <div className="h-[10px] aspect-square relative">
+                    <Image src={"/play.svg"} alt="Play" fill></Image>
+                  </div>
+                </div>
+              )}
+
+            {play && (
               <div
-                onClick={handleClickPlay}
-                className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+                onClick={handleClickPause}
+                className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
               >
                 <div className="h-[10px] aspect-square relative">
-                  <Image src={"/play.svg"} alt="Play" fill></Image>
+                  <Image src={"/pause.svg"} alt="pause" fill></Image>
                 </div>
               </div>
             )}
 
-          {play && (
-            <div
-              onClick={handleClickPause}
-              className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
-            >
-              <div className="h-[10px] aspect-square relative">
-                <Image src={"/pause.svg"} alt="pause" fill></Image>
+            {!play && (
+              <div
+                className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+                onClick={handleClickRestart}
+              >
+                <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
               </div>
-            </div>
-          )}
-
-          {!play && (
-            <div
-              className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
-              onClick={handleClickRestart}
-            >
-              <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
-            </div>
-          )}
-        </NeedPermission>
+            )}
+          </NeedPermission>
+        </div>
       </div>
-    </div>
+    );
+  }
+
+  return (
+    <CardTime
+      showNameProperty={user!.configuration.showPropertiesName}
+      key={property.id.toString()}
+      property={property.name}
+      time={value}
+    />
   );
 };

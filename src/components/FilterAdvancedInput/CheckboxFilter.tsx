@@ -84,7 +84,7 @@ export const CheckboxFilter = ({
         </p>
       )}
       <div className={style}>
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <div key={index} className="flex gap-1 items-center">
             <input
               type="checkbox"

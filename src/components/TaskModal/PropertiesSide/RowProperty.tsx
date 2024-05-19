@@ -42,7 +42,7 @@ export const RowProperty = ({
           isInModal
           name={prop.property.name}
           ids={prop.property.id}
-          options={(prop.property as Select).options.map(
+          options={(prop.property as Select)?.options.map(
             (option) => option.name
           )}
           value={
