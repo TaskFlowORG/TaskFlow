@@ -111,7 +111,7 @@ export const Project = () => {
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
       <div className="w-full h-full flex-col justify-center items-center  py-8 sm:flex  sm:px-24 md:px-48">
         <div className="sm:h-1/6 w-full justify-center  sm:justify-start flex flex-col gap-2 sm:flex-row">
-          <div className="w-full gap-2 sm:gap-4 justify-center smm:flex-row flex-col items-center flex ">
+          <div className="w-full gap-2 sm:gap-4 justify-center sm:justify-start smm:flex-row flex-col items-center flex ">
             <div className="sm:h-full max-h-24 h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
@@ -134,7 +134,7 @@ export const Project = () => {
                 </span>
               </If>
             </div>
-            <div className="flex flex-col smm:w-min min-w-[130px] sm:justify-between  white text-center w-[1/2] sm:w-2/3 ">
+            <div className="flex flex-col smm:w-min smm:min-w-[130px] sm:min-w-min  sm:justify-between  white text-center w-[1/2] sm:w-full ">
               <input
                 ref={refName}
 
@@ -225,7 +225,7 @@ export const Project = () => {
         </div>
     
 
-        <div className="h-5/6 w-full ">
+        <div className="h-5/6 w-full pt-6 ">
         <TaskModalWrapper>
           <TaskModalContent task={project} user={user} isInModal={false} />
         </TaskModalWrapper>
