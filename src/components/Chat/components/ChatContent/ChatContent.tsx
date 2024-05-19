@@ -197,7 +197,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                                 </div>
                             </If>
                         </div >
-                        <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-md flex justify-center items-center">
+                        <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary p-1 w-[20%] lg:w-[6%] rounded-md flex justify-center items-center">
                             <IconSend/>
                         </button>
                     </div >
