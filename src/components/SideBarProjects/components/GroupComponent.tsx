@@ -183,7 +183,7 @@ export const GroupComponent = ({
             )
           )
         ) : (
-          group.ownerUsername == user && (
+          (group.ownerUsername == user || project?.owner.username == user) && (
             <div onClick={(e)=> {e.stopPropagation(); deleteGroup()}}>
             <svg
               width="20"

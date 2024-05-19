@@ -9,6 +9,7 @@ import { groupService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { Loading } from "@/components/Loading";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { AxiosError, AxiosResponse } from "axios";
 
 export default function Groups({ params }: { params: { user: string, group: number } }) {
     const { project } = useContext(ProjectContext);
@@ -29,6 +30,7 @@ export default function Groups({ params }: { params: { user: string, group: numb
     }, [params.group]);
 
     if (!user) return <Loading />
+    if(group?.owner.id !== user.id && !group?.users.find(u => u.id === user.id)) throw new AxiosError("Unauthorized", undefined, undefined, undefined, {status:403} as AxiosResponse<any>) 
 
     return (
         <div className="group-page w-screen h-screen">

@@ -31,7 +31,7 @@ export const OtherUserComponent = ({user}:{user:OtherUser}) => {
                 </div>
             </div>
             <div className="w-64 "> 
-                <p className="font-montserrat w-full flex flex-wrap text-modal-grey dark:text-white text-ellipsis whitespace-pre-wrap text-wrap text-p14 overflow-hidden">&2quot;{user.description}&2quot;</p>
+                <p className="font-montserrat w-full flex flex-wrap text-modal-grey dark:text-white text-ellipsis whitespace-pre-wrap text-wrap text-p14 overflow-hidden">{user.description ? '"' + user.description + '"' : ""}</p>
             </div>
         </div>
     )

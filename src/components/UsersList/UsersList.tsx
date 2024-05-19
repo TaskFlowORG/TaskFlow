@@ -127,6 +127,8 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     <div className="flex w-full justify-center h-full lg:justify-start">
       <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
         <div className="flex flex-col gap-12 justify-between">
+          {
+          group?.owner.id == user.id && 
           <div >
             <input
               ref={inputRef}
@@ -166,6 +168,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               </ul>
             )}
           </div>
+          }
           <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
             {
               group != undefined ?
@@ -190,7 +193,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               ))
             }
           </div>
-          {addButton}
+          {group?.owner.id == user.id && addButton}
         </div>
       </div>
       {

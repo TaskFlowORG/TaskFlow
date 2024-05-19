@@ -68,8 +68,8 @@ const router = useRouter();
     <>
       <SideBarButton
         icon={<IconGroups />}
-        text={project?.owner.id == userObj?.id ? t("projects-groups") : t("your-group-project")}
-        fnClick={() => {project?.owner.id == userObj?.id ? setModalProjectGroups(true) : router.push("/" + user + "/" + project?.id + "/group/"+groupId)}}
+        text={ t("projects-groups")}
+        fnClick={() => { setModalProjectGroups(true)}}
       />
 
       <SideBarButton
