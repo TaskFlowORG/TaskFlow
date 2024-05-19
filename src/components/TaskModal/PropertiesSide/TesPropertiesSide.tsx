@@ -69,7 +69,6 @@ export const TesPropertiesSide = ({
 
   // const valuesOfObjects = (task:Project | Task):PropertyValue[] => {
   //     let keys = Object.keys(task)
-  //     console.log(keys)
   //     if (keys.includes('owner')){
   //       return (task as Project).values
   //     } else {
@@ -82,7 +81,6 @@ export const TesPropertiesSide = ({
     valuesOfObjects(task).forEach((prop) => {
       if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
       array.push({ property: prop, errors: [] });
-      console.log(array);
     });
     setPropertiesToValidate(array);
   }, [task?.properties, setPropertiesToValidate]);
@@ -106,12 +104,10 @@ export const TesPropertiesSide = ({
 
   const validateProps = (): boolean => {
     propertiesToValidate.forEach((prop) => {
-      console.log(prop);
       if (prop.property.property.obligatory) {
         let propertyd = filter.find(
           (propV) => propV.id == prop.property.property.id
         );
-        console.log(propertyd);
         if (!propertyd) return;
         if (
           !propertyd.value ||
@@ -131,9 +127,6 @@ export const TesPropertiesSide = ({
         propertiesToValidate.find(
           (prop) => prop.property.property.id == propInput.id
         ) ?? null;
-      console.log("Im here");
-      console.log(propInput);
-      console.log(propertyForm);
       if (propertyForm) {
         switch (propertyForm.property.property.type) {
           case TypeOfProperty.TEXT:
@@ -142,7 +135,6 @@ export const TesPropertiesSide = ({
               (propertyForm.property.property as Limited).maximum <
               propInput.value.length
             ) {
-              console.log("Caralho lek");
               propertyForm.errors.push(
                 `Essa propridade possuí um máximo de ${
                   (propertyForm.property.property as Limited).maximum
@@ -161,7 +153,6 @@ export const TesPropertiesSide = ({
               (propertyForm.property.property as Limited).maximum <
               parseFloat(propInput.value)
             ) {
-              console.log("Caralho lek");
               propertyForm.errors.push(
                 `Essa propridade possuí um valor máximo de ${
                   (propertyForm.property.property as Limited).maximum
@@ -281,7 +272,6 @@ export const TesPropertiesSide = ({
     });
     if (!isProject(task)){
     const taskReturned = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
-      console.log(taskReturned);
       const page = project?.pages.find((page) => page.id == pageId);
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskReturned && taskPage) {
@@ -292,7 +282,6 @@ export const TesPropertiesSide = ({
     }
    
 
-    console.log(task);
 
     setList(undefined);
     setFilter([]);
@@ -354,12 +343,7 @@ export const TesPropertiesSide = ({
           []
         );
       }
-      console.log(
-        new PropertyValue(
-          propertyObj as unknown as Property,
-          createValue(propertyObj as unknown as Property)!
-        )
-      );
+
       valuesOfObjects(task).push(
         new PropertyValue(
           propertyObj as unknown as Property,
@@ -372,13 +356,10 @@ export const TesPropertiesSide = ({
         let page = project!.pages.find((page) => pageId == page.id);
         let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
         taskFinded!.task = taskReturned;
-        console.log("MUAHAHAH PROJETO")
         setProject!({ ...project! });
       } else {
         // (task as Project).values = valuesOfObjects(task)
         let projectReturned = await projectService.update(task as Project, project!.id);
-        console.log("MUAHAHAHAHAHAHAHAHHAHAHAHAHAHAHAHAHAHAHAHAAHHAA")
-        console.log(projectReturned);
         
         setProject!({...projectReturned});
       }

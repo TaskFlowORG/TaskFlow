@@ -76,7 +76,6 @@ export const PageComponent = ({
 
   const saveNewName = (e: any) => {
     if (!e.key || e.key === "Enter") {
-      console.log(inputRef.current?.textContent);
       pageService.updateName(
         project.id,
         inputRef.current?.textContent ?? null,

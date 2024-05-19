@@ -93,7 +93,6 @@ export const Register = () => {
 
   const onSubmit = async (data: FormData) => {
       const { username, name, surname, password, mail } = data;
-      console.log("data", data)
       await userService.insert(
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
@@ -101,7 +100,6 @@ export const Register = () => {
           router.push("/" + username);
         });
       }).catch((error) => {
-        console.log("error", error)
         if(!error.response) return;
         if(error.response.status == 409){
           setError("username", {

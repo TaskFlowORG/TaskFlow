@@ -18,9 +18,7 @@ export const HistoricSection = ({
   isInModal,
   user,
 }: HistoricSectionProps) => {
-  const handleClick = () => {
-    console.log("FUNÇÃO DE CHAMAR O PDF PO, NÃO ESQUECE!!");
-  };
+
   const {t} = useTranslation()
 
   return (

@@ -51,7 +51,6 @@ export const RowProperty = ({
         />
       );
     case TypeOfProperty.ARCHIVE:
-      console.log(prop);
       return (
         <FileFilter
           isInModal

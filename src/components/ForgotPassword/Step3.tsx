@@ -54,7 +54,6 @@ export const Step3 = ({setForgotPassword} : Props) => {
         try {
             const code = await emailService.getCode();
             code.map(async (c) => {
-                console.log("senha:", user.password);
 
                 await userService.upDatePassword(c.username, data.password);
                  setForgotPassword(false)

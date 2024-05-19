@@ -40,7 +40,6 @@ export const Tutorial = () => {
     if(!user) return;
     const target = document.querySelector(data.step.target as string);
     const {action, index, status, type, lifecycle} = data;
-    console.log("target", target, type)
     if((type == "error:target_not_found" || type == "tour:start") && !target) {
       setRun(false);
       setTimeout(() => {

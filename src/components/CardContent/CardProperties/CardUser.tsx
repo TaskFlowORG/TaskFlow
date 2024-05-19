@@ -7,8 +7,6 @@ type CardProps = {
 };
 
 export const CardUser = ({ users }: CardProps) => {
-
-  console.log(users)
   return (
     <div className="  flex items-start w-24  relative">
 

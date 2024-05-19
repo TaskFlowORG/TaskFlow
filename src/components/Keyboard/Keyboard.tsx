@@ -15,7 +15,6 @@ export const Keyboard = ({
   const [layoutName, setLayoutName] = useState("default");
   const [open, setOpen] = useState(false);
   const onChange = (input: string) => {
-    console.log(input);
     setValue(input);
   };
 

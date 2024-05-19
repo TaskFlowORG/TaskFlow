@@ -27,7 +27,6 @@ export const CheckboxFilter = ({
   );
 
   function isChecked(optionName: string) {
-    // console.log(selectedOptions.includes(optionName))
     return selectedOptions?.includes(optionName);
   }
 
@@ -48,7 +47,6 @@ export const CheckboxFilter = ({
         setFilterProp!([...filterProp!]);
       } else {
         setSelectedOptions([...selectedOptions, optionName]);
-        console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
         setFilterProp!([...filterProp!]);
       }

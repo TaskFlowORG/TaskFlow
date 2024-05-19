@@ -14,7 +14,6 @@ export const SelectProp = ({ options, value }: Props) => {
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
   };
-  console.log(selectedOption)
 
   return (
     <div className="relative">

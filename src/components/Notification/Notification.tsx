@@ -113,7 +113,6 @@ export const Notification = ({
       const projectTemp = await projectService.findOne(1);
       setIsOpen && setIsOpen(true);
       const task = (projectTemp?.pages.flatMap((p) => p.tasks).find((t) => t.task.id == notification.objId)?.task);
-      console.log("TASK", task);
       setSelectedTask && task && setSelectedTask(task);
     }
   }
@@ -128,7 +127,6 @@ export const Notification = ({
 
   useEffect(() => {
     const message = getMessage(notification);
-    console.log("nOT", notification);
     
     setMessage(message);
   }, [notification]);

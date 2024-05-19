@@ -29,7 +29,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
-    console.log(group.users);
 
     fetchData();
   }, [group]);

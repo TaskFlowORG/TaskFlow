@@ -17,12 +17,11 @@ import { Interval } from "@/models/values/Interval";
 
 export function createValue(propertyObj: Property): Value | undefined {
   let prop: Value | null = null;
-  console.log(propertyObj.type);
   
   switch (propertyObj.type) {
     case TypeOfProperty.TIME:
       prop = new TimeValued(new Interval(new Duration(0, 0, 0), "#f04A94"));
-
+      break;
     case TypeOfProperty.DATE:
       prop = new DateValued(new DateWithGoogle(null, "", null));
       break;

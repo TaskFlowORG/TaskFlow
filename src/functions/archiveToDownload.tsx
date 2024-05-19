@@ -3,7 +3,6 @@ import { archiveToSrc } from "./archiveToSrc";
 
 export const archiveToDownload = (archive: Archive) => {
   const byteCharacters = archiveToSrc(archive);
-  console.log(byteCharacters);
   
   return byteCharacters;
   const byteNumbers = new Array(byteCharacters.length);
@@ -14,8 +13,6 @@ export const archiveToDownload = (archive: Archive) => {
   const blob = new Blob([byteArray], {
     type: archive.type,
   });
-  console.log("blob", blob);
-  console.log("HJLAhfdkjasdhflkjshdgkljsr");
   
   return window.URL.createObjectURL(blob);
 };

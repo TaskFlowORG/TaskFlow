@@ -25,7 +25,6 @@ export const InviteGroupToProject = ({ openModal, setOpenModal, setError }: Prop
     try {
       const globalGroups = await groupService.findAll();
 
-      console.log(globalGroups, "oq tá rolando?");
 
       const alreadyInvitedGroups = await groupService.findGroupsByAProject(
         project!.id

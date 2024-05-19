@@ -85,12 +85,10 @@ export const PermissionComponent = ({
     if (!create && !_delete && !update)
       permission.permission = TypePermission.READ;
     permission.name = name;
-    console.log(name);
     permissionService.upDate(permission);
   }
 
   function deletePermission() {
-    console.log(otherPermission);
 
     if (!otherPermission || !project) return;
     const permissionsTemp = permissions.filter((p) => p.id != permission.id);

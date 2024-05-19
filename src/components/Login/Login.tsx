@@ -54,14 +54,12 @@ export const Login = () => {
       : "/img/themeDark/password.svg";
 
   const login = async (data: FormData) => {
-    console.log(data);
     setPasswordT(data.password.toString());
     setUsernameT(data.username.toString());
     await authentication.login({
       username: data.username,
       password: data.password
     }).then(async (value) => {
-      console.log(value);
       
       if (!value) return;
       else {
@@ -69,12 +67,10 @@ export const Login = () => {
       }
     }).catch((error) => {
 
-      console.log(error);
 
       if (error.response.status == 403) {
         setForgotPassword(true);
       } else if (error.response.status == 406) {
-        console.log('two factor');
         setTwoFactor(true)
       } else if (error.response.status == 401) {
         setLoginError(t("login-error"));

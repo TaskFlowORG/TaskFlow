@@ -32,11 +32,9 @@ export default function Pages({
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
-    console.log("FOI AQUI MEU");
 
     const pageTemp = project?.pages.find((p) => p.id == params.page);
     setPage(pageTemp);
-    console.log(pageTemp);
     if (!pageTemp || !setInPage || !setPageId) return;
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);

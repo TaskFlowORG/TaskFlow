@@ -30,7 +30,6 @@ export const TaskInTimeline = ({
     const startTime = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
     // Calcular o número de intervalos
     const numberOfIntervals = startTime / interval ;
-    console.log(numberOfIntervals)
     return `${((numberOfIntervals ) * widthOfInterval )+ 8}px`;
   };
 

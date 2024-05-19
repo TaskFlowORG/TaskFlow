@@ -27,8 +27,6 @@ export const TwoFactor = ({ password, username }: Props) => {
 
 
     const fetchData = async () => {
-        console.log(username);
-        console.log(password);
 
 
         const fetchedCode = await emailService.getCode();
@@ -43,8 +41,6 @@ export const TwoFactor = ({ password, username }: Props) => {
     };
 
     const handleSubmit = async () => {
-        console.log(number);
-        console.log(numberC);
         
         
         if (number !== null && number?.toString() === numberC) {

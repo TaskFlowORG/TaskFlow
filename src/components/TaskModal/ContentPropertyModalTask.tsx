@@ -50,11 +50,8 @@ export const ContentPropertyModalTask = ({
   
         setProject!({ ...project! });
       } else {
-        console.log("Mudei pkrl")
         let projectReturned = await projectService.update(task as Project, project!.id);
-        console.log("Ó eu"
-        )
-        console.log(projectReturned);
+
         
         setProject!(projectReturned);
       }

@@ -101,7 +101,6 @@ export default function Layout({
         "--common-font",
         user.configuration.font
       );
-      console.log("JALJLSDALKSJ");
       setTutorialIsMaded(user.configuration.isTutorialMade);
     })();
   }, [user]);

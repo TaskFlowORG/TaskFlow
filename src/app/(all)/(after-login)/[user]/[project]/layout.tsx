@@ -40,7 +40,6 @@ export default function Layout({ params, children }: Props) {
       const projectPromise = await  projectService.findOne(params.project).catch(asynThrow);
       if(!projectPromise) return;
       setProject!(projectPromise!);
-      console.log(params);
       projectService.setVisualizedNow(projectPromise!.id).catch(e => {asynThrow(e); return null;});
     })();
   }, [params.project]);

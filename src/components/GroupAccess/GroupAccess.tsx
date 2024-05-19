@@ -32,7 +32,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
             if (fetchedPermissions)
             setPermissions(fetchedPermissions);
-            console.log(permissions);
             
         }
         const fetchedGroup = await groupService.findOne(groupId).catch(asynThrow);
@@ -46,7 +45,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
 
     useEffect(() => {
         fetchData();
-        console.log(permissions);
 
     }, [groupId]);
 

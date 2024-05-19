@@ -49,8 +49,6 @@ export const CommentsSection = ({ task, user }: Props) => {
     if (comment) {
       comment.value = updatedValue;
       comment.dateUpdate = new Date();
-      console.log(updatedValue);
-      console.log(task);
       if (!isProject(task)) {
         let taskUpdated = await taskService.upDate(task as Task, project!.id);
         setCommentsTask(taskUpdated.comments);

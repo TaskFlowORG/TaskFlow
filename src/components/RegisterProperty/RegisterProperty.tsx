@@ -192,7 +192,6 @@ export const RegisterProperty = ({
           )
         ).catch(asynThrow);
       }
-      console.log("COMO ASSIM");
 
       const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
       if(projectTemp)

@@ -19,8 +19,6 @@ export default function Groups({ params }: { params: { user: string, group: numb
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("eitaaa");
-
             const fetchedGroup = await groupService.findOne(params.group).catch(asynThrow);
             if(fetchedGroup) setGroup(fetchedGroup);
             const fetchedUser = await userService.findLogged().catch(asynThrow);

@@ -43,19 +43,14 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
     // Obtém o arquivo do evento
     const selectedFile: File = event.target.files[0];
 
-    console.log(event.target.files[0].size);
     let size = event.target.files[0].size / (1024 * 1024);
-    console.log(size, "Soy o tamanho total");
-    console.log((property as Limited)?.maximum, "Soy o tamanho que devia");
     if (
       (property as Limited).maximum != undefined &&
       size > (property as Limited).maximum
     ) {
-      console.log("Eu entrei aqui bro, rrelaxa pra karalho");
       setError(true);
     } else {
       setError(false);
-      // console.log(size);
       let bah = await propertyValueService.updateArchiveInTask(
         selectedFile,
         project!.id,
@@ -63,10 +58,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
       );
       setName(selectedFile.name);
       propertyValue.value = bah;
-      console.log(
-        "e nkjdfbjk mz kcjgnfjk ndfjkg ndmkf nfkmdf ngnkfd jfd sdf d sd  sfd fd fds g s s ",
-        bah
-      );
+
       // setName(bah.value.name);
       setSrc(archiveToDownload(bah.value));
       if (!isProject(task)) {
@@ -82,7 +74,6 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
       }
 
       // Atualiza o estado com o arquivo selecionado
-      console.log(propertyValue.value.value.name);
     }
   };
 
@@ -91,7 +82,6 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
   }, [value]);
   useEffect(() => {
     setFile(value);
-    console.log("value", value);
   }, [value, propertyValue, task, handleFileChange]);
 
   return (

@@ -37,7 +37,6 @@ export const TaskModalContent = ({
   useEffect(() => {
     setList(undefined);
     setFilter([]);
-    console.log(task);
     
   }, [isOpen]);
 
@@ -55,12 +54,10 @@ export const TaskModalContent = ({
       list.push(project.owner);
       const groups = await groupService.findGroupsByAProject(project.id).catch(asynThrow);
       if (!groups) return;
-      console.log(groups);
       for (let group of groups) {
         const g = await userService.findByUsername(group.ownerUsername).catch(asynThrow);
         if (g) list.push()
       }
-      console.log(list);
       setUsers(list);
       users.filter((user, index) => {
         let indexL = users.findLastIndex((userL) => userL.id == user.id);

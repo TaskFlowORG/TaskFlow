@@ -16,7 +16,6 @@ export const Interval = ({ interval, specificInterval, isEnd }: { interval: numb
     date.setHours(hours);
     date.setMinutes(minutes);
     date.setSeconds(seconds);
-    console.log("AA", hours," ",  minutes, " ", seconds);
     
     return `${String(date.getHours()).padStart(2, "0")}:${String(
       date.getMinutes()
