@@ -70,6 +70,7 @@ export const Obj = ({
       <div
         className={
           `flex justify-center ${
+            objs.length <= 1 ? " " :
             resposiveClasses
               ? " pr-4 " + resposiveClasses
               : "xl:pr-4  lg:pr-3 md:pr-2"

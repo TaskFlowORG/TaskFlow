@@ -70,6 +70,7 @@ export const TypeOfPageComponent = ({
           nextEl: ".swiper-button-next",
         }}
         onSlideChange={swiperType}
+        onSwiper={(swiper) => swiperType(swiper)}
         pagination={{ clickable: true }}
       >
         {[
