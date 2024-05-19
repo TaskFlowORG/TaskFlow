@@ -25,8 +25,9 @@ export const TypeOfPageComponent = ({
 }: Props) => {
   const { t } = useTranslation();
   const { theme, setTheme } = useTheme();
-  const swiperType = (s: any) => {
-    switch (s.activeIndex) {
+const swiperType = (s: any) => {
+  
+  switch (s.activeIndex) {
       case 0:
         setType(TypeOfPage.KANBAN);
         break;
@@ -125,10 +126,7 @@ export const TypeOfPageComponent = ({
         <Button
           text={t("conclude")}
           padding="p-1"
-          fnButton={() => {
-            changeType();
-            setChangingType(false);
-          }}
+          fnButton={changeType}
           rounded="rounded-sm"
           paddingY="py-0"
           textSize="text-mn"

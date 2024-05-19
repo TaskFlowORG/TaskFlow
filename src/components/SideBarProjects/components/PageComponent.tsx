@@ -24,6 +24,7 @@ import { set } from "zod";
 import { useTranslation } from "next-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
+import { useRouter } from "next/navigation";
 
 interface Props {
   page: Page;
@@ -69,6 +70,11 @@ export const PageComponent = ({
     pageService.delete(project.id, page.id);
     const projectTemp = { ...project };
     projectTemp.pages.splice(project.pages.indexOf(page), 1);
+    if (project.pages.length === 0) {
+      router.push(`/${username}/${project.id}`);
+    }else{
+      router.push(`/${username}/${project.id}/${project.pages[0].id}`);
+    }
     setProject!(projectTemp);
     setModal(false);
     setTruncate(false);
@@ -85,7 +91,7 @@ export const PageComponent = ({
       page.name = inputRef.current?.textContent ?? page.name;
     }
   };
-
+const router = useRouter()
   useEffect(() => {
     if (renaiming) {
       inputRef.current?.focus();
@@ -104,6 +110,7 @@ export const PageComponent = ({
     setProject!(projectTemp);
     pageService.merge(project.id, [pagePromise], page.id);
     pageService.delete(project.id, page.id);
+    router.push(`/${username}/${project.id}/${pagePromise.id}`);
 
     setTruncate(false);
     setModal(false);
@@ -192,7 +199,7 @@ export const PageComponent = ({
               <ButtonPageOption
                 fnButton={(e) => {
                   setX(e.clientX);
-                  setY(e.clientY);
+                  setY(e.clientY - 175);
                   setChangingType(true);
                 }}
                 icon={<ChangeType />}
@@ -207,6 +214,7 @@ export const PageComponent = ({
             setCondition={setChangingType}
             y={y}
             x={x}
+            bottom
           >
             <TypeOfPageComponent
               changingType={changingType}
