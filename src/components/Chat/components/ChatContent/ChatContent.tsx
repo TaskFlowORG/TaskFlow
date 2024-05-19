@@ -13,6 +13,7 @@ import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
 import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
+import { IconSend } from '@/components/icons/GeneralIcons/IconSend';
 
 interface MessageGroup {
     id: number,
@@ -152,7 +153,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                             <div ref={messagesEndRef} />
                         </div>
                     </div>
-                    <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2">
+                    <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2 relative">
                         <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-md   ">
                             <div className="w-full">
                                 <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} />
@@ -167,7 +168,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                                 <SelectArchive arquivoParaEnviar={arquivoParaEnviar} previewArquivo={previewArquivo} />
                             </div>
                             <If condition={arquivo != null}>
-                                <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500   max-w-72  min-w-28 h-28 bottom-28 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
+                                <div className={` flex items-center justify-center opacity-80 absolute rounded-md bg-slate-500 left-0  max-w-72  min-w-28 h-28 -top-32 ${arquivo?.type == "application/pdf" || arquivo?.type.startsWith("audio/") ? "w-full" : "w-fit"}`}>
                                     <div onClick={() => setArquivo(null)} className="z-10  left-2 top-2 cursor-pointer flex justify-center items-center bg-primary dark:bg-secondary w-7 h-7 rounded-full absolute">
                                         <p className="text-p font-montserrat">X</p>
                                     </div>
@@ -197,7 +198,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                             </If>
                         </div >
                         <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary w-[20%] lg:w-[6%] rounded-md flex justify-center items-center">
-                            <SendMessage></SendMessage>
+                            <IconSend/>
                         </button>
                     </div >
                 </div >

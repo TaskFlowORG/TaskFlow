@@ -155,7 +155,7 @@ export const Login = () => {
                     route.push("http://localhost:9999/auth/login/code/github")
                   }
                 >
-                  {theme == "dark" ? <Image width={20} height={20} src="/Assets/GitHub.svg" alt="github" /> : <Image width={20} height={20} src="/Assets/GitHubDark.svg" alt="github" />}
+                  {theme == "dark" ? <Image width={24} height={24} src="/Assets/GitHub.svg" alt="github" /> : <Image width={24} height={24} src="/Assets/GitHubDark.svg" alt="github" />}
                   {t("login-github")}
                 </button>
               </>
