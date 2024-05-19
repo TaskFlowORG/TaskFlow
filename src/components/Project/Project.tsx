@@ -119,7 +119,7 @@ export const Project = () => {
                 alt="Project Picture"
                 fill
               />
-              <If condition={project?.owner.id == user?.id}>
+              <If condition={project?.owner?.id == user?.id}>
                 <span
                   className="absolute rounded-full -bottom-2 -right-2 border-2 border-primary 
               dark:border-secondary h-8 w-8 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
@@ -137,7 +137,8 @@ export const Project = () => {
             <div className="flex flex-col smm:w-min min-w-[130px] sm:justify-between  white text-center w-[1/2] sm:w-2/3 ">
               <input
                 ref={refName}
-                disabled={project?.owner.id != user?.id}
+
+                disabled={project?.owner?.id != user?.id}
                 className="bg-transparent pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
@@ -167,12 +168,11 @@ export const Project = () => {
                   <span className="text-primary font-alata dark:text-secondary">
                     {t("owner") + ": "}
                   </span>
-
-                  {project?.owner.id == user?.id
+                  {project?.owner?.id == user?.id
                     ? t("you")
-                    : project?.owner.username}
+                    : project?.owner?.username}
                 </p>
-                <If condition={project?.owner.id == user?.id}>
+                <If condition={project?.owner?.id == user?.id}>
                   <span className="relative">
                     <LocalModal
                       condition={changingOwner}
@@ -210,7 +210,7 @@ export const Project = () => {
                   </span>
                 </If>
               </span>
-              <If condition={project?.owner.id == user?.id}>
+              <If condition={project?.owner?.id == user?.id}>
                 <span className="self-end w-full whitespace-nowrap font-montserrat sm:w-min justify-center sm:justify-end flex items-center gap-2 h-min ">
                   <input
                     type="checkbox"

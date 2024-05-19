@@ -289,6 +289,10 @@ export const TesPropertiesSide = ({
       }
   
       setProject!({ ...project! });
+    } else {
+      const projectReturned = await projectService.update(task as Project, project!.id).catch(asynThrow);
+      console.log(projectReturned);
+      setProject!({ ...projectReturned! });
     }
    
 
@@ -495,7 +499,7 @@ export const TesPropertiesSide = ({
         </div>
       </div>
       <NeedPermission permission="create">
-        <AddPropertyButton setModalProperty={setModalProperty} />
+       {!(task as Task).completed &&  <AddPropertyButton setModalProperty={setModalProperty} />}
       </NeedPermission>
 
       {modalProperty && (
@@ -516,7 +520,7 @@ export const TesPropertiesSide = ({
       {(hasPermissionDelete || hasPermissionUpdate) && (
         <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
       )}
-      <FooterTask deleteTask={deleteTask} updateTask={updateTask} />
+    { !(task as Task).completed &&  <FooterTask deleteTask={deleteTask} updateTask={updateTask} />}
     </div>
   );
 };

@@ -66,7 +66,7 @@ export const RadioFilter = ({
         <p className=" text-black dark:text-white whitespace-nowrap text-p14">{name}:</p>
       )}
       <div className={style}>
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <div key={index} className="flex gap-1 items-center">
             <input
               type="radio"
@@ -94,7 +94,7 @@ export const RadioFilter = ({
             id={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
             className="custom-radio"
             value={"244a271c-ab15-4620-b4e2-a24c92fe4042"}
-            name={id.toString()}
+            name={id?.toString()}
             checked={"244a271c-ab15-4620-b4e2-a24c92fe4042" == selectedOption}
             onChange={handleOptionChange}
           />
