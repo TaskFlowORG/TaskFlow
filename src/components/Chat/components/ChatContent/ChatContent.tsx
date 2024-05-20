@@ -9,10 +9,11 @@ import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
-import { AudioFile, PdfIcon, SendMessage } from "@/components/icons";
+import { AudioFile, GoBackIcon, IconInvert, IconRedo, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
 import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
+import { useRouter } from 'next/navigation';
 import { IconSend } from '@/components/icons/GeneralIcons/IconSend';
 
 interface MessageGroup {
@@ -35,6 +36,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
     const { t } = useTranslation();
+    const router = useRouter();
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -109,18 +111,21 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     return (
         <>
             <If condition={chatContent != null}>
-                <div className={`lg:block flex flex-col items-center w-full h-full gap-10`}>
+                <div className={`lg:block flex flex-col items-center w-full h-full gap-10 bg-white dark:bg-back-grey`}>
                     <div className="flex bg-input-grey dark:bg-back-grey lg:w-full w-[95%] lg:h-full h-20 rounded-md items-center  shadow-blur-10">
-                        <div className="relative flex bg-primary rounded-full w-11 h-11 mx-5  border-2 border-primary dark:border-secondary">
+                        <div className="relative flex bg-primary rounded-full w-10 h-10 mx-5  border-2 border-primary dark:border-secondary">
                             <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
                         </div>
-                        <div className="w-[80%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
+                        <div className="w-[65%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
                             <h5 >{name || "Grupo sem nome"}</h5>
+                        </div>
+                        <div onClick={() => router.push("0")} className='lg:invisible visible'>
+                            <GoBackIcon classes='w-8 h-8'></GoBackIcon>
                         </div>
                     </div>
                     <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
                         <div className="flex  w-full flex-col gap-1">
-                            <div className="flex justify-center py-5 text-p font-alata text-constrast">
+                            <div className="flex text-center justify-center py-5 text-p font-alata text-constrast">
                                 <p>{t("beginning-conversation")} {name || t("group-without-name")}</p>
                             </div>
                             {mensagens?.map((mensagem, index) => (

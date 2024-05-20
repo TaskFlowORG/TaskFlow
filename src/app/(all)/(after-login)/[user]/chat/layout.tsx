@@ -197,7 +197,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                           <div className="w-full h-full flex flex-col gap-1">
                             {filteredPossibleChats.map((chat, index) => (
                               <div onClick={() => (postChat(chat))} className="w-full cursor-pointer h-10 font-alata shadow-blur-10 rounded-md flex justify-center items-center" key={index}>
-                                {chat.getName()}
+                                {chat.getName() || t("withoutname")}
                               </div>
                             ))}
                           </div>
@@ -207,7 +207,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                   </span>
                 </span>
               </div>
-              <div className="w-full flex justify-around ">
+              <div className="w-full flex justify-around  ">
                 <div onClick={() => setChatContentType("PRIVATE")} className=" cursor-pointer link-underline link-underline-black">
                   <h5 className="text-h5 font-alata ">{t("profiles")}</h5>
                 </div>
