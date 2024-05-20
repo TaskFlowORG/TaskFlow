@@ -147,7 +147,7 @@ export const ContentPropertyModalTask = ({
     },
   });
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-w-full">
       <ContentModalProperty
         register={register}
         property={property}

@@ -103,7 +103,7 @@ export const TesPropertiesSide = ({
     }
   }
 
-  const validateProps = (): boolean => {
+  const   validateProps = (): boolean => {
     propertiesToValidate.forEach((prop) => {
       if (prop.property.property.obligatory) {
         let propertyd = filter.find(
@@ -400,7 +400,7 @@ export const TesPropertiesSide = ({
               >
                 <div className="flex sm:gap-8 gap-4 w-full items-center">
                   <Image
-                    className="pt-2"
+                    className=""
                     onClick={() => {
                       if (isTaskProperty(prop.property)) {
                         setOpenedConfig(!openedConfig);
