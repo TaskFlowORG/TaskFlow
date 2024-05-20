@@ -272,9 +272,13 @@
   "select": "Selecione",
   "sendInvitationSuccess": "Convite enviado com sucesso",
   "sendInvitationError": "Erro ao enviar o convite",
+  "promover-owner": "Promover a dono",
+  "error-change-owner": "Error ao mudar o dono do grupo",
   "success-email": "Email enviado com sucesso!",
   "error-email": "Erro ao enviar o email!",
   "error-code": "Código inválido!",
+  "error-delete-user": "Erro ao remover usuário",
+  "delete-group-project": "Deletar grupo do projeto",
   "clear-filters": "Limpar filtros",
   "browse-files": "Buscar arquivos",
   "select-user": "Selecione um usuário!",
@@ -441,6 +445,6 @@
   "your-group-project": "Grupo no projeto",
   "withoutphone": "Sem telefone",
   "withoutemail": "Sem email",
-  "some-user-in-project-desc":"Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
-  "some-user-in-project":"Alguém já está no projeto"
+  "some-user-in-project-desc": "Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
+  "some-user-in-project": "Alguém já está no projeto"
 }
