@@ -51,14 +51,14 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
         extendida ? "lg:w-[341px]" : "lg:w-16"
       } `}
     >
-      <div className={`flex flex-col w-min dark:text-white `}>
-        <span className="h-24 w-full">
+      <div className={`flex flex-col items-center w-min dark:text-white `}>
+        <span className="flex justify-center items-center h-7 w-full">
           <div
-            className={` h-max pt-32 w-full overflow-x-clip justify-center items-center ${
+            className={` h-max pt-44 w-full overflow-x-clip justify-center items-center ${
               extendida ? "flex" : "hidden"
             }`}
           >
-            <h3 className={`font-alata text-h3 whitespace-pre-wrap w-1/2 text-center`}>{pageTitle}</h3>
+            <h3 className={`font-alata text-h3 whitespace-pre-wrap text-center`}>{pageTitle}</h3>
           </div>
         </span>
         <div className="w-min h-full flex justify-center dark:text-white lg:flex-col items-start gap-8">

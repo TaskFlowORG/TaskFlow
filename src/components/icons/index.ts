@@ -15,6 +15,7 @@ export { GaleryIcon } from "./ChatIcons/GaleryIcon";
 export { PdfIcon } from "./ChatIcons/PdfIcon";
 export { AudioFile } from "./ChatIcons/AudioFile"
 export { ImagemEnviada } from "./ChatIcons/ImagemEnviada";
+export { GoBackIcon } from "./ChatIcons/GoBackIcon";
 
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";

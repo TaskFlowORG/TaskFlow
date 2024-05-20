@@ -77,7 +77,7 @@ export const ChangePasswordModal = ({ close }: ModalPassword) => {
             router.push("/login");
         } catch (error: any) {
             if (!error.response) return
-            if (error.response.status === 400) {
+            if (error.response.status === 409) {
                 setError("password", {
                     message: t("password-incorrect"),
                     type: "manual",
@@ -91,10 +91,10 @@ export const ChangePasswordModal = ({ close }: ModalPassword) => {
             <div className="h-96 w-full flex flex-col items-center justify-around">
                 <If condition={step === 0}>
                     <>
-                        <h1 className="text-h3 font-alata text-primary dark:text-secondary">Alterar senha</h1>
+                        <h1 className="text-h3 font-alata text-primary dark:text-secondary">{t("change-password")}</h1>
                         <div className="text-dark dark:text-white flex flex-col justify-center gap-4 h-32">
                             <div>
-                                <p className="font-alata text-p text-center">Você tem certeza que deseja alterar sua senha?</p>
+                                <p className="font-alata text-p text-center">{t("confirm-password-change")}</p>
                             </div>
                         </div>
                     </>
@@ -108,21 +108,21 @@ export const ChangePasswordModal = ({ close }: ModalPassword) => {
                                 register={{ ...register("password") }}
                                 helperText={errors.password?.message}
                                 classNameInput={"text-p font-montserrat shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-96 pl-4 focus:outline-none h-12"}
-                                placeholder={"Senha atual"}
+                                placeholder={t("current-password")}
                             />
                             <Input
                                 required
                                 register={{ ...register("newPassword") }}
                                 helperText={errors.newPassword?.message}
                                 classNameInput={"text-p font-montserrat shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-96 pl-4 focus:outline-none h-12"}
-                                placeholder={"Nova senha"}
+                                placeholder={t("new-password")}
                             />
                             <Input
                                 required
                                 register={{ ...register("confirmPassword") }}
                                 helperText={errors.confirmPassword?.message}
                                 classNameInput={"text-p font-montserrat shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-96 pl-4 focus:outline-none h-12"}
-                                placeholder={"Confirme sua nova senha"}
+                                placeholder={t("confirm-new-password")}
                             />
                         </div>
                     </>
@@ -138,7 +138,7 @@ export const ChangePasswordModal = ({ close }: ModalPassword) => {
                         <Button other="min-w-40 max-w-40" fnButton={() => (handleNextStep())} />
                     </If>
                     <If condition={step === 1}>
-                        <Button other="min-w-40 max-w-40" text="Alterar senha" fnButton={handleSubmit(onSubmit)} />
+                        <Button other="min-w-40 max-w-40" text={t("confirm")} fnButton={handleSubmit(onSubmit)} />
                     </If>
                 </div>
             </div>

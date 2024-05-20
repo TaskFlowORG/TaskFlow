@@ -35,7 +35,7 @@ export const HistoricSection = ({
         document={<Report logged={task} user={user} isInProject={!isInModal} />}
         fileName={`${isInModal? t("task") : t("project")} #${task.id} - By ${user.name} ${user.surname}.pdf`}
       >
-        Gerar Relatório
+        {t('generate-report')}
         <PdfIcon />
       </PDFDownloadLink>
     </div>

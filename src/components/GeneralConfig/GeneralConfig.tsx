@@ -31,6 +31,7 @@ export const GeneralConfig = () => {
   const { changeLanguage: changeGlobal } = useContext(LanguageContext)
   const { t } = useTranslation();
 
+
   useEffect(() => {
     setLibras(user?.configuration.libras);
     setTextToSound(user?.configuration.textToSound);
@@ -55,7 +56,7 @@ export const GeneralConfig = () => {
         theme === "dark" ? color : convertColor(color, false);
       const updatedUser = await userService.patch(user).catch(asynThrow);
       if (updatedUser)
-      setUser(updatedUser);
+        setUser(updatedUser);
     })();
   };
 
@@ -74,7 +75,7 @@ export const GeneralConfig = () => {
     user.configuration = configuration;
     const updatedUser = await userService.patch(user).catch(asynThrow);
     if (updatedUser)
-    setUser(updatedUser);
+      setUser(updatedUser);
     changeGlobal(language as Language)
   }
 
@@ -83,7 +84,7 @@ export const GeneralConfig = () => {
     user.configuration.font = font;
     const updatedUser = await userService.patch(user).catch(asynThrow);
     if (updatedUser)
-    setUser(updatedUser);
+      setUser(updatedUser);
   }
 
   const dataType = async (value: string) => {
@@ -97,7 +98,7 @@ export const GeneralConfig = () => {
     user.configuration = configuration;
     const updatedUser = await userService.patch(user).catch(asynThrow);
     if (updatedUser)
-    setUser(updatedUser);
+      setUser(updatedUser);
   }
 
   const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
@@ -123,17 +124,19 @@ export const GeneralConfig = () => {
           user.authenticate = e.target.checked;
           break;
       }
-      const configuration: Configuration = user.configuration;
-      configuration[id] = e.target.checked;
-      user.configuration = configuration;
-      const updatedUser = await userService.patch(user).catch(asynThrow);
-      if (updatedUser)
-      setUser(updatedUser);
+      if (e.target.id != "theme") {
+        const configuration: Configuration = user.configuration;
+        configuration[id] = e.target.checked;
+        user.configuration = configuration;
+        const updatedUser = await userService.patch(user).catch(asynThrow);
+        if (updatedUser)
+          setUser(updatedUser);
+      }
     }
   };
 
   return (
-    <div className="flex justify-center preferences-page pt-32 items-start w-full h-full">
+    <div className="flex justify-center preferences-page lg:pt-32 items-start w-full h-full">
       <div className="flex lg:justify-center items-center justify-start w-full h-min flex-col lg:py-0 py-20">
         <div className="w-[85%] lg:h-min flex flex-col lg:justify-around lg:gap-0 gap-10 lg:pb-0 pb-32">
           <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
@@ -145,7 +148,7 @@ export const GeneralConfig = () => {
                 <p className="text-h3 font-alata dark:text-white">{t("general-config-title")}</p>
                 <p className="text-p font-montserrat dark:text-white">{t("general-config-desc")}</p>
               </div>
-              <div className="w-full h-fit">
+              <div className="w-full h-fit lg:pt-0 pt-10">
                 <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
                 <InputFieldConfig id={"authenticate"} type={"checkbox"} label={t("authenticate-title")} value={t("authenticate-configs")} checked={authenticate} onChange={(e) => updateBack(e, "authenticate")} />
                 <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{ id: "Português", value: "Português" }, { id: "Español", value: "Español" }, { id: "English", value: "English" }]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
@@ -168,7 +171,7 @@ export const GeneralConfig = () => {
                   <InputCheckboxConfig checked={textToSound || false} func={(e) => updateBack(e, "textToSound")} label={t("accessibility-config-text-speech")} value="textToSound"></InputCheckboxConfig>
                 </div>
               </div>
-              <div className="h-fit flex flex-col pt-10">
+              <div className="h-fit flex flex-col lg:pt-10 pt-24">
                 <div className="w-fit flex flex-col">
                   <div className="h-fit">
                     <p className="text-h3 font-alata dark:text-white">{t("preferences-config-title")} </p>

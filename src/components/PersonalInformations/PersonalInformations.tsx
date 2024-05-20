@@ -38,7 +38,8 @@ export const PersonalInformations = () => {
   const [error, setError] = useState<boolean>(false);
   const { t } = useTranslation();
   const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
-
+  const [sucessChange, setSucessChange] = useState<boolean>(false)
+  const [invite, setInvite] = useState<string>("")
 
   useEffect(() => {
     if (!user) return;
@@ -78,7 +79,7 @@ export const PersonalInformations = () => {
     );
     const updatedUser = await userService.patch(updateUser).catch(asynThrow);
     if (updatedUser)
-    setUser(updatedUser);
+      setUser(updatedUser);
   };
 
   const previewDaFoto = (e: ChangeEvent<HTMLInputElement>) => {
@@ -99,10 +100,10 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className=" overflow-y-auto z-10 flex w-full h-full personal items-center">
-      <div className="flex flex-col relative z-20 mt-40 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
-        <div className="flex gap-10 lg:w-[60%] w-full px-6 lg:px-0">
-          <div className="h-min relative">
+    <div className=" overflow-auto z-10 flex w-full h-full items-center">
+      <div className="flex flex-col relative z-20 lg:mt-16 mt-56 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:w-[60%] px-6 lg:px-0">
+          <div className="h-min relative w-32 lg:w-fit">
             <div className="w-min h-min rounded-full overflow-clip relative p-1 bg-gradient-to-t from-primary to-secondary  dark:from-secondary dark:to-primary">
               <span className="bg-input-grey dark:bg-modal-grey absolute top-0 left-0 w-full" style={{ height: 100 - percentage + "%" }} />
               <div
@@ -133,10 +134,10 @@ export const PersonalInformations = () => {
           <div className="flex flex-col w-full h-full item gap-4 text-modal-grey ">
             <div className="lg:text-[48px] text-[24px] font-alata">
               <h2 className=" text-modal-grey dark:text-white">
-                {name} {surname}
+                {user?.name} {user?.surname}
               </h2>
             </div>
-            <div className="flex gap-5">
+            <div className="flex flex-col lg:flex-row gap-5">
               <div className="flex flex-col gap-4">
                 <InputFieldConfig
                   type="text"
@@ -145,13 +146,9 @@ export const PersonalInformations = () => {
                   label={t("personal-informations-username")}
                   value={user?.username as string}
                   placeholder={user?.username as string}
-                  onChange={() => { }}
+                  hasImage={true}
+                  onClick={() => setChangeNameModal(true)}
                 />
-                <div onClick={() => setChangeNameModal(true)} className="cursor-pointer bg-primary dark:bg-secondary w-[14rem] h-10 flex justify-center items-center rounded-md">
-                  <span className="text-contrast font-alata text-p">
-                    {t("personal-informations-change-name")}
-                  </span>
-                </div>
               </div>
               <div className="flex flex-col gap-4">
                 <InputFieldConfig
@@ -160,20 +157,16 @@ export const PersonalInformations = () => {
                   disabled={true}
                   value="********"
                   label={t("personal-informations-password")}
-                  onChange={() => { }}
+                  hasImage={true}
+                  onClick={() => setChangePasswordModal(true)}
                 />
-                <div onClick={() => setChangePasswordModal(true)} className="cursor-pointer bg-primary dark:bg-secondary w-[14rem] h-10 flex justify-center items-center rounded-md">
-                  <span className="text-contrast font-alata text-p">
-                    {t("personal-informations-change-password")}
-                  </span>
-                </div>
               </div>
             </div>
 
           </div>
         </div>
         <div className="flex justify-center w-full h-full">
-          <div className="lg:w-[60%] w-full h-full lg:grid lg:grid-cols-2 lg:grid-rows-4 flex flex-col justify-between text-modal-grey p">
+          <div className="gap-4 lg:w-[60%] w-full h-full lg:grid lg:grid-cols-2 lg:grid-rows-4 flex flex-col justify-between text-modal-grey p">
             <InputFieldConfig
               type={"text"}
               id={"name"}
@@ -184,6 +177,7 @@ export const PersonalInformations = () => {
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setName(e.target.value)
               }
+              hasImage={false}
               placeholder={user?.name || ""}
             ></InputFieldConfig>
             <InputFieldConfig
@@ -196,6 +190,7 @@ export const PersonalInformations = () => {
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setSurname(e.target.value)
               }
+              hasImage={false}
               placeholder={user?.surname || ""}
             ></InputFieldConfig>
             <InputFieldConfig
@@ -208,6 +203,7 @@ export const PersonalInformations = () => {
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setMail(e.target.value)
               }
+              hasImage={false}
               placeholder={user?.mail || ""}
             ></InputFieldConfig>
             <InputFieldConfig
@@ -220,6 +216,7 @@ export const PersonalInformations = () => {
               onChange={(e: { target: { value: SetStateAction<string> } }) =>
                 setPhone(e.target.value)
               }
+              hasImage={false}
               placeholder={user?.phone || ""}
             ></InputFieldConfig>
             <label className="px-6 flex flex-col lg:w-[200%] w-full text-modal-grey dark:text-white">
@@ -283,6 +280,12 @@ export const PersonalInformations = () => {
           <ErrorModal title={t("change-owners")} setCondition={setError} message={t("you-are-owner")} condition={error} fnOk={() => setError(false)} />
         </div>
       </div>
+      {
+        sucessChange && (
+          <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
+            {invite}
+          </div>
+        )}
     </div>
   );
 };
