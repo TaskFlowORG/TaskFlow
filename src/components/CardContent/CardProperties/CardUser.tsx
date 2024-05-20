@@ -1,5 +1,6 @@
 import { Obj } from "@/components/Obj";
 import { OtherUser } from "@/models";
+import { log } from "console";
 
 type CardProps = {
   users: OtherUser[];

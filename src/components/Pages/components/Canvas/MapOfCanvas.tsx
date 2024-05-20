@@ -1,4 +1,5 @@
 import { CanvasPage } from "@/models";
+import Image from "next/image";
 import {useEffect, useRef, useState } from "react";
 
 interface Props{
@@ -46,8 +47,8 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
   
     return {
         map:<div className="w-min h-min pointer-events-none select-none">
-            <img className="fixed top-16 bg-white dark:bg-back-grey select-none bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
-            width={width} height={width/2} src={src} />
+            <Image className="fixed top-16 bg-white dark:bg-back-grey select-none bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
+            width={width} height={width/2} src={src} alt="Map Of Canvas" />
             <div className="fixed z-30 backdrop-brightness-125" style={style}>
             </div>
         </div>,

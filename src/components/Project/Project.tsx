@@ -109,17 +109,17 @@ export const Project = () => {
   if (!user || !project) return <Loading />;
   return (
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
-      <div className="w-full h-full flex-col justify-center items-center  py-8 400:flex 400:px-8 sm:px-24 md:px-48">
-        <div className="400:h-1/6 w-full justify-center  400:justify-start flex flex-col gap-2 400:flex-row">
-          <div className="w-full gap-2 400:gap-4 400:flex-row flex-col items-center flex ">
-            <div className="400:h-full h-16 w-16 400:w-auto aspect-square  bg-zinc-400 relative rounded-md">
+      <div className="w-full h-full flex-col justify-center items-center  py-8 sm:flex  sm:px-24 md:px-48">
+        <div className="sm:h-1/6 w-full justify-center  sm:justify-start flex flex-col gap-2 sm:flex-row">
+          <div className="w-full gap-2 sm:gap-4 justify-center sm:justify-start smm:flex-row flex-col items-center flex ">
+            <div className="sm:h-full max-h-24 h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
                 src={src}
                 alt="Project Picture"
                 fill
               />
-              <If condition={project?.owner.id == user?.id}>
+              <If condition={project?.owner?.id == user?.id}>
                 <span
                   className="absolute rounded-full -bottom-2 -right-2 border-2 border-primary 
               dark:border-secondary h-8 w-8 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
@@ -134,109 +134,104 @@ export const Project = () => {
                 </span>
               </If>
             </div>
-            <div className="flex flex-col justify-between  white text-center w-2/3 ">
+            <div className="flex flex-col smm:w-min smm:min-w-[130px] sm:min-w-min  sm:justify-between  white text-center w-[1/2] sm:w-full ">
               <input
                 ref={refName}
-                disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-center text-primary 400:text-start dark:text-secondary rounderd-md text-h4 font-alata"
+
+                disabled={project?.owner?.id != user?.id}
+                className="bg-transparent pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
-                value={name ?? t("withoutname")}
+                value={name ?name: t("withoutname")}
                 onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                 onChange={(e) => setName(e.target.value)}
                 onBlur={saveName}
               />
               <textarea
                 style={{ opacity: description ? 1 : 0.5, resize: "none" }}
-                value={description ?? t("withoutdescription")}
+                value={description ?description: t("withoutdescription")}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                className="bg-transparent w-full text-p font-montserrat rounderd-md text-center 400:text-start"
+                dir="rtl"
+                className="bg-transparent  w-full text-p thin-scrollbar pl-2  font-montserrat rounderd-md text-center smm:text-end"
                 rows={2}
                 cols={2}
               />
             </div>
           </div>
-          <div className="400:w-52 w-full gap-2  h-full justify-center smm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
+          <div className="sm:w-52 w-full gap-2  h-full justify-center sm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <span>
               <span className="flex w-full justify-between">
-
-              <p>
-                <span className="text-primary dark:text-secondary">
-                  {t("owner") + ": "}
-                </span>
-
-                {project?.owner.id == user?.id
-                  ? t("you")
-                  : project?.owner.username}
-              </p>
-            <If condition={project?.owner.id == user?.id}>
-              <span className="relative">
-                <LocalModal
-                  condition={changingOwner}
-                  setCondition={setChangingOwner}
-                  right
-                >
-                  <div className="w-44 h-min max-h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
-                    <If condition={possibleOwners.length > 0}>
-                      <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
-                        {possibleOwners.map((user) => (
-                          <button
-                          key={user.id}
-                          className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
-                          onClick={() =>
-                            project &&
-                            projectService.updateOwner(user, project.id)
-                          }
-                          >
-                            @{user.username}
-                          </button>
-                        ))}
+                <p className="font-montserrat">
+                  <span className="text-primary font-alata dark:text-secondary">
+                    {t("owner") + ": "}
+                  </span>
+                  {project?.owner?.id == user?.id
+                    ? t("you")
+                    : project?.owner?.username}
+                </p>
+                <If condition={project?.owner?.id == user?.id}>
+                  <span className="relative">
+                    <LocalModal
+                      condition={changingOwner}
+                      setCondition={setChangingOwner}
+                      right
+                    >
+                      <div className="w-44 h-min max-h-44 bg-white p-3 gap-1 flex flex-col rounded-md overflow-y-auto dark:bg-modal-grey">
+                        <If condition={possibleOwners.length > 0}>
+                          <div className="w-full h-min overflow-y-auto gap-1 flex flex-col none-scrollbar p-1">
+                            {possibleOwners.map((user) => (
+                              <button
+                                key={user.id}
+                                className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
+                                onClick={() =>
+                                  project &&
+                                  projectService.updateOwner(user, project.id)
+                                }
+                              >
+                                @{user.username}
+                              </button>
+                            ))}
+                          </div>
+                          <p className="w-full h-full flex justify-center font-montserrat text-p items-center text-center">
+                            {t("no-possible-users")}
+                          </p>
+                        </If>
                       </div>
-                      <p className="w-full h-full flex justify-center font-montserrat text-p items-center text-center">
-                        {t("no-possible-users")}
-                      </p>
-                    </If>
-                  </div>
-                </LocalModal>
-                <button
-                  className="p-1 rounded-md bg-primary w-6 h-6 dark:bg-secondary"
-                  onClick={() => setChangingOwner(!changingOwner)}
-                >
-                  <IconRedo />
-                </button>
+                    </LocalModal>
+                    <button
+                      className="p-1 rounded-md bg-primary w-6 h-6 dark:bg-secondary"
+                      onClick={() => setChangingOwner(!changingOwner)}
+                    >
+                      <IconRedo />
+                    </button>
+                  </span>
+                </If>
               </span>
-        </If>
-              </span>
-        <If condition={project?.owner.id == user?.id}>
-          <span className="self-end w-full whitespace-nowrap smm:w-min justify-center smm:justify-end flex items-center gap-2 h-min ">
-            <input
-              type="checkbox"
-              onChange={(e) => updateRevision(e.target.checked)}
-              checked={project.revision}
-            />
-            {t("revision")}
-          </span>
-            </If>
-      </span>
+              <If condition={project?.owner?.id == user?.id}>
+                <span className="self-end w-full whitespace-nowrap font-montserrat sm:w-min justify-center sm:justify-end flex items-center gap-2 h-min ">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => updateRevision(e.target.checked)}
+                    checked={project.revision}
+                  />
+                  {t("revision")}
+                </span>
+              </If>
+            </span>
           </div>
         </div>
+    
 
-        {project?.pages[0]?.tasks[0]?.task && (
-          <TaskModalWrapper>
-            <TaskModalContent
-              task={project.pages[0].tasks[0].task}
-              user={user}
-              isInModal={false}
-            />
-          </TaskModalWrapper>
-        )}
-
-        <div className="h-5/6 w-full "></div>
+        <div className="h-5/6 w-full pt-6 ">
+        <TaskModalWrapper>
+          <TaskModalContent task={project} user={user} isInModal={false} />
+        </TaskModalWrapper>
+        </div>
       </div>
-      <If condition={windowWidth > 768}>
+      <If condition={windowWidth > 934}>
         <DashboardSide />
         <DashboardBottom />
       </If>

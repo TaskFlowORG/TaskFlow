@@ -38,7 +38,7 @@ export const OptionsInput = ({
       </div>
 
       <div className="w-full max-h-40 h-full justify-between overflow-y-scroll thin-scrollbar flex-col pr-2 gap-1 ">
-        {options.map((options, index) => (
+        {options?.map((options, index) => (
           <ContentInput
           remove={(option) => {
             setOptions(prev => prev.filter((opt) => opt.id !== option.id));

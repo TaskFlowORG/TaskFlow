@@ -3,23 +3,19 @@ import { Api } from "@/services/axios";
 
 class PropertyService {
     async saveLimited(projectId: number, property: LimitedPost): Promise<Limited> {
-       console.log(property)
         return (await Api.post(`property/project/${projectId}/limited`, property, {withCredentials: true})).data;
     }
 
     async saveSelect(projectId: number, property: SelectPost): Promise<Select> {
-        console.log(property)
         return (await Api.post(`property/project/${projectId}/select`, property, {withCredentials: true})).data;
     }
 
     async saveDate(projectId: number, property: DatePost): Promise<Date> {
 
-        console.log(property)
         return (await Api.post(`property/project/${projectId}/date`, property, {withCredentials: true})).data;
     }
 
     async updateLimited(projectId: number, property: Limited): Promise<Limited> {
-        console.log(property.maximum)
         return (await Api.put(`property/project/${projectId}/limited`, property, {withCredentials: true})).data;
     }
 

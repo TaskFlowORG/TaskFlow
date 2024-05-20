@@ -40,7 +40,7 @@ export const InputRangeConfig = ({title, description}:Props) => {
                         bgColor= "bg-input-grey dark:bg-modal-grey"
                         max={18}
                         range={range}
-                        setRange={(newValue) => { setRange(newValue ? +newValue : range), console.log(newValue) }}
+                        setRange={(newValue) =>  setRange(newValue ? +newValue : range)}
                     />
                 </div>
             </div>

@@ -45,7 +45,6 @@ export const useDraw = (
         const currentPoint = computePointInCanvas(e);
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx || !currentPoint) return;
-        // console.log(e.buttons);
         onDraw({
           ctx,
           currentPoint,

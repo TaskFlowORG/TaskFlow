@@ -38,15 +38,12 @@ export const TagFilter = ({
   const hasPermission = useHasPermission('update')
   
   const handleOptionChange = (optionName: string) => {
-    console.log("Me clicaro");
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
         setSelectedOptions(
           selectedOptions.filter((option) => option !== optionName) ?? []
         );
-        console.log(selectedOptions.filter((option) => option !== optionName));
-        console.log("Passaro a mão ni mim aqui ein");
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
         );
@@ -56,7 +53,6 @@ export const TagFilter = ({
         setFilterProp!([...filterProp!]);
       } else {
         setSelectedOptions([...selectedOptions, optionName]);
-        console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
         setFilterProp!([...filterProp!]);
       }
@@ -79,7 +75,7 @@ export const TagFilter = ({
         </p>
       )}
       <div className="oi w-full flex-wrap  flex gap-2 relative">
-        {options.map((opt, index) => {
+        {options?.map((opt, index) => {
           return (
             <Tag
               onClick={() => {

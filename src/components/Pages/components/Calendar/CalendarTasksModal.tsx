@@ -3,6 +3,7 @@ import { CenterModal } from "../../../Modal";
 import { If } from "../../../If";
 import { TaskTagCalendar } from "./TaskTagCalendar";
 import { Scrollable } from "./Scrollable";
+import { log } from "console";
 
 interface Props {
     title: string;
@@ -30,7 +31,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23].map((h) => {
                                     return (
                                         <div className="w-full flex justify-evenly flex-col" key={h}>
-                                            <div className="w-full items-center flex gap-4" onLoad={e => console.log(e.target)}>
+                                            <div className="w-full items-center flex gap-4">
                                                 <span className="flex items-center font-alata text-p w-min whitespace-nowrap">
                                                     {h < 10 ? "0" + h : h}:00 - {h < 10 ? "0" + h : h}:59
                                                 </span>
@@ -38,7 +39,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                                     <div className="flex h-12 w-96   items-center gap-1 " >
                                                         {
                                                             tasks.filter(t => new Date(
-                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value)
+                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value.dateTime)
                                                             ).getHours() == h).map((t) => (
                                                                 <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))

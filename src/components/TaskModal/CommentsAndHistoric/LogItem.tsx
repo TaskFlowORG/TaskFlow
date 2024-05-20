@@ -31,7 +31,6 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
   };
 
   const setValue = (property: Property, log: Log) => {
-    console.log(log);
     switch (property.type) {
       case TypeOfProperty.CHECKBOX:
       case TypeOfProperty.TAG:
@@ -49,25 +48,31 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
       case TypeOfProperty.ARCHIVE:
         return (log.value.value.value as Archive).name;
       case TypeOfProperty.TIME:
+        let duration = (log.value.value.value as Interval).time;
         return (
-          (log.value.value.value as Interval)?.time.hours +
+          (duration.hours < 10 ? "0" + duration.hours : "" + duration.hours) +
           ":" +
-          (log.value.value.value as Interval)?.time.minutes +
+          (duration.minutes < 10
+            ? "0" + duration.minutes
+            : "" + duration.minutes) +
           ":" +
-          (log.value.value.value as Interval)?.time.seconds
+          (duration.seconds < 10
+            ? "0" + duration.seconds
+            : "" + duration.seconds)
         );
+
       case TypeOfProperty.USER:
-        console.log(log);
-        
+
         return (log.value.value as UserValued).value.map(
           (user: User, index: any) =>
             index == (log.value.value as UserValued).value.length + 1
               ? user.username + ", "
               : user.username
         );
-      
+
       case TypeOfProperty.DATE:
-      case TypeOfProperty.NUMBER:
+        return log.value.value.value.dateTime;
+        case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:
         return log.value.value.value;

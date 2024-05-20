@@ -41,17 +41,21 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
       );
       list.push(project.owner);
       const groups = await groupService.findGroupsByAProject(project.id);
-      console.log(groups);
       for (let group of groups) {
         list.push(await userService.findByUsername(group.ownerUsername));
       }
-      console.log(list);
       setUsers(list);
+      
+      users.filter((user, index) => {
+        let indexL = users.findLastIndex((userL) => userL.id == user.id);
+        return indexL == index;
+      });
+
+      setUsers([...users]);
+
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
-    console.log(prop);
-    console.log(value);
     if (prop) {
       setValued(prop.value ?? []);
     } else {
@@ -66,14 +70,14 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
         <div className="flex gap-4">
           <div className="z-50 relative">
             <Obj
-            openUser
-      resposiveClasses="hover:brightness-95"
-      objs={valued
+              openUser
+              resposiveClasses="hover:brightness-95"
+              objs={valued
                 ?.map((userD) => users.find((user) => user.username == userD)!)
                 .filter((user) => user != null && user != undefined)}
               mawWidth="w-max"
               max={3}
-              functionObj={(o) => console.log(o)}
+              functionObj={() => {console.log("")}}
               isOtherUser
             />
           </div>
@@ -129,7 +133,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                   onClick={() => setIsOpenRemove(!isOpenRemove)}
                 >
                   <div className=" rotate-90">
-                    <p className="font-semibold leading-none text-[10px] text-contrast">l</p>
+                    <p className="font-semibold leading-none text-[10px] text-contrast">
+                      l
+                    </p>
                   </div>
                 </div>
               </div>

@@ -38,7 +38,7 @@ export const Button = ({
     <>
       <button
       title={text}
-        onClick={() => fnButton && fnButton()}
+        onClick={fnButton}
         className={` ${padding ? padding : "p-12"} 
              ${paddingY ? paddingY : "py-2"} 
              ${width ? width : "w-max"} 

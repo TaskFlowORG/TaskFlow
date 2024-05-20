@@ -27,7 +27,6 @@ export const CheckboxFilter = ({
   );
 
   function isChecked(optionName: string) {
-    // console.log(selectedOptions.includes(optionName))
     return selectedOptions?.includes(optionName);
   }
 
@@ -48,7 +47,6 @@ export const CheckboxFilter = ({
         setFilterProp!([...filterProp!]);
       } else {
         setSelectedOptions([...selectedOptions, optionName]);
-        console.log([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
         setFilterProp!([...filterProp!]);
       }
@@ -86,7 +84,7 @@ export const CheckboxFilter = ({
         </p>
       )}
       <div className={style}>
-        {options.map((option, index) => (
+        {options?.map((option, index) => (
           <div key={index} className="flex gap-1 items-center">
             <input
               type="checkbox"

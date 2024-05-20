@@ -1,4 +1,4 @@
-import { ArchiveValued, MultiOptionValued, PropertyValue, TextValued, TypeOfProperty, UniOptionValued } from "@/models";
+import { ArchiveValued, Limited, MultiOptionValued, PropertyValue, TextValued, TypeOfProperty, UniOptionValued } from "@/models";
 import { CardText } from "../CardContent/CardProperties/CardText";
 import { CardDate } from "../CardContent/CardProperties/CardDate";
 import { CardSelect } from "../CardContent/CardProperties/CardSelect";
@@ -38,7 +38,7 @@ export const ValueSelector = ({property, showNames = false}:Props) => {
             <CardDate
               showNameProperty={showNames}
               key={property.property.id.toString()}
-              date={property.value.value.dateTime}
+              date={property.value.value?.dateTime}
               property={property.property.name}
             />
           );
@@ -112,13 +112,14 @@ export const ValueSelector = ({property, showNames = false}:Props) => {
           );
         } else if (is(property, TypeOfProperty.TIME)) {
           return (
-            <CardTime
-              showNameProperty={showNames}
-              key={property.property.id.toString()}
-              property={property.property.name}
-              time={property.value.value}
-            />
+<CardTime
+property={property.property as Limited}
+showNameProperty={showNames}
+key={property.property.id.toString()}
+time={property.value.value}
+/>
           );
         }
       
 }
+

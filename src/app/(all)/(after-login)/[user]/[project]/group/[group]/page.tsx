@@ -10,6 +10,7 @@ import { groupService, projectService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { Loading } from "@/components/Loading";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { project } = useContext(ProjectContext);
@@ -27,7 +28,7 @@ export default function Home({ params }: { params: { user: string, project: numb
         }
         fetchData();
     }, [params.project]);
-
+    if(!user) return <Loading />
     return (
         <div className="w-screen h-screen">
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
@@ -36,10 +37,10 @@ export default function Home({ params }: { params: { user: string, project: numb
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
                 <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
-                    {project && user && <Description project={project} user={user} groupId={params.group} />}
+                    <Description project={project} user={user} groupId={params.group} />
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    {project && user && <UsersList project={project} group={group} user={user} setGroup={setGroup} />}
+                    <UsersList project={project} group={group} user={user} setGroup={setGroup} />
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 import { pageService } from "@/services";
-import { ChangeEvent, use, useContext, useState } from "react";
+import { ChangeEvent, use, useContext, useEffect, useState } from "react";
 import { Page, PagePost, Project, TypeOfPage } from "@/models";
 import { If } from "@/components/If";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
@@ -35,7 +35,6 @@ export const PageSide = (
   const route = useRouter();
 
   const merge = async () => {
-    console.log(listMerge, pageMerging);
     const pages = await pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);
@@ -51,8 +50,13 @@ export const PageSide = (
     setProject!(projectTemp);
   };
 
-  const insert = async () => {
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
+
+  async function insert()  {
     const page = await pageService.insert(project.id, new PagePost("Nova Página", type, project))
+    
     const projectTemp = { ...project };
     projectTemp.pages.push(page)
     setProject!(projectTemp)

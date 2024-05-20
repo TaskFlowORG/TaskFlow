@@ -33,7 +33,6 @@ export const Step1 = ({ setStep, setForgotPassword }: Props) => {
 
     const sendEmail = async (data: FormData) => {
         try {
-            console.log(data.username);
             await emailService.sendEmailForgotPassword(data.username);
             setStep(2)
         } catch (error) {

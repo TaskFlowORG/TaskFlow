@@ -1,11 +1,10 @@
-import { Group, GroupPost, GroupPut, Permission, User } from "@/models";
+import { Group, GroupPost, GroupPut, OtherUser, Permission, User } from "@/models";
 import { Api } from "../axios";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 
 class GroupService {
     async emoveOfPoject(groupId: number, pojectId: number | undefined):Promise<Group|undefined> {
-        console.log(pojectId, "pojectId");
         
         if(pojectId){
             const response = await Api.patch<Group>("group/remove/"+groupId+"/from/"+pojectId, { withCredentials: true });
@@ -58,7 +57,7 @@ class GroupService {
         return response.data;
     }
 
-    async updateOwner(newOwner: User, groupId: number): Promise<Group> {
+    async updateOwner(newOwner: OtherUser, groupId: number): Promise<Group> {
         const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner, { withCredentials: true });
         return response.data;
     }

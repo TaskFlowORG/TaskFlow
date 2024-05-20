@@ -21,13 +21,15 @@ export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
         setIsOpen(false);
       }}
     >
-      <TaskModalContent
-        task={task}
-        user={user}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        isInModal={true}
-      />
+      {task && (
+        <TaskModalContent
+          task={task}
+          user={user}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          isInModal={true}
+        />
+      )}
     </CenterModal>
   );
 };

@@ -388,6 +388,7 @@
   "our-features": "Nossas Funcionalidades",
   "taskflow-functionality": "Como o TaskFlow funciona?",
   "organization-freedom": "A organização que te liberta!",
+
   "copyright": "© TaskFlow. Todos os direitos reservados",
   "tasks": "Tarefas",
   "mission-statement": "Nossa missão é simplificar o gerenciamento de tarefas, capacitando equipes com soluções inovadoras e colaborativas. Prezamos pela melhoria contínua no que fazemos.",
@@ -433,5 +434,13 @@
   "current-password": "Senha atual",
   "new-password": "Nova senha",
   "confirm-new-password": "Confirme sua nova senha",
-  "password-incorrect": "Senha incorreta"
+  "password-incorrect": "Senha incorreta",
+  "tasks-without-date": "Tarefas sem data",
+  "day-tasks": "Tarefas do dia",
+  "have-sure-delete-permanently": "Tem certeza de que deseja excluir permanentemente isso?",
+  "your-group-project": "Grupo no projeto",
+  "withoutphone": "Sem telefone",
+  "withoutemail": "Sem email",
+  "some-user-in-project-desc":"Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
+  "some-user-in-project":"Alguém já está no projeto"
 }

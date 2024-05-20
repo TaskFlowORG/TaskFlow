@@ -1,6 +1,7 @@
 import {
   Date,
   Limited,
+  Project,
   Property,
   Select,
   Task,
@@ -8,17 +9,19 @@ import {
 } from "@/models";
 import { useForm } from "react-hook-form";
 import { ContentModalProperty } from "../ContentModalProperty";
-import { propertyService, taskService } from "@/services";
+import { projectService, propertyService, taskService } from "@/services";
 import { ProjectContext } from "@/contexts";
 import { useContext, useState } from "react";
 import { IconSave } from "../icons/Slidebarprojects/IconSave";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { IconTrashBin } from "../icons";
 import { PageContext } from "@/utils/pageContext";
+import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
 
 type Props = {
   property: Property;
-  task: Task;
+  task: Task | Project;
   closeOption: () => void;
   close?: ()=>void;
 };
@@ -34,17 +37,25 @@ export const ContentPropertyModalTask = ({
 
   const deleteProperty = async (property: Property) => {
     try {
-      let propertyV = task.properties.find(
+      let propertyV = valuesOfObjects(task).find(
         (prop) => property.id == prop.property.id
       );
-      task.properties.splice(task.properties.indexOf(propertyV!, 1));
-      let taskReturned = await taskService.upDate(task, project!.id);
-      let page = project?.pages.find((page) => pageId == page.id);
-      let taskR = page?.tasks.find((taskD) => taskD.task.id == task.id);
+      valuesOfObjects(task).splice(valuesOfObjects(task).indexOf(propertyV!, 1));
+      if (!isProject(task)){
+        let taskReturned = await taskService.upDate(task as Task, project!.id);
+        let page = project?.pages.find((page) => pageId == page.id);
+        let taskR = page?.tasks.find((taskD) => taskD.task.id == task.id);
+  
+        taskR!.task = taskReturned;
+  
+        setProject!({ ...project! });
+      } else {
+        let projectReturned = await projectService.update(task as Project, project!.id);
 
-      taskR!.task = taskReturned;
+        
+        setProject!(projectReturned);
+      }
 
-      setProject!({ ...project! });
     } catch (error) {
       console.log(error);
     }
@@ -108,7 +119,7 @@ export const ContentPropertyModalTask = ({
           )
         );
       }
-      let propertyV = task.properties.find(
+      let propertyV = valuesOfObjects(task).find(
         (prop) => property.id == prop.property.id
       );
       propertyV!.property = v;
@@ -136,7 +147,7 @@ export const ContentPropertyModalTask = ({
     },
   });
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-w-full">
       <ContentModalProperty
         register={register}
         property={property}

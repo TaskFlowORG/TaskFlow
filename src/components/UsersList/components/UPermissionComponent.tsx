@@ -36,7 +36,6 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
     };
 
     const findUserPermissionsInGroup = () => {
-        console.log("oiii");
         // if (user && group) {
         //     const listUserPermissions: Permission[] = permissions.filter(p => p.project.id == project.id)
             
@@ -46,13 +45,10 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
         //     //     groupProjectIds.includes(p.project.id)
                 
         //     // );
-        //     // console.log(matchingPermissions, "lista");
 
             
         //     // if (matchingPermissions.length > 0) {
-        //     //     console.log("eu entrei aqui, bahhh");
         //     //     setSelectedPermission(matchingPermissions[0].name);
-        //     //     console.log(selectedPermission, "oii");
         //     // }
         // }
     };
@@ -61,7 +57,6 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
         try {
             await userService.updatePermission(user.username, selectedPermission);
             setSelectedPermission(selectedPermission.name);
-            console.log(selectedPermission);
             
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);

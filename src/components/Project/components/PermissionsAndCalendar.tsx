@@ -86,7 +86,7 @@ export const PermissionsAndCalendar = () => {
     if (isHighlighted) {
       return (
         <div
-          className="absolute top-[2px]  aspect-square h-[0.35rem] rounded-full right-[2px]"
+          className="absolute top-[2px] font-montserrat  aspect-square h-[0.35rem] rounded-full right-[2px]"
           style={{ backgroundColor: bg }}
         />
       );
@@ -148,7 +148,7 @@ export const PermissionsAndCalendar = () => {
           <>
             <span className="flex flex-col">
               <select
-                className="w-full bg-transparent flex text-center p-1 h-min text-primary text-p font-montserrat  dark:text-secondary "
+                className="w-full bg-transparent flex text-center p-1 h-min text-primary text-p font-alata  dark:text-secondary "
                 onChange={(e) =>
                   setProperty(properties.find((p) => p.id == +e.target.value))
                 }
@@ -204,7 +204,7 @@ export const PermissionsAndCalendar = () => {
           className="w-min sm:w-full h-min whitespace-nowrap flex flex-col items-center"
           onClick={() => setOpenPermissions(!openPermissions)}
         >
-          <h5 className=" tex-h5 font-alata w-min  whitespace-nowrap flex-nowrap text-contrast pt-6">
+          <h5 className=" text-h5 font-alata w-min  whitespace-nowrap flex-nowrap text-contrast pt-6">
             {t("access-level")}
           </h5>
           <p className="w-full whitespace-normal smm:whitespace-nowrap  sm:whitespace-normal font-montserrat text-p sm:text-p14 md:text-p  text-contrast pb-6">

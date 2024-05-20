@@ -1,5 +1,12 @@
 import { ProjectContext } from "@/contexts";
-import { Limited, Property, PropertyValue, Task, TimeValued } from "@/models";
+import {
+  Limited,
+  Project,
+  Property,
+  PropertyValue,
+  Task,
+  TimeValued,
+} from "@/models";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
 import { taskService } from "@/services";
@@ -14,6 +21,10 @@ import Image from "next/image";
 import { DateTimelines } from "@/models/values/DateTimelines";
 import { PageContext } from "@/utils/pageContext";
 import { NeedPermission } from "../NeedPermission";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { CardTime } from "../CardContent/CardProperties/CardTime";
+import { UserContext } from "@/contexts/UserContext";
 
 type PropsForm = {
   property: PropertyValue;
@@ -24,8 +35,9 @@ interface Props {
   id: number;
   name: string;
   value: Interval;
+  isCardContent?: boolean;
   isInModal?: boolean;
-  task: Task;
+  task: Task | Project;
   property: Property;
   formProp: PropsForm;
   formProps: PropsForm[];
@@ -46,6 +58,7 @@ interface Tempo {
 }
 
 export const TimeFilter = ({
+  isCardContent = false,
   value,
   task,
   id,
@@ -61,6 +74,7 @@ export const TimeFilter = ({
   const [play, setPlay] = useState(false);
   const { pageId } = useContext(PageContext);
   const { project, setProject } = useContext(ProjectContext);
+  const { user } = useContext(UserContext);
 
   function somarTempos(tempo1: Tempo, tempo2: Tempo): Tempo {
     let totalSegundos = tempo1.segundos + tempo2.segundos;
@@ -91,7 +105,6 @@ export const TimeFilter = ({
     valueTest,
     callback,
   }: typeFunctionChrono) {
-    // console.log(valueTest);
     if (!play) return;
     if (valueTest > 59) {
       callback();
@@ -136,36 +149,31 @@ export const TimeFilter = ({
     setHours(value.time.hours);
     setMinutes(value.time.minutes);
     setSeconds(Math.floor(value.time.seconds));
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const now = () => {
     //  let date = new Date(Date.now()).toJSON().slice(0, -1);
     let date = new Date(Date.now());
     date.setSeconds(Math.floor(new Date(Date.now()).getSeconds()));
-    return date.toJSON()
+    return date.toJSON();
   };
 
   useEffect(() => {
-    console.log(value);
     if (value?.starts?.length > value?.ends?.length) {
-      console.log("Eu entrei e que se foda o mundo");
       const date = new Date(value.starts[value.starts.length - 1].date);
-      date.setHours(date.getHours() - 3);
+      date.setHours(date.getHours());
       const data1 = date.getTime();
-      console.log("data 1", new Date(data1));
       // Timestamp em segundos
       const data2 = new Date().getTime();
-      console.log("data 2", new Date(data2));
       const { horas, minutos, segundos } = diferencaEntreDatas(
         data1 / 1000,
         data2 / 1000
@@ -183,15 +191,12 @@ export const TimeFilter = ({
       };
 
       const tempoTotal = somarTempos(tempo1, tempo2);
-      console.log("SOU O SEU TEMPO ANIMAL");
-      console.log(tempoTotal);
       setHours(tempoTotal.horas);
       setMinutes(tempoTotal.minutos);
-      setSeconds(Math.floor(tempoTotal.segundos));
+      setSeconds(Math.floor(tempoTotal.segundos) ?? 0);
       setPlay(true);
       let time = tempoTotal.horas * 60 + tempoTotal.minutos;
       // if ((property as Limited).maximum <= time) {
-      //   console.log("Aqui eu me fudi");
       //   let propFinded = formProps.find(
       //     (prop) => prop.property.property.id == formProp.property.property.id
       //   )!;
@@ -212,25 +217,23 @@ export const TimeFilter = ({
   }, [value]);
 
   const updateTask = async (value: Interval) => {
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
   const handleClickPause = async () => {
     setPlay(false);
     value.ends.push(new DateTimelines(now()));
-    console.log(value.time);
     if (value.time) {
       value.time.hours = hours;
       value.time.minutes = minutes;
@@ -238,20 +241,20 @@ export const TimeFilter = ({
     } else {
       value.time = new Duration(seconds, minutes, hours, undefined);
     }
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    let taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+
+    if (!isProject(task)) {
+      let taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const handleClickPlay = async () => {
@@ -260,31 +263,28 @@ export const TimeFilter = ({
       value.starts = [];
     }
     value.starts.push(new DateTimelines(now()));
-    console.log(value);
-    let propertyFinded = task.properties.find(
+    let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
     propertyFinded.value.value = value;
-    const taskReturned = await taskService.upDate(task, project!.id);
-    const page = project?.pages.find((page) => page.id == pageId);
-    const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    if (taskPage) {
-      taskPage.task = taskReturned;
-      console.log(
-        "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-      );
+    if (!isProject(task)) {
+      const taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setProject!({ ...project! });
     }
-    setProject!({ ...project! });
   };
 
   const verifyEnd = async () => {
     // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
-    if ((property as Limited).maximum==undefined)return
+    if ((property as Limited).maximum == undefined) return;
 
     let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
 
     if ((property as Limited).maximum <= totalTimeInMinutes) {
-      // console.log("Ended");
       let propFinded = formProps.find(
         (prop) => prop.property.property.id == formProp.property.property.id
       )!;
@@ -292,7 +292,6 @@ export const TimeFilter = ({
       setFormProps([...formProps]);
       setErrors(true);
       setPlay(false);
-      console.log("EXECUTOU");
       const exceededTime = totalTimeInMinutes - (property as Limited).maximum;
       const currentDate = new Date();
 
@@ -301,8 +300,7 @@ export const TimeFilter = ({
       // Minutes Mode
 
       currentDate.setTime(currentDate.getTime() - exceededTime * 60 * 1000);
-      value.ends.push(new DateTimelines(currentDate.toJSON().slice(0, -1)));
-      console.log(value);
+      value.ends.push(new DateTimelines(currentDate.toJSON()));
 
       // Seconds Mode
 
@@ -319,21 +317,24 @@ export const TimeFilter = ({
       setMinutes(value.time.minutes);
       setSeconds(value.time.seconds);
 
-      let propertyFinded = task.properties.find(
+      let propertyFinded = valuesOfObjects(task).find(
         (prop) => prop.property.id == id
       )!;
       propertyFinded.value.value = value;
-      const taskReturned = await taskService.upDate(task, project!.id);
-      const page = project?.pages.find((page) => page.id == pageId);
-      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskPage) {
-        taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
+
+      if (!isProject(task)) {
+        const taskReturned = await taskService.upDate(
+          task as Task,
+          project!.id
         );
+        const page = project?.pages.find((page) => page.id == pageId);
+        const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+        if (taskPage) {
+          taskPage.task = taskReturned;
+        }
+        setProject!({ ...project! });
       }
-      console.log(value);
-      setProject!({ ...project! });
+
       // handleClickPause();
     }
   };
@@ -355,16 +356,18 @@ export const TimeFilter = ({
           {seconds < 10 ? "0" + seconds : seconds}
         </p>
         <NeedPermission permission="update">
-          {!play && ((minutes < (property as Limited).maximum) || ((property as Limited).maximum == undefined))  && (
-            <div
-              onClick={handleClickPlay}
-              className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
-            >
-              <div className="h-[10px] aspect-square relative">
-                <Image src={"/play.svg"} alt="Play" fill></Image>
+          {!play &&
+            (minutes < (property as Limited).maximum ||
+              (property as Limited).maximum == undefined) && (
+              <div
+                onClick={handleClickPlay}
+                className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
+              >
+                <div className="h-[10px] aspect-square relative">
+                  <Image src={"/play.svg"} alt="Play" fill></Image>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {play && (
             <div

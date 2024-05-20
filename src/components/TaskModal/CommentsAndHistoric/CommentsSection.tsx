@@ -2,8 +2,11 @@ import { Message, Project, Task, User } from "@/models";
 import { SendComment } from "./SendComment";
 import { Comment } from "./Comment";
 import { useContext, useEffect, useState } from "react";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import { ProjectContext } from "@/contexts";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { PageContext } from "@/utils/pageContext";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type Props = {
@@ -15,6 +18,8 @@ export const CommentsSection = ({ task, user }: Props) => {
   const [commentsTask, setCommentsTask] = useState<Message[]>([]);
   const { project } = useContext(ProjectContext);
   const [input, setInput] = useState("");
+  const { pageId } = useContext(PageContext);
+  const { setProject } = useContext(ProjectContext);
 
   useEffect(() => {
     setCommentsTask((prevComments) => {
@@ -27,10 +32,10 @@ export const CommentsSection = ({ task, user }: Props) => {
   }, [task?.comments, deleteComment, updateComment]);
 
   function arraysAreEqual(arr1: any, arr2: any) {
-    if (arr1.length !== arr2.length) {
+    if (arr1?.length !== arr2?.length) {
       return false;
     }
-    for (let i = 0; i < arr1.length; i++) {
+    for (let i = 0; i < arr1?.length; i++) {
       if (arr1[i] !== arr2[i]) {
         return false;
       }
@@ -44,11 +49,16 @@ export const CommentsSection = ({ task, user }: Props) => {
     if (comment) {
       comment.value = updatedValue;
       comment.dateUpdate = new Date();
-      console.log(updatedValue);
-      console.log(task);
-      let taskUpdated = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
-      if (!taskUpdated) return;
-      setCommentsTask(taskUpdated.comments);
+      if (!isProject(task)) {
+        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        setCommentsTask(taskUpdated.comments);
+      } else {
+        let projectUpdated = await projectService.update(
+          task as Project,
+          project!.id
+        );
+        setCommentsTask(projectUpdated.comments);
+      }
     }
   }
 
@@ -56,9 +66,16 @@ export const CommentsSection = ({ task, user }: Props) => {
     let comment = task.comments[commentId];
     if (comment) {
       task.comments.splice(task.comments.indexOf(comment), 1);
-      let taskUpdated = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
-      if (!taskUpdated) return;
-      setCommentsTask(taskUpdated.comments);
+      if (!isProject(task)) {
+        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        setCommentsTask(taskUpdated.comments);
+      } else {
+        let projectUpdated = await projectService.update(
+          task as Project,
+          project!.id
+        );
+        setCommentsTask(projectUpdated.comments);
+      }
     }
   }
 
@@ -76,8 +93,22 @@ export const CommentsSection = ({ task, user }: Props) => {
     } else {
       task.comments = [comment];
     }
+    if (!isProject(task)) {
+      let taskUpdated = await taskService.upDate(task as Task, project!.id);
+      setCommentsTask(taskUpdated.comments);
+      let page = project?.pages.find((page) => page.id == pageId);
+      let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
+      taskPage!.task = task as Task;
+      setProject!({ ...project! });
+    } else {
+      let projectUpdated = await projectService.update(
+        task as Project,
+        project!.id
+      );
+      setCommentsTask(projectUpdated.comments);
+      setProject!({ ...projectUpdated! });
+    }
 
-    await taskService.upDate(task as Task, project!.id).catch(asynThrow);
     setInput("");
   }
   return (

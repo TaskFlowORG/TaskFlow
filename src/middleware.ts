@@ -27,7 +27,6 @@ export async function middleware(req: NextRequest) {
     const username = req.cookies.get("username")?.value; 
     const domain = req.nextUrl.origin;
     const homeUrl = domain + "/"+username ;
-    console.log(req)
     return NextResponse.redirect(homeUrl);
   }
   return NextResponse.next();

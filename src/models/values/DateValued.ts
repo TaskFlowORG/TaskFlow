@@ -2,7 +2,7 @@
 import { Value } from "./Value";
 
 export class DateWithGoogle {
-    constructor(public dateTime:Date | null,  public idGoogle:string, public id?:number){
+    constructor(public dateTime:Date | null,  public idGoogle:string, public id?:number | null){
     }
 
 }
