@@ -226,9 +226,9 @@ export const Project = () => {
     
 
         <div className="h-5/6 w-full pt-6 ">
-        <TaskModalWrapper>
-          <TaskModalContent task={project} user={user} isInModal={false} />
-        </TaskModalWrapper>
+          <TaskModalWrapper>
+            <TaskModalContent task={project} user={user} isInModal={false} />
+          </TaskModalWrapper>
         </div>
       </div>
       <If condition={windowWidth > 934}>
