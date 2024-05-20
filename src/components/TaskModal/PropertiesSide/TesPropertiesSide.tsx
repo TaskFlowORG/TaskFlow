@@ -35,6 +35,7 @@ import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { DateWithGoogle } from "@/models/values/DateValued";
 import Image from "next/image";
+import { ConfigBlock } from "@/components/Config";
 
 type Props = {
   task: Task | Project;
@@ -490,20 +491,21 @@ export const TesPropertiesSide = ({
                 key={prop.id}
                 className="bg-white dark:bg-transparent flex flex-col"
               >
-                <div className="flex sm:gap-8 gap-4 w-full items-center">
-                  <Image
-                    className=""
-                    onClick={() => {
+                <div className="flex sm:gap-8 gap-4 w-full items-center text-back-grey dark:text-white">
+                  <ConfigBlock  onClick={() => {
                       if (isTaskProperty(prop.property)) {
                         setOpenedConfig(!openedConfig);
                         setIdConfig(prop.property.id);
                       }
-                    }}
+                    }}></ConfigBlock>
+                  {/* <Image
+                    className=""
+                   
                     src="/config.svg"
                     alt="config"
                     width={16}
                     height={16}
-                  />
+                  /> */}
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
