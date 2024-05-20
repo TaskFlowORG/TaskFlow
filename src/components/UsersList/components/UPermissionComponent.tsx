@@ -31,24 +31,9 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     }, [successPermission]);
 
     const fetchData = () => {
-        console.log("chamei de novo");
-        
-        console.log(showUser);
-        
-        console.log(showUser.permissions, "lista do usuário");
-        
          if (showUser && group && showUser.permissions) {
-             console.log("tô aqui dentro hein");
-            
              const permission = showUser.permissions.find(p => p.project.id === project.id);
-             console.log(showUser.permissions);
-            
-             console.log(permission, "filtrada");
-
              setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)?.id.toString() || "");
-             console.log(selectedPermission, "permissão achada");
-
-
          } else {
              setSelectedPermission("");
          }
@@ -57,9 +42,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     const savePermission = async (selectedPermission: Permission) => {
         try {
             await userService.updatePermission(showUser.username, selectedPermission);
-            setSelectedPermission(selectedPermission.id.toString());
-            console.log("nova selecionada", selectedPermission.id);
-
+            setSelectedPermission(selectedPermission.name);
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
