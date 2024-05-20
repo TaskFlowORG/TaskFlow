@@ -18,7 +18,6 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const [text, setText] = useState<string>("");
     const { user } = useContext(UserContext);
     const { t } = useTranslation();
-    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         fetchData();

@@ -18,42 +18,47 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     const [text, setText] = useState<string>("");
     const { t } = useTranslation();
 
+    // useEffect(() => {
+    // }, [user, group, project]);
+    
     useEffect(() => {
-        findUserPermissionsInGroup();
-    }, [user, group, project]);
-
-    useEffect(() => {
+        fetchData();
         const timer = setTimeout(() => {
             if (successPermission) setSuccessPermission(false);
         }, 6000);
         return () => clearTimeout(timer);
     }, [successPermission]);
 
-    const findUserPermissionsInGroup = () => {
-        if (user && group && user.permissions.length > 0) {
-            const filteredPermissions = user.permissions.filter(p => p.project.id === project.id);
-            console.log(filteredPermissions, "lista de permissões");
+    const fetchData = () => {
+        console.log("chamei de novo");
+        
+        console.log(showUser);
+        
+        console.log(showUser.permissions, "lista do usuariui");
+        
+         if (showUser && group && showUser.permissions) {
+             console.log("tô aqui dentro hein");
             
+             const permission = showUser.permissions.find(p => p.project.id === project.id);
+             console.log(showUser.permissions);
+            
+             console.log(permission, "filtrada");
 
-            if (filteredPermissions.length > 0) {
-                setSelectedPermission(filteredPermissions[0].id.toString());
-                console.log(selectedPermission, "permissão selecionada");
-                
-            } else {
-                const defaultPermission = permissions.find(p => p.isDefault);
-                setSelectedPermission(defaultPermission ? defaultPermission.name : "");
-            }
-        } else {
-            setSelectedPermission("");
-        }
+             setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)?.id.toString() || "");
+             console.log(selectedPermission, "permissão achada");
+
+
+         } else {
+             setSelectedPermission("");
+         }
     };
 
-    const savePermission = async (selectedPermissionToSave: Permission) => {
+    const savePermission = async (selectedPermission: Permission) => {
         try {
-            await userService.updatePermission(showUser.username, selectedPermissionToSave);
-            setSelectedPermission(selectedPermissionToSave.id.toString());
-            console.log("nova selecionada", selectedPermission);
-            
+            await userService.updatePermission(showUser.username, selectedPermission);
+            setSelectedPermission(selectedPermission.id.toString());
+            console.log("nova selecionada", selectedPermission.id);
+
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
@@ -65,7 +70,6 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = parseInt(e.target.value, 10);
         const foundPermission = permissions.find(p => p.id === selectedId);
-        
         if (foundPermission) {
             savePermission(foundPermission);
         }
@@ -88,7 +92,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != user?.id}
-                        value={selectedPermission}
+                        value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
                         onChange={handleSelectChange}
                     >
                         {permissions.map(p => (
