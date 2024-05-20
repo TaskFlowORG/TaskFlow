@@ -50,7 +50,10 @@ export const CommentsSection = ({ task, user }: Props) => {
       comment.value = updatedValue;
       comment.dateUpdate = new Date();
       if (!isProject(task)) {
-        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        let taskUpdated = await taskService.updateComments(
+          task as Task,
+          project!.id
+        );
         setCommentsTask(taskUpdated.comments);
       } else {
         let projectUpdated = await projectService.update(
@@ -67,7 +70,10 @@ export const CommentsSection = ({ task, user }: Props) => {
     if (comment) {
       task.comments.splice(task.comments.indexOf(comment), 1);
       if (!isProject(task)) {
-        let taskUpdated = await taskService.upDate(task as Task, project!.id);
+        let taskUpdated = await taskService.updateComments(
+          task as Task,
+          project!.id
+        );
         setCommentsTask(taskUpdated.comments);
       } else {
         let projectUpdated = await projectService.update(
@@ -94,7 +100,10 @@ export const CommentsSection = ({ task, user }: Props) => {
       task.comments = [comment];
     }
     if (!isProject(task)) {
-      let taskUpdated = await taskService.upDate(task as Task, project!.id);
+      let taskUpdated = await taskService.updateComments(
+        task as Task,
+        project!.id
+      );
       setCommentsTask(taskUpdated.comments);
       let page = project?.pages.find((page) => page.id == pageId);
       let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
