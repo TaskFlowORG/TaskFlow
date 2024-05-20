@@ -18,11 +18,12 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     const [text, setText] = useState<string>("");
     const { t } = useTranslation();
 
-    // useEffect(() => {
-    // }, [user, group, project]);
+     useEffect(() => {
+
+         fetchData();
+     }, [showUser, group, project]);
     
     useEffect(() => {
-        fetchData();
         const timer = setTimeout(() => {
             if (successPermission) setSuccessPermission(false);
         }, 6000);
@@ -34,7 +35,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
         
         console.log(showUser);
         
-        console.log(showUser.permissions, "lista do usuariui");
+        console.log(showUser.permissions, "lista do usuário");
         
          if (showUser && group && showUser.permissions) {
              console.log("tô aqui dentro hein");
@@ -88,7 +89,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
             ) : (
                 <div className="pl-4 md:pr-3">
                     <select
-                        className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                        className="flex w-16 text-primary font-alata text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
                         disabled={group?.owner.id != user?.id}
