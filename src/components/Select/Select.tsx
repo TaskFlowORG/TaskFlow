@@ -100,7 +100,7 @@ export const Select = ({
             );
           })}
         </select>
-        <div className=" border-l-[2px] border-primary dark:border-secondary -z-[10] w-16 top-0 right-0 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
+        <div className=" border-primary dark:border-secondary z-10 w-16 top-0 -right-4 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
           <span className=" rotate-90">{">"}</span>
         </div>
       </div>

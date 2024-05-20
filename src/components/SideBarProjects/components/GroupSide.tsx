@@ -7,7 +7,7 @@ import {
 } from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { GroupComponent } from "./GroupComponent";
 import { useRouter } from "next/navigation";
 import { groupService } from "@/services";
@@ -15,6 +15,7 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { InviteGroupToProject } from "./InviteGroupToProject";
 import { useTranslation } from "react-i18next";
 import { ErrorModal } from "@/components/ErrorModal";
+import { UserContext } from "@/contexts/UserContext";
 
 interface Props {
   project?: Project;
@@ -67,6 +68,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
       router.push("/" + user + "/group/" + groupId);
     }
   };
+  const {user:userObj} = useContext(UserContext)
 
   const [error, setError] = useState(false);
 
@@ -104,7 +106,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
       {global == "userGroups" ||
         (project != undefined &&
           global == "projectGroups" &&
-          project.owner.username == user) ? (
+          project.owner.id == userObj?.id) ? (
             <div className="h-min relative w-full flex justify-center pt-4 ">
               <InviteGroupToProject
                 setError={setError}

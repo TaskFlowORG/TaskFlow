@@ -161,7 +161,7 @@ export const Login = () => {
                 <button
                   className="w-full justify-center font-alata dark:border-zinc-600 hover:border-zinc-600  border-2 flex-1 gap-2 h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200 flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
                   onClick={() =>
-                    route.push("http://localhost:9999/auth/login/code/github")
+                    route.push("http://localhost:9999/oauth2/authorization/github")
                   }
                 >
                   {theme == "dark" ? (
@@ -184,7 +184,7 @@ export const Login = () => {
                 <button
                   className="w-full dark:border-zinc-600 font-alata hover:border-zinc-600   border-2 justify-center flex-1 gap-2 h-[40px] bg-white text-black shadow-blur-10 rounded-md hover:bg-slate-200  flex items-center dark:bg-modal-grey dark:text-white dark:hover:bg-gray-500 dark:shadow-blur-20  "
                   onClick={() =>
-                    route.push("http://localhost:9999/auth/login/code/github")
+                    route.push("http://localhost:9999/oauth2/authorization/google")
                   }
                 >
                   {theme == "dark" ? (
