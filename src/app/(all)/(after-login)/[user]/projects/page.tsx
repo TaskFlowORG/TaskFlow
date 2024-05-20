@@ -75,7 +75,6 @@ export default function Projects({ params }: { params: { user: string } }) {
       new ProjectPost(undefined, undefined)
     ).then(async (newProject) => {
       const permission = new PermissionPost("", TypePermission.READ, true, newProject);
-      console.log(permission);
       await permissionService.insert(permission, newProject.id).catch(asynThrow);
       const projectsTemp = [...projects!];
       projectsTemp.push(newProject);

@@ -14,7 +14,6 @@ export const updateIndexes = (
   newList.splice(result.destination.index, 0, removed);
 
   newList.forEach(async (l, index) => {
-    console.log(l);
     l.indexAtColumn = index;
     await pageService.updateTaskPage(project.id, l);
   });

@@ -33,7 +33,6 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
                     user.permissions = updatedPermissions;
                 }
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
-                console.log(group.users);
 
                 setGroup({
                     ...

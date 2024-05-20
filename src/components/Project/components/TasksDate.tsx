@@ -9,6 +9,7 @@ import { Bar } from "react-chartjs-2";
 import { useContext, useEffect, useState } from "react";
 import { ChartOptions } from "chart.js";
 import { UserContext } from "@/contexts/UserContext";
+import { text } from "stream/consumers";
 
 export const TasksDate = () => { 
   const { project } = useContext(ProjectContext);
@@ -33,7 +34,7 @@ export const TasksDate = () => {
 
   if (!property)
     return (
-      <div className="shadow-blur-10 w-full h-64 md:h-1/2 text-center text-p rounded-md p-4 flex flex-col justify-center items-center">
+      <div className="shadow-blur-10 w-full h-64 md:h-1/2 text-center font-montserrat text-p rounded-md p-4 flex flex-col justify-center items-center">
         <p>{t("no-properties-date")}</p>
       </div>
     );
@@ -80,11 +81,14 @@ export const TasksDate = () => {
 
   const options: ChartOptions<"bar"> = {
     plugins: {
+      
       legend: {
+
         display: false,
         labels:{
+          
           font:{
-            family: "Montserrat",
+            family: user?.configuration.font,
             size: user?.configuration.fontSize ?? 16,
           }
         }
@@ -107,14 +111,15 @@ export const TasksDate = () => {
         grid: {
           color: theme === "dark" ? "#FCFCFC33" : "#3C3C3C33",
         },
-      },
+        
+      }
     },
   };
   return (
     <div className="w-full h-64 md:h-1/2 flex flex-col gap-4 dark:bg-dark-800 rounded-md shadow-blur-10 p-4">
       <span className="flex justify-between w-full">
         <select
-          className="w-32 flex  bg-transparent text-start p-1 h-min text-p font-montserrat text-primary dark:text-secondary "
+          className="w-32 flex  bg-transparent text-start p-1 h-min text-p font-alata text-primary dark:text-secondary "
           onChange={(e) =>
             setProperty(properties.find((p) => p.id == +e.target.value))
           }
@@ -135,7 +140,7 @@ export const TasksDate = () => {
         </span>
       </span>
       <div className="w-full h-full flex justify-center">
-        <div className="w-min h-full  flex justify-center items-center">
+        <div className="w-min h-full  flex justify-center font-montserrat items-center">
           <Bar
             data={dataFormatted}
             options={{ ...options, backgroundColor: color }}

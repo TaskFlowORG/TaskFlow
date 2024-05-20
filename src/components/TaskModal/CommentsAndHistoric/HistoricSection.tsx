@@ -18,9 +18,7 @@ export const HistoricSection = ({
   isInModal,
   user,
 }: HistoricSectionProps) => {
-  const handleClick = () => {
-    console.log("FUNÇÃO DE CHAMAR O PDF PO, NÃO ESQUECE!!");
-  };
+
   const {t} = useTranslation()
 
   return (
@@ -34,7 +32,7 @@ export const HistoricSection = ({
       </div>
       <PDFDownloadLink
         className="lg:text-p  text-p14 w-full flex gap-2 items-center justify-center  text-white border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
-        document={<Report logged={task} user={user} />}
+        document={<Report logged={task} user={user} isInProject={!isInModal} />}
         fileName={`${isInModal? t("task") : t("project")} #${task.id} - By ${user.name} ${user.surname}.pdf`}
       >
         Gerar Relatório

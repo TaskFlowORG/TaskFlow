@@ -39,7 +39,6 @@ export const TaskTrash = ({
       setArrayTasks(arrayTasks.filter((t) => t.id != task.id));
       const projectGet = await projectService.findOne(project.id);
       setProject(projectGet);
-      console.log(project);
     }
   };
   const { t } = useTranslation();

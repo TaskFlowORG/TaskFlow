@@ -53,11 +53,9 @@ export const Step2 = ({ setStep }: Props) => {
     const verifyCode = async () => {
         const concatenatedNumber: string = (number1 + number2 + number3 + number4);
 
-        console.log(concatenatedNumber);
 
         const code = await emailService.getCode();
 
-        console.log(code);
 
         code.map(c => {
             if (concatenatedNumber.toString() === c.code) {

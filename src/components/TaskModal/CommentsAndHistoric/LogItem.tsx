@@ -31,7 +31,6 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
   };
 
   const setValue = (property: Property, log: Log) => {
-    console.log(log);
     switch (property.type) {
       case TypeOfProperty.CHECKBOX:
       case TypeOfProperty.TAG:
@@ -63,7 +62,6 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
         );
 
       case TypeOfProperty.USER:
-        console.log(log);
 
         return (log.value.value as UserValued).value.map(
           (user: User, index: any) =>

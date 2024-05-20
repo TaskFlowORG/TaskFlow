@@ -42,7 +42,6 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: this.state.hasError,
       status: status
     });
-    console.log({ error, errorInfo });
   }
 
   render() {

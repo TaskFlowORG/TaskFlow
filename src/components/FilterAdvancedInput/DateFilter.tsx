@@ -36,10 +36,8 @@ export const DateFilter = ({
     if (prop && isInModal) {
       // const splitTimestamp: string[] = prop.value?.split("T");
       setValued(prop.value);
-      console.log("É NO IF");
     } else {
       setValued(value);
-      console.log("É NO ELSE");
     }
     // } else if (value) {
     //   // const datePart: string = splitTimestamp[0];
@@ -66,29 +64,19 @@ export const DateFilter = ({
         }
         placeholder={t("insert-expected-value")}
         onChange={(e) => {
-          console.log(
-            "ALSDJASJDAÇ<",
-            new Date(valued).toLocaleDateString() +
-              "T" +
-              new Date(valued).toLocaleTimeString()
-          );
+
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
-            console.log("thisprop");
             if (!e.target.value) {
-              console.log("taget");
               filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
               setFilterProp!([...filterProp!]);
             } else {
-              console.log("else");
               thisProperty.value = new Date(e.target.value).toISOString();
               setFilterProp!([...filterProp!]);
             }
           } else {
-            console.log("elsão");
             if (e.target.value) {
-              console.log("if do elsão", e.target.value);
               setFilterProp!([
                 ...filterProp!,
                 { id: id, value: new Date(e.target.value).toISOString() },

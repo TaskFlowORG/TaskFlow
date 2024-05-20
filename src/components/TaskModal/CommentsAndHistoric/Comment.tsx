@@ -7,7 +7,8 @@ import { IconSave } from "@/components/icons/Slidebarprojects/IconSave";
 import { EditIcon } from "@/components/icons/PageOtpions/Edit";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { useTranslation } from "react-i18next";
-
+import Image from "next/image";
+import { archiveToSrc } from "@/functions";
 type CommentType = {
   sender: OtherUser;
   value: string;
@@ -143,7 +144,9 @@ export const Comment = ({
       <div className="h-[2px] w-1/2 bg-[#D9D9D9]"></div>
       <div className="gap-2  flex items-center">
         {!(user.username == sender.username) && (
-          <div className="h-[18px] aspect-square rounded-full bg-primary"></div>
+          <div className="h-[18px] aspect-square relative rounded-full overflow-clip bg-primary">
+            <Image fill alt="" src={archiveToSrc(sender.picture)}></Image>
+          </div>
         )}
 
         <p className="text-mn font-montserrat text-[#343434] dark:text-[#f2f2f2]">

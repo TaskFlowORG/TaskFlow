@@ -21,22 +21,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className=" p-4 flex justify-between w-full items-center fixed z-[99]">
-        <img
+        <Image
           src="Icon.svg"
-          alt=""
-          className="w-16 grayscale brightness-[60] invert dark:invert-0 cursor-pointer"
+          alt="icon"
+          width={64}
+          height={64}
+          className="grayscale brightness-[60] invert dark:invert-0 cursor-pointer"
         />
         <div className="flex gap-6">
-          <img
+          <Image
             src="moon.svg"
             className="dark:hidden cursor-pointer brightness-[0.1]"
-            alt=""
+            alt="dark"
+            width={24}
+            height={24}
             onClick={() => setTheme("dark")}
           />
-          <img
+          <Image
             src="sun.svg"
             className="hidden dark:flex cursor-pointer"
-            alt=""
+            alt="light"
+            width={24}
+            height={24}
             onClick={() => setTheme("light")}
           />
             

@@ -44,7 +44,6 @@ export const TaskName = ({ task }: Props) => {
   useEffect(() => {
     if (taskNameRef.current && hasPermission) {
       taskNameRef.current.focus();
-      console.log(`FOQUEI PA CARALHO`);
     }
   }, [task]);
 

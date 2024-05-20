@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
 export const Footer = () => {
@@ -9,7 +10,10 @@ export const Footer = () => {
 
             <div className="h-5/6 w-4/5 lg:w-3/5 flex justify-between" >
                 <div className="flex flex-col justify-center w-2/5">
-                    <img src="/Assets/logo/iconDark.svg" alt="" className="h-[80px] lg:h-[128px] md:h-[100px] lg:w-[121px] md:w-[98px] w-[78px]" />
+                    <div className="h-[80px] lg:h-[128px] md:h-[100px] relative lg:w-[121px] md:w-[98px] w-[78px]">
+                        
+                    <Image fill src="/Assets/logo/iconDark.svg" alt="iconDark"  />
+                    </div>
                     <p className=" font-alata h5 text-white">{t('organization-freedom')}</p>
                 </div>
 

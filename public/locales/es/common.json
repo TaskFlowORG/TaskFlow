@@ -386,8 +386,14 @@
   "timeline-scroll-desc": "Desplaza el mouse sobre la línea de tiempo para aumentar o disminuir el intervalo entre cada sección de la línea de tiempo.", 
   "tasks-without-date": "Tareas sin fecha",
   "day-tasks": "Tareas del día",
-  "have-sure-delete-permanently": "¿Estás seguro de que quieres eliminar esto permanentemente?"
+  "have-sure-delete-permanently": "¿Estás seguro de que quieres eliminar esto permanentemente?",
 
+  "your-group-project": "Grupo en el proyecto",
+  "withoutphone": "Sin teléfono",
+  "withoutemail": "Sin correo electrónico",
+  
+  "some-user-in-project-desc": "Alguien en este grupo ya tiene acceso a este proyecto, lo que podría causar conflictos de permisos, por lo tanto no puedes agregar este grupo.",
+  "some-user-in-project": "Alguien ya está en el proyecto"
 
 }
 

@@ -111,15 +111,15 @@ export const Project = () => {
     <div className="w-screen project-page h-screen pt-14 items-center  relative flex">
       <div className="w-full h-full flex-col justify-center items-center  py-8 sm:flex  sm:px-24 md:px-48">
         <div className="sm:h-1/6 w-full justify-center  sm:justify-start flex flex-col gap-2 sm:flex-row">
-          <div className="w-full gap-2 sm:gap-4 justify-center smm:flex-row flex-col items-center flex ">
-            <div className="sm:h-full h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
+          <div className="w-full gap-2 sm:gap-4 justify-center sm:justify-start smm:flex-row flex-col items-center flex ">
+            <div className="sm:h-full max-h-24 h-16 w-16 sm:w-auto aspect-square  bg-zinc-400 relative rounded-md">
               <Image
                 className="rounded-md"
                 src={src}
                 alt="Project Picture"
                 fill
               />
-              <If condition={project?.owner.id == user?.id}>
+              <If condition={project?.owner?.id == user?.id}>
                 <span
                   className="absolute rounded-full -bottom-2 -right-2 border-2 border-primary 
               dark:border-secondary h-8 w-8 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
@@ -134,10 +134,11 @@ export const Project = () => {
                 </span>
               </If>
             </div>
-            <div className="flex flex-col smm:w-min min-w-[130px] sm:justify-between  white text-center w-[1/2] sm:w-2/3 ">
+            <div className="flex flex-col smm:w-min smm:min-w-[130px] sm:min-w-min  sm:justify-between  white text-center w-[1/2] sm:w-full ">
               <input
                 ref={refName}
-                disabled={project?.owner.id != user?.id}
+
+                disabled={project?.owner?.id != user?.id}
                 className="bg-transparent pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
@@ -163,16 +164,15 @@ export const Project = () => {
           <div className="sm:w-52 w-full gap-2  h-full justify-center sm:justify-end relative  text-h5 font-alata text-modal-grey dark:text-white flex  items-center">
             <span>
               <span className="flex w-full justify-between">
-                <p>
-                  <span className="text-primary dark:text-secondary">
+                <p className="font-montserrat">
+                  <span className="text-primary font-alata dark:text-secondary">
                     {t("owner") + ": "}
                   </span>
-
-                  {project?.owner.id == user?.id
+                  {project?.owner?.id == user?.id
                     ? t("you")
-                    : project?.owner.username}
+                    : project?.owner?.username}
                 </p>
-                <If condition={project?.owner.id == user?.id}>
+                <If condition={project?.owner?.id == user?.id}>
                   <span className="relative">
                     <LocalModal
                       condition={changingOwner}
@@ -210,8 +210,8 @@ export const Project = () => {
                   </span>
                 </If>
               </span>
-              <If condition={project?.owner.id == user?.id}>
-                <span className="self-end w-full whitespace-nowrap sm:w-min justify-center sm:justify-end flex items-center gap-2 h-min ">
+              <If condition={project?.owner?.id == user?.id}>
+                <span className="self-end w-full whitespace-nowrap font-montserrat sm:w-min justify-center sm:justify-end flex items-center gap-2 h-min ">
                   <input
                     type="checkbox"
                     onChange={(e) => updateRevision(e.target.checked)}
@@ -223,13 +223,15 @@ export const Project = () => {
             </span>
           </div>
         </div>
+    
+
+        <div className="h-5/6 w-full pt-6 ">
         <TaskModalWrapper>
           <TaskModalContent task={project} user={user} isInModal={false} />
         </TaskModalWrapper>
-
-        <div className="h-5/6 w-full "></div>
+        </div>
       </div>
-      <If condition={windowWidth > 768}>
+      <If condition={windowWidth > 934}>
         <DashboardSide />
         <DashboardBottom />
       </If>

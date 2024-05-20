@@ -53,18 +53,14 @@ export const ModalProperty = ({
 
   const setOptionsFN = () => {
     setOpenOptions(openOptions);
-    console.log(openOptions);
   };
   useEffect(() => {
     setProp(property);
     if (property.type === TypeOfProperty.DATE) {
-      console.log((property as Date).canBePass);
-      console.log(getValues());
       setValue("pastDate", (property as Date).canBePass);
       setValue("schedule", (property as Date).scheduling);
       setValue("hours", (property as Date).includesHours);
       setValue("deadline", (property as Date).deadline);
-      console.log(getValues());
     }
   }, [property]);
   const {

@@ -18,7 +18,6 @@ export const TextToSpeechTeste = () => {
                     window.speechSynthesis.speak(speaker);
                 }else if(user?.configuration.language == "ENGLISH"){
                     speaker.lang = "en-US";
-                    console.log(speaker.lang);
                     speaker.text = content;
                     window.speechSynthesis.speak(speaker);
                 }else{

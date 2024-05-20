@@ -41,11 +41,9 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
       );
       list.push(project.owner);
       const groups = await groupService.findGroupsByAProject(project.id);
-      console.log(groups);
       for (let group of groups) {
         list.push(await userService.findByUsername(group.ownerUsername));
       }
-      console.log(list);
       setUsers(list);
       
       users.filter((user, index) => {
@@ -58,8 +56,6 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
-    console.log(prop);
-    console.log(value);
     if (prop) {
       setValued(prop.value ?? []);
     } else {
@@ -81,7 +77,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                 .filter((user) => user != null && user != undefined)}
               mawWidth="w-max"
               max={3}
-              functionObj={(o) => console.log(o)}
+              functionObj={() => {console.log("")}}
               isOtherUser
             />
           </div>

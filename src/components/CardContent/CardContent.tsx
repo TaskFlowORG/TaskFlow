@@ -48,7 +48,6 @@ export const CardContent = ({ task, user }: Props) => {
     if (project?.owner.id != user?.id) return;
     e.stopPropagation();
     e.preventDefault();
-    console.log("clickComplete", e);
     if (task.completed || !project || !setProject) return;
     const updatedTask = await taskService.complete(task.id, project.id);
     setLocalTask(updatedTask);
@@ -98,7 +97,7 @@ export const CardContent = ({ task, user }: Props) => {
             : t("withoutname")}
         </h4>
 
-        {task.properties.find(
+        {task.properties?.find(
           (prop) => prop.property.type == TypeOfProperty.USER
         ) && (
           <CardUser

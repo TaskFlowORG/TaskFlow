@@ -45,7 +45,6 @@ export const Page = ({
 }) => {
   const context = useContext(FilterContext);
   useEffect(() => {
-    console.log("FOI AQUI TBM");
 
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
@@ -108,7 +107,6 @@ export const Page = ({
             <div className="flex gap-4 items-center">
               <h1
                 className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white"
-                onClick={() => console.log(page)}
               >
                 {page?.name}
               </h1>

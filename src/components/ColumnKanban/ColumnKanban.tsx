@@ -108,7 +108,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props
                               style={{
                                 ...provided.draggableProps.style,
                               }}
-                              id={item.task.id.toString()}
+                              id={item.task.id?.toString()}
                               onClick={() => openModal!(item)}
                             >
                               <RoundedCard

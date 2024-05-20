@@ -20,9 +20,6 @@ export default function InitialPage({params}:{params:{user:string}}) {
         (async () => {
             const tasks = await taskService.findTodaysTasks(params.user).catch(asynThrow);
             if(!tasks) return;
-            console.log('====================================');
-            console.log(tasks);
-            console.log('====================================');
             setTasks(tasks)
         })()
     }, [])

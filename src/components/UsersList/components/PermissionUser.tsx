@@ -9,6 +9,7 @@ import { LocalModal } from "@/components/Modal";
 import { OtherUserComponent } from "@/components/OtherUser";
 import { UserContext } from "@/contexts/UserContext";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import Image from "next/image";
 
 interface Props {
   group: Group;
@@ -29,7 +30,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
-    console.log(group.users);
 
     fetchData();
   }, [group]);
@@ -47,7 +47,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
     setIsOpened(!isOpened);
   };
 
-  const userIcon = theme === "dark" ? <img src="/img/whiteIconUser.svg" alt="User" /> : <img src="/img/darkIconUser.svg" alt="User" />;
+  const userIcon = theme === "dark" ? <Image width={24} height={24} src="/img/whiteIconUser.svg" alt="User" /> : <Image width={24} height={24}  src="/img/darkIconUser.svg" alt="User" />;
 
   const fullName = `${showUser.name} ${showUser.surname}`;
 

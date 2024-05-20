@@ -57,7 +57,6 @@ export const Select = ({
       }
     }
     // const select = document.querySelector(`#prop${id}`)
-    // // console.log(select.value)
   };
 
   const hasPermission = useHasPermission('update')

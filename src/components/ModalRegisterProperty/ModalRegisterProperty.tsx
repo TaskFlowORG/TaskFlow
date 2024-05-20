@@ -118,7 +118,6 @@ export const ModalRegisterProperty = ({
                   selected={selected}
                   onChange={function (value: string): void {
                     setSelected(value as TypeOfProperty);
-                    console.log(value.toString());
                   }}
                 />
               </span>

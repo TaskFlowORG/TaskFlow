@@ -63,7 +63,6 @@ export const TasksInTimeline = ({
                   )
                 )
                 .map((start, index) => {
-                  console.log(start)
                   return (
                     <TaskInTimeline  key={index} widthOfInterval={widthOfInterval} propOrdering={propOrdering} interval={interval} propVl={propVl} task={task} start={start} index={index}  />
                   );

@@ -99,7 +99,6 @@ export const ProgressFilter = ({
           // onMouseLeave={() => setDrag(false)}
         >
           {list.map((item) => {
-            // console.log(list);
             return (
               <div
                 key={item}

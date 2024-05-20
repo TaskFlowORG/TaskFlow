@@ -34,6 +34,8 @@ import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects"
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { DateWithGoogle } from "@/models/values/DateValued";
+import Image from "next/image";
+import { ConfigBlock } from "@/components/Config";
 
 type Props = {
   task: Task | Project;
@@ -69,7 +71,6 @@ export const TesPropertiesSide = ({
 
   // const valuesOfObjects = (task:Project | Task):PropertyValue[] => {
   //     let keys = Object.keys(task)
-  //     console.log(keys)
   //     if (keys.includes('owner')){
   //       return (task as Project).values
   //     } else {
@@ -82,10 +83,9 @@ export const TesPropertiesSide = ({
     valuesOfObjects(task).forEach((prop) => {
       if (propertiesToValidate.includes({ property: prop, errors: [] })) return;
       array.push({ property: prop, errors: [] });
-      console.log(array);
     });
     setPropertiesToValidate(array);
-  }, [task?.properties, setPropertiesToValidate]);
+  }, [valuesOfObjects(task), setPropertiesToValidate]);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -104,14 +104,14 @@ export const TesPropertiesSide = ({
     }
   }
 
-  const validateProps = (): boolean => {
+  const   validateProps = (): boolean => {
+    // console.log(propertiesToValidate)
     propertiesToValidate.forEach((prop) => {
-      console.log(prop);
+      
       if (prop.property.property.obligatory) {
         let propertyd = filter.find(
           (propV) => propV.id == prop.property.property.id
         );
-        console.log(propertyd);
         if (!propertyd) return;
         if (
           !propertyd.value ||
@@ -124,16 +124,103 @@ export const TesPropertiesSide = ({
           prop.errors = [];
           setPropertiesToValidate([...propertiesToValidate]);
         }
+      } 
+
+
+      switch (prop.property.property.type) {
+        case TypeOfProperty.TEXT:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            prop.property.value.value.length
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um máximo de ${
+                (prop.property.property as Limited).maximum
+              } caractéres.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.NUMBER:
+        case TypeOfProperty.PROGRESS:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            parseFloat(prop.property.value.value)
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um valor máximo de ${
+                (prop.property.property as Limited).maximum
+              }.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.DATE:
+          if (!(prop.property.property as DateProp).canBePass) {
+            const currentDate = new Date();
+            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value.date)              
+            if (isPass) {
+              prop.errors.push(
+                `Essa propriedade não pode estar no passado!`
+              );
+            }
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.USER:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            prop.property.value.value.length
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um máximo de ${
+                (prop.property.property as Limited).maximum
+              } usuários.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
     });
     filter.forEach((propInput) => {
       const propertyForm =
         propertiesToValidate.find(
           (prop) => prop.property.property.id == propInput.id
         ) ?? null;
-      console.log("Im here");
-      console.log(propInput);
-      console.log(propertyForm);
       if (propertyForm) {
         switch (propertyForm.property.property.type) {
           case TypeOfProperty.TEXT:
@@ -142,7 +229,6 @@ export const TesPropertiesSide = ({
               (propertyForm.property.property as Limited).maximum <
               propInput.value.length
             ) {
-              console.log("Caralho lek");
               propertyForm.errors.push(
                 `Essa propridade possuí um máximo de ${
                   (propertyForm.property.property as Limited).maximum
@@ -161,7 +247,6 @@ export const TesPropertiesSide = ({
               (propertyForm.property.property as Limited).maximum <
               parseFloat(propInput.value)
             ) {
-              console.log("Caralho lek");
               propertyForm.errors.push(
                 `Essa propridade possuí um valor máximo de ${
                   (propertyForm.property.property as Limited).maximum
@@ -281,7 +366,6 @@ export const TesPropertiesSide = ({
     });
     if (!isProject(task)){
     const taskReturned = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
-      console.log(taskReturned);
       const page = project?.pages.find((page) => page.id == pageId);
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskReturned && taskPage) {
@@ -289,10 +373,12 @@ export const TesPropertiesSide = ({
       }
   
       setProject!({ ...project! });
+    } else {
+      const projectReturned = await projectService.update(task as Project, project!.id).catch(asynThrow);
+      setProject!({ ...projectReturned! });
     }
    
 
-    console.log(task);
 
     setList(undefined);
     setFilter([]);
@@ -354,12 +440,7 @@ export const TesPropertiesSide = ({
           []
         );
       }
-      console.log(
-        new PropertyValue(
-          propertyObj as unknown as Property,
-          createValue(propertyObj as unknown as Property)!
-        )
-      );
+
       valuesOfObjects(task).push(
         new PropertyValue(
           propertyObj as unknown as Property,
@@ -372,13 +453,10 @@ export const TesPropertiesSide = ({
         let page = project!.pages.find((page) => pageId == page.id);
         let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
         taskFinded!.task = taskReturned;
-        console.log("MUAHAHAH PROJETO")
         setProject!({ ...project! });
       } else {
         // (task as Project).values = valuesOfObjects(task)
         let projectReturned = await projectService.update(task as Project, project!.id);
-        console.log("MUAHAHAHAHAHAHAHAHHAHAHAHAHAHAHAHAHAHAHAHAAHHAA")
-        console.log(projectReturned);
         
         setProject!({...projectReturned});
       }
@@ -413,18 +491,21 @@ export const TesPropertiesSide = ({
                 key={prop.id}
                 className="bg-white dark:bg-transparent flex flex-col"
               >
-                <div className="flex sm:gap-8 gap-4 w-full items-center">
-                  <img
-                    className="pt-2"
-                    onClick={() => {
+                <div className="flex sm:gap-8 gap-4 w-full items-center text-back-grey dark:text-white">
+                  <ConfigBlock  onClick={() => {
                       if (isTaskProperty(prop.property)) {
                         setOpenedConfig(!openedConfig);
                         setIdConfig(prop.property.id);
                       }
-                    }}
+                    }}></ConfigBlock>
+                  {/* <Image
+                    className=""
+                   
                     src="/config.svg"
-                    alt=""
-                  />
+                    alt="config"
+                    width={16}
+                    height={16}
+                  /> */}
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
@@ -495,7 +576,7 @@ export const TesPropertiesSide = ({
         </div>
       </div>
       <NeedPermission permission="create">
-        <AddPropertyButton setModalProperty={setModalProperty} />
+       {!(task as Task).completed &&  <AddPropertyButton setModalProperty={setModalProperty} />}
       </NeedPermission>
 
       {modalProperty && (
@@ -516,7 +597,7 @@ export const TesPropertiesSide = ({
       {(hasPermissionDelete || hasPermissionUpdate) && (
         <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
       )}
-      <FooterTask deleteTask={deleteTask} updateTask={updateTask} />
+    { !(task as Task).completed &&  <FooterTask deleteTask={deleteTask} updateTask={updateTask} />}
     </div>
   );
 };

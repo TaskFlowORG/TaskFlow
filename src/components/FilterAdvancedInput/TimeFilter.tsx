@@ -23,6 +23,8 @@ import { PageContext } from "@/utils/pageContext";
 import { NeedPermission } from "../NeedPermission";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
+import { CardTime } from "../CardContent/CardProperties/CardTime";
+import { UserContext } from "@/contexts/UserContext";
 
 type PropsForm = {
   property: PropertyValue;
@@ -33,6 +35,7 @@ interface Props {
   id: number;
   name: string;
   value: Interval;
+  isCardContent?: boolean;
   isInModal?: boolean;
   task: Task | Project;
   property: Property;
@@ -55,6 +58,7 @@ interface Tempo {
 }
 
 export const TimeFilter = ({
+  isCardContent = false,
   value,
   task,
   id,
@@ -70,6 +74,7 @@ export const TimeFilter = ({
   const [play, setPlay] = useState(false);
   const { pageId } = useContext(PageContext);
   const { project, setProject } = useContext(ProjectContext);
+  const { user } = useContext(UserContext);
 
   function somarTempos(tempo1: Tempo, tempo2: Tempo): Tempo {
     let totalSegundos = tempo1.segundos + tempo2.segundos;
@@ -100,7 +105,6 @@ export const TimeFilter = ({
     valueTest,
     callback,
   }: typeFunctionChrono) {
-    // console.log(valueTest);
     if (!play) return;
     if (valueTest > 59) {
       callback();
@@ -151,9 +155,6 @@ export const TimeFilter = ({
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskPage) {
         taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-        );
       }
       setProject!({ ...project! });
     }
@@ -167,16 +168,12 @@ export const TimeFilter = ({
   };
 
   useEffect(() => {
-    console.log(value);
     if (value?.starts?.length > value?.ends?.length) {
-      console.log("Eu entrei e que se foda o mundo");
       const date = new Date(value.starts[value.starts.length - 1].date);
       date.setHours(date.getHours());
       const data1 = date.getTime();
-      console.log("data 1", new Date(data1));
       // Timestamp em segundos
       const data2 = new Date().getTime();
-      console.log("data 2", new Date(data2));
       const { horas, minutos, segundos } = diferencaEntreDatas(
         data1 / 1000,
         data2 / 1000
@@ -194,15 +191,12 @@ export const TimeFilter = ({
       };
 
       const tempoTotal = somarTempos(tempo1, tempo2);
-      console.log("SOU O SEU TEMPO ANIMAL");
-      console.log(tempoTotal);
       setHours(tempoTotal.horas);
       setMinutes(tempoTotal.minutos);
       setSeconds(Math.floor(tempoTotal.segundos) ?? 0);
       setPlay(true);
       let time = tempoTotal.horas * 60 + tempoTotal.minutos;
       // if ((property as Limited).maximum <= time) {
-      //   console.log("Aqui eu me fudi");
       //   let propFinded = formProps.find(
       //     (prop) => prop.property.property.id == formProp.property.property.id
       //   )!;
@@ -233,9 +227,6 @@ export const TimeFilter = ({
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskPage) {
         taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-        );
       }
       setProject!({ ...project! });
     }
@@ -243,7 +234,6 @@ export const TimeFilter = ({
   const handleClickPause = async () => {
     setPlay(false);
     value.ends.push(new DateTimelines(now()));
-    console.log(value.time);
     if (value.time) {
       value.time.hours = hours;
       value.time.minutes = minutes;
@@ -262,9 +252,6 @@ export const TimeFilter = ({
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskPage) {
         taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-        );
       }
       setProject!({ ...project! });
     }
@@ -276,7 +263,6 @@ export const TimeFilter = ({
       value.starts = [];
     }
     value.starts.push(new DateTimelines(now()));
-    console.log(value);
     let propertyFinded = valuesOfObjects(task).find(
       (prop) => prop.property.id == id
     )!;
@@ -287,9 +273,6 @@ export const TimeFilter = ({
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskPage) {
         taskPage.task = taskReturned;
-        console.log(
-          "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-        );
       }
       setProject!({ ...project! });
     }
@@ -302,7 +285,6 @@ export const TimeFilter = ({
     let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
 
     if ((property as Limited).maximum <= totalTimeInMinutes) {
-      // console.log("Ended");
       let propFinded = formProps.find(
         (prop) => prop.property.property.id == formProp.property.property.id
       )!;
@@ -310,7 +292,6 @@ export const TimeFilter = ({
       setFormProps([...formProps]);
       setErrors(true);
       setPlay(false);
-      console.log("EXECUTOU");
       const exceededTime = totalTimeInMinutes - (property as Limited).maximum;
       const currentDate = new Date();
 
@@ -320,7 +301,6 @@ export const TimeFilter = ({
 
       currentDate.setTime(currentDate.getTime() - exceededTime * 60 * 1000);
       value.ends.push(new DateTimelines(currentDate.toJSON()));
-      console.log(value);
 
       // Seconds Mode
 
@@ -351,11 +331,7 @@ export const TimeFilter = ({
         const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
         if (taskPage) {
           taskPage.task = taskReturned;
-          console.log(
-            "EUTENTREI AJKDN SAJLKD FNZSCVD BHJ NC VJFGBGK HN VBJVMBHJMHBIV,SMDFJDNF.SD KFGÇ F;KLÇD FKJGKLVTJ ÇKCV CVB HJNM FDD V KD .,CBF"
-          );
         }
-        console.log(value);
         setProject!({ ...project! });
       }
 

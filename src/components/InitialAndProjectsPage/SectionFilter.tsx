@@ -37,12 +37,12 @@ export const SectionFilter: React.FC<SectionFilterProps> = ({
             max={max}
             value={number ?? ""}
             onChange={(e) => setNumber(+e.target.value)}
-            className="h-full text-end appearance-none min-w-[2rem] w-12 "
+            className="h-full text-end shadow-[0_0_1px_1px_rgba(0,0,0,0.1)] rounded-md appearance-none min-w-[2rem] w-12 "
           />
           {percentage && <p>%</p>}
         </span>
       </span>
-      <RangeInput range={number} step={step} setRange={setNumber} max={max} />
+      <RangeInput bgColor="bg-input-grey" range={number} step={step} setRange={setNumber} max={max} />
     </>
   );
 };

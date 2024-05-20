@@ -12,9 +12,7 @@ export const TagProp = ({ options, value }: Props) => {
         if (value?.find((value) => opt?.name == value)) {
           return (
             <Tag
-              onClick={(e) => {
-                console.log("BOLOLO HAHA");
-              }}
+
               value={opt.name}
               color={opt.color}
               key={index}
@@ -24,9 +22,7 @@ export const TagProp = ({ options, value }: Props) => {
         }
         return (
           <Tag
-            onClick={() => {
-              console.log("BOLOLO HAHAHAHA");
-            }}
+
             value={opt.name}
             color={opt.color}
             key={index}

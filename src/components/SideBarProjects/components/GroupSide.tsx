@@ -1,4 +1,10 @@
-import { Group, GroupPost, Permission, Project, TypePermission } from "@/models";
+import {
+  Group,
+  GroupPost,
+  Permission,
+  Project,
+  TypePermission,
+} from "@/models";
 import { Navigate } from "./Navigate";
 import { ProjectInformations } from "./ProjectInformations";
 import { useState, useEffect } from "react";
@@ -8,7 +14,7 @@ import { groupService } from "@/services";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { InviteGroupToProject } from "./InviteGroupToProject";
 import { useTranslation } from "react-i18next";
-
+import { ErrorModal } from "@/components/ErrorModal";
 
 interface Props {
   project?: Project;
@@ -49,36 +55,26 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
   const addNewGroup = async () => {
     let groupPermission: Permission[] = [];
 
-    const newGroup = new GroupPost(
-      "",
-      "",
-      groupPermission,
-      []
-    );
+    const newGroup = new GroupPost("", "", groupPermission, []);
     await groupService.insert(newGroup);
     fetchData();
   };
 
   const sendRoute = (groupId: number) => {
     if (project?.id != undefined && global == "projectGroups") {
-      router.push(
-        "/" + user + "/" + project?.id + "/group/" + groupId)
+      router.push("/" + user + "/"+project.id+"/group/" + groupId);
     } else {
-      router.push(
-        "/" + user + "/group/" + groupId)
+      router.push("/" + user + "/group/" + groupId);
     }
-  }
+  };
+
+  const [error, setError] = useState(false);
 
   return (
     <>
       <div className="w-full h-max flex flex-col gap-10 pages">
-
         <Navigate modalPages={false} setCondition={setModalGroups} />
-        {
-          project != undefined && (
-            <ProjectInformations project={project} />
-          )
-        }
+        {project != undefined && <ProjectInformations project={project} />}
       </div>
 
       <div className="flex items-start h-full w-full overflow-y-scroll none-scrollbar groups-side">
@@ -91,11 +87,9 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                   className="w-48 md:w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
                                      dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
                 >
-                  <button
-                    onClick={() => sendRoute(group.id)}
-                  >
+                  <button onClick={() => sendRoute(group.id)}>
                     <GroupComponent
-                    global ={global}
+                      global={global}
                       user={user}
                       group={group}
                       setGroups={setGroups}
@@ -107,19 +101,39 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
           </div>
         </div>
       </div>
-      <div className="h-min relative w-full flex justify-center pt-4 ">
-        <InviteGroupToProject setOpenModal={setOpenModal} openModal={openModal} />
-        <button
-          className="h-10 w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
-          onClick={() =>
-            global == "userGroups" ? addNewGroup() : setOpenModal(true)
-          }
-        >
-          {" "}
-          {t("addGroup")}
-        </button>
-      </div>
+      {global == "userGroups" ||
+        (project != undefined &&
+          global == "projectGroups" &&
+          project.owner.username == user) ? (
+            <div className="h-min relative w-full flex justify-center pt-4 ">
+              <InviteGroupToProject
+                setError={setError}
+                setOpenModal={setOpenModal}
+                openModal={openModal}
+              />
+              <button
+                className="h-10 w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+                onClick={() =>
+                  global == "userGroups" ? addNewGroup() : setOpenModal(true)
+                }
+              >
+                {" "}
+                {t("addGroup")}
+              </button>
+            </div>):<> </>}
+      <ErrorModal
+        condition={error}
+        setCondition={(bool: boolean) => {
+          setError(bool);
+          setOpenModal(bool);
+        }}
+        title={t("some-user-in-project")}
+        message={t("some-user-in-project-desc")}
+        fnOk={() => {
+          setOpenModal(false);
+          setError(false);
+        }}
+      />
     </>
   );
 };
-

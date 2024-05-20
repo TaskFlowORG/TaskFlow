@@ -68,7 +68,6 @@ export const ValueSelectorTable = ({
     e.stopPropagation();
     e.preventDefault();
     if (project?.owner.id != user?.id) return;
-    console.log("clickComplete", e);
     if (localTask.completed || !project || !setProject) return;
     const updatedTask = await taskService.complete(localTask.id, project.id);
     const pages = project.pages;
