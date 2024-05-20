@@ -84,7 +84,7 @@ export const TesPropertiesSide = ({
       array.push({ property: prop, errors: [] });
     });
     setPropertiesToValidate(array);
-  }, [task?.properties, setPropertiesToValidate]);
+  }, [valuesOfObjects(task), setPropertiesToValidate]);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -104,7 +104,9 @@ export const TesPropertiesSide = ({
   }
 
   const   validateProps = (): boolean => {
+    // console.log(propertiesToValidate)
     propertiesToValidate.forEach((prop) => {
+      
       if (prop.property.property.obligatory) {
         let propertyd = filter.find(
           (propV) => propV.id == prop.property.property.id
@@ -121,7 +123,97 @@ export const TesPropertiesSide = ({
           prop.errors = [];
           setPropertiesToValidate([...propertiesToValidate]);
         }
+      } 
+
+
+      switch (prop.property.property.type) {
+        case TypeOfProperty.TEXT:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            prop.property.value.value.length
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um máximo de ${
+                (prop.property.property as Limited).maximum
+              } caractéres.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.NUMBER:
+        case TypeOfProperty.PROGRESS:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            parseFloat(prop.property.value.value)
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um valor máximo de ${
+                (prop.property.property as Limited).maximum
+              }.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.DATE:
+          if (!(prop.property.property as DateProp).canBePass) {
+            const currentDate = new Date();
+            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value.date)              
+            if (isPass) {
+              prop.errors.push(
+                `Essa propriedade não pode estar no passado!`
+              );
+            }
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
+        case TypeOfProperty.USER:
+          if (!(prop.property.property as Limited).maximum) return;
+          if (
+            (prop.property.property as Limited).maximum <
+            prop.property.value.value.length
+          ) {
+            prop.errors.push(
+              `Essa propridade possuí um máximo de ${
+                (prop.property.property as Limited).maximum
+              } usuários.`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            prop.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+          break;
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
     });
     filter.forEach((propInput) => {
       const propertyForm =
