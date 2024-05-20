@@ -65,6 +65,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedId = parseInt(e.target.value, 10);
         const foundPermission = permissions.find(p => p.id === selectedId);
+        
         if (foundPermission) {
             savePermission(foundPermission);
         }
