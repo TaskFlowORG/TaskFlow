@@ -1,6 +1,12 @@
 import { IconTrashBin } from "@/components/icons";
 import { Buttons } from "../Buttons";
 import { NeedPermission } from "@/components/NeedPermission";
+import { useContext } from "react";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { Task } from "@/models";
+import { ProjectContext } from "@/contexts";
+import { UserContext } from "@/contexts/UserContext";
 
 type Props = {
   updateTask: () => void;
@@ -8,6 +14,9 @@ type Props = {
 };
 
 export const FooterTask = ({ deleteTask, updateTask }: Props) => {
+  const { task } = useContext(TaskModalContext);
+  const { project } = useContext(ProjectContext);
+  const { user } = useContext(UserContext);
   return (
     <div className="flex justify-between items-center w-full  pt-4 md:pt-6 lg:pt-0">
       <NeedPermission permission="delete">
@@ -20,9 +29,12 @@ export const FooterTask = ({ deleteTask, updateTask }: Props) => {
           </div>
         </div>
       </NeedPermission>
-      <NeedPermission permission="update">
-        <Buttons updateTask={updateTask} />
-      </NeedPermission>
+      {((!(task as Task)?.completed && task && !isProject(task)) ||
+        (!(task as Task)?.completed && project?.owner?.id == user?.id)) && (
+        <NeedPermission permission="update">
+          <Buttons updateTask={updateTask} />
+        </NeedPermission>
+      )}
     </div>
   );
 };

@@ -36,6 +36,8 @@ import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { DateWithGoogle } from "@/models/values/DateValued";
 import Image from "next/image";
 import { ConfigBlock } from "@/components/Config";
+import { UserContext } from "@/contexts/UserContext";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 type Props = {
   task: Task | Project;
@@ -54,6 +56,7 @@ export const TesPropertiesSide = ({
   setList,
 }: Props) => {
   const { t } = useTranslation();
+  const { setSelectedTask } = useContext(TaskModalContext);
   const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
     []
   );
@@ -67,7 +70,7 @@ export const TesPropertiesSide = ({
   };
 
   const [errors, setErrors] = useState(false);
-
+  const { user } = useContext(UserContext);
 
   // const valuesOfObjects = (task:Project | Task):PropertyValue[] => {
   //     let keys = Object.keys(task)
@@ -104,10 +107,9 @@ export const TesPropertiesSide = ({
     }
   }
 
-  const   validateProps = (): boolean => {
+  const validateProps = (): boolean => {
     // console.log(propertiesToValidate)
     propertiesToValidate.forEach((prop) => {
-      
       if (prop.property.property.obligatory) {
         let propertyd = filter.find(
           (propV) => propV.id == prop.property.property.id
@@ -124,8 +126,7 @@ export const TesPropertiesSide = ({
           prop.errors = [];
           setPropertiesToValidate([...propertiesToValidate]);
         }
-      } 
-
+      }
 
       switch (prop.property.property.type) {
         case TypeOfProperty.TEXT:
@@ -166,11 +167,13 @@ export const TesPropertiesSide = ({
         case TypeOfProperty.DATE:
           if (!(prop.property.property as DateProp).canBePass) {
             const currentDate = new Date();
-            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value.date)              
+            let isPass = testIfIsPass(
+              prop,
+              currentDate,
+              prop.property.value.value.date
+            );
             if (isPass) {
-              prop.errors.push(
-                `Essa propriedade não pode estar no passado!`
-              );
+              prop.errors.push(`Essa propriedade não pode estar no passado!`);
             }
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
@@ -196,25 +199,6 @@ export const TesPropertiesSide = ({
           }
           break;
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
     });
     filter.forEach((propInput) => {
       const propertyForm =
@@ -261,7 +245,7 @@ export const TesPropertiesSide = ({
           case TypeOfProperty.DATE:
             if (!(propertyForm.property.property as DateProp).canBePass) {
               const currentDate = new Date();
-              let isPass = testIfIsPass(propertyForm, currentDate, propInput)              
+              let isPass = testIfIsPass(propertyForm, currentDate, propInput);
               if (isPass) {
                 propertyForm.errors.push(
                   `Essa propriedade não pode estar no passado!`
@@ -306,17 +290,22 @@ export const TesPropertiesSide = ({
       : true;
   };
 
-  function testIfIsPass(propertyForm:PropsForm, currentDate:Date, propInput:FilteredProperty) {
-    if((propertyForm.property.property as DateProp).includesHours){
-     return  new Date(propInput.value) < currentDate
-    }else{
-      return new Date(propInput.value).getDate() < currentDate.getDate() && 
-      new Date(propInput.value).getMonth() < currentDate.getMonth() && 
-      new Date(propInput.value).getFullYear() < currentDate.getFullYear()
+  function testIfIsPass(
+    propertyForm: PropsForm,
+    currentDate: Date,
+    propInput: FilteredProperty
+  ) {
+    if ((propertyForm.property.property as DateProp).includesHours) {
+      return new Date(propInput.value) < currentDate;
+    } else {
+      return (
+        new Date(propInput.value).getDate() < currentDate.getDate() &&
+        new Date(propInput.value).getMonth() < currentDate.getMonth() &&
+        new Date(propInput.value).getFullYear() < currentDate.getFullYear()
+      );
     }
   }
   const asynThrow = useAsyncThrow();
-
 
   async function updateTask() {
     if (!validateProps()) {
@@ -326,7 +315,8 @@ export const TesPropertiesSide = ({
 
     filter.forEach(async (value) => {
       let updateProp =
-        valuesOfObjects(task)?.find((prop) => prop.property.id == value.id) ?? null;
+        valuesOfObjects(task)?.find((prop) => prop.property.id == value.id) ??
+        null;
       if (updateProp) {
         if (
           [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(
@@ -355,30 +345,32 @@ export const TesPropertiesSide = ({
             value.value.includes(user.username)
           );
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          if(updateProp.value.value == null) updateProp.value.value = new DateWithGoogle(null, "", null)
-          updateProp.value.value.dateTime =
-            value.value 
-
+          if (updateProp.value.value == null)
+            updateProp.value.value = new DateWithGoogle(null, "", null);
+          updateProp.value.value.dateTime = value.value;
         } else {
           updateProp.value.value = value.value;
         }
       }
     });
-    if (!isProject(task)){
-    const taskReturned = await taskService.upDate(task as Task, project!.id).catch(asynThrow);
+    if (!isProject(task)) {
+      const taskReturned = await taskService
+        .upDate(task as Task, project!.id)
+        .catch(asynThrow);
       const page = project?.pages.find((page) => page.id == pageId);
       const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
       if (taskReturned && taskPage) {
         taskPage.task = taskReturned;
       }
-  
+      setSelectedTask!(taskReturned!);
+
       setProject!({ ...project! });
     } else {
-      const projectReturned = await projectService.update(task as Project, project!.id).catch(asynThrow);
+      const projectReturned = await projectService
+        .update(task as Project, project!.id)
+        .catch(asynThrow);
       setProject!({ ...projectReturned! });
     }
-   
-
 
     setList(undefined);
     setFilter([]);
@@ -448,7 +440,7 @@ export const TesPropertiesSide = ({
         )
       );
 
-      if (!isProject(task)){
+      if (!isProject(task)) {
         let taskReturned = await taskService.upDate(task as Task, project!.id);
         let page = project!.pages.find((page) => pageId == page.id);
         let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
@@ -456,11 +448,13 @@ export const TesPropertiesSide = ({
         setProject!({ ...project! });
       } else {
         // (task as Project).values = valuesOfObjects(task)
-        let projectReturned = await projectService.update(task as Project, project!.id);
-        
-        setProject!({...projectReturned});
-      }
+        let projectReturned = await projectService.update(
+          task as Project,
+          project!.id
+        );
 
+        setProject!({ ...projectReturned });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -492,20 +486,16 @@ export const TesPropertiesSide = ({
                 className="bg-white dark:bg-transparent flex flex-col"
               >
                 <div className="flex sm:gap-8 gap-4 w-full items-center text-back-grey dark:text-white">
-                  <ConfigBlock  onClick={() => {
-                      if (isTaskProperty(prop.property)) {
-                        setOpenedConfig(!openedConfig);
-                        setIdConfig(prop.property.id);
-                      }
-                    }}></ConfigBlock>
-                  {/* <Image
-                    className=""
-                   
-                    src="/config.svg"
-                    alt="config"
-                    width={16}
-                    height={16}
-                  /> */}
+                  <NeedPermission permission="update">
+                    <ConfigBlock
+                      onClick={() => {
+                        if (isTaskProperty(prop.property)) {
+                          setOpenedConfig(!openedConfig);
+                          setIdConfig(prop.property.id);
+                        }
+                      }}
+                    ></ConfigBlock>
+                  </NeedPermission>
 
                   <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
                     <div className="flex w-full items-center flex-1 gap-3">
@@ -576,7 +566,13 @@ export const TesPropertiesSide = ({
         </div>
       </div>
       <NeedPermission permission="create">
-       {!(task as Task).completed &&  <AddPropertyButton setModalProperty={setModalProperty} />}
+        {((!(task as Task).completed && !isProject(task)) ||
+          (!(task as Task).completed && project?.owner?.id == user?.id)) && (
+          <AddPropertyButton
+            isInModal={!isProject(task)}
+            setModalProperty={setModalProperty}
+          />
+        )}
       </NeedPermission>
 
       {modalProperty && (
@@ -597,7 +593,7 @@ export const TesPropertiesSide = ({
       {(hasPermissionDelete || hasPermissionUpdate) && (
         <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
       )}
-    { !(task as Task).completed &&  <FooterTask deleteTask={deleteTask} updateTask={updateTask} />}
+      {<FooterTask deleteTask={deleteTask} updateTask={updateTask} />}
     </div>
   );
 };

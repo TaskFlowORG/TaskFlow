@@ -14,7 +14,7 @@ class TaskService {
 
     async updateComments(task: Task, projectId:number): Promise<Task> {
         
-        return (await Api.put<Task>('task/comment/project/'+projectId, task, {withCredentials: true})).data;
+        return (await Api.patch<Task>('task/comment/project/'+projectId, task, {withCredentials: true})).data;
     }
 
     async patch(task: Task, projectId:number): Promise<Task> {

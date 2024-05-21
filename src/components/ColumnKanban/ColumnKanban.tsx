@@ -93,7 +93,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props
                       <Draggable
                         draggableId={`${item.id}-${option?.id}`}
                         key={index}
-                        isDragDisabled={!hasPermission}
+                        isDragDisabled={!hasPermission || item.task.completed}
                         index={allTasks.indexOf(item)}
                         // draggableId={`${item.id}`}
                         // index={index}
