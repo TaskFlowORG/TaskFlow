@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Group, GroupPut, OtherUser, Permission, Project } from "@/models";
 import { groupService, userService } from "@/services";
 import { useTranslation } from "react-i18next";
 import { Arrow } from "./Arrow";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { UserContext } from "@/contexts/UserContext";
 
 interface Props {
     permissions: Permission[];
@@ -15,9 +16,8 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
     const [successPermission, setSuccessPermission] = useState<boolean>(false);
     const [text, setText] = useState<string>("");
-    const [user, setUser] = useState<OtherUser>();
+    const { user } = useContext(UserContext);
     const { t } = useTranslation();
-    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         fetchData();
@@ -28,9 +28,6 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     }, [successPermission, group, permissions]);
 
     const fetchData = async () => {
-        const fetchedUser = await userService.findLogged().catch(asynThrow);
-        if (fetchedUser)
-        setUser(fetchedUser);
         if (group) {
             const permission = group.permissions.find(p => p.project.id === project.id);
             setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)?.name || "");
@@ -42,7 +39,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
             if (group) {
                 group.permissions = [selectedPermission];
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id)
-                
+
                 setSelectedPermission(selectedPermission.name);
                 setText(t("permissionUpdateSuccess"));
                 setSuccessPermission(true);

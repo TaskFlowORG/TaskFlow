@@ -6,8 +6,7 @@ export const InputConfig = ({ id, type, title, description, onChange, checked, n
     <div className={` ${notifications ? "opacity-100" : "opacity-50"}`}>
         <div className="w-full flex items-center justify-between row-start-3 ">
             <div>
-                <h4 className="h4 text-modal-grey dark:text-white">{title}</h4>
-
+                <h4 className="text-h4 font-alata text-modal-grey dark:text-white">{title}</h4>
             </div>
             <div className="flex items-center py-4 font-bold ">
                 <label className="relative w-16 h-8 ">
@@ -18,7 +17,7 @@ export const InputConfig = ({ id, type, title, description, onChange, checked, n
             </div>
         </div>
         <div>
-            <p className="p">{description}</p>
+            <p className="text-p font-montserrat">{description}</p>
         </div>
     </div>
 );

@@ -20,6 +20,8 @@ interface Props {
 export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
     const { project } = useContext(ProjectContext);
     const { user } = useContext(UserContext);
+    const [successDelete, setSuccessDelete] = useState<boolean>(false);
+    const [text, setText] = useState<string>("");
     const route = useRouter();
     const { t } = useTranslation();
 
@@ -34,39 +36,33 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
                 }
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
 
-                setGroup({
-                    ...
-                    group
-                })
+                setGroup({ ...group })
             }
         } catch (error) {
-            //Falta error
-            console.error("Erro ao remover usuário:", error);
-            alert("Erro ao remover usuário");
+            setText(t("error-delete-user"));
+            setSuccessDelete(true);
         }
     }
     async function changeOwner() {
         try {
             deleteUser()
             await groupService.updateOwner(showUser, group.id)
-            setGroup({
-                ...
-                group
-            })
+            setGroup({ ...group })
             route.push("/" + user?.username)
         } catch (error) {
-            console.error("Deu ruim");
+            setText(t("error-change-owner"));
+            setSuccessDelete(true);
 
         }
     }
 
     if (isOpen && group?.owner.username == user?.username) {
-        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-28 h-16 shadow-md rounded-md ml-4 mt-1">
+        return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-44 h-16 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col justify-around ml-2">
                 <div className="flex justify-start gap-3 text-mn font-montserrat" >
-                    <button className="flex flex-row gap-2" onClick={changeOwner}>
+                    <button className="flex flex-row gap-3" onClick={changeOwner}>
                         <OwnerSvg />
-                        Tornar líder
+                        {t("promover-owner")}
                     </button>
                 </div>
                 <div className="flex justify-start gap-3 text-mn font-montserrat">
@@ -76,6 +72,11 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
                     </button>
                 </div>
             </div>
+            {successDelete && (
+                <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
+                    {text}
+                </div>
+            )}
         </div>
     } else {
         return null;

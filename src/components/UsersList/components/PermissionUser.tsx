@@ -30,7 +30,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
-
     fetchData();
   }, [group]);
 
@@ -77,7 +76,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
           )
         }
 
-
         <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e)}>
           <button>{userIcon}</button>
           <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
@@ -93,7 +91,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
 
           {project?.id != null && (
             <div className="flex md:justify-end relative">
-              <PermissionComponent permissions={permissions} group={group} user={showUser} project={project} />
+              <PermissionComponent permissions={permissions} group={group} showUser={showUser} project={project} />
             </div>
           )}
         </div>

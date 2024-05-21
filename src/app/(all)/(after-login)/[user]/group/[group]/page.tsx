@@ -35,7 +35,6 @@ export default function Groups({ params }: { params: { user: string, group: numb
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
             </div>
-            {/* 2xl:gap-52 */}
             <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
                 <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
                     { <Description user={user} groupId={params.group} />}

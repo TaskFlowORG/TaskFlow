@@ -192,9 +192,13 @@
   "select": "Seleccione",
   "sendInvitationSuccess": "Invitación enviada con éxito",
   "sendInvitationError": "Error al enviar la invitación",
+  "promover-owner": "Promover a propietario",
+  "error-change-owner": "Error al cambiar el propietario del grupo",
   "success-email": "Correo electrónico enviado con éxito!",
   "error-code": "¡Código inválido!",
   "error-email": "Error al enviar el correo electrónico!",
+  "error-delete-user": "Error al eliminar usuario",
+  "delete-group-project": "Eliminar grupo del proyecto",
   "clear-filters": "Limpiar filtros",
   "browse-files": "Explorar archivos",
   "select-user": "¡Seleccione un usuario!",
@@ -403,6 +407,11 @@
   "withoutphone": "Sin teléfono",
   "withoutemail": "Sin correo electrónico",
   "some-user-in-project-desc": "Alguien en este grupo ya tiene acceso a este proyecto, lo que podría causar conflictos de permisos, por lo tanto no puedes agregar este grupo.",
-  "some-user-in-project": "Alguien ya está en el proyecto"
+  "some-user-in-project": "Alguien ya está en el proyecto",
+  "profile-sucess": "Perfil actualizado con éxito",
+  "dont-change": "Ningún campo ha sido cambiado",
+  "profile-photo-sucess": "Foto de perfil actualizada con éxito",
 
+  "some-user-in-project": "Alguien ya está en el proyecto"
 }
+

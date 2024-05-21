@@ -64,7 +64,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
         });
         setMensagens(k);
     }, [messages]);
-    
+
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
@@ -112,18 +112,20 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
         <>
             <If condition={chatContent != null}>
                 <div className={`lg:block flex flex-col items-center w-full h-full gap-10 bg-white dark:bg-back-grey`}>
-                    <div className="flex bg-input-grey dark:bg-back-grey lg:w-full w-[95%] lg:h-full h-20 rounded-md items-center  shadow-blur-10">
-                        <div className="relative flex bg-primary rounded-full w-10 h-10 mx-5  border-2 border-primary dark:border-secondary">
-                            <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
+                    <div className="flex bg-input-grey dark:bg-back-grey lg:w-full w-[95%] lg:h-full h-20 rounded-md items-center justify-between shadow-blur-10">
+                        <div className='flex w-full items-center'>
+                            <div className="relative flex bg-primary rounded-full w-10 h-10 mx-5  border-2 border-primary dark:border-secondary">
+                                <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
+                            </div>
+                            <div className="w-[65%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
+                                <h5 >{name || "Grupo sem nome"}</h5>
+                            </div>
                         </div>
-                        <div className="w-[65%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
-                            <h5 >{name || "Grupo sem nome"}</h5>
-                        </div>
-                        <div onClick={() => router.push("0")} className='lg:invisible visible'>
+                        <div onClick={() => router.replace(`/${user?.username}/chat`)} className='flex items-center justify-center w-10 h-10 lg:invisible visible mx-5'>
                             <GoBackIcon classes='w-8 h-8'></GoBackIcon>
                         </div>
                     </div>
-                    <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4">
+                    <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4 w-full">
                         <div className="flex  w-full flex-col gap-1">
                             <div className="flex text-center justify-center py-5 text-p font-alata text-constrast">
                                 <p>{t("beginning-conversation")} {name || t("group-without-name")}</p>
@@ -203,7 +205,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                             </If>
                         </div >
                         <button onClick={() => enviarMensagem()} className="bg-primary dark:bg-secondary p-3 w-[20%] lg:w-[6%] rounded-md flex justify-center items-center">
-                            <IconSend/>
+                            <IconSend />
                         </button>
                     </div >
                 </div >
