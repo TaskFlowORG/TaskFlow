@@ -70,7 +70,7 @@ export const PageComponent = ({
     pageService.delete(project.id, page.id);
     const projectTemp = { ...project };
     projectTemp.pages.splice(project.pages.indexOf(page), 1);
-    if (project.pages.length === 0) {
+    if (projectTemp.pages.length === 0) {
       router.push(`/${username}/${project.id}`);
     }else{
       router.push(`/${username}/${project.id}/${project.pages[0].id}`);
@@ -104,17 +104,16 @@ const router = useRouter()
       new PagePost(page.name, type, project)
     );
 
+    await pageService.merge(project.id, [pagePromise], page.id);
     const projectTemp = { ...project };
     projectTemp.pages.splice(project.pages.indexOf(page), 1);
     projectTemp.pages.push(pagePromise);
     setProject!(projectTemp);
-    pageService.merge(project.id, [pagePromise], page.id);
-    pageService.delete(project.id, page.id);
-    router.push(`/${username}/${project.id}/${pagePromise.id}`);
-
+    await pageService.delete(project.id, page.id);
     setTruncate(false);
     setModal(false);
     setChangingType(false);
+    router.push(`/${username}/${project.id}/${pagePromise.id}`);
   };
 
   useClickAway(ref, () => {

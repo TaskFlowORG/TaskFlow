@@ -17,6 +17,10 @@ export { AudioFile } from "./ChatIcons/AudioFile"
 export { ImagemEnviada } from "./ChatIcons/ImagemEnviada";
 export { GoBackIcon } from "./ChatIcons/GoBackIcon";
 
+export { IconTextToSpeechOff } from "./IconTextToSpeechOff";
+export { IconTextToSpeechOn } from "./IconTextToSpeechOn";
+
+
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";

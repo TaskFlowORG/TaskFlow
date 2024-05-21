@@ -299,6 +299,12 @@
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -805,7 +811,7 @@ input[type="number"] {
 }
 
 .mouseTts{
-  cursor: url("../../public/img/arrow.svg"), auto;
+  cursor: url("../../public/img/enviar.svg"), auto;
 }
 
 .mouseDefault{
@@ -860,3 +866,4 @@ relative text-mn  text-modal-grey dark:text-white;
 .options:last-child {
 @apply rounded-b-lg
 }
+

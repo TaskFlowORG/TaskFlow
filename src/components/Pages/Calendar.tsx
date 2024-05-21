@@ -55,7 +55,7 @@ export const Calendar = ({ page }: Props) => {
     if (!prop) return null;
     for (let p of task.task.properties) {
       if (p.property.id == prop.id) {
-        const date = new Date(p.value.value.dateTime);
+        const date = new Date(p.value.value?.dateTime);
         date.setDate(date.getDate()+1)
         return date;
       }

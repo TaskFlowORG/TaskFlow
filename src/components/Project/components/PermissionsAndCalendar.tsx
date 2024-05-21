@@ -10,7 +10,7 @@ import {
   Task,
   TypeOfProperty,
   TypePermission,
-} from "@/models";
+} from "@/models"; 
 import { useTheme } from "next-themes"; 
 import { ProjectContext } from "@/contexts";
 import { AnimatePresence, motion } from "framer-motion";
@@ -20,12 +20,14 @@ import { If } from "@/components/If";
 import { permissionService } from "@/services";
 import { PermissionComponent } from "./PermissionComponent";
 import { compareDates } from "@/components/Pages/functions";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 export const PermissionsAndCalendar = () => {
   const { t } = useTranslation();
   const { theme } = useTheme();
   const ref = useRef<HTMLDivElement>(null);
   const [openPermissions, setOpenPermissions] = useState<boolean>(false);
   const { user } = useContext(UserContext);
+  const asyncThrow = useAsyncThrow();
   const [locale, setLocale] = useState<string>("en-US");
   const { project } = useContext(ProjectContext);
   const [permissions, setPermissions] = useState<Permission[]>([]);
@@ -37,7 +39,8 @@ export const PermissionsAndCalendar = () => {
     if (!user || !project) return;
     setLocale(getLocale());
     (async () => {
-      const permissionsTemp = await permissionService.findAll(project?.id);
+      const permissionsTemp = await permissionService.findAll(project?.id).catch(asyncThrow);
+      if (!permissionsTemp) return;
       setPermissions(permissionsTemp);
     })();
   }, [user, project]);
@@ -101,7 +104,8 @@ export const PermissionsAndCalendar = () => {
     const permission = await permissionService.insert(
       new PermissionPost("", TypePermission.READ, false, project),
       project?.id
-    );
+    ).catch(asyncThrow);
+    if (!permission) return;
     setPermissions([...permissions, permission]);
   };
 

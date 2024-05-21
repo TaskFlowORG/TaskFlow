@@ -57,7 +57,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }
           <S.Input
             autoComplete="off"
-            className={classNameInput + " bg-transparent"}
+            className={classNameInput + " bg-transparent appearance-none"}
             title={placeholder}
             type={type == "password" ? (show ? undefined : type) : type}
             id={inputId}

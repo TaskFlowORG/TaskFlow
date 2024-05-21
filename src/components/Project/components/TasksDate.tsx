@@ -6,7 +6,7 @@ import { Property, PropertyValue, TaskPage, TypeOfProperty } from "@/models";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { Bar } from "react-chartjs-2";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react"; 
 import { ChartOptions } from "chart.js";
 import { UserContext } from "@/contexts/UserContext";
 import { text } from "stream/consumers";

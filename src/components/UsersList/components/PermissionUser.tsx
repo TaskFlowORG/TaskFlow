@@ -30,7 +30,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   const asynThrow = useAsyncThrow();
 
   useEffect(() => {
-
     fetchData();
   }, [group]);
 
@@ -63,7 +62,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
       <div className="border rounded-md relative border-primary px-4 bg-[#FCFCFC] dark:bg-[#3C3C3C] dark:border-secondary h-10 md:h-12 lg:h-12 flex items-center justify-between">
 
         {
-          user?.username === group.owner.username && user?.username !== showUser.username ? (
+          user?.id === group.owner.id && user?.id !== showUser.id ? (
             <button className="flex justify-end" onClick={() => openModal ? setOpenModal(false) : setOpenModal(true)}>
               <div>
                 <svg xmlns="http://www.w3.org/2000/svg" width="3" height="20" viewBox="0 0 5 22" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
@@ -77,7 +76,6 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
           )
         }
 
-
         <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e)}>
           <button>{userIcon}</button>
           <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
@@ -86,14 +84,14 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">
           {
             project?.id != null && (
-              <p className={showUser.username === group.owner.username ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
+              <p className={showUser.id === group.owner.id ? 'hidden lg:flex md:flex justify-end' : 'hidden lg:flex md:flex'}>|</p>
 
             )
           }
 
           {project?.id != null && (
             <div className="flex md:justify-end relative">
-              <PermissionComponent permissions={permissions} group={group} user={showUser} project={project} />
+              <PermissionComponent permissions={permissions} group={group} showUser={showUser} project={project} />
             </div>
           )}
         </div>

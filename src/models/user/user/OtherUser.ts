@@ -23,6 +23,6 @@ export class    OtherUser {
 
 
     equals = (obj: any) => {
-        return obj instanceof OtherUser && obj.username === this.username;
+        return obj instanceof OtherUser && obj.id === this.id;
     }
 }

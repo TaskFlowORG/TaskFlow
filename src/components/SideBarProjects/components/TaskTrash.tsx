@@ -7,6 +7,7 @@ import { useTranslation } from "next-i18next";
 import { ProjectComponent } from "@/components/InitialAndProjectsPage";
 import { ProjectContext } from "@/contexts";
 import { IconTrashBin, IconRedo } from "@/components/icons";
+import { UserContext } from "@/contexts/UserContext";
 interface Props {
   task: Task;
   userId: string;
@@ -22,7 +23,7 @@ export const TaskTrash = ({
 }: Props) => {
   const [modalDelete, setModalDelete] = useState(false);
   const { project, setProject } = useContext(ProjectContext);
-  const {t:translate} = useTranslation();
+  const { t: translate } = useTranslation();
 
   const [user] = useState(
     task.logs.find((l) => l.action == Action.DELETE)?.user
@@ -42,36 +43,49 @@ export const TaskTrash = ({
     }
   };
   const { t } = useTranslation();
+  const{user:logged} = useContext(UserContext)
 
   return (
     <>
-      <div className="flex justify-between gap-3 items-center z-50 w-[80%]">
-        <button
-          className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md"
-          onClick={() => setModalDelete(true)}
-        >
-          <span className="stroke-contrast">
-            <IconTrashBin />
-          </span>
-        </button>
+      <div className={"flex justify-between gap-3 items-center z-50 w-[80%] " + (logged?.id == project?.owner.id ? "":"shadow-[0_0_1px_1px_rgba(0,0,0,0.1)]  p-2 h-min w-[99%] m-1 rounded-md")}>
+        {logged?.id == project?.owner.id && (
+          <button
+            className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md"
+            onClick={() => setModalDelete(true)}
+          >
+            <span className="stroke-contrast">
+              <IconTrashBin />
+            </span>
+          </button>
+        )}
         <div
           className="truncate  text-p font-montserrat  h-full w-full flex items-center cursor-default"
-          title = {(task.name ? task.name : translate("withoutname")) + " " + translate("by")+ " @" + task.logs.reverse().find((l) => l.action == Action.DELETE)?.user?.username}
-
+          title={
+            (task.name ? task.name : translate("withoutname")) +
+            " " +
+            translate("by") +
+            " @" +
+            task.logs.reverse().find((l) => l.action == Action.DELETE)?.user
+              ?.username
+          }
         >
           <span className="truncate h-full w-min flex flex-col text-start items-start">
-          &quot;{(task.name ? task.name : translate("withoutname"))}&quot;
+            &quot;{task.name ? task.name : translate("withoutname")}&quot;
             <span className="text-primary-opacity dark:text-secondary-opacity text-mn">
-            {"@"+task.logs.reverse().find((l) => l.action == Action.DELETE)?.user?.username}
+              {"@" +
+                task.logs.reverse().find((l) => l.action == Action.DELETE)?.user
+                  ?.username}
             </span>
           </span>
         </div>
-        <button
-          className="bg-primary dark:bg-secondary cursor-pointer p-1 min-w-[2rem] min-h-[2rem] rounded-md"
-          onClick={redo}
-        >
-          <IconRedo />
-        </button>
+        {logged?.id == project?.owner.id && (
+          <button
+            className="bg-primary dark:bg-secondary cursor-pointer p-1 min-w-[2rem] min-h-[2rem] rounded-md"
+            onClick={redo}
+          >
+            <IconRedo />
+          </button>
+        )}{" "}
       </div>
       <If condition={modalDelete}>
         <>

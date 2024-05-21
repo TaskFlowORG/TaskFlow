@@ -37,8 +37,7 @@ export const UserFilter = ({ id, name, value, isInModal, property }: Props) => {
       if (!project) return;
       const users = await userService.findAll();
       const list = users.filter(
-        (user) =>
-          user.permissions.find(
+        (user) => user.permissions.find(
             (permission) => permission.project.id === project.id
           ) != undefined
       );
@@ -47,15 +46,11 @@ export const UserFilter = ({ id, name, value, isInModal, property }: Props) => {
       for (let group of groups) {
         list.push(await userService.findByUsername(group.ownerUsername));
       }
-      setUsers(list);
-      
-      users.filter((user, index) => {
+      const finalList = list.filter((user, index) => {
         let indexL = users.findLastIndex((userL) => userL.id == user.id);
         return indexL == index;
       });
-
-      setUsers([...users]);
-
+      setUsers([...finalList]);
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);

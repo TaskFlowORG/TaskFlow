@@ -7,6 +7,8 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { useTranslation } from "react-i18next";
 import { IconLogout } from "@/components/icons";
 import { ProjectContext } from "@/contexts";
+import { OtherUser } from "@/models";
+import { UserContext } from "@/contexts/UserContext";
 
 interface Props {
   user: string;
@@ -49,6 +51,15 @@ export const GroupComponent = ({
   const [showIcon, setShowIcon] = useState(false);
   const router = useRouter();
   const screenSize = useWindowSize();
+  const[owner, setOwner] = useState<OtherUser>();
+  const {user:userObj} = useContext(UserContext);
+
+  useEffect(() => {
+    (async()=> {
+      const ownerTemp = await userService.findByUsername(group.ownerUsername);
+      if(ownerTemp) setOwner(ownerTemp);
+    })()
+  }, [group])
   const { t } = useTranslation();
 
   const getDescription = () => {
@@ -138,7 +149,7 @@ export const GroupComponent = ({
       </div>
       <div className="flex items-center pr-9 md:pr-2">
         {global === "userGroups" ? (
-          showIcon && group.ownerUsername == user ? (
+          showIcon && owner?.id == userObj?.id ? (
             <div onClick={(e)=> {e.stopPropagation(); deleteGroup()}}>
               <span className="h-8 w-8 rounded-lg bg-white dark:bg-modal-grey hover:brightness-95 flex justify-center items-center">
                 <svg
@@ -160,7 +171,7 @@ export const GroupComponent = ({
               </span>
             </div>
           ) : (
-            showIcon && (
+            showIcon && owner?.id != userObj?.id &&(
               <div onClick={(e)=> {e.stopPropagation(); getOutGroup()}}>
                 <span className="h-8 w-8 rounded-lg bg-white dark:bg-modal-grey hover:brightness-95 flex justify-center items-center">
                   <svg
@@ -183,7 +194,7 @@ export const GroupComponent = ({
             )
           )
         ) : (
-          (group.ownerUsername == user || project?.owner.username == user) && (
+          (owner?.id == userObj?.id || project?.owner.id == userObj?.id) && (
             <div onClick={(e)=> {e.stopPropagation(); deleteGroup()}}>
             <svg
               width="20"
@@ -193,6 +204,7 @@ export const GroupComponent = ({
               className="text-primary dark:text-secondary"
               xmlns="http://www.w3.org/2000/svg"
             >
+              <title>{t("delete-group-project")}</title>
               <path
                 d="M10 20C7.34784 20 4.8043 18.9464 2.92893 17.0711C1.05357 15.1957 0 12.6522 0 10C0 7.34784 1.05357 4.8043 2.92893 2.92893C4.8043 1.05357 7.34784 0 10 0C12.6522 0 15.1957 1.05357 17.0711 2.92893C18.9464 4.8043 20 7.34784 20 10C20 12.6522 18.9464 15.1957 17.0711 17.0711C15.1957 18.9464 12.6522 20 10 20ZM15 9H5V11H15V9Z"
               />
