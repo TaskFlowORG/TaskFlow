@@ -15,6 +15,7 @@ import { InputRangeConfig } from "./components/InputRangeConfig";
 import Cookies from "js-cookie";
 import { LanguageContext } from "@/contexts/ContextLanguage";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { useRouter } from "next/navigation";
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
@@ -32,6 +33,7 @@ export const GeneralConfig = () => {
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
   const [themeToggle, setThemeToggle] = useState(false);
+  const router = useRouter()
 
   useEffect(() => {
     setLibras(user?.configuration.libras);

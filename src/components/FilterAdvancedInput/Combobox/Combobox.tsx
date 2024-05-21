@@ -16,6 +16,8 @@ interface ComboBoxProps {
   setCondition: (value: boolean) => void;
   setOptionalCounter?: (number: number) => void;
   optionalCounter?: number;
+  x: number;
+  y: number;
 }
 
 export const Combobox = ({
@@ -25,6 +27,8 @@ export const Combobox = ({
   id,
   setOptionalCounter,
   optionalCounter,
+  x,
+  y,
   ...props
 }: ComboBoxProps) => {
   const [selectedOption, setSelectedOption] = useState<OtherUser | null>(null);
@@ -95,7 +99,7 @@ export const Combobox = ({
   };
 
   return (
-    <LocalModal right {...props}>
+    <LocalModal right {...props} classesShadow="">
       <div
         // style={{ right: isRemoving ? -72 : -32 }}
         className="flex flex-col gap-2  p-4 bg-white dark:bg-modal-grey rounded-2xl shadowww top-10  z-[50] "

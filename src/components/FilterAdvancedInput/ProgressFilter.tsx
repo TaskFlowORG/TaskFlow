@@ -3,17 +3,21 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { useTheme } from "next-themes";
 import { useContext, useEffect, useState } from "react";
 import { RangeInput } from "../RangeInput";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
+import { Limited } from "@/models";
 
 type Props = {
   isInModal?: boolean;
   id: number;
   name: string;
   value: number;
+  property: Limited
 };
 
 export const ProgressFilter = ({
   isInModal = false,
   id,
+  property,
   name,
   value,
 }: Props) => {
@@ -21,6 +25,7 @@ export const ProgressFilter = ({
   const { theme } = useTheme();
   const [valued, setValued] = useState<number | null>(null);
   const [drag, setDrag] = useState<boolean>();
+  const isDisabled = useIsDisabled(isInModal, "update");
   const hasPermission = useHasPermission("update");
   const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
@@ -65,7 +70,7 @@ export const ProgressFilter = ({
       <div className="flex flex-col gap-1 items-end min-w-[100px]">
         <input
           type="number"
-          disabled={!isInModal ? false : !hasPermission}
+          disabled={isDisabled}
           step={0.01}
           name=""
           className="p-1 pb-0 pr-0 mr-2 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
@@ -73,7 +78,13 @@ export const ProgressFilter = ({
           id=""
           placeholder="%"
           onChange={(e) => {
-            setValued(parseFloat(e.target.value ?? ""));
+            console.log(property?.maximum)
+            if ((property?.maximum == undefined && parseFloat(e.target.value) > 100) ||  property?.maximum < parseFloat(e.target.value)){
+              setValued(property?.maximum == undefined ? 0  : parseFloat(e.target.value));
+            } else {
+              setValued(parseFloat(e.target.value));
+            }
+
             const thisProperty = filterProp?.find((item) => item.id == id);
             if (thisProperty) {
               if (!e.target.value) {
@@ -98,6 +109,7 @@ export const ProgressFilter = ({
           bgColor="bg-zinc-200"
           step={1}
           range={valued}
+          disable={isDisabled}
           setRange={(value) => {
             setValued(value);
             const thisProperty = filterProp?.find((item) => item.id == id);
@@ -116,7 +128,7 @@ export const ProgressFilter = ({
               }
             }
           }}
-          max={150}
+          max={100}
         ></RangeInput>
       </div>
     </div>
