@@ -7,6 +7,7 @@ import { useTranslation } from "next-i18next";
 import { ProjectComponent } from "@/components/InitialAndProjectsPage";
 import { ProjectContext } from "@/contexts";
 import { IconTrashBin, IconRedo } from "@/components/icons";
+import { UserContext } from "@/contexts/UserContext";
 interface Props {
   task: Task;
   userId: string;
@@ -42,11 +43,12 @@ export const TaskTrash = ({
     }
   };
   const { t } = useTranslation();
+  const{user:logged} = useContext(UserContext)
 
   return (
     <>
-      <div className={"flex justify-between gap-3 items-center z-50 w-[80%] " + (user?.id == project?.owner.id ? "":"shadow-[0_0_1px_1px_rgba(0,0,0,0.1)]  p-2 h-min w-[99%] m-1 rounded-md")}>
-        {user?.id == project?.owner.id && (
+      <div className={"flex justify-between gap-3 items-center z-50 w-[80%] " + (logged?.id == project?.owner.id ? "":"shadow-[0_0_1px_1px_rgba(0,0,0,0.1)]  p-2 h-min w-[99%] m-1 rounded-md")}>
+        {logged?.id == project?.owner.id && (
           <button
             className="bg-primary dark:bg-secondary cursor-pointer p-2 min-w-[2rem] min-h-[2rem] rounded-md"
             onClick={() => setModalDelete(true)}
@@ -76,7 +78,7 @@ export const TaskTrash = ({
             </span>
           </span>
         </div>
-        {user?.id == project?.owner.id && (
+        {logged?.id == project?.owner.id && (
           <button
             className="bg-primary dark:bg-secondary cursor-pointer p-1 min-w-[2rem] min-h-[2rem] rounded-md"
             onClick={redo}
