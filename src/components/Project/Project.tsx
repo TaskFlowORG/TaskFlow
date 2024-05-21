@@ -154,8 +154,7 @@ export const Project = () => {
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                dir="rtl"
-                className="bg-transparent  w-full text-p thin-scrollbar pl-2  font-montserrat rounderd-md text-center smm:text-end"
+                className="bg-transparent  w-full text-p thin-scrollbar pl-2  font-montserrat rounded-md text-center smm:text-start"
                 rows={2}
                 cols={2}
               />

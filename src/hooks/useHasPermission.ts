@@ -12,54 +12,47 @@ export const
         const { project } = useContext(ProjectContext);
         const [sucess, setSucess] = useState<boolean>(false);
         const [groups,  setGroups] = useState<SimpleGroup[]>([]);
+        const [owners, setOwners] = useState<OtherUser[]>([]);
 
         useEffect(() => {
             (async () => {
                 if (!project) return;
                 const groupsPromise = await groupService.findGroupsByAProject(project.id);
                 setGroups(groupsPromise);
+                let ownersPromise = [];
+                for (let group of groupsPromise) {
+                    const owner = await userService.findByUsername(group.ownerUsername);
+                    ownersPromise.push(owner);
+                }
+                setOwners(ownersPromise);
+                
             })()
         }, [project]);
 
         useEffect(() => {
-            (async () => {
                 if (!user) {
                     setSucess(false);
                 } else if (!project) {
                     setSucess(true);
                 } else if (project.owner.id === user.id) {
+                    console.log('owner1');
                     setSucess(true);
-                } else if (await groups.find(async (group) => (await userService.findByUsername(group.ownerUsername))?.id === user.id)){
+                } else if (owners.find( (o) => o?.id == user.id)){
                     setSucess(true);
                 }
                 else {
                     const permission = user.permissions.find((p) => p.project.id === project.id);
+                    console.log(permission);
                     if (!permission) {
                         setSucess(false);
                         return;
                     } else {
-                        switch (permission.permission) {
-                            case TypePermission.READ:
-                                setSucess(action == 'read')
-                            case TypePermission.CREATE:
-                                setSucess(action == 'read' || action == 'create')
-                            case TypePermission.DELETE:
-                                setSucess(action == 'read' || action == 'delete')
-                            case TypePermission.UPDATE:
-                                setSucess(action == 'read' || action == 'update')
-                            case TypePermission.DELETE_CREATE:
-                                setSucess(action == 'read' || action == 'delete' || action == 'create')
-                            case TypePermission.UPDATE_CREATE:
-                                setSucess(action == 'read' || action == 'update' || action == 'create')
-                            case TypePermission.UPDATE_DELETE:
-                                setSucess(action == 'read' || action == 'update' || action == 'delete')
-                            case TypePermission.UPDATE_DELETE_CREATE:
-                                setSucess(action == 'read' || action == 'update' || action == 'delete' || action == 'create')
-                        }
+                        console.log(permission.permission.includes(action.toUpperCase()));
+                        setSucess(permission.permission.includes(action.toUpperCase()));
+
                     }
     
                 }
-            })()
             return () => {
                 setSucess(false);
             }

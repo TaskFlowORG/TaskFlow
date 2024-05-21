@@ -70,7 +70,7 @@ export const PageComponent = ({
     pageService.delete(project.id, page.id);
     const projectTemp = { ...project };
     projectTemp.pages.splice(project.pages.indexOf(page), 1);
-    if (project.pages.length === 0) {
+    if (projectTemp.pages.length === 0) {
       router.push(`/${username}/${project.id}`);
     }else{
       router.push(`/${username}/${project.id}/${project.pages[0].id}`);

@@ -430,5 +430,6 @@
   "profile-sucess": "Profile updated successfully",
   "dont-change": "No field has been changed",
   "profile-photo-sucess": "Profile photo updated successfully",
-  "some-user-in-project": "Someone is already in the project"
+  "some-user-in-project": "Someone is already in the project",
+  "save": "Save"
 }
