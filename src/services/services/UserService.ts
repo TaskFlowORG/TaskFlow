@@ -78,6 +78,11 @@ class UserService {
         // /exit/group/{groupId}
         const response = await Api.patch<User>(`user/exit/group/${groupId}`)
     }
+
+    async updateAllPermissions(username: string, permissions: Permission[]): Promise<void> {
+        const response = await Api.patch<User>(`user/updateAllPermissions/${username}`, permissions,  { withCredentials: true })
+
+    }
 }
 
 

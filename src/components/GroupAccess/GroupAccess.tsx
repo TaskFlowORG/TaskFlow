@@ -116,7 +116,8 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         ref={refName}
                         disabled={group?.owner.id != user?.id}
                         type="text"
-                        value={name || t("withoutname")}
+                        placeholder={t("withoutname")}
+                        value={name }
                         onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                         onChange={(e) => setName(e.target.value)}
                         onBlur={updateNameOfAGroup}
@@ -125,9 +126,10 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         className={`text-p14 font-montserrat whitespace-pre-wrap w-56 md:w-[403px] bg-transparent text-[#333] dark:text-[#FCFCFC] break-words ${isEnable ? '' : 'no-resize h-14'} scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200`}
                         ref={refDescription}
                         disabled={group?.owner.id != user?.id}
-                        value={description || t("withoutdescription")}
+                        value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         onBlur={updateDescriptionOfAGroup}
+                        placeholder={t("withoutdescription")}
                     />
                 </div>
                 { project?.id != null && (

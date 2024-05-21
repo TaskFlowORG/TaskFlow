@@ -19,18 +19,19 @@ import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
   const { theme, setTheme } = useTheme();
-  const [themeToggle, setThemeToggle] = useState(false);
+  const { changeLanguage: changeGlobal } = useContext(LanguageContext)
+  const { t } = useTranslation();
+
   const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
   const [authenticate, setAuthenticate] = useState<boolean | undefined>(user!.authenticate);
+  const [googleAgendas, setGoogleAgendas] = useState<boolean | undefined>(user?.configuration.googleCalendar);
   const [showPropertiesName, setShowPropertiesName] = useState<boolean | undefined>(user?.configuration.showPropertiesName);
   const [initialPageTasksPerDeadline, setInitialPageTasksPerDeadline] = useState<boolean | undefined>(user?.configuration.initialPageTasksPerDeadline);
   const [fontSize, setFontSize] = useState<number | undefined>(user?.configuration.fontSize);
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
-  const { changeLanguage: changeGlobal } = useContext(LanguageContext)
-  const { t } = useTranslation();
-
+  const [themeToggle, setThemeToggle] = useState(false);
 
   useEffect(() => {
     setLibras(user?.configuration.libras);
@@ -40,11 +41,11 @@ export const GeneralConfig = () => {
     setLanguage(user?.configuration.language);
     setShowPropertiesName(user?.configuration.showPropertiesName);
     setAuthenticate(user?.authenticate);
-
+    setGoogleAgendas(user?.configuration.googleCalendar)
     setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
-  const asynThrow = useAsyncThrow();
 
+  const asynThrow = useAsyncThrow();
 
   const changeColor = (color: string) => {
     (async () => {
@@ -120,6 +121,9 @@ export const GeneralConfig = () => {
         case "showPropertiesName":
           setShowPropertiesName(e.target.checked);
           break
+        case "googleCalendar":
+          setGoogleAgendas(e.target.checked);
+          break
         case "authenticate":
           user.authenticate = e.target.checked;
           break;
@@ -136,54 +140,47 @@ export const GeneralConfig = () => {
   };
 
   return (
-    <div className="flex justify-center preferences-page lg:pt-32 items-start w-full h-full md:pl-14 lg:pl-0 pl-0">
-      <div className="flex lg:justify-center items-center justify-start w-full h-min flex-col lg:py-0 py-20">
-        <div className="w-[85%] lg:h-min flex flex-col lg:justify-around lg:gap-0 gap-10 lg:pb-0 pb-32">
-          <div className="flex flex-col lg:items-start items-center  lg:grid lg:grid-cols-2 ">
-            <div className="w-[95%] ">
-              <div className="w-full flex items-start lg:justify-normal h-28">
-                <p className="text-primary dark:text-secondary text-h2 font-alata">{t("configuration-title")}</p>
-              </div>
-              <div className="w-fit h-16 flex flex-col justify-start">
-                <p className="text-h3 font-alata dark:text-white">{t("general-config-title")}</p>
-                <p className="text-p font-montserrat dark:text-white">{t("general-config-desc")}</p>
-              </div>
-              <div className="w-full h-fit lg:pt-0 pt-10">
-                <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
-                <InputFieldConfig id={"authenticate"} type={"checkbox"} label={t("authenticate-title")} value={t("authenticate-configs")} checked={authenticate} onChange={(e) => updateBack(e, "authenticate")} />
-                <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{ id: "Português", value: "Português" }, { id: "Español", value: "Español" }, { id: "English", value: "English" }]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
-                <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
-                <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{ id: "Montserrat", value: "Montserrat" }, { id: "Arial", value: "Arial" }, { id: "Poppins", value: "Poppins" }]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
-              </div>
+    <div className="flex justify-center pt-32 items-start w-full h-full">
+      <div className="flex flex-col lg:items-start items-center lg:grid lg:grid-cols-2 md:flex md:flex-col w-[85%] h-fit">
+        <div className="w-[97%]">
+          <div className="w-full h-fit flex flex-col gap-8 ">
+            <p className="text-primary dark:text-secondary text-h2 font-alata">{t("configuration-title")}</p>
+            <div className="w-fit flex flex-col justify-start">
+              <p className="text-h3 font-alata dark:text-white">{t("general-config-title")}</p>
+              <p className="text-p font-montserrat dark:text-white">{t("general-config-desc")}</p>
             </div>
-            <div className="w-[95%] pt-6">
-              <div className=" flex flex-col gap-3 lg:h-fit h-48 ">
-                <div className="w-fit flex flex-col ">
-                  <div className="h-fit flex flex-col justify-start">
-                    <p className="text-h3 font-alata dark:text-white ">{t("accessibility-config")}</p>
-                    <p className="text-p font-montserrat">
-                      {t("accessibility-config-desc")}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex justify-around lg:w-full">
+            <InputFieldConfig id={"theme"} type={"checkbox"} label={t("dark-mode-title")} value={t("dark-mode-configs")} checked={themeToggle} onChange={(e) => updateBack(e, "theme")} />
+            <InputFieldConfig id={"authenticate"} type={"checkbox"} label={t("authenticate-title")} value={t("authenticate-configs")} checked={authenticate} onChange={(e) => updateBack(e, "authenticate")} />
+            <InputSelectConfig id="language" title={t("language-config")} description={t("language-config-desc")} options={[{ id: "Português", value: "Português" }, { id: "Español", value: "Español" }, { id: "English", value: "English" }]} func={changeLanguage} defaultValue={user?.configuration.language == Language.PORTUGUESE ? "Português" : user?.configuration.language == Language.SPANISH ? "Español" : "English"} ></InputSelectConfig>
+            <InputRangeConfig title={t("text-size-config-title")} description={t("text-size-config-desc")}></InputRangeConfig>
+            <InputSelectConfig id="font" title={t("font-config")} description={t("font-config-desc")} options={[{ id: "Montserrat", value: "Montserrat" }, { id: "Arial", value: "Arial" }, { id: "Poppins", value: "Poppins" }]} func={changeFont} defaultValue={user?.configuration.font ?? "Montserrat"} ></InputSelectConfig>
+          </div>
+        </div>
+        <div className="w-[97%] flex flex-col lg:pt-3 pt-6">
+          <div className="w-full h-fit flex flex-col gap-5">
+            <div className="h-fit flex flex-col gap-5">
+              <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-calendar-title")} value={t("google-calendar-configs")} onChange={(e) => updateBack(e, "googleCalendar")} checked={googleAgendas} ></InputFieldConfig>
+              <div>
+                <p className="text-h3 font-alata dark:text-white ">{t("accessibility-config")}</p>
+                <p className="text-p font-montserrat">{t("accessibility-config-desc")}</p>
+                <div className="flex justify-around w-full pt-3">
                   <InputCheckboxConfig checked={libras || false} func={(e) => updateBack(e, "libras")} label={t("accessibility-config-sign-language")} value="libras"></InputCheckboxConfig>
                   <InputCheckboxConfig checked={textToSound || false} func={(e) => updateBack(e, "textToSound")} label={t("accessibility-config-text-speech")} value="textToSound"></InputCheckboxConfig>
                 </div>
               </div>
-              <div className="h-fit flex flex-col pt-24 lg:pt-10 md:pt-2 ">
-                <div className="w-fit flex flex-col">
-                  <div className="h-fit">
-                    <p className="text-h3 font-alata dark:text-white">{t("preferences-config-title")} </p>
-                    <p className="text-p font-montserrat">{t("preferences-config-desc")}</p>
-                  </div>
-                </div>
-                <InputFieldConfig id={"showPropertiesName"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={(e) => updateBack(e, "showPropertiesName")} checked={showPropertiesName} ></InputFieldConfig>
-                <InputSelectConfig defaultValue={user?.configuration.initialPageTasksPerDeadline == true ? "Prazo Final" : "Agendamento"} id="dataProperty" title={t("property-data-config-title")} description={t("property-data-config-desc")} options={[{ id: "deadLine", value: t("deadLine") }, { id: "Agendamento", value: t("Scheduling") }]} func={dataType}></InputSelectConfig>
-                <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
-              </div>
-              <TutorialConfig />
             </div>
+            <div className="w-fit flex flex-col">
+              <div className="h-fit">
+                <p className="text-h3 font-alata dark:text-white">{t("preferences-config-title")} </p>
+                <p className="text-p font-montserrat">{t("preferences-config-desc")}</p>
+              </div>
+            </div>
+            <InputFieldConfig id={"showPropertiesName"} type={"checkbox"} label={t("property-name-config-title")} value={t("property-name-config-desc")} onChange={(e) => updateBack(e, "showPropertiesName")} checked={showPropertiesName} ></InputFieldConfig>
+            <InputSelectConfig defaultValue={user?.configuration.initialPageTasksPerDeadline == true ? "Prazo Final" : "Agendamento"} id="dataProperty" title={t("property-data-config-title")} description={t("property-data-config-desc")} options={[{ id: "deadLine", value: t("deadLine") }, { id: "Agendamento", value: t("Scheduling") }]} func={dataType}></InputSelectConfig>
+            <InputCoresConfig title={t("color-config-title")} description={t("color-config-desc")} functionBall={functionBall}></InputCoresConfig>
+          </div>
+          <div className="lg:pb-0 pb-36">
+            <TutorialConfig />
           </div>
         </div>
       </div>

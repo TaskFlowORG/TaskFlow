@@ -341,6 +341,8 @@ export const TesPropertiesSide = ({
             updateProp.value.value = new DateWithGoogle(null, "", null);
           updateProp.value.value.dateTime = value.value;
         } else {
+          console.log(value, "value");
+          
           updateProp.value.value = value.value;
         }
       }

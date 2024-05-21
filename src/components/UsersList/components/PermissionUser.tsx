@@ -34,6 +34,8 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
   }, [group]);
 
   const fetchData = async () => {
+    console.log(showUser.permissions, "chegou", showUser.username);
+    
     if (project) {
       const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
       if (fetchedPermissions)

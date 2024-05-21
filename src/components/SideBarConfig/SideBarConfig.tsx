@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NavItems } from "./components/NavItems/NavItems";
 import { IconUser } from "../icons";
 import { AnimatePresence, motion } from "framer-motion";
-import { IconConfig , IconNotification} from "../icons";
+import { IconConfig, IconNotification } from "../icons";
 
 interface Props {
   user: User;
@@ -47,16 +47,14 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
     <div
       id="sideBar"
       className={`bg-primary overflow-hidden dark:bg-modal-grey lg:fixed fixed z-30 
-      inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-screen  duration-300 ${
-        extendida ? "lg:w-[341px]" : "lg:w-16"
-      } `}
+      inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-screen  duration-300 ${extendida ? "lg:w-[341px]" : "lg:w-16"
+        } `}
     >
       <div className={`flex flex-col items-center w-min dark:text-white `}>
         <span className="flex justify-center items-center h-7 w-full">
           <div
-            className={` h-max pt-44 w-full overflow-x-clip justify-center items-center ${
-              extendida ? "flex" : "hidden"
-            }`}
+            className={` h-max pt-40 w-full overflow-x-clip justify-center items-center ${extendida ? "flex" : "invisible"
+              }`}
           >
             <h3 className={`hidden lg:block font-alata text-h3 whitespace-pre-wrap text-center`}>{pageTitle}</h3>
           </div>
