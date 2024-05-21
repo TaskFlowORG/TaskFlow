@@ -166,7 +166,7 @@ export const TesPropertiesSide = ({
         case TypeOfProperty.DATE:
           if (!(prop.property.property as DateProp).canBePass) {
             const currentDate = new Date();
-            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value.date)              
+            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value?.dateTime)              
             if (isPass) {
               prop.errors.push(
                 `Essa propriedade não pode estar no passado!`
@@ -308,11 +308,11 @@ export const TesPropertiesSide = ({
 
   function testIfIsPass(propertyForm:PropsForm, currentDate:Date, propInput:FilteredProperty) {
     if((propertyForm.property.property as DateProp).includesHours){
-     return  new Date(propInput.value) < currentDate
+     return  new Date(propInput?.value) < currentDate
     }else{
-      return new Date(propInput.value).getDate() < currentDate.getDate() && 
-      new Date(propInput.value).getMonth() < currentDate.getMonth() && 
-      new Date(propInput.value).getFullYear() < currentDate.getFullYear()
+      return new Date(propInput?.value).getDate() < currentDate.getDate() && 
+      new Date(propInput?.value).getMonth() < currentDate.getMonth() && 
+      new Date(propInput?.value).getFullYear() < currentDate.getFullYear()
     }
   }
   const asynThrow = useAsyncThrow();
