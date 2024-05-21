@@ -50,21 +50,21 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
-            if (!e.target.value) {
-              filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+            // if (!e.target.value) {
+            //   filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+            //   setFilterProp!([...filterProp!]);
+            //   thisProperty.value = e.target.value;
+            // } else {
+              thisProperty.value = e.target.value ?? "";
               setFilterProp!([...filterProp!]);
-              thisProperty.value = e.target.value;
-            } else {
-              thisProperty.value = e.target.value;
-              setFilterProp!([...filterProp!]);
-            }
+            // }
           } else {
-            if (e.target.value) {
+            // if (e.target.value) {
               setFilterProp!([
                 ...filterProp!,
-                { id: id, value: e.target.value },
+                { id: id, value: e.target.value ?? "" },
               ]);
-            }
+            // }
           }
         }}
         type="text"
