@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const {changeLanguage, language} = useContext(LanguageContext)
   const {setUser} = useContext(UserContext);
   useEffect(() => {
-    changeLanguage(Cookies.get("language") as Language);
+    changeLanguage((Cookies.get("language") as Language) ?? Language.ENGLISH);
     if(!setUser) return;
     setUser(undefined);
   }, [setUser]);

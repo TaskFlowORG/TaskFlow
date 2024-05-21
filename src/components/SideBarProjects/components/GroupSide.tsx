@@ -89,7 +89,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                   className="w-48 md:w-full h-min py-2 relative border-b-2 flex flex-col border-primary-opacity
                                      dark:border-secondary-opacity bg-white dark:bg-modal-grey cursor-pointer hover:brightness-95 dark:hover:brightness-110"
                 >
-                  <button onClick={() => sendRoute(group.id)}>
+                  <button onClick={() => sendRoute(group.id)} className="flex w-full h-14">
                     <GroupComponent
                       global={global}
                       user={user}
