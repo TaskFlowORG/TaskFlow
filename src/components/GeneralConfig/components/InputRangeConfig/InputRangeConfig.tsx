@@ -27,7 +27,7 @@ export const InputRangeConfig = ({title, description}:Props) => {
 
 
     return (
-        <div className="pt-10">
+        <div className="flex flex-col gap-2">
             <div className="flex justify-between w-full">
                 <p className="text-h4 font-alata">{title}</p>
                 <div onMouseUp={updateBack} className="w-44">

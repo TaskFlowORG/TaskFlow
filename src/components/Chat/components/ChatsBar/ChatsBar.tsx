@@ -58,7 +58,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start ">
-                  <p className="text-p font-montserrat truncate w-72 ">{t("you")} : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-52">{t("you")} : {lastMessage?.value}</p>
                   <div className="flex items-center w-16 justify-between">
                     <ImagemEnviada></ImagemEnviada>
                     <div>
@@ -73,7 +73,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
                 <div className="flex items-center w-16 justify-between">
                   <ImagemEnviada></ImagemEnviada>
                   <div>
-                    <p className="text-p font-montserrat">{t("photo")}</p>
+                    <p className="text-p font-montserrat ">{t("photo")}</p>
                   </div>
                 </div>
               </If>
@@ -81,14 +81,14 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             <If condition={user?.username == lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex == null}>
                 <div className="flex flex-col items-start">
-                  <p className="text-p font-montserrat truncate w-72">{t("you")} : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-52">{t("you")} : {lastMessage?.value}</p>
                 </div>
               </If>
             </If>
             <If condition={user?.username != lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
                 <div className="flex flex-col items-start">
-                  <p className="text-p font-montserrat truncate w-72">{lastMessage?.sender.name}  : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-52">{lastMessage?.sender.name}  : {lastMessage?.value}</p>
                   <div className="flex items-center w-16 justify-between">
                     <ImagemEnviada></ImagemEnviada>
                     <div>
@@ -111,7 +111,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             <If condition={user?.username != lastMessage?.sender.username}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex == null && lastMessage?.sender != null}>
                 <div className="flex flex-col items-start">
-                  <p className="text-p font-montserrat truncate w-72">{lastMessage?.sender.name} : {lastMessage?.value}</p>
+                  <p className="text-p font-montserrat truncate w-52">{lastMessage?.sender.name} : {lastMessage?.value}</p>
                 </div>
               </If>
             </If>

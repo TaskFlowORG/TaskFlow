@@ -12,7 +12,7 @@ export const InputCoresConfig = ({
   functionBall,
 }: Props) => {
   return (
-    <div className="pt-6">
+    <div className="flex flex-col gap-2">
       <div className="flex justify-between">
         <p className="text-h4 font-alata">{title}</p>
         <span className="flex flex-col gap-2 items-end">

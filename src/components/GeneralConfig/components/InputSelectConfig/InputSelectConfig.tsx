@@ -5,7 +5,7 @@ interface Props {
     id: string
     title: string;
     description: string;
-    options: {id:string, value:string}[];
+    options: { id: string, value: string }[];
     func: (value: string) => void;
     defaultValue: string
 }
@@ -28,10 +28,10 @@ export const InputSelectConfig = ({ id, title, description, options, func, defau
                     language = Language.ENGLISH;
             }
             return language;
-        } else if(id == "font"){
+        } else if (id == "font") {
 
             return value;
-        }else {
+        } else {
             if (value == "Agendamento") {
                 dataProperty = "scheduling";
             } else {
@@ -42,7 +42,7 @@ export const InputSelectConfig = ({ id, title, description, options, func, defau
     }
 
     return (
-        <div className="pt-10">
+        <div className="flex flex-col gap-2">
             <div className="flex justify-between">
                 <p className="text-h4 font-alata">{title}</p>
                 <div className="flex items-center font-bold">
