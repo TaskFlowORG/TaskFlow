@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Option } from "@/models";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { If } from "@/components/If";
+import { NeedPermission } from "@/components/NeedPermission";
 
 type ContentInputProps = {
   index: number;
@@ -32,9 +33,12 @@ remove
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
+      <NeedPermission permission="update">
       <span onClick={() => remove(option)} className="rotate-35 w-5 h-4 p-px bg-primary rounded-full flex justify-center items-center dark:bg-secondary">
         <IconPlus classes="w-full h-full text-contrast" />
       </span>
+
+      </NeedPermission>
       <input
         type="text"
         onChange={(e) => setName(e.target.value)}

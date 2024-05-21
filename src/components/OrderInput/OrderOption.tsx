@@ -1,3 +1,4 @@
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { Property } from "@/models";
 import Image from "next/image";
 interface OrderOptionType {
@@ -11,13 +12,15 @@ export const OrderOption = ({
   isOrderingProperty,
   updateOrderingProperty,
 }: OrderOptionType) => {
+  const permission = useHasPermission("update");
   return (
     <div
-      onClick={updateOrderingProperty}
+      onClick={(e) => permission && updateOrderingProperty != undefined && updateOrderingProperty(e)}
       id={property.id.toString()}
       className={`flex w-full p-2 text-center dark:bg-modal-grey  shadow-light dark:shadow-blur-10 text-black dark:text-white rounded-lg bg-[#F2F2F2] ${
-        isOrderingProperty ? "justify-between" : "justify-center"
-      }`}
+        isOrderingProperty ? "justify-between" : "justify-center"} 
+        ${
+        permission ? "cursor-pointer" : "cursor-not-allowed opacity-75"}`}
     >
       <p>{property.name}</p>
       {isOrderingProperty && (
