@@ -163,7 +163,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                     <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2 relative">
                         <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-md   ">
                             <div className="w-full">
-                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} />
+                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} maxLength={255}/>
                             </div>
                             <div className="flex items-center justify-center w-12">
                                 <Keyboard setValue={setMensagem} bottom></Keyboard>
