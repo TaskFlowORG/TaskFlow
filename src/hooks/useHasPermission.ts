@@ -2,7 +2,7 @@ import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
 import { Group, OtherUser, Permission, Project, TypePermission } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
-import { groupService } from "@/services";
+import { groupService, userService } from "@/services";
 import { useContext, useEffect, useState } from "react";
 import { set } from "zod";
 
@@ -22,42 +22,44 @@ export const
         }, [project]);
 
         useEffect(() => {
-            if (!user) {
-                setSucess(false);
-            } else if (!project) {
-                setSucess(true);
-            } else if (project.owner.id === user.id) {
-                setSucess(true);
-            } else if (groups.find((group) => group.ownerUsername === user.username)){
-                setSucess(true);
-            }
-            else {
-                const permission = user.permissions.find((p) => p.project.id === project.id);
-                if (!permission) {
+            (async () => {
+                if (!user) {
                     setSucess(false);
-                    return;
-                } else {
-                    switch (permission.permission) {
-                        case TypePermission.READ:
-                            setSucess(action == 'read')
-                        case TypePermission.CREATE:
-                            setSucess(action == 'read' || action == 'create')
-                        case TypePermission.DELETE:
-                            setSucess(action == 'read' || action == 'delete')
-                        case TypePermission.UPDATE:
-                            setSucess(action == 'read' || action == 'update')
-                        case TypePermission.DELETE_CREATE:
-                            setSucess(action == 'read' || action == 'delete' || action == 'create')
-                        case TypePermission.UPDATE_CREATE:
-                            setSucess(action == 'read' || action == 'update' || action == 'create')
-                        case TypePermission.UPDATE_DELETE:
-                            setSucess(action == 'read' || action == 'update' || action == 'delete')
-                        case TypePermission.UPDATE_DELETE_CREATE:
-                            setSucess(action == 'read' || action == 'update' || action == 'delete' || action == 'create')
-                    }
+                } else if (!project) {
+                    setSucess(true);
+                } else if (project.owner.id === user.id) {
+                    setSucess(true);
+                } else if (await groups.find(async (group) => (await userService.findByUsername(group.ownerUsername))?.id === user.id)){
+                    setSucess(true);
                 }
-
-            }
+                else {
+                    const permission = user.permissions.find((p) => p.project.id === project.id);
+                    if (!permission) {
+                        setSucess(false);
+                        return;
+                    } else {
+                        switch (permission.permission) {
+                            case TypePermission.READ:
+                                setSucess(action == 'read')
+                            case TypePermission.CREATE:
+                                setSucess(action == 'read' || action == 'create')
+                            case TypePermission.DELETE:
+                                setSucess(action == 'read' || action == 'delete')
+                            case TypePermission.UPDATE:
+                                setSucess(action == 'read' || action == 'update')
+                            case TypePermission.DELETE_CREATE:
+                                setSucess(action == 'read' || action == 'delete' || action == 'create')
+                            case TypePermission.UPDATE_CREATE:
+                                setSucess(action == 'read' || action == 'update' || action == 'create')
+                            case TypePermission.UPDATE_DELETE:
+                                setSucess(action == 'read' || action == 'update' || action == 'delete')
+                            case TypePermission.UPDATE_DELETE_CREATE:
+                                setSucess(action == 'read' || action == 'update' || action == 'delete' || action == 'create')
+                        }
+                    }
+    
+                }
+            })()
             return () => {
                 setSucess(false);
             }

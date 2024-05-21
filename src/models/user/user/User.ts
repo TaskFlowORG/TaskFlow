@@ -23,6 +23,6 @@ export class User {
         public notifications: Notification[],  
     ) { }
     equals = (obj: any) => {
-        return obj instanceof User && obj.username === this.username;
+        return obj instanceof User && obj.id === this.id;
     }
 }
