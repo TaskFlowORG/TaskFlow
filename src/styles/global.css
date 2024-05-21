@@ -286,9 +286,8 @@
 }
 
 input[type=password]::-ms-reveal,
-input[type=password]::-ms-clear
-{
-    display: none;
+input[type=password]::-ms-clear {
+  display: none;
 }
 
 .elipse {
@@ -807,7 +806,7 @@ input[type="number"] {
 }
 
 .mouseTts {
-  cursor: url("../../public/img/textToSpeechDark.svg"), auto;
+    @apply dark:cursor-[url("../../public/img/textToSpeechDark.svg"),auto] cursor-[url("../../public/img/textToSpeechLight.svg"),auto];
 }
 
 .mouseDefault {
@@ -823,7 +822,7 @@ input[type="number"] {
 }
 
 .react-calendar__navigation button {
-  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
+  @apply text-primary dark:text-secondary hover:brightness-95 w-min flex-nowrap;
 }
 
 .react-calendar__navigation button[disabled] {
@@ -871,4 +870,3 @@ abbr[title] {
 .options:last-child {
   @apply rounded-b-lg
 }
-
