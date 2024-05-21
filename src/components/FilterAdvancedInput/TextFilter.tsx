@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 import { useTranslation } from "next-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 interface Props {
   id: number;
@@ -19,6 +20,7 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
   const { t } = useTranslation();
   const {task} = useContext(TaskModalContext)
   const hasPermission = useHasPermission("update");
+  const isDisabled = useIsDisabled(isInModal, 'update');
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -44,7 +46,7 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
       <input
         className="flex-1 py-1 px-3  text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
         placeholder={t("insert-expected-value")}
-        disabled={!isInModal ? false : (( task?.completed ? true : !hasPermission))}
+        disabled={isDisabled}
         value={valued == 'null' ? "" : valued}
         onChange={(e) => {
           setValued(e.target.value);
