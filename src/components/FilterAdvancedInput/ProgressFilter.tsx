@@ -18,10 +18,10 @@ export const ProgressFilter = ({
   value,
 }: Props) => {
   const [list, setList] = useState<number[]>([]);
-  const {theme} = useTheme()
+  const { theme } = useTheme();
   const [valued, setValued] = useState<number | null>(null);
   const [drag, setDrag] = useState<boolean>();
-  const hasPermission = useHasPermission('update')
+  const hasPermission = useHasPermission("update");
   const { filterProp, setFilterProp } = useContext(FilterContext);
   useEffect(() => {
     const lista = [];
@@ -58,12 +58,14 @@ export const ProgressFilter = ({
   return (
     <div className="flex justify-between">
       {!isInModal && (
-        <p className=" text-black h-full self-center text-p14 dark:text-white whitespace-nowrap">{name}:</p>
+        <p className=" text-black h-full self-center text-p14 dark:text-white whitespace-nowrap">
+          {name}:
+        </p>
       )}
       <div className="flex flex-col gap-1 items-end min-w-[100px]">
-      <input
+        <input
           type="number"
-          disabled={ !isInModal ? false : !hasPermission}
+          disabled={!isInModal ? false : !hasPermission}
           step={0.01}
           name=""
           className="p-1 pb-0 pr-0 mr-2 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
@@ -76,11 +78,11 @@ export const ProgressFilter = ({
             if (thisProperty) {
               if (!e.target.value) {
                 filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
-                setFilterProp!([...filterProp!])
+                setFilterProp!([...filterProp!]);
                 thisProperty.value = e.target.value;
               } else {
                 thisProperty.value = e.target.value;
-                setFilterProp!([...filterProp!])
+                setFilterProp!([...filterProp!]);
               }
             } else {
               if (e.target.value) {
@@ -117,6 +119,6 @@ export const ProgressFilter = ({
           max={150}
         ></RangeInput>
       </div>
-      </div>
+    </div>
   );
 };
