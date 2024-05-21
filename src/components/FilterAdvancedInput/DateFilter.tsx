@@ -1,3 +1,4 @@
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { Date as DateP, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -22,6 +23,7 @@ export const DateFilter = ({
 }: DateProps) => {
   const [valued, setValued] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const isDisabled = useIsDisabled(isInModal, 'update');
   const { t } = useTranslation();
 
   const style = twMerge(
@@ -52,7 +54,7 @@ export const DateFilter = ({
       )}
       <input
         step="1"
-        disabled={!isInModal ? false : !hasPermission}
+        disabled={isDisabled}
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={

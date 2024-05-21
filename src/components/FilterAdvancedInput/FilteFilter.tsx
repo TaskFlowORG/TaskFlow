@@ -18,6 +18,7 @@ import { useHasPermission } from "@/hooks/useHasPermission";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import Image from "next/image";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 interface Props {
   id: number;
@@ -35,6 +36,8 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
   const [name, setName] = useState<string>("");
   const [error, setError] = useState(false);
 
+  const { setSelectedTask } = useContext(TaskModalContext);
+
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
   const { t } = useTranslation();
@@ -43,7 +46,6 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
   const handleFileChange = async (event: any) => {
     // Obtém o arquivo do evento
     const selectedFile: File = event.target.files[0];
-
     let size = event.target.files[0].size / (1024 * 1024);
     if (
       (property as Limited).maximum != undefined &&
@@ -65,13 +67,18 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
       if (!isProject(task)) {
         let page = project?.pages.find((page) => page.id == pageId);
         let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
-        let propValue = valuesOfObjects(task).find(
+        let propValued = valuesOfObjects(task).find(
           (prop) => prop.property.id == property.id
         );
-        propValue = propertyValue;
+        if (propValued?.value) {
+          propValued.value = propertyValue.value;
+        }
         taskPage!.task = task as Task;
-        // setSrc(archiveToDownload(bah.value));
+
+        setSelectedTask!({ ...task } as Task);
+        setSrc(archiveToDownload(bah.value));
         setProject!({ ...project! });
+      } else {
       }
 
       // Atualiza o estado com o arquivo selecionado
@@ -80,6 +87,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
 
   useEffect(() => {
     setFile(value);
+    setSrc(archiveToDownload(value));
   }, [value]);
   useEffect(() => {
     setFile(value);
@@ -91,11 +99,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
         {file && (
           <>
             <div className="flex gap-2">
-              <a
-                href={
-                  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZEAAACrCAYAAACnt6EoAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJ6SURBVHhe7dUxAYAwEMDABxF4rAXM0wUDzXy3REKuZ73fAEBw/wWAYyYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQGYiAGQmAkBmIgBkJgJAZiIAZCYCQDSzAZxLA07oB5cZAAAAAElFTkSuQmCC"
-                }
-              >
+              <a href={src} download={value.name ?? "dfkjsj"}>
                 i
               </a>
               <p className="text-black dark:text-white text-p14">
@@ -128,8 +132,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
       </div>
       {error && (
         <p className="text-mn text-red-600 font-montserrat">
-          {" "}
-          Tamanho de arquivo maior que o permitido!{" "}
+          Tamanho de arquivo maior que o permitido!
         </p>
       )}
     </>

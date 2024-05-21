@@ -4,6 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import { Tag } from "../CardContent/CardProperties/Tag";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 interface Props {
   options: Option[];
@@ -24,6 +25,7 @@ export const TagFilter = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
   const style = twMerge("", isInModal ? " items-center flex w-full" : "");
+  const isDisabled = useIsDisabled(isInModal, 'update');
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -79,7 +81,7 @@ export const TagFilter = ({
           return (
             <Tag
               onClick={() => {
-                if(!isInModal || hasPermission){
+                if(!isInModal || !isDisabled){
                   handleOptionChange(opt.name);
                 }
 

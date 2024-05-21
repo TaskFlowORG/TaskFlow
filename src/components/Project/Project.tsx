@@ -16,6 +16,7 @@ import { Loading } from "../Loading";
 import { TaskModalContent } from "../TaskModal/TaskModalContent";
 import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ export const Project = () => {
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
   const asyncThrow = useAsyncThrow();
+
   const [description, setDescription] = useState<string | undefined>(
     project?.description
   );
@@ -104,6 +106,7 @@ export const Project = () => {
       setProject(updated);
     });
   };
+
 
   const [src, setSrc] = useState<string>("/Assets/noImage.png");
   useEffect(() => {
