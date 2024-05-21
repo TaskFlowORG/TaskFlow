@@ -56,7 +56,7 @@ export const CommentsSection = ({ task, user }: Props) => {
         );
         setCommentsTask(taskUpdated.comments);
       } else {
-        let projectUpdated = await projectService.update(
+        let projectUpdated = await projectService.updateComments(
           task as Project,
           project!.id
         );
@@ -76,7 +76,7 @@ export const CommentsSection = ({ task, user }: Props) => {
         );
         setCommentsTask(taskUpdated.comments);
       } else {
-        let projectUpdated = await projectService.update(
+        let projectUpdated = await projectService.updateComments(
           task as Project,
           project!.id
         );
@@ -110,7 +110,7 @@ export const CommentsSection = ({ task, user }: Props) => {
       taskPage!.task = task as Task;
       setProject!({ ...project! });
     } else {
-      let projectUpdated = await projectService.update(
+      let projectUpdated = await projectService.updateComments(
         task as Project,
         project!.id
       );

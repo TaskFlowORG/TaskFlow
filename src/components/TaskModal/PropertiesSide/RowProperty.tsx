@@ -7,6 +7,7 @@ import { TimeFilter } from "@/components/FilterAdvancedInput/TimeFilter";
 import { UserFilter } from "@/components/FilterAdvancedInput/UserFilter";
 import { Select as Selectt } from "@/components/Select";
 import {
+  Limited,
   OtherUser,
   Project,
   PropertyValue,
@@ -66,6 +67,7 @@ export const RowProperty = ({
       return (
         <UserFilter
           isInModal
+          property={prop.property as Limited}
           id={prop.property.id}
           name={prop.property.name}
           value={(prop.value?.value as OtherUser[])?.map(

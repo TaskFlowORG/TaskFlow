@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import { NeedPermission } from "../NeedPermission";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 interface Props {
   id: number;
@@ -15,6 +16,7 @@ interface Props {
 export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
   const [valued, setValued] = useState<string>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
+  const { task } = useContext(TaskModalContext);
   const { t } = useTranslation();
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -54,7 +56,9 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
         <input
           className=" input-number  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-p14"
           placeholder={t("insert-expected-value")}
-          disabled={!isInModal ? false : !hasPermission}
+          disabled={
+            !isInModal ? false : task?.completed ? true : !hasPermission
+          }
           type="number"
           name=""
           value={valued}
@@ -85,21 +89,23 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
         <NeedPermission permission="update">
           <span
             onClick={() => {
-              setValued(valued ? (parseInt(valued) - 1).toString() : "-1");
-              const thisProperty = filterProp?.find((item) => item.id == id);
-              if (thisProperty) {
-                thisProperty.value = valued
-                  ? (parseInt(valued) - 1).toString()
-                  : "-1";
-                setFilterProp!([...filterProp!]);
-              } else {
-                setFilterProp!([
-                  ...filterProp!,
-                  {
-                    id: id,
-                    value: valued ? (parseInt(valued) - 1).toString() : "-1",
-                  },
-                ]);
+              if (!task?.completed) {
+                setValued(valued ? (parseInt(valued) - 1).toString() : "-1");
+                const thisProperty = filterProp?.find((item) => item.id == id);
+                if (thisProperty) {
+                  thisProperty.value = valued
+                    ? (parseInt(valued) - 1).toString()
+                    : "-1";
+                  setFilterProp!([...filterProp!]);
+                } else {
+                  setFilterProp!([
+                    ...filterProp!,
+                    {
+                      id: id,
+                      value: valued ? (parseInt(valued) - 1).toString() : "-1",
+                    },
+                  ]);
+                }
               }
             }}
             className="bg-primary dark:bg-secondary bah rounded-l-lg w-6 relative -order-1"
@@ -111,21 +117,23 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
 
           <span
             onClick={() => {
-              setValued(valued ? (parseInt(valued) + 1).toString() : "1");
-              const thisProperty = filterProp?.find((item) => item.id == id);
-              if (thisProperty) {
-                thisProperty.value = valued
-                  ? (parseInt(valued) + 1).toString()
-                  : "1";
-                setFilterProp!([...filterProp!]);
-              } else {
-                setFilterProp!([
-                  ...filterProp!,
-                  {
-                    id: id,
-                    value: valued ? (parseInt(valued) + 1).toString() : "1",
-                  },
-                ]);
+              if (!task?.completed) {
+                setValued(valued ? (parseInt(valued) + 1).toString() : "1");
+                const thisProperty = filterProp?.find((item) => item.id == id);
+                if (thisProperty) {
+                  thisProperty.value = valued
+                    ? (parseInt(valued) + 1).toString()
+                    : "1";
+                  setFilterProp!([...filterProp!]);
+                } else {
+                  setFilterProp!([
+                    ...filterProp!,
+                    {
+                      id: id,
+                      value: valued ? (parseInt(valued) + 1).toString() : "1",
+                    },
+                  ]);
+                }
               }
             }}
             className="bg-primary dark:bg-secondary bah rounded-r-lg w-6 relative right"

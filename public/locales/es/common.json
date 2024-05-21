@@ -166,6 +166,7 @@
   "log-update-project": "La propiedad '{{propertyname}}' del proyecto fue actualizada a '{{propertyvalue}}' por '{{username}}'",
   "log-update-name-project": "El nombre del proyecto fue actualizado por '{{username}}'",
   "log-create-project": "Este proyecto fue creado por '{{username}}'",
+  "add-property-to-project": "Agregar propiedad al proyecto",
   "log-owner-project": "El dueño del proyecto fue actualizado a '{{username}}'",
   "log-description-project": "La descripción del proyecto fue actualizada por '{{username}}'",
   "log-picture-project": "La imagen del proyecto fue actualizada por '{{username}}'",
