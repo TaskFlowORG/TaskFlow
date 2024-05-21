@@ -14,6 +14,8 @@ interface ComboBoxProps {
   id: number;
   condition: boolean;
   setCondition: (value: boolean) => void;
+  setOptionalCounter?: (number: number) => void;
+  optionalCounter?: number;
 }
 
 export const Combobox = ({
@@ -21,6 +23,8 @@ export const Combobox = ({
   value,
   isRemoving = false,
   id,
+  setOptionalCounter,
+  optionalCounter,
   ...props
 }: ComboBoxProps) => {
   const [selectedOption, setSelectedOption] = useState<OtherUser | null>(null);
@@ -46,16 +50,29 @@ export const Combobox = ({
           thisProperty.value.indexOf(selectedOption.username),
           1
         );
+        console.log("to na 1");
+
+        optionalCounter && setOptionalCounter!(optionalCounter - 1);
       } else {
         thisProperty.value.push(selectedOption.username);
+        console.log("to na 2");
+        console.log(optionalCounter);
+        setOptionalCounter!(1);
+        console.log(optionalCounter);
       }
       setFilterProp!([...filterProp!]);
     } else if (selectedOption != null) {
       let newValue = value.map((value) => value.username);
       if (isRemoving) {
         newValue.splice(newValue.indexOf(selectedOption.username), 1);
+        console.log("to na 3");
+
+        optionalCounter && setOptionalCounter!(optionalCounter - 1);
       } else {
         newValue.push(selectedOption.username);
+        console.log("to na 4");
+
+        optionalCounter && setOptionalCounter!(optionalCounter + 1);
       }
       setFilterProp!([...filterProp!, { id: id, value: [...newValue] }]);
     }
@@ -80,8 +97,8 @@ export const Combobox = ({
   return (
     <LocalModal right {...props}>
       <div
-        style={{ right: isRemoving ? -72 : -32 }}
-        className="flex flex-col gap-2 absolute p-4 bg-white dark:bg-modal-grey rounded-2xl shadowww top-10  z-[50] "
+        // style={{ right: isRemoving ? -72 : -32 }}
+        className="flex flex-col gap-2  p-4 bg-white dark:bg-modal-grey rounded-2xl shadowww top-10  z-[50] "
       >
         <div className="flex-1 flex w-full items-center justify-between gap-4 py-2   px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm">
           <p className="flex-1 w-full truncate">
@@ -103,7 +120,12 @@ export const Combobox = ({
           }}
         >
           <div className="flex-1 flex gap-2 py-2 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-t-lg text-sm  ">
-            <Image  src="/searchIcons/search.svg" alt="search" width={20} height={20} />
+            <Image
+              src="/searchIcons/search.svg"
+              alt="search"
+              width={20}
+              height={20}
+            />
             <input
               ref={inputRef}
               value={input}

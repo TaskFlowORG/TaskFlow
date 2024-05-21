@@ -75,7 +75,7 @@ export const TaskName = ({ task }: Props) => {
         <input
           className=" text-h4 font-alata xl:text-h3 flex-1 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
           ref={taskNameRef}
-          disabled={!hasPermission}
+          disabled={( task?.completed ? true : !hasPermission)}
           placeholder={t("withoutname")}
           value={taskName}
           onKeyDown={(e) => {

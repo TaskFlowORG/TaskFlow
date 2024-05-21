@@ -7,6 +7,7 @@ export const Icon403 = () => {
       height="500"
       viewBox="0 0 742.41705 712.57302"
       xmlnsXlink="http://www.w3.org/1999/xlink"
+    className="w-full h-full"
     >
       <path
         id="aa38b2e7-2ea9-4025-adcf-83f87c0cfc4a-638"

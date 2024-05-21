@@ -24,6 +24,11 @@ class ProjectService {
         return response.data;
     }
 
+    async updateComments(project: ProjectPut, id: number): Promise<Project> {
+        const response = await Api.patch<Project>(`project/comment/${id}`, project);
+        return response.data;
+    }
+
     async patch(project: ProjectPut, id: number): Promise<Project> {
         const response = await Api.patch<Project>(`project/${id}`, project);
         return response.data;

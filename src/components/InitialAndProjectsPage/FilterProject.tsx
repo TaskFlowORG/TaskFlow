@@ -44,8 +44,8 @@ export const FilterProject: React.FC<FilterProjectProps> = ({
           !qttyProperties || p.qttyProperties >= qttyProperties;
         const ownerIsOk =
           isOwner === undefined ||
-          (isOwner && p.owner?.username === user?.username) ||
-          (!isOwner && p.owner?.username !== user?.username);
+          (isOwner && p.owner?.id === user?.id) ||
+          (!isOwner && p.owner?.id !== user?.id);
         return (
           progressIsOk &&
           ownerIsOk &&

@@ -7,6 +7,7 @@ export const Icon404 = () => {
       height="500"
       viewBox="0 0 709.53268 558.59384"
       xmlnsXlink="http://www.w3.org/1999/xlink"
+      className="w-full h-full"
     >
       <rect
         x="0.27492"

@@ -130,7 +130,8 @@ export const PermissionComponent = ({
       <span className="flex w-full justify-between  items-center gap-2">
         <input
           type="text"
-          value={name == null || name == "" ? t("withoutname") : name}
+          value={name}
+          placeholder={t("withoutname")}
           disabled={!editing}
           onChange={(e: any) => {
             setName(e.target.value);

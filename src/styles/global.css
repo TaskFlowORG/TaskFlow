@@ -299,6 +299,12 @@
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -805,20 +811,20 @@ input[type="number"] {
 }
 
 .mouseTts{
-  cursor: url("../../public/img/arrow.svg"), auto;
+  cursor: url("../../public/img/enviar.svg"), auto;
 }
 
 .mouseDefault{
   cursor: default
 }
 .react-calendar {
-  @apply bg-white dark:bg-modal-grey w-full text-mn font-alata;
+  @apply bg-white dark:bg-modal-grey w-full text-p font-alata;
 }
 .react-calendar__navigation {
   @apply flex justify-between items-center gap-2 font-montserrat;
 }
 .react-calendar__navigation button {
-  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap;
+  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
 }
 .react-calendar__navigation button[disabled] {
   @apply opacity-20;
@@ -860,3 +866,4 @@ relative text-mn  text-modal-grey dark:text-white;
 .options:last-child {
 @apply rounded-b-lg
 }
+

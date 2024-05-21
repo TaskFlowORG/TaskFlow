@@ -6,6 +6,7 @@ export const OtherError = () => {
       height="500"
       viewBox="0 0 586.47858 659.29778"
 xmlnsXlink="http://www.w3.org/1999/xlink"
+className="w-full h-full"
     >
       <circle cx="332.47856" cy="254" r="254.00001" fill="#f2f2f2" />
       <path

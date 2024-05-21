@@ -39,7 +39,7 @@ export const CalendarTasksModal = ({ title, tasks, modal, setModal, propOrd, wit
                                                     <div className="flex h-12 w-96   items-center gap-1 " >
                                                         {
                                                             tasks.filter(t => new Date(
-                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value.dateTime)
+                                                                new Date(t.task.properties.find(p => p.property.id === propOrd.id)?.value.value?.dateTime)
                                                             ).getHours() == h).map((t) => (
                                                                 <TaskTagCalendar t={t} key={t.task.id} closeModal={setModal} />
                                                             ))
