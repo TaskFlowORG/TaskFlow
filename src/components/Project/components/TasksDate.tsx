@@ -140,7 +140,7 @@ export const TasksDate = () => {
         </span>
       </span>
       <div className="w-full h-full flex justify-center">
-        <div className="w-min h-full  flex justify-center font-montserrat items-center">
+        <div className="w-full h-full  flex justify-center font-montserrat items-center">
           <Bar
             data={dataFormatted}
             options={{ ...options, backgroundColor: color }}

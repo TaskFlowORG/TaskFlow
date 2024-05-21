@@ -136,6 +136,7 @@ const router = useRouter()
         onMouseOver={() => setTruncate(true)}
         onMouseLeave={() => setTruncate(modal)}
       >
+        
         <SideBarButton
           icon={<PageTypeIcons type={page.type} />}
           text={page.name}
