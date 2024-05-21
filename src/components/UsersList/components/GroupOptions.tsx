@@ -31,9 +31,12 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
                 const updatedUsers = group.users.filter(u => u.username !== showUser.username);
                 group.users = [...updatedUsers];
                 if (showUser && project) {
-                    const updatedPermissions = showUser.permissions.filter(p => p.project.id !== project.id);
+                    const updatedPermissions = showUser.permissions.filter(p => group.permissions.find(p2 => p.project.id == p2.project.id) == undefined);
                     showUser.permissions = updatedPermissions;
+                    userService.updateAllPermissions(showUser.username, showUser.permissions);
                 }
+                console.log(showUser.permissions);
+                
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
 
                 setGroup({ ...group })
@@ -43,6 +46,7 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
             setSuccessDelete(true);
         }
     }
+
     async function changeOwner() {
         try {
             deleteUser()

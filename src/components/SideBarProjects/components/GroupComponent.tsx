@@ -81,7 +81,7 @@ export const GroupComponent = ({
       //remove from project
       
       try {
-        await groupService.emoveOfPoject(group.id, project?.id);
+        await groupService.removeOfPoject(group.id, project?.id);
         const updatedGroups = groups.filter((g) => g.id !== group.id);
         setGroups([...updatedGroups]);
         router.push("/" + user+"/"+project?.id);
