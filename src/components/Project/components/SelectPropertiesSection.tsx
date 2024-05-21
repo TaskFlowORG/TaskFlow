@@ -74,7 +74,7 @@ export const SelectPropertiesSection = () => {
       };
     }),
     {
-      name: "Not Selected",
+      name: t("not-selected"),
       value: tasks.filter((t) => {
         const propVl = getPropVl(t);
         return !propVl || !propVl.value || !propVl.value.value;

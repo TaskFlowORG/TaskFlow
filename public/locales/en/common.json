@@ -431,5 +431,6 @@
   "dont-change": "No field has been changed",
   "profile-photo-sucess": "Profile photo updated successfully",
   "some-user-in-project": "Someone is already in the project",
-  "save": "Save"
+  "save": "Save",
+  "not-selected": "Not selected"
 }

@@ -412,5 +412,6 @@
   "dont-change": "Ningún campo ha sido cambiado",
   "profile-photo-sucess": "Foto de perfil actualizada con éxito",
   "some-user-in-project": "Alguien ya está en el proyecto",
-  "save": "Guardar"
+  "save": "Guardar",
+  "not-selected": "No seleccionado"
 }
