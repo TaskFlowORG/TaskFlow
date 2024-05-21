@@ -6,6 +6,7 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
 import { useTranslation } from "next-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
   name: string;
@@ -24,6 +25,7 @@ export const Select = ({
   const [selectedOption, setSelectedOption] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const { t } = useTranslation();
+  const {task} = useContext(TaskModalContext)
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => ids == bah.id);
@@ -53,13 +55,16 @@ export const Select = ({
     } else {
       if (event.target.value != "244a271c-ab15-4620-b4e2-a24c92fe4042") {
         setSelectedOption(event.target.value);
-        setFilterProp!([...filterProp!, { id: ids, value: event.target.value }]);
+        setFilterProp!([
+          ...filterProp!,
+          { id: ids, value: event.target.value },
+        ]);
       }
     }
     // const select = document.querySelector(`#prop${id}`)
   };
 
-  const hasPermission = useHasPermission('update')
+  const hasPermission = useHasPermission("update");
   // useState(() => {
   // }, [defaultValue, options])
   const styleWithBorder = twMerge(
@@ -75,7 +80,7 @@ export const Select = ({
       {/* aqui embaixo é w-fit */}
       <div className=" relative">
         <select
-             disabled={ !isInModal ? false : !hasPermission}
+          disabled={!isInModal ? false : ( task?.completed ? true : !hasPermission)}
           className="appearance-none bg-transparent p-1 text-sm outline-none border-[2px] border-primary dark:border-secondary rounded-lg text-primary dark:text-secondary text-center w-full h-min pr-20"
           // {...props}
           value={selectedOption}
@@ -88,7 +93,7 @@ export const Select = ({
           >
             {t("select")}...
           </option>
-          {options.map((o: any, index) => {
+          {options?.map((o: any, index) => {
             return (
               <option
                 value={o.name ?? o}

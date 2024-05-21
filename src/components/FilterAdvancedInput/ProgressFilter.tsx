@@ -2,6 +2,7 @@ import { useHasPermission } from "@/hooks/useHasPermission";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTheme } from "next-themes";
 import { useContext, useEffect, useState } from "react";
+import { RangeInput } from "../RangeInput";
 
 type Props = {
   isInModal?: boolean;
@@ -18,7 +19,7 @@ export const ProgressFilter = ({
 }: Props) => {
   const [list, setList] = useState<number[]>([]);
   const {theme} = useTheme()
-  const [valued, setValued] = useState<number>();
+  const [valued, setValued] = useState<number | null>(null);
   const [drag, setDrag] = useState<boolean>();
   const hasPermission = useHasPermission('update')
   const { filterProp, setFilterProp } = useContext(FilterContext);
@@ -59,14 +60,14 @@ export const ProgressFilter = ({
       {!isInModal && (
         <p className=" text-black h-full self-center text-p14 dark:text-white whitespace-nowrap">{name}:</p>
       )}
-      <div className="flex flex-col gap-1 items-end ">
-        <input
+      <div className="flex flex-col gap-1 items-end min-w-[100px]">
+      <input
           type="number"
           disabled={ !isInModal ? false : !hasPermission}
           step={0.01}
           name=""
-          className="p-1 pb-0 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
-          value={valued}
+          className="p-1 pb-0 pr-0 mr-2 text-end w-8 input-number outline-none cursor-pointer bg-white dark:bg-modal-grey"
+          value={valued ?? undefined}
           id=""
           placeholder="%"
           onChange={(e) => {
@@ -91,43 +92,31 @@ export const ProgressFilter = ({
             }
           }}
         />
-        <div
-          className="h-2 w-28 flex select-none drag rounded-full overflow-clip"
-          onMouseDown={() => setDrag(true)}
-
-          // onMouseMove={()=>   }
-          // onMouseLeave={() => setDrag(false)}
-        >
-          {list.map((item) => {
-            return (
-              <div
-                key={item}
-                className="h-2"
-                style={{
-                  width: `1%`,
-
-                  backgroundColor:
-                    item < valued! ?( theme == "light?" ? "var(--primary-color)" : "var(--secondary-color)") : "#BABABA",
-                }}
-                onMouseOver={() => {
-                  if (drag && hasPermission) {
-                    setValued(item);
-                    change(item);
-                  }
-                }}
-                onClick={() => {
-                  setValued(item);
-                  change(item);
-                }}
-              ></div>
-            );
-          })}
-          {/* <div
-            className="absolute h-2 w-7 bg-pink-600 left-0 rounded-l-full"
-            style={{ width: percent + "%" }}
-          ></div> */}
-        </div>
+        <RangeInput
+          bgColor="bg-zinc-200"
+          step={1}
+          range={valued}
+          setRange={(value) => {
+            setValued(value);
+            const thisProperty = filterProp?.find((item) => item.id == id);
+            if (thisProperty) {
+              if (value == null || value == undefined) {
+                filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+                setFilterProp!([...filterProp!]);
+                thisProperty.value = value;
+              } else {
+                thisProperty.value = value;
+                setFilterProp!([...filterProp!]);
+              }
+            } else {
+              if (value) {
+                setFilterProp!([...filterProp!, { id: id, value: value }]);
+              }
+            }
+          }}
+          max={150}
+        ></RangeInput>
       </div>
-    </div>
+      </div>
   );
 };

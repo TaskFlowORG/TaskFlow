@@ -387,6 +387,7 @@
   "owner/member": "Owner/Member",
   "member": "Member",
   "all": "All",
+  "add-property-to-project": "Add Property to Project",
   "username-exists": "Username already exists",
   "clear": "Clear",
   "revision": "Task Revision",
