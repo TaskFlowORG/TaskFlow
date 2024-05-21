@@ -30,9 +30,9 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
             if (group != null) {
                 const updatedUsers = group.users.filter(u => u.username !== showUser.username);
                 group.users = [...updatedUsers];
-                if (user && project) {
-                    const updatedPermissions = user.permissions.filter(p => p.project.id !== project.id);
-                    user.permissions = updatedPermissions;
+                if (showUser && project) {
+                    const updatedPermissions = showUser.permissions.filter(p => p.project.id !== project.id);
+                    showUser.permissions = updatedPermissions;
                 }
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
 

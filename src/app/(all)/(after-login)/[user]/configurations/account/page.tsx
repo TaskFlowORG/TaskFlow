@@ -14,8 +14,7 @@ export default function UserConfigPage() {
 
     return (
         <div className="w-full h-full">
-            <PersonalInformations />
-            
+            <PersonalInformations />      
         </div>
     );
 }
