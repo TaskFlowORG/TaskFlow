@@ -6,7 +6,7 @@ import { useContext } from "react";
 export const TasksProgress = () => { 
   const { t } = useTranslation();
   const { project } = useContext(ProjectContext);
-  if (!project) return <Loading />;
+  if (!project) return <Loading />; 
   const tasks = project?.pages.map((page) => page.tasks).flat().length;
   const completed = project.pages.flatMap((page) => page.tasks).filter((task) => task.task.completed).length;
   const percentage = (completed / tasks) * 100;

@@ -9,15 +9,18 @@ import { TasksProgress } from "./TasksProgress";
 import { SelectPropertiesSection } from "./SelectPropertiesSection";
 import { TasksDate } from "./TasksDate";
 import { PermissionsAndCalendar } from "./PermissionsAndCalendar";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const Dashboard = () => {
   const { t } = useTranslation();
   const { project } = useContext(ProjectContext);
   const [groups, setGroups] = useState<SimpleGroup[]>([]);
+  const asyncThrow = useAsyncThrow();
   useEffect(() => {
     (async () => {
       if (!project) return;
-      const groups = await groupService.findGroupsByAProject(project.id);
+      const groups = await groupService.findGroupsByAProject(project.id).catch(asyncThrow);
+      if (!groups) return;
       setGroups(groups);
     })();
   }, [project]);

@@ -15,6 +15,7 @@ import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { Loading } from "../Loading";
 import { TaskModalContent } from "../TaskModal/TaskModalContent";
 import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ export const Project = () => {
   const { project, setProject } = useContext(ProjectContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
+  const asyncThrow = useAsyncThrow();
   const [description, setDescription] = useState<string | undefined>(
     project?.description
   );
@@ -39,8 +41,8 @@ export const Project = () => {
     const updated = await projectService.patch(
       projectToPutDTO(project),
       project.id
-    );
-    setProject(updated);
+    ).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   const projectToPutDTO = (project: ProjectModel) => {
@@ -60,8 +62,8 @@ export const Project = () => {
     const updated = await projectService.patch(
       projectToPutDTO(project),
       project.id
-    );
-    setProject(updated);
+    ).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   const refDescription = useRef<HTMLTextAreaElement>(null);
@@ -74,17 +76,19 @@ export const Project = () => {
     if (!project || !setProject) return;
     const file = e.target.files?.[0];
     if (!file) return;
-    const updated = await projectService.updatePicture(file, project.id);
-    setProject(updated);
+    const updated = await projectService.updatePicture(file, project.id).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   useEffect(() => {
     (async () => {
       if (!project || !user) return;
-      const groups = await groupService.findGroupsByAProject(project?.id);
+      const groups = await groupService.findGroupsByAProject(project?.id).catch(asyncThrow);
+      if(!groups) return;
       let list: OtherUser[] = [];
       for (let group of groups) {
-        list.push(await userService.findByUsername(group.ownerUsername));
+        const owner = await userService.findByUsername(group.ownerUsername).catch(asyncThrow)
+        if(owner) list.push(owner);
       }
       setPossibleOwners(
         list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id)
