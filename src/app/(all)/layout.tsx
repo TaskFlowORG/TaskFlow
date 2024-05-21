@@ -44,14 +44,13 @@ export default function Layout({ children, text }: Props) {
     document.documentElement.style.removeProperty('--common-font');
   }, [])
 
-
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <LanguageProvider language={language} setLanguage={setLanguage}>
         <I18nextProvider i18n={(i18next as unknown as I18nextProviderProps["i18n"])} >
           <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
-              {user?.configuration.libras ? <VLibras forceOnload /> : null}
-              {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
+            {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
+            {user?.configuration.libras ? <VLibras forceOnload /> : null}
             <Providers>
               <ThemeSwitcher />
               <ErrorBoundary t={t}>

@@ -10,8 +10,8 @@ interface Props{
 }
 export const InputFieldConfig = ({ id, type, label, value, onChange, checked}:Props) => (
     <>
-        <div className="flex flex-col justify-between h-fit pt-8">
-            <div className="flex justify-between">
+        <div className="flex flex-col justify-between h-fit gap-2">
+            <div className="flex justify-between ">
                 <p className="text-h4 font-alata">{label}</p>
                 <div className="flex items-center font-bold">
                     <label className="relative w-16 h-8 ml-4 mr-2" >

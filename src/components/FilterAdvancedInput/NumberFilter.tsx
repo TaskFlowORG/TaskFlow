@@ -5,6 +5,11 @@ import { useState, useEffect, useContext } from "react";
 import { twMerge } from "tailwind-merge";
 import { NeedPermission } from "../NeedPermission";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { UserContext } from "@/contexts/UserContext";
+import { ProjectContext } from "@/contexts";
+import { isProject } from "@/functions/modalTaskFunctions/isProject";
+import { Task } from "@/models";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 interface Props {
   id: number;
@@ -17,7 +22,10 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
   const [valued, setValued] = useState<string>();
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const { task } = useContext(TaskModalContext);
+  const { user } = useContext(UserContext);
+  const { project } = useContext(ProjectContext);
   const { t } = useTranslation();
+  const isDisabled = useIsDisabled(isInModal, 'update');
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
@@ -56,9 +64,7 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
         <input
           className=" input-number  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-p14"
           placeholder={t("insert-expected-value")}
-          disabled={
-            !isInModal ? false : task?.completed ? true : !hasPermission
-          }
+          disabled={isDisabled}
           type="number"
           name=""
           value={valued}
@@ -85,64 +91,71 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
           }}
           id={`prop${id}`}
         />
-
-        <NeedPermission permission="update">
-          <span
-            onClick={() => {
-              if (!task?.completed) {
-                setValued(valued ? (parseInt(valued) - 1).toString() : "-1");
-                const thisProperty = filterProp?.find((item) => item.id == id);
-                if (thisProperty) {
-                  thisProperty.value = valued
-                    ? (parseInt(valued) - 1).toString()
-                    : "-1";
-                  setFilterProp!([...filterProp!]);
-                } else {
-                  setFilterProp!([
-                    ...filterProp!,
-                    {
-                      id: id,
-                      value: valued ? (parseInt(valued) - 1).toString() : "-1",
-                    },
-                  ]);
+        {!isDisabled && (
+          <>
+            <span
+              onClick={() => {
+                if (!(task as Task)?.completed) {
+                  setValued(valued ? (parseInt(valued) - 1).toString() : "-1");
+                  const thisProperty = filterProp?.find(
+                    (item) => item.id == id
+                  );
+                  if (thisProperty) {
+                    thisProperty.value = valued
+                      ? (parseInt(valued) - 1).toString()
+                      : "-1";
+                    setFilterProp!([...filterProp!]);
+                  } else {
+                    setFilterProp!([
+                      ...filterProp!,
+                      {
+                        id: id,
+                        value: valued
+                          ? (parseInt(valued) - 1).toString()
+                          : "-1",
+                      },
+                    ]);
+                  }
                 }
-              }
-            }}
-            className="bg-primary dark:bg-secondary bah rounded-l-lg w-6 relative -order-1"
-          >
-            <p className="absolute  text-contrast left-1/2 top-[6px] leading-none -translate-x-1/2">
-              -
-            </p>
-          </span>
+              }}
+              className="bg-primary dark:bg-secondary bah rounded-l-lg w-6 relative -order-1"
+            >
+              <p className="absolute  text-contrast left-1/2 top-[6px] leading-none -translate-x-1/2">
+                -
+              </p>
+            </span>
 
-          <span
-            onClick={() => {
-              if (!task?.completed) {
-                setValued(valued ? (parseInt(valued) + 1).toString() : "1");
-                const thisProperty = filterProp?.find((item) => item.id == id);
-                if (thisProperty) {
-                  thisProperty.value = valued
-                    ? (parseInt(valued) + 1).toString()
-                    : "1";
-                  setFilterProp!([...filterProp!]);
-                } else {
-                  setFilterProp!([
-                    ...filterProp!,
-                    {
-                      id: id,
-                      value: valued ? (parseInt(valued) + 1).toString() : "1",
-                    },
-                  ]);
+            <span
+              onClick={() => {
+                if (!(task as Task)?.completed) {
+                  setValued(valued ? (parseInt(valued) + 1).toString() : "1");
+                  const thisProperty = filterProp?.find(
+                    (item) => item.id == id
+                  );
+                  if (thisProperty) {
+                    thisProperty.value = valued
+                      ? (parseInt(valued) + 1).toString()
+                      : "1";
+                    setFilterProp!([...filterProp!]);
+                  } else {
+                    setFilterProp!([
+                      ...filterProp!,
+                      {
+                        id: id,
+                        value: valued ? (parseInt(valued) + 1).toString() : "1",
+                      },
+                    ]);
+                  }
                 }
-              }
-            }}
-            className="bg-primary dark:bg-secondary bah rounded-r-lg w-6 relative right"
-          >
-            <p className="absolute  text-contrast leading-none left-1/2 top-[6px] -translate-x-1/2">
-              +
-            </p>
-          </span>
-        </NeedPermission>
+              }}
+              className="bg-primary dark:bg-secondary bah rounded-r-lg w-6 relative right"
+            >
+              <p className="absolute  text-contrast leading-none left-1/2 top-[6px] -translate-x-1/2">
+                +
+              </p>
+            </span>
+          </>
+        )}
       </div>
     </div>
   );

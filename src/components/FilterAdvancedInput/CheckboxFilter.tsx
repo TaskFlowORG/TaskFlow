@@ -1,3 +1,4 @@
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -61,6 +62,8 @@ export const CheckboxFilter = ({
     }
   };
 
+  const isDisabled = useIsDisabled(isInModal, 'update');
+
   useEffect(() => {
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
@@ -88,7 +91,7 @@ export const CheckboxFilter = ({
           <div key={index} className="flex gap-1 items-center">
             <input
               type="checkbox"
-              disabled={ !isInModal ? false : !hasPermission}
+              disabled={isDisabled}
               id={`prop${id}_${index}`}
               value={option.name}
               className="custom-checkbox"

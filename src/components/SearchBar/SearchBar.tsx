@@ -132,6 +132,7 @@ export const SearchBar = ({
             condition={openedFilter}
             setCondition={setOpenedFilter}
             right
+            
           >
             <FilterAdvancedInput
               properties={properties}

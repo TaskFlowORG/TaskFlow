@@ -1,11 +1,11 @@
 import { CenterModal } from "../Modal";
-import { Task, User } from "@/models";
+import { Project, Task, User } from "@/models";
 import { TaskModalContent } from "./TaskModalContent";
 
 type isOpenBro = {
   isOpen: boolean;
   setIsOpen: (boolean: boolean) => void;
-  task: Task;
+  task: Task | Project;
   user: User;
 };
 
