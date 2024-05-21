@@ -4,7 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { Obj } from "../Obj";
 import { ProjectContext } from "@/contexts";
 import { groupService, projectService, userService } from "@/services";
-import { OtherUser } from "@/models";
+import { Limited, OtherUser } from "@/models";
 import { IconPlus } from "../icons/GeneralIcons/IconPlus";
 import { Combobox } from "./Combobox/Combobox";
 import { NeedPermission } from "../NeedPermission";
@@ -14,15 +14,17 @@ interface Props {
   name: string;
   value: string[];
   isInModal?: boolean;
+  property:Limited
 }
 
-export const UserFilter = ({ id, name, value, isInModal }: Props) => {
+export const UserFilter = ({ id, name, value, isInModal, property }: Props) => {
   const [valued, setValued] = useState<string[]>([]);
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenRemove, setIsOpenRemove] = useState(false);
   const { project } = useContext(ProjectContext);
   const [users, setUsers] = useState<OtherUser[]>([]);
+  const [actualCounter, setActualCounter] = useState(value.length)
 
   const style = twMerge(
     "flex gap-4 items-center border-b-[1px] relative  pb-2",
@@ -30,12 +32,12 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
   );
 
   useEffect(() => {
+    // setActualCounter(value.length)
     const findGroups = async () => {
       if (!project) return;
       const users = await userService.findAll();
       const list = users.filter(
-        (user) =>
-          user.permissions.find(
+        (user) => user.permissions.find(
             (permission) => permission.project.id === project.id
           ) != undefined
       );
@@ -44,15 +46,11 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
       for (let group of groups) {
         list.push(await userService.findByUsername(group.ownerUsername));
       }
-      setUsers(list);
-      
-      users.filter((user, index) => {
+      const finalList = list.filter((user, index) => {
         let indexL = users.findLastIndex((userL) => userL.id == user.id);
         return indexL == index;
       });
-
-      setUsers([...users]);
-
+      setUsers([...finalList]);
     };
     findGroups();
     const prop = filterProp!.find((bah) => id == bah.id);
@@ -85,6 +83,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
           <div className="relative">
             {isOpen && (
               <Combobox
+              setOptionalCounter={(number:number)=> setActualCounter(number)}
+              optionalCounter={actualCounter}
                 condition={isOpen}
                 setCondition={setIsOpen}
                 options={users}
@@ -99,6 +99,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
 
             {isOpenRemove && (
               <Combobox
+              setOptionalCounter={(number:number)=> setActualCounter(number)}
+              optionalCounter={actualCounter}
                 condition={isOpenRemove}
                 setCondition={setIsOpenRemove}
                 isRemoving={true}
@@ -118,7 +120,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
 
             <NeedPermission permission="update">
               <div className="flex gap-2">
-                <div
+                { ( property.maximum == undefined || actualCounter < property.maximum) && <div
                   className="w-8 h-8 relative  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
                   onClick={(e) => {
                     setIsOpen(!isOpen);
@@ -127,8 +129,8 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                   <div className="stroke-contrast rotate-45">
                     <IconPlus></IconPlus>
                   </div>
-                </div>
-                <div
+                </div>}
+               {actualCounter != 0 && <div
                   className="w-8 h-8  bg-primary flex justify-center items-center dark:bg-secondary rounded-full "
                   onClick={() => setIsOpenRemove(!isOpenRemove)}
                 >
@@ -137,7 +139,7 @@ export const UserFilter = ({ id, name, value, isInModal }: Props) => {
                       l
                     </p>
                   </div>
-                </div>
+                </div>}
               </div>
             </NeedPermission>
           </div>

@@ -15,6 +15,7 @@ import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { Loading } from "../Loading";
 import { TaskModalContent } from "../TaskModal/TaskModalContent";
 import { TaskModalWrapper } from "../TaskModal/TaskModalWrapper";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 export const Project = () => {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ export const Project = () => {
   const { project, setProject } = useContext(ProjectContext);
   const { user } = useContext(UserContext);
   const [name, setName] = useState<string | undefined>(project?.name);
+  const asyncThrow = useAsyncThrow();
   const [description, setDescription] = useState<string | undefined>(
     project?.description
   );
@@ -39,8 +41,8 @@ export const Project = () => {
     const updated = await projectService.patch(
       projectToPutDTO(project),
       project.id
-    );
-    setProject(updated);
+    ).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   const projectToPutDTO = (project: ProjectModel) => {
@@ -60,8 +62,8 @@ export const Project = () => {
     const updated = await projectService.patch(
       projectToPutDTO(project),
       project.id
-    );
-    setProject(updated);
+    ).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   const refDescription = useRef<HTMLTextAreaElement>(null);
@@ -74,17 +76,19 @@ export const Project = () => {
     if (!project || !setProject) return;
     const file = e.target.files?.[0];
     if (!file) return;
-    const updated = await projectService.updatePicture(file, project.id);
-    setProject(updated);
+    const updated = await projectService.updatePicture(file, project.id).catch(asyncThrow);
+    if(updated) setProject(updated);
   };
 
   useEffect(() => {
     (async () => {
       if (!project || !user) return;
-      const groups = await groupService.findGroupsByAProject(project?.id);
+      const groups = await groupService.findGroupsByAProject(project?.id).catch(asyncThrow);
+      if(!groups) return;
       let list: OtherUser[] = [];
       for (let group of groups) {
-        list.push(await userService.findByUsername(group.ownerUsername));
+        const owner = await userService.findByUsername(group.ownerUsername).catch(asyncThrow)
+        if(owner) list.push(owner);
       }
       setPossibleOwners(
         list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id)
@@ -137,25 +141,26 @@ export const Project = () => {
             <div className="flex flex-col smm:w-min smm:min-w-[130px] sm:min-w-min  sm:justify-between  white text-center w-[1/2] sm:w-full ">
               <input
                 ref={refName}
+                placeholder={t("withoutname")}
 
                 disabled={project?.owner?.id != user?.id}
-                className="bg-transparent pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
+                className="bg-transparent placeholder:text-primary dark:placeholder:text-secondary pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
-                value={name ?name: t("withoutname")}
+                value={name}
                 onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                 onChange={(e) => setName(e.target.value)}
                 onBlur={saveName}
               />
               <textarea
                 style={{ opacity: description ? 1 : 0.5, resize: "none" }}
-                value={description ?description: t("withoutdescription")}
+                value={description }
+                placeholder={t("withoutname")}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={saveDescription}
                 ref={refDescription}
                 disabled={project?.owner.id != user?.id}
-                dir="rtl"
-                className="bg-transparent  w-full text-p thin-scrollbar pl-2  font-montserrat rounderd-md text-center smm:text-end"
+                className="bg-transparent  w-full text-p thin-scrollbar pl-2  font-montserrat rounded-md text-center smm:text-start"
                 rows={2}
                 cols={2}
               />

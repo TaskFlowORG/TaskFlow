@@ -67,6 +67,8 @@ export const ChangePasswordModal = ({ close }: ModalPassword) => {
     };
 
     const onSubmit = async (data: FormData) => {
+        console.log(data.password);
+        
         const userChangePassword = {
             password: data.password,
             newPassword: data.newPassword,

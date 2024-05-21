@@ -30,10 +30,13 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
             if (group != null) {
                 const updatedUsers = group.users.filter(u => u.username !== showUser.username);
                 group.users = [...updatedUsers];
-                if (user && project) {
-                    const updatedPermissions = user.permissions.filter(p => p.project.id !== project.id);
-                    user.permissions = updatedPermissions;
+                if (showUser && project) {
+                    const updatedPermissions = showUser.permissions.filter(p => group.permissions.find(p2 => p.project.id == p2.project.id) == undefined);
+                    showUser.permissions = updatedPermissions;
+                    userService.updateAllPermissions(showUser.username, showUser.permissions);
                 }
+                console.log(showUser.permissions);
+                
                 await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id);
 
                 setGroup({ ...group })
@@ -43,6 +46,7 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
             setSuccessDelete(true);
         }
     }
+
     async function changeOwner() {
         try {
             deleteUser()
@@ -56,7 +60,7 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
         }
     }
 
-    if (isOpen && group?.owner.username == user?.username) {
+    if (isOpen && group?.owner.id == user?.id) {
         return <div className="flex bg-[#F2F2F2] text-[#333333] dark:bg-[#333] dark:text-[#FCFCFC] w-44 h-16 shadow-md rounded-md ml-4 mt-1">
             <div className="flex flex-col justify-around ml-2">
                 <div className="flex justify-start gap-3 text-mn font-montserrat" >

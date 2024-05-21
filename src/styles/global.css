@@ -285,6 +285,12 @@
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+    display: none;
+}
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -809,7 +815,7 @@ input[type="number"] {
 }
 
 .react-calendar {
-  @apply bg-white dark:bg-modal-grey w-full text-mn font-alata;
+  @apply bg-white dark:bg-modal-grey w-full text-p font-alata;
 }
 
 .react-calendar__navigation {
@@ -817,7 +823,7 @@ input[type="number"] {
 }
 
 .react-calendar__navigation button {
-  @apply text-primary dark:text-secondary hover:brightness-95 w-min flex-nowrap;
+  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
 }
 
 .react-calendar__navigation button[disabled] {
@@ -865,3 +871,4 @@ abbr[title] {
 .options:last-child {
   @apply rounded-b-lg
 }
+

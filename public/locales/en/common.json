@@ -387,6 +387,7 @@
   "owner/member": "Owner/Member",
   "member": "Member",
   "all": "All",
+  "add-property-to-project": "Add Property to Project",
   "username-exists": "Username already exists",
   "clear": "Clear",
   "revision": "Task Revision",
@@ -430,5 +431,7 @@
   "profile-sucess": "Profile updated successfully",
   "dont-change": "No field has been changed",
   "profile-photo-sucess": "Profile photo updated successfully",
-  "some-user-in-project": "Someone is already in the project"
+  "some-user-in-project": "Someone is already in the project",
+  "save": "Save",
+  "not-selected": "Not selected"
 }

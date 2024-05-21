@@ -4,7 +4,7 @@ import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 
 
 class GroupService {
-    async emoveOfPoject(groupId: number, pojectId: number | undefined):Promise<Group|undefined> {
+    async removeOfPoject(groupId: number, pojectId: number | undefined):Promise<Group|undefined> {
         
         if(pojectId){
             const response = await Api.patch<Group>("group/remove/"+groupId+"/from/"+pojectId, { withCredentials: true });

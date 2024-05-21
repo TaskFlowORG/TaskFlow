@@ -4,21 +4,24 @@ import { OtherUserComponent } from "@/components/OtherUser";
 import { ProjectContext } from "@/contexts";
 import { UserContext } from "@/contexts/UserContext";
 import { archiveToSrc } from "@/functions";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { Archive, OtherUser, Project, User } from "@/models";
 import { userService } from "@/services";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { set } from "react-hook-form";
-
+ 
 export const FeaturedUser = () => {
   const { project } = useContext(ProjectContext);
   const [users, setUsers] = useState<Array<OtherUser | User>>([]);
+  const asyncThrow = useAsyncThrow();
   const {user} = useContext(UserContext);
   useEffect(() => { 
     (async () => {
       if (!project || !user) return;
-      const users = await userService.findAll();
+      const users = await userService.findAll().catch(asyncThrow);
+      if (!users) return;
       setUsers(
         [...users
           .filter(

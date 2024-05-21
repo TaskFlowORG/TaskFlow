@@ -61,7 +61,7 @@ export const PermissionComponent = ({ group, showUser, permissions, project }: P
 
     return (
         <div className="text-primary dark:text-secondary w-24 flex justify-between">
-            {group.owner && showUser.username === group.owner.username ? (
+            {group.owner && showUser.id === group.owner.id ? (
                 <div className="flex items-center justify-center w-full">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" viewBox="0 0 18 18" fill="currentColor" className="text-primary dark:text-secondary stroke-none">

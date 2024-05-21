@@ -82,7 +82,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
   }
 
   const addUser = async (user: OtherUser) => {
-    const userExists = group?.users.some((u) => u.username === user.username);
+    const userExists = group?.users.some((u) => u.id === user.id);
     if (userExists) {
       setInvite(t("alreadyMember"));
       setSucessInvite(true);
@@ -90,7 +90,9 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     }
     try {
       if (group != null) {
+        console.log(user.permissions, "mandando convite");
         await groupService.inviteUser(group.id, user.id)
+        
         
         setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)

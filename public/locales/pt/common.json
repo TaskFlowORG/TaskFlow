@@ -234,6 +234,7 @@
   "delete-comment": "Você deseja mesmo deletar esse comentário?",
   "comments": "Comentários",
   "add-task-property": "Adicionar propriedade para tarefa",
+  "add-property-to-project": "Adicionar propriedade para o projeto",
   "historical": "Histórico",
   "save-changes": "Salvar Alterações",
   "edited": "Editada",
@@ -449,5 +450,7 @@
   "dont-change": "Nenhum campo foi alterado",
   "profile-photo-sucess": "Foto de perfil atualizada com sucesso",
   "some-user-in-project-desc": "Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
-  "some-user-in-project": "Alguém já está no projeto"
+  "some-user-in-project": "Alguém já está no projeto",
+  "save":"Salvar",
+  "not-selected":"Não selecionado"
 }

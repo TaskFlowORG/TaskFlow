@@ -39,11 +39,11 @@ export const Comment = ({
   const { t } = useTranslation();
   const containerComment = twMerge(
     "flex flex-col gap-1 relative",
-    sender.username == user?.username ? "items-end" : ""
+    sender.id == user?.id ? "items-end" : ""
   );
   const comment = twMerge(
     "font-montserrat focus:font-semibold self-center  outline-none text-[#343434] dark:text-[#f2f2f2]",
-    sender.username == user.username
+    sender.id == user.id
       ? "text-end text-p14 md:text-p"
       : "text-p14 md:text-p"
   );
@@ -68,7 +68,7 @@ export const Comment = ({
   return (
     <div
       onMouseOver={() =>
-        user.username == sender.username && setOptions(!editing && !deleting)
+        user.id == sender.id && setOptions(!editing && !deleting)
       }
       onMouseLeave={() => setOptions(false)}
       className={containerComment}
@@ -143,7 +143,7 @@ export const Comment = ({
       </div>
       <div className="h-[2px] w-1/2 bg-[#D9D9D9]"></div>
       <div className="gap-2  flex items-center">
-        {!(user.username == sender.username) && (
+        {!(user.id == sender.id) && (
           <div className="h-[18px] aspect-square relative rounded-full overflow-clip bg-primary">
             <Image fill alt="" src={archiveToSrc(sender.picture)}></Image>
           </div>
@@ -151,7 +151,7 @@ export const Comment = ({
 
         <p className="text-mn font-montserrat text-[#343434] dark:text-[#f2f2f2]">
           {updatedAt && t("edited") + " - "}
-          {!(user.username == sender.username)
+          {!(user.id == sender.id)
             ? sender?.username
             : t("you")} - {dateFormat(new Date(date))}
         </p>
