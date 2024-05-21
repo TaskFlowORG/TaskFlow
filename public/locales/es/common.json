@@ -412,5 +412,6 @@
   "profile-photo-sucess": "Foto de perfil actualizada con éxito",
   "some-user-in-project": "Alguien ya está en el proyecto",
   "save": "Guardar",
-  "not-selected": "No seleccionado"
+  "not-selected": "No seleccionado",
+  "tuto-create-task": "Ahora en este botón, podemos crear una nueva tarea"
 }

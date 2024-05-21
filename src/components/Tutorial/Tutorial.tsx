@@ -10,6 +10,7 @@ import { useTheme } from "next-themes";
 import { useTutorial } from "./hooks/useTutorial";
 import { userService } from "@/services";
 import { useTranslation } from "react-i18next";
+import { TutorialContext } from "@/contexts/TutorialContext";
 
 export const Tutorial = () => {
   const [step, setStep] = useState(0);
@@ -18,6 +19,11 @@ export const Tutorial = () => {
   const {theme} = useTheme();
   const steps = useTutorial();
   const {t} = useTranslation();
+  const {isTutorialMade, setStep:setStepContext} = useContext(TutorialContext);
+
+  useEffect(() => {
+    if(setStepContext) setStepContext(step);
+  }, [step]);
 
   useEffect(() => {
     if (!user) return;
@@ -32,13 +38,17 @@ export const Tutorial = () => {
       const updated = await userService.update(user);
       setUser(updated);
     }
+    document.body.classList.add("none-events")
+
   }
 
 
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     if(!user) return;
+    document.body.classList.add("none-events")
     const target = document.querySelector(data.step.target as string);
+    target?.classList.add("auto-events");
     const {action, index, status, type, lifecycle} = data;
     if((type == "error:target_not_found" || type == "tour:start") && !target) {
       setRun(false);
@@ -54,7 +64,7 @@ export const Tutorial = () => {
 
   }
    
-
+  if(isTutorialMade) return null;
 
   return (
 
@@ -66,6 +76,7 @@ export const Tutorial = () => {
       disableOverlayClose
       callback={data => handleJoyrideCallback(data)}
       disableCloseOnEsc
+      spotlightPadding={0}
       run={run}
       continuous
       locale={
@@ -80,14 +91,24 @@ export const Tutorial = () => {
       styles={{
         options: {
           primaryColor: theme == "light" ? "var(--primary-color)" : "var(--secondary-color)", 
-          overlayColor: theme == "light" ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0)",
+          overlayColor: theme == "light" ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.4)",
           textColor: theme == "light" ? "#3c3c3c" : "#fcfcfc",
           backgroundColor: theme == "light" ? "#fcfcfc" : "#3c3c3c",
           zIndex: 1000,
+          arrowColor: theme == "light" ? "#fcfcfc" : "#3c3c3c",
         },
         buttonNext:{
           color: "var(--contrast-color)",
+          pointerEvents: "auto",
+        }, 
+        buttonSkip:{
+          pointerEvents: "auto",
+        },
+        buttonBack:{
+          pointerEvents: "auto",
         }
+        
+        
 
       }}
       

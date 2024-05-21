@@ -433,5 +433,6 @@
   "profile-photo-sucess": "Profile photo updated successfully",
   "some-user-in-project": "Someone is already in the project",
   "save": "Save",
-  "not-selected": "Not selected"
+  "not-selected": "Not selected",
+  "tuto-create-task":"Now in this button, we can create a new task"
 }

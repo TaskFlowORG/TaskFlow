@@ -17,7 +17,7 @@ export const HeaderCommentAndHistoric = ({
 
 
   const { t } = useTranslation();
-  const container = twMerge(
+  const container = twMerge(title, 
     "w-1/2  flex items-center gap-4 px-1  md:px-4 py-1 bg-primary dark:bg-secondary rounded-t-lg",
     !isSelected
       ? "bg-white dark:bg-modal-grey border-2 border-[#343434] dark:border-white text-black dark:text-white"
@@ -28,7 +28,7 @@ export const HeaderCommentAndHistoric = ({
     !isSelected ? "text-[#343434] dark:text-white " : ""
   );
   return (
-    <button className={container} onClick={() => setIsInComments(!isSelected)}>
+    <button className={container}  onClick={() => setIsInComments(!isSelected)}>
       <div className="hidden md:block w-4 h-4 rounded-full bg-white"></div>
       <p className={text}>{t(title)}</p>
     </button>

@@ -872,3 +872,10 @@ abbr[title] {
   @apply rounded-b-lg
 }
 
+.none-events  * {
+  @apply pointer-events-none
+}
+
+.auto-events {
+  @apply pointer-events-auto
+}
