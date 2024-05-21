@@ -13,12 +13,12 @@ interface Props {
 }
 
 
-export const Description = ({ user, project, groupId } : Props) => {
+export const Description = ({ user, project, groupId }: Props) => {
 
 
     return (
         <div>
-                 <GroupAccess  project={project} groupId={groupId ?? 0} user={user}/>
+            <GroupAccess project={project} groupId={groupId ?? 0} user={user} />
         </div>
     )
 }

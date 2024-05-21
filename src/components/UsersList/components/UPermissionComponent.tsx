@@ -1,63 +1,48 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Group, OtherUser, Permission, Project } from "@/models";
-import { groupService, userService } from "@/services";
+import { userService } from "@/services";
 import { useTranslation } from "react-i18next";
-import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { UserContext } from "@/contexts/UserContext";
 
 interface Props {
     group: Group;
-    user: OtherUser;
+    showUser: OtherUser;
     permissions: Permission[];
     project: Project;
 }
 
-export const PermissionComponent = ({ group, user, permissions, project }: Props) => {
+export const PermissionComponent = ({ group, showUser, permissions, project }: Props) => {
     const [selectedPermission, setSelectedPermission] = useState<string | "">("");
-    const [userLogged, setUserLogged] = useState<OtherUser>();
+    const { user } = useContext(UserContext);
     const [successPermission, setSuccessPermission] = useState<boolean>(false);
     const [text, setText] = useState<string>("");
     const { t } = useTranslation();
-    const asynThrow = useAsyncThrow();
 
+     useEffect(() => {
 
+         fetchData();
+     }, [showUser, group, project]);
+    
     useEffect(() => {
-        fetchData();
         const timer = setTimeout(() => {
-            if (successPermission) setSuccessPermission(false); 
+            if (successPermission) setSuccessPermission(false);
         }, 6000);
         return () => clearTimeout(timer);
-    }, [successPermission, selectedPermission]);
+    }, [successPermission]);
 
-    const fetchData = async () => {
-        const fetchedUser = await userService.findLogged().catch(asynThrow);
-        if (fetchedUser)
-        setUserLogged(fetchedUser);
-        findUserPermissionsInGroup;
-    };
-
-    const findUserPermissionsInGroup = () => {
-        // if (user && group) {
-        //     const listUserPermissions: Permission[] = permissions.filter(p => p.project.id == project.id)
-            
-        //     // const 
-        //     // const groupProjectIds = group.permissions.map(p => p.project.id);
-        //     // const matchingPermissions = user.permissions.filter(p =>
-        //     //     groupProjectIds.includes(p.project.id)
-                
-        //     // );
-
-            
-        //     // if (matchingPermissions.length > 0) {
-        //     //     setSelectedPermission(matchingPermissions[0].name);
-        //     // }
-        // }
+    const fetchData = () => {
+         if (showUser && group && showUser.permissions) {
+             const permission = showUser.permissions.find(p => p.project.id === project.id);
+             setSelectedPermission(permission ? permission.name : permissions.find(p => p.isDefault)?.id.toString() || "");
+         } else {
+             setSelectedPermission("");
+         }
     };
 
     const savePermission = async (selectedPermission: Permission) => {
         try {
-            await userService.updatePermission(user.username, selectedPermission);
+            await userService.updatePermission(showUser.username, selectedPermission);
             setSelectedPermission(selectedPermission.name);
-            
             setText(t("permissionUpdateSuccess"));
             setSuccessPermission(true);
         } catch (error) {
@@ -76,7 +61,7 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
 
     return (
         <div className="text-primary dark:text-secondary w-24 flex justify-between">
-            {group.owner && user.username === group.owner.username ? (
+            {group.owner && showUser.username === group.owner.username ? (
                 <div className="flex items-center justify-center w-full">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" viewBox="0 0 18 18" fill="currentColor" className="text-primary dark:text-secondary stroke-none">
@@ -87,10 +72,10 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
             ) : (
                 <div className="pl-4 md:pr-3">
                     <select
-                        className="flex w-16 text-primary text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                        className="flex w-16 text-primary font-alata text-xs dark:text-secondary text-center h-6 dark:bg-[#3C3C3C] border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                         name="permission"
                         id="permission"
-                        disabled={group?.owner.id != userLogged?.id}
+                        disabled={group?.owner.id != user?.id}
                         value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
                         onChange={handleSelectChange}
                     >
@@ -100,10 +85,9 @@ export const PermissionComponent = ({ group, user, permissions, project }: Props
                             </option>
                         ))}
                     </select>
-
                 </div>
             )}
-             {successPermission && (
+            {successPermission && (
                 <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
                     {text}
                 </div>
