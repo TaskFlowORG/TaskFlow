@@ -422,5 +422,8 @@
   "withoutphone":"Without phone",
   "withoutemail":"Without email",
   "some-user-in-project-desc": "Someone from this group already has access to this project, which could result in permission conflicts, so you cannot add this group.",
-  "some-user-in-project": "Someone is already in the project"
+  "some-user-in-project": "Someone is already in the project",
+  "profile-sucess": "Profile updated successfully",
+  "dont-change": "No field has been changed",
+  "profile-photo-sucess": "Profile photo updated successfully"
 }

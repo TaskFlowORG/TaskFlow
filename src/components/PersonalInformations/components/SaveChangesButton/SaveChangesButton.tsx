@@ -11,7 +11,7 @@ export const SaveChangesButton = ({ onClick }: Props) => {
     return (
         <div className="row-start-4  flex">
             <div className="px-6 flex items-center h-20">
-                <button className="h4 w-60 drop-shadow-xl h-12 rounded-md bg-primary dark:bg-secondary text-contrast" onClick={onClick}>
+                <button className="text-h4 font-alata w-60 drop-shadow-xl h-12 rounded-md bg-primary dark:bg-secondary text-contrast" onClick={onClick}>
                     {t("save-changes-button")}
                 </button>
 

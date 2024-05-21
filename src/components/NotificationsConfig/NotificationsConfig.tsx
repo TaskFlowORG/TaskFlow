@@ -75,7 +75,7 @@ export const NotificationsConfig = () => {
                 <div className="w-[85%] lg:grid pb-14 lg:grid-cols-2 lg:grid-rows-4 gap-10 flex flex-col lg:justify-center items-center lg:h-fit h-[110rem]">
                     <div className="flex justify-between col-span-2 row-start-1 w-full">
                         <div>
-                            <h2 className="h2 text-primary dark:text-secondary">{t("notifications-side-bar")}</h2>
+                            <h2 className="text-h2 font-alata text-primary dark:text-secondary">{t("notifications-side-bar")}</h2>
                         </div>
                         <div className="flex items-end py-4 font-bold ">
                             <label className="relative w-16 h-8">

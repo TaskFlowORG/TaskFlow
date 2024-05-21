@@ -16,7 +16,7 @@ export default function ChatPageConst() {
 
     return (
         <>
-            <div className="flex flex-col justify-center items-center w-full h-full gap-10">
+            <div className="lg:flex flex-col justify-center items-center w-full h-full gap-10 hidden">
                 <div className="flex justify-center text-p font-alata text-constrast">
                     <p>{t("no-chat-opened")}</p>
                 </div >

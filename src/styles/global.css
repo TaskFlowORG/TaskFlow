@@ -805,7 +805,7 @@ input[type="number"] {
 }
 
 .mouseTts{
-  cursor: url("../../public/img/arrow.svg"), auto;
+  cursor: url("../../public/img/enviar.svg"), auto;
 }
 
 .mouseDefault{

@@ -38,8 +38,8 @@ export const PersonalInformations = () => {
   const [error, setError] = useState<boolean>(false);
   const { t } = useTranslation();
   const fotoAindaNaoAtualizada = useRef<HTMLInputElement>(null);
-  const [sucessChange, setSucessChange] = useState<boolean>(false)
-  const [invite, setInvite] = useState<string>("")
+  const [sucess, setSucess] = useState<boolean>(false)
+  const [message, setMessage] = useState<string>("")
 
   useEffect(() => {
     if (!user) return;
@@ -60,11 +60,18 @@ export const PersonalInformations = () => {
     setPhotoUrl(archiveToSrc(user?.picture));
   }, [user]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (sucess) setSucess(false);
+    }, 6000);
+    return () => clearTimeout(timer);
+  }, [sucess]);
+
   const saveChanges = async () => {
     if (!user || !setUser) return;
     let updateUser = new User(
       user.id,
-      user.username, 
+      user.username,
       name,
       surname,
       user.picture,
@@ -77,16 +84,46 @@ export const PersonalInformations = () => {
       user.permissions,
       user.notifications
     );
-    const updatedUser = await userService.patch(updateUser).catch(asynThrow);
-    if (updatedUser)
-      setUser(updatedUser);
+
+    if (verifyChange(updateUser)) {
+      const updatedUser = await userService.patch(updateUser).catch(asynThrow);
+      if (updatedUser)
+        setUser(updatedUser);
+    }
   };
 
+  const verifyChange = (newUser: User) => {
+    if (verifyChangee(newUser)) {
+      if (mail.includes("@")) {
+        setSucess(true);
+        setMessage(t("profile-sucess"));
+        return true
+      } else {
+        setSucess(true);
+        setMessage(t("email-invalid"));
+        return false
+      }
+    } else {
+      setMessage(t("dont-change"));
+      setSucess(true);
+      return false
+    }
+  }
+
+  const verifyChangee = (newUser: User) => {
+    if (newUser.name != user?.name || newUser.surname != user?.surname || newUser.mail != user?.mail || newUser.phone != user?.phone || newUser.description != user?.description) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   const previewDaFoto = (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     setPhoto(e.target.files[0]);
     setPhotoUrl(URL.createObjectURL(e.target.files[0]));
     userService.upDatePicture(e.target.files[0]);
+    setSucess(true);
+    setMessage(t("profile-photo-sucess"));
   };
 
   const deleteUser = async () => {
@@ -100,9 +137,9 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className=" overflow-auto z-10 flex w-full h-full items-center">
-      <div className="flex flex-col relative z-20 lg:mt-16 mt-56 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:w-[60%] px-6 lg:px-0">
+    <div className="overflow-auto z-10 flex w-full h-full items-center lg:pt-20 pt-[22rem]">
+      <div className="flex flex-col relative z-20 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
+        <div className="flex flex-col lg:flex-row items-center gap-10 w-full lg:w-[57.5%]  px-6 lg:px-0">
           <div className="h-min relative w-32 lg:w-fit">
             <div className="w-min h-min rounded-full overflow-clip relative p-1 bg-gradient-to-t from-primary to-secondary  dark:from-secondary dark:to-primary">
               <span className="bg-input-grey dark:bg-modal-grey absolute top-0 left-0 w-full" style={{ height: 100 - percentage + "%" }} />
@@ -131,108 +168,109 @@ export const PersonalInformations = () => {
             </label>
             <span className="text-p font-alata w-full absolute text-center text-primary dark:text-secondary -bottom-5">{points}/{nextStep}</span>
           </div>
-          <div className="flex flex-col w-full h-full item gap-4 text-modal-grey ">
-            <div className="lg:text-[48px] text-[24px] font-alata">
-              <h2 className=" text-modal-grey dark:text-white">
-                {user?.name} {user?.surname}
-              </h2>
-            </div>
-            <div className="flex flex-col lg:flex-row gap-5">
-              <div className="flex flex-col gap-4">
-                <InputFieldConfig
-                  type="text"
-                  id="username"
-                  disabled={true}
-                  label={t("personal-informations-username")}
-                  value={user?.username as string}
-                  placeholder={user?.username as string}
-                  hasImage={true}
-                  onClick={() => setChangeNameModal(true)}
-                />
-              </div>
-              <div className="flex flex-col gap-4">
-                <InputFieldConfig
-                  type="text"
-                  id="password"
-                  disabled={true}
-                  value="********"
-                  label={t("personal-informations-password")}
-                  hasImage={true}
-                  onClick={() => setChangePasswordModal(true)}
-                />
-              </div>
-            </div>
-
+          <div className="flex flex-col h-full item gap-4 text-modal-grey w-full">
+            <h2 className="text-h4 lg:text-h3 font-alata text-modal-grey dark:text-white text-center lg:text-start break-words">
+              {user?.name} {user?.surname}
+            </h2>
           </div>
         </div>
-        <div className="flex justify-center w-full h-full">
-          <div className="gap-4 lg:w-[60%] w-full h-full lg:grid lg:grid-cols-2 lg:grid-rows-4 flex flex-col justify-between text-modal-grey p">
-            <InputFieldConfig
-              type={"text"}
-              id={"name"}
-              disabled={false}
-              label={t("personal-informations-name")}
-              value={name}
-              classes="px-6"
-              onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                setName(e.target.value)
-              }
-              hasImage={false}
-              placeholder={user?.name || ""}
-            ></InputFieldConfig>
-            <InputFieldConfig
-              type={"text"}
-              id={"surname"}
-              disabled={false}
-              label={t("personal-informations-surname")}
-              value={surname}
-              classes="px-6"
-              onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                setSurname(e.target.value)
-              }
-              hasImage={false}
-              placeholder={user?.surname || ""}
-            ></InputFieldConfig>
-            <InputFieldConfig
-              type={"mail"}
-              id={"mail"}
-              disabled={false}
-              label={t("personal-informations-email")}
-              value={mail}
-              classes="px-6"
-              onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                setMail(e.target.value)
-              }
-              hasImage={false}
-              placeholder={user?.mail || ""}
-            ></InputFieldConfig>
-            <InputFieldConfig
-              type={"tel"}
-              id={"phone"}
-              disabled={false}
-              label={t("personal-informations-phone")}
-              value={phone}
-              classes="px-6"
-              onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                setPhone(e.target.value)
-              }
-              hasImage={false}
-              placeholder={user?.phone || ""}
-            ></InputFieldConfig>
-            <label className="px-6 flex flex-col lg:w-[200%] w-full text-modal-grey dark:text-white">
-              {t("personal-informations-desc")}
-              <textarea
-                className={`dark:text-white resize-none  shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
-                id="desc"
-                value={desc}
-                spellCheck={true}
-                onChange={(e: { target: { value: SetStateAction<string> } }) =>
-                  setDesc(e.target.value)
-                }
-                placeholder={user?.description || ""}
+
+        <div className="flex flex-col items-center w-full h-full">
+          <div className="lg:w-[60%] w-full h-full flex flex-col justify-between text-modal-grey gap-5 lg:gap-10">
+            <div className="lg:grid lg:grid-cols-2 flex flex-col gap-5 lg:gap-0">
+              <InputFieldConfig
+                type="text"
+                id="username"
+                disabled={true}
+                label={t("personal-informations-username")}
+                value={user?.username as string}
+                placeholder={user?.username as string}
+                hasImage={true}
+                classes="px-6"
+                onClick={() => setChangeNameModal(true)}
               />
-            </label>
-            <SaveChangesButton onClick={saveChanges}></SaveChangesButton>
+              <InputFieldConfig
+                type="text"
+                id="password"
+                disabled={true}
+                value="********"
+                label={t("personal-informations-password")}
+                hasImage={true}
+                classes="px-6"
+                onClick={() => setChangePasswordModal(true)}
+              />
+            </div>
+            <div className="lg:grid lg:grid-cols-2 lg:grid-rows-3 flex flex-col gap-5 lg:gap-0">
+              <InputFieldConfig
+                type={"text"}
+                id={"name"}
+                disabled={false}
+                label={t("personal-informations-name")}
+
+                value={name}
+                classes="px-6"
+                onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                  setName(e.target.value)
+                }
+                hasImage={false}
+                placeholder={user?.name || ""}
+              />
+              <InputFieldConfig
+                type={"text"}
+                id={"surname"}
+                disabled={false}
+                label={t("personal-informations-surname")}
+                value={surname}
+                classes="px-6"
+                onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                  setSurname(e.target.value)
+                }
+                hasImage={false}
+                placeholder={user?.surname || ""}
+              />
+              <InputFieldConfig
+                required={true}
+                type={"mail"}
+                id={"mail"}
+                disabled={false}
+                label={t("personal-informations-email")}
+                value={mail}
+                classes="px-6"
+                onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                  setMail(e.target.value)
+                }
+                hasImage={false}
+                placeholder={user?.mail || ""}
+              />
+              <InputFieldConfig
+                type={"tel"}
+                id={"phone"}
+                disabled={false}
+                label={t("personal-informations-phone")}
+                value={phone}
+                classes="px-6"
+                onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                  setPhone(e.target.value)
+                }
+                hasImage={false}
+                placeholder={user?.phone || ""}
+              />
+              <label className="text-p font-montserrat px-6 flex flex-col col-span-2 w-full text-modal-grey dark:text-white">
+                {t("personal-informations-desc")}
+                <textarea
+                  className={`text-p font-montserrat resize-none shadow-blur-10 bg-input-grey-opacity border-2 border-input-grey border-opacity-[70%] rounded-md w-full h-[10vh]  pl-4 py-3 focus:outline-none`}
+                  id="desc"
+                  value={desc}
+                  spellCheck={true}
+                  onChange={(e: { target: { value: SetStateAction<string> } }) =>
+                    setDesc(e.target.value)
+                  }
+                  placeholder={user?.description || ""}
+                />
+              </label>
+            </div>
+            <SaveChangesButton onClick={() => saveChanges()}></SaveChangesButton>
+
           </div>
         </div>
         <div />
@@ -250,7 +288,7 @@ export const PersonalInformations = () => {
             className={`cursor-pointer gap-2 flex items-center justify-around h4 w-min drop-shadow-xl h-12 rounded-md text-contrast px-4 hover:lg:bg-primary hover:lg:dark:bg-secondary`}
           >
             <span className="w-6  h-6 ">
-              <IconTrashBin />
+              <IconTrashBin classes={` ${!extenderBotaoDel ? "stroke-primary dark:stroke-secondary" : "stroke-contrast"}`} />
             </span>
             <AnimatePresence mode="wait">
               {extenderBotaoDel ? (
@@ -281,9 +319,9 @@ export const PersonalInformations = () => {
         </div>
       </div>
       {
-        sucessChange && (
-          <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-64 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
-            {invite}
+        sucess && (
+          <div className="z-50 fixed inset-x-0 text-p font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] dark:bg-[#333] text-black dark:text-white rounded shadow-md animate-fadeInOut notification slideUpAppear">
+            {message}
           </div>
         )}
     </div>

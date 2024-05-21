@@ -22,6 +22,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const route = useRouter();
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects } = useContext(ProjectsContext);
   const [listaChats, setListaChats] = useState<Chat[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
@@ -35,6 +36,15 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [filteredPossibleChats, setFilteredPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatAberto, setChatAberto] = useState<number>();
   const [chat, setChat] = useState<Chat>();
+  const [chatsPrivados, setChatsPrivados] = useState<Chat[]>([]);
+  const [chatsGrupos, setChatsGrupos] = useState<Chat[]>([]);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", () => {
+      setWindowWidth(window.innerWidth);
+    });
+  }, []);
 
   const asynThrow = useAsyncThrow();
 
@@ -42,7 +52,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     async function buscarChats() {
       const response = await chatService.findAllGroup().catch(asynThrow);
       const response2 = await chatService.findAllPrivate().catch(asynThrow);
-      if(response && response2) setChats([...response, ...response2]);
+      if (response && response2) setChats([...response, ...response2]), setChatsPrivados(response2), setChatsGrupos(response);
     }
     buscarChats();
   }, [user]);
@@ -52,7 +62,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
       if (!user || !projects) return;
       const alreadyExistsGroups = await chatService.findAllGroup().catch(asynThrow);
       const myGrous = await groupService.findGroupsByUser().catch(asynThrow);
-      if(!myGrous || !alreadyExistsGroups) return;
+      if (!myGrous || !alreadyExistsGroups) return;
       const possibleGroups = myGrous.filter(
         (g) => !alreadyExistsGroups.find((ag) => ag.group.id === g.id)
       );
@@ -60,13 +70,13 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
         (g) => new ChatGroupPost(g)
       );
       const alreadyExistsPrivates = await chatService.findAllPrivate().catch(asynThrow);
-      if(!alreadyExistsPrivates) return;
+      if (!alreadyExistsPrivates) return;
       let myCoparticipants = projects.map((p) => p.owner);
       const groups = await groupService.findGroupsByUser().catch(asynThrow);
-      if(!groups) return;
+      if (!groups) return;
       for (let group of groups) {
         const g = await groupService.findOne(group.id).catch(asynThrow);
-        if(!g) return;
+        if (!g) return;
         myCoparticipants = [...myCoparticipants, g.owner, ...g.users];
       }
       myCoparticipants = myCoparticipants
@@ -154,7 +164,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                 <div className="flex items-center w-30 px-6 lg:h-full h-20">
                   <h3 className="text-h3 font-alata">{t("chat")}</h3>
                 </div>
-                <span className="flex w-full justify-end">
+                <span className="flex w-full gap-2 lg:gap-0">
                   <div className={`flex justify-center duration-200 w-full`}>
                     <div className={"flex items-center justify-center w-10 h-10 bg-primary dark:bg-secondary rounded-l-lg"}>
                       <div>
@@ -174,7 +184,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                     <button className="w-10 h-10 bg-primary rounded-full dark:bg-secondary p-2 rotate-45 relative" onClick={() => setCreatingChat(!creatingChat)}>
                       <IconPlus classes="w-full h-full text-contrast" />
                     </button>
-                    <LocalModal condition={creatingChat} setCondition={setCreatingChat}>
+                    <LocalModal condition={creatingChat} setCondition={setCreatingChat} right={windowWidth < 1024}>
                       <div className="h-min max-h-72 rounded-md w-72 bg-white p-4 dark:bg-modal-grey flex flex-col gap-2">
                         <>
                           <div className="flex justify-center duration-200 w-full">
@@ -217,7 +227,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
               </div>
               <div className={`w-full flex h-[72.5vh] lg:h-[73.5vh] lg:overflow-y-scroll overflow-auto`}>
                 <div className="w-full h-full flex  flex-col items-center ">
-                  {filteredChats.length == 0 ? (
+                  {chatContenteType == "GROUP" && chatsGrupos.length == 0 || chatContenteType == "PRIVATE" && chatsPrivados.length == 0 ? (
                     <div className="h-full flex justify-center items-center">
                       <ChatDontExists />
                     </div>

@@ -14,13 +14,13 @@ export const DeleteAccountModal = ({ close, deleteUser }: ModalDelete) => {
         <>
             <div className="w-full h-96 flex flex-col justify-center items-center rounded-sm  dark:bg-modal-grey shadow-blur-20">
                 <div className="h-[70%] w-full flex flex-col items-center justify-around">
-                    <h1 className="h3 text-primary dark:text-secondary ">{t("delete-account")}</h1>
-                    <div className="text-dark dark:text-white flex flex-col gap-5">
+                    <h1 className="text-h3 font-alata text-primary dark:text-secondary ">{t("delete-account")}</h1>
+                    <div className="text-dark dark:text-white flex flex-col gap-5 w-[80%]">
                         <div>
-                            <p className="p text-center">{t("delete-account-desc")}</p>
+                            <p className="text-p font-montserrat text-center">{t("delete-account-desc")}</p>
                         </div>
                         <div>
-                            <p className="p text-center">{t("delete-account-desc-recovery")}</p>
+                            <p className="text-p font-montserrat text-center">{t("delete-account-desc-recovery")}</p>
                         </div>
                     </div>
                 </div>
