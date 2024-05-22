@@ -204,7 +204,7 @@ export const TesPropertiesSide = ({
             );
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            if (passObligatoryVerification(propertyForm)){
+            if (passObligatoryVerification(propertyForm)) {
               propertyForm.errors = [];
             }
             setPropertiesToValidate([...propertiesToValidate]);
@@ -229,6 +229,36 @@ export const TesPropertiesSide = ({
               }`
             );
             setPropertiesToValidate([...propertiesToValidate]);
+          }
+        }
+      } else if (TypeOfProperty.DATE) {
+        let inputProperty = filter.find(
+          (propV) => propV.id == propertyForm.property.property.id
+        );
+        if (!(propertyForm.property.property as DateProp).canBePass) {
+          if (inputProperty) {
+            if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
+              propertyForm.errors.push(`${t("property-not-past")}`);
+            } else {
+              if (passObligatoryVerification(propertyForm)) {
+                propertyForm.errors = [];
+              }
+            }
+          } else {
+            console.log(propertyForm.property.value.value);
+            if (
+              testIfIsPass(
+                propertyForm,
+                new Date(),
+                propertyForm.property.value.value.dateTime
+              )
+            ) {
+              propertyForm.errors.push(`${t("property-not-past")}`);
+            } else {
+              if (passObligatoryVerification(propertyForm)) {
+                propertyForm.errors = [];
+              }
+            }
           }
         }
       }
@@ -308,7 +338,6 @@ export const TesPropertiesSide = ({
           updateProp.value.value.dateTime = value.value;
         } else {
           console.log(value, "value");
-
           updateProp.value.value = value.value;
         }
       }

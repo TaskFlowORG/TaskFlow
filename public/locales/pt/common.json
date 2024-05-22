@@ -238,6 +238,7 @@
   "users": "usuários!",
   "user": "usuário!",
   "property-required": "Essa propriedade é obrigatória!",
+  "property-not-past": "Essa propriedade não pode estar no passado!",
   "add-task-property": "Adicionar propriedade para tarefa",
   "add-property-to-project": "Adicionar propriedade para o projeto",
   "historical": "Histórico",

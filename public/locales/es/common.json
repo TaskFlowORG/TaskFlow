@@ -169,6 +169,7 @@
   "add-property-to-project": "Agregar propiedad al proyecto",
   "property-max": "Esta propiedad tiene un máximo de",
   "characters": "caracteres!",
+  "property-not-past": "¡Esta propiedad no puede estar en el pasado!",
   "users": "usuarios!",
   "user": "usuario!",
   "property-required": "¡Esta propiedad es obligatoria!",
