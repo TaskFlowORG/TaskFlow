@@ -238,13 +238,15 @@ export const TesPropertiesSide = ({
         if (!(propertyForm.property.property as DateProp).canBePass) {
           if (inputProperty) {
             if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
-              propertyForm.errors.push(`${t("property-max")}`);
+              propertyForm.errors.push(`${t("property-not-past")}`);
+
             } else {
               if (passObligatoryVerification(propertyForm)) {
                 propertyForm.errors = [];
               }
             }
           } else {
+            console.log(propertyForm.property.value.value);
             // if (
             //   testIfIsPass(
             //     propertyForm,
@@ -252,12 +254,13 @@ export const TesPropertiesSide = ({
             //     propertyForm.property.value.value.dateTime
             //   )
             // ) {
-            //   propertyForm.errors.push(`${t("property-max")}`);
+            //   propertyForm.errors.push(`${t("property-not-past")}`);
             // } else {
             //   if (passObligatoryVerification(propertyForm)) {
             //     propertyForm.errors = [];
             //   }
             // }
+
           }
         }
       }

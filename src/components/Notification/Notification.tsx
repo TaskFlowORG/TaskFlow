@@ -117,13 +117,16 @@ export const Notification = ({
     }
   }
 
+
   const deleteNotification = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
     if (!setUser || !user) return;
+    if (!Array.isArray(user.notifications)) return;
     await notificationService.deleteNotification(notification.id);
-    user.notifications = user.notifications.filter((n) => n.id != notification.id);
+    user.notifications = user.notifications.filter((n) => n.id !== notification.id);
     setUser({...user});
   };
+  
 
   useEffect(() => {
     const message = getMessage(notification);
