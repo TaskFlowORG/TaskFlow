@@ -4,18 +4,15 @@ import { Description } from "@/components/Description/Description";
 import { SVGGroupPage } from "@/components/SVGGroupPage/SVGGroupPage";
 import { UsersList } from "@/components/UsersList/UsersList";
 import { useContext, useEffect, useState } from "react"
-import { useTheme } from "next-themes";
-import { Group, GroupPut, OtherUser, Project, User } from "@/models";
-import { groupService, projectService, userService } from "@/services";
+import { Group, OtherUser} from "@/models";
+import { groupService, userService } from "@/services";
 import { ProjectContext } from "@/contexts";
-import { set } from "react-hook-form";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { Loading } from "@/components/Loading";
 import { SVGGroupMobile } from "@/components/SVGGroupMobile";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { project } = useContext(ProjectContext);
-    const { theme, setTheme } = useTheme();
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
     const asynThrow = useAsyncThrow();
@@ -32,10 +29,10 @@ export default function Home({ params }: { params: { user: string, project: numb
     if (!user) return <Loading />
     return (
         <div className="group-page w-screen h-screen">
-            <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
+        <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
             </div>
-            <div className="absolute flex md:hidden top-52 -left-7">
+            <div className="absolute flex h-[75vh] md:hidden top-72">
                 <SVGGroupMobile />
             </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 mt-32">
