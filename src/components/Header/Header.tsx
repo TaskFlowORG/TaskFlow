@@ -56,9 +56,6 @@ export const Header = ({
     })();
   };
 
-
-
-
   return (
     <div className="h-14 left-0 w-full fixed z-40 header bg-white shadow-md flex items-center dark:bg-modal-grey justify-between px-6">
 

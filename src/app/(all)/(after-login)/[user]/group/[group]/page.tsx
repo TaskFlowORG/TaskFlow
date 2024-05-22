@@ -22,30 +22,30 @@ export default function Groups({ params }: { params: { user: string, group: numb
     useEffect(() => {
         const fetchData = async () => {
             const fetchedGroup = await groupService.findOne(params.group).catch(asynThrow);
-            if(fetchedGroup) setGroup(fetchedGroup);
+            if (fetchedGroup) setGroup(fetchedGroup);
             const fetchedUser = await userService.findLogged().catch(asynThrow);
-            if(fetchedUser) setUser(fetchedUser);
+            if (fetchedUser) setUser(fetchedUser);
         }
         fetchData();
     }, [params.group]);
 
     if (!user) return <Loading />
-    if(group?.owner.id !== user.id && !group?.users.find(u => u.id === user.id)) throw new AxiosError("Unauthorized", undefined, undefined, undefined, {status:403} as AxiosResponse<any>) 
+    if (group?.owner.id !== user.id && !group?.users.find(u => u.id === user.id)) throw new AxiosError("Unauthorized", undefined, undefined, undefined, { status: 403 } as AxiosResponse<any>)
 
     return (
         <div className="group-page w-screen h-screen">
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
             </div>
-            <div className="absolute flex md:hidden top-52 -left-7">
-            <SVGGroupMobile />
-        </div>
+            <div className="absolute flex h-[99vh] w-[130%] md:hidden top-44">
+                <SVGGroupMobile />
+            </div>
             <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 mt-32">
                 <div className="flex flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
-                    { <Description user={user} groupId={params.group} />}
+                    {<Description user={user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
-                    { <UsersList group={group} user={user} setGroup={setGroup}/>}
+                    {<UsersList group={group} user={user} setGroup={setGroup} />}
                 </div>
             </div>
         </div>
