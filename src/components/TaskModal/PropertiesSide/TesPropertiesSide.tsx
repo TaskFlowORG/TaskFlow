@@ -41,6 +41,7 @@ import { TaskModalContext } from "@/utils/TaskModalContext";
 import { SourceTextModule } from "vm";
 import { log } from "console";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { PropertyContext } from "@/utils/PropertyContext";
 
 type Props = {
   task: Task | Project;
@@ -58,6 +59,7 @@ export const TesPropertiesSide = ({
   setFilter,
   setList,
 }: Props) => {
+  const { setPropertyId } = useContext(PropertyContext);
   const { t } = useTranslation();
   const { setSelectedTask } = useContext(TaskModalContext);
   const { setFilterProp } = useContext(FilterContext);
@@ -239,7 +241,6 @@ export const TesPropertiesSide = ({
           if (inputProperty) {
             if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
               propertyForm.errors.push(`${t("property-not-past")}`);
-
             } else {
               if (passObligatoryVerification(propertyForm)) {
                 propertyForm.errors = [];
@@ -260,7 +261,6 @@ export const TesPropertiesSide = ({
             //     propertyForm.errors = [];
             //   }
             // }
-
           }
         }
       }
@@ -337,7 +337,7 @@ export const TesPropertiesSide = ({
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           if (updateProp.value.value == null)
             updateProp.value.value = new DateWithGoogle(null, "", null);
-          updateProp.value.value.dateTime = value.value + ("-03:00");
+          updateProp.value.value.dateTime = value.value + "-03:00";
         } else {
           console.log(value, "value");
           updateProp.value.value = value.value;
@@ -483,6 +483,9 @@ export const TesPropertiesSide = ({
                         if (isTaskProperty(prop.property)) {
                           setOpenedConfig(!openedConfig);
                           setIdConfig(prop.property.id);
+                        } else {
+                          setIsOpen!(false);
+                          setPropertyId!(prop.property.id);
                         }
                       }}
                     ></ConfigBlock>

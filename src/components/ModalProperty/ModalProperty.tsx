@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useClickAway } from "react-use";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
@@ -33,6 +33,7 @@ import { get } from "http";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { propertyService } from "@/services";
 import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
 
 type ModalPropertyProps = {
   property: Property;
@@ -45,6 +46,9 @@ export const ModalProperty = ({
   deleteProperty,
   upDateProperties,
 }: ModalPropertyProps) => {
+
+  const {propertyId, setPropertyId} = useContext(PropertyContext)
+
   const [isHovering, setIsHovering] = useState(false);
   const [ModalDelete, setModalDelete] = useState(false);
   const [prop, setProp] = useState<Property>(property);
@@ -113,6 +117,10 @@ export const ModalProperty = ({
   const [editing, setEditing] = useState(false);
 
   const textRef = useRef<HTMLInputElement>(null);
+
+  useEffect(()=>{
+    if(propertyId == property.id) setOpenOptions(true);
+  },[propertyId, setPropertyId])
 
   useEffect(() => {
     if (editing && textRef.current) {
