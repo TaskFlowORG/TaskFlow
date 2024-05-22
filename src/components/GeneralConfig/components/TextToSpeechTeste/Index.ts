@@ -1,1 +1,0 @@
-export { TextToSpeechTeste } from './TextToSpeechTeste';

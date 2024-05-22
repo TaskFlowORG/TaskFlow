@@ -14,9 +14,10 @@ interface InputFieldConfigProps {
     hasImage: boolean
     onClick?: () => void
     required?: boolean
+    maxCharacters?: number
 }
 
-export const InputFieldConfig = ({ id, label, type, value, onChange, placeholder, disabled, classes, hasImage, onClick, required }: InputFieldConfigProps) => {
+export const InputFieldConfig = ({ id, label, type, value, onChange, placeholder, disabled, classes, hasImage, onClick, required, maxCharacters }: InputFieldConfigProps) => {
 
     return (
         <div className={"w-full " + (classes)}>
@@ -26,7 +27,7 @@ export const InputFieldConfig = ({ id, label, type, value, onChange, placeholder
 
                     <input
                         className={`bg-transparent w-full h-full text-p font-montserrat outline-none placeholder: pl-4`}
-                        id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} disabled={disabled} required={required}/>
+                        id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} disabled={disabled} required={required} maxLength={maxCharacters}/>
                     
                     <div onClick={onClick}>
                         {hasImage && <EditIcon classes="cursor-pointer w-6 h-6 stroke-primary dark:stroke-secondary" />}

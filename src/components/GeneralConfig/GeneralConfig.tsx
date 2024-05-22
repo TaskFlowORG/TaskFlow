@@ -1,5 +1,5 @@
 
-import { ChangeEvent, use, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { userService } from "@/services";
 import { Configuration, Language } from "@/models";
@@ -25,6 +25,7 @@ export const GeneralConfig = () => {
   const { changeLanguage: changeGlobal } = useContext(LanguageContext)
   const { t } = useTranslation();
   const route = useRouter();
+  const asynThrow = useAsyncThrow();
 
   const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
@@ -36,16 +37,12 @@ export const GeneralConfig = () => {
   const [language, setLanguage] = useState<Language | undefined>(user?.configuration.language);
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
   const [themeToggle, setThemeToggle] = useState(false);
-  const router = useRouter()
   const [isLinkedGoogle, setIsLinkedGoogle] = useState<boolean>(false);
 
   useEffect(() => {
-
     userService.isLinkedGoogle(user?.id).then((response) => {
       setIsLinkedGoogle(response)
     })
-    console.log(isLinkedGoogle);
-
     setLibras(user?.configuration.libras);
     setTextToSound(user?.configuration.textToSound);
     setThemeToggle(theme === "dark");
@@ -56,8 +53,6 @@ export const GeneralConfig = () => {
     setGoogleAgendas(user?.configuration.googleCalendar)
     setInitialPageTasksPerDeadline(user?.configuration.initialPageTasksPerDeadline);
   }, [user]);
-
-  const asynThrow = useAsyncThrow();
 
   const changeColor = (color: string) => {
     (async () => {
@@ -155,8 +150,8 @@ export const GeneralConfig = () => {
   };
 
   return (
-    <div className="flex justify-center pt-32 items-start w-full h-full">
-      <div className="flex flex-col lg:items-start items-center lg:grid lg:grid-cols-2 md:flex md:flex-col w-[85%] h-fit">
+    <div className="lg:pl-20 pl-0 flex justify-center items-center w-full h-full">
+      <div className="flex flex-col items-center lg:grid lg:grid-cols-2 lg:w-[95%] w-[85%] h-full pt-16">
         <div className="w-[97%]">
           <div className="w-full h-fit flex flex-col gap-8 ">
             <p className="text-primary dark:text-secondary text-h2 font-alata">{t("configuration-title")}</p>
@@ -172,7 +167,7 @@ export const GeneralConfig = () => {
           </div>
         </div>
         <div className="w-[97%] flex flex-col lg:pt-3 pt-6">
-          <div className="w-full h-fit flex flex-col gap-5">
+          <div className={`w-full h-fit flex flex-col gap-5 ${!isLinkedGoogle ? "pt-0 lg:pt-[6rem]" : "pt-0"}`}>
             <div className="h-fit flex flex-col gap-5">
               <If condition={isLinkedGoogle}>
                 <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-calendar-title")} value={t("google-calendar-configs")} onChange={(e) => updateBack(e, "googleCalendar")} checked={googleAgendas} ></InputFieldConfig>
