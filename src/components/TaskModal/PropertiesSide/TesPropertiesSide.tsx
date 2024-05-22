@@ -38,6 +38,9 @@ import Image from "next/image";
 import { ConfigBlock } from "@/components/Config";
 import { UserContext } from "@/contexts/UserContext";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { SourceTextModule } from "vm";
+import { log } from "console";
+import { FilterContext } from "@/utils/FilterlistContext";
 
 type Props = {
   task: Task | Project;
@@ -57,6 +60,7 @@ export const TesPropertiesSide = ({
 }: Props) => {
   const { t } = useTranslation();
   const { setSelectedTask } = useContext(TaskModalContext);
+  const { setFilterProp } = useContext(FilterContext);
   const [propertiesToValidate, setPropertiesToValidate] = useState<PropsForm[]>(
     []
   );
@@ -72,15 +76,6 @@ export const TesPropertiesSide = ({
   const [errors, setErrors] = useState(false);
   const { user } = useContext(UserContext);
 
-  // const valuesOfObjects = (task:Project | Task):PropertyValue[] => {
-  //     let keys = Object.keys(task)
-  //     if (keys.includes('owner')){
-  //       return (task as Project).values
-  //     } else {
-  //       return (task as Task).properties
-  //     }
-  // }
-
   useEffect(() => {
     let array: PropsForm[] = [];
     valuesOfObjects(task).forEach((prop) => {
@@ -88,7 +83,7 @@ export const TesPropertiesSide = ({
       array.push({ property: prop, errors: [] });
     });
     setPropertiesToValidate(array);
-  }, [valuesOfObjects(task), setPropertiesToValidate]);
+  }, [valuesOfObjects(task)]);
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
@@ -97,186 +92,177 @@ export const TesPropertiesSide = ({
   const [modalProperty, setModalProperty] = useState(false);
 
   async function deleteTask() {
-    taskService.delete(task.id, project!.id.toString());
-    let page = project?.pages.find((page) => pageId == page.id);
-    let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
-    setProject!({ ...project! });
-    {
-      setIsOpen && setIsOpen(false);
+    if (!isProject(task)) {
+      taskService.delete(task.id, project!.id.toString());
+      let page = project?.pages.find((page) => pageId == page.id);
+      let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
+      setProject!({ ...project! });
+      {
+        setIsOpen && setIsOpen(false);
+      }
+    } else {
+      projectService.delete(project!.id);
     }
   }
 
-  const validateProps = (): boolean => {
-    // console.log(propertiesToValidate)
-    propertiesToValidate.forEach((prop) => {
-      if (prop.property.property.obligatory) {
-        let propertyd = filter.find(
-          (propV) => propV.id == prop.property.property.id
-        );
-        if (!propertyd) return;
+  const passObligatoryVerification = (propertyForm: PropsForm): boolean => {
+    if (propertyForm.property.property.obligatory) {
+      let inputProperty = filter.find(
+        (propV) => propV.id == propertyForm.property.property.id
+      );
+
+      if (inputProperty) {
         if (
-          !propertyd.value ||
-          propertyd.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
-          !(propertyd.value.length > 0)
+          inputProperty.value == "" ||
+          inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
+          inputProperty.value.length == 0
         ) {
-          prop.errors.push("Essa propriedade é obrigatória");
+          propertyForm.errors.push(`${t("property-required")}`);
           setPropertiesToValidate([...propertiesToValidate]);
+          return false;
         } else {
-          prop.errors = [];
+          propertyForm.errors = [];
           setPropertiesToValidate([...propertiesToValidate]);
+          return true;
+        }
+      } else {
+        if (
+          !propertyForm.property.value.value ||
+          propertyForm.property.value.value.length == 0
+        ) {
+          propertyForm.errors.push(`${t("property-required")}`);
+          setPropertiesToValidate([...propertiesToValidate]);
+          return false;
+        } else {
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
+  };
+  const validateProps = (): boolean => {
+    propertiesToValidate.forEach((propertyForm) => {
+      if (propertyForm.property.property.obligatory) {
+        let inputProperty = filter.find(
+          (propV) => propV.id == propertyForm.property.property.id
+        );
+
+        if (inputProperty) {
+          if (
+            inputProperty.value == "" ||
+            inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
+            inputProperty.value.length == 0
+          ) {
+            propertyForm.errors.push(`${t("property-required")}`);
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            propertyForm.errors = [];
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+        } else {
+          if (
+            !propertyForm.property.value.value ||
+            propertyForm.property.value.value.length == 0
+          ) {
+            propertyForm.errors.push(`${t("property-required")}`);
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
         }
       }
 
-      switch (prop.property.property.type) {
-        case TypeOfProperty.TEXT:
-          if (!(prop.property.property as Limited).maximum) return;
+      if (
+        [
+          TypeOfProperty.TEXT,
+          TypeOfProperty.USER,
+          TypeOfProperty.NUMBER,
+          TypeOfProperty.PROGRESS,
+        ].includes(propertyForm.property.property.type)
+      ) {
+        if (!(propertyForm.property.property as Limited).maximum) return;
+        let inputProperty = filter.find(
+          (propV) => propV.id == propertyForm.property.property.id
+        );
+        if (inputProperty) {
           if (
-            (prop.property.property as Limited).maximum <
-            prop.property.value.value.length
+            inputProperty.value.length >
+            (propertyForm.property.property as Limited).maximum
           ) {
-            prop.errors.push(
-              `Essa propridade possuí um máximo de ${
-                (prop.property.property as Limited).maximum
-              } caractéres.`
+            propertyForm.errors.push(
+              `${t("property-max")} ${
+                (propertyForm.property.property as Limited).maximum
+              } ${
+                propertyForm.property.property.type == TypeOfProperty.TEXT
+                  ? t("characters")
+                  : propertyForm.property.property.type == TypeOfProperty.USER
+                  ? (propertyForm.property.property as Limited).maximum > 1
+                    ? t("users")
+                    : t("user")
+                  : "!"
+              }`
             );
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            prop.errors = [];
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-          break;
-        case TypeOfProperty.NUMBER:
-        case TypeOfProperty.PROGRESS:
-          if (!(prop.property.property as Limited).maximum) return;
-          if (
-            (prop.property.property as Limited).maximum <
-            parseFloat(prop.property.value.value)
-          ) {
-            prop.errors.push(
-              `Essa propridade possuí um valor máximo de ${
-                (prop.property.property as Limited).maximum
-              }.`
-            );
-            setPropertiesToValidate([...propertiesToValidate]);
-          } else {
-            prop.errors = [];
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-          break;
-        case TypeOfProperty.DATE:
-          if (!(prop.property.property as DateProp).canBePass) {
-            const currentDate = new Date();
-            console.log(currentDate);
-            
-            let isPass = testIfIsPass(prop, currentDate, prop.property.value.value?.dateTime)              
-            if (isPass) {
-              prop.errors.push(`Essa propriedade não pode estar no passado!`);
-            }
-            setPropertiesToValidate([...propertiesToValidate]);
-          } else {
-            prop.errors = [];
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-          break;
-        case TypeOfProperty.USER:
-          if (!(prop.property.property as Limited).maximum) return;
-          if (
-            (prop.property.property as Limited).maximum <
-            prop.property.value.value.length
-          ) {
-            prop.errors.push(
-              `Essa propridade possuí um máximo de ${
-                (prop.property.property as Limited).maximum
-              } usuários.`
-            );
-            setPropertiesToValidate([...propertiesToValidate]);
-          } else {
-            prop.errors = [];
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-          break;
-      }
-    });
-    filter.forEach((propInput) => {
-      const propertyForm =
-        propertiesToValidate.find(
-          (prop) => prop.property.property.id == propInput.id
-        ) ?? null;
-      if (propertyForm) {
-        switch (propertyForm.property.property.type) {
-          case TypeOfProperty.TEXT:
-            if (!(propertyForm.property.property as Limited).maximum) return;
-            if (
-              (propertyForm.property.property as Limited).maximum <
-              propInput.value.length
-            ) {
-              propertyForm.errors.push(
-                `Essa propridade possuí um máximo de ${
-                  (propertyForm.property.property as Limited).maximum
-                } caractéres.`
-              );
-              setPropertiesToValidate([...propertiesToValidate]);
-            } else {
+            if (passObligatoryVerification(propertyForm)) {
               propertyForm.errors = [];
-              setPropertiesToValidate([...propertiesToValidate]);
             }
-            break;
-          case TypeOfProperty.NUMBER:
-          case TypeOfProperty.PROGRESS:
-            if (!(propertyForm.property.property as Limited).maximum) return;
-            if (
-              (propertyForm.property.property as Limited).maximum <
-              parseFloat(propInput.value)
-            ) {
-              propertyForm.errors.push(
-                `Essa propridade possuí um valor máximo de ${
-                  (propertyForm.property.property as Limited).maximum
-                }.`
-              );
-              setPropertiesToValidate([...propertiesToValidate]);
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+        } else {
+          console.log(propertyForm.property.value.value);
+          if (
+            propertyForm.property.value.value.length >
+            (propertyForm.property.property as Limited).maximum
+          ) {
+            propertyForm.errors.push(
+              `${t("property-max")} ${
+                (propertyForm.property.property as Limited).maximum
+              } ${
+                propertyForm.property.property.type == TypeOfProperty.TEXT
+                  ? t("characters")
+                  : propertyForm.property.property.type == TypeOfProperty.USER
+                  ? (propertyForm.property.property as Limited).maximum > 1
+                    ? t("users")
+                    : t("user")
+                  : "!"
+              }`
+            );
+            setPropertiesToValidate([...propertiesToValidate]);
+          }
+        }
+      } else if (TypeOfProperty.DATE) {
+        let inputProperty = filter.find(
+          (propV) => propV.id == propertyForm.property.property.id
+        );
+        if (!(propertyForm.property.property as DateProp).canBePass) {
+          if (inputProperty) {
+            if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
+              propertyForm.errors.push(`${t("property-max")}`);
             } else {
-              propertyForm.errors = [];
-              setPropertiesToValidate([...propertiesToValidate]);
-            }
-            break;
-          case TypeOfProperty.DATE:
-            if (!(propertyForm.property.property as DateProp).canBePass) {
-              const currentDate = new Date();
-              console.log(currentDate)
-              let isPass = testIfIsPass(propertyForm, currentDate, propInput);
-              console.log(isPass, "bomdia")
-              if (isPass) {
-                propertyForm.errors.push(
-                  `Essa propriedade não pode estar no passado!`
-                );
+              if (passObligatoryVerification(propertyForm)) {
+                propertyForm.errors = [];
               }
-              setPropertiesToValidate([...propertiesToValidate]);
-            } else {
-              propertyForm.errors = [];
-              setPropertiesToValidate([...propertiesToValidate]);
             }
-            break;
-          case TypeOfProperty.USER:
-            if (!(propertyForm.property.property as Limited).maximum) return;
-            if (
-              (propertyForm.property.property as Limited).maximum <
-              propInput.value.length
-            ) {
-              propertyForm.errors.push(
-                `Essa propridade possuí um máximo de ${
-                  (propertyForm.property.property as Limited).maximum
-                } usuários.`
-              );
-              setPropertiesToValidate([...propertiesToValidate]);
-            } else {
-              propertyForm.errors = [];
-              setPropertiesToValidate([...propertiesToValidate]);
-            }
-            break;
+          } else {
+            // if (
+            //   testIfIsPass(
+            //     propertyForm,
+            //     new Date(),
+            //     propertyForm.property.value.value.dateTime
+            //   )
+            // ) {
+            //   propertyForm.errors.push(`${t("property-max")}`);
+            // } else {
+            //   if (passObligatoryVerification(propertyForm)) {
+            //     propertyForm.errors = [];
+            //   }
+            // }
+          }
         }
       }
     });
+
     return propertiesToValidate
       .filter(
         (prop) =>
@@ -290,17 +276,22 @@ export const TesPropertiesSide = ({
       : true;
   };
 
-
-  function testIfIsPass(propertyForm:PropsForm, currentDate:Date, propInput:FilteredProperty) {
-    if((propertyForm.property.property as DateProp).includesHours){
-     return  new Date(propInput?.value) < currentDate
-    }else{
-      return new Date(propInput?.value).getDate() < currentDate.getDate() && 
-      new Date(propInput?.value).getMonth() < currentDate.getMonth() && 
-      new Date(propInput?.value).getFullYear() < currentDate.getFullYear()
+  function testIfIsPass(
+    propertyForm: PropsForm,
+    currentDate: Date,
+    propInput: FilteredProperty
+  ) {
+    if ((propertyForm.property.property as DateProp).includesHours) {
+      return new Date(propInput?.value) < currentDate;
+    } else {
+      return (
+        new Date(propInput?.value).getDate() < currentDate.getDate() &&
+        new Date(propInput?.value).getMonth() < currentDate.getMonth() &&
+        new Date(propInput?.value).getFullYear() < currentDate.getFullYear()
+      );
     }
   }
-              
+
   const asynThrow = useAsyncThrow();
 
   async function updateTask() {
@@ -341,16 +332,11 @@ export const TesPropertiesSide = ({
             value.value.includes(user.username)
           );
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-
-          if (updateProp.value.value == null){
-            console.log(value, "value");
+          if (updateProp.value.value == null)
             updateProp.value.value = new DateWithGoogle(null, "", null);
-          }
-          console.log(value, "value");
-          updateProp.value.value.dateTime = value.value + "-03:00";
+          updateProp.value.value.dateTime = value.value + ("-03:00");
         } else {
           console.log(value, "value");
-          
           updateProp.value.value = value.value;
         }
       }
@@ -375,7 +361,7 @@ export const TesPropertiesSide = ({
     }
 
     setList(undefined);
-    setFilter([]);
+    setFilterProp!([]);
   }
 
   const postProperty = async (
@@ -476,7 +462,7 @@ export const TesPropertiesSide = ({
   }
 
   return (
-    <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
+    <div className="w-full lg:w-2/5 flex flex-col properties-section justify-between min-h-full ">
       {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}

@@ -127,7 +127,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   return (
     <div className="flex w-full justify-center h-full lg:justify-start">
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-80 md:w-96 py-8 lg:py-12 relative">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-72 md:w-96 py-8 lg:py-12 relative">
         <div className="flex flex-col gap-12 justify-between">
           {
           group?.owner.id == user.id && 

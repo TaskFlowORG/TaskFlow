@@ -1,5 +1,6 @@
+import { TutorialContext } from "@/contexts/TutorialContext";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 
 interface Props {
@@ -19,7 +20,8 @@ export const SideModal = ({
   footer
 }: Props) => {
   const ref = useRef(null);
-  useClickAway(ref, () => setCondition(false));
+  const {step, isTutorialMade} = useContext(TutorialContext);
+  useClickAway(ref, () => (step && (step < 3 || step > 6) && (step < 22 || step > 25 ) && step != 11 ) || isTutorialMade && setCondition(false));
 
   return (
     <AnimatePresence mode="wait" initial={false}>

@@ -2,6 +2,7 @@
 
 import { Description } from "@/components/Description/Description";
 import { SVGGroupPage } from "@/components/SVGGroupPage/SVGGroupPage";
+
 import { UsersList } from "@/components/UsersList/UsersList";
 import { useContext, useEffect, useState } from "react"
 import { Group, OtherUser } from "@/models";
@@ -10,6 +11,7 @@ import { ProjectContext } from "@/contexts";
 import { Loading } from "@/components/Loading";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { AxiosError, AxiosResponse } from "axios";
+import { SVGGroupMobile } from "@/components/SVGGroupMobile";
 
 export default function Groups({ params }: { params: { user: string, group: number } }) {
     const { project } = useContext(ProjectContext);
@@ -35,8 +37,11 @@ export default function Groups({ params }: { params: { user: string, group: numb
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
             </div>
-            <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
-                <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
+            <div className="absolute flex md:hidden top-52 -left-7">
+            <SVGGroupMobile />
+        </div>
+            <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 mt-32">
+                <div className="flex flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
                     { <Description user={user} groupId={params.group} />}
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">

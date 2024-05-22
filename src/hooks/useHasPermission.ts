@@ -35,7 +35,6 @@ export const
                 } else if (!project) {
                     setSucess(true);
                 } else if (project.owner.id === user.id) {
-                    // console.log('owner1');
                     setSucess(true);
                 } else if (owners.find( (o) => o?.id == user.id)){
                     setSucess(true);

@@ -74,7 +74,7 @@ export const PageSide = (
         <Navigate modalPages setCondition={setModalPages} />
         <ProjectInformations project={project} />
       </div>
-      <div className="h-full w-full flex flex-col   overflow-y-auto none-scrollbar">
+      <div className="h-full w-full flex flex-col  pages  overflow-y-auto none-scrollbar">
         {project?.pages.map((page) => {
           return (
             <div
@@ -135,7 +135,7 @@ export const PageSide = (
           <NeedPermission permission="create">
 
             <Button
-              width="w-full "
+              width="w-full pages-create "
               text={t("add-page")}
               fnButton={() => setModal(!modal)}
               padding="p-2"

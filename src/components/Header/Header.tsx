@@ -96,7 +96,7 @@ export const Header = ({
               width="26"
               height="29"
               viewBox="0 0 26 29"
-              className=" text-primary dark:text-white cursor-pointer "
+              className=" text-primary dark:text-white cursor-pointer configs"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
             >

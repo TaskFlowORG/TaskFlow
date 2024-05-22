@@ -11,10 +11,11 @@ import { ProjectContext } from "@/contexts";
 import { set } from "react-hook-form";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { Loading } from "@/components/Loading";
+import { SVGGroupMobile } from "@/components/SVGGroupMobile";
 
 export default function Home({ params }: { params: { user: string, project: number, group: number } }) {
     const { project } = useContext(ProjectContext);
-    const {theme, setTheme } = useTheme();
+    const { theme, setTheme } = useTheme();
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
     const asynThrow = useAsyncThrow();
@@ -22,21 +23,23 @@ export default function Home({ params }: { params: { user: string, project: numb
     useEffect(() => {
         const fetchData = async () => {
             const fetchedGroup = await groupService.findOne(params.group).catch(asynThrow);
-           if(fetchedGroup) setGroup(fetchedGroup)
+            if (fetchedGroup) setGroup(fetchedGroup)
             const fetchedUser = await userService.findLogged().catch(asynThrow);
-            if(fetchedUser) setUser(fetchedUser);
+            if (fetchedUser) setUser(fetchedUser);
         }
         fetchData();
     }, [params.project]);
-    if(!user) return <Loading />
+    if (!user) return <Loading />
     return (
-        <div className="w-screen h-screen">
+        <div className="group-page w-screen h-screen">
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
-                
             </div>
-            <div className="w-full flex flex-col lg:flex-row lg:gap-32 mt-32">
-                <div className="flex flex-col lg:flex-row w-1/2 lg:justify-end">
+            <div className="absolute flex md:hidden top-52 -left-7">
+                <SVGGroupMobile />
+            </div>
+            <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 mt-32">
+                <div className="flex flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
                     <Description project={project} user={user} groupId={params.group} />
                 </div>
                 <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
