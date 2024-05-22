@@ -34,7 +34,7 @@ export default function Groups({ params }: { params: { user: string, group: numb
 
     return (
         <div className="group-page w-screen h-screen">
-            <div className="absolute hidden md:flex lg:-bottom-36 xl:2xl:bottom-0 -z-50">
+            <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />
             </div>
             <div className="absolute flex md:hidden top-52 -left-7">
