@@ -36,7 +36,7 @@ import { ErrorModal } from "../ErrorModal";
 
 type ModalPropertyProps = {
   property: Property;
-  deleteProperty: (property: Property) => void;
+    deleteProperty: (property: Property) => void;
   upDateProperties: (property: Property, getValues: any) => void;
 };
 
@@ -122,20 +122,20 @@ export const ModalProperty = ({
 
   const saveName = () => {
     setEditing(false);
-    if(property.type === TypeOfProperty.DATE){
-      propertyService.patchDate(property.id, {id:property.id, name: name} as Date);
-    }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
-      propertyService.patchLimited(property.id, {id:property.id, name: name} as Limited);
-    }else{
-      propertyService.patchSelect(property.id, {id:property.id, name: name} as Select);
+    if (property.type === TypeOfProperty.DATE) {
+      propertyService.patchDate(property.id, { id: property.id, name: name } as Date);
+    } else if ([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)) {
+      propertyService.patchLimited(property.id, { id: property.id, name: name } as Limited);
+    } else {
+      propertyService.patchSelect(property.id, { id: property.id, name: name } as Select);
     }
   }
 
   const saveNewName = (e: any) => {
-      if (!e.key || e.key === "Enter") {
-        saveName();
-      }
-      setName(textRef.current?.textContent ?? property.name);
+    if (!e.key || e.key === "Enter") {
+      saveName();
+    }
+    setName(textRef.current?.textContent ?? property.name);
 
   }
 
@@ -154,21 +154,21 @@ export const ModalProperty = ({
         renaming={editing}
         icon={
           editing ?
-          <span onClick={(e) => {e.stopPropagation();saveName()}}>
+            <span onClick={(e) => { e.stopPropagation(); saveName() }}>
               <IconSave />
-          </span>
-          :
-          isHovering ? (
-            <span onClick={(e) => {e.stopPropagation();setEditing(!editing)}}>
-              <IconEditColoured />
             </span>
-          ) : (
-            fnReturnImageProperty(property.type)
-          )
+            :
+            isHovering ? (
+              <span onClick={(e) => { e.stopPropagation(); setEditing(!editing) }}>
+                <IconEditColoured />
+              </span>
+            ) : (
+              fnReturnImageProperty(property.type)
+            )
         }
         openOptions={openOptions}
         fnClick={() => {
-          setOpenOptions(editing ? false: !openOptions);
+          setOpenOptions(editing ? false : !openOptions);
         }}
         fnOpenOptions={setOptionsFN}
         textRef={textRef}
@@ -188,6 +188,7 @@ export const ModalProperty = ({
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
                 onClick={() => {
                   setModalDelete(true);
+  
                 }}
               >
                 {" "}
@@ -198,8 +199,8 @@ export const ModalProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                    upDateProperties(property, getValues());
-                    setOpenOptions(false);
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
 
                 }}
               >
@@ -214,7 +215,7 @@ export const ModalProperty = ({
           isClosed={ModalDelete}
           property={property}
           deleteProperty={deleteProperty}
-          close={() => setModalDelete}
+          close={() => setModalDelete(false)}
           closeProperty={() => setOpenOptions(false)}
         />
       )}
