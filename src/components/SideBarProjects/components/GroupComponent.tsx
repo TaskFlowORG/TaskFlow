@@ -84,11 +84,7 @@ export const GroupComponent = ({
         await groupService.delete(group.id);
         const updatedGroups = groups.filter((g) => g.id !== group.id);
         setGroups([...updatedGroups]);
-        if(project){
-          router.push("/" + user+"/"+project.id);
-        } else{
-          router.push("/" + user);
-        }
+        router.push("/" + user);
       } catch (error) {
         console.error("Error deleting the group:", error);
       }
