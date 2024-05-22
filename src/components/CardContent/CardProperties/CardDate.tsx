@@ -17,7 +17,7 @@ export const CardDate = ({ date, property, showNameProperty }: Props) => {
         )}
 
         <p className=" mn text-[#797979] dark:text-white mt-0.5 ">
-          {date.split("T")[0] ?? "dd/mm/yy"}
+          {new Date(date).toLocaleDateString()}
         </p>
         <div className="w-4 aspect-square">
           <IconCalendar></IconCalendar>
