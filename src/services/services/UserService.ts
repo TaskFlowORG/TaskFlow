@@ -57,7 +57,7 @@ class UserService {
     }
 
     async delete(username: string): Promise<User> {
-        const response = await Api.delete<User>(`user/${username}`, { withCredentials: true });
+        const response = await Api.delete<User>(`user`, { withCredentials: true });
         return response.data;
     }
 
