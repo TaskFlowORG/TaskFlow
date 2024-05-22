@@ -11,6 +11,7 @@ import { HistoricSection } from "./CommentsAndHistoric/HistoricSection";
 import { TesPropertiesSide } from "./PropertiesSide/TesPropertiesSide";
 import { twMerge } from "tailwind-merge";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 type Props = {
   isOpen?: boolean;
@@ -34,6 +35,8 @@ export const TaskModalContent = ({
   const [users, setUsers] = useState<OtherUser[]>([]);
   const asynThrow = useAsyncThrow();
 
+
+
   useEffect(() => {
     setList(undefined);
     setFilter([]);
@@ -43,28 +46,23 @@ export const TaskModalContent = ({
   useEffect(() => {
     const findGroups = async () => {
       if (!project) return;
-      const users = await userService.findAll().catch(asynThrow);
-      if (!users) return;
-      const list = users.filter(
-        (user) =>
-          user.permissions.find(
+      let users = await userService.findAll();
+      users = users.filter(
+        (user) => user.permissions.find(
             (permission) => permission.project.id === project.id
           ) != undefined
       );
-      list.push(project.owner);
-      const groups = await groupService.findGroupsByAProject(project.id).catch(asynThrow);
-      if (!groups) return;
+      users.push(project.owner);
+      const groups = await groupService.findGroupsByAProject(project.id);
       for (let group of groups) {
-        const g = await userService.findByUsername(group.ownerUsername).catch(asynThrow);
-        if (g) list.push()
+        users.push(await userService.findByUsername(group.ownerUsername));
       }
-      setUsers(list);
-      users.filter((user, index) => {
+      // setUsers([...list])
+      const finalList = users.filter((user, index) => {
         let indexL = users.findLastIndex((userL) => userL.id == user.id);
         return indexL == index;
       });
-  
-      setUsers([...users]);
+      setUsers([...finalList]);
     };
     findGroups();
 

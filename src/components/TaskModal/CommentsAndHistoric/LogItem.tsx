@@ -44,11 +44,11 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
 
       case TypeOfProperty.SELECT:
       case TypeOfProperty.RADIO:
-        return (log.value.value.value as Option).name;
+        return (log.value.value.value as Option)?.name;
       case TypeOfProperty.ARCHIVE:
-        return (log.value.value.value as Archive).name;
+        return (log.value.value.value as Archive)?.name;
       case TypeOfProperty.TIME:
-        let duration = (log.value.value.value as Interval).time;
+        let duration = (log.value.value.value as Interval)?.time;
         return (
           (duration.hours < 10 ? "0" + duration.hours : "" + duration.hours) +
           ":" +
@@ -71,7 +71,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
         );
 
       case TypeOfProperty.DATE:
-        return log.value.value.value.dateTime;
+        return log.value.value.value?.dateTime;
         case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:

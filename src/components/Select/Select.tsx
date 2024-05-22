@@ -7,6 +7,7 @@ import { twMerge } from "tailwind-merge";
 import { useTranslation } from "next-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 interface SelectProps extends ComponentProps<"select"> {
   options: string[] | Option[];
   name: string;
@@ -64,7 +65,7 @@ export const Select = ({
     // const select = document.querySelector(`#prop${id}`)
   };
 
-  const hasPermission = useHasPermission("update");
+  const isDisabled = useIsDisabled(isInModal, 'update');
   // useState(() => {
   // }, [defaultValue, options])
   const styleWithBorder = twMerge(
@@ -80,7 +81,7 @@ export const Select = ({
       {/* aqui embaixo é w-fit */}
       <div className=" relative">
         <select
-          disabled={!isInModal ? false : ( task?.completed ? true : !hasPermission)}
+          disabled={isDisabled}
           className="appearance-none bg-transparent p-1 text-sm outline-none border-[2px] border-primary dark:border-secondary rounded-lg text-primary dark:text-secondary text-center w-full h-min pr-20"
           // {...props}
           value={selectedOption}
@@ -105,9 +106,9 @@ export const Select = ({
             );
           })}
         </select>
-        <div className=" border-primary dark:border-secondary z-10 w-16 top-0 -right-4 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
+        {!isDisabled &&  <div className=" border-primary dark:border-secondary z-10 w-16 top-0 -right-4 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
           <span className=" rotate-90">{">"}</span>
-        </div>
+        </div>}
       </div>
     </div>
   );

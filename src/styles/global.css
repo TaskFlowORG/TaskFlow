@@ -8,46 +8,40 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Regular.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf") format("truetype");
   font-weight: 900;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Black.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-Black.ttf") format("truetype");
   font-weight: 900;
 }
 
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf") format("truetype");
   font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-BlackItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-BlackItalic.ttf") format("truetype");
   font-weight: 900;
   font-style: italic;
 }
@@ -55,194 +49,187 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Bold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
   font-weight: 700;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-BoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-BoldItalic.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf") format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-ExtraBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-ExtraBold.ttf") format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf") format("truetype");
   font-weight: 800;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-ExtraBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-ExtraBoldItalic.ttf") format("truetype");
   font-weight: 800;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf") format("truetype");
   font-weight: 200;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-ExtraLight.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-ExtraLight.ttf") format("truetype");
   font-weight: 200;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf")
-    format("truetype");
-  font-weight: 200;
-  font-style: italic;
-}
-@font-face {
-  font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-ExtraLightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf") format("truetype");
   font-weight: 200;
   font-style: italic;
 }
-@font-face {
-  font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf")
-    format("truetype");
-  font-weight: 300;
-}
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Light.ttf")
-    format("truetype");
-  font-weight: 300;
+  src: url("../../public/fonts/Poppins/Poppins-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-LightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-LightItalic.ttf") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf") format("truetype");
   font-weight: 500;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Medium.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
   font-weight: 500;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf") format("truetype");
   font-weight: 500;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-MediumItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-MediumItalic.ttf") format("truetype");
   font-weight: 500;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-SemiBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
+
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf") format("truetype");
   font-weight: 600;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-SemiBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-SemiBoldItalic.ttf") format("truetype");
   font-weight: 600;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf") format("truetype");
   font-weight: 100;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-Thin.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-Thin.ttf") format("truetype");
   font-weight: 100;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf") format("truetype");
   font-weight: 100;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Poppins";
-  src: url("../../public/fonts/Poppins/Poppins-ThinItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Poppins/Poppins-ThinItalic.ttf") format("truetype");
   font-weight: 100;
   font-style: italic;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -256,13 +243,12 @@
   --font-size-h2: 48px;
   --font-size-h3: 32px;
   --font-size-h4: 24px;
-  --font-size-h5: 20px; 
+  --font-size-h5: 20px;
   --font-size-p: 16px;
   --font-size-p14: 14px;
-  --font-size-mn: 12px; 
+  --font-size-mn: 12px;
   --font-size-mnAlata: 12px;
-  --common-font: Montserrat, sans-serif
-  @apply font-montserrat;
+  --common-font: Montserrat, sans-serif @apply font-montserrat;
 }
 
 
@@ -279,11 +265,11 @@
   -webkit-text-stroke: 1px var(--contrast-color);
 }
 
-.input-number:focus ~ span {
+.input-number:focus~span {
   @apply dark:border-zinc-400 border-zinc-500 border-2 border-r-0;
 }
 
-.input-number:focus ~ .right {
+.input-number:focus~.right {
   @apply dark:border-zinc-400 border-zinc-500 border-2 border-l-0;
 }
 
@@ -300,9 +286,8 @@
 }
 
 input[type=password]::-ms-reveal,
-input[type=password]::-ms-clear
-{
-    display: none;
+input[type=password]::-ms-clear {
+  display: none;
 }
 
 .elipse {
@@ -313,6 +298,7 @@ input[type=password]::-ms-clear
 .timeline__primaryToPurple {
   background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
 }
+
 .input-number::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -382,9 +368,11 @@ input[type="radio"]:checked::before {
   border-radius: 50%;
   /* Cor do preenchimento quando o botão de rádio está marcado */
 }
+
 input[type="checkbox"]:checked {
   @apply bg-primary dark:bg-secondary border-none;
 }
+
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -419,6 +407,7 @@ select {
 select::-ms-expand {
   display: none;
 }
+
 @keyframes custom-pulse {
   0% {
     opacity: 1;
@@ -517,17 +506,17 @@ select::-ms-expand {
   }
 }
 
-.toggle-input:checked + .toggle-slider::before {
+.toggle-input:checked+.toggle-slider::before {
   transform: translateX(32px);
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
 
-.toggle-input:not(:checked) + .toggle-slider::before {
+.toggle-input:not(:checked)+.toggle-slider::before {
   transform: translateX(0px);
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-.toggle-input:checked + .toggle-slider {
+.toggle-input:checked+.toggle-slider {
   @apply bg-primary dark:bg-secondary;
 }
 
@@ -539,7 +528,7 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-.thin-scrollbar::-webkit-scrollbar{
+.thin-scrollbar::-webkit-scrollbar {
   @apply w-[2px];
 }
 
@@ -550,7 +539,8 @@ select::-ms-expand {
 ::-webkit-scrollbar {
   width: 8px;
 
-  height: 8px; /* largura do scroll */
+  height: 8px;
+  /* largura do scroll */
 }
 
 /* Define a cor do fundo do scroll */
@@ -599,16 +589,19 @@ select::-ms-expand {
 .inputGrayAndPink {
   @apply bg-[#F2F2F2] border-[#F04A94];
 }
+
 .ooo {
   margin-left: 12px;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   width: 92px;
   height: 92px;
   background-color: none;
   @apply sm:visible invisible
-  /* Outros estilos desejados */;
+  /* Outros estilos desejados */
+  ;
 }
 
 .hovert {
@@ -628,8 +621,7 @@ select::-ms-expand {
 }
 
 .link-underline-black {
-  background-image: linear-gradient(transparent, transparent),
-  linear-gradient(#f2c, #f2c);
+  @apply bg-gradient-to-t from-primary to-primary dark:from-secondary dark:to-secondary;
 }
 
 .link-underline:hover {
@@ -667,7 +659,7 @@ select::-ms-expand {
 }
 
 .selectGroup {
-  @apply text-[#F04A94] border-2 rounded-sm  text-center;
+  @apply text-[#F04A94] border-2 rounded-sm text-center;
 }
 
 /* 
@@ -699,30 +691,31 @@ select::-ms-expand {
   @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
 }
 
-.inputCode{
+.inputCode {
   @apply w-16 h-20 shadow-xl bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-10 dark:border-[#414141] text-4xl text-center
 }
 
 @keyframes slideUpAppear {
   0% {
-    transform: translateY(20px); 
-    opacity: 0; 
-    box-shadow: none; 
+    transform: translateY(20px);
+    opacity: 0;
+    box-shadow: none;
   }
+
   100% {
-    transform: translateY(0); 
-    opacity: 1; 
+    transform: translateY(0);
+    opacity: 1;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 }
 
 .notification {
-  animation: slideUpAppear 0.6s ease-out forwards; 
-  padding: 10px; 
+  animation: slideUpAppear 0.6s ease-out forwards;
+  padding: 10px;
   border-radius: 5px;
   text-align: center;
   bottom: 120px;
-  transform: translateX(-50%); 
+  transform: translateX(-50%);
 }
 
 
@@ -753,13 +746,14 @@ select::-ms-expand {
   --swiper-navigation-sides-offset: 0px;
 }
 
-.simple-keyboard{
+.simple-keyboard {
   @apply bg-white dark:bg-modal-grey text-modal-grey;
 }
 
 #configurations:checked {
   @apply bg-primary dark:bg-secondary border-none p-6;
 }
+
 #configurations {
   appearance: none;
   -webkit-appearance: none;
@@ -802,6 +796,7 @@ input[type="number"] {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
+
   /*this down remove the arrows from the input number*/
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
@@ -810,22 +805,26 @@ input[type="number"] {
   }
 }
 
-.mouseTts{
-  cursor: url("../../public/img/enviar.svg"), auto;
+.mouseTts {
+    @apply dark:cursor-[url("../../public/img/textToSpeechDark.svg"),auto] cursor-[url("../../public/img/textToSpeechLight.svg"),auto];
 }
 
-.mouseDefault{
+.mouseDefault {
   cursor: default
 }
+
 .react-calendar {
   @apply bg-white dark:bg-modal-grey w-full text-p font-alata;
 }
+
 .react-calendar__navigation {
   @apply flex justify-between items-center gap-2 font-montserrat;
 }
+
 .react-calendar__navigation button {
-  @apply text-primary dark:text-secondary hover:brightness-95  w-min flex-nowrap ;
+  @apply text-primary dark:text-secondary hover:brightness-95 w-min flex-nowrap;
 }
+
 .react-calendar__navigation button[disabled] {
   @apply opacity-20;
 }
@@ -833,37 +832,41 @@ input[type="number"] {
 abbr[title] {
   display: none;
 }
+
 .react-calendar__month-view__days {
-  @apply rounded-sm  bg-input-grey dark:bg-back-grey 
-relative text-mn  text-modal-grey dark:text-white;
+  @apply rounded-sm bg-input-grey dark:bg-back-grey relative text-mn text-modal-grey dark:text-white;
 }
+
 .react-calendar__tile {
-  @apply rounded-sm  bg-clip-border box-border
-  border-[1px] border-white relative dark:border-modal-grey aspect-square;
+  @apply rounded-sm bg-clip-border box-border border-[1px] border-white relative dark:border-modal-grey aspect-square;
 }
+
 .react-calendar__navigation__prev2-button,
 .react-calendar__navigation__next2-button {
   display: none;
 }
+
 .react-calendar__month-view__days__day--weekend {
-  @apply text-contrast bg-primary  aspect-square dark:bg-secondary;
+  @apply text-contrast bg-primary aspect-square dark:bg-secondary;
 }
+
 .react-calendar__month-view__days__day--neighboringMonth {
   @apply opacity-70;
 }
+
 .react-calendar__tile--now {
   @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
 }
+
 .react-calendar__tile--active {
   @apply bg-secondary-opacity relative dark:bg-primary-opacity text-modal-grey;
 }
 
 .options {
-@apply rounded-none
+  @apply rounded-none
 }
 
 /* Define as bordas arredondadas apenas na parte inferior para o último elemento */
 .options:last-child {
-@apply rounded-b-lg
+  @apply rounded-b-lg
 }
-

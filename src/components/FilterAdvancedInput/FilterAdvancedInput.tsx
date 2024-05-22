@@ -1,11 +1,17 @@
-
 import { useContext, useEffect, useRef, useState } from "react";
 import { DateFilter } from "./DateFilter";
 import { NumberFilter } from "./NumberFilter";
 import { TextFilter } from "./TextFilter";
 import { Button } from "../Button/Button";
 import { FilteredProperty } from "@/types/FilteredProperty";
-import { Page, Project, Property, Select, TypeOfProperty } from "@/models";
+import {
+  Limited,
+  Page,
+  Project,
+  Property,
+  Select,
+  TypeOfProperty,
+} from "@/models";
 import { CheckboxFilter } from "./CheckboxFilter";
 import { Select as Selectt } from "@/components/Select";
 import { RadioFilter } from "./RadioFilter";
@@ -16,6 +22,7 @@ import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
 import { ProgressFilter } from "./ProgressFilter";
 import { useTranslation } from "next-i18next";
+import { UserFilter } from "./UserFilter";
 
 interface Props {
   properties: Property[];
@@ -64,7 +71,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
           } else if (property.type === TypeOfProperty.DATE) {
             return (
               <DateFilter
-              property={property}
+                property={property}
                 name={property.name}
                 id={property.id}
                 value={prop?.value?.dateTime ?? ""}
@@ -74,6 +81,7 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
           } else if (property.type === TypeOfProperty.PROGRESS) {
             return (
               <ProgressFilter
+                property={property as Limited}
                 key={property.id}
                 id={property.id}
                 name={property.name}
@@ -131,6 +139,16 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
                   value={prop.value}
                 />
               </div>
+            );
+          } else if (property.type == TypeOfProperty.USER) {
+            return (
+              <UserFilter
+                key={property.id}
+                id={property.id}
+                name={property.name}
+                value={prop.value ?? []}
+                property={property as Limited}
+              ></UserFilter>
             );
           }
         })}
