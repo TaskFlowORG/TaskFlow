@@ -332,8 +332,7 @@ export const TesPropertiesSide = ({
             value.value.includes(user.username)
           );
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          if (updateProp.value.value == null)
-            updateProp.value.value = new DateWithGoogle(null, "", null);
+          if (updateProp.value.value == null) updateProp.value.value = new DateWithGoogle(null, "", null);
           updateProp.value.value.dateTime = value.value + ("-03:00");
         } else {
           console.log(value, "value");

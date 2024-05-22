@@ -23,27 +23,43 @@ export const DateFilter = ({
 }: DateProps) => {
   const [valued, setValued] = useState("");
   const { filterProp, setFilterProp } = useContext(FilterContext);
-  const isDisabled = useIsDisabled(isInModal, 'update');
+  const isDisabled = useIsDisabled(isInModal, "update");
   const { t } = useTranslation();
 
   const style = twMerge(
     "flex gap-4 w-full items-center border-b-[1px]  pb-2",
-    isInModal ? ((property as DateP).includesHours ? "p-0 border-none w-[200px]" : " p-0 border-none w-[120px]") : " "
+    isInModal
+      ? (property as DateP).includesHours
+        ? "p-0 border-none w-[200px]"
+        : " p-0 border-none w-[120px]"
+      : " "
   );
   const hasPermission = useHasPermission("update");
 
+  const formatDateTime = (date: Date) => {
+    return (
+      String(date.getFullYear()).padStart(4, "0") +
+      "-" +
+      String((date.getMonth() + 1)).padStart(2, "0")  +
+      "-" +
+      String(date.getDate()).padStart(2, "0") +
+      "T" +
+      String(date.getHours()).padStart(2, "0")  +
+      ":" +
+      String(date.getMinutes()).padStart(2, "0")  +
+      ":" +
+      String(date.getSeconds()).padStart(2, "0") 
+    );
+  };
+
   useEffect(() => {
     // const splitTimestamp: string[] = value?.split("T");
-    console.log((property as DateP).includesHours
-      ?
-      valued?.split("T")[0] + "T" + new Date(valued).toLocaleTimeString()
-      : valued?.split("T")[0])
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop && isInModal) {
       // const splitTimestamp: string[] = prop.value?.split("T");
-      setValued(prop.value);
+      setValued(formatDateTime(new Date(prop.value)));
     } else {
-      setValued(value);
+      setValued(formatDateTime(new Date(value)));
     }
     // } else if (value) {
     //   // const datePart: string = splitTimestamp[0];
@@ -62,15 +78,10 @@ export const DateFilter = ({
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={
-          (property as DateP).includesHours
-            ?
-            valued?.split("T")[0] + "T" + new Date(valued).toLocaleTimeString()
-            : valued?.split("T")[0]
+          (property as DateP).includesHours ? valued : valued?.split("T")[0]
         }
-
         placeholder={t("insert-expected-value")}
         onChange={(e) => {
-
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
@@ -79,8 +90,7 @@ export const DateFilter = ({
               setFilterProp!([...filterProp!]);
             } else {
               thisProperty.value = (property as DateP).includesHours
-                ?
-                e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
+                ? formatDateTime(new Date(e.target.value))
                 : e.target.value?.split("T")[0];
               setFilterProp!([...filterProp!]);
             }
@@ -89,10 +99,10 @@ export const DateFilter = ({
               setFilterProp!([
                 ...filterProp!,
                 {
-                  id: id, value: (property as DateP).includesHours
-                    ?
-                    e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
-                    : e.target.value?.split("T")[0]
+                  id: id,
+                  value: (property as DateP).includesHours
+                    ? formatDateTime(new Date(e.target.value))
+                    : e.target.value?.split("T")[0],
                 },
               ]);
             }
