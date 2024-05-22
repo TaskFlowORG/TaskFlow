@@ -57,15 +57,20 @@ export const DateFilter = ({
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop && isInModal) {
       // const splitTimestamp: string[] = prop.value?.split("T");
-      setValued(formatDateTime(new Date(prop.value)));
+      setValued((property as DateP).includesHours ? formatDateTime(new Date(prop.value)) :prop.value);
     } else {
-      setValued(formatDateTime(new Date(value)));
+      setValued((property as DateP).includesHours ? formatDateTime(new Date(value)):value);
     }
     // } else if (value) {
     //   // const datePart: string = splitTimestamp[0];
     //   setValued(value ?? "");
     // }
   }, [value, setFilterProp, filterProp]);
+
+  useEffect(() => {
+    console.log(valued);
+  }, [valued]);
+
 
   return (
     <div className={style}>
@@ -78,11 +83,11 @@ export const DateFilter = ({
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={
-          (property as DateP).includesHours ? valued : valued?.split("T")[0]
+          (property as DateP).includesHours ? valued : valued.split("T")[0]
         }
         placeholder={t("insert-expected-value")}
         onChange={(e) => {
-          setValued(e.target.value);
+          setValued((property as DateP).includesHours ? formatDateTime(new Date(e.target.value)) :e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
             if (!e.target.value) {
@@ -91,7 +96,7 @@ export const DateFilter = ({
             } else {
               thisProperty.value = (property as DateP).includesHours
                 ? formatDateTime(new Date(e.target.value))
-                : e.target.value?.split("T")[0];
+                : e.target.value + "T00:00:00";
               setFilterProp!([...filterProp!]);
             }
           } else {
@@ -102,7 +107,7 @@ export const DateFilter = ({
                   id: id,
                   value: (property as DateP).includesHours
                     ? formatDateTime(new Date(e.target.value))
-                    : e.target.value?.split("T")[0],
+                    : e.target.value + "T00:00:00",
                 },
               ]);
             }
