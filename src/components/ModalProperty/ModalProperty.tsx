@@ -40,7 +40,7 @@ import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type ModalPropertyProps = {
   property: Property;
-    deleteProperty: (property: Property) => void;
+  deleteProperty: (property: Property) => void;
   upDateProperties: (property: Property, getValues: any) => void;
 };
 
@@ -209,7 +209,6 @@ export const ModalProperty = ({
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
                 onClick={() => {
                   setModalDelete(true);
-  
                 }}
               >
                 {" "}
