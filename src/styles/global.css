@@ -870,3 +870,13 @@ abbr[title] {
 .options:last-child {
   @apply rounded-b-lg
 }
+
+.none-events  * {
+  @apply pointer-events-none
+}
+
+.auto-events *, .auto-events{
+  @apply pointer-events-auto
+
+}
+

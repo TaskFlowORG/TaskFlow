@@ -125,7 +125,7 @@ const swiperType = (s: any) => {
         />
         <Button
           text={t("conclude")}
-          padding="p-1"
+          padding="p-1 create-page-final "
           fnButton={changeType}
           rounded="rounded-sm"
           paddingY="py-0"

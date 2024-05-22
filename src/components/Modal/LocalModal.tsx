@@ -1,5 +1,6 @@
+import { TutorialContext } from "@/contexts/TutorialContext";
 import { motion, AnimatePresence } from "framer-motion";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
 import { twMerge } from "tailwind-merge";
 
@@ -30,7 +31,9 @@ export const LocalModal = ({
   classesOrigin,
 }: Props) => {
   const ref = useRef(null);
+  const {step, isTutorialMade} = useContext(TutorialContext);
   useClickAway(ref, (e) => {
+    if(step == 25 && !isTutorialMade) return; 
     e.preventDefault();
     e.stopPropagation();
     setCondition(false);

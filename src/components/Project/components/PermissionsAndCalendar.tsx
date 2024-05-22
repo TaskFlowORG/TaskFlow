@@ -61,7 +61,7 @@ export const PermissionsAndCalendar = () => {
       new Date(
         t.task.properties.find(
           (p) => p.property.id == property?.id
-        )?.value.value
+        )?.value.value.dateTime
       )
   );
   useClickAway(ref, () => setOpenPermissions(false));
@@ -122,11 +122,13 @@ export const PermissionsAndCalendar = () => {
         return (
           propVl &&
           propVl.value &&
-          propVl.value.value &&
-          compareDates(new Date(propVl.value.value), date)
+          propVl.value.value&&
+          propVl.value.value.dateTime &&
+          compareDates(new Date(propVl.value.value.dateTime), date)
         );
       })
       .map((t) => t.task);
+      console.log(tasksFiltering)
     setFilteredTasks(tasksFiltering);
   }, [date, property]);
 
@@ -190,7 +192,7 @@ export const PermissionsAndCalendar = () => {
                     className="w-full h-min truncate"
                     style={{ opacity: task.name ? 1 : 0.5 }}
                   >
-                    {task.name ?? t("withoutname")}
+                    {task.name ? task.name: t("withoutname")}
                   </p>
                 </span>
               ),

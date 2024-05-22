@@ -233,6 +233,11 @@
   "write-comment": "Escreva o comentário!",
   "delete-comment": "Você deseja mesmo deletar esse comentário?",
   "comments": "Comentários",
+  "property-max": "Essa propriedade possuí um máximo de",
+  "characters": "caractéres!",
+  "users": "usuários!",
+  "user": "usuário!",
+  "property-required": "Essa propriedade é obrigatória!",
   "add-task-property": "Adicionar propriedade para tarefa",
   "add-property-to-project": "Adicionar propriedade para o projeto",
   "historical": "Histórico",
@@ -452,5 +457,19 @@
   "some-user-in-project-desc": "Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
   "some-user-in-project": "Alguém já está no projeto",
   "save":"Salvar",
-  "not-selected":"Não selecionado"
+  "not-selected":"Não selecionado",
+  "tuto-step-group-click":"Clique aqui para visualizar os grupos",
+  "tuto-step-group-create":"Clique aqui para criar um novo grupo",
+  "tuto-back-sidebar":"Clique aqui para voltar a barra lateral",
+  "tuto-projects-page-open":"Agora, clique aqui para abrir a página de projetos",
+  "tuto-project-create":"Clique aqui para criar um novo projeto",
+  "tuto-create-property":"Clique aqui para abrir a barra lateral de propriedades",
+  "tuto-open-pages":"Clique aqui para abrir a barra lateral de páginas",
+  "tuto-create-page":"Clique aqui para criar uma nova página",
+  "tuto-create-page-final":"Clique aqui para escolher o Kanban",
+  "tuto-created-page":"Essa é a página que você criou, agora você pode criar tarefas nela",
+  "tuto-create-task":"Clique aqui, agora haverá uma opção de criar uma tarefa",
+  "tuto-create-task-button":"Aqui voce cria tarefas",
+  "end":"Fim"
+
 }

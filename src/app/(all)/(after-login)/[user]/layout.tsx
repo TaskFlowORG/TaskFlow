@@ -18,6 +18,7 @@ import { Tutorial } from "@/components/Tutorial";
 import Joyride from "react-joyride";
 import { LanguageContext } from "@/contexts/ContextLanguage";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { TutorialContext } from "@/contexts/TutorialContext";
 //UseClickAway Hook
 export default function Layout({
   children,
@@ -29,7 +30,9 @@ export default function Layout({
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
   const [openSideBar, setOpenSideBar] = useState(false);
-  const [tutorialIsMaded, setTutorialIsMaded] = useState(false);
+  const [tutorialIsMaded, setTutorialIsMaded] = useState<boolean | undefined>(
+    false
+  );
   const ref = useRef<HTMLDivElement>(null);
   const { setTheme, theme } = useTheme();
   const { user, setUser } = useContext(UserContext);
@@ -38,6 +41,7 @@ export default function Layout({
   const [task, setSelectedTask] = useState<Task>();
   const [isOpen, setIsOpen] = useState(false);
   const { contrastColor } = useContrast();
+  const [step, setStep] = useState<number | undefined>(0);
   const asynThrow = useAsyncThrow();
 
   const { changeLanguage } = useContext(LanguageContext);
@@ -140,11 +144,10 @@ export default function Layout({
   }, []);
 
   if (!user) return <Loading />;
-  //FICOU POR 
+  //FICOU POR
   return (
     <>
       <ProjectsContext.Provider value={{ projects, setProjects }}>
-        {tutorialIsMaded ? <></> : <Tutorial />}
         <ProjectContext.Provider value={{ project, setProject }}>
           <PageContext.Provider
             value={{ inPage, setInPage, pageId, setPageId }}
@@ -152,16 +155,26 @@ export default function Layout({
             <TaskModalContext.Provider
               value={{ isOpen, setIsOpen, task, setSelectedTask }}
             >
-              <Header setSidebarOpen={setOpenSideBar}></Header>
-              <main className="w-screen h-screen flex flex-col items-center justify-start">
-                <SideBarProjects
-                  user={params.user}
-                  project={project}
-                  setOpenSideBar={setOpenSideBar}
-                  openSideBar={openSideBar}
-                />
-                {children}
-              </main>
+              <TutorialContext.Provider
+                value={{
+                  isTutorialMade: tutorialIsMaded,
+                  setIsTutorialMade: (value) => setTutorialIsMaded(value),
+                  step, setStep
+                }}
+              >
+                <Tutorial />
+
+                <Header setSidebarOpen={setOpenSideBar}></Header>
+                <main className="w-screen   h-screen flex flex-col items-center justify-start">
+                  <SideBarProjects
+                    user={params.user}
+                    project={project}
+                    setOpenSideBar={setOpenSideBar}
+                    openSideBar={openSideBar}
+                  />
+                  {children}
+                </main>
+              </TutorialContext.Provider>
             </TaskModalContext.Provider>
           </PageContext.Provider>
         </ProjectContext.Provider>

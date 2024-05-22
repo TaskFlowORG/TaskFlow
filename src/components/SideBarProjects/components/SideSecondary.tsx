@@ -77,13 +77,16 @@ const router = useRouter();
         text={t("project")}
         link={`/${user}/${project?.id}`}
       />
-      <SideBarButton
+      <span className="pages-button">
+
+        <SideBarButton
         icon={<IconPages />}
         fnClick={() => {
           setModalPages(true);
         }}
         text={t("pages")}
       />
+      </span>
       <div
         className="relative w-full"
         onMouseEnter={() => setIsHovering(true)}

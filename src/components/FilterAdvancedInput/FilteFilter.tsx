@@ -19,6 +19,7 @@ import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects"
 import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import Image from "next/image";
 import { TaskModalContext } from "@/utils/TaskModalContext";
+import { DownloadIcon } from "./DownloadIcon";
 
 interface Props {
   id: number;
@@ -95,14 +96,15 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
 
   return (
     <>
-      <div className="flex items-center justify-end gap-8  pr-1 ">
+      <div className="flex items-center justify-end gap-8  pr-1 w-min">
         {file && (
           <>
-            <div className="flex gap-2">
-              <a href={src} download={value.name ?? "dfkjsj"}>
-                i
+            <div className="flex gap-2 items-center">
+              <a className="w-4 aspect-square text-primary dark:text-secondary" href={src} download={value.name}>
+              <DownloadIcon></DownloadIcon>
               </a>
-              <p className="text-black dark:text-white text-p14">
+              
+              <p className="text-black dark:text-white text-p14  w-[200px] truncate ">
                 {file.name ? file.name : name}
               </p>
             </div>

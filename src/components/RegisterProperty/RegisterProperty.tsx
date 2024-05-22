@@ -221,6 +221,7 @@ export const RegisterProperty = ({
           />
         </NeedPermission>
       }
+
       header={
         <>
           <div className="h-min w-full flex justify-evenly items-center properties">
@@ -261,7 +262,7 @@ export const RegisterProperty = ({
       setCondition={setModalProperty}
       right
     >
-      <div className="w-full h-full flex flex-col overflow-y-scroll none-scrollbar">
+      <div className="w-full properties h-full flex flex-col overflow-y-scroll none-scrollbar">
         {propertiesArray.map((property, index) => {
           return (
             <ModalProperty
