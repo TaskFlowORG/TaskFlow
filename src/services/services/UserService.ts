@@ -18,14 +18,14 @@ class UserService {
         return response.data;
     }
 
-    async changeUsername(user:UserChangeUsername): Promise<User> {
-        const response = await Api.patch<User>("user/changeUsername", user, {withCredentials: true});
+    async changeUsername(user: UserChangeUsername): Promise<User> {
+        const response = await Api.patch<User>("user/changeUsername", user, { withCredentials: true });
         return response.data;
     }
-    
+
     async patch(user: User): Promise<User> {
         const userPut = new UserPut(user.id, user.name, user.surname, user.mail, user.phone, user.description, user.configuration, user.permissions, user.authenticate, user.notifications);
-        const response = await Api.patch<User>("user",  userPut, { withCredentials: true });
+        const response = await Api.patch<User>("user", userPut, { withCredentials: true });
         return response.data;
     }
 
@@ -74,14 +74,19 @@ class UserService {
         const response = await Api.patch<Permission>(`user/${username}/update-permission/project/${permission.project.id}`, permission, { withCredentials: true });
         return response.data;
     }
-    async getOutOfAGroup(groupId : number): Promise<void> {
+
+    async getOutOfAGroup(groupId: number): Promise<void> {
         // /exit/group/{groupId}
         const response = await Api.patch<User>(`user/exit/group/${groupId}`)
     }
 
     async updateAllPermissions(username: string, permissions: Permission[]): Promise<void> {
-        const response = await Api.patch<User>(`user/updateAllPermissions/${username}`, permissions,  { withCredentials: true })
+        const response = await Api.patch<User>(`user/updateAllPermissions/${username}`, permissions, { withCredentials: true })
 
+    }
+
+    async isLinkedGoogle(id?: number): Promise<boolean> {
+        return (await Api.get<boolean>(`calendar/isLinkedGoogle/${id}`, { withCredentials: true })).data
     }
 }
 

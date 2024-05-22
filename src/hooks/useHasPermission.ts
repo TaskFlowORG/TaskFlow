@@ -41,7 +41,7 @@ export const
                 }
                 else {
                     const permission = user.permissions.find((p) => p.project.id === project.id);
-                    console.log(permission);
+                    // console.log(permission);
                     if (!permission) {
                         setSucess(false);
                         return;

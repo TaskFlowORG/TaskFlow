@@ -102,11 +102,11 @@ export const CardTime = ({ time, property, showNameProperty }: Props) => {
     if (time.starts > time.ends) {
       setPlay(true);
     }
-    if ((property as Limited).maximum == undefined) return;
+    // if ((property as Limited).maximum == undefined) return;
 
     let totalTimeInMinutes = hours * 60 + minutes + seconds / 60;
 
-    if ((property as Limited).maximum <= totalTimeInMinutes) {
+    if ((property as Limited).maximum != undefined && (property as Limited).maximum <= totalTimeInMinutes) {
       setPlay(false)
       setHours(Math.floor((property as Limited).maximum / 60));
       setMinutes(Math.floor((property as Limited).maximum % 60));

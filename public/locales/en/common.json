@@ -389,6 +389,7 @@
   "all": "All",
   "property-max": "This property has a maximum of",
   "characters": "characters!",
+  "property-not-past": "This property cannot be in the past!",
   "users": "users!",
   "user": "user!",
   "property-required": "This property is required!",
