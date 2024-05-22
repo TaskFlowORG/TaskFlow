@@ -417,5 +417,18 @@
   "profile-photo-sucess": "Foto de perfil actualizada con éxito",
   "some-user-in-project": "Alguien ya está en el proyecto",
   "save": "Guardar",
-  "not-selected": "No seleccionado"
+  "not-selected": "No seleccionado",
+  "tuto-step-group-click": "Haz clic aquí para ver los grupos",
+  "tuto-step-group-create": "Haz clic aquí para crear un nuevo grupo",
+  "tuto-back-sidebar": "Haz clic aquí para volver a la barra lateral",
+  "tuto-projects-page-open": "Ahora, haz clic aquí para abrir la página de proyectos",
+  "tuto-project-create": "Haz clic aquí para crear un nuevo proyecto",
+  "tuto-create-property": "Haz clic aquí para abrir la barra lateral de propiedades",
+  "tuto-open-pages": "Haz clic aquí para abrir la barra lateral de páginas",
+  "tuto-create-page": "Haz clic aquí para crear una nueva página",
+  "tuto-create-page-final": "Haz clic aquí para elegir Kanban",
+  "tuto-created-page": "Esta es la página que has creado, ahora puedes crear tareas en ella",
+  "tuto-create-task": "Haz clic aquí, ahora habrá una opción para crear una tarea",
+  "tuto-create-task-button": "Aquí puedes crear tareas",
+  "end": "Fin"
 }

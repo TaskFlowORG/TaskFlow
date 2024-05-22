@@ -157,7 +157,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   return (
     <>
       <ChatContext.Provider value={{ chat, setChat }}>
-        <div className="w-full h-[80vh] lg:h-[89vh] flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
+        <div className="w-full h-[80vh] lg:h-[89vh] configs flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
           <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
             <div className="flex flex-col items-center w-full lg:h-full gap-4">
               <div className="flex items-center lg:w-full w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">

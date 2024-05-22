@@ -148,7 +148,7 @@ export default function Projects({ params }: { params: { user: string } }) {
       <button
         onClick={postProject}
         className="rounded-full fixed bottom-16 right-16 w-10 p-3 rotate-45  h-10 flex justify-center items-center shadow-blur-10 bg-contrast 
-            text-primary  dark:text-secondary hover:brightness-95 cursor-pointer"
+            text-primary  dark:text-secondary hover:brightness-95 cursor-pointer create-project"
       >
         <IconPlus />
       </button>

@@ -400,7 +400,7 @@ export const TesPropertiesSide = ({
   }
 
   return (
-    <div className="w-full lg:w-2/5 flex flex-col justify-between min-h-full ">
+    <div className="w-full lg:w-2/5 flex flex-col properties-section justify-between min-h-full ">
       {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}

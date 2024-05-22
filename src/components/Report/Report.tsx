@@ -201,7 +201,7 @@ export const Report = ({
         return (log.value.value.value as Option[])
           .map((option, index) =>
             index == (log.value.value.value as Option[]).length + 1
-              ? option.name + ", "
+            ? option.name + ", "
               : option.name
           )
           .concat();

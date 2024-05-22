@@ -41,10 +41,12 @@ export const TasksDate = () => {
 
   const tasks = project?.pages.flatMap((p) => p.tasks) ?? [];
   const checkDay = (property: PropertyValue | undefined, day: Date) => {
+    console.log("prop", property)
     if (!property) return false;
     if (!property.value) return false;
     if (!property.value.value) return false;
-    return compareDates(new Date(property.value.value), day);
+    if (!property.value.value.dateTime) return false;
+    return compareDates(new Date(property.value.value.dateTime), day);
   };
   const getPropVl = (task: TaskPage) => {
     return task.task.properties.find((p) => p.property.id == property?.id);
