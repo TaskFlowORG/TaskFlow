@@ -20,8 +20,8 @@ export const SideModal = ({
   footer
 }: Props) => {
   const ref = useRef(null);
-  const {step} = useContext(TutorialContext);
-  useClickAway(ref, () => step && (step < 3 || step > 5) && setCondition(false));
+  const {step, isTutorialMade} = useContext(TutorialContext);
+  useClickAway(ref, () => (step && (step < 3 || step > 6) && (step < 22 || step > 25 ) && step != 11 ) || isTutorialMade && setCondition(false));
 
   return (
     <AnimatePresence mode="wait" initial={false}>

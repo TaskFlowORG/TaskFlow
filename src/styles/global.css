@@ -875,7 +875,7 @@ abbr[title] {
   @apply pointer-events-none
 }
 
-.auto-events {
+.auto-events *, .auto-events{
   @apply pointer-events-auto
 
 }

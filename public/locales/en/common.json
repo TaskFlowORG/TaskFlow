@@ -434,5 +434,17 @@
   "some-user-in-project": "Someone is already in the project",
   "save": "Save",
   "not-selected": "Not selected",
-  "tuto-create-task":"Now in this button, we can create a new task"
+  "tuto-step-group-click": "Click here to view the groups",
+  "tuto-step-group-create": "Click here to create a new group",
+  "tuto-back-sidebar": "Click here to go back to the sidebar",
+  "tuto-projects-page-open": "Now, click here to open the projects page",
+  "tuto-project-create": "Click here to create a new project",
+  "tuto-create-property": "Click here to open the properties sidebar",
+  "tuto-open-pages": "Click here to open the pages sidebar",
+  "tuto-create-page": "Click here to create a new page",
+  "tuto-create-page-final": "Click here to choose Kanban",
+  "tuto-created-page": "This is the page you created, now you can create tasks on it",
+  "tuto-create-task": "Click here, now there will be an option to create a task",
+  "tuto-create-task-button": "Here you create tasks",
+  "end": "End"
 }

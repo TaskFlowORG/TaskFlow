@@ -77,7 +77,7 @@ export default function Layout({ params, children }: Props) {
                 )}
               </NeedPermission>
               <p
-                className="h3 text-primary tuto-create-task properties-configuration-button gap-px flex flex-col z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
+                className="h3 text-primary create-task properties-configuration-button gap-px flex flex-col z-50 items-center rounded-full hover:brightness-95 justify-center dark:text-secondary h-10 w-10 hover:text-white dark:hover:text-white "
                 // onClick={() => setIsPopupOpen(true)}
               >
                 <span className="bg-primary dark:bg-secondary w-1.5 aspect-square rounded-full" /> 

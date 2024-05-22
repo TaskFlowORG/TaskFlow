@@ -135,7 +135,7 @@ export const PageSide = (
           <NeedPermission permission="create">
 
             <Button
-              width="w-full "
+              width="w-full pages-create "
               text={t("add-page")}
               fnButton={() => setModal(!modal)}
               padding="p-2"
