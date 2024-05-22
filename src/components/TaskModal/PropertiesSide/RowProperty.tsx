@@ -109,6 +109,7 @@ export const RowProperty = ({
       return (
         <ProgressFilter
           isInModal
+          property={prop.property as Limited}
           id={prop.property.id}
           name={prop.property.name}
           value={prop.value?.value}
