@@ -41,7 +41,12 @@ export const SelectPropertiesSection = () => {
       [TypeOfProperty.SELECT, TypeOfProperty.RADIO].includes(p.type)
     ) ?? [];
   const [property, setProperty] = useState<Property | undefined>(properties[0]);
-  const tasks = project?.pages.flatMap((p) => p.tasks) ?? [];
+  const tasks = (project?.pages.flatMap((p) => p.tasks) ?? []).filter(
+    (tsk1, index) =>
+      (project?.pages.flatMap((p) => p.tasks) ?? []).findLastIndex(
+        (tsk2) => tsk1.task.id == tsk2.task.id
+      ) == index
+  );
   const checkOption = (property: PropertyValue | undefined, option: Option) => {
     if (!property) return false;
     if (!property.value) return false;

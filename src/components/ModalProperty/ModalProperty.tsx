@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useClickAway } from "react-use";
 import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
@@ -31,8 +31,12 @@ import { ContentModalProperty } from "../ContentModalProperty";
 import { NeedPermission } from "../NeedPermission";
 import { get } from "http";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
-import { propertyService } from "@/services";
+import { projectService, propertyService } from "@/services";
 import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
+import { ProjectContext } from "@/contexts";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+
 
 type ModalPropertyProps = {
   property: Property;
@@ -45,6 +49,9 @@ export const ModalProperty = ({
   deleteProperty,
   upDateProperties,
 }: ModalPropertyProps) => {
+
+  const {propertyId, setPropertyId} = useContext(PropertyContext)
+
   const [isHovering, setIsHovering] = useState(false);
   const [ModalDelete, setModalDelete] = useState(false);
   const [prop, setProp] = useState<Property>(property);
@@ -114,28 +121,42 @@ export const ModalProperty = ({
 
   const textRef = useRef<HTMLInputElement>(null);
 
+  useEffect(()=>{
+    if(propertyId == property.id) setOpenOptions(true);
+  },[propertyId, setPropertyId])
+
   useEffect(() => {
     if (editing && textRef.current) {
       textRef.current.focus();
     }
   }, [editing]);
 
-  const saveName = () => {
+  const asyncThrow = useAsyncThrow();
+
+  const {project, setProject} = useContext(ProjectContext)
+  const saveName = async () => {
+    if(!project) return;
     setEditing(false);
-    if (property.type === TypeOfProperty.DATE) {
-      propertyService.patchDate(property.id, { id: property.id, name: name } as Date);
-    } else if ([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)) {
-      propertyService.patchLimited(property.id, { id: property.id, name: name } as Limited);
-    } else {
-      propertyService.patchSelect(property.id, { id: property.id, name: name } as Select);
+
+    if(property.type === TypeOfProperty.DATE){
+      await propertyService.patchDate(project.id, {id:property.id, name: name} as Date).catch(asyncThrow);
+    }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
+      await propertyService.patchLimited(project.id, {id:property.id, name: name} as Limited).catch(asyncThrow);
+    }else{
+      await propertyService.patchSelect(project.id, {id:property.id, name: name} as Select).catch(asyncThrow);
+    }
+    const projectTemp = await projectService.findOne(project.id).catch(asyncThrow);
+    if(setProject && projectTemp){
+      setProject(projectTemp);
+
     }
   }
 
   const saveNewName = (e: any) => {
-    if (!e.key || e.key === "Enter") {
-      saveName();
-    }
-    setName(textRef.current?.textContent ?? property.name);
+      if (!e.key || e.key === "Enter") {
+        saveName();
+      }
+      setName(textRef.current?.textContent ?? property.name);
 
   }
 
@@ -201,7 +222,6 @@ export const ModalProperty = ({
                 onClick={() => {
                   upDateProperties(property, getValues());
                   setOpenOptions(false);
-
                 }}
               >
                 <IconSave />
