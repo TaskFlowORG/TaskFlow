@@ -167,6 +167,8 @@ export const TesPropertiesSide = ({
         case TypeOfProperty.DATE:
           if (!(prop.property.property as DateProp).canBePass) {
             const currentDate = new Date();
+            console.log(currentDate);
+            
             let isPass = testIfIsPass(prop, currentDate, prop.property.value.value?.dateTime)              
             if (isPass) {
               prop.errors.push(`Essa propriedade não pode estar no passado!`);
@@ -241,7 +243,9 @@ export const TesPropertiesSide = ({
           case TypeOfProperty.DATE:
             if (!(propertyForm.property.property as DateProp).canBePass) {
               const currentDate = new Date();
+              console.log(currentDate)
               let isPass = testIfIsPass(propertyForm, currentDate, propInput);
+              console.log(isPass, "bomdia")
               if (isPass) {
                 propertyForm.errors.push(
                   `Essa propriedade não pode estar no passado!`
@@ -337,9 +341,13 @@ export const TesPropertiesSide = ({
             value.value.includes(user.username)
           );
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
-          if (updateProp.value.value == null)
+
+          if (updateProp.value.value == null){
+            console.log(value, "value");
             updateProp.value.value = new DateWithGoogle(null, "", null);
-          updateProp.value.value.dateTime = value.value;
+          }
+          console.log(value, "value");
+          updateProp.value.value.dateTime = value.value + "-03:00";
         } else {
           console.log(value, "value");
           

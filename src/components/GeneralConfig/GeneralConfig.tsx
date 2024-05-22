@@ -16,12 +16,15 @@ import Cookies from "js-cookie";
 import { LanguageContext } from "@/contexts/ContextLanguage";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { useRouter } from "next/navigation";
+import { If } from "@/components/If";
+
 
 export const GeneralConfig = () => {
   const { user, setUser } = useContext(UserContext);
   const { theme, setTheme } = useTheme();
   const { changeLanguage: changeGlobal } = useContext(LanguageContext)
   const { t } = useTranslation();
+  const route = useRouter();
 
   const [libras, setLibras] = useState<boolean | undefined>(user?.configuration.libras);
   const [textToSound, setTextToSound] = useState<boolean | undefined>(user?.configuration.textToSound);
@@ -34,8 +37,15 @@ export const GeneralConfig = () => {
   const [color, setColor] = useState<string>((theme === "dark" ? user?.configuration.secondaryColor : user?.configuration.primaryColor) || "#f04a94");
   const [themeToggle, setThemeToggle] = useState(false);
   const router = useRouter()
+  const [isLinkedGoogle, setIsLinkedGoogle] = useState<boolean>(false);
 
   useEffect(() => {
+
+    userService.isLinkedGoogle(user?.id).then((response) => {
+      setIsLinkedGoogle(response)
+    })
+    console.log(isLinkedGoogle);
+
     setLibras(user?.configuration.libras);
     setTextToSound(user?.configuration.textToSound);
     setThemeToggle(theme === "dark");
@@ -124,7 +134,10 @@ export const GeneralConfig = () => {
           setShowPropertiesName(e.target.checked);
           break
         case "googleCalendar":
-          setGoogleAgendas(e.target.checked);
+          if (!googleAgendas) {
+            route.push("http://localhost:9999/calendar/google/auth")
+            setGoogleAgendas(e.target.checked);
+          }
           break
         case "authenticate":
           user.authenticate = e.target.checked;
@@ -161,7 +174,9 @@ export const GeneralConfig = () => {
         <div className="w-[97%] flex flex-col lg:pt-3 pt-6">
           <div className="w-full h-fit flex flex-col gap-5">
             <div className="h-fit flex flex-col gap-5">
-              <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-calendar-title")} value={t("google-calendar-configs")} onChange={(e) => updateBack(e, "googleCalendar")} checked={googleAgendas} ></InputFieldConfig>
+              <If condition={isLinkedGoogle}>
+                <InputFieldConfig id={"googleCalendar"} type={"checkbox"} label={t("google-calendar-title")} value={t("google-calendar-configs")} onChange={(e) => updateBack(e, "googleCalendar")} checked={googleAgendas} ></InputFieldConfig>
+              </If>
               <div>
                 <p className="text-h3 font-alata dark:text-white ">{t("accessibility-config")}</p>
                 <p className="text-p font-montserrat">{t("accessibility-config-desc")}</p>
