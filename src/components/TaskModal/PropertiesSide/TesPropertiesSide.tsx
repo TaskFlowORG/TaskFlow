@@ -247,19 +247,19 @@ export const TesPropertiesSide = ({
             }
           } else {
             console.log(propertyForm.property.value.value);
-            if (
-              testIfIsPass(
-                propertyForm,
-                new Date(),
-                propertyForm.property.value.value.dateTime
-              )
-            ) {
-              propertyForm.errors.push(`${t("property-not-past")}`);
-            } else {
-              if (passObligatoryVerification(propertyForm)) {
-                propertyForm.errors = [];
-              }
-            }
+            // if (
+            //   testIfIsPass(
+            //     propertyForm,
+            //     new Date(),
+            //     propertyForm.property.value.value.dateTime
+            //   )
+            // ) {
+            //   propertyForm.errors.push(`${t("property-not-past")}`);
+            // } else {
+            //   if (passObligatoryVerification(propertyForm)) {
+            //     propertyForm.errors = [];
+            //   }
+            // }
 
           }
         }
