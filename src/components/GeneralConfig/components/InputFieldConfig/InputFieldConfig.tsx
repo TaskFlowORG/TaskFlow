@@ -1,16 +1,19 @@
+import { If } from "@/components/If";
 import { ChangeEventHandler } from "react";
 
-interface Props{
-    id: string, 
-    type: string, 
-    label: string, 
-    value: string, 
-    onChange: ChangeEventHandler<HTMLInputElement>, 
+interface Props {
+    id: string,
+    type: string,
+    label: string,
+    value: string,
+    onChange: ChangeEventHandler<HTMLInputElement>,
     checked?: boolean,
+    classes?: string
+    isLinked?: boolean
 }
-export const InputFieldConfig = ({ id, type, label, value, onChange, checked}:Props) => (
+export const InputFieldConfig = ({ id, type, label, value, onChange, checked, classes, isLinked }: Props) => (
     <>
-        <div className="flex flex-col justify-between h-fit gap-2">
+        <div className={"flex flex-col justify-between h-fit gap-2 " + classes}>
             <div className="flex justify-between ">
                 <p className="text-h4 font-alata">{label}</p>
                 <div className="flex items-center font-bold">

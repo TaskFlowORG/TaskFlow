@@ -239,6 +239,7 @@ export const TesPropertiesSide = ({
           if (inputProperty) {
             if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
               propertyForm.errors.push(`${t("property-not-past")}`);
+
             } else {
               if (passObligatoryVerification(propertyForm)) {
                 propertyForm.errors = [];
@@ -259,6 +260,7 @@ export const TesPropertiesSide = ({
                 propertyForm.errors = [];
               }
             }
+
           }
         }
       }
@@ -335,7 +337,7 @@ export const TesPropertiesSide = ({
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           if (updateProp.value.value == null)
             updateProp.value.value = new DateWithGoogle(null, "", null);
-          updateProp.value.value.dateTime = value.value;
+          updateProp.value.value.dateTime = value.value + ("-03:00");
         } else {
           console.log(value, "value");
           updateProp.value.value = value.value;
