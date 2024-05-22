@@ -28,7 +28,6 @@ export const useTutorial = () => {
         },{
           target: ".click-groups",
           disableBeacon: true,
-          //ESSE NAO TEM AINDA
           content: t("tuto-step-group-click"),
           placement: "right"
         },   
