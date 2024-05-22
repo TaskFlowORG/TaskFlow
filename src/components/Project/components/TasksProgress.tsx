@@ -7,8 +7,9 @@ export const TasksProgress = () => {
   const { t } = useTranslation();
   const { project } = useContext(ProjectContext);
   if (!project) return <Loading />; 
-  const tasks = project?.pages.map((page) => page.tasks).flat().length;
-  const completed = project.pages.flatMap((page) => page.tasks).filter((task) => task.task.completed).length;
+  const allTasks = (project?.pages.flatMap((p) => p.tasks) ?? []).filter((tsk, index) => (project?.pages.flatMap((p) => p.tasks) ?? []).findLastIndex((tsk2) => tsk.task.id == tsk2.task.id) == index);
+  const tasks = allTasks.length;
+  const completed = allTasks.filter((task) => task.task.completed).length;
   const percentage = (completed / tasks) * 100;
   return (
     <div className="h-2/5 w-full  shadow-blur-10 roudedn-md p-4">

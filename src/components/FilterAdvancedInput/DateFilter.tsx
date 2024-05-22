@@ -81,9 +81,9 @@ export const DateFilter = ({
         step="1"
         disabled={isDisabled}
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
-        type={(property as DateP).includesHours ? "datetime-local" : "date"}
+      type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={
-          (property as DateP).includesHours ? valued : valued.split("T")[0]
+          (property as DateP).includesHours ? valued : valued?.split("T")[0]
         }
         placeholder={t("insert-expected-value")}
         onChange={(e) => {

@@ -146,7 +146,6 @@ export const ModalProperty = ({
         saveName();
       }
       setName(textRef.current?.textContent ?? property.name);
-
   }
 
 
