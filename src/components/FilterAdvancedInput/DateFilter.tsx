@@ -34,6 +34,10 @@ export const DateFilter = ({
 
   useEffect(() => {
     // const splitTimestamp: string[] = value?.split("T");
+    console.log((property as DateP).includesHours
+      ?
+      valued?.split("T")[0] + "T" + new Date(valued).toLocaleTimeString()
+      : valued?.split("T")[0])
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop && isInModal) {
       // const splitTimestamp: string[] = prop.value?.split("T");
@@ -59,11 +63,11 @@ export const DateFilter = ({
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={
           (property as DateP).includesHours
-            ? valued?.split("T")[0] +
-              "T" +
-              new Date(valued).toLocaleTimeString()
+            ?
+            valued?.split("T")[0] + "T" + new Date(valued).toLocaleTimeString()
             : valued?.split("T")[0]
         }
+
         placeholder={t("insert-expected-value")}
         onChange={(e) => {
 
@@ -74,14 +78,22 @@ export const DateFilter = ({
               filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
               setFilterProp!([...filterProp!]);
             } else {
-              thisProperty.value = new Date(e.target.value).toISOString();
+              thisProperty.value = (property as DateP).includesHours
+                ?
+                e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
+                : e.target.value?.split("T")[0];
               setFilterProp!([...filterProp!]);
             }
           } else {
             if (e.target.value) {
               setFilterProp!([
                 ...filterProp!,
-                { id: id, value: new Date(e.target.value).toISOString() },
+                {
+                  id: id, value: (property as DateP).includesHours
+                    ?
+                    e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
+                    : e.target.value?.split("T")[0]
+                },
               ]);
             }
           }

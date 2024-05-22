@@ -76,15 +76,6 @@ export const TesPropertiesSide = ({
   const [errors, setErrors] = useState(false);
   const { user } = useContext(UserContext);
 
-  // const valuesOfObjects = (task:Project | Task):PropertyValue[] => {
-  //     let keys = Object.keys(task)
-  //     if (keys.includes('owner')){
-  //       return (task as Project).values
-  //     } else {
-  //       return (task as Task).properties
-  //     }
-  // }
-
   useEffect(() => {
     let array: PropsForm[] = [];
     valuesOfObjects(task).forEach((prop) => {
@@ -101,16 +92,56 @@ export const TesPropertiesSide = ({
   const [modalProperty, setModalProperty] = useState(false);
 
   async function deleteTask() {
-    taskService.delete(task.id, project!.id.toString());
-    let page = project?.pages.find((page) => pageId == page.id);
-    let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-    page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
-    setProject!({ ...project! });
-    {
-      setIsOpen && setIsOpen(false);
+    if (!isProject(task)) {
+      taskService.delete(task.id, project!.id.toString());
+      let page = project?.pages.find((page) => pageId == page.id);
+      let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
+      setProject!({ ...project! });
+      {
+        setIsOpen && setIsOpen(false);
+      }
+    } else {
+      projectService.delete(project!.id);
     }
   }
 
+  const passObligatoryVerification = (propertyForm: PropsForm): boolean => {
+    if (propertyForm.property.property.obligatory) {
+      let inputProperty = filter.find(
+        (propV) => propV.id == propertyForm.property.property.id
+      );
+
+      if (inputProperty) {
+        if (
+          inputProperty.value == "" ||
+          inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
+          inputProperty.value.length == 0
+        ) {
+          propertyForm.errors.push(`${t("property-required")}`);
+          setPropertiesToValidate([...propertiesToValidate]);
+          return false;
+        } else {
+          propertyForm.errors = [];
+          setPropertiesToValidate([...propertiesToValidate]);
+          return true;
+        }
+      } else {
+        if (
+          !propertyForm.property.value.value ||
+          propertyForm.property.value.value.length == 0
+        ) {
+          propertyForm.errors.push(`${t("property-required")}`);
+          setPropertiesToValidate([...propertiesToValidate]);
+          return false;
+        } else {
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
+  };
   const validateProps = (): boolean => {
     propertiesToValidate.forEach((propertyForm) => {
       if (propertyForm.property.property.obligatory) {
@@ -124,7 +155,7 @@ export const TesPropertiesSide = ({
             inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
             inputProperty.value.length == 0
           ) {
-            propertyForm.errors.push(`${t('property-required')}`);
+            propertyForm.errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
             propertyForm.errors = [];
@@ -135,11 +166,12 @@ export const TesPropertiesSide = ({
             !propertyForm.property.value.value ||
             propertyForm.property.value.value.length == 0
           ) {
-            propertyForm.errors.push(`${t('property-required')}`);
+            propertyForm.errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
           }
         }
       }
+
       if (
         [
           TypeOfProperty.TEXT,
@@ -158,21 +190,23 @@ export const TesPropertiesSide = ({
             (propertyForm.property.property as Limited).maximum
           ) {
             propertyForm.errors.push(
-              `${t('property-max')} ${
+              `${t("property-max")} ${
                 (propertyForm.property.property as Limited).maximum
               } ${
                 propertyForm.property.property.type == TypeOfProperty.TEXT
-                  ? t('characters')
+                  ? t("characters")
                   : propertyForm.property.property.type == TypeOfProperty.USER
                   ? (propertyForm.property.property as Limited).maximum > 1
-                    ? t('users')
-                    : t('user')
+                    ? t("users")
+                    : t("user")
                   : "!"
               }`
             );
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            propertyForm.errors = [];
+            if (passObligatoryVerification(propertyForm)) {
+              propertyForm.errors = [];
+            }
             setPropertiesToValidate([...propertiesToValidate]);
           }
         } else {
@@ -182,19 +216,51 @@ export const TesPropertiesSide = ({
             (propertyForm.property.property as Limited).maximum
           ) {
             propertyForm.errors.push(
-              `${t('property-max')} ${
+              `${t("property-max")} ${
                 (propertyForm.property.property as Limited).maximum
               } ${
                 propertyForm.property.property.type == TypeOfProperty.TEXT
-                  ? t('characters')
+                  ? t("characters")
                   : propertyForm.property.property.type == TypeOfProperty.USER
                   ? (propertyForm.property.property as Limited).maximum > 1
-                    ? t('users')
-                    : t('user')
+                    ? t("users")
+                    : t("user")
                   : "!"
               }`
             );
             setPropertiesToValidate([...propertiesToValidate]);
+          }
+        }
+      } else if (TypeOfProperty.DATE) {
+        let inputProperty = filter.find(
+          (propV) => propV.id == propertyForm.property.property.id
+        );
+        if (!(propertyForm.property.property as DateProp).canBePass) {
+          if (inputProperty) {
+            if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
+              propertyForm.errors.push(`${t("property-not-past")}`);
+
+            } else {
+              if (passObligatoryVerification(propertyForm)) {
+                propertyForm.errors = [];
+              }
+            }
+          } else {
+            console.log(propertyForm.property.value.value);
+            // if (
+            //   testIfIsPass(
+            //     propertyForm,
+            //     new Date(),
+            //     propertyForm.property.value.value.dateTime
+            //   )
+            // ) {
+            //   propertyForm.errors.push(`${t("property-not-past")}`);
+            // } else {
+            //   if (passObligatoryVerification(propertyForm)) {
+            //     propertyForm.errors = [];
+            //   }
+            // }
+
           }
         }
       }
@@ -271,10 +337,9 @@ export const TesPropertiesSide = ({
         } else if (TypeOfProperty.DATE == updateProp.property.type) {
           if (updateProp.value.value == null)
             updateProp.value.value = new DateWithGoogle(null, "", null);
-          updateProp.value.value.dateTime = value.value;
+          updateProp.value.value.dateTime = value.value + ("-03:00");
         } else {
           console.log(value, "value");
-
           updateProp.value.value = value.value;
         }
       }
