@@ -6,12 +6,12 @@ import { Property, PropertyValue, TaskPage, TypeOfProperty } from "@/models";
 import { useTranslation } from "next-i18next";
 import { useTheme } from "next-themes";
 import { Bar } from "react-chartjs-2";
-import { useContext, useEffect, useState } from "react"; 
+import { useContext, useEffect, useState } from "react";
 import { ChartOptions } from "chart.js";
 import { UserContext } from "@/contexts/UserContext";
 import { text } from "stream/consumers";
 
-export const TasksDate = () => { 
+export const TasksDate = () => {
   const { project } = useContext(ProjectContext);
   const [day, setDay] = useState<Date>(new Date(Date.now()));
   const { theme } = useTheme();
@@ -21,7 +21,6 @@ export const TasksDate = () => {
   const properties =
     project?.properties.filter((p) => p.type == TypeOfProperty.DATE) ?? [];
   const [property, setProperty] = useState<Property | undefined>(properties[0]);
-
 
   useEffect(() => {
     if (!user || !project) return;
@@ -39,9 +38,14 @@ export const TasksDate = () => {
       </div>
     );
 
-  const tasks = project?.pages.flatMap((p) => p.tasks) ?? [];
+  const tasks = (project?.pages.flatMap((p) => p.tasks) ?? []).filter(
+    (tsk1, index) =>
+      (project?.pages.flatMap((p) => p.tasks) ?? []).findLastIndex(
+        (tsk2) => tsk1.task.id == tsk2.task.id
+      ) == index
+  );
   const checkDay = (property: PropertyValue | undefined, day: Date) => {
-    console.log("prop", property)
+    console.log("prop", property);
     if (!property) return false;
     if (!property.value) return false;
     if (!property.value.value) return false;
@@ -83,17 +87,14 @@ export const TasksDate = () => {
 
   const options: ChartOptions<"bar"> = {
     plugins: {
-      
       legend: {
-
         display: false,
-        labels:{
-          
-          font:{
+        labels: {
+          font: {
             family: user?.configuration.font,
             size: user?.configuration.fontSize ?? 16,
-          }
-        }
+          },
+        },
       },
     },
     responsive: true,
@@ -113,8 +114,7 @@ export const TasksDate = () => {
         grid: {
           color: theme === "dark" ? "#FCFCFC33" : "#3C3C3C33",
         },
-        
-      }
+      },
     },
   };
   return (

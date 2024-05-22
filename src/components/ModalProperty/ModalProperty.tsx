@@ -31,9 +31,12 @@ import { ContentModalProperty } from "../ContentModalProperty";
 import { NeedPermission } from "../NeedPermission";
 import { get } from "http";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
-import { propertyService } from "@/services";
+import { projectService, propertyService } from "@/services";
 import { ErrorModal } from "../ErrorModal";
 import { PropertyContext } from "@/utils/PropertyContext";
+import { ProjectContext } from "@/contexts";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+
 
 type ModalPropertyProps = {
   property: Property;
@@ -128,14 +131,22 @@ export const ModalProperty = ({
     }
   }, [editing]);
 
-  const saveName = () => {
+  const asyncThrow = useAsyncThrow();
+
+  const {project, setProject} = useContext(ProjectContext)
+  const saveName = async () => {
+    if(!project) return;
     setEditing(false);
     if(property.type === TypeOfProperty.DATE){
-      propertyService.patchDate(property.id, {id:property.id, name: name} as Date);
+      await propertyService.patchDate(project.id, {id:property.id, name: name} as Date).catch(asyncThrow);
     }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
-      propertyService.patchLimited(property.id, {id:property.id, name: name} as Limited);
+      await propertyService.patchLimited(project.id, {id:property.id, name: name} as Limited).catch(asyncThrow);
     }else{
-      propertyService.patchSelect(property.id, {id:property.id, name: name} as Select);
+      await propertyService.patchSelect(project.id, {id:property.id, name: name} as Select).catch(asyncThrow);
+    }
+    const projectTemp = await projectService.findOne(project.id).catch(asyncThrow);
+    if(setProject && projectTemp){
+      setProject(projectTemp);
     }
   }
 
@@ -144,7 +155,6 @@ export const ModalProperty = ({
         saveName();
       }
       setName(textRef.current?.textContent ?? property.name);
-
   }
 
 
