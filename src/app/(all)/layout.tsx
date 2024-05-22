@@ -10,7 +10,7 @@ import { LanguageProvider } from "@/contexts/ContextLanguage";
 import { AppProps } from "next/app";
 import { I18nextProvider, I18nextProviderProps, useTranslation } from 'react-i18next';
 import i18next from "../../../i18n";
-import { TextToSpeechTeste } from "@/components/GeneralConfig/components/TextToSpeechTeste/TextToSpeechTeste";
+import { TextToSpeech } from "@/components/GeneralConfig/components/TextToSpeech/TextToSpeech";
 import ErrorBoundary from '@/components/ErrorPage/ErrorBoudary';
 import "@/styles/global.css";
 import Cookies from 'js-cookie';
@@ -49,7 +49,7 @@ export default function Layout({ children, text }: Props) {
       <LanguageProvider language={language} setLanguage={setLanguage}>
         <I18nextProvider i18n={(i18next as unknown as I18nextProviderProps["i18n"])} >
           <body id="body" className={`w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start`}>
-            {user?.configuration.textToSound ? <TextToSpeechTeste></TextToSpeechTeste> : null}
+            {user?.configuration.textToSound ? <TextToSpeech></TextToSpeech> : null}
             {user?.configuration.libras ? <VLibras forceOnload /> : null}
             <Providers>
               <ThemeSwitcher />
