@@ -53,7 +53,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
 
   let displayFullName = ""
   if (project != null) {
-    displayFullName = fullName.length > 9 ? `${fullName.slice(0, 9)}...` : fullName;
+    displayFullName = fullName.length > 7 ? `${fullName.slice(0, 7)}...` : fullName;
   } else {
     displayFullName = fullName.length > 15 ? `${fullName.slice(0, 15)}...` : fullName;
   }
