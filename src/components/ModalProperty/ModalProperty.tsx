@@ -40,7 +40,7 @@ import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
 type ModalPropertyProps = {
   property: Property;
-  deleteProperty: (property: Property) => void;
+    deleteProperty: (property: Property) => void;
   upDateProperties: (property: Property, getValues: any) => void;
 };
 
@@ -137,6 +137,7 @@ export const ModalProperty = ({
   const saveName = async () => {
     if(!project) return;
     setEditing(false);
+
     if(property.type === TypeOfProperty.DATE){
       await propertyService.patchDate(project.id, {id:property.id, name: name} as Date).catch(asyncThrow);
     }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
@@ -147,6 +148,7 @@ export const ModalProperty = ({
     const projectTemp = await projectService.findOne(project.id).catch(asyncThrow);
     if(setProject && projectTemp){
       setProject(projectTemp);
+
     }
   }
 
@@ -155,6 +157,7 @@ export const ModalProperty = ({
         saveName();
       }
       setName(textRef.current?.textContent ?? property.name);
+
   }
 
 
@@ -172,21 +175,21 @@ export const ModalProperty = ({
         renaming={editing}
         icon={
           editing ?
-          <span onClick={(e) => {e.stopPropagation();saveName()}}>
+            <span onClick={(e) => { e.stopPropagation(); saveName() }}>
               <IconSave />
-          </span>
-          :
-          isHovering ? (
-            <span onClick={(e) => {e.stopPropagation();setEditing(!editing)}}>
-              <IconEditColoured />
             </span>
-          ) : (
-            fnReturnImageProperty(property.type)
-          )
+            :
+            isHovering ? (
+              <span onClick={(e) => { e.stopPropagation(); setEditing(!editing) }}>
+                <IconEditColoured />
+              </span>
+            ) : (
+              fnReturnImageProperty(property.type)
+            )
         }
         openOptions={openOptions}
         fnClick={() => {
-          setOpenOptions(editing ? false: !openOptions);
+          setOpenOptions(editing ? false : !openOptions);
         }}
         fnOpenOptions={setOptionsFN}
         textRef={textRef}
@@ -206,6 +209,7 @@ export const ModalProperty = ({
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
                 onClick={() => {
                   setModalDelete(true);
+  
                 }}
               >
                 {" "}
@@ -216,9 +220,8 @@ export const ModalProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                    upDateProperties(property, getValues());
-                    setOpenOptions(false);
-
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
                 }}
               >
                 <IconSave />
@@ -232,7 +235,7 @@ export const ModalProperty = ({
           isClosed={ModalDelete}
           property={property}
           deleteProperty={deleteProperty}
-          close={() => setModalDelete}
+          close={() => setModalDelete(false)}
           closeProperty={() => setOpenOptions(false)}
         />
       )}
