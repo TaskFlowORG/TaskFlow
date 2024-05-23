@@ -1,75 +1,147 @@
 import { SearchIcon } from "./SearchIcon";
 import { SearchInput } from "./SearchInput";
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useContext, useState } from "react";
 import { OrderInput } from "../OrderInput";
+import { FilterAdvancedInput } from "../FilterAdvancedInput/FilterAdvancedInput";
+import { OrderedPage, Property } from "@/models";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { IconFilter } from "../icons/OptionsFilter/Filter";
+import { IconOrder } from "../icons/OptionsFilter/Order";
+import { IconSearch } from "../icons/OptionsFilter/Search";
+import { AnimatePresence, motion } from "framer-motion";
+import { LocalModal } from "../Modal";
 
 interface Props {
-  order?: () => any;
-  search: (textInput: string) => any;
-  filter?: () => any;
-  children: ReactElement[] | ReactNode[];
+  order?: boolean;
+  search?: boolean;
+  filter?: boolean;
+  invert?: boolean;
+  // openedOrder?: boolean;
+  // setOpenedOrder: (a: boolean) => void;
+  properties?: Property[];
+  page?: OrderedPage;
+  isInCalendar?: boolean;
+  // children: ReactElement[] | ReactNode[];
 }
-export const SearchBar = ({ order, search, filter, children }: Props) => {
+export const SearchBar = ({
+  order = false,
+  search = false,
+  filter = false,
+  invert = false,
+  // openedOrder,
+  // setOpenedOrder,
+  properties = [],
+  page,
+  isInCalendar = false,
+}: Props) => {
   const [openedSearch, setOpenedSearch] = useState(false);
   const [openedOrder, setOpenedOrder] = useState(false);
   const [openedFilter, setOpenedFilter] = useState(false);
-  const [textInput, setTextInput] = useState("");
+  const { setInput } = useContext(FilterContext);
 
   function change(bar: string) {
     if (bar == "search") {
       setOpenedSearch(!openedSearch);
-      setTextInput("");
-      search("");
       setOpenedFilter(false);
       setOpenedOrder(false);
     } else if (bar == "filter") {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(!openedFilter);
       setOpenedOrder(false);
     } else {
-      setOpenedSearch(false);
+      // setOpenedSearch(false);
       setOpenedFilter(false);
       setOpenedOrder(!openedOrder);
     }
   }
 
   return (
-    <div className="justify-end  relative mb-3 flex gap-2 ">
-      {search && openedSearch && (
-        <SearchInput
-          action={() => {
-            // console.log(textInput);
-            search(textInput);
-          }}
-          setTextField={(newText: string) => setTextInput(newText)}
-        />
-      )}
-
-      {order && openedOrder && children[0]}
-      {filter && openedFilter && children[1]}
+    <div className="justify-end w-full items-center  relative  h-full flex gap-2 ">
+      <AnimatePresence initial={false} mode="wait">
+        {search && openedSearch && (
+          <motion.span
+            initial={{ width: "0px" }}
+            animate={{ width: "fit-content" }}
+            exit={{ width: "0px" }}
+            className="overflow-clip p-1"
+          >
+            <SearchInput
+              setIsModalOpen={(bool: boolean) => setOpenedSearch(bool)}
+            />
+          </motion.span>
+        )}
+      </AnimatePresence>
       {search && (
         <SearchIcon
-          iconSrc={"/searchIcons/search.svg"}
-          action={() => {
-            // console.log(textInput);
-            search(textInput);
+          invert={invert}
+          icon={
+            <IconSearch
+              classes={invert ? "text-primary dark:text-secondary" : undefined}
+            />
+          }
+          open={() => {
+            change("search");
+            setInput!("");
           }}
-          open={() => change("search")}
+          acessibilityLabel="Ícone de pesquisa"
         />
       )}
       {order && (
-        <SearchIcon
-          iconSrc={"/searchIcons/order.svg"}
-          open={() => change("order")}
-          action={() => order()}
-        />
+        <span className="relative">
+
+          <SearchIcon
+            invert={invert}
+            icon={
+              <IconOrder
+                classes={invert ? "text-primary dark:text-secondary" : undefined}
+              />
+            }
+            open={() => {
+              change("order");
+            }}
+            acessibilityLabel="Ícone de ordenação"
+          />
+          <LocalModal condition={openedOrder} setCondition={setOpenedOrder} right>
+
+
+          <OrderInput
+          setIsModalOpen={setOpenedOrder}
+          page={page!}
+          isInCalendar={isInCalendar}
+          orderingId={page?.propertyOrdering.id}
+          propertiesPage={properties}
+        ></OrderInput>
+          </LocalModal>
+        </span>
       )}
       {filter && (
-        <SearchIcon
-          iconSrc={"/searchIcons/filter.svg"}
-          action={() => filter()}
-          open={() => change("filter")}
-        />
+        <span className="relative">
+          <SearchIcon
+            invert={invert}
+            icon={
+              <IconFilter
+                classes={
+                  invert ? "text-primary dark:text-secondary" : undefined
+                }
+              />
+            }
+            acessibilityLabel="Ícone de filtragem"
+            open={() => change("filter")}
+          />
+          <LocalModal
+            condition={openedFilter}
+            setCondition={setOpenedFilter}
+            right
+            
+          >
+            <FilterAdvancedInput
+              properties={properties}
+              setIsModalOpen={setOpenedFilter}
+              // isModalOpen={openedFilter}
+              // setIsModalOpen={setOpenedFilter} />
+            />
+          </LocalModal>
+        </span>
       )}
     </div>
   );

@@ -1,28 +1,28 @@
-export { ChatGet as Chat} from "./chat/chat/ChatGetDTO";
+export { Chat as Chat} from "./chat/chat/Chat";
 // export { Chat as ChatPost} from "./chat/chat/@Chat";
 
 
-export { ChatGroupGet as ChatGroup } from "./chat/chat-group/ChatGroupGet";
-export { ChatGroupPost } from "./chat/chat-group/ChatGroupPostDTO";
+export { ChatGroup } from "./chat/chat-group/ChatGroup";
+export { ChatGroupPost } from "./chat/chat-group/ChatGroupPost";
 
-export { ChatPrivateGet as ChatPrivate } from "./chat/chat-private/ChatPrivateGetDTO";
-export { ChatPrivatePost } from "./chat/chat-private/ChatPrivatePostDTO";
+export { ChatPrivate } from "./chat/chat-private/ChatPrivate";
+export { ChatPrivatePost } from "./chat/chat-private/ChatPrivatePost";
 // export { ChatPrivate } from "./chat/chat-private/ChatPrivate";
 
-export { GroupGet as Group } from "./user/group/GroupGetDTO";
+export { Group } from "./user/group/Group";
 export { GroupPost } from "./user/group/GroupPostDTO";
 export { GroupPut } from "./user/group/GroupPutDTO";
 
-export { SimpleUserGet as UserWithoutPermission } from "./user/user/SimpleUserGetDTO";
-export { UserGet as User } from "./user/user/UserGetDTO";
+export { User } from "./user/user/User";
 export { UserPost } from "./user/user/UserPostDTO";
 export { UserPut } from "./user/user/UserPutDTO";
+export {OtherUser} from "./user/user/OtherUser";
 
-export { Message as MessagePostPut } from "./chat/message/Message";
-export { MessageGet as Message } from "./chat/message/MessageGetDTO";
+export { MessagePost } from "./chat/message/MessagePost";
+export { Message } from "./chat/message/Message";
 
 // export {Destination} from "./chat/destination/Destination";
-export { DestinationGet as Destination} from "./chat/destination/DestinationGetDTO";
+export { Destination as Destination} from "./chat/destination/Destination";
 export { DestinationId } from "./chat/destination/DestinationId";
 
 export { TypeOfChat } from "./enums/TypeOfChat";
@@ -36,53 +36,54 @@ export { Theme } from "./enums/Theme";
 export { Archive } from "./others/Archive";
 export { Configuration } from "./others/Configuration";
 
-export { CanvasPageGet as CanvasPage} from "./page/canvas-page/CanvasPageGetDTO";
+export { CanvasPage} from "./page/canvas-page/CanvasPage";
 // export { CanvasPage as CanvasPagePut } from "./page/canvas-page/CanvasPage";
 
-export { PageGet as Page } from "./page/page/PageGetDTO";
+export { Page as Page } from "./page/page/Page";
 // export { Page as PagePut } from "./page/page/Page";
-export { PagePost } from "./page/page/PagePostDTO";
+export { PagePost } from "./page/page/PagePost";
 
 // export { OrderedPage as OrderedPagePut } from "./page/ordered-page/OrderedPage";
-export { OrderedPageGet as OrderedPage } from "./page/ordered-page/OrderedPageGetDTO";
+export { OrderedPage as OrderedPage } from "./page/ordered-page/OrderedPage";
 
-export { PermissionGet as Permission } from "./project/permission/PermissionGetDTO";
-export { PermissionPost } from "./project/permission/PermissionPostDTO";
-export { PermissionPut } from "./project/permission/PermissionPutDTO";
+export { Permission as Permission } from "./project/permission/Permission";
+export { PermissionPost } from "./project/permission/PermissionPost";
+export { PermissionPut } from "./project/permission/PermissionPut";
 
-export { ProjectGet as Project } from "./project/project/ProjectGetDTO";
-export { ProjectPost } from "./project/project/ProjectPostDTO";
-export { ProjectPut } from "./project/project/ProjectPutDTO";
+export { Project as Project } from "./project/project/Project";
+export { ProjectPost } from "./project/project/ProjectPost";
+export { ProjectPut } from "./project/project/ProjectPut";
+export {ProjectSimple} from "./project/project/ProjectSimple";
 
-export { DateGet as Date} from "./property/date/DateGetDTO";
-export { Date as DatePost } from "./property/date/Date";
+export {  Date} from "./property/date/Date";
+export {  DatePost } from "./property/date/DatePost";
 
-export { Limited as LimitedPost} from "./property/limited/Limited";
-export { LimitedGet as Limited} from "./property/limited/LimitedGetDTO";
+export { LimitedPost} from "./property/limited/LimitedPost";
+export {  Limited} from "./property/limited/Limited";
 
-export { Property as PropertyPost} from "./property/property/Property";
-export { PropertyGet as Property} from "./property/property/PropertyGetDTO";
+export {  PropertyPost} from "./property/property/PropertyPost";
+export {  Property} from "./property/property/Property";
 
-export { Select as SelectPost} from "./property/select/Select";
-export { SelectGet as Select } from "./property/select/SelectGetDTO";
+export { SelectPost } from "./property/select/SelectPost";
+export { Select  } from "./property/select/Select";
 
 // export { TaskCanvas} from "./relations/task-canvas/TaskCanvas";
-export { TaskCanvasGet as TaskCanvas } from "./relations/task-canvas/TaskCanvasGetDTO";
+export { TaskCanvas } from "./relations/task-canvas/TaskCanvas";
 
 // export { TaskPage } from "./relations/task-page/TaskPage";
-export { TaskPageGet as TaskPage } from "./relations/task-page/TaskPageGetDTO";
+export { TaskPage  } from "./relations/task-page/TaskPage";
 
 // export { TaskOrdered } from "./relations/task-ordered/TaskOrdered";
-export { TaskOrderedGet as TaskOrdered } from "./relations/task-ordered/TaskOrderedGetDTO";
+export { TaskOrdered} from "./relations/task-ordered/TaskOrdered";
 
-export { TaskValueGet as TaskValue } from "./relations/task-value/TaskValueGetDTO";
-// export { TaskValue } from "./relations/task-value/TaskValue";
+export { PropertyValue  } from "./relations/property-value/PropertyValue";
+// export { PropertyValue } from "./relations/property-value/PropertyValue";
 
 // export { Task as TaskPut} from "./task/task/Task";
-export { TaskGet as Task } from "./task/task/TaskGetDTO";
+export { Task as Task } from "./task/task/Task";
 
 // export { Log } from "./task/log/Log";
-export { LogGet as Log} from "./task/log/LogGetDTO";
+export { Log as Log} from "./task/log/Log";
 
 export { Value } from "./values/Value";
 export { ArchiveValued } from "./values/ArchiveValued";

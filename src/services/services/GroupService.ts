@@ -1,63 +1,71 @@
-import { Group, GroupPost, GroupPut, Permission, User } from "@/models";
+import { Group, GroupPost, GroupPut, OtherUser, Permission, User } from "@/models";
 import { Api } from "../axios";
+import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+
 
 class GroupService {
-
-    async insert(group: GroupPost): Promise<void> {
-        await Api.post("group", group);
+    async removeOfPoject(groupId: number, pojectId: number | undefined):Promise<Group|undefined> {
+        
+        if(pojectId){
+            const response = await Api.patch<Group>("group/remove/"+groupId+"/from/"+pojectId, { withCredentials: true });
+            return response.data;
+        }
     }
 
-    async update(group: Group): Promise<void> {
-        const groupPut = new GroupPut(group.id, group.name ?? "", group.description ?? "", group.permissions, group.users)
-        await Api.put("group", groupPut);
+    async insert(group: GroupPost): Promise<Group> {
+        const response = await Api.post<Group>("group", group, { withCredentials: true });
+        return response.data;
     }
 
-    async patch(group: Group): Promise<void> {
-        const groupPut = new GroupPut(group.id, group.name ?? "", group.description ?? "", group.permissions, group.users)
-        await Api.patch("group", groupPut);
+    async update(group: GroupPut, groupId: number): Promise<Group> {
+        const response = await Api.put<Group>(`group/${groupId}`, group, { withCredentials: true });
+        return response.data;
     }
 
-    async updateUser(user: User, groupId: number): Promise<void> {
-        await Api.put(`group/user/${groupId}`, user);
+    async patch(group: GroupPut, groupId: number): Promise<Group> {
+        const response = await Api.patch<Group>(`group/${groupId}`, group, { withCredentials: true });
+        return response.data;
     }
 
-    async findOne(id: number): Promise<Group> {
-        return (await Api.get<Group>(`group/${id}`)).data;
+    async findOne(groupId: number): Promise<Group> {
+        const response = await Api.get<Group>(`group/${groupId}`, { withCredentials: true });
+        return response.data;
     }
 
-    async findAll(): Promise<Group[]> {
-        return (await Api.get<Group[]> ("group")).data;
+    async findGroupsByUser(): Promise<SimpleGroup[]> {
+        const response = await Api.get<SimpleGroup[]>("group/my", { withCredentials: true });
+        return response.data;
+    }
+    async findAll(): Promise<SimpleGroup[]> {
+        const response = await Api.get<SimpleGroup[]>("group", { withCredentials: true });
+        return response.data;
     }
 
-    async findGroupsByUser(userId: string): Promise<Group[]> {
-        return (await Api.get<Group[]>(`group/user/${userId}`)).data;
+    async findGroupsByAProject(projectId: number): Promise<SimpleGroup[]> {
+        const response = await Api.get<SimpleGroup[]>(`group/project/${projectId}`, { withCredentials: true });
+        return response.data;
     }
 
-    async findGroupsOfAProject(projectId: number): Promise<Group[]> {
-        return( await Api.get<Group[]>(`group/project/${projectId}`)).data;
+    async delete(groupId: number): Promise<void> {
+        await Api.delete(`group/${groupId}`, { withCredentials: true });
     }
 
-    async findPermissionOfAGroupInAProject(groupId: number, projectId: number): Promise<Permission> {
-        return (await Api.get<Permission>(`group/${groupId}/${projectId}`)).data;
-    }
-
-    async findAllPermissionsOfAGroupInAProject(groupId: number, projectId: number): Promise<Permission[]> {
-        return (await Api.get<Permission[]>(`group/${groupId}/permissions/${projectId}`)).data;
-    }
-
-    async delete(id: number): Promise<void> {
-        await Api.delete(`group/${id}`);
-    }
-
-    async updatePicture(picture: File, id: number): Promise<void> {
+    async updatePicture(picture: File, groupId: number): Promise<Group> {
         const formData = new FormData();
         formData.append("picture", picture);
-        await Api.patch(`group/picture/${id}`, formData);
+        const response = await Api.patch<Group>(`group/${groupId}/picture`, formData, { withCredentials: true });
+        return response.data;
     }
 
-    async updateOwner(newOwner: User, projectId: number): Promise<void> {
-        await Api.patch(`group/change-owner/${projectId}`, newOwner);
+    async updateOwner(newOwner: OtherUser, groupId: number): Promise<Group> {
+        const response = await Api.patch<Group>(`group/${groupId}/change-owner`, newOwner, { withCredentials: true });
+        return response.data;
     }
+
+    async inviteUser(groupId: number, userId: number): Promise<void> {
+         await Api.post<Group>(`group/${groupId}/add-user/${userId}`, {}, {withCredentials: true});
+    }
+
 }
 
 export const groupService = new GroupService();

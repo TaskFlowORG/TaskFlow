@@ -1,1 +1,1 @@
-export {ModalProperty} from "./ModalProperty"
+export {ModalProperty} from './ModalProperty';

@@ -1,9 +1,11 @@
 "use client";
 
 import { List, TableOrList } from "./components";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Page, TaskOrdered, TaskPage } from "@/models";
 import { pageService } from "@/services";
+import { ProjectContext } from "@/contexts";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   page: Page;
@@ -11,10 +13,12 @@ interface Props {
 
 export const ListPage = ({ page }: Props) => {
   const [pages, setPages] = useState<Page[]>([]);
+  const {project} = useContext(ProjectContext)
 
   useEffect(() => {
     (async () => {
-      const pagesPromise: Page[] = await pageService.findAll();
+      const pagesPromise = project?.pages
+      if(!pagesPromise) return
       let tasksPromise = page.tasks;
       const list = [];
       for (let p of pagesPromise) {
@@ -40,10 +44,15 @@ export const ListPage = ({ page }: Props) => {
     }
     return false;
   }
-
+  const {t} = useTranslation()
   return (
     <TableOrList name={page.name}>
-      {pages.map((p) => {
+      
+      {
+      pages.length == 0 ? 
+      <div className="h4 text-primary dark:text-secondary w-full h-full flex justify-center items-center pb-32">{t("no-page-conected")}</div>
+      :
+      pages.map((p) => {
         return (
           <List
             key={p.id}

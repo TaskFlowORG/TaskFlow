@@ -1,45 +1,72 @@
 import { useState, useEffect, useContext } from "react";
 import { Input } from "../Input";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { twMerge } from "tailwind-merge";
+import { useTranslation } from "next-i18next";
+import { useHasPermission } from "@/hooks/useHasPermission";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 interface Props {
   id: number;
   name: string;
   value: string;
+  isInModal?: boolean;
 }
 
-export const TextFilter = ({ id, name, value }: Props) => {
+export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const [valued, setValued] = useState("");
+  const { t } = useTranslation();
+  const {task} = useContext(TaskModalContext)
+  const hasPermission = useHasPermission("update");
+  const isDisabled = useIsDisabled(isInModal, 'update');
 
   useEffect(() => {
-    setValued(value ?? "");
-  }, [value]);
+    const prop = filterProp!.find((bah) => id == bah.id);
+    if (prop) {
+      setValued(prop.value);
+    } else {
+      setValued(value ?? "");
+    }
+    console.log(hasPermission);
+  }, [value, setFilterProp, filterProp]);
+
+  const style = twMerge(
+    "flex gap-4 w-full items-center border-b-[1px]  pb-2",
+    isInModal ? " p-0  border-none w-full 2xl:w-[200px]" : " "
+  );
+
   return (
-    <div className="flex gap-4 w-full items-center border-b-[1px]  pb-2">
-      <p className=" text-black dark:text-white">{name}:</p>
+    <div className={style}>
+      {!isInModal && (
+        <p className=" text-black dark:text-white text-p14">{name}:</p>
+      )}
 
       <input
-        className="flex-1 py-1 px-3 text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
-        placeholder="Insira o valor esperado"
-        value={valued}
+        className="flex-1 py-1 px-3 text-p14 font-montserrat text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg "
+        placeholder={t("insert-expected-value")}
+        disabled={isDisabled}
+        value={valued == 'null' ? "" : valued}
         onChange={(e) => {
           setValued(e.target.value);
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
-            if (!e.target.value) {
-              filterProp.splice(filterProp.indexOf(thisProperty), 1);
-              setFilterProp!(filterProp);
-            } else {
-              thisProperty.value = e.target.value;
-            }
+            // if (!e.target.value) {
+            //   filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+            //   setFilterProp!([...filterProp!]);
+            //   thisProperty.value = e.target.value;
+            // } else {
+              thisProperty.value = e.target.value ?? "";
+              setFilterProp!([...filterProp!]);
+            // }
           } else {
-            if (e.target.value) {
+            // if (e.target.value) {
               setFilterProp!([
-                ...filterProp,
-                { id: id, value: e.target.value },
+                ...filterProp!,
+                { id: id, value: e.target.value ?? "" },
               ]);
-            }
+            // }
           }
         }}
         type="text"

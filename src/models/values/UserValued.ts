@@ -1,14 +1,10 @@
-import { AllArgsConstructor } from "@/utils";
+ 
+import { OtherUser } from "../user/user/OtherUser";
 import { Value } from "./Value";
-import { SimpleUserGet } from "@/models/user/user/SimpleUserGetDTO";
-
-@AllArgsConstructor
 export class UserValued extends Value{
 
-    value!: SimpleUserGet[];
-
-    constructor(id:number, users: SimpleUserGet[]){
-        super(id);
+    constructor( public users: OtherUser[],public id?:number,){
+        super(users,id);
     }
 
 

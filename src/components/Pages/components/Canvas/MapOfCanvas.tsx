@@ -46,9 +46,10 @@ export const MapOfCanvas = ({canvas, x, y}:Props) => {
     }
   
     return {
-        map:<div className="w-min h-min pointer-events-none">
-            <Image alt="Map of Canvas" className="fixed top-16 bg-white dark:bg-back-grey bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
-            width={width} height={width/2} src={src} />
+        map:<div className="w-min h-min pointer-events-none select-none">
+            <Image className="fixed top-16 bg-white dark:bg-back-grey select-none bg-opacity-75 left-2 brightness-75 z-20 border-2 dark:border-modal-grey" 
+            width={width} height={width/2} src={src} alt="Map Of Canvas" />
+
             <div className="fixed z-30 backdrop-brightness-125" style={style}>
             </div>
         </div>,

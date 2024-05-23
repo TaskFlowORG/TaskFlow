@@ -9,17 +9,20 @@ interface Props {
 export const CardDate = ({ date, property, showNameProperty }: Props) => {
   return (
     <>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-1 items-center w-max">
         {showNameProperty && (
-          <p className="text-[14px] text-[#797979] dark:text-white w-max">
+          <p className="text-p14 text-[#797979] dark:text-white ">
             {property}:
           </p>
         )}
 
-        <p className=" mn text-[#797979] dark:text-white mt-0.5  w-max">
-          {date ?? "dd/mm/yy"}
+        <p className=" mn text-[#797979] dark:text-white mt-0.5 ">
+          {new Date(date).toLocaleDateString()}
         </p>
-        <IconCalendar />
+        <div className="w-4 aspect-square">
+          <IconCalendar></IconCalendar>
+        </div>
+
       </div>
     </>
   );

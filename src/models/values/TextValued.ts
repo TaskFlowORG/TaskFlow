@@ -1,11 +1,9 @@
-import { AllArgsConstructor } from "@/utils";
+ 
 import { Value } from "./Value";
 
-@AllArgsConstructor
-export class TextValued extends Value {
-    value!:string
 
-    constructor(id:number, text:string){
-        super(id);
+export class TextValued extends Value {
+    constructor(public text:string | null,public id?:number){
+        super( text, id);
     }
 }

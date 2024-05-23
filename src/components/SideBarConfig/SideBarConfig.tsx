@@ -1,74 +1,85 @@
-"use client";
+import React, { useEffect, useState } from "react";
+import { User } from "@/models";
+import { useTranslation } from "react-i18next";
+import { NavItems } from "./components/NavItems/NavItems";
+import { IconUser } from "../icons";
+import { AnimatePresence, motion } from "framer-motion";
+import { IconConfig, IconNotification } from "../icons";
 
-import { useEffect, useState } from "react";
+interface Props {
+  user: User;
+  pageTitle: string;
+}
 
-export const SideBarConfig = () => {
-  const [invisible, setInvisble] = useState(true);
+export const SideBarConfig = ({ user, pageTitle }: Props) => {
+  const [extendida, setExtendida] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number>(0);
+
+  const { t } = useTranslation();
+
   useEffect(() => {
-    mostrarSidebar();
-  });
+    setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", () => setWindowWidth(window.innerWidth));
+    return () =>
+      window.removeEventListener("resize", () =>
+        setWindowWidth(window.innerWidth)
+      );
+  }, []);
 
-  const mostrarSidebar = () => {
-    if (window.innerWidth <= 768) {
-      setInvisble(true);
-      // console.log(window.innerWidth)
+  useEffect(() => {
+    const sideBar = document.getElementById("sideBar");
+    const handleMouseEnter = () => setExtendida(true);
+    const handleMouseLeave = () => setExtendida(false);
+    if (windowWidth > 1024) {
+      if (sideBar) {
+        sideBar.addEventListener("mouseenter", handleMouseEnter);
+        sideBar.addEventListener("mouseleave", handleMouseLeave);
+      }
+    } else {
+      if (sideBar) {
+        sideBar.removeEventListener("mouseenter", handleMouseEnter);
+        sideBar.removeEventListener("mouseleave", handleMouseLeave);
+      }
     }
-  };
-  return (
-    <>
-      <div
-        className={`text-contrast bg-primary  md:w-[23%] h-screen md:grid ${
-          invisible ? "hidden" : "visible"
-        }`}
-        style={{ gridAutoRows: "25% 43% 30%" }}
-      >
-        <div className="flex flex-col items-center justify-center h-full row-start-1 row-end-2 ">
-          <h3 className="h3 ">Perfil de usuário</h3>
-        </div>
-        <div className="w-full  h-full row-start-2 row-end-3 flex flex-col justify-center ">
-          <div className="w-full flex px-4 flex-col items-center gap-8">
-            {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
+  }, [windowWidth]);
 
-            <a
-              href="http://localhost:3000/1/user-config/personal-informations"
-              className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl "
-            >
-              <div className="flex  items-center gap-5  px-3 h-full">
-                <img className="w-8 h-8" src="/img/usuario.svg" alt="" />
-                <h4 className="h4 ">Informações Pessoais</h4>
-              </div>
-            </a>
-            {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
-            <a
-              href="http://localhost:3000/1/user-config/general-config"
-              className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl"
-            >
-              <div className="flex  items-center gap-5 h-full px-3">
-                <img className="w-8 h-8" src="/img/configuracao.svg" alt="" />
-                <h4 className="h4">Configurações</h4>
-              </div>
-            </a>
-            {/* Mudar a rota dinamica posteriormente(ou alterar o meio para enviar para outra pagina) */}
-            <a
-              href="http://localhost:3000/1/user-config/notification-config"
-              className="w-full h-12 duration-700 hover:backdrop-brightness-[115%] rounded-xl"
-            >
-              <div className="flex  items-center gap-5 h-full  px-3">
-                <img className="w-8 h-8" src="/img/notificacoes.svg" alt="" />
-                <h4 className="h4">Notificações</h4>
-              </div>
-            </a>
+  return (
+    <div
+      id="sideBar"
+      className={`bg-primary overflow-hidden dark:bg-modal-grey   fixed z-30 
+      inset-x-0 bottom-0 lg:h-full h-20 flex text-contrast lg:justify-normal justify-center w-screen  duration-300 ${extendida ? "lg:w-[341px]" : "lg:w-16"
+        } `}
+    >
+      <div className={`flex flex-col items-center w-min dark:text-white `}>
+        <span className="flex justify-center items-center h-7 w-full">
+          <div
+            className={` h-max pt-40 w-full overflow-x-clip justify-center items-center ${extendida ? "flex" : "invisible"
+              }`}
+          >
+            <h3 className={`hidden lg:block font-alata text-h3 whitespace-pre-wrap text-center`}>{pageTitle}</h3>
           </div>
-        </div>
-        <div className="w-full flex px-4 flex-col items-center row-start-3 justify-end ">
-          <button className="w-full h-12 duration-700 hover:bg-white-selected rounded-xl">
-            <div className="flex  items-center gap-5  px-3 h-full ">
-              <img className="w-8 h-8" src="/img/sair.svg" alt="" />
-              <h4 className="h4">Logout</h4>
-            </div>
-          </button>
+        </span>
+        <div className="w-min h-full flex justify-center dark:text-white lg:flex-col items-start gap-8">
+          <NavItems
+            extendida={extendida}
+            href={`/${user.username}/configurations/account`}
+            icon={<IconUser sidebar />}
+            text={t("personal-informations-side-bar")}
+          />
+          <NavItems
+            extendida={extendida}
+            href={`/${user.username}/configurations/general`}
+            icon={<IconConfig />}
+            text={t("configurations-side-bar")}
+          />
+          <NavItems
+            extendida={extendida}
+            href={`/${user.username}/configurations/notifications`}
+            icon={<IconNotification />}
+            text={t("notifications-side-bar")}
+          />
         </div>
       </div>
-    </>
+    </div>
   );
 };

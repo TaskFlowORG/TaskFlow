@@ -1,20 +1,13 @@
-import { AllArgsConstructor } from "@/utils";
-import { UserGet } from "../user/UserGetDTO";
-import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
+import { User } from "../user/User";
+import { Permission } from "@/models/project/permission/Permission";
 
-@AllArgsConstructor
 export class GroupPost {
-    name?: string;                             
-    description?: string;                    
-    permissions!: PermissionGet[];                   
-    owner!: UserGet;                    
-    users!: UserGet[];                
 
     constructor(
-        name: string,
-        description: string,
-        permissions: PermissionGet[],
-        owner: UserGet,
-        users: UserGet[],
+        public name: string,
+        public description: string,
+        public permissions: Permission[],
+        public users: User[],
+
     ) { }
 }

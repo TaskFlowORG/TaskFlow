@@ -1,25 +1,25 @@
+import { Notification } from "@/models/Notification";
 import { Configuration } from "@/models/others/Configuration";
-import { PermissionGet } from "@/models/project/permission/PermissionGetDTO";
-import { AllArgsConstructor } from "@/utils";
+import { Permission } from "@/models/project/permission/Permission";
 
-@AllArgsConstructor
 export class UserPut {
 
-    username!: string;
-    name!: string;
-    surname!: string;
-    address?: string;
-    mail!: string;
-    phone?: string;
-    description?: string;
-    configuration!: Configuration ; 
-    permissions!: PermissionGet[];
 
-    constructor(username: string, name: string, surname: string, address: string,
-         mail: string, phone: string, description: string, configuration: Configuration, 
-         permissions: PermissionGet[]) {}
+
+    constructor(
+        public id: number,
+        public name: string,
+        public surname: string,
+        public mail: string,
+        public phone: string,
+        public description: string,
+        public configuration: Configuration,
+        public permissions: Permission[],
+        public authenticate: boolean,    
+        public notifications: Notification[]
+        ) {}
 
     equals = (obj: any) => {
-        return obj instanceof UserPut && obj.username === this.username;
+        return obj instanceof UserPut && obj.id === this.id;
     }
 }

@@ -1,12 +1,17 @@
-import { AllArgsConstructor } from "@/utils";
+ 
 import { Value } from "./Value";
 
-@AllArgsConstructor
+export class DateWithGoogle {
+    constructor(public dateTime:Date | null,  public idGoogle:string, public id?:number | null){
+    }
+
+}
+
 export class DateValued extends Value{
 
     value!:Date;
-    constructor(id:number, dateTime:Date){
-        super(id);
+    constructor(public date:DateWithGoogle, public id?:number,){
+        super(date,id);
     }
 
 }

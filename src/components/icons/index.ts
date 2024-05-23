@@ -9,12 +9,24 @@ export {IconLogout} from "./Slidebarprojects/IconLogout";
 export { Arrow } from "./GeneralIcons/IconArrow";
 export { IconTask } from "./GeneralIcons/IconTask";
 
+export { Visualized } from "./ChatIcons/Visualized";
+export { SendMessage } from "./ChatIcons/SendMessage";
+export { GaleryIcon } from "./ChatIcons/GaleryIcon";
+export { PdfIcon } from "./ChatIcons/PdfIcon";
+export { AudioFile } from "./ChatIcons/AudioFile"
+export { ImagemEnviada } from "./ChatIcons/ImagemEnviada";
+export { GoBackIcon } from "./ChatIcons/GoBackIcon";
+
+export { IconTextToSpeechOff } from "./IconTextToSpeechOff";
+export { IconTextToSpeechOn } from "./IconTextToSpeechOn";
+
+
 export { Broom } from "./Canvas/Broom";
 export { Eraser } from "./Canvas/Eraser";
 export { AddTask } from "./Canvas/AddTask";
 export { Pencil } from "./Canvas/Pencil";
 export { MoveIcon } from "./Canvas/Move";
-export{Triangle} from "./Canvas/Shapes/Triangle"
+export { Triangle } from "./Canvas/Shapes/Triangle"
 export { Circle } from "./Canvas/Shapes/Circle";
 export { Line } from "./Canvas/Shapes/Line";
 export { Square } from "./Canvas/Shapes/Square";
@@ -36,3 +48,15 @@ export { PageTypeIcons } from "./Pages/PageTypeIcons";
 export { ConectPage } from "./PageOtpions/ConectPage";
 export {  EditIcon} from "./PageOtpions/Edit";
 export { ChangeType } from "./PageOtpions/ChangeType";
+
+export {IconMenuTaskProperty} from "./IconMenuTaskProperty/IconMenuTaskProperty"
+
+export {IconInvert} from "./IconInvert";
+export { IconInvite } from "./Notifications/Invite";
+export {IconRedo} from "./IconRedo";
+
+export {IconConfig} from "./ConfigIcon";
+export {IconNotification} from "./NotificationIcon";
+
+export {InvisibleIcon} from"./Password/InvisibleIcon";
+export {VisibleIcon} from"./Password/VisibleIcon";

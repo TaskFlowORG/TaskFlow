@@ -1,76 +1,243 @@
-import { Property, Select } from "@/models";
-import { useState } from "react";
-import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
-import { Input } from "../Input";
-import { ModalDeleteProperty } from "../ModalDeleteProperty"
+import { useState, useRef, useEffect, useContext } from "react";
+import { useClickAway } from "react-use";
+import { ModalDeleteProperty } from "../ModalDeleteProperty";
 import { InputCheckbox } from "../Properties/InputCheckbox";
+import { SideBarButton } from "../SideBarProjects/components/SideBarButton";
+import {
+  Date,
+  Limited,
+  Property,
+  PropertyPost,
+  Select,
+  TypeOfProperty,
+} from "@/models";
+import {
+  IconText,
+  IconArchive,
+  IconCalendar,
+  IconNumber,
+  IconProgress,
+  IconRadio,
+  IconSelect,
+  IconCheckbox,
+  IconTrashBin,
+  IconUser,
+  IconClock,
+  IconTag,
+} from "../icons";
+import { IconSave } from "../icons/Slidebarprojects/IconSave";
+import { useForm } from "react-hook-form";
+import { ContentModalProperty } from "../ContentModalProperty";
+import { NeedPermission } from "../NeedPermission";
+import { get } from "http";
+import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
+import { projectService, propertyService } from "@/services";
+import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
+import { ProjectContext } from "@/contexts";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+
 
 type ModalPropertyProps = {
-    property: Property;
-    onClose: () => boolean;
-    onClick: () => boolean;
+  property: Property;
+  deleteProperty: (property: Property) => void;
+  upDateProperties: (property: Property, getValues: any) => void;
 };
 
+export const ModalProperty = ({
+  property,
+  deleteProperty,
+  upDateProperties,
+}: ModalPropertyProps) => {
 
-export const ModalProperty = ({ property, onClose, onClick }: ModalPropertyProps) => {
+  const {propertyId, setPropertyId} = useContext(PropertyContext)
 
+  const [isHovering, setIsHovering] = useState(false);
+  const [ModalDelete, setModalDelete] = useState(false);
+  const [prop, setProp] = useState<Property>(property);
+  const [openOptions, setOpenOptions] = useState(false);
+  const ref = useRef(null);
 
-    const [open, setOpen] = useState(false);
-    const openModal = () => {
-
-        if (open) {
-            setOpen(onClose())
-        } else {
-            setOpen(onClick())
-        }
+  const setOptionsFN = () => {
+    setOpenOptions(openOptions);
+  };
+  useEffect(() => {
+    setProp(property);
+    if (property.type === TypeOfProperty.DATE) {
+      setValue("pastDate", (property as Date).canBePass);
+      setValue("schedule", (property as Date).scheduling);
+      setValue("hours", (property as Date).includesHours);
+      setValue("deadline", (property as Date).deadline);
     }
+  }, [property]);
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      visible: prop.visible,
+      obligatory: prop.obligatory,
+      maximum: (prop as Limited).maximum,
+      pastDate: (prop as Date).canBePass,
+      schedule: (prop as Date).scheduling,
+      hours: (prop as Date).includesHours,
+      deadline: (prop as Date).deadline,
+    },
+  });
 
-    const [ModalDelete, setModalDelete] = useState(false)
-
-    const fnReturnImageProperty = (type: string) => {
-        switch (type) {
-            case "TEXT":
-                return <IconText />
-            case "ARCHIVE":
-                return <IconArchive />
-            case "DATE":
-                return <IconCalendar />
-            case "NUMBER":
-                return <IconNumber />
-            case "PROGRESS":
-                return <IconProgress />
-            case "RADIO":
-                return <IconRadio />
-            case "SELECT":
-                return <IconSelect />
-            case "CHECKBOX":
-                return <IconCheckbox />
-            default:
-                break;
-        }
+  useClickAway(ref, () => setOpenOptions(false));
+  const fnReturnImageProperty = (type: string) => {
+    switch (type) {
+      case "TEXT":
+        return <IconText />;
+      case "ARCHIVE":
+        return <IconArchive />;
+      case "DATE":
+        return <IconCalendar />;
+      case "NUMBER":
+        return <IconNumber />;
+      case "PROGRESS":
+        return <IconProgress />;
+      case "RADIO":
+        return <IconRadio />;
+      case "SELECT":
+        return <IconSelect />;
+      case "CHECKBOX":
+        return <IconCheckbox />;
+      case "USER":
+        return <IconUser />;
+      case "TIME":
+        return <IconClock />;
+      case "TAG":
+        return <IconTag />;
     }
-    return (
-        <>
-            <div key={property.id} className="w-full h-10 flex items-center justify-center border-b border-primary dark:border-secondary cursor-pointer bg-white dark:bg-modal-grey hover:brightness-95" onClick={() => openModal()}>
-                <div className="h-10 w-1/5 flex items-center "> {fnReturnImageProperty(property.type)}</div>
-                <p className="h-full w-3/5 flex items-center justify-centerd">{property.name}</p>
-            </div>
-            {open &&
-                <div className="w-full  flex flex-col justify-center items-center border-b border-primary dark:border-secondary">
-                    <div className="h-32 w-full flex flex-col items-center">
-                       <InputCheckbox register={undefined} className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2" classNameDiv={"h-2/6 flex justify-center items-center"} label="Visible"></InputCheckbox>
-                       <InputCheckbox register={undefined} className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2" classNameDiv={"h-2/6 flex justify-center items-center"} label="Obligatory"></InputCheckbox>
-            
-                    </div>
-                    <div className="h-1/6 w-[95%] flex justify-between">
-                        <button className="w-8 h-5/6 flex justify-center items-center rounded-sm"><img src="/img/trash.svg" alt="" onClick={() => { setModalDelete(true) }} /></button>
-                        <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => { }} ><img src="/img/iconCorrect.svg" alt="" /></button>
-                        {ModalDelete && <ModalDeleteProperty property={property} close={() => setModalDelete(false)} />}
-                    </div>
-                </div>
+  };
 
-            }
-        </>
-    );
+  const [name, setName] = useState(property.name);
+  const [editing, setEditing] = useState(false);
 
-}
+  const textRef = useRef<HTMLInputElement>(null);
+
+  useEffect(()=>{
+    if(propertyId == property.id) setOpenOptions(true);
+  },[propertyId, setPropertyId])
+
+  useEffect(() => {
+    if (editing && textRef.current) {
+      textRef.current.focus();
+    }
+  }, [editing]);
+
+  const asyncThrow = useAsyncThrow();
+
+  const {project, setProject} = useContext(ProjectContext)
+  const saveName = async () => {
+    if(!project) return;
+    setEditing(false);
+
+    if(property.type === TypeOfProperty.DATE){
+      await propertyService.patchDate(project.id, {id:property.id, name: name} as Date).catch(asyncThrow);
+    }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
+      await propertyService.patchLimited(project.id, {id:property.id, name: name} as Limited).catch(asyncThrow);
+    }else{
+      await propertyService.patchSelect(project.id, {id:property.id, name: name} as Select).catch(asyncThrow);
+    }
+    const projectTemp = await projectService.findOne(project.id).catch(asyncThrow);
+    if(setProject && projectTemp){
+      setProject(projectTemp);
+
+    }
+  }
+
+  const saveNewName = (e: any) => {
+      if (!e.key || e.key === "Enter") {
+        saveName();
+      }
+      setName(textRef.current?.textContent ?? property.name);
+
+  }
+
+
+  return (
+    <div
+      key={property.id}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      className="w-full"
+    >
+      <SideBarButton
+        isLittle
+        text={property.name}
+        fnRename={saveNewName}
+        renaming={editing}
+        icon={
+          editing ?
+            <span onClick={(e) => { e.stopPropagation(); saveName() }}>
+              <IconSave />
+            </span>
+            :
+            isHovering ? (
+              <span onClick={(e) => { e.stopPropagation(); setEditing(!editing) }}>
+                <IconEditColoured />
+              </span>
+            ) : (
+              fnReturnImageProperty(property.type)
+            )
+        }
+        openOptions={openOptions}
+        fnClick={() => {
+          setOpenOptions(editing ? false : !openOptions);
+        }}
+        fnOpenOptions={setOptionsFN}
+        textRef={textRef}
+        openOptionsRef={ref}
+        isHovering={isHovering && !editing}
+        hasButton
+      >
+        <div className="w-full h-min flex flex-col justify-center items-center dark:bg-modal-grey">
+          <ContentModalProperty
+            register={register}
+            property={property}
+            type={property.type}
+          ></ContentModalProperty>
+          <div className="h-min pb-2 w-[95%] flex justify-between">
+            <NeedPermission permission="delete">
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
+                onClick={() => {
+                  setModalDelete(true);
+                }}
+              >
+                {" "}
+                <IconTrashBin />
+              </button>
+            </NeedPermission>
+            <NeedPermission permission="update">
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm"
+                onClick={() => {
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
+                }}
+              >
+                <IconSave />
+              </button>
+            </NeedPermission>
+          </div>
+        </div>
+      </SideBarButton>
+      {ModalDelete && (
+        <ModalDeleteProperty
+          isClosed={ModalDelete}
+          property={property}
+          deleteProperty={deleteProperty}
+          close={() => setModalDelete(false)}
+          closeProperty={() => setOpenOptions(false)}
+        />
+      )}
+    </div>
+  );
+};

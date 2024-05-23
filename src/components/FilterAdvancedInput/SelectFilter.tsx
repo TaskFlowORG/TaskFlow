@@ -1,4 +1,5 @@
 import { Option } from "@/models";
+import { useTranslation } from "next-i18next";
 import { useState, useEffect } from "react";
 
 interface Props {
@@ -9,8 +10,8 @@ interface Props {
 }
 
 export const SelectFilter = ({ options, name, id, value }: Props) => {
-  const option = options.find((option) => option.name == value);
   const [selectedOption, setSelectedOption] = useState("");
+  const { t } = useTranslation();
 
   useEffect(() => {
     setSelectedOption(value ?? "");
@@ -18,8 +19,6 @@ export const SelectFilter = ({ options, name, id, value }: Props) => {
 
   const handleOptionChange = (event: any) => {
     setSelectedOption(event.target.value);
-    // const select = document.querySelector(`#prop${id}`)
-    // // console.log(select.value)
   };
 
   return (
@@ -31,14 +30,16 @@ export const SelectFilter = ({ options, name, id, value }: Props) => {
         id={"prop" + id.toString()}
         onChange={handleOptionChange}
       >
-        <option value="">Selecione...</option>
+        <option value="">{t("select")}...</option>
         {options.map((option, index) => (
           <option key={index} value={option.name}>
             {option.name}
           </option>
         ))}
       </select>
-      <p>Opção selecionada: {selectedOption}</p>
+      <p>
+        {t("selected-option")}: {selectedOption}
+      </p>
     </div>
   );
 };

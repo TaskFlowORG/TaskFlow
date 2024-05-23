@@ -7,8 +7,16 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        pulseBorder: {
+          '0%': { borderColor: "rgba(34, 197, 94, 0.5)" },
+          '50%': { borderColor: "rgba(34, 197, 94, 1)" },
+          '100%': { borderColor: "rgba(34, 197, 94, 0.5)" },
+        }
+      },
       animation:{
-        'custom-pulse':'custom-pulse 1000ms ease-in-out infinite'
+        'custom-pulse':'custom-pulse 1000ms ease-in-out infinite',
+        'border-pulser':'pulseBorder 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       },
       colors: {
         'white': '#FCFCFC',
@@ -31,6 +39,7 @@ module.exports = {
         '1.5xl': '1440px',
         '3xl': '1792px',
         '4xl': '1792px',
+        400: '400px',
       },
       boxShadow: {
         'blur-10': '0 0px 10px 0px rgba(0, 0, 0, 0.25)',
@@ -38,11 +47,22 @@ module.exports = {
       },
       fontFamily: {
         'alata': ['Alata', 'sans-serif'],
-        'montserrat': ['Montserrat', 'sans-serif']
+        'montserrat': "var(--common-font)"
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-      }
+      },
+      fontSize: {
+        'h1': 'var(--font-size-h1)',
+        'h2': 'var(--font-size-h2)',
+        'h3': 'var(--font-size-h3)',
+        'h4': 'var(--font-size-h4)',
+        'h5': 'var(--font-size-h5)',
+        'p': 'var(--font-size-p)',
+        'p14': 'var(--font-size-p14)',
+        'mn': 'var(--font-size-mn)',
+        'mnAlata': 'var(--font-size-mnAlata)',
+      }    
     },
   },
   variants: {

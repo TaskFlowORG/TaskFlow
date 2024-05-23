@@ -1,37 +1,72 @@
-"use client"
+"use client";
 
-import { Calendar, Canvas, Kanban, List, Table, TimeLine } from "@/components/Pages";
-import { CanvasPage, OrderedPage,  Page,  TypeOfPage, User } from "@/models";
-import { pageService, projectService, userService } from "@/services";
-import { ProjectContext } from "@/utils/ContextProject";
+import { Loading } from "@/components/Loading";
+import { Page } from "@/components/Pages";
+import { showTask } from "@/components/Pages/functions";
+import { ProjectContext } from "@/contexts";
+import { UserContext } from "@/contexts/UserContext";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { Page as PageModel, TaskPage, TypeOfPage } from "@/models";
+import { FilteredProperty } from "@/types/FilteredProperty";
+import { FilterContext } from "@/utils/FilterlistContext";
+import { PageContext } from "@/utils/pageContext";
+import { Axios, AxiosError, AxiosResponse } from "axios";
+import { request } from "http";
 import { useContext, useEffect, useState } from "react";
-   
-export default function Pages({params}:{params:{user:string, project:number, page:number}}){
-    const [page, setPage] = useState<Page>()
-    const {project} = useContext(ProjectContext)
-    const [user, setUser] = useState<User>()
 
-    useEffect(()=>{
-        (async () => {
-            const pageT = await pageService.findOne(params.page)
-            const userT = await userService.findByUsername(params.user)
-            setPage(pageT)
-            setUser(userT)
-        })()
-    },[params])
+export default function Pages({
+  params,
+}: {
+  params: { user: string; project: number; page: number };
+}) {
+  const { project } = useContext(ProjectContext);
+  const [page, setPage] = useState<PageModel | undefined>(
+    project?.pages.find((p) => p.id == params.page)
+  );
+  const { user } = useContext(UserContext);
+  const { setPageId, setInPage } = useContext(PageContext);
+  const [filter, setFilter] = useState<FilteredProperty[]>([]);
+  const [input, setInput] = useState("");
+  const [list, setList] = useState<FilteredProperty>();
+  const [tasks, setTasks] = useState<TaskPage[]>();
+  const asynThrow = useAsyncThrow();
 
-    switch(page?.type){
-        case TypeOfPage.CALENDAR:
-            return <Calendar page={page as OrderedPage} />
-        case TypeOfPage.KANBAN:
-            return <Kanban />
-        case TypeOfPage.LIST:
-            return <List page={page} />
-        case TypeOfPage.TABLE:
-            return <Table page={page} project={project!} />
-        case TypeOfPage.TIMELINE:
-            return <TimeLine />
-        case TypeOfPage.CANVAS:
-            return <Canvas page={page as CanvasPage} user={user!} />
-    }
+  useEffect(() => {
+
+    const pageTemp = project?.pages.find((p) => p.id == params.page);
+    setPage(pageTemp);
+    if (!pageTemp || !setInPage || !setPageId) return;
+    setPageId(pageTemp?.id);
+    setInPage(pageTemp.type != TypeOfPage.LIST);
+    setTasks(pageTemp.tasks);
+  }, [params.page, project, project?.pages]);
+  if (!user) return <Loading />;
+  if (!page) {
+    throw new AxiosError(undefined, undefined, undefined, undefined, {
+      status: 404,
+    } as AxiosResponse);
+  }
+
+  //AQUI FICOU ASSIM
+  return (
+    <FilterContext.Provider
+      value={{
+        filterProp: filter,
+        setFilterProp: setFilter,
+        list,
+        setList: setList,
+        input,
+        setInput: setInput,
+      }}
+    >
+      <Page
+        page={page}
+        user={user}
+        project={project}
+        setPage={setPage}
+        tasks={tasks ?? []}
+      />
+    </FilterContext.Provider>
+  );
 }
+

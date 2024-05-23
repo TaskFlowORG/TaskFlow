@@ -8,127 +8,224 @@
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Regular.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Regular.ttf") format("truetype");
+  font-weight: 400;
+}
+
+
+@font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Black.ttf") format("truetype");
   font-weight: 900;
 }
 
 @font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Black.ttf") format("truetype");
+  font-weight: 900;
+}
+
+
+@font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BlackItalic.ttf") format("truetype");
   font-weight: 900;
   font-style: italic;
 }
 
 @font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-BlackItalic.ttf") format("truetype");
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+@font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Bold.ttf") format("truetype");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-BoldItalic.ttf") format("truetype");
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-BoldItalic.ttf") format("truetype");
   font-weight: 700;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBold.ttf") format("truetype");
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-ExtraBold.ttf") format("truetype");
   font-weight: 800;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraBoldItalic.ttf") format("truetype");
+  font-weight: 800;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-ExtraBoldItalic.ttf") format("truetype");
   font-weight: 800;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLight.ttf") format("truetype");
+  font-weight: 200;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-ExtraLight.ttf") format("truetype");
   font-weight: 200;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ExtraLightItalic.ttf") format("truetype");
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-ExtraLightItalic.ttf") format("truetype");
   font-weight: 200;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Light.ttf") format("truetype");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Light.ttf") format("truetype");
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-LightItalic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-LightItalic.ttf") format("truetype");
   font-weight: 300;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Medium.ttf") format("truetype");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-MediumItalic.ttf") format("truetype");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-MediumItalic.ttf") format("truetype");
   font-weight: 500;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-SemiBold.ttf") format("truetype");
   font-weight: 600;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-SemiBoldItalic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-SemiBoldItalic.ttf") format("truetype");
   font-weight: 600;
   font-style: italic;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-Thin.ttf") format("truetype");
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-Thin.ttf") format("truetype");
   font-weight: 100;
 }
 
 @font-face {
   font-family: "Montserrat";
-  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf")
-    format("truetype");
+  src: url("../../public/fonts/Montserrat/static/Montserrat-ThinItalic.ttf") format("truetype");
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("../../public/fonts/Poppins/Poppins-ThinItalic.ttf") format("truetype");
   font-weight: 100;
   font-style: italic;
 }
@@ -141,6 +238,23 @@
   --primary-color: #f04a94;
   --secondary-color: #f76858;
   --contrast-color: #fcfcfc;
+  --font-size-p: 16px;
+  --font-size-h1: 56px;
+  --font-size-h2: 48px;
+  --font-size-h3: 32px;
+  --font-size-h4: 24px;
+  --font-size-h5: 20px;
+  --font-size-p: 16px;
+  --font-size-p14: 14px;
+  --font-size-mn: 12px;
+  --font-size-mnAlata: 12px;
+  --common-font: Montserrat, sans-serif @apply font-montserrat;
+}
+
+
+
+.m14 {
+  @apply text-sm font-montserrat;
 }
 
 .mn {
@@ -151,37 +265,12 @@
   -webkit-text-stroke: 1px var(--contrast-color);
 }
 
-input[type="range"] {
-  @apply overflow-hidden bg-zinc-300 dark:bg-back-grey h-3 rounded-full my-7 z-10;
-  -webkit-appearance: none;
-}
-
-.input-number:focus ~ span {
+.input-number:focus~span {
   @apply dark:border-zinc-400 border-zinc-500 border-2 border-r-0;
 }
 
-.input-number:focus ~ .right {
+.input-number:focus~.right {
   @apply dark:border-zinc-400 border-zinc-500 border-2 border-l-0;
-}
-
-input[type="range"]::-webkit-slider-runnable-track {
-  -webkit-appearance: none;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  @apply h-1 w-1 cursor-pointer bg-primary z-30 dark:bg-white shadow-[-80px_0_0_80px_var(--primary-color)] dark:shadow-[-80px_0_0_80px_#FCFCFC];
-}
-input[type="range"]::-moz-range-progress {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-input[type="range"]::-moz-range-track {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-input[type="range"]::-ms-fill-lower {
-  @apply bg-zinc-200 dark:bg-back-grey;
-}
-input[type="range"]::-ms-fill-upper {
-  @apply bg-zinc-200 dark:bg-back-grey;
 }
 
 .shadowww {
@@ -196,6 +285,11 @@ input[type="range"]::-ms-fill-upper {
   -moz-box-shadow: 1px 1px 12px 0px rgba(255, 135, 26, 0.25);
 }
 
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear {
+  display: none;
+}
+
 .elipse {
   shape-outside: circle(50% at 30%);
   clip-path: circle(50% at 0%);
@@ -204,6 +298,7 @@ input[type="range"]::-ms-fill-upper {
 .timeline__primaryToPurple {
   background: linear-gradient(180deg, #e100f4 -20.75%, #ef4996 120.75%);
 }
+
 .input-number::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
@@ -215,16 +310,8 @@ input[type="range"]::-ms-fill-upper {
 input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   position: absolute;
-  right: 0;
-}
-
-/* Adiciona um ícone personalizado */
-input[type="date"] {
-  background-image: url("/cardContentIcons/date.svg");
-  background-size: 20px 20px;
-  background-position: calc(100% - 5px) center;
-  background-repeat: no-repeat;
-  padding-right: 25px; /* Ajuste conforme necessário */
+  z-index: 15;
+  right: 0.5rem;
 }
 
 .timeline__purpleTosecondary {
@@ -281,9 +368,11 @@ input[type="radio"]:checked::before {
   border-radius: 50%;
   /* Cor do preenchimento quando o botão de rádio está marcado */
 }
+
 input[type="checkbox"]:checked {
   @apply bg-primary dark:bg-secondary border-none;
 }
+
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -317,12 +406,6 @@ select {
 
 select::-ms-expand {
   display: none;
-}
-
-* {
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke 150ms ease-in-out;
-  transition-duration: 150ms;
 }
 
 @keyframes custom-pulse {
@@ -379,6 +462,10 @@ select::-ms-expand {
   @apply font-montserrat text-[16px];
 }
 
+.p14 {
+  @apply font-montserrat text-[14px];
+}
+
 .mn {
   @apply font-montserrat text-[12px];
 }
@@ -419,18 +506,18 @@ select::-ms-expand {
   }
 }
 
-.toggle-input:checked + .toggle-slider::before {
+.toggle-input:checked+.toggle-slider::before {
   transform: translateX(32px);
   animation: toggle-slider-animation 0.2s ease-in-out forwards;
 }
 
-.toggle-input:not(:checked) + .toggle-slider::before {
+.toggle-input:not(:checked)+.toggle-slider::before {
   transform: translateX(0px);
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
-.toggle-input:checked + .toggle-slider {
-  background-color: #f76858;
+.toggle-input:checked+.toggle-slider {
+  @apply bg-primary dark:bg-secondary;
 }
 
 .toggleIn {
@@ -441,14 +528,19 @@ select::-ms-expand {
   animation: toggle-slider-animation-reverse 0.2s ease-in-out forwards;
 }
 
- .none-scrollbar::-webkit-scrollbar {
+.thin-scrollbar::-webkit-scrollbar {
+  @apply w-[2px];
+}
+
+.none-scrollbar::-webkit-scrollbar {
   @apply hidden;
 }
 
-
 ::-webkit-scrollbar {
   width: 8px;
-  height: 8px; /* largura do scroll */
+
+  height: 8px;
+  /* largura do scroll */
 }
 
 /* Define a cor do fundo do scroll */
@@ -458,9 +550,11 @@ select::-ms-expand {
 }
 
 /* Define a cor do thumb (a alça do scroll) */
-.bah::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   border-radius: 7px;
-  background: var(--primary-color);
+
+  @apply bg-primary dark:bg-secondary !important;
+  /* background: var(--primary-color);  */
 }
 
 .pAlata {
@@ -496,16 +590,19 @@ select::-ms-expand {
 .inputGrayAndPink {
   @apply bg-[#F2F2F2] border-[#F04A94];
 }
+
 .ooo {
   margin-left: 12px;
 }
+
 .swiper-button-prev,
 .swiper-button-next {
   width: 92px;
   height: 92px;
   background-color: none;
   @apply sm:visible invisible
-  /* Outros estilos desejados */;
+  /* Outros estilos desejados */
+  ;
 }
 
 .hovert {
@@ -525,8 +622,7 @@ select::-ms-expand {
 }
 
 .link-underline-black {
-  background-image: linear-gradient(transparent, transparent),
-    linear-gradient(#f2c, #f2c);
+  @apply bg-gradient-to-t from-primary to-primary dark:from-secondary dark:to-secondary;
 }
 
 .link-underline:hover {
@@ -552,10 +648,11 @@ select::-ms-expand {
   font-weight: bold;
 }
 
-.groupGrandient {
-  @apply bg-gradient-to-r from-orange-500 to-pink-500;
+.groupGradient {
+  background-image: linear-gradient(to right, secondary, primary);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
+
 
 .groupGrandientDark {
   @apply rounded-lg bg-gradient-to-r from-pink-500 to-orange-500;
@@ -563,7 +660,7 @@ select::-ms-expand {
 }
 
 .selectGroup {
-  @apply text-[#F04A94] border-2 rounded-sm  text-center;
+  @apply text-[#F04A94] border-2 rounded-sm text-center;
 }
 
 /* 
@@ -586,15 +683,49 @@ select::-ms-expand {
   background: linear-gradient(to right, #3c1053, #ad5389);
 }
 
-.inputRegister {
-  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-1/6 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
+.no-resize {
+  resize: none;
 }
+
+
+.inputRegister {
+  @apply w-full flex justify-center items-center gap-2 shadow-blur-10 h-16 bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-20;
+}
+
+.inputCode {
+  @apply w-16 h-20 shadow-xl bg-white rounded-md font-montserrat focus-within:border-primary border-2 dark:focus-within:border-secondary duration-300 dark:bg-modal-grey dark:shadow-blur-10 dark:border-[#414141] text-4xl text-center
+}
+
+@keyframes slideUpAppear {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+    box-shadow: none;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.notification {
+  animation: slideUpAppear 0.6s ease-out forwards;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  bottom: 120px;
+  transform: translateX(-50%);
+}
+
 
 .swiper-type-of-page-light {
   --swiper-pagination-color: var(--primary-color);
   --swiper-navigation-color: var(--primary-color);
   @apply swiper-type-of-page;
 }
+
 
 .swiper-type-of-page-dark {
   --swiper-navigation-color: var(--secondary-color);
@@ -612,8 +743,41 @@ select::-ms-expand {
   --swiper-pagination-bullet-vertical-gap: 6px;
 
   --swiper-navigation-size: 20px;
-  --swiper-navigation-top-offset: 50%;
+  --swiper-navigation-top-offset: 55%;
   --swiper-navigation-sides-offset: 0px;
+}
+
+.simple-keyboard {
+  @apply bg-white dark:bg-modal-grey text-modal-grey;
+}
+
+#configurations:checked {
+  @apply bg-primary dark:bg-secondary border-none p-6;
+}
+
+#configurations {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 15%;
+
+  border: 2px solid #ccc;
+  outline: none;
+  position: relative;
+}
+
+#configurations:checked::before {
+  content: "";
+  position: absolute;
+  @apply left-1/3 top-[15%];
+  transform: rotate(45deg);
+  width: 7px;
+  height: 14px;
+
+  border: solid var(--contrast-color);
+  border-width: 0 2px 2px 0;
 }
 
 .shadow-light {
@@ -621,3 +785,99 @@ select::-ms-expand {
   -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
 }
+
+.shadow-comment {
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+/*this remove the arrows from the input number*/
+input[type="number"] {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+
+  /*this down remove the arrows from the input number*/
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+.mouseTts {
+    @apply dark:cursor-[url("../../public/img/textToSpeechDark.svg"),auto] cursor-[url("../../public/img/textToSpeechLight.svg"),auto];
+}
+
+.mouseDefault {
+  cursor: default
+}
+
+.react-calendar {
+  @apply bg-white dark:bg-modal-grey w-full text-p font-alata;
+}
+
+.react-calendar__navigation {
+  @apply flex justify-between items-center gap-2 font-montserrat;
+}
+
+.react-calendar__navigation button {
+  @apply text-primary dark:text-secondary hover:brightness-95 w-min flex-nowrap;
+}
+
+.react-calendar__navigation button[disabled] {
+  @apply opacity-20;
+}
+
+abbr[title] {
+  display: none;
+}
+
+.react-calendar__month-view__days {
+  @apply rounded-sm bg-input-grey dark:bg-back-grey relative text-mn text-modal-grey dark:text-white;
+}
+
+.react-calendar__tile {
+  @apply rounded-sm bg-clip-border box-border border-[1px] border-white relative dark:border-modal-grey aspect-square;
+}
+
+.react-calendar__navigation__prev2-button,
+.react-calendar__navigation__next2-button {
+  display: none;
+}
+
+.react-calendar__month-view__days__day--weekend {
+  @apply text-contrast bg-primary aspect-square dark:bg-secondary;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth {
+  @apply opacity-70;
+}
+
+.react-calendar__tile--now {
+  @apply bg-secondary relative dark:bg-primary font-bold text-contrast;
+}
+
+.react-calendar__tile--active {
+  @apply bg-secondary-opacity relative dark:bg-primary-opacity text-modal-grey;
+}
+
+.options {
+  @apply rounded-none
+}
+
+/* Define as bordas arredondadas apenas na parte inferior para o último elemento */
+.options:last-child {
+  @apply rounded-b-lg
+}
+
+.none-events  * {
+  @apply pointer-events-none
+}
+
+.auto-events *, .auto-events{
+  @apply pointer-events-auto
+
+}
+

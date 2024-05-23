@@ -1,13 +1,19 @@
-'use client'
+"use client"
 
 import { GeneralConfig } from "@/components/GeneralConfig"
-import { SideBarConfig } from "@/components/SideBarConfig"
-import { calculateOverrideValues } from "next/dist/server/font-utils";
-import { useState } from "react";
+import { ConfigContext } from "@/utils";
+import { useTranslation } from "next-i18next";
+import Head from "next/head";
+import { useContext, useEffect } from "react";
 
 export default function UserConfigPage() {
-  return(
-    <div className="flex h-full w-full">
+  const { setTitle } = useContext<any>(ConfigContext);
+  const { t } = useTranslation();	
+  useEffect(() => {
+    setTitle(t("configurations-side-bar"));
+  }, []);
+  return (
+    <div className="h-full w-full">
       <GeneralConfig />
     </div>
   )

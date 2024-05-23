@@ -5,8 +5,8 @@ interface Props {
 }
 
 export const CardText = ({ text, property, showNameProperty }: Props) => {
-  return (
-    <p className="text-[14px] w-full dark:text-white text-[#797979]">
+  return (text!=null && text!='null') && (
+    <p className="text-p14 w-max self-center  dark:text-white text-[#797979]">
       {showNameProperty && `${property}:`}  {text ? text : "Não descrito!"}
     </p>
   );

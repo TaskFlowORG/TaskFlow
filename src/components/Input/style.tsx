@@ -10,9 +10,11 @@ ${({hasError}) => hasError && `border-color: red;` }
 
 
 export const Label = styled.label`
-display: flex;
-width: 100%;
-  justify-content: start;
+  display: flex;
+  width: 100%;
+  justify-content: start
+  
+  ;
 `
 
 interface ContainerProps {
@@ -21,7 +23,6 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   display: flex;
-  justify-content: center;
   align-items: center;  // Fix the typo here
   ${(props)=> {
     const { $haserror } = props as unknown as ContainerProps;

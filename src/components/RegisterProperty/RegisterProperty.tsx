@@ -1,77 +1,317 @@
-import { z } from "zod";
-import { Page, Project, Property, TypeOfProperty } from "@/models";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Select } from "../Select";
-import { useEffect, useState } from "react";
+import {
+  Date,
+  DatePost,
+  Limited,
+  LimitedPost,
+  Page,
+  Project,
+  Property,
+  PropertyPost,
+  Select,
+  SelectPost,
+  TypeOfProperty,
+} from "@/models";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ModalRegisterProperty } from "../ModalRegisterProperty";
+import { projectService, propertyService } from "@/services";
 import { ModalProperty } from "../ModalProperty/ModalProperty";
-const schema = z.object({
-    name: z.string().min(3, { message: "Nome deve conter no minimo 3 caracteres" }).max(20, { message: "Nome deve conter no maximo 20 caracteres" }),
-    type: z.enum(["TEXT", "DATE", "ARCHIVE", "NUMBER", "CHECKBOX", "RADIO", "PROGRESS", "SELECT"]),
-})
+import { useTranslation } from "next-i18next";
+import { Button } from "../Button";
+import { If } from "../If";
+import { NeedPermission } from "../NeedPermission";
+import { ProjectContext } from "@/contexts";
+import { set } from "react-hook-form";
+import { SideModal } from "../Modal";
+import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
 
 type RegisterPropertyProps = {
-    open: boolean;
-    close: () => void;
-    properties: Property[],
-    project: Project,
-    page?: Page
-}
+  project: Project;
+  page?: Page;
+  setModalProperty: (value: boolean) => void;
+  modalProperty: boolean;
+};
 
-export const RegisterProperty = ({ open = false, close, properties, project, page }: RegisterPropertyProps) => {
+export const RegisterProperty = ({
+  project,
+  page,
+  setModalProperty,
+  modalProperty,
+}: RegisterPropertyProps) => {
+  const [isInProject, setIsInProject] = useState<boolean>(true);
+  const { propertyId, setPropertyId } = useContext(PropertyContext);
+  const [propertiesArray, setPropertiesArray] = useState<Property[]>(
+    isInProject ? project.properties : page?.properties || []
+  );
+  const { setProject } = useContext(ProjectContext);
 
-    useEffect(() => {
-        console.log(properties)
+  useEffect(() => {
+    console.log("TU TA DE SACANAGEM, QUEISSO");
+    console.log(propertyId);
+    if (propertyId) {
+      console.log("CHEGUEI AQUI MEU MNAO LUKA RELAXA ");
+      if (project.properties.find((prop) => prop.id == propertyId)) {
+        setIsInProject(true);
+        setPropertiesArray(
+          project.properties || []
+        );
+      } else {
+        setPropertiesArray(
+          page?.properties || []
+        );
+        setIsInProject(false);
+      }
     }
-        , [properties])
+  }, [propertyId, setPropertyId]);
 
-    const [modalProperty, setModalProperty] = useState(false)
-    const registerProperty = () => {
-        console.log('register')
+  useEffect(() => {
+    setPropertiesArray(
+      isInProject ? project.properties : page?.properties || []
+    );
+  }, [isInProject, page, project]);
+  const asynThrow = useAsyncThrow();
+
+  const postProperty = async (
+    name: string,
+    values: any,
+    selected: TypeOfProperty
+  ) => {
+    let propertyObj;
+    if (
+      [
+        TypeOfProperty.TIME,
+        TypeOfProperty.USER,
+        TypeOfProperty.ARCHIVE,
+        TypeOfProperty.NUMBER,
+        TypeOfProperty.PROGRESS,
+        TypeOfProperty.TEXT,
+      ].includes(selected)
+    ) {
+      propertyObj = await propertyService
+        .saveLimited(
+          project.id,
+          new LimitedPost(
+            name,
+            selected,
+            values.visible,
+            values.obligatory,
+            values.maximum,
+            !isInProject ? undefined : project!,
+            !isInProject && page ? [page] : []
+          )
+        )
+        .catch(asynThrow);
+    } else if (
+      [
+        TypeOfProperty.CHECKBOX,
+        TypeOfProperty.TAG,
+        TypeOfProperty.RADIO,
+        TypeOfProperty.SELECT,
+      ].includes(selected)
+    ) {
+      propertyObj = await propertyService
+        .saveSelect(
+          project.id,
+          new SelectPost(
+            name,
+            selected,
+            values.visible,
+            values.obligatory,
+            [],
+            !isInProject ? undefined : project!,
+            !isInProject && page ? [page] : []
+          )
+        )
+        .catch(asynThrow);
+    } else {
+      propertyObj = await propertyService
+        .saveDate(
+          project.id,
+          new DatePost(
+            name,
+            selected,
+            values.visible,
+            values.obligatory,
+            values.pastDate,
+            values.hours,
+            !isInProject ? undefined : project!,
+            !isInProject && page ? [page] : []
+          )
+        )
+        .catch(asynThrow);
+    }
+    if (propertyObj) setPropertiesArray([...propertiesArray, propertyObj]);
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(asynThrow);
+    if (projectTemp) setProject!(projectTemp);
+  };
+
+  const deleteProperty = async (property: Property) => {
+    propertyService.delete(project.id, property.id);
+    setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(() => setError(true));
+    if (projectTemp) setProject!(projectTemp);
+  };
+  const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
+
+  const upDateProperty = async (property: Property, getValues: any) => {
+    let v;
+    if (
+      [
+        TypeOfProperty.TIME,
+        TypeOfProperty.USER,
+        TypeOfProperty.ARCHIVE,
+        TypeOfProperty.NUMBER,
+        TypeOfProperty.PROGRESS,
+        TypeOfProperty.TEXT,
+      ].includes(property.type)
+    ) {
+      const limited = new Limited(
+        property.id,
+        property.name,
+        property.type,
+        getValues.visible,
+        getValues.obligatory,
+        getValues.maximum
+      );
+      v = await propertyService
+        .updateLimited(project.id, limited)
+        .catch(asynThrow);
+    } else if (
+      [
+        TypeOfProperty.CHECKBOX,
+        TypeOfProperty.TAG,
+        TypeOfProperty.RADIO,
+        TypeOfProperty.SELECT,
+      ].includes(property.type)
+    ) {
+      v = await propertyService
+        .updateSelect(
+          project.id,
+          new Select(
+            property.id,
+            property.name,
+            property.type,
+            getValues.visible,
+            getValues.obligatory,
+            (property as Select).options
+          )
+        )
+        .catch(asynThrow);
+    } else {
+      v = await propertyService
+        .updateDate(
+          project.id,
+          new Date(
+            property.id,
+            property.name,
+            property.type,
+            getValues.visible,
+            getValues.obligatory,
+            getValues.pastDate,
+            getValues.hours,
+            getValues.deadline,
+            getValues.schedule,
+            getValues.color
+          )
+        )
+        .catch(asynThrow);
     }
 
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(asynThrow);
+    if (projectTemp) setProject!({ ...projectTemp });
+  };
+  const { t } = useTranslation();
 
+  const [error, setError] = useState(false);
 
-    type FormData = z.infer<typeof schema>;
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-    } = useForm<FormData>({
-        mode: "all",
-        reValidateMode: "onChange",
-        resolver: zodResolver(schema),
-    });
+  const classesIn =
+    "w-full h-8 rounded-t-md flex items-center justify-center bg-primary dark:bg-secondary text-contrast";
+  const classesOut =
+    "w-full h-8 rounded-t-md flex items-center justify-center bg-tranparent border-2 border-primary dark:border-secondary text-primary dark:text-secondary";
 
-    return (
+  return (
+    <SideModal
+      footer={
+        <NeedPermission permission="create">
+          <Button
+            width="w-full "
+            text={t("add-property")}
+            fnButton={() => setModalPropertyRegister(true)}
+            padding="p-2"
+            paddingY="p-1"
+            textSize="font-[14re]"
+          />
+        </NeedPermission>
+      }
+      header={
         <>
-            {open &&
-                <div className="h-screen w-screen   z-10 justify-end flex " >
-                    <div className="w-[80%]" onClick={()=> close()}></div>
-                    <div className="w-[20%]  h-full bg-white flex flex-col items-center rounded-sm  dark:bg-modal-grey shadow-blur-20 justify-center z-20 ">
-                        <div className="h-[15%] w-[90%] flex justify-evenly items-center">
-                            <p className="h4  bottom-8 right-5 relative text-grey-icon cursor-pointer hover:text-primary" onClick={()=> close()}>{">>"}</p>
-                            <p className="h4 text-primary dark:text-secondary">Propriedades</p>
-                            <div className=" flex items-center justify-center h-7 w-7  rounded-full  shadowww cursor-pointer hover:bg-primary dark:hover:bg-secondary" onClick={() => { setModalProperty(true) }}>
-                                <p className="h5 text-primary h-min w-min dark:text-secondary hover:text-white dark:hover:text-white">+</p>
-                            </div>
-                        </div>
-                        <div className="h-[85%] w-[70%] flex flex-col items-center gap-5">
-                            <ModalRegisterProperty open={modalProperty} project={project && project} page={page} close={() => { setModalProperty(false) }} />
-                            <div className="w-full gap-5 h-full flex flex-col overflow-scroll">
-                                {properties.map((property, index) => {
-                                    return (
-                                        <ModalProperty key={index} property={property} onClose={() => { return false }} onClick={() => { return true }} />
-                                    )
-                                })}
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            }
+          <div className="h-min w-full flex justify-evenly items-center properties">
+            <h4 className="h4 text-primary dark:text-secondary">
+              {t("property")}
+            </h4>
+          </div>
+          <If condition={page != undefined}>
+            <div className="w-full h-min flex">
+              <span
+                className={isInProject ? classesIn : classesOut}
+                onClick={() => setIsInProject(true)}
+              >
+                {t("project")}
+              </span>
+              <span
+                className={!isInProject ? classesIn : classesOut}
+                onClick={() => setIsInProject(false)}
+              >
+                {t("page")}
+              </span>
+            </div>
+          </If>
+          <div className={"w-full flex flex-col items-center gap-5 h-min "}>
+            <ModalRegisterProperty
+              postProperty={postProperty}
+              open={modalPropertyRegister}
+              project={project && project}
+              page={page}
+              close={() => {
+                setModalPropertyRegister(false);
+              }}
+            />
+          </div>
         </>
-    )
-}
+      }
+      condition={modalProperty}
+      setCondition={(bool: boolean) => {
+        setModalProperty(bool);
+        setPropertyId!(0);
+      }}
+      right
+    >
+      <div className="w-full properties h-full flex flex-col overflow-y-scroll none-scrollbar">
+        {propertiesArray.map((property, index) => {
+          return (
+            <ModalProperty
+              key={index}
+              property={property}
+              deleteProperty={deleteProperty}
+              upDateProperties={upDateProperty}
+            />
+          );
+        })}
+      </div>
+      <ErrorModal
+        condition={error}
+        setCondition={setError}
+        title={t("cant-delete-prop")}
+        message={t("cant-delete-prop-desc")}
+        fnOk={() => setError(false)}
+      />
+    </SideModal>
+  );
+};

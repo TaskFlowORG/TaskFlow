@@ -1,79 +1,112 @@
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
+import { useHasPermission } from "@/hooks/useHasPermission";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useState, useEffect, useContext } from "react";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   options: Option[];
   name: string;
   id: number;
   value: string[];
+  isInModal?: boolean;
 }
 
-export const CheckboxFilter = ({ options, name, id, value }: Props) => {
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+export const CheckboxFilter = ({
+  options,
+  name,
+  id,
+  value,
+  isInModal = false,
+}: Props) => {
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
-  useEffect(() => {
-    setSelectedOptions(value ?? []);
-  }, [value]);
+  const style = twMerge(
+    "flex w-full ",
+    isInModal ? "flex-wrap gap-x-4" : "flex-col"
+  );
 
   function isChecked(optionName: string) {
-    return selectedOptions.includes(optionName);
+    return selectedOptions?.includes(optionName);
   }
 
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOptionChange = (event: any) => {
     const optionName = event.target.value;
-    if (selectedOptions.includes(optionName)) {
-      setSelectedOptions(
-        selectedOptions.filter((option) => option !== optionName)
-      );
-    } else {
-      setSelectedOptions([...selectedOptions, optionName]);
-    }
-
     const thisProperty = filterProp?.find((item) => item.id == id);
     if (thisProperty) {
       if (selectedOptions.includes(optionName)) {
+        setSelectedOptions(
+          selectedOptions.filter((option) => option !== optionName) ?? []
+        );
         thisProperty.value = thisProperty.value.filter(
           (option: string) => option !== optionName
         );
         if (thisProperty.value.length == 0) {
-          filterProp.splice(filterProp.indexOf(thisProperty), 1);
-          setFilterProp!(filterProp);
+          thisProperty.value = [];
         }
+        setFilterProp!([...filterProp!]);
       } else {
+        setSelectedOptions([...selectedOptions, optionName]);
         thisProperty.value = [...selectedOptions, optionName];
+        setFilterProp!([...filterProp!]);
       }
     } else {
       if (optionName) {
+        setSelectedOptions([...(value ?? []), optionName]);
         setFilterProp!([
-          ...filterProp,
-          { id: id, value: [event.target.value] },
+          ...filterProp!,
+          { id: id, value: [...(value ?? []), optionName] },
         ]);
       }
     }
   };
 
+  const isDisabled = useIsDisabled(isInModal, 'update');
+
+  useEffect(() => {
+    const prop = filterProp!.find((bah) => id == bah.id);
+    if (prop) {
+      setSelectedOptions(prop.value);
+    } else {
+      setSelectedOptions(value ?? []);
+    }
+  }, [value, setFilterProp, filterProp]);
+
+  const hasPermission = useHasPermission('update')
+
   return (
-    <div className="text-black dark:text-white pb-2 border-b-[1px]  ">
-      <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
-      {options.map((option, index) => (
-        <div key={index} className="flex gap-1 items-center">
-          <input
-            type="checkbox"
-            id={`prop${id}_${index}`}
-            value={option.name}
-            className="custom-checkbox"
-            checked={isChecked(option.name)}
-            onChange={handleOptionChange}
-          />
-          <label
-            className="text-black dark:text-white"
-            htmlFor={`prop${id}_${index}`}
-          >
-            {option.name}
-          </label>
-        </div>
-      ))}
+    <div
+      className={`text-black dark:text-white pb-2 border-b-[1px] ${
+        isInModal && "border-none"
+      }  `}
+    >
+      {!isInModal && (
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">
+          {name}:
+        </p>
+      )}
+      <div className={style}>
+        {options?.map((option, index) => (
+          <div key={index} className="flex gap-1 items-center">
+            <input
+              type="checkbox"
+              disabled={isDisabled}
+              id={`prop${id}_${index}`}
+              value={option.name}
+              className="custom-checkbox"
+              checked={isChecked(option.name)}
+              onChange={handleOptionChange}
+            />
+            <label
+              className="text-black font-montserrat text-p14 dark:text-white"
+              htmlFor={`prop${id}_${index}`}
+            >
+              {option.name}
+            </label>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

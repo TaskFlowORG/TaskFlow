@@ -1,13 +1,13 @@
-import { AllArgsConstructor } from '@/utils';
 
-@AllArgsConstructor
 export class Archive {
-    id!: number;
-    name!: string;
-    type!: string;
-    data!: number[]
 
-    constructor(id: number, name: string, type: string, data: number[]) {}
+
+    constructor(
+        public id: number,
+        public type: string,
+        public name: string,
+        public data:Uint8Array
+    ){}
 
     equals(obj: any): boolean {
         if (obj instanceof Archive) {

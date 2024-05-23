@@ -1,21 +1,27 @@
-import Providers from "@/services/Theme/providers";
-import ThemeSwitcher from "@/services/Theme/ThemeSwitcher";
-import React, { useEffect } from "react";
+
+
+import type { Metadata } from "next";
 import "@/styles/global.css";
+export const metadata: Metadata = {
+  title: "TaskFlow",
+  description:
+    "TaskFlow is a task manager that helps you organize your tasks and projects in a simple and intuitive way.",
+    keywords: "task, task manager, taskflow, project, project manager",
+   robots: "index, follow",
+   abstract: "TaskFlow is a task manager that helps you organize your tasks and projects in a simple and intuitive way.",
+   category: "Task Manager",
+   creator: "TaskFlow", 
+   generator: "TaskFlow"
+};
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="pt-br" className="w-screen h-screen overflow-auto ">
-      <body className="w-screen h-screen dark:bg-back-grey bg-white flex flex-col items-center justify-start">
-        <Providers>
-          <ThemeSwitcher />
-          {children}
-        </Providers>
-      </body>
-    </html>
-  );
+  return <html lang="pt-br" className="w-screen h-screen">
+    {children}
+  </html>
+
+
 }

@@ -1,12 +1,14 @@
-interface Props {fnButton: () => void, text:string, icon:React.ReactNode}
+import { MouseEvent } from "react";
 
-export const ButtonPageOption = ({fnButton, text, icon}:Props) => {
-    return (
-        <button className="w-min h-min items-center flex gap-4 dark:bg-back-grey text-[16px]"
-                onClick={fnButton} >
-                <span className="stroke-modal-grey dark:stroke-white w-4 h-4">{icon}</span>
-                <span className="w-px h-4 bg-modal-grey" />
-                <span className="whitespace-nowrap">{text}</span>
-              </button>
-    );
-    }
+interface Props { fnButton: (e:MouseEvent) => void, text: string, icon: React.ReactNode }
+
+export const ButtonPageOption = ({ fnButton, text, icon }: Props) => {
+  return (
+    <button className="w-min h-min items-center flex gap-4 dark:bg-modal-grey text-p font-montserrat"
+      onClick={fnButton} >
+      <span className="stroke-modal-grey dark:stroke-white w-4 h-4">{icon}</span>
+      <span className="w-px h-4 bg-modal-grey" />
+      <span className="whitespace-nowrap">{text}</span>
+    </button>
+  );
+}

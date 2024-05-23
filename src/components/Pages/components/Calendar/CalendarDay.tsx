@@ -1,11 +1,12 @@
 'use client'
 
-import { compareDates } from "@/functions";
+import { compareDates } from "../../functions";
 import { useEffect, useState } from "react";
 import { If } from "../../../If";
 import { Obj } from "../../../Obj";
 import { Date as DateProp, TaskPage } from "@/models";
-import { CalendarTasksModal } from "./CalendarTasksModal";
+import { CalendarTasksModal } from "../";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     date: Day
@@ -20,6 +21,7 @@ interface Day {
 export const CalendarDay = ({ date, propOrd }: Props) => {
 
     const [modal, setModal] = useState<boolean>(false)
+    const { t } = useTranslation();
 
     const [windowWidth, setWindowWidth] = useState<number>(0);
     useEffect(() => {
@@ -36,18 +38,18 @@ export const CalendarDay = ({ date, propOrd }: Props) => {
 
     return (
         <>
-        <button className={"aspect-square h-full px-px smm:px-2  border-[1px] pt-px smm:pt-2 font-montserrat relative cursor-pointer sm:text-[32px] smm:rounded-sm " + dayClasses}
+        <button className={"aspect-square h-full px-px smm:px-2  border-[1px] pt-1 font-montserrat relative cursor-pointer sm:text-[32px] smm:rounded-sm " + dayClasses}
         onClick={() => setModal(true)}>
-            <div className="w-full h-1/5 flex justify-start items-start flex-wrap">
+            <div className="w-full h-1/5 flex justify-end items-start flex-wrap">
                 <div className="flex flex-wrap w-full ">
-                    {date.tasks.map((t, index) => <Obj objs={date.tasks} key={index} max={windowWidth <= 1280 ? windowWidth <= 560 ? 1 : 2: 3} functionObj={() => { }} />)}
+                    <Obj objs={date.tasks} isTaskPage color={compareDates(date.day, new Date())} mawWidth="w-full" max={windowWidth > 1280 ? 1 : windowWidth > 1024 ? 2 : windowWidth>600  ? 2 : 1}functionObj={() => { }} />
                 </div>
             </div>
-            <div className="w-full h-4/5 text-[12px] smm:text-[18px]  md:text-[24px] flex items-end relative z-20 justify-end">
+            <div className="w-full h-4/5 text-mn smm:text-p  md:text-h4 flex items-end relative z-20 justify-end">
                 {String(date.day.getDate()).padStart(2, "0")}
             </div>
         </button>
-            <CalendarTasksModal propOrd={propOrd} setModal={setModal} modal={modal} title={"Tasks do dia "+String(date.day.getDate()).padStart(2, "0")} tasks={date.tasks} />
+            <CalendarTasksModal propOrd={propOrd} setModal={setModal} modal={modal} title={t("day-tasks")+" "+String(date.day.getDate()).padStart(2, "0")} tasks={date.tasks} />
         </>
     )
 }

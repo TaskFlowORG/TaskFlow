@@ -1,60 +1,97 @@
-import { useState, useEffect, useContext } from "react";
-import { Tag } from "../CardContent/CardProperties/Tag";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { useState, useEffect, useContext } from "react";
+import { twMerge } from "tailwind-merge";
+import { Tag } from "../CardContent/CardProperties/Tag";
+import { useHasPermission } from "@/hooks/useHasPermission";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 interface Props {
   options: Option[];
   name: string;
   id: number;
   value: string[];
-  addList?: (value: string) => void;
-  removeList: (value: string) => void;
+  isInModal?: boolean;
 }
 
 export const TagFilter = ({
   options,
-  id,
   name,
-  addList,
-  removeList,
+  id,
   value,
+  isInModal = false,
 }: Props) => {
-  const [option, setOption] = useState(value);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(value);
   const { filterProp, setFilterProp } = useContext(FilterContext);
 
+  const style = twMerge("", isInModal ? " items-center flex w-full" : "");
+  const isDisabled = useIsDisabled(isInModal, 'update');
+
   useEffect(() => {
-    setOption(value);
-    console.log(value);
-  }, [value]);
+    const prop = filterProp!.find((bah) => id == bah.id);
+    if (prop) {
+      setSelectedOptions(prop.value);
+    } else {
+      setSelectedOptions(value ?? []);
+    }
+  }, [value, setFilterProp, filterProp!]);
+
+
+  const hasPermission = useHasPermission('update')
+  
+  const handleOptionChange = (optionName: string) => {
+    const thisProperty = filterProp?.find((item) => item.id == id);
+    if (thisProperty) {
+      if (selectedOptions.includes(optionName)) {
+        setSelectedOptions(
+          selectedOptions.filter((option) => option !== optionName) ?? []
+        );
+        thisProperty.value = thisProperty.value.filter(
+          (option: string) => option !== optionName
+        );
+        if (thisProperty.value.length == 0) {
+          thisProperty.value = [];
+        }
+        setFilterProp!([...filterProp!]);
+      } else {
+        setSelectedOptions([...selectedOptions, optionName]);
+        thisProperty.value = [...selectedOptions, optionName];
+        setFilterProp!([...filterProp!]);
+      }
+    } else {
+      if (optionName) {
+        setSelectedOptions([...(value ?? []), optionName]);
+        setFilterProp!([
+          ...filterProp!,
+          { id: id, value: [...(value ?? []), optionName] },
+        ]);
+      }
+    }
+  };
 
   return (
-    <div>
-      <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
-      <div className="flex gap-4 overflow-scroll">
-        {options.map((opt, index) => {
-          if (value?.find((value) => opt?.name == value)) {
-            return (
-              <Tag
-                onClick={(e) => {
-                  removeList(opt.name);
-                }}
-                value={opt.name}
-                color={opt.color}
-                key={index}
-                className="p py-1 rounded-sm px-2 "
-              />
-            );
-          }
+    <div className={style}>
+      {!isInModal && (
+        <p className=" text-black text-p14  dark:text-white whitespace-nowrap font-montserrat">
+          {name}:
+        </p>
+      )}
+      <div className="oi w-full flex-wrap  flex gap-2 relative">
+        {options?.map((opt, index) => {
           return (
             <Tag
               onClick={() => {
-                removeList(opt.name);
+                if(!isInModal || !isDisabled){
+                  handleOptionChange(opt.name);
+                }
+
               }}
               value={opt.name}
               color={opt.color}
               key={index}
-              className="p py-1 rounded-sm px-2 opacity-[60%]"
+              className={`text-mn font-montserrat py-1 rounded-sm px-2 ${
+                !selectedOptions?.includes(opt.name) && "opacity-[60%]"
+              }`}
             />
           );
         })}

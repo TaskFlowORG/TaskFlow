@@ -1,9 +1,12 @@
 import { Archive } from "@/models";
 
-export function archiveToSrc(a: Archive):string {
+export function archiveToSrc(a?: Archive):string {
+    if(!a) return "/Assets/noImage.png"
+    if(!a.data) return "/Assets/noImage.png"
     try{
-        return `data:image/png;base64,${btoa(String.fromCharCode.apply(null, a.data))}`
+        const src = `data:${a.type};base64,${a?.data.toString()}`
+        return src
     }catch(e){
-        return ""
+        return "/Assets/noImage.png"
     }
 }

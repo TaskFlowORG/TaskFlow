@@ -1,0 +1,1 @@
+export{ContentModalProperty} from "./ContentModalProperty"

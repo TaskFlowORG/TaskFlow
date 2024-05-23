@@ -1,16 +1,28 @@
 import Image from "next/image"
-
 export const HeadlineImage = () => {
     return (
         <div className="relative hidden lg:flex items-center justify-center gap-4 h-full ">
-            <div className="absolute 1.5xl:hidden rounded-2xl centeredAbsolute bg-orange-500 shadowwwsecondary w-[260px] h-[280px] "></div>
-            <div className="absolute hidden rounded centeredAbsolute 1.5xl:flex justify-between gap-8 items-center  overflow-clip w-[500px] h-[335px] ">
-                <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary"></div>
-                <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary"></div>
-            </div>
-            <span className="z-[-1] 1.5xl:w-[550px] w-[400px]">
-                <Image fill src="landing.svg" alt="images" />
-            </span>
+                {/* <div className="absolute 1.5xl:hidden rounded-2xl centeredAbsolute bg-orange-500 shadowwwsecondary w-[260px] overflow-clip h-[280px] ">
+                <Image fill alt="" src={"/womanWorking.png"}></Image>
+                    
+                </div>
+                <div className="absolute hidden rounded centeredAbsolute 1.5xl:flex justify-between gap-8 items-center  overflow-clip w-[500px] h-[335px] ">
+                    <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary overflow-clip">
+                    <Image width={300}  height={500} alt="" src={"/mulher.png"}></Image>
+                    </div>
+                    <div className="w-full h-full bg-orange-500 rounded-xl shadowwwsecondary overflow-clip">
+                        <Image width={250}  height={200} alt="" src={"/working.png"}></Image>
+                    </div>
+                </div> */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[275px] 1.5xl:w-[400px] h-[500px]">
+                <Image fill alt="" src="/undrawUse.svg" ></Image>
+                </div>
+
+
+                {/* <div className="z-[-1] 1.5xl:w-[950px]  w-[600px] h-[290px] 1.5xl:h-[430px]">
+<Image src="landing.svg" fill  alt="" />
+</div> */}
+            <img src="landing.svg" className="z-[-1]  1.5xl:w-[550px] w-[400px]" alt="" />
         </div>
     )
 }

@@ -4,9 +4,8 @@
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { RoundedCard } from "@/components/RoundedCard";
 import { ColumnKanban } from "@/components/ColumnKanban/ColumnKanban";
-import { SearchBar } from "@/components/SearchBar";
+import { SearchBar, SearchInput } from "@/components/SearchBar";
 import { useContext, useEffect } from "react";
-import { getData, getListData, getPage, putData } from "@/services/http/api";
 import { useState } from "react";
 import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
@@ -20,32 +19,51 @@ import {
   Property,
   Select,
   TaskOrdered,
-  TaskValue,
+  PropertyValue,
   TypeOfProperty,
   UniOptionValued,
+  Project,
 } from "@/models";
-
+import { TaskModalContext } from "@/utils/TaskModalContext";
 import { FilterContext } from "@/utils/FilterlistContext";
+import { TaskModal } from "../TaskModal";
 
-export const Kanban = () => {
+import { User } from "@/models/user/user/User";
+import { ProjectContext } from "@/contexts";
+import { updateIndexes } from "./functions/updateIndexes";
+import { showTask } from "./functions";
+
+type Props = {
+  user: User;
+  page: OrderedPage;
+  project?: Project;
+};
+
+export const Kanban = ({ page, user }: Props) => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [modal, setModal] = useState(false);
-  const [page, setPage] = useState<OrderedPage | null>(null);
   const [filter, setFilter] = useState<FilteredProperty[]>([]);
   const [list, setList] = useState<FilteredProperty>();
+  const { project, setProject } = useContext(ProjectContext);
+  const context = useContext(FilterContext);
 
   useEffect(() => {
-    (async () => {
-      const pg: OrderedPage = await getPage("page", 2);
-      setTasks(pg.tasks as TaskOrdered[]);
-      setOptions((pg.propertyOrdering as Select).options);
-      setId(pg.propertyOrdering.id);
-      setPage(pg);
-    })();
-  });
+    setTasks(
+      (page.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
+    );
+    setOptions((page.propertyOrdering as Select).options);
+    setId(page.propertyOrdering.id);
+  }, [page.tasks, project]);
+
+  const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
+
+  function openModal(task: TaskOrdered) {
+    setIsOpen!(true);
+    setSelectedTask!(task.task);
+  }
+
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
@@ -86,7 +104,7 @@ export const Kanban = () => {
   }
 
   function updateOptions(
-    propertyInTask: TaskValue,
+    propertyInTask: PropertyValue,
     optionId: number,
     optionDestination: Option
   ) {
@@ -95,10 +113,10 @@ export const Kanban = () => {
     });
   }
 
-  const onDragEnd = (result: any) => {
+  const onDragEnd = async (result: any) => {
     if (!result.destination) return;
-
     const { source, destination } = result;
+    console.log(result.draggableId)
 
     const separatedNumbers = separateNumbers(result.draggableId);
     const [numberOne, numberTwo] = separatedNumbers!;
@@ -107,7 +125,7 @@ export const Kanban = () => {
 
     const optionDestination = findDragDestinationColumn(destination);
     const draggedTask: TaskOrdered = findDraggedTask(taskId!);
-    const propertyInTask: TaskValue = findPropertyInTask(draggedTask);
+    const propertyInTask: PropertyValue = findPropertyInTask(draggedTask);
 
     if (
       [TypeOfProperty.CHECKBOX, TypeOfProperty.TAG].includes(
@@ -126,22 +144,27 @@ export const Kanban = () => {
     }
 
     const updatePageAndTask = async () => {
+      if (!project) return;
       try {
         if (draggedTask) {
-          console.log(page);
-          console.log(draggedTask);
-          await taskService.upDate(draggedTask.task);
-
-          await pageService.updateIndexesKanban(
-            page!,
-            draggedTask?.task?.id,
-            destination.index,
-            destination.droppableId != source.droppableId ? 1 : 0
+          const taskReturned = await taskService.upDate(
+            draggedTask.task,
+            project?.id!
           );
+          const indexTaskInPage = page.tasks.findIndex(
+            (task) => task.id == taskReturned.id
+          );
+          page.tasks[indexTaskInPage].task = taskReturned;
+          const indexPage = project!.pages.findIndex(
+            (pageP) => pageP.id == page.id
+          );
+          project!.pages[indexPage] = page;
+          setProject!({ ...project });
         }
       } catch (e) {}
     };
-    updatePageAndTask();
+    await updatePageAndTask();
+    updateIndexes(result, tasks, setTasks, project);
   };
 
   return (
@@ -151,106 +174,11 @@ export const Kanban = () => {
         setFilterProp: setFilter,
         list,
         setList: setList,
+        input: input,
+        setInput: setInput,
       }}
     >
-      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey  ">
-        <div className=" flex gap-5 justify-between px-8 self-center w-full items-center 1.5xl:pb-16 pb-4 max-w-[1560px] relative   h-max">
-          <div className="flex gap-4 items-center">
-            <h1
-              className=" text-[32px] md:text-[40px] leading-none lg:text-[48px] 1.5xl:text-[56px] font-alata text-primary whitespace-nowrap    dark:text-white"
-              onClick={() => console.log(page)}
-            >
-              {page?.name}
-            </h1>
-            <div
-              className=" flex items-center justify-center h-9 w-9 rounded-full shadowww  cursor-pointer "
-              onClick={() => setModal(true)}
-            >
-              <p className="p text-primary text-4xl h-min w-min">+</p>
-            </div>
-          </div>
-
-          <SearchBar
-            order={() => console.log("Ordering")}
-            filter={() => console.log("Filtering")}
-            search={(textInput: string) => setInput(textInput)}
-          >
-            <OrderInput
-              page={page as OrderedPage}
-              orderingId={id}
-              propertiesPage={page?.properties ?? []}
-            ></OrderInput>
-
-            <FilterAdvancedInput
-              orderingId={page?.propertyOrdering.id}
-              page={page}
-              properties={page?.properties as Property[]}
-            />
-          </SearchBar>
-        </div>
-        {/* <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
-          <div
-            id="scrollContainer"
-            className="flex  justify-start min-h-max  pl-3 w-[1560px]  overflow-x-auto scroll-smooth  self-center"
-          >
-            <div className="w-min flex gap-8">
-              {options?.map((option) => {
-                return (
-                  <ColumnKanban
-                    input={input}
-                    key={`${option.id}`}
-                    tasks={indexAtColumn(
-                      tasks.filter((task) => {
-                        return task?.task?.properties?.some((property) => {
-                          return (
-                            (property.property.id == id &&
-                              (property.value as UniOptionValued).value?.id ==
-                                option?.id) ||
-                            ((property.property.type ===
-                              TypeOfProperty.CHECKBOX ||
-                              property.property.type === TypeOfProperty.TAG) &&
-                              (property.value as MultiOptionValued).value.find(
-                                (value) => value.id == option.id
-                              ))
-                          );
-                        });
-                      })
-                    )}
-                    propertyId={id}
-                    color={option.color}
-                    option={option}
-                    verify={true}
-                  />
-                );
-              })}
-              {
-                <ColumnKanban
-                  key={0}
-                  input={input}
-                  tasks={tasks.filter((task) => {
-                    return task?.task?.properties?.some((property) => {
-                      return (
-                        (property.property.id == id &&
-                          (property.value as UniOptionValued).value == null) ||
-                        (property.property.id == id &&
-                          [
-                            TypeOfProperty.CHECKBOX,
-                            TypeOfProperty.TAG,
-                          ].includes(property.property.type) &&
-                          (property.value as MultiOptionValued).value.length ==
-                            0)
-                      );
-                    });
-                  })}
-                  propertyId={id}
-                  color="#767867"
-                  option={new Option(0, "Não Marcadas", "#767867")}
-                />
-              }
-            </div>
-          </div>
-        </DragDropContext> */}
-
+      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollKanban"
@@ -260,7 +188,10 @@ export const Kanban = () => {
             {options?.map((option) => {
               return (
                 <ColumnKanban
+                  user={user}
+                  allTasks={tasks}
                   input={input}
+                  openModal={openModal}
                   key={`${option.id}`}
                   tasks={indexAtColumn(
                     tasks.filter((task) => {
@@ -273,7 +204,7 @@ export const Kanban = () => {
                             TypeOfProperty.CHECKBOX ||
                             property.property.type === TypeOfProperty.TAG) &&
                             (property.value as MultiOptionValued).value.find(
-                              (value) => value.id == option.id
+                              (value: Option) => value?.id == option?.id
                             ))
                         );
                       });
@@ -288,7 +219,10 @@ export const Kanban = () => {
             })}
             {
               <ColumnKanban
+                user={user}
+                allTasks={tasks}
                 key={0}
+                openModal={openModal}
                 input={input}
                 tasks={tasks.filter((task) => {
                   return task?.task?.properties?.some((property) => {
@@ -305,7 +239,7 @@ export const Kanban = () => {
                 })}
                 propertyId={id}
                 color="#767867"
-                option={new Option(0, "Não Marcadas", "#767867")}
+                option={new Option("Não Marcadas", "#767867", 0)}
               />
             }
           </div>

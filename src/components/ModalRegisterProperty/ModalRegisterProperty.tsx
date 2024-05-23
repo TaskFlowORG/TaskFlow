@@ -1,114 +1,162 @@
-import { DatePost, LimitedPost, Page, Project, PropertyPost, SelectPost, TypeOfProperty } from "@/models";
+import { Page, Project, TypeOfProperty } from "@/models";
 import { Input } from "../Input";
-import { Select } from "../Select";
-import { SelectedArea } from "../Pages/components/Canvas/SelectedArea";
 import { SelectWithImage } from "../SelectWithImage/SelectwithImage";
-import { IconArchive, IconCalendar, IconCheckbox, IconNumber, IconProgress, IconRadio, IconSelect, IconText } from "../icons";
-import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
-import { ZodError, object, z } from "zod";
+import { use, useState } from "react";
+import {
+  IconArchive,
+  IconCalendar,
+  IconCheckbox,
+  IconClock,
+  IconNumber,
+  IconProgress,
+  IconRadio,
+  IconSelect,
+  IconTag,
+  IconText,
+  IconTrashBin,
+  IconUser,
+} from "../icons";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { propertyService } from "@/services";
-import { log } from "console";
+import { IconSave } from "../icons/Slidebarprojects/IconSave";
+import { ContentModalProperty } from "../ContentModalProperty";
+import { useTranslation } from "next-i18next";
+import { Info } from "../Info";
+import { twMerge } from "tailwind-merge";
 type ModalRegisterPropertyProps = {
-    open: boolean;
-    close: () => void;
-    project: Project;
-    page?: Page;
+  open: boolean;
+  close: () => void;
+  project: Project;
+  page?: Page;
+  postProperty: (name: string, values: any, select: TypeOfProperty) => void;
+  isInModal?: boolean;
+};
 
-}
+export const ModalRegisterProperty = ({
+  open,
+  close,
+  page,
+  project,
+  isInModal = false,
+  postProperty,
+}: ModalRegisterPropertyProps) => {
+  const [selected, setSelected] = useState<TypeOfProperty>(TypeOfProperty.TEXT);
+  const [object, setObject] = useState({} as FormData);
+  const { t } = useTranslation();
+  type FormData = z.infer<typeof schema>;
 
-const schema = z.object({
-    name: z.string().nonempty("Nome da propriedade não pode ser vazio")
-        .min(3, "Nome da propriedade deve ter no mínimo 3 caracteres")
-        .max(50, "Nome da propriedade deve ter no máximo 50 caracteres")
-})
+  const schema = z.object({
+    name: z
+      .string()
+      .nonempty(t("name-property-notnull"))
+      .min(3, t("name-property-min-characters"))
+      .max(50, t("name-property-max-characters")),
+    maximum: z.number().optional().default(0),
+    visible: z.boolean().optional().default(true),
+    obligatory: z.boolean().optional().default(false),
+    pastDate: z.boolean().optional().default(false),
+    schedule: z.boolean().optional().default(false),
+    hours: z.boolean().optional().default(false),
+    deadline: z.boolean().optional().default(false),
+    color: z.string().optional().default("black"),
+  });
 
-export const ModalRegisterProperty = ({ open, close, page, project }: ModalRegisterPropertyProps) => {
-    const [selected, setSelected] = useState<TypeOfProperty>(TypeOfProperty.TEXT);
-    const [nameProperty, setNameProperty] = useState<string>("");
-    const [object, setObject] = useState({} as FormData)
-    type FormData = z.infer<typeof schema>;
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors }
-    } = useForm<FormData>(
-        {
-            mode: "all",
-            reValidateMode: "onChange",
-            resolver: zodResolver(schema)
-        }
-    );
+  const container = twMerge(
+    "h-16 w-full border-b-2 gap-2 border-primary-opacity dark:border-secondary-opacity flex  items-center  justify-evenly",
+    isInModal ? "border-b-0 justify-start " : " "
+  );
 
+  const input = twMerge(
+    "flex justify-center items-center",
+    isInModal ? "w-full flex-1 p-0" : ""
+  );
+  const contentInput = twMerge(
+    "bg-transparent p outline-none w-[90%] h-full",
+    isInModal ? "w-full" : ""
+  );
+  const select = twMerge("w-14", isInModal ? "ml-3" : "");
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useForm<FormData>({
+    mode: "all",
+    reValidateMode: "onChange",
+    resolver: zodResolver(schema),
+  });
 
-    useEffect(() => {
-        const obj = new LimitedPost(undefined, "", true, true, TypeOfProperty.TEXT, [], undefined, 0)
-        console.log(obj)
-    }, [])
+  return (
+    <>
+      {open && (
+        <div className="h-min w-full   flex flex-col justify-center items-center">
+          <div className="h-min w-full flex flex-col">
+            <div className={container}>
+              <Info
+                title={selected.toLowerCase()}
+                text={selected.toLowerCase() + "-info"}
+                right
+              />
+              <span className={select}>
+                <SelectWithImage
+                  list={[
+                    { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
+                    { value: TypeOfProperty.TAG, image: <IconTag /> },
+                    { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
+                    { value: TypeOfProperty.DATE, image: <IconCalendar /> },
+                    { value: TypeOfProperty.NUMBER, image: <IconNumber /> },
+                    { value: TypeOfProperty.PROGRESS, image: <IconProgress /> },
+                    { value: TypeOfProperty.RADIO, image: <IconRadio /> },
+                    { value: TypeOfProperty.SELECT, image: <IconSelect /> },
+                    { value: TypeOfProperty.TEXT, image: <IconText /> },
 
-    const postProperty = async () => {
-        try {
+                    { value: TypeOfProperty.USER, image: <IconUser /> },
+                    { value: TypeOfProperty.TIME, image: <IconClock /> },
+                  ]}
+                  selected={selected}
+                  onChange={function (value: string): void {
+                    setSelected(value as TypeOfProperty);
+                  }}
+                />
+              </span>
+              <Input
+                register={{ ...register("name") }}
+                value={object.name}
+                className={input}
+                classNameInput={contentInput}
+                placeholder={t("name-property")}
+              />
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm stroke-primary dark:stroke-secondary"
+                onClick={() => {
+                  close();
+                }}
+              >
+                <IconTrashBin />
+              </button>
+              <button
+                className="w-5 h-5/6 flex justify-center items-center rounded-sm"
+                onClick={() => {
+                  if (errors.name || getValues().name === "") {
+                    return;
+                  }
+                  postProperty(getValues().name, getValues(), selected);
+                  close();
 
-            if ([TypeOfProperty.TIME, TypeOfProperty.USER, TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TEXT].includes(selected)) {
-                propertyService.saveLimited(new LimitedPost(undefined, nameProperty, true, false, selected, page ? [page] : [], page ? undefined : project!, 1000))
-            } else if ([TypeOfProperty.CHECKBOX, TypeOfProperty.TAG, TypeOfProperty.RADIO, TypeOfProperty.SELECT].includes(selected)) {
-                propertyService.saveSelect(new SelectPost(undefined, nameProperty, true, false, selected, page ? [page] : [], page ? undefined : project!))
-
-            } else {
-                propertyService.saveDate(new DatePost(undefined, nameProperty, true, false, selected, page ? [page] : [], page ? undefined : project!, false, false, false, false, "black"))
-            }
-
-
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-    return (
-        <>
-            {open && <div className="h-2/6 w-full   flex flex-col justify-center items-center border-b border-primary dark:border-secondary">
-                <div className="h-5/6 w-full flex flex-col">
-                    <div className="h-2/6 w-full border-b border-primary dark:border-secondary flex justify-center items-center">
-                        <SelectWithImage list={[
-                            { value: TypeOfProperty.ARCHIVE, image: <IconArchive /> },
-                            { value: TypeOfProperty.CHECKBOX, image: <IconCheckbox /> },
-                            { value: TypeOfProperty.DATE, image: <IconCalendar /> },
-                            { value: TypeOfProperty.NUMBER, image: <IconNumber /> },
-                            { value: TypeOfProperty.PROGRESS, image: <IconProgress /> },
-                            { value: TypeOfProperty.RADIO, image: <IconRadio /> },
-                            { value: TypeOfProperty.SELECT, image: <IconSelect /> },
-                            { value: TypeOfProperty.TEXT, image: <IconText /> }
-                        ]}
-                            selected={TypeOfProperty.TEXT} onChange={function (value: string): void {
-                                setSelected(value as TypeOfProperty)
-                                console.log(selected)
-
-                            }} />
-                        <Input register={{ ...register("name") }} value={object.name} classNameInput={" p outline-none w-[90%] h-full"} placeholder="Nome da Propriedade" />
-
-                    </div>
-                </div>
-                <div className="h-1/6 w-[95%] flex justify-between">
-                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm"><img src="/img/trash.svg" alt="" onClick={()=>{close()}}/></button>
-                    <button className="w-8 h-5/6 flex justify-center items-center rounded-sm" onClick={() => {
-                        const result = schema.parse({ name: nameProperty, type: selected })
-                        setNameProperty(getValues().name)
-                        console.log(nameProperty)
-                        try {
-                            if (nameProperty !== "") {
-                                postProperty()
-                                close()
-                            } else {
-                                console.log("Nome da propriedade não pode ser vazio")
-                            }
-                        } catch (error) {
-                            console.log(error)
-                        }
-                    }} ><img src="/img/iconCorrect.svg" alt="" /></button>
-                </div>
-            </div>}
-        </>
-    );
-}
+                  setValue("name", "");
+                }}
+              >
+                <IconSave />
+              </button>
+            </div>
+          </div>
+          <p className=" w-full h-2/6 flex items-center text-p14 text-red-500  justify-center">
+            {errors.name?.message}
+          </p>
+        </div>
+      )}
+    </>
+  );
+};

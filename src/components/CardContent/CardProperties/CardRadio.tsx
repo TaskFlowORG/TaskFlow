@@ -5,23 +5,24 @@ interface Props {
   property: any;
   value: string;
   showNameProperty: boolean;
+  color: string;
 }
 
-export const CardRadio = ({ property, value, showNameProperty }: Props) => {
+export const CardRadio = ({ property, value, showNameProperty, color }: Props) => {
   return (
     <div className="flex gap-2 w-max items-center">
       {showNameProperty && (
-        <p className="text-[14px] w-max text-[#797979] dark:text-white">
+        <p className="text-p14 w-max text-[#797979] dark:text-white">
           {property}:
         </p>
       )}
 
-      <div className="flex gap-2">
-        <p className="text-[14px] w-max text-primary dark:text-secondary">
+      <div className="flex gap-1">
+        <p className="text-p14 w-max" style={{color:color}}>
           {value}
         </p>
 
-        <RadioIcon />
+        <RadioIcon color={color} />
         {/* <img src="cardContentIcons/select.svg" className="dark:hidden" alt="" />
           <img src="cardContentIcons/select.svg" className="hidden dark:flex " alt="" /> */}
       </div>
