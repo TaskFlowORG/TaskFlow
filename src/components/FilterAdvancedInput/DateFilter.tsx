@@ -3,7 +3,7 @@ import { useHasPermission } from "@/hooks/useHasPermission";
 import { Date as DateP, Property } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 import { twMerge } from "tailwind-merge";
 
 interface DateProps {
@@ -40,37 +40,48 @@ export const DateFilter = ({
     return (
       String(date.getFullYear()).padStart(4, "0") +
       "-" +
-      String((date.getMonth() + 1)).padStart(2, "0")  +
+      String(date.getMonth() + 1).padStart(2, "0") +
       "-" +
       String(date.getDate()).padStart(2, "0") +
       "T" +
-      String(date.getHours()).padStart(2, "0")  +
+      String(date.getHours()).padStart(2, "0") +
       ":" +
-      String(date.getMinutes()).padStart(2, "0")  +
+      String(date.getMinutes()).padStart(2, "0") +
       ":" +
-      String(date.getSeconds()).padStart(2, "0") 
+      String(date.getSeconds()).padStart(2, "0")
     );
   };
 
   useEffect(() => {
     // const splitTimestamp: string[] = value?.split("T");
     const prop = filterProp!.find((bah) => id == bah.id);
-    if (prop && isInModal) {
+    if (prop ) {
       // const splitTimestamp: string[] = prop.value?.split("T");
-      setValued((property as DateP).includesHours ? formatDateTime(new Date(prop.value)) :prop.value);
+      console.log(prop.value, "Value bros");
+      setValued(
+        (property as DateP).includesHours
+          ? formatDateTime(new Date(prop.value))
+          : prop.value
+      );
     } else {
-      setValued((property as DateP).includesHours ? formatDateTime(new Date(value)):value);
+      setValued(
+        (property as DateP).includesHours
+          ? formatDateTime(new Date(value))
+          : value
+      );
     }
     // } else if (value) {
     //   // const datePart: string = splitTimestamp[0];
     //   setValued(value ?? "");
     // }
   }, [value, setFilterProp, filterProp]);
-
+  const [date, setDate] = useState("");
   useEffect(() => {
     console.log(valued);
+    setDate((property as DateP).includesHours ? valued : valued?.split("T")[0]);
   }, [valued]);
 
+  const refDate = useRef<HTMLInputElement>(null);
 
   return (
     <div className={style}>
@@ -78,22 +89,65 @@ export const DateFilter = ({
         <p className=" text-black dark:text-white text-p14">{name}:</p>
       )}
       <input
+        ref={refDate}
         step="1"
         disabled={isDisabled}
         className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
-      type={(property as DateP).includesHours ? "datetime-local" : "date"}
-        value={
-          (property as DateP).includesHours ? valued : valued?.split("T")[0]
-        }
+        type={(property as DateP).includesHours ? "datetime-local" : "date"}
+        value={(property as DateP).includesHours ? valued : valued?.split("T")[0]}
+        // onChange={(e) => setDate(e.target.value)}
+        pattern="/^\d{2}\/\d{2}\/\d{4}$/"
         placeholder={t("insert-expected-value")}
+        // onChange={(e) => {
+
+        //   setValued(e.target.value);
+        //   const thisProperty = filterProp?.find((item) => item.id == id);
+        //   if (thisProperty) {
+        //     if (!e.target.value) {
+        //       filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+        //       setFilterProp!([...filterProp!]);
+        //     } else {
+        //       thisProperty.value = (property as DateP).includesHours
+        //         ?
+        //         e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
+        //         : e.target.value?.split("T")[0];
+        //       setFilterProp!([...filterProp!]);
+        //     }
+        //   } else {
+        //     if (e.target.value) {
+        //       setFilterProp!([
+        //         ...filterProp!,
+        //         {
+        //           id: id, value: (property as DateP).includesHours
+        //             ?
+        //             e.target.value?.split("T")[0] + "T" + new Date(e.target.value).toLocaleTimeString()
+        //             : e.target.value?.split("T")[0]
+        //         },
+        //       ]);
+        //     }
+        //   }
+        // }}
+
         onChange={(e) => {
-          setValued((property as DateP).includesHours ? formatDateTime(new Date(e.target.value)) :e.target.value);
+          console.log(e.target.value)
+          // if (!e.target.value.match("/^\d{2}\/\d{2}\/\d{4}$/"))return;
+          // let e = { target: { value: date } };
+          setValued(
+            (property as DateP).includesHours
+              ? formatDateTime(new Date(e.target.value))
+              : e.target.value
+          );
           const thisProperty = filterProp?.find((item) => item.id == id);
           if (thisProperty) {
             if (!e.target.value) {
-              filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
-              setFilterProp!([...filterProp!]);
+              // thisProperty.value = '';
+              if (!isInModal){
+                filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
+                setFilterProp!([...filterProp!]);
+              }
+
             } else {
+              console.log("Amigo estou aqui!!!")
               thisProperty.value = (property as DateP).includesHours
                 ? formatDateTime(new Date(e.target.value))
                 : e.target.value + "T00:00:00";
@@ -101,6 +155,7 @@ export const DateFilter = ({
             }
           } else {
             if (e.target.value) {
+              console.log(formatDateTime(new Date(e.target.value)));
               setFilterProp!([
                 ...filterProp!,
                 {

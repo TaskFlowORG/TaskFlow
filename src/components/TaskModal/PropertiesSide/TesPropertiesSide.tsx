@@ -146,124 +146,181 @@ export const TesPropertiesSide = ({
   };
   const validateProps = (): boolean => {
     propertiesToValidate.forEach((propertyForm) => {
+      let errors = [];
+
       if (propertyForm.property.property.obligatory) {
         let inputProperty = filter.find(
           (propV) => propV.id == propertyForm.property.property.id
         );
 
         if (inputProperty) {
+          console.log(inputProperty, "cara eu sou essa buceeta");
           if (
             inputProperty.value == "" ||
             inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
             inputProperty.value.length == 0
           ) {
-            propertyForm.errors.push(`${t("property-required")}`);
+            // propertyForm.errors.push(`${t("property-required")}`);
+            errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            propertyForm.errors = [];
+            console.log("ZEROU1");
+            // propertyForm.errors = [];
+            errors = [];
+
             setPropertiesToValidate([...propertiesToValidate]);
+            console.log(propertiesToValidate);
           }
         } else {
           if (
             !propertyForm.property.value.value ||
             propertyForm.property.value.value.length == 0
           ) {
-            propertyForm.errors.push(`${t("property-required")}`);
+            errors.push(`${t("property-required")}`);
+            // propertyForm.errors.push(`${t("property-required")}`);
+            setPropertiesToValidate([...propertiesToValidate]);
+          } else {
+            console.log("ZEROU1");
+            // propertyForm.errors = [];
+            errors = [];
             setPropertiesToValidate([...propertiesToValidate]);
           }
         }
       }
 
-      if (
-        [
-          TypeOfProperty.TEXT,
-          TypeOfProperty.USER,
-          TypeOfProperty.NUMBER,
-          TypeOfProperty.PROGRESS,
-        ].includes(propertyForm.property.property.type)
-      ) {
-        if (!(propertyForm.property.property as Limited).maximum) return;
-        let inputProperty = filter.find(
-          (propV) => propV.id == propertyForm.property.property.id
-        );
-        if (inputProperty) {
-          if (
-            inputProperty.value.length >
-            (propertyForm.property.property as Limited).maximum
-          ) {
-            propertyForm.errors.push(
-              `${t("property-max")} ${
-                (propertyForm.property.property as Limited).maximum
-              } ${
-                propertyForm.property.property.type == TypeOfProperty.TEXT
-                  ? t("characters")
-                  : propertyForm.property.property.type == TypeOfProperty.USER
-                  ? (propertyForm.property.property as Limited).maximum > 1
-                    ? t("users")
-                    : t("user")
-                  : "!"
-              }`
-            );
-            setPropertiesToValidate([...propertiesToValidate]);
+      if (errors.length < 1) {
+        if (
+          [
+            TypeOfProperty.TEXT,
+            TypeOfProperty.USER,
+            TypeOfProperty.NUMBER,
+            TypeOfProperty.PROGRESS,
+          ].includes(propertyForm.property.property.type)
+        ) {
+          if (!(propertyForm.property.property as Limited).maximum) {
           } else {
-            if (passObligatoryVerification(propertyForm)) {
-              propertyForm.errors = [];
-            }
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-        } else {
-          console.log(propertyForm.property.value.value);
-          if (
-            propertyForm.property.value.value.length >
-            (propertyForm.property.property as Limited).maximum
-          ) {
-            propertyForm.errors.push(
-              `${t("property-max")} ${
-                (propertyForm.property.property as Limited).maximum
-              } ${
-                propertyForm.property.property.type == TypeOfProperty.TEXT
-                  ? t("characters")
-                  : propertyForm.property.property.type == TypeOfProperty.USER
-                  ? (propertyForm.property.property as Limited).maximum > 1
-                    ? t("users")
-                    : t("user")
-                  : "!"
-              }`
+            let inputProperty = filter.find(
+              (propV) => propV.id == propertyForm.property.property.id
             );
-            setPropertiesToValidate([...propertiesToValidate]);
-          }
-        }
-      } else if (TypeOfProperty.DATE) {
-        let inputProperty = filter.find(
-          (propV) => propV.id == propertyForm.property.property.id
-        );
-        if (!(propertyForm.property.property as DateProp).canBePass) {
-          if (inputProperty) {
-            if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
-              propertyForm.errors.push(`${t("property-not-past")}`);
+            if (inputProperty) {
+              if (
+                inputProperty.value.length >
+                (propertyForm.property.property as Limited).maximum
+              ) {
+                // propertyForm.errors.push(
+                //   `${t("property-max")} ${
+                //     (propertyForm.property.property as Limited).maximum
+                //   } ${
+                //     propertyForm.property.property.type == TypeOfProperty.TEXT
+                //       ? t("characters")
+                //       : propertyForm.property.property.type == TypeOfProperty.USER
+                //       ? (propertyForm.property.property as Limited).maximum > 1
+                //         ? t("users")
+                //         : t("user")
+                //       : "!"
+                //   }`
+                // );
+
+                errors.push(
+                  `${t("property-max")} ${
+                    (propertyForm.property.property as Limited).maximum
+                  } ${
+                    propertyForm.property.property.type == TypeOfProperty.TEXT
+                      ? t("characters")
+                      : propertyForm.property.property.type ==
+                        TypeOfProperty.USER
+                      ? (propertyForm.property.property as Limited).maximum > 1
+                        ? t("users")
+                        : t("user")
+                      : "!"
+                  }`
+                );
+                setPropertiesToValidate([...propertiesToValidate]);
+              } else {
+                console.log("ZEROU");
+                // propertyForm.errors = [];
+                errors = [];
+                setPropertiesToValidate([...propertiesToValidate]);
+              }
             } else {
-              if (passObligatoryVerification(propertyForm)) {
-                propertyForm.errors = [];
+              console.log(propertyForm.property.value.value);
+              if (
+                propertyForm.property.value.value.length >
+                (propertyForm.property.property as Limited).maximum
+              ) {
+                errors.push(
+                  `${t("property-max")} ${
+                    (propertyForm.property.property as Limited).maximum
+                  } ${
+                    propertyForm.property.property.type == TypeOfProperty.TEXT
+                      ? t("characters")
+                      : propertyForm.property.property.type ==
+                        TypeOfProperty.USER
+                      ? (propertyForm.property.property as Limited).maximum > 1
+                        ? t("users")
+                        : t("user")
+                      : "!"
+                  }`
+                );
+                // propertyForm.errors.push(
+                //   `${t("property-max")} ${
+                //     (propertyForm.property.property as Limited).maximum
+                //   } ${
+                //     propertyForm.property.property.type == TypeOfProperty.TEXT
+                //       ? t("characters")
+                //       : propertyForm.property.property.type == TypeOfProperty.USER
+                //       ? (propertyForm.property.property as Limited).maximum > 1
+                //         ? t("users")
+                //         : t("user")
+                //       : "!"
+                //   }`
+                // );
+                setPropertiesToValidate([...propertiesToValidate]);
               }
             }
-          } else {
-            console.log(propertyForm.property.value.value);
-            // if (
-            //   testIfIsPass(
-            //     propertyForm,
-            //     new Date(),
-            //     propertyForm.property.value.value.dateTime
-            //   )
-            // ) {
-            //   propertyForm.errors.push(`${t("property-not-past")}`);
-            // } else {
-            //   if (passObligatoryVerification(propertyForm)) {
-            //     propertyForm.errors = [];
-            //   }
-            // }
+          }
+        } else if (TypeOfProperty.DATE == propertyForm.property.property.type) {
+          let inputProperty = filter.find(
+            (propV) => propV.id == propertyForm.property.property.id
+          );
+          if (!(propertyForm.property.property as DateProp).canBePass) {
+            if (inputProperty) {
+              console.log("ENTRO AQUI E SOU", inputProperty);
+              if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
+                console.log("SOU PASSADO MANO, CONFIA NO PAI");
+
+                errors.push(`${t("property-not-past")}`);
+                // propertyForm.errors.push(`${t("property-not-past")}`);
+              } else {
+                // if (passObligatoryVerification(propertyForm)) {
+                console.log("ZEROU");
+                // propertyForm.errors = [];
+                errors = [];
+                // }
+              }
+            } else {
+              console.log(propertyForm.property.value.value);
+              if (
+                testIfIsPass(propertyForm, new Date(), {
+                  id: 0,
+                  value: propertyForm.property.value.value?.dateTime,
+                })
+              ) {
+                // propertyForm.errors.push(`${t("property-not-past")}`);
+                errors.push(`${t("property-not-past")}`);
+              } else {
+                // if (passObligatoryVerification(propertyForm)) {
+                console.log("ZEROU");
+                // propertyForm.errors = [];
+                errors = [];
+                // }
+              }
+            }
           }
         }
       }
+      propertyForm.errors = errors;
+      setPropertiesToValidate([...propertiesToValidate]);
     });
 
     return propertiesToValidate
@@ -287,11 +344,50 @@ export const TesPropertiesSide = ({
     if ((propertyForm.property.property as DateProp).includesHours) {
       return new Date(propInput?.value) < currentDate;
     } else {
-      return (
-        new Date(propInput?.value).getDate() < currentDate.getDate() &&
-        new Date(propInput?.value).getMonth() < currentDate.getMonth() &&
-        new Date(propInput?.value).getFullYear() < currentDate.getFullYear()
+      // console.log(!(new Date(propInput?.value).getFullYear() > currentDate.getFullYear() ||
+      // new Date(propInput?.value).getMonth() > currentDate.getMonth() ||
+      // new Date(propInput?.value).getDate() >= currentDate.getDate() ), "result")
+      console.log(
+        new Date(propInput?.value).getFullYear() > currentDate.getFullYear(),
+        "year"
       );
+      console.log(
+        new Date(propInput?.value).getMonth() > currentDate.getMonth(),
+        "month"
+      );
+      console.log(
+        new Date(propInput?.value).getDate() >= currentDate.getDate(),
+        "day"
+      );
+      let inputDate = new Date(propInput.value);
+      const normalizedInputDate = new Date(
+        inputDate.getFullYear(),
+        inputDate.getMonth(),
+        inputDate.getDate()
+      );
+      const normalizedCurrentDate = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate()
+      );
+      console.log(normalizedCurrentDate, "hoje cuzão");
+      console.log(normalizedInputDate, "no dia qu i o cara botou cuzaum");
+
+      if (normalizedInputDate.getTime() >= normalizedCurrentDate.getTime())
+        return false;
+      return true;
+
+      // if (new Date(propInput?.value).getFullYear() > currentDate.getFullYear())return false;
+      // if (new Date(propInput?.value).getMonth() > currentDate.getMonth() )return false;
+      // if (new Date(propInput?.value).getDate() >= currentDate.getDate())return false;
+      // return true;
+
+      // return (
+      //   !(new Date(propInput?.value).getFullYear() > currentDate.getFullYear() ||
+      //   new Date(propInput?.value).getMonth() > currentDate.getMonth() ||
+      //   new Date(propInput?.value).getDate() >= currentDate.getDate() )
+
+      // );
     }
   }
 
@@ -338,7 +434,6 @@ export const TesPropertiesSide = ({
           if (updateProp.value.value == null)
             updateProp.value.value = new DateWithGoogle(null, "", null);
           updateProp.value.value.dateTime = value.value + "-03:00";
-
         } else {
           console.log(value, "value");
           updateProp.value.value = value.value;
