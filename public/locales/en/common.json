@@ -460,5 +460,8 @@
   "tuto-created-page": "This is the page you created, now you can create tasks on it",
   "tuto-create-task": "Click here, now there will be an option to create a task",
   "tuto-create-task-button": "Here you create tasks",
+  "end": "End",
+  "error-create-chat": "The chat has already been created by a user or an error occurred while creating the chat",
+  "error-create-chat-title": "Error creating chat",
   "end": "End"
 }

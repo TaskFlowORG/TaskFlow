@@ -35,8 +35,10 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
+
     const { t } = useTranslation();
     const router = useRouter();
+    const asynThrow = useAsyncThrow();
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
@@ -68,7 +70,6 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const pegarMensagem = (event: any) => {
         setMensagem(event.target.value)
     }
-    const asynThrow = useAsyncThrow();
 
     async function enviarMensagem() {
         if (mensagem != "" || arquivoUrl != "") {
@@ -117,18 +118,23 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                             <div className="relative flex bg-primary rounded-full w-10 h-10 mx-5  border-2 border-primary dark:border-secondary">
                                 <Image fill className="rounded-full w-full h-full" src={photoUrl} alt="foto" />
                             </div>
-                            <div className="w-[65%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
-                                <h5 >{name || "Grupo sem nome"}</h5>
+                            <div className="w-[57%] lg:mx-2 text-black dark:text-white text-xl font-montserrat">
+                                <h5 className='truncate  '>{name || "Grupo sem nome"}</h5>
                             </div>
+                            <div className='flex justify-end'>
+                                <div onClick={() => router.replace(`/${user?.username}/chat`)} className='flex items-center justify-center w-10 h-10 lg:invisible visible mx-5'>
+                                    <GoBackIcon classes='w-8 h-8'></GoBackIcon>
+                                </div>
+                            </div>
+
                         </div>
-                        <div onClick={() => router.replace(`/${user?.username}/chat`)} className='flex items-center justify-center w-10 h-10 lg:invisible visible mx-5'>
-                            <GoBackIcon classes='w-8 h-8'></GoBackIcon>
-                        </div>
+
                     </div>
                     <div className="h-[63vh] lg:h-[73.5vh] overflow-y-scroll px-3 py-4 w-full">
                         <div className="flex  w-full flex-col gap-1">
-                            <div className="flex text-center justify-center py-5 text-p font-alata text-constrast">
-                                <p>{t("beginning-conversation")} {name || t("group-without-name")}</p>
+                            <div className="flex flex-col text-center items-center justify-center py-5 text-p font-alata text-constrast">
+                                <p>{t("beginning-conversation")}</p>
+                                <p className='truncate w-64'>{name || t("group-without-name")}</p>
                             </div>
                             {mensagens?.map((mensagem, index) => (
                                 <>
@@ -163,7 +169,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                     <div className="flex w-full lg:h-[67%] h-16 gap-3 lg:pb-0 pb-2 relative">
                         <div className=" w-full h-full  bg-input-grey dark:bg-back-grey flex  items-center px-5 shadow-blur-10 rounded-md   ">
                             <div className="w-full">
-                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} maxLength={255}/>
+                                <input onKeyDown={(event) => { if (event.key === "Enter") { enviarMensagem() } }} onChange={pegarMensagem} value={mensagem} className=" p w-full bg-transparent outline-none" type="text" placeholder={t("write-here")} maxLength={255} />
                             </div>
                             <div className="flex items-center justify-center w-12">
                                 <Keyboard setValue={setMensagem} bottom></Keyboard>

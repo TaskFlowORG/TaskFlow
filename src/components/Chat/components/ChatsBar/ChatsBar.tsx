@@ -53,7 +53,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
           </div>
           <div className=" col-start-2 col-end-3 flex flex-col justify-center items-start">
             <div>
-              <h5 className="text-h5 font-alata">{chat.name || "Grupo sem nome"}</h5>
+              <h5 className="text-h5 font-alata truncate w-72">{chat.name || "Grupo sem nome"}</h5>
             </div>
             <If condition={user?.id == lastMessage?.sender.id}>
               <If condition={lastMessage?.value != "" && lastMessage?.annex != null}>
