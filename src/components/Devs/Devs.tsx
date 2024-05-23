@@ -28,7 +28,7 @@ export const Devs = () => {
     {
       name: "Jonatas",
       description:
-        "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+        "Sou um profissional de tecnologia em programação e design UX/UI, com experiência em front-end e back-end, focado em criar soluções inovadoras para os usuários.",
       links: [
         "https://www.linkedin.com/in/jonatas-jackson-gon%C3%A7alves-554661274/",
         "https://github.com/Jonatass06",
@@ -37,7 +37,7 @@ export const Devs = () => {
     {
       name: "Luka",
       description:
-        "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+        "Criando soluções modernas e intuitivas! Focado em criar códigos acessíveis para todos os usuários, sem perder a qualidade estética e sempre inovando.",
       links: [
         "https://www.linkedin.com/in/gabriel-luka-00390230b/",
         "https://github.com/GabrielLukaA",
@@ -50,7 +50,7 @@ export const Devs = () => {
         "https://github.com/heloisaFogaca",
       ],
       description:
-        "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+        "A essência do meu trabalho está na paixão pela inovação, na busca incessante por novas formas de fazer as coisas, sempre com dedicação e comprometimento.",
     },
     {
       name: "Becker",
@@ -59,7 +59,7 @@ export const Devs = () => {
         "https://github.com/BeckerMM",
       ],
       description:
-        "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+        "Cada linha de código tem o poder de transformar o mundo, tornando o desenvolvedor um arquiteto de soluções, artista da inovação e guardião da excelência técnica.",
     },
     {
       name: "Marquardt",
@@ -68,13 +68,13 @@ export const Devs = () => {
         "https://github.com/Marquardtt",
       ],
       description:
-        "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+        "No mundo do software, a única limitação é a sua imaginação. Transforme linhas de código em novas soluções que moldarão o futuro.",
     },
   ];
 
   return (
     <div
-      className="w-full flex flex-col items-center gap-[5rem] py-10"
+      className="w-full flex flex-col items-center gap-[5rem] py-10 "
       id="devs"
     >
       <h2 className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
