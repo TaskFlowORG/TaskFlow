@@ -50,12 +50,12 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
 
   const asynThrow = useAsyncThrow();
 
+  async function buscarChats() {
+    const response = await chatService.findAllGroup().catch(asynThrow);
+    const response2 = await chatService.findAllPrivate().catch(asynThrow);
+    if (response && response2) setChats([...response, ...response2]), setChatsPrivados(response2), setChatsGrupos(response);
+  }
   useEffect(() => {
-    async function buscarChats() {
-      const response = await chatService.findAllGroup().catch(asynThrow);
-      const response2 = await chatService.findAllPrivate().catch(asynThrow);
-      if (response && response2) setChats([...response, ...response2]), setChatsPrivados(response2), setChatsGrupos(response);
-    }
     buscarChats();
   }, [user]);
 
@@ -152,6 +152,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     setPossibleChats(possibleChats.filter((c) => c != chat));
     setCreatingChat(false);
     setFilteredChats([...filteredChats, chatPost]);
+    buscarChats();
   };
 
   const [error, setError] = useState<boolean>(false);
