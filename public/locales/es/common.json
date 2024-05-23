@@ -431,5 +431,8 @@
   "tuto-created-page": "Esta es la página que has creado, ahora puedes crear tareas en ella",
   "tuto-create-task": "Haz clic aquí, ahora habrá una opción para crear una tarea",
   "tuto-create-task-button": "Aquí puedes crear tareas",
-  "end": "Fin"
+  "end": "Fin",
+  "error-create-chat": "El chat ya fue creado por un usuario o ocurrió un error al crear el chat",
+  "error-create-chat-title": "Error al crear chat"
+  
 }
