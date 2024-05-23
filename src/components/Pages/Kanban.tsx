@@ -64,6 +64,7 @@ export const Kanban = ({ page, user }: Props) => {
     setSelectedTask!(task.task);
   }
 
+
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
     if (separatedNumbers.length === 2) {

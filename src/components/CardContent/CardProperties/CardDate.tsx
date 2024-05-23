@@ -22,6 +22,7 @@ export const CardDate = ({ date, property, showNameProperty }: Props) => {
         <div className="w-4 aspect-square">
           <IconCalendar></IconCalendar>
         </div>
+
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
+
 export const Default = () => {
     const {t} = useTranslation()
     const {theme} = useTheme()
@@ -38,9 +39,9 @@ export const Default = () => {
       },
     ];
 
+
     const [image, setImage] = useState<string>("projectsSide.svg");
     const [imageDark, setImageDark] = useState<string>("projectsSideDark.svg");
-
   return (
     <div className="flex gap-16 p-8">
       <div className="flex flex-col items-end  gap-12 w-max  ">
@@ -70,3 +71,4 @@ export const Default = () => {
     </div>
   );
 };
+

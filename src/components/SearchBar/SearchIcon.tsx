@@ -16,7 +16,7 @@ export const SearchIcon = ({ icon, open, acessibilityLabel, invert }: Props) => 
         <span className={classes} onClick={() =>{
 
             open()
-            
         } }> {icon}</span>
+
     )
 }

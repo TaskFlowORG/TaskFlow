@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "react-i18next";
 
+
 export const Footer = () => {
 
     const {t} = useTranslation()
@@ -15,6 +16,7 @@ export const Footer = () => {
                     <Image fill src="/Assets/logo/iconDark.svg" alt="iconDark"  />
                     </div>
                     <p className=" font-alata h5 text-white">{t('organization-freedom')}</p>
+
                 </div>
 
                 <div className="flex flex-col justify-start w-[60%] lg:w-full ">
@@ -27,9 +29,9 @@ export const Footer = () => {
                     </div>
                 </div>
             </div>
-
             <div className="h-1/6 w-full bg-white dark:bg-back-grey flex justify-center items-center">
                     <p className="font-alata text-primary dark:text-white">{t('copyright')}</p>
+
 
                 </div>
 

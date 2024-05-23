@@ -1,9 +1,11 @@
 import React, { ChangeEventHandler, forwardRef, useId, useState } from "react";
 import { InputHTMLAttributes } from "react";
+
 import * as S from "./style";
 import { If } from "@/components/If";
 import Image from "next/image";
 import { InvisibleIcon, VisibleIcon } from "../icons";
+
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
     
     label?: string;
@@ -87,3 +89,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
+

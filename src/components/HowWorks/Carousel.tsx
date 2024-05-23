@@ -6,6 +6,9 @@ import { LandingPageCardContent } from "@/components/CardContent";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 
+import Image from "next/image";
+
+
 interface Props {
   change: () => number;
 }
@@ -17,6 +20,7 @@ export const Carousel = ({ change }: Props) => {
   const [image, setImage] = useState<string>("projectsSide.svg");
   const [imageDark, setImageDark] = useState<string>("projectsSideDark.svg");
   const {t} = useTranslation()
+
 
 
 
@@ -77,10 +81,10 @@ export const Carousel = ({ change }: Props) => {
           );
         })}
       </Swiper>
-
       <div className="w-full p-8">
         <img src={theme == 'light' ? "/"+image : "/"+imageDark} alt="" className="w-full" />
       </div>
     </>
   );
 };
+

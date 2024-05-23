@@ -16,6 +16,7 @@ export const Loading = () => {
                 <div className="w-3 aspect-square bg-zinc-600 dark:bg-zinc-400 absolute top-[4.4rem]  animate-custom-pulse animation-delay-600  right-[1.80rem] z-[960]" style={style}></div>
                 <div className="w-3 aspect-square bg-zinc-600 dark:bg-zinc-400 absolute top-[4.4rem]  animate-custom-pulse  animation-delay-400  right-0 z-[960]" style={style}></div>
                 <div className="w-7 aspect-square bg-zinc-600 dark:bg-zinc-400 absolute top-[5.25rem] animate-custom-pulse  animation-delay-200 right-8 z-[960]" style={style}></div>
+
             </div>
         </div>
     )

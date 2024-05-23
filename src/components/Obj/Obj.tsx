@@ -4,6 +4,7 @@ import { archiveToSrc } from "@/functions";
 import { Group, OtherUser, TaskPage, User } from "@/models";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { AnimatePresence, motion } from "framer-motion";
+
 import Link from "next/link";
 import { ComponentProps, useState } from "react";
 import { SelectTypeObj } from "./components";
@@ -64,7 +65,6 @@ export const Obj = ({
     (color
       ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white"
       : " bg-primary dark:bg-secondary text-contrast ");
-
   return (
     <AnimatePresence initial={false}>
       <div
@@ -146,3 +146,4 @@ export const Obj = ({
     </AnimatePresence>
   );
 };
+

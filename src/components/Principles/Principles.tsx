@@ -1,4 +1,6 @@
+
 import { useTranslation } from 'react-i18next';
+
 import { FlippableCard } from './FlippableCard';
 
 export const Principles = () => {
@@ -14,6 +16,7 @@ export const Principles = () => {
                 <FlippableCard description={t('our-mission')} title={t('mission')} content={t('mission-statement')} img={"missao.png"} />
                 <FlippableCard description={t('our-vision')} title={t('vision')} content={t('changing-world')} img={"missao.png"} />
                 <FlippableCard description={t('our-values')} title={t('values')} content={t('commitment-to-excellence')} img={"missao.png"} />
+
 
             </div>
         </div>

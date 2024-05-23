@@ -1,3 +1,4 @@
+
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useContext, useEffect, useRef } from "react";
 import { useClickAway } from "react-use";
@@ -6,6 +7,7 @@ import { Dictophone } from "../Dictophone";
 import Image from "next/image";
 type Props = {
   setIsModalOpen:(a: boolean) => void;
+
 }
 
 export const SearchInput = ({setIsModalOpen}:Props) => {
@@ -29,6 +31,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
     <div ref={ref} className="w-full   max-w-[600px] h-12 shadow-[0_0_2px_1px_rgba(0,0,0,0.1)] flex-1 flex justify-between dark:bg-modal-grey bg-white rounded-xl border-primary dark:border-secondary border-b-[1px] px-4">
       <div className="gap-4 flex  ">
         <Image width={24} height={24} src="/search.svg" alt="search" className="self-center " />
+
         <p>|</p>
       </div>
       <input
@@ -39,6 +42,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
           setInput!(""); setIsModalOpen(false)
         }} }
         className="w-full text-p h-13  font-montserrat outline-none dark:bg-modal-grey bg-white text-modal-grey dark:text-white"
+
         onChange={(e) => {
           setInput!(e.target.value);
         }}
@@ -47,6 +51,7 @@ export const SearchInput = ({setIsModalOpen}:Props) => {
       <div className="gap-3 flex">
         <Keyboard  setValue={(value:string) => setInput!(value)} />
         <Dictophone  setText={setInput!}/>
+
       </div>
     </div>
   );

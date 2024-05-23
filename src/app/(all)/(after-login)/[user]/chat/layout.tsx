@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import { Chat, ChatGroupPost, ChatPrivatePost } from "@/models";
 import { ChatsBar } from "../../../../../components/Chat/components/ChatsBar";
 import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
+
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 import { UserContext } from "@/contexts/UserContext";
@@ -17,6 +18,7 @@ import { onConnect } from "@/services/webSocket/webSocketHandler";
 import { If } from "@/components/If";
 import { ErrorModal } from "@/components/ErrorModal";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+
 
 export default function ChatMessages({ children }: { children: React.ReactNode }) {
   const route = useRouter();
@@ -153,6 +155,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   };
 
   const [error, setError] = useState<boolean>(false);
+
 
   return (
     <>

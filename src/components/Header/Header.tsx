@@ -79,7 +79,6 @@ export const Header = ({
           />
         </Link>
 
-
         <div className="w-10 h-min hidden sm:block" >
           <SelectWithImage onChange={lang => changeLanguage(lang as Language)} selected={language ?? Language.PORTUGUESE}
             list={[{ value: Language.PORTUGUESE, image: <Image alt="Portuguese" width={24} height={12} src="/img/flags/brazil.jpg" className="select-none rounded-sm" /> },

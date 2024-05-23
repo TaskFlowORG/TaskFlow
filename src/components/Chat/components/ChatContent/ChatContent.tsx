@@ -1,3 +1,4 @@
+
 import Image from 'next/image'
 import { MessageContent } from "@/components/Chat/components/MessageContent";
 import { Chat, Message, OtherUser } from "@/models"
@@ -15,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 import { useRouter } from 'next/navigation';
 import { IconSend } from '@/components/icons/GeneralIcons/IconSend';
+
 
 interface MessageGroup {
     id: number,
