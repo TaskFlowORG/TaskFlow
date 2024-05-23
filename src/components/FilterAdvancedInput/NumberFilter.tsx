@@ -59,10 +59,10 @@ export const NumberFilter = ({ id, value, name, isInModal = false }: Props) => {
 
   return (
     <div className={styleWithBorder}>
-      {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
+      {!isInModal && <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">{name}:</p>}
       <div className="flex py-2">
         <input
-          className=" input-number  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-p14"
+          className=" input-number font-montserrat  max-w-[100px] text-center py-1 px-3 text-black dark:text-white border-y-2  focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 text-p14"
           placeholder={t("insert-expected-value")}
           disabled={isDisabled}
           type="number"

@@ -9,7 +9,7 @@ import {
 } from "@/models";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import {
   Dispatch,
   SetStateAction,
@@ -25,6 +25,9 @@ import { isProject } from "@/functions/modalTaskFunctions/isProject";
 import { valuesOfObjects } from "@/functions/modalTaskFunctions/valuesOfObjects";
 import { CardTime } from "../CardContent/CardProperties/CardTime";
 import { UserContext } from "@/contexts/UserContext";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { useTranslation } from "react-i18next";
+import { useIsDisabled } from "@/functions/modalTaskFunctions/isDisabled";
 
 type PropsForm = {
   property: PropertyValue;
@@ -142,6 +145,7 @@ export const TimeFilter = ({
     verifyEnd();
   }, [seconds]);
 
+  const { setSelectedTask } = useContext(TaskModalContext);
   const handleClickRestart = async () => {
     value.time.hours = 0;
     value.time.minutes = 0;
@@ -216,21 +220,6 @@ export const TimeFilter = ({
     }
   }, [value]);
 
-  const updateTask = async (value: Interval) => {
-    let propertyFinded = valuesOfObjects(task).find(
-      (prop) => prop.property.id == id
-    )!;
-    propertyFinded.value.value = value;
-    if (!isProject(task)) {
-      let taskReturned = await taskService.upDate(task as Task, project!.id);
-      const page = project?.pages.find((page) => page.id == pageId);
-      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskPage) {
-        taskPage.task = taskReturned;
-      }
-      setProject!({ ...project! });
-    }
-  };
   const handleClickPause = async () => {
     setPlay(false);
     value.ends.push(new DateTimelines(now()));
@@ -253,9 +242,12 @@ export const TimeFilter = ({
       if (taskPage) {
         taskPage.task = taskReturned;
       }
+      setSelectedTask!(taskReturned);
       setProject!({ ...project! });
     }
   };
+
+  const { t } = useTranslation();
 
   const handleClickPlay = async () => {
     setPlay(true);
@@ -274,9 +266,12 @@ export const TimeFilter = ({
       if (taskPage) {
         taskPage.task = taskReturned;
       }
+      setSelectedTask!(taskReturned);
       setProject!({ ...project! });
     }
   };
+
+  const isDisabled = useIsDisabled(true, "update");
 
   const verifyEnd = async () => {
     // let totalTimeInSeconds = hours * 60 * 60 + minutes * 60 + seconds;
@@ -288,7 +283,7 @@ export const TimeFilter = ({
       let propFinded = formProps.find(
         (prop) => prop.property.property.id == formProp.property.property.id
       )!;
-      propFinded?.errors.push("O valor chegou ao tempo máximo da propriedade!");
+      propFinded?.errors.push(t("value-max-time-property"));
       setFormProps([...formProps]);
       setErrors(true);
       setPlay(false);
@@ -332,10 +327,34 @@ export const TimeFilter = ({
         if (taskPage) {
           taskPage.task = taskReturned;
         }
+        setSelectedTask!(taskReturned);
         setProject!({ ...project! });
       }
 
       // handleClickPause();
+    }
+  };
+
+  const handleUpdateColor = async (e: any) => {
+    console.log(e.target.value);
+    value.color = e.target.value;
+    if (!isProject(task)) {
+      const taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setSelectedTask!(taskReturned);
+      setProject!({ ...project! });
+    } else {
+      const projectReturned = await projectService.update(
+        task as Project,
+        project!.id
+      );
+      setProject!({ ...projectReturned! });
+
+      // setProject!({ ...projectReturned! });
     }
   };
   useEffect(() => {
@@ -348,8 +367,23 @@ export const TimeFilter = ({
   }, [seconds, minutes, play]); // O segundo argumento é uma matriz de dependências vazia, o que significa que o efeito só é executado uma vez após a montagem do componente
 
   return (
-    <div className="flex gap-8">
-      <div className="flex gap-1">
+    <div className="flex gap-4 items-center">
+      <NeedPermission permission="update">
+        <span
+          className="h-4 w-4 rounded-full border-[1px] border-zinc-200 shadow-blur-10 dark:shadow-blur-20 "
+          style={{ backgroundColor: value.color }}
+        >
+          <input
+            type="color"
+            value={value.color}
+            disabled={isDisabled}
+            onChange={handleUpdateColor}
+            className="h-full w-full opacity-0 disabled:opacity-0"
+          />
+        </span>
+      </NeedPermission>
+
+      <div className="flex gap-1 items-center">
         <p className="pr-4 text-p14">
           {hours < 10 ? "0" + hours : hours}:
           {minutes < 10 ? "0" + minutes : minutes}:

@@ -76,20 +76,20 @@ export const Select = ({
   return (
     <div className={styleWithBorder}>
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap">{name}:</p>
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">{name}:</p>
       )}
       {/* aqui embaixo é w-fit */}
       <div className=" relative">
         <select
           disabled={isDisabled}
-          className="appearance-none bg-transparent p-1 text-sm outline-none border-[2px] border-primary dark:border-secondary rounded-lg text-primary dark:text-secondary text-center w-full h-min pr-20"
+          className="appearance-none bg-transparent font-montserrat p-1 text-p14 outline-none border-[2px] border-primary dark:border-secondary rounded-lg text-primary dark:text-secondary text-center w-full h-min pr-20"
           // {...props}
           value={selectedOption}
           onChange={handleOptionChange}
           // onChange={e => change(e.target.value)} defaultValue={defaultValue}
         >
           <option
-            className="w-full text-center"
+            className="w-full text-center font-montserrat text-p14"
             value="244a271c-ab15-4620-b4e2-a24c92fe4042"
           >
             {t("select")}...
@@ -99,7 +99,7 @@ export const Select = ({
               <option
                 value={o.name ?? o}
                 key={index}
-                className="w-full text-center"
+                className="w-full text-center font-montserrat text-p14"
               >
                 {o.name ?? o}
               </option>

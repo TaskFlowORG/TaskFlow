@@ -44,7 +44,7 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
       )}
 
       <input
-        className="flex-1 py-1 px-3  text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg text-sm"
+        className="flex-1 py-1 px-3 text-p14 font-montserrat text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg "
         placeholder={t("insert-expected-value")}
         disabled={isDisabled}
         value={valued == 'null' ? "" : valued}
