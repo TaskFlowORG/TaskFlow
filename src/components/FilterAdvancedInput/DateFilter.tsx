@@ -86,13 +86,13 @@ export const DateFilter = ({
   return (
     <div className={style}>
       {!isInModal && (
-        <p className=" text-black dark:text-white text-p14">{name}:</p>
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">{name}:</p>
       )}
       <input
         ref={refDate}
         step="1"
         disabled={isDisabled}
-        className="flex-1 py-1 px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  text-sm"
+        className="flex-1 py-1 text-p14 font-montserrat px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  "
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
         value={(property as DateP).includesHours ? valued : valued?.split("T")[0]}
         // onChange={(e) => setDate(e.target.value)}

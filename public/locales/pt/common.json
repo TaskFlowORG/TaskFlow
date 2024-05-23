@@ -214,6 +214,15 @@
   "checkbox": "Checkbox",
   "radio": "Radio",
   "progress": "Progresso",
+  "file-size-exceeded": "Tamanho de arquivo maior que o permitido!",
+  
+  "value-max-time-property": "O valor chegou ao tempo máximo da propriedade!",
+  
+    "task-complete": "Tarefa completa!",
+    "request-complete-task": "Houve um pedido para completar a tarefa, deseja completá-la?",
+    "task-in-review": "Tarefa em revisão!",
+    "complete-task": "Completar Tarefa!"
+  ,
   "time": "Tempo",
   "text-info": "Uma propriedade de texto é um campo de texto que pode ser preenchido com qualquer informação que você desejar. Nela você pode definir um tamanho máximo de caracteres entre outras configurações.",
   "archive-info": "Uma propriedade de arquivo é um campo que permite o upload de arquivos de qualquer tipo. Você pode definir o tamanho máximo do arquivo e outras configurações.",

@@ -43,9 +43,7 @@ export const Comment = ({
   );
   const comment = twMerge(
     "font-montserrat focus:font-semibold self-center  outline-none text-[#343434] dark:text-[#f2f2f2]",
-    sender.id == user.id
-      ? "text-end text-p14 md:text-p"
-      : "text-p14 md:text-p"
+    sender.id == user.id ? "text-end text-p14 md:text-p" : "text-p14 md:text-p"
   );
 
   useEffect(() => {
@@ -151,9 +149,12 @@ export const Comment = ({
 
         <p className="text-mn font-montserrat text-[#343434] dark:text-[#f2f2f2]">
           {updatedAt && t("edited") + " - "}
-          {!(user.id == sender.id)
-            ? sender?.username
-            : t("you")} - {dateFormat(new Date(date))}
+          {!(user.id == sender.id) ? sender?.username : t("you")} -{" "}
+          {new Date(date).toLocaleDateString() +
+            " - " +
+            new Date(date).toLocaleTimeString().split(":")[0] +
+            ":" +
+            new Date(date).toLocaleTimeString().split(":")[1]}
         </p>
       </div>
     </div>

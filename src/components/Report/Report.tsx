@@ -4,6 +4,7 @@ import {
   Archive,
   ArchiveValued,
   Log,
+  Date as DateP,
   Option,
   Project,
   Property,
@@ -232,7 +233,11 @@ export const Report = ({
             : user.username
         );
       case TypeOfProperty.DATE:
-        return dateFormat(new Date(log.value.value.value?.dateTime as string));
+        if((log.value.property as DateP).includesHours){
+          let fodase = new Date(log.value.value.value?.dateTime).toLocaleTimeString();
+          return new Date(log.value.value.value?.dateTime).toLocaleDateString()+ " , " + fodase
+        }
+        return new Date(log.value.value.value?.dateTime).toLocaleDateString()
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.TEXT:
         return log.value.value.value;

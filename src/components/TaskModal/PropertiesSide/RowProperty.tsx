@@ -81,7 +81,7 @@ export const RowProperty = ({
           isInModal
           id={prop.property.id}
           name={prop.property.name}
-          value={prop.value?.value}
+          value={prop.value?.value ?? ''}
         />
       );
     case TypeOfProperty.TIME:

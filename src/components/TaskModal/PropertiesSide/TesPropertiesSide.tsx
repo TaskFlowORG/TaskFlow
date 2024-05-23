@@ -108,42 +108,6 @@ export const TesPropertiesSide = ({
     }
   }
 
-  const passObligatoryVerification = (propertyForm: PropsForm): boolean => {
-    if (propertyForm.property.property.obligatory) {
-      let inputProperty = filter.find(
-        (propV) => propV.id == propertyForm.property.property.id
-      );
-
-      if (inputProperty) {
-        if (
-          inputProperty.value == "" ||
-          inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
-          inputProperty.value.length == 0
-        ) {
-          propertyForm.errors.push(`${t("property-required")}`);
-          setPropertiesToValidate([...propertiesToValidate]);
-          return false;
-        } else {
-          propertyForm.errors = [];
-          setPropertiesToValidate([...propertiesToValidate]);
-          return true;
-        }
-      } else {
-        if (
-          !propertyForm.property.value.value ||
-          propertyForm.property.value.value.length == 0
-        ) {
-          propertyForm.errors.push(`${t("property-required")}`);
-          setPropertiesToValidate([...propertiesToValidate]);
-          return false;
-        } else {
-          return true;
-        }
-      }
-    } else {
-      return true;
-    }
-  };
   const validateProps = (): boolean => {
     propertiesToValidate.forEach((propertyForm) => {
       let errors = [];
@@ -172,10 +136,12 @@ export const TesPropertiesSide = ({
             console.log(propertiesToValidate);
           }
         } else {
+          console.log(propertyForm.property.value.value, "Devia ter funfado");
           if (
             !propertyForm.property.value.value ||
             propertyForm.property.value.value.length == 0
           ) {
+            console.log("Carai i né que to vazi");
             errors.push(`${t("property-required")}`);
             // propertyForm.errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
@@ -301,6 +267,7 @@ export const TesPropertiesSide = ({
             } else {
               console.log(propertyForm.property.value.value);
               if (
+                propertyForm.property.value.value &&
                 testIfIsPass(propertyForm, new Date(), {
                   id: 0,
                   value: propertyForm.property.value.value?.dateTime,
@@ -532,6 +499,7 @@ export const TesPropertiesSide = ({
         let page = project!.pages.find((page) => pageId == page.id);
         let taskFinded = page?.tasks.find((taskD) => taskD.task.id == task.id);
         taskFinded!.task = taskReturned;
+        setSelectedTask!(taskReturned);
         setProject!({ ...project! });
       } else {
         // (task as Project).values = valuesOfObjects(task)
@@ -565,94 +533,97 @@ export const TesPropertiesSide = ({
       {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
       <div className="w-full">
         {/* bg-black */}
-        <div className="flex max-w-full flex-col gap-5 h-full max-h-[460px] min-h-[450px] none-scrollbar overflow-auto bah pr-4 w-full">
-          {valuesOfObjects(task).map((prop) => {
-            return (
-              <div
-                key={prop.id}
-                className="bg-white dark:bg-transparent flex flex-col"
-              >
-                <div className="flex sm:gap-8 gap-4 w-full items-center text-back-grey dark:text-white">
-                  <NeedPermission permission="update">
-                    <ConfigBlock
-                      onClick={() => {
-                        if (isTaskProperty(prop.property)) {
-                          setOpenedConfig(!openedConfig);
-                          setIdConfig(prop.property.id);
-                        } else {
-                          setIsOpen!(false);
-                          setPropertyId!(prop.property.id);
-                        }
-                      }}
-                    ></ConfigBlock>
-                  </NeedPermission>
+        <div className="flex max-w-full flex-col gap-5 h-full max-h-[460px] min-h-[450px]  overflow-auto bah pr-4 w-full">
+          {valuesOfObjects(task)
+            .sort((a: PropertyValue, b: PropertyValue) => a.id! - b.id!)
+            .map((prop) => {
+              return (
+                <div
+                  key={prop.id}
+                  className="bg-white dark:bg-transparent flex flex-col"
+                >
+                  <div className="flex sm:gap-8 gap-4 w-full items-center text-back-grey dark:text-white">
+                    <NeedPermission permission="update">
+                      <ConfigBlock
+                        onClick={() => {
+                          if (isTaskProperty(prop.property)) {
+                            setOpenedConfig(!openedConfig);
+                            console.log(prop.property.id);
+                            setIdConfig(prop.property.id);
+                          } else {
+                            setIsOpen!(false);
+                            setPropertyId!(prop.property.id);
+                          }
+                        }}
+                      ></ConfigBlock>
+                    </NeedPermission>
 
-                  <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
-                    <div className="flex w-full items-center flex-1 gap-3">
-                      <div className="w-5 aspect-square">
-                        <IconsSelector property={prop.property} />
+                    <div className="flex flex-wrap justify-between items-center gap-2 flex-1">
+                      <div className="flex w-full items-center flex-1 gap-3">
+                        <div className="w-5 aspect-square">
+                          <IconsSelector property={prop.property} />
+                        </div>
+                        <p
+                          className="font-montserrat text-p14 md:text-p"
+                          // onClick={() => handleValidate()}
+                        >
+                          {prop.property.name}
+                        </p>
                       </div>
-                      <p
-                        className="font-montserrat text-p14 md:text-p"
-                        // onClick={() => handleValidate()}
-                      >
-                        {prop.property.name}
-                      </p>
-                    </div>
-                    {[
-                      TypeOfProperty.SELECT,
-                      TypeOfProperty.ARCHIVE,
-                      TypeOfProperty.DATE,
-                      TypeOfProperty.NUMBER,
-                      TypeOfProperty.PROGRESS,
-                      TypeOfProperty.TEXT,
-                      TypeOfProperty.TIME,
-                      TypeOfProperty.USER,
-                    ].includes(prop.property.type) && (
-                      <RowProperty
-                        setErrors={setErrors}
-                        setFormProps={setPropertiesToValidate}
-                        formProps={propertiesToValidate}
-                        prop={prop}
-                        task={task}
-                      />
-                    )}
+                      {[
+                        TypeOfProperty.SELECT,
+                        TypeOfProperty.ARCHIVE,
+                        TypeOfProperty.DATE,
+                        TypeOfProperty.NUMBER,
+                        TypeOfProperty.PROGRESS,
+                        TypeOfProperty.TEXT,
+                        TypeOfProperty.TIME,
+                        TypeOfProperty.USER,
+                      ].includes(prop.property.type) && (
+                        <RowProperty
+                          setErrors={setErrors}
+                          setFormProps={setPropertiesToValidate}
+                          formProps={propertiesToValidate}
+                          prop={prop}
+                          task={task}
+                        />
+                      )}
 
-                    {[
-                      TypeOfProperty.CHECKBOX,
-                      TypeOfProperty.TAG,
-                      TypeOfProperty.RADIO,
-                    ].includes(prop.property.type) && (
-                      <ColumnProperty prop={prop} />
-                    )}
-                    {openedConfig && idConfig == prop.property.id && (
-                      <ContentPropertyModalTask
-                        closeOption={() => setOpenedConfig(false)}
-                        task={task}
-                        property={prop.property}
-                        close={() => setOpenedConfig(false)}
-                      />
-                    )}
+                      {[
+                        TypeOfProperty.CHECKBOX,
+                        TypeOfProperty.TAG,
+                        TypeOfProperty.RADIO,
+                      ].includes(prop.property.type) && (
+                        <ColumnProperty prop={prop} />
+                      )}
+                      {openedConfig && idConfig == prop.property.id && (
+                        <ContentPropertyModalTask
+                          closeOption={() => setOpenedConfig(false)}
+                          task={task}
+                          property={prop.property}
+                          close={() => setOpenedConfig(false)}
+                        />
+                      )}
+                    </div>
                   </div>
+                  {errors &&
+                  propertiesToValidate.find(
+                    (propV) => propV.property.property.id == prop.property.id
+                  )!.errors?.length > 0 ? (
+                    <p className="text-xs text-red-600 dark:text-pink-500 font-montserrat">
+                      {
+                        propertiesToValidate.find(
+                          (propV) =>
+                            propV.property.property.id == prop.property.id
+                        )!.errors[0]
+                      }
+                    </p>
+                  ) : (
+                    <></>
+                  )}
                 </div>
-                {errors &&
-                propertiesToValidate.find(
-                  (propV) => propV.property.property.id == prop.property.id
-                )!.errors?.length > 0 ? (
-                  <p className="text-xs text-red-600 font-montserrat">
-                    {
-                      propertiesToValidate.find(
-                        (propV) =>
-                          propV.property.property.id == prop.property.id
-                      )!.errors[0]
-                    }
-                  </p>
-                ) : (
-                  <></>
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
       <NeedPermission permission="create">

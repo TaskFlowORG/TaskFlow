@@ -10,6 +10,7 @@ import {
   UserValued,
   User,
   Archive,
+  Date as DateP
 } from "@/models";
 import { Interval } from "@/models/values/Interval";
 import { useTranslation } from "react-i18next";
@@ -71,14 +72,17 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
         );
 
       case TypeOfProperty.DATE:
-        return log.value.value.value?.dateTime;
+        if((log.value.property as DateP).includesHours){
+          let fodase = new Date(log.value.value.value?.dateTime).toLocaleTimeString();
+          return new Date(log.value.value.value?.dateTime).toLocaleDateString()+ " , " + fodase
+        }
+        return new Date(log.value.value.value?.dateTime).toLocaleDateString()
+        // return log.value.value.value?.dateTime;
         case TypeOfProperty.NUMBER:
       case TypeOfProperty.PROGRESS:
       case TypeOfProperty.TEXT:
         return log.value.value.value;
     }
-
-    return "Calma lá bicho";
   };
 
   // "log-update-task": "A propriedade '{{propertyname}}' da tarefa '{{taskname}}' foi atualizada para '{{propertyvalue}}' por '{{username}}'",
@@ -132,7 +136,7 @@ export const LogItem = ({ log, isInModal, item }: LogProps) => {
       </p>
       <div className="h-[2px]  w-1/2 bg-[#D9D9D9]"></div>
       <p className="font-montserrat focus:font-semibold  text-mn outline-none text-[#343434] dark:text-[#f2f2f2]">
-        {dateFormat(new Date(log.datetime))}
+        {new Date(log.datetime).toLocaleDateString()+" - "+new Date(log.datetime).toLocaleTimeString().split(":")[0]+":"+new Date(log.datetime).toLocaleTimeString().split(":")[1]}
       </p>
     </div>
   );
