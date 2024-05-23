@@ -7,7 +7,7 @@ import {
   PropertyValue,
   Task,
 } from "@/models";
-import { propertyValueService } from "@/services";
+import { projectService, propertyValueService } from "@/services";
 import { PageContext } from "@/utils/pageContext";
 import { useContext, useEffect, useState } from "react";
 import { archiveToDownload } from "@/functions";
@@ -55,17 +55,17 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
       setError(true);
     } else {
       setError(false);
-      let bah = await propertyValueService.updateArchiveInTask(
-        selectedFile,
-        project!.id,
-        propertyValue.id!
-      );
-      setName(selectedFile.name);
-      propertyValue.value = bah;
 
       // setName(bah.value.name);
-      setSrc(archiveToDownload(bah.value));
+      // setSrc(archiveToDownload(bah.value));
       if (!isProject(task)) {
+        let bah = await propertyValueService.updateArchiveInTask(
+          selectedFile,
+          project!.id,
+          propertyValue.id!
+        );
+        setName(selectedFile.name);
+        propertyValue.value = bah;
         let page = project?.pages.find((page) => page.id == pageId);
         let taskPage = page?.tasks.find((taskD) => taskD.task.id == task.id);
         let propValued = valuesOfObjects(task).find(
@@ -80,6 +80,15 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
         setSrc(archiveToDownload(bah.value));
         setProject!({ ...project! });
       } else {
+        let bah = await propertyValueService.updateArchive(
+          selectedFile,
+          project!.id,
+          propertyValue.id!
+        );
+        setName(selectedFile.name);
+        propertyValue.value = bah;
+        setSrc(archiveToDownload(bah.value));
+        setProject!({ ...project! });
       }
 
       // Atualiza o estado com o arquivo selecionado
@@ -100,10 +109,14 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
         {file && (
           <>
             <div className="flex gap-2 items-center">
-              <a className="w-4 aspect-square text-primary dark:text-secondary" href={src} download={value.name}>
-              <DownloadIcon></DownloadIcon>
+              <a
+                className="w-4 aspect-square text-primary dark:text-secondary"
+                href={src}
+                download={value.name}
+              >
+                <DownloadIcon></DownloadIcon>
               </a>
-              
+
               <p className="text-black dark:text-white text-p14  w-[200px] truncate ">
                 {file.name ? file.name : name}
               </p>
@@ -133,8 +146,8 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
         )}
       </div>
       {error && (
-        <p className="text-mn text-red-600 font-montserrat">
-          Tamanho de arquivo maior que o permitido!
+        <p className="text-xs text-red-600 dark:text-pink-500 font-montserrat">
+          {t("file-size-exceeded")}
         </p>
       )}
     </>

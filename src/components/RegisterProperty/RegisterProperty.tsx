@@ -24,6 +24,7 @@ import { set } from "react-hook-form";
 import { SideModal } from "../Modal";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
 
 type RegisterPropertyProps = {
   project: Project;
@@ -39,10 +40,31 @@ export const RegisterProperty = ({
   modalProperty,
 }: RegisterPropertyProps) => {
   const [isInProject, setIsInProject] = useState<boolean>(true);
+  const { propertyId, setPropertyId } = useContext(PropertyContext);
   const [propertiesArray, setPropertiesArray] = useState<Property[]>(
     isInProject ? project.properties : page?.properties || []
   );
   const { setProject } = useContext(ProjectContext);
+
+  useEffect(() => {
+    console.log("TU TA DE SACANAGEM, QUEISSO");
+    console.log(propertyId);
+    if (propertyId) {
+      console.log("CHEGUEI AQUI MEU MNAO LUKA RELAXA ");
+      if (project.properties.find((prop) => prop.id == propertyId)) {
+        setIsInProject(true);
+        setPropertiesArray(
+          project.properties || []
+        );
+      } else {
+        setPropertiesArray(
+          page?.properties || []
+        );
+        setIsInProject(false);
+      }
+    }
+  }, [propertyId, setPropertyId]);
+
   useEffect(() => {
     setPropertiesArray(
       isInProject ? project.properties : page?.properties || []
@@ -50,25 +72,24 @@ export const RegisterProperty = ({
   }, [isInProject, page, project]);
   const asynThrow = useAsyncThrow();
 
-
   const postProperty = async (
     name: string,
     values: any,
     selected: TypeOfProperty
   ) => {
-
-      let propertyObj;
-      if (
-        [
-          TypeOfProperty.TIME,
-          TypeOfProperty.USER,
-          TypeOfProperty.ARCHIVE,
-          TypeOfProperty.NUMBER,
-          TypeOfProperty.PROGRESS,
-          TypeOfProperty.TEXT,
-        ].includes(selected)
-      ) {
-        propertyObj = await propertyService.saveLimited(
+    let propertyObj;
+    if (
+      [
+        TypeOfProperty.TIME,
+        TypeOfProperty.USER,
+        TypeOfProperty.ARCHIVE,
+        TypeOfProperty.NUMBER,
+        TypeOfProperty.PROGRESS,
+        TypeOfProperty.TEXT,
+      ].includes(selected)
+    ) {
+      propertyObj = await propertyService
+        .saveLimited(
           project.id,
           new LimitedPost(
             name,
@@ -79,16 +100,18 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        ).catch(asynThrow);
-      } else if (
-        [
-          TypeOfProperty.CHECKBOX,
-          TypeOfProperty.TAG,
-          TypeOfProperty.RADIO,
-          TypeOfProperty.SELECT,
-        ].includes(selected)
-      ) {
-        propertyObj = await propertyService.saveSelect(
+        )
+        .catch(asynThrow);
+    } else if (
+      [
+        TypeOfProperty.CHECKBOX,
+        TypeOfProperty.TAG,
+        TypeOfProperty.RADIO,
+        TypeOfProperty.SELECT,
+      ].includes(selected)
+    ) {
+      propertyObj = await propertyService
+        .saveSelect(
           project.id,
           new SelectPost(
             name,
@@ -99,9 +122,11 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        ).catch(asynThrow);
-      } else {
-        propertyObj = await propertyService.saveDate(
+        )
+        .catch(asynThrow);
+    } else {
+      propertyObj = await propertyService
+        .saveDate(
           project.id,
           new DatePost(
             name,
@@ -113,58 +138,59 @@ export const RegisterProperty = ({
             !isInProject ? undefined : project!,
             !isInProject && page ? [page] : []
           )
-        ).catch(asynThrow);
-      }
-      if(propertyObj)
-      setPropertiesArray([...propertiesArray, propertyObj]);
-      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
-      if(projectTemp)
-      setProject!(projectTemp);
-
+        )
+        .catch(asynThrow);
+    }
+    if (propertyObj) setPropertiesArray([...propertiesArray, propertyObj]);
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(asynThrow);
+    if (projectTemp) setProject!(projectTemp);
   };
 
   const deleteProperty = async (property: Property) => {
-
-      propertyService.delete(project.id, property.id);
-      setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
-      const projectTemp = await projectService.findOne(project.id).catch(() => setError(true));
-      if(projectTemp)
-      setProject!(projectTemp);
-
+    propertyService.delete(project.id, property.id);
+    setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(() => setError(true));
+    if (projectTemp) setProject!(projectTemp);
   };
   const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
 
   const upDateProperty = async (property: Property, getValues: any) => {
-
-      let v;
-      if (
-        [
-          TypeOfProperty.TIME,
-          TypeOfProperty.USER,
-          TypeOfProperty.ARCHIVE,
-          TypeOfProperty.NUMBER,
-          TypeOfProperty.PROGRESS,
-          TypeOfProperty.TEXT,
-        ].includes(property.type)
-      ) {
-        const limited = new Limited(
-          property.id,
-          property.name,
-          property.type,
-          getValues.visible,
-          getValues.obligatory,
-          getValues.maximum
-        );
-        v = await propertyService.updateLimited(project.id, limited).catch(asynThrow);
-      } else if (
-        [
-          TypeOfProperty.CHECKBOX,
-          TypeOfProperty.TAG,
-          TypeOfProperty.RADIO,
-          TypeOfProperty.SELECT,
-        ].includes(property.type)
-      ) {
-        v = await propertyService.updateSelect(
+    let v;
+    if (
+      [
+        TypeOfProperty.TIME,
+        TypeOfProperty.USER,
+        TypeOfProperty.ARCHIVE,
+        TypeOfProperty.NUMBER,
+        TypeOfProperty.PROGRESS,
+        TypeOfProperty.TEXT,
+      ].includes(property.type)
+    ) {
+      const limited = new Limited(
+        property.id,
+        property.name,
+        property.type,
+        getValues.visible,
+        getValues.obligatory,
+        getValues.maximum
+      );
+      v = await propertyService
+        .updateLimited(project.id, limited)
+        .catch(asynThrow);
+    } else if (
+      [
+        TypeOfProperty.CHECKBOX,
+        TypeOfProperty.TAG,
+        TypeOfProperty.RADIO,
+        TypeOfProperty.SELECT,
+      ].includes(property.type)
+    ) {
+      v = await propertyService
+        .updateSelect(
           project.id,
           new Select(
             property.id,
@@ -174,9 +200,11 @@ export const RegisterProperty = ({
             getValues.obligatory,
             (property as Select).options
           )
-        ).catch(asynThrow);
-      } else {
-        v = await propertyService.updateDate(
+        )
+        .catch(asynThrow);
+    } else {
+      v = await propertyService
+        .updateDate(
           project.id,
           new Date(
             property.id,
@@ -190,13 +218,14 @@ export const RegisterProperty = ({
             getValues.schedule,
             getValues.color
           )
-        ).catch(asynThrow);
-      }
+        )
+        .catch(asynThrow);
+    }
 
-      const projectTemp = await projectService.findOne(project.id).catch(asynThrow);
-      if(projectTemp)
-      setProject!({ ...projectTemp });
-
+    const projectTemp = await projectService
+      .findOne(project.id)
+      .catch(asynThrow);
+    if (projectTemp) setProject!({ ...projectTemp });
   };
   const { t } = useTranslation();
 
@@ -221,7 +250,6 @@ export const RegisterProperty = ({
           />
         </NeedPermission>
       }
-
       header={
         <>
           <div className="h-min w-full flex justify-evenly items-center properties">
@@ -259,7 +287,10 @@ export const RegisterProperty = ({
         </>
       }
       condition={modalProperty}
-      setCondition={setModalProperty}
+      setCondition={(bool: boolean) => {
+        setModalProperty(bool);
+        setPropertyId!(0);
+      }}
       right
     >
       <div className="w-full properties h-full flex flex-col overflow-y-scroll none-scrollbar">
@@ -274,8 +305,13 @@ export const RegisterProperty = ({
           );
         })}
       </div>
-      <ErrorModal condition={error} setCondition={setError} title={t("cant-delete-prop")} message={t("cant-delete-prop-desc")} fnOk={() => setError(false)} />
-
+      <ErrorModal
+        condition={error}
+        setCondition={setError}
+        title={t("cant-delete-prop")}
+        message={t("cant-delete-prop-desc")}
+        fnOk={() => setError(false)}
+      />
     </SideModal>
   );
 };

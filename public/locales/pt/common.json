@@ -55,6 +55,8 @@
   "register-email": "Digite seu email",
   "register-password": "Digite sua senha",
   "confirm-password": "Confirme sua senha",
+  "delete-property": "Tem certeza que deseja deletar esta propriedade?",
+  "alert-property": "Observação: Ao deletar a propriedade, todos os projetos ou tarefas associadas serão afetados. Por favor, esteja ciente de que esta ação é irreversível e pode resultar na perda de dados importantes.",
   "back": "Voltar",
   "next": "Próximo",
   "send": "Enviar",
@@ -212,6 +214,15 @@
   "checkbox": "Checkbox",
   "radio": "Radio",
   "progress": "Progresso",
+  "file-size-exceeded": "Tamanho de arquivo maior que o permitido!",
+  
+  "value-max-time-property": "O valor chegou ao tempo máximo da propriedade!",
+  
+    "task-complete": "Tarefa completa!",
+    "request-complete-task": "Houve um pedido para completar a tarefa, deseja completá-la?",
+    "task-in-review": "Tarefa em revisão!",
+    "complete-task": "Completar Tarefa!"
+  ,
   "time": "Tempo",
   "text-info": "Uma propriedade de texto é um campo de texto que pode ser preenchido com qualquer informação que você desejar. Nela você pode definir um tamanho máximo de caracteres entre outras configurações.",
   "archive-info": "Uma propriedade de arquivo é um campo que permite o upload de arquivos de qualquer tipo. Você pode definir o tamanho máximo do arquivo e outras configurações.",
@@ -399,7 +410,6 @@
   "our-features": "Nossas Funcionalidades",
   "taskflow-functionality": "Como o TaskFlow funciona?",
   "organization-freedom": "A organização que te liberta!",
-
   "copyright": "© TaskFlow. Todos os direitos reservados",
   "tasks": "Tarefas",
   "mission-statement": "Nossa missão é simplificar o gerenciamento de tarefas, capacitando equipes com soluções inovadoras e colaborativas. Prezamos pela melhoria contínua no que fazemos.",
@@ -450,8 +460,8 @@
   "your-group-project": "Grupo no projeto",
   "withoutphone": "Sem telefone",
   "withoutemail": "Sem email",
-  "some-user-in-project-desc":"Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
-  "some-user-in-project":"Alguém já está no projeto",
+  "some-user-in-project-desc": "Alguma pessoa desse grupo já tem acesso a esse projeto, isso poderia acarretar em conflito de permissões, portanto você não pode adicionar esse grupo.",
+  "some-user-in-project": "Alguém já está no projeto",
   "profile-sucess": "Perfil atualizado com sucesso",
   "dont-change": "Nenhum campo foi alterado",
   "profile-photo-sucess": "Foto de perfil atualizada com sucesso",
@@ -473,6 +483,20 @@
   "tuto-create-task-button":"Aqui voce cria tarefas",
   "end":"Fim",
   "error-create-chat": "O chat já foi criado por algum usuário ou ocorreu algum erro durante a criação do chat",
-  "error-create-chat-title": "Erro ao criar chat"
-
+  "error-create-chat-title": "Erro ao criar chat",
+  "save": "Salvar",
+  "not-selected": "Não selecionado",
+  "tuto-step-group-click": "Clique aqui para visualizar os grupos",
+  "tuto-step-group-create": "Clique aqui para criar um novo grupo",
+  "tuto-back-sidebar": "Clique aqui para voltar a barra lateral",
+  "tuto-projects-page-open": "Agora, clique aqui para abrir a página de projetos",
+  "tuto-project-create": "Clique aqui para criar um novo projeto",
+  "tuto-create-property": "Clique aqui para abrir a barra lateral de propriedades",
+  "tuto-open-pages": "Clique aqui para abrir a barra lateral de páginas",
+  "tuto-create-page": "Clique aqui para criar uma nova página",
+  "tuto-create-page-final": "Clique aqui para escolher o Kanban",
+  "tuto-created-page": "Essa é a página que você criou, agora você pode criar tarefas nela",
+  "tuto-create-task": "Clique aqui, agora haverá uma opção de criar uma tarefa",
+  "tuto-create-task-button": "Aqui voce cria tarefas",
+  "end": "Fim"
 }

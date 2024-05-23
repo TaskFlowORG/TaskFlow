@@ -131,6 +131,7 @@ export const PersonalInformations = () => {
     try {
       await userService.delete(user.username);
       authentication.logout();
+      window.location.reload();
     } catch (error) {
       setError(true);
     }

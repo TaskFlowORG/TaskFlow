@@ -19,12 +19,13 @@ export const TaskName = ({ task }: Props) => {
   const { user } = useContext(UserContext);
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
-  const {setSelectedTask} = useContext(TaskModalContext);
+  const { setSelectedTask } = useContext(TaskModalContext);
   const [taskName, setTaskName] = useState("");
   const taskNameRef = useRef<any>(null);
   const { t } = useTranslation();
   async function updateNameTask(e: any) {
     if (task.name != e.target.value) {
+      // console.log("Atualizei o nome otário")
       task.name = e.target.value;
       setTaskName(e.target.value);
       await taskService.upDate(task as Task, project!.id);
@@ -75,7 +76,7 @@ export const TaskName = ({ task }: Props) => {
         <input
           className=" text-h4 font-alata xl:text-h3 flex-1 whitespace-nowrap bg-white dark:bg-modal-grey w-full outline-none"
           ref={taskNameRef}
-          disabled={( task?.completed ? true : !hasPermission)}
+          disabled={task?.completed ? true : !hasPermission}
           placeholder={t("withoutname")}
           value={taskName}
           onKeyDown={(e) => {
@@ -96,7 +97,7 @@ export const TaskName = ({ task }: Props) => {
               );
               let page = project?.pages.find((page) => pageId == page.id);
               task = taskReturned;
-              setSelectedTask!(task)
+              setSelectedTask!(task);
               if (page) {
                 const taskP = page.tasks.find(
                   (taskP) => taskP.task.id == task.id
@@ -111,32 +112,40 @@ export const TaskName = ({ task }: Props) => {
           }}
         >
           {task?.completed
-            ? "Tarefa completa!"
+            ? t("task-complete")
             : task?.waitingRevision
             ? user?.id == project?.owner.id
-              ? "Houve um pedido para completar a tarefa, deseja completá-la?"
-              : "Tarefa em revisão!"
-            : "Completar Tarefa!"}
+              ? t("request-complete-task")
+              : t("task-in-review")
+            : t("complete-task")}
           {user?.id == project?.owner.id && task?.waitingRevision && (
             <>
               <b className="px-2 underline">Sim</b>
-              <b className="underline" onClick={async (e)=>{
-                  e.stopPropagation()
-               let taskReturned = await taskService.cancelComplete(task.id, project?.id!)
-                let page = project?.pages.find((page) => pageId == page.id);
-                task = taskReturned;
-                setSelectedTask!(task)
-                if (page) {
-                  const taskP = page.tasks.find(
-                    (taskP) => taskP.task.id == task.id
+              <b
+                className="underline"
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  let taskReturned = await taskService.cancelComplete(
+                    task.id,
+                    project?.id!
                   );
-                  if (taskP) {
-                    taskP.task = taskReturned;
+                  let page = project?.pages.find((page) => pageId == page.id);
+                  task = taskReturned;
+                  setSelectedTask!(task);
+                  if (page) {
+                    const taskP = page.tasks.find(
+                      (taskP) => taskP.task.id == task.id
+                    );
+                    if (taskP) {
+                      taskP.task = taskReturned;
+                    }
                   }
-                }
-  
-                setProject!({ ...project! });
-              }}>Não</b>
+
+                  setProject!({ ...project! });
+                }}
+              >
+                Não
+              </b>
             </>
           )}
         </p>

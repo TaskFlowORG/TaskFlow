@@ -61,9 +61,9 @@ export const PermissionsAndCalendar = () => {
       new Date(
         t.task.properties.find(
           (p) => p.property.id == property?.id
-        )?.value.value.dateTime
+        )?.value?.value?.dateTime
       )
-  );
+  )
   useClickAway(ref, () => setOpenPermissions(false));
   const tileContent = ({ date }: { date: Date }) => {
     // Verifica se a data atual está na lista de datas destacadas
@@ -129,7 +129,7 @@ export const PermissionsAndCalendar = () => {
       })
       .map((t) => t.task);
       console.log(tasksFiltering)
-    setFilteredTasks(tasksFiltering);
+    setFilteredTasks(tasksFiltering.filter((tsk1, index) => tasksFiltering.findLastIndex(tsk2 => tsk1.id == tsk2.id) == index));
   }, [date, property]);
 
   const refButton = useRef<HTMLButtonElement>(null);

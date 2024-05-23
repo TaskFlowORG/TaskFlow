@@ -121,6 +121,7 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props
                               >
                                 <CardContent user={user} task={item.task as Task} />
                               </RoundedCard>
+                              {/* <span className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">{item.indexAtColumn}</span> */}
                             </div>
                           );
                         }}

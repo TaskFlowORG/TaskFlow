@@ -33,8 +33,10 @@ import { get } from "http";
 import { IconEditColoured } from "../icons/PageOtpions/IconEditCoulored";
 import { projectService, propertyService } from "@/services";
 import { ErrorModal } from "../ErrorModal";
+import { PropertyContext } from "@/utils/PropertyContext";
 import { ProjectContext } from "@/contexts";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+
 
 type ModalPropertyProps = {
   property: Property;
@@ -47,6 +49,9 @@ export const ModalProperty = ({
   deleteProperty,
   upDateProperties,
 }: ModalPropertyProps) => {
+
+  const {propertyId, setPropertyId} = useContext(PropertyContext)
+
   const [isHovering, setIsHovering] = useState(false);
   const [ModalDelete, setModalDelete] = useState(false);
   const [prop, setProp] = useState<Property>(property);
@@ -116,6 +121,10 @@ export const ModalProperty = ({
 
   const textRef = useRef<HTMLInputElement>(null);
 
+  useEffect(()=>{
+    if(propertyId == property.id) setOpenOptions(true);
+  },[propertyId, setPropertyId])
+
   useEffect(() => {
     if (editing && textRef.current) {
       textRef.current.focus();
@@ -128,6 +137,7 @@ export const ModalProperty = ({
   const saveName = async () => {
     if(!project) return;
     setEditing(false);
+
     if(property.type === TypeOfProperty.DATE){
       await propertyService.patchDate(project.id, {id:property.id, name: name} as Date).catch(asyncThrow);
     }else if([TypeOfProperty.ARCHIVE, TypeOfProperty.NUMBER, TypeOfProperty.PROGRESS, TypeOfProperty.TIME, TypeOfProperty.TEXT, TypeOfProperty.USER].includes(property.type)){
@@ -138,6 +148,7 @@ export const ModalProperty = ({
     const projectTemp = await projectService.findOne(project.id).catch(asyncThrow);
     if(setProject && projectTemp){
       setProject(projectTemp);
+
     }
   }
 
@@ -164,21 +175,21 @@ export const ModalProperty = ({
         renaming={editing}
         icon={
           editing ?
-          <span onClick={(e) => {e.stopPropagation();saveName()}}>
+            <span onClick={(e) => { e.stopPropagation(); saveName() }}>
               <IconSave />
-          </span>
-          :
-          isHovering ? (
-            <span onClick={(e) => {e.stopPropagation();setEditing(!editing)}}>
-              <IconEditColoured />
             </span>
-          ) : (
-            fnReturnImageProperty(property.type)
-          )
+            :
+            isHovering ? (
+              <span onClick={(e) => { e.stopPropagation(); setEditing(!editing) }}>
+                <IconEditColoured />
+              </span>
+            ) : (
+              fnReturnImageProperty(property.type)
+            )
         }
         openOptions={openOptions}
         fnClick={() => {
-          setOpenOptions(editing ? false: !openOptions);
+          setOpenOptions(editing ? false : !openOptions);
         }}
         fnOpenOptions={setOptionsFN}
         textRef={textRef}
@@ -208,9 +219,8 @@ export const ModalProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                    upDateProperties(property, getValues());
-                    setOpenOptions(false);
-
+                  upDateProperties(property, getValues());
+                  setOpenOptions(false);
                 }}
               >
                 <IconSave />
@@ -224,7 +234,7 @@ export const ModalProperty = ({
           isClosed={ModalDelete}
           property={property}
           deleteProperty={deleteProperty}
-          close={() => setModalDelete}
+          close={() => setModalDelete(false)}
           closeProperty={() => setOpenOptions(false)}
         />
       )}

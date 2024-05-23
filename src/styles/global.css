@@ -553,7 +553,8 @@ select::-ms-expand {
 ::-webkit-scrollbar-thumb {
   border-radius: 7px;
 
-  background: var(--primary-color);
+  @apply bg-primary dark:bg-secondary !important;
+  /* background: var(--primary-color);  */
 }
 
 .pAlata {

@@ -34,11 +34,11 @@ export const CardCheckbox = ({
             {tags.map((tag) => {
               return (
                 <p
-                  key={tag.id}
-                  style={{ color: tag.color }}
+                  key={tag?.id}
+                  style={{ color: tag?.color }}
                   className="text-mn whitespace-break-spaces rounded-md max-w-full"
                 >
-                  {tag.name}
+                  {tag?.name}
                 </p>
               );
             })}
