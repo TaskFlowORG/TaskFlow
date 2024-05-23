@@ -9,7 +9,7 @@ import {
 } from "@/models";
 import { Duration } from "@/models/values/Duration";
 import { Interval } from "@/models/values/Interval";
-import { taskService } from "@/services";
+import { projectService, taskService } from "@/services";
 import {
   Dispatch,
   SetStateAction,
@@ -338,6 +338,26 @@ export const TimeFilter = ({
       // handleClickPause();
     }
   };
+
+  const handleUpdateColor = async (e: any) => {
+    console.log(e.target.value);
+    value.color = e.target.value;
+    if (!isProject(task)) {
+      const taskReturned = await taskService.upDate(task as Task, project!.id);
+      const page = project?.pages.find((page) => page.id == pageId);
+      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
+      if (taskPage) {
+        taskPage.task = taskReturned;
+      }
+      setProject!({ ...project! });
+    } else {
+      const projectReturned = await projectService.update(
+        task as Project,
+        project!.id
+      );
+      setProject!({ ...projectReturned! });
+    }
+  };
   useEffect(() => {
     const intervalId = setInterval(() => {
       calcsTimes(1);
@@ -388,6 +408,8 @@ export const TimeFilter = ({
               <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
             </div>
           )}
+
+          <input type="color" onChange={handleUpdateColor} />
         </NeedPermission>
       </div>
     </div>
