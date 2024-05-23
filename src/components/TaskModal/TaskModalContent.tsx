@@ -69,7 +69,7 @@ export const TaskModalContent = ({
   }, [project]);
 
   const style = twMerge(
-    "flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0  w-full max-h-full overflow-y-auto",
+    "flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0   w-full max-h-full overflow-y-auto",
     isInModal ? "max-w-[1300px]" : ""
   );
 
