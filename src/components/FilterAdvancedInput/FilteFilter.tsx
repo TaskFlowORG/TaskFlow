@@ -64,6 +64,7 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           project!.id,
           propertyValue.id!
         );
+
         setName(selectedFile.name);
         propertyValue.value = bah;
         let page = project?.pages.find((page) => page.id == pageId);
@@ -75,7 +76,6 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           propValued.value = propertyValue.value;
         }
         taskPage!.task = task as Task;
-
         setSelectedTask!({ ...task } as Task);
         setSrc(archiveToDownload(bah.value));
         setProject!({ ...project! });
@@ -85,8 +85,19 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           project!.id,
           propertyValue.id!
         );
+        console.log(bah)
         setName(selectedFile.name);
         propertyValue.value = bah;
+        let propValued = valuesOfObjects(task).find(
+          (prop) => prop.property.id == property.id
+        );
+        if (propValued?.value) {
+          propValued.value = propertyValue.value;
+        }
+        if (propValued?.value) {
+          propValued.value = propertyValue.value;
+        }
+
         setSrc(archiveToDownload(bah.value));
         setProject!({ ...project! });
       }

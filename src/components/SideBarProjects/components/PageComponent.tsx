@@ -25,6 +25,7 @@ import { useTranslation } from "next-i18next";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface Props {
   page: Page;
@@ -66,18 +67,17 @@ export const PageComponent = ({
     setModal(true);
   };
 
-  const excludePage = () => {
-    pageService.delete(project.id, page.id);
+  const excludePage = async () => {
+    await pageService.delete(project.id, page.id);
     const projectTemp = { ...project };
-    projectTemp.pages.splice(project.pages.indexOf(page), 1);
-    if (projectTemp.pages.length === 0) {
-      router.push(`/${username}/${project.id}`);
-    }else{
-      router.push(`/${username}/${project.id}/${project.pages[0].id}`);
-    }
-    setProject!(projectTemp);
+    projectTemp.pages.splice(
+      project.pages.findIndex((pg) => pg.id == page.id),
+      1
+    );
     setModal(false);
     setTruncate(false);
+    setProject!(projectTemp);
+    console.log("APAGEI");
   };
 
   const saveNewName = (e: any) => {
@@ -91,7 +91,7 @@ export const PageComponent = ({
       page.name = inputRef.current?.textContent ?? page.name;
     }
   };
-const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     if (renaiming) {
       inputRef.current?.focus();
@@ -136,7 +136,6 @@ const router = useRouter()
         onMouseOver={() => setTruncate(true)}
         onMouseLeave={() => setTruncate(modal)}
       >
-        
         <SideBarButton
           icon={<PageTypeIcons type={page.type} />}
           text={page.name}
@@ -169,14 +168,18 @@ const router = useRouter()
           }
         >
           <div className="flex w-full px-6  h-full justify-start">
-            <div className="flex flex-col w-min  border-l-2 border-zinc-200 dark:border-zinc-800
-             h-full justify-center pb-2 px-3 gap-2 text-modal-grey dark:text-white ">
+            <div
+              className="flex flex-col w-min  border-l-2 border-zinc-200 dark:border-zinc-800
+             h-full justify-center pb-2 px-3 gap-2 text-modal-grey dark:text-white "
+            >
               <NeedPermission permission="delete">
-                <ButtonPageOption
-                  fnButton={excludePage}
-                  icon={<IconTrashBin />}
-                  text={t("delete-page")}
-                />
+                <Link  href={`/${username}/${project.id}`}>
+                  <ButtonPageOption
+                    fnButton={excludePage}
+                    icon={<IconTrashBin />}
+                    text={t("delete")}
+                  />
+                </Link>
               </NeedPermission>
               <ButtonPageOption
                 fnButton={() => {

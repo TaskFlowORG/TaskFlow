@@ -37,5 +37,6 @@ export const config = {
     "/((?!login|register|public|img|Assets|api|_next|fonts|examples|[\\w-]+\\.\\w+).*)",
     "/login",
     "/register",
+    "/",
   ],
 };

@@ -149,12 +149,12 @@ export const RegisterProperty = ({
   };
 
   const deleteProperty = async (property: Property) => {
-    propertyService.delete(project.id, property.id);
+    await propertyService.delete(project.id, property.id);
     setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
     const projectTemp = await projectService
       .findOne(project.id)
       .catch(() => setError(true));
-    if (projectTemp) setProject!(projectTemp);
+    if (projectTemp) setProject!({...projectTemp});
   };
   const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
 

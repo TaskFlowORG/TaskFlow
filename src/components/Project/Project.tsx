@@ -233,7 +233,7 @@ export const Project = () => {
         </div>
     
 
-        <div className="h-5/6 w-full pt-6 ">
+        <div className="h-5/6 w-full pt-6 px-8 sm:px-0  ">
           <TaskModalWrapper>
             <TaskModalContent task={project} user={user} isInModal={false} />
           </TaskModalWrapper>

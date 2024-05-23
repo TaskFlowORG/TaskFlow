@@ -18,7 +18,6 @@ export const Devs = () => {
 
     if (swiperNext != null) {
       swiperNext.classList.add("ooo");
-
     }
   }, []);
 
@@ -30,35 +29,55 @@ export const Devs = () => {
       name: "Jonatas",
       description:
         "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+      links: [
+        "https://www.linkedin.com/in/jonatas-jackson-gon%C3%A7alves-554661274/",
+        "https://github.com/Jonatass06",
+      ],
     },
     {
       name: "Luka",
       description:
         "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
+      links: [
+        "https://www.linkedin.com/in/gabriel-luka-00390230b/",
+        "https://github.com/GabrielLukaA",
+      ],
     },
     {
       name: "Heloísa",
+      links: [
+        "https://www.linkedin.com/in/helo%C3%ADsa-foga%C3%A7a/",
+        "https://github.com/heloisaFogaca",
+      ],
       description:
         "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
     },
     {
       name: "Becker",
+      links: [
+        "https://www.linkedin.com/in/matheus-becker-74a00a295/",
+        "https://github.com/BeckerMM",
+      ],
       description:
         "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
     },
     {
       name: "Marquardt",
+      links: [
+        "https://www.linkedin.com/in/maquardtt/",
+        "https://github.com/Marquardtt",
+      ],
       description:
         "Lorem ipsum dolor sit amet consectetur. Vel dignissim mauris elementum tellus a. Eu amet volutpat donec elementum magnis volutpat facilisi in pharetra",
     },
   ];
 
   return (
-    <div className="w-full flex flex-col items-center gap-[5rem] py-10" id="devs">
-      <h2
-
-        className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center "
-      >
+    <div
+      className="w-full flex flex-col items-center gap-[5rem] py-10"
+      id="devs"
+    >
+      <h2 className="h3 w-full text-primary lg:text-[48px] dark:text-white  text-center ">
         {t("meet-our-developers")}
       </h2>
 
@@ -76,7 +95,11 @@ export const Devs = () => {
           {devs.map((slide, index) => {
             return (
               <SwiperSlide key={index} className="">
-                <Dev name={slide.name} description={slide.description} />
+                <Dev
+                  name={slide.name}
+                  description={slide.description}
+                  links={slide.links}
+                />
               </SwiperSlide>
             );
           })}
