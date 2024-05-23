@@ -30,9 +30,9 @@ export const TasksProgress = () => {
               }}
             />
             <div
-              className="bg-whtie dark:bg-back-grey w-full"
+              className="bg-white dark:bg-back-grey w-full"
               style={{
-                width: `${tasks == 0 && completed == 0 ? 0 : 100 - percentage}`,
+                width: `${tasks == 0 && completed == 0 ? 0 : 100 - percentage}%`,
               }}
             />
           </span>

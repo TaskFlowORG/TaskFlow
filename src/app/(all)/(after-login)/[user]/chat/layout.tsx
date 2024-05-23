@@ -227,7 +227,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
               </div>
               <div className={`w-full flex h-[72.5vh] lg:h-[73.5vh] lg:overflow-y-scroll overflow-auto`}>
                 <div className="w-full h-full flex  flex-col items-center ">
-                  {chatContenteType == "GROUP" && filteredChats.length == 0 || chatContenteType == "PRIVATE" && filteredChats.length == 0 ? (
+                  {chatContenteType == "GROUP" && chatsGrupos.length == 0 || chatContenteType == "PRIVATE" && chatsPrivados.length == 0 ? (
                     <div className="h-full flex justify-center items-center">
                       <ChatDontExists />
                     </div>

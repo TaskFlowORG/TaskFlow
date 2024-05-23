@@ -1,11 +1,9 @@
-import React, { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useState } from 'react';
 import { userService } from '@/services';
-import { Configuration, User, UserPut } from '@/models';
 import { InputConfig } from './components/InputConfig';
 import { UserContext } from '@/contexts/UserContext';
 import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
-
 
 export const NotificationsConfig = () => {
     const { user, setUser } = useContext(UserContext);
@@ -18,16 +16,36 @@ export const NotificationsConfig = () => {
     const [notificDeadlines, setNotificDeadlines] = useState<boolean | undefined>(user?.configuration.notificDeadlines);
     const [notificChats, setNotificChats] = useState<boolean | undefined>(user?.configuration.notificChats);
     const [notificComments, setNotificComments] = useState<boolean | undefined>(user?.configuration.notificComments);
-    const asynThrow = useAsyncThrow();
 
+    const asynThrow = useAsyncThrow();
     const { t } = useTranslation();
-    
+
     const updateBack = async (e: ChangeEvent<HTMLInputElement>, id: string) => {
-        if(!user || !setUser) return;
+        const ids = [
+            'notifications',
+            'notificTasks',
+            'notificAtAddMeInAGroup',
+            'notificWhenChangeMyPermission',
+            'notificMyPointsChange',
+            'notificSchedules',
+            'notificDeadlines',
+            'notificChats',
+            'notificComments'
+        ]
+
+        if (!user || !setUser) return;
         if (e.target.id == id) {
             switch (id) {
                 case 'notifications':
                     setNotifications(e.target.checked);
+                    setNotificTasks(e.target.checked);
+                    setNotificAtAddMeInAGroup(e.target.checked);
+                    setNotificWhenChangeMyPermission(e.target.checked);
+                    setNotificMyPointsChange(e.target.checked);
+                    setNotificSchedules(e.target.checked);
+                    setNotificDeadlines(e.target.checked);
+                    setNotificChats(e.target.checked);
+                    setNotificComments(e.target.checked);
                     break;
 
                 case 'notificTasks':
@@ -62,10 +80,20 @@ export const NotificationsConfig = () => {
                     setNotificComments(e.target.checked);
                     break;
             }
+            if (id == 'notifications') {
+                ids.forEach((id) => {
+                    user.configuration[id] = e.target.checked;
+                })
+                const updatedUser = await userService.patch(user).catch(asynThrow);
+                if (updatedUser) {
+                    setUser(updatedUser);
+                }
+            }
             user.configuration[id] = e.target.checked;
             const updatedUser = await userService.patch(user).catch(asynThrow);
-            if(updatedUser)
-            setUser(updatedUser);
+            if (updatedUser) {
+                setUser(updatedUser);
+            }
         }
     }
 
@@ -84,14 +112,14 @@ export const NotificationsConfig = () => {
                             </label>
                         </div>
                     </div>
-                    <InputConfig notifications={notifications} id='notificTasks' type='checkbox' onChange={(e) => updateBack(e, 'notificTasks')} checked={notificTasks} title={t("notification-task-config")} description={t("notification-task-desc")}/>
+                    <InputConfig notifications={notifications} id='notificTasks' type='checkbox' onChange={(e) => updateBack(e, 'notificTasks')} checked={notificTasks} title={t("notification-task-config")} description={t("notification-task-desc")} />
                     <InputConfig notifications={notifications} id='notificAtAddMeInAGroup' type='checkbox' onChange={(e) => updateBack(e, 'notificAtAddMeInAGroup')} checked={notificAtAddMeInAGroup} title={t("notification-group")} description={t("notification-group-desc")} />
-                    <InputConfig notifications={notifications} id='notificWhenChangeMyPermission' type='checkbox' onChange={(e) => updateBack(e, 'notificWhenChangeMyPermission')} checked={notificWhenChangeMyPermission} title={t("notification-permission-config")}  description={t("notification-permission-desc")} />
-                    <InputConfig notifications={notifications} id='notificMyPointsChange' type='checkbox' onChange={(e) => updateBack(e, 'notificMyPointsChange')} checked={notificMyPointsChange} title={t("notification-points-config")}  description={t("notification-points-desc")} />
-                    <InputConfig notifications={notifications} id='notificSchedules' type='checkbox' onChange={(e) => updateBack(e, 'notificSchedules')} checked={notificSchedules} title={t("notification-scheduling")} description={t("notification-scheduling-desc")}/>
+                    <InputConfig notifications={notifications} id='notificWhenChangeMyPermission' type='checkbox' onChange={(e) => updateBack(e, 'notificWhenChangeMyPermission')} checked={notificWhenChangeMyPermission} title={t("notification-permission-config")} description={t("notification-permission-desc")} />
+                    <InputConfig notifications={notifications} id='notificMyPointsChange' type='checkbox' onChange={(e) => updateBack(e, 'notificMyPointsChange')} checked={notificMyPointsChange} title={t("notification-points-config")} description={t("notification-points-desc")} />
+                    <InputConfig notifications={notifications} id='notificSchedules' type='checkbox' onChange={(e) => updateBack(e, 'notificSchedules')} checked={notificSchedules} title={t("notification-scheduling")} description={t("notification-scheduling-desc")} />
                     <InputConfig notifications={notifications} id='notificDeadlines' type='checkbox' onChange={(e) => updateBack(e, 'notificDeadlines')} checked={notificDeadlines} title={t("notification-deadline-config")} description={t("notification-deadline-desc")} />
-                    <InputConfig notifications={notifications} id='notificChats' type='checkbox' onChange={(e) => updateBack(e, 'notificChats')} checked={notificChats} title={t("notification-comments")}description={t("notification-comments-desc")}/>
-                    <InputConfig notifications={notifications} id='notificComments' type='checkbox' onChange={(e) => updateBack(e, 'notificComments')} checked={notificComments} title={t("notification-messages")} description={t("notification-messages-desc")}/>
+                    <InputConfig notifications={notifications} id='notificChats' type='checkbox' onChange={(e) => updateBack(e, 'notificChats')} checked={notificChats} title={t("notification-comments")} description={t("notification-comments-desc")} />
+                    <InputConfig notifications={notifications} id='notificComments' type='checkbox' onChange={(e) => updateBack(e, 'notificComments')} checked={notificComments} title={t("notification-messages")} description={t("notification-messages-desc")} />
                 </div>
             </div>
         </div>

@@ -131,6 +131,7 @@ export const PersonalInformations = () => {
     try {
       await userService.delete(user.username);
       authentication.logout();
+      window.location.reload();
     } catch (error) {
       setError(true);
     }
@@ -206,7 +207,7 @@ export const PersonalInformations = () => {
                 id={"name"}
                 disabled={false}
                 label={t("personal-informations-name")}
-
+                maxCharacters={23}
                 value={name}
                 classes="px-6"
                 onChange={(e: { target: { value: SetStateAction<string> } }) =>
@@ -219,6 +220,7 @@ export const PersonalInformations = () => {
                 type={"text"}
                 id={"surname"}
                 disabled={false}
+                maxCharacters={23}
                 label={t("personal-informations-surname")}
                 value={surname}
                 classes="px-6"
