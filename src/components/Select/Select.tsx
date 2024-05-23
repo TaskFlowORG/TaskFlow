@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentProps, useContext, useEffect, useState } from "react";
+import { ComponentProps, useContext, useEffect, useRef, useState } from "react";
 import { Option } from "@/models";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { twMerge } from "tailwind-merge";
@@ -27,6 +27,7 @@ export const Select = ({
   const { filterProp, setFilterProp } = useContext(FilterContext);
   const { t } = useTranslation();
   const {task} = useContext(TaskModalContext)
+  const inputRef = useRef<HTMLSelectElement>(null)
 
   useEffect(() => {
     const prop = filterProp!.find((bah) => ids == bah.id);
@@ -97,6 +98,7 @@ export const Select = ({
           {options?.map((o: any, index) => {
             return (
               <option
+              
                 value={o.name ?? o}
                 key={index}
                 className="w-full text-center font-montserrat text-p14"
@@ -106,7 +108,7 @@ export const Select = ({
             );
           })}
         </select>
-        {!isDisabled &&  <div className=" border-primary dark:border-secondary z-10 w-16 top-0 -right-4 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
+        {!isDisabled &&  <div  className=" border-primary dark:border-secondary z-10 w-16 top-0 -right-4 h-full absolute flex justify-center text-2xl items-center font-bold text-primary dark:text-secondary font-mono ">
           <span className=" rotate-90">{">"}</span>
         </div>}
       </div>

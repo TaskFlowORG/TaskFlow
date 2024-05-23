@@ -1,6 +1,7 @@
 import { CenterModal } from "../Modal";
 import { Project, Task, User } from "@/models";
 import { TaskModalContent } from "./TaskModalContent";
+import { useEffect } from "react";
 
 type isOpenBro = {
   isOpen: boolean;
@@ -10,6 +11,10 @@ type isOpenBro = {
 };
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
+  useEffect(() => {
+    console.log(task)
+    if (!task) setIsOpen(false);
+  }, [task]);
   return (
     <CenterModal
       // stylesTailwind={" w-[1308px] w-max p-12"}
