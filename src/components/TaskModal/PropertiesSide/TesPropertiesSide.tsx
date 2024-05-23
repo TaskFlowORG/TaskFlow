@@ -18,7 +18,7 @@ import {
 import { ContentPropertyModalTask } from "../ContentPropertyModalTask";
 import { AddPropertyButton } from "./AddPropertyButton";
 import { FooterTask } from "./FooterTask";
-import { ProjectContext } from "@/contexts";
+import { ProjectContext, ProjectsContext } from "@/contexts";
 import { useContext, useEffect, useState } from "react";
 import { PageContext } from "@/utils/pageContext";
 import { projectService, taskService } from "@/services";
@@ -42,6 +42,7 @@ import { SourceTextModule } from "vm";
 import { log } from "console";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { PropertyContext } from "@/utils/PropertyContext";
+import { useRouter } from "next/navigation";
 
 type Props = {
   task: Task | Project;
@@ -92,6 +93,9 @@ export const TesPropertiesSide = ({
   const [openedConfig, setOpenedConfig] = useState(false);
   const [idConfig, setIdConfig] = useState(0);
   const [modalProperty, setModalProperty] = useState(false);
+  const router = useRouter()
+
+  const {setProjects, projects} = useContext(ProjectsContext);
 
   async function deleteTask() {
     if (!isProject(task)) {
@@ -105,6 +109,8 @@ export const TesPropertiesSide = ({
       }
     } else {
       projectService.delete(project!.id);
+      router.push("/"+user?.username+"/projects");
+      setProjects!(projects!.filter((proj) => proj.id != project!.id));
     }
   }
 
