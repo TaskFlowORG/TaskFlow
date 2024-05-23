@@ -8,45 +8,40 @@ import { useTranslation } from "react-i18next";
 
 import Image from "next/image";
 
-
 interface Props {
   change: () => number;
 }
 
 export const Carousel = ({ change }: Props) => {
+  const { theme } = useTheme();
 
-  const {theme} = useTheme()
-    
   const [image, setImage] = useState<string>("projectsSide.svg");
   const [imageDark, setImageDark] = useState<string>("projectsSideDark.svg");
-  const {t} = useTranslation()
-
-
-
+  const { t } = useTranslation();
 
   const functions = [
     {
       img: "projectsSide.svg",
-      imgDark:"projectsSideDark.svg",
+      imgDark: "projectsSideDark.svg",
       color: "#F04A94",
-      text: t('platform-focus'),
-      title: t('projects'),
+      text: t("platform-focus"),
+      title: t("projects"),
       dark: "#FF871A",
     },
     {
-      img:"tasksSide.svg",
-      imgDark:"tasksSideDark.svg" ,
+      img: "tasksSide.svg",
+      imgDark: "tasksSideDark.svg",
       color: "#EA35BE",
-      text: t('tasks-description'),
-      title: t('tasks'),
+      text: t("tasks-description"),
+      title: t("tasks"),
       dark: "#D7541C",
     },
     {
       img: "propertiesSide.svg",
-      imgDark:"propertiesSideDark.svg" ,
+      imgDark: "propertiesSideDark.svg",
       color: "#E41CEF",
-      text: t('properties-importance'),
-      title: t('property'),
+      text: t("properties-importance"),
+      title: t("property"),
       dark: "#F76858",
     },
   ];
@@ -65,7 +60,10 @@ export const Carousel = ({ change }: Props) => {
             <SwiperSlide key={index}>
               <div className="p-4 flex justify-center w-full">
                 <RoundedCard
-              changeImage={() => {setImage(slide.img); setImageDark(slide.imgDark)}}
+                  changeImage={() => {
+                    setImage(slide.img);
+                    setImageDark(slide.imgDark);
+                  }}
                   dark={slide.dark}
                   color={slide.color}
                 >
@@ -82,9 +80,14 @@ export const Carousel = ({ change }: Props) => {
         })}
       </Swiper>
       <div className="w-full p-8">
-        <img src={theme == 'light' ? "/"+image : "/"+imageDark} alt="" className="w-full" />
+        <div className="w-full">
+          <Image
+            src={theme == "light" ? "/" + image : "/" + imageDark}
+            alt=""
+            fill
+          />
+        </div>
       </div>
     </>
   );
 };
-
