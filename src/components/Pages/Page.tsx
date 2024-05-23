@@ -29,6 +29,7 @@ import { SearchBar } from "../SearchBar";
 import { If } from "../If";
 import { showTask } from "./functions";
 import { Loading } from "../Loading";
+import { RenewKanban } from "./RenewKanban";
 
 export const Page = ({
   user,
@@ -45,7 +46,6 @@ export const Page = ({
 }) => {
   const context = useContext(FilterContext);
   useEffect(() => {
-
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
       showTask(task.task, context)
@@ -69,8 +69,10 @@ export const Page = ({
           </span>
         );
       case TypeOfPage.KANBAN:
+        // Lembra de ajeitar isso luka
         return (
           <span className="page">
+            
             <Kanban
               user={user}
               page={page as OrderedPage}
@@ -105,25 +107,22 @@ export const Page = ({
         <If condition={page?.type != TypeOfPage.CALENDAR}>
           <div className="flex-col sm:flex-row flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
             <div className="flex gap-4 items-center">
-              <h1
-                className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white"
-              >
+              <h1 className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white">
                 {page?.name}
               </h1>
             </div>
             <div className="w-max">
-
-            <SearchBar
-              order={[
-                TypeOfPage.CALENDAR,
-                TypeOfPage.KANBAN,
-                TypeOfPage.TIMELINE,
-              ].includes(page?.type)}
-              filter
-              search
-              page={page as OrderedPage}
-              properties={page?.properties as Property[]}
-            ></SearchBar>
+              <SearchBar
+                order={[
+                  TypeOfPage.CALENDAR,
+                  TypeOfPage.KANBAN,
+                  TypeOfPage.TIMELINE,
+                ].includes(page?.type)}
+                filter
+                search
+                page={page as OrderedPage}
+                properties={page?.properties as Property[]}
+              ></SearchBar>
             </div>
           </div>
         </If>

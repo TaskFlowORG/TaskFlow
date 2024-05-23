@@ -86,7 +86,7 @@ export const TesPropertiesSide = ({
       array.push({ property: prop, errors: [] });
     });
     setPropertiesToValidate(array);
-  }, [valuesOfObjects(task)]);
+  }, [valuesOfObjects(task), setFilterProp] );
 
   const { project, setProject } = useContext(ProjectContext);
   const { pageId } = useContext(PageContext);
