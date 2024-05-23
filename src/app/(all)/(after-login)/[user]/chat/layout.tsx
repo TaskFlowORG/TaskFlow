@@ -207,7 +207,7 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                           <div className="w-full h-full flex flex-col gap-1">
                             {filteredPossibleChats.map((chat, index) => (
                               <div onClick={() => (postChat(chat))} className="w-full cursor-pointer h-10 font-alata shadow-blur-10 rounded-md flex justify-center items-center" key={index}>
-                                <p className="text-p font-alata truncate w-52">{chat.getName() || t("withoutname")}</p>
+                                <p className="text-p font-alata text-center truncate w-52">{chat.getName() || t("withoutname")}</p>
                               </div>
                             ))}
                           </div>
