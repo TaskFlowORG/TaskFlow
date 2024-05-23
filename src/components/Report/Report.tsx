@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "flex-start",
-    gap: 4,  
+    gap: 4,
   },
 });
 
@@ -130,7 +130,7 @@ const Header = ({
 }) => (
   <View style={styles.header} fixed>
     <View style={{ width: "20%" }}>
-      <Image src={"/LogoTaskFlow.png"} style={styles.logo}   />
+      <Image src={"/LogoTaskFlow.png"} style={styles.logo} />
     </View>
     <View
       style={{
@@ -185,7 +185,7 @@ export const Report = ({
   user: User;
   isInProject?: boolean;
 }) => {
-  const [groupped, setGroupped] = useState<GroupedLog[]>([]);
+  const [groupped, setGroupped] = useState<GroupedLog[][]>([]);
   const { t } = useTranslation();
 
   const dateFormat = (date: Date) => {
@@ -202,7 +202,7 @@ export const Report = ({
         return (log.value.value.value as Option[])
           .map((option, index) =>
             index == (log.value.value.value as Option[]).length + 1
-            ? option.name + ", "
+              ? option.name + ", "
               : option.name
           )
           .concat();
@@ -224,7 +224,6 @@ export const Report = ({
           (duration.seconds < 10
             ? "0" + duration.seconds
             : "" + duration.seconds)
-
         );
       case TypeOfProperty.USER:
         return (log.value.value as UserValued).users?.map((user, index) =>
@@ -233,11 +232,17 @@ export const Report = ({
             : user.username
         );
       case TypeOfProperty.DATE:
-        if((log.value.property as DateP).includesHours){
-          let fodase = new Date(log.value.value.value?.dateTime).toLocaleTimeString();
-          return new Date(log.value.value.value?.dateTime).toLocaleDateString()+ " , " + fodase
+        if ((log.value.property as DateP).includesHours) {
+          let fodase = new Date(
+            log.value.value.value?.dateTime
+          ).toLocaleTimeString();
+          return (
+            new Date(log.value.value.value?.dateTime).toLocaleDateString() +
+            " , " +
+            fodase
+          );
         }
-        return new Date(log.value.value.value?.dateTime).toLocaleDateString()
+        return new Date(log.value.value.value?.dateTime).toLocaleDateString();
       case TypeOfProperty.NUMBER:
       case TypeOfProperty.TEXT:
         return log.value.value.value;
@@ -284,23 +289,34 @@ export const Report = ({
         return t("log-picture-project", { username: log.user.username });
     }
   };
+  const logsPerPage = 15; // Ajuste este valor conforme necessário
 
   const groupLogs = () => {
-    const logs: GroupedLog[] = [];
-    logged.logs?.forEach((log) => {
-      const date = new Date(log.datetime);
-      if (logs.some((group) => compareDates(date, new Date(group.date)))) {
-        logs
-          .find((group) => compareDates(date, new Date(group.date)))
-          ?.logs.push({ ...log, description: getLogMessage(log) });
-      } else {
-        logs.push({
-          date,
-          logs: [{ ...log, description: getLogMessage(log) }],
+    const subList = [];
+    for (let i = 0; i < logged.logs.length; i += logsPerPage) {
+      const sublista = logged.logs.slice(i, i + logsPerPage);
+      subList.push(sublista);
+    }
+
+    const pages  = subList.map((logsMap) => {
+     const logs: GroupedLog[] = [];
+      logsMap.forEach((log) => {
+          const date = new Date(log.datetime);
+          if (logs.some((group) => compareDates(date, new Date(group.date)))) {
+            logs
+              .find((group) => compareDates(date, new Date(group.date)))
+              ?.logs.push({ ...log, description: getLogMessage(log) });
+          } else {
+            logs.push({
+              date,
+              logs: [{ ...log, description: getLogMessage(log) }],
+            });
+          }
         });
-      }
+        return logs;
     });
-    setGroupped(logs);
+
+    setGroupped(pages);
   };
 
   useEffect(() => {
@@ -309,36 +325,42 @@ export const Report = ({
 
   return (
     <Document>
-      <Page style={styles.page}>
-        <View style={styles.all}>
-          <Header user={user} t={t} isInProject={isInProject} />
-          <Text style={styles.title}>
-            {isInProject ? t("project") : t("task")} #{logged.id}
-          </Text>
-          <View style={styles.task}>
-            {groupped.map((log, index) => (
-              <View style={styles.changes} key={index}>
-                <View style={styles.action}>
-                  <Text>{log.date.toLocaleDateString()}</Text>
-                </View>
-                <View style={styles.logs}>
-                  {log.logs?.map((log, index) => (
-                    <View key={index} style={styles.descriptionlog}>
-                      <Text>
-                        {new Date(log.datetime).toLocaleTimeString() + "  "}
-                      </Text>
-                      <Text>
-                        {t(log.action.toLowerCase()) + " - " + log.description}
-                      </Text>
+      {groupped.map((group, index) => {
+        return (
+          <Page style={styles.page} key={index} break>
+            <View style={styles.all}>
+              <Header user={user} t={t} isInProject={isInProject} />
+              <Text style={styles.title}>
+                {isInProject ? t("project") : t("task")} #{logged.id}
+              </Text>
+              <View style={styles.task}>
+                {group.map((log, index) => (
+                  <View style={styles.changes} key={index}>
+                    <View style={styles.action}>
+                      <Text>{log.date.toLocaleDateString()}</Text>
                     </View>
-                  ))}
-                </View>
+                    <View style={styles.logs} wrap>
+                      {log.logs?.map((log, index) => (
+                        <View key={index} style={styles.descriptionlog}>
+                          <Text>
+                            {new Date(log.datetime).toLocaleTimeString() + "  "}
+                          </Text>
+                          <Text>
+                            {t(log.action.toLowerCase()) +
+                              " - " +
+                              log.description}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                ))}
               </View>
-            ))}
-          </View>
-          <Footer t={t} />
-        </View>
-      </Page>
+              <Footer t={t} />
+            </View>
+          </Page>
+        );
+      })}
     </Document>
   );
 };
