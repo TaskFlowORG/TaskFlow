@@ -9,7 +9,7 @@ import { Archive, PermissionPost, Project, ProjectPost, ProjectSimple, TypeOfPro
 import { useContext, useEffect, useState } from "react";
 import { permissionService, projectService } from "@/services";
 import { useRouter } from "next/navigation";
-import { ProjectsContext } from "@/contexts";
+import { ProjectContext, ProjectsContext } from "@/contexts";
 import { LocalModal } from "@/components/Modal";
 import { useTranslation } from "next-i18next";
 import { UserContext } from "@/contexts/UserContext";
@@ -29,7 +29,7 @@ export default function Projects({ params }: { params: { user: string } }) {
   const { user } = useContext(UserContext);
   const [listOfLists, setListOfLists] = useState<ProjectSimple[][]>([]);
   const { t } = useTranslation();
-
+const {project, setProject} = useContext(ProjectContext);
   useEffect(() => {
     window.addEventListener("resize", () => {
       setWindowWidth(window.innerWidth);
@@ -79,7 +79,9 @@ export default function Projects({ params }: { params: { user: string } }) {
       const projectsTemp = [...projects!];
       projectsTemp.push(newProject);
       setProjects!(projectsTemp);
+      setProject!(await projectService.findOne(newProject.id));
       router.push(`/${params.user}/${newProject.id}`);
+
     });
   };
 
