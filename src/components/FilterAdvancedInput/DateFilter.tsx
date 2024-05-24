@@ -31,7 +31,7 @@ export const DateFilter = ({
     isInModal
       ? (property as DateP).includesHours
         ? "p-0 border-none w-[200px]"
-        : " p-0 border-none w-[120px]"
+        : " p-0 border-none w-[124px]"
       : " "
   );
   const hasPermission = useHasPermission("update");

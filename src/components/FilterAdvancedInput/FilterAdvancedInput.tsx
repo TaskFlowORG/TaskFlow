@@ -140,17 +140,18 @@ export const FilterAdvancedInput = ({ properties, setIsModalOpen }: Props) => {
                 />
               </div>
             );
-          } else if (property.type == TypeOfProperty.USER) {
-            return (
-              <UserFilter
-                key={property.id}
-                id={property.id}
-                name={property.name}
-                value={prop.value ?? []}
-                property={property as Limited}
-              ></UserFilter>
-            );
-          }
+          } 
+          // else if (property.type == TypeOfProperty.USER) {
+          //   return (
+          //     <UserFilter
+          //       key={property.id}
+          //       id={property.id}
+          //       name={property.name}
+          //       value={prop.value ?? []}
+          //       property={property as Limited}
+          //     ></UserFilter>
+          //   );
+          // }
         })}
       </div>
 
