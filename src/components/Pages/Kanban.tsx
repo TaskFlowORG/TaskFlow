@@ -51,6 +51,17 @@ export const Kanban = ({ page, user }: Props) => {
   const context = useContext(FilterContext);
   const [taskMãe, setTaskMãe] = useState<Task | undefined>(undefined);
 
+
+  const findDependences = () => {
+    taskMãe?.dependencies.forEach(async (dep) => {
+      let poxinha = await taskService.findDependencies(dep, page.id);
+      dep.dependencies.forEach(async (dep2) => {
+        let poxinha = await taskService.findDependencies(dep2, page.id);
+      })
+  })
+}
+
+
   useEffect(() => {
     setTasks(
       (page.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
@@ -58,11 +69,7 @@ export const Kanban = ({ page, user }: Props) => {
     console.log(tasks);
     setOptions((page.propertyOrdering as Select).options);
     setId(page.propertyOrdering.id);
-    // let poxinha =  taskService.findDependencies(taskMãe, page.id);
-    taskMãe?.dependencies.forEach(async (dep) => {
-      let poxinha = await taskService.findDependencies(dep, page.id);
-      setPoxas(poxinha);
-    });
+
 
   }, [page.tasks, project]);
 
