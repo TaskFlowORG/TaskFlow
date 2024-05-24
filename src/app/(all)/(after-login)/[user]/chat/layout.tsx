@@ -37,6 +37,8 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [chatsPrivados, setChatsPrivados] = useState<Chat[]>([]);
   const [chatsGrupos, setChatsGrupos] = useState<Chat[]>([]);
   const [error, setError] = useState<boolean>(false);
+  const [filteredChatsPrivate, setFilteredChatsPrivate] = useState<Chat[]>([]);
+  const [filteredChatsGroup, setFilteredChatsGroup] = useState<Chat[]>([]);
   const asynThrow = useAsyncThrow();
   const route = useRouter();
 
@@ -46,6 +48,11 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
       setWindowWidth(window.innerWidth);
     });
   }, []);
+
+  useEffect(() => {
+    setChatAberto(undefined);
+    route.replace(`/${user?.username}/chat`);
+  }, [])
 
   async function buscarChats() {
     const response = await chatService.findAllGroup().catch(asynThrow);
@@ -150,9 +157,16 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     setPossibleChats(possibleChats.filter((c) => c != chat));
     setCreatingChat(false);
     setFilteredChats([...filteredChats, chatPost]);
-    buscarChats();
+    buscarChats()
   };
 
+
+
+  const filter = (chats: Chat[]) => {
+    return chats.filter((c)=> 
+      c.type.toString() == chatContenteType && c.name.toUpperCase().includes(search.toUpperCase())
+    )
+  }
   return (
     <>
       <ChatContext.Provider value={{ chat, setChat }}>
@@ -173,7 +187,13 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                     <div className="w-[80%]">
                       <input
                         placeholder={t("search-chat")}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => {
+                          setSearch(e.target.value)
+                          if (search == "") {
+                            setFilteredChatsGroup([])
+                            setFilteredChatsPrivate([])
+                          }
+                        }}
                         className="rounded-r-lg  w-full h-full text-constrast font-montserrat shadow-blur-10 outline-none px-4 text-p"
                         type="text"
                       />
@@ -195,7 +215,6 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                             <div className="w-[85%]">
                               <input type="text" onChange={(e) => setSearchNewChat(e.target.value)}
                                 className="px-4 font-montserrat w-full h-10 shadow-blur-10 rounded-r-md" placeholder={t("search-chat")} />
-
                             </div>
                           </div>
                           <If condition={filteredPossibleChats.length == 0}>
@@ -230,15 +249,10 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
                     <div className="h-full flex justify-center items-center">
                       <ChatDontExists />
                     </div>
-                  ) : (
-                    filteredChats.map((chat) => (
-                      <>
-                        <If condition={chatContenteType == chat.type.toString()}>
-                          <ChatsBar key={chat.id} chat={chat} lastMessage={chat.lastMessage} date={chat.lastMessage?.dateCreate} onChatClick={handleChatClick} />
-                        </If>
-                      </>
-                    ))
-                  )}
+                  ) :(filter(filteredChats)).length!=0 ? filter(filteredChats).map((chat, index) => (
+                    <ChatsBar key={index} chat={chat} onChatClick={handleChatClick} lastMessage={chat.lastMessage} date={chat.lastMessage?.dateCreate} />
+                  )) : (<ChatDontExists />)
+                  }
                 </div>
               </div>
             </div>
