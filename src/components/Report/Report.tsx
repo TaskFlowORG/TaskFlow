@@ -298,22 +298,22 @@ export const Report = ({
       subList.push(sublista);
     }
 
-    const pages  = subList.map((logsMap) => {
-     const logs: GroupedLog[] = [];
+    const pages = subList.map((logsMap) => {
+      const logs: GroupedLog[] = [];
       logsMap.forEach((log) => {
-          const date = new Date(log.datetime);
-          if (logs.some((group) => compareDates(date, new Date(group.date)))) {
-            logs
-              .find((group) => compareDates(date, new Date(group.date)))
-              ?.logs.push({ ...log, description: getLogMessage(log) });
-          } else {
-            logs.push({
-              date,
-              logs: [{ ...log, description: getLogMessage(log) }],
-            });
-          }
-        });
-        return logs;
+        const date = new Date(log.datetime);
+        if (logs.some((group) => compareDates(date, new Date(group.date)))) {
+          logs
+            .find((group) => compareDates(date, new Date(group.date)))
+            ?.logs.push({ ...log, description: getLogMessage(log) });
+        } else {
+          logs.push({
+            date,
+            logs: [{ ...log, description: getLogMessage(log) }],
+          });
+        }
+      });
+      return logs;
     });
 
     setGroupped(pages);
