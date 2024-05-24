@@ -206,7 +206,7 @@
   "task-in-review": "¡Tarea en revisión!",
   "complete-task": "¡Completar Tarea!",
   "sendInvitationSuccess": "Invitación enviada con éxito",
-  "sendInvitationError": "Error al enviar la invitación",
+  "sendInvitationError": "Este usuario no puede ser miembro del grupo",
   "promover-owner": "Promover a propietario",
   "error-change-owner": "Error al cambiar el propietario del grupo",
   "success-email": "Correo electrónico enviado con éxito!",

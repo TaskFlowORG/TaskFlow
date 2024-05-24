@@ -283,7 +283,7 @@
   "selected-option": "Selected option",
   "select": "Select",
   "sendInvitationSuccess": "Invitation sent successfully",
-  "sendInvitationError": "Error sending the invitation",
+  "sendInvitationError": "This user cannot be a member of the group",
   "promover-owner": "Promote to owner",
   "error-change-owner": "Error changing the group owner",
   "success-email": "Email sent successfully!",
