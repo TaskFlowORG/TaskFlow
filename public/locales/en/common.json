@@ -3,6 +3,7 @@
   "alreadyMember": "This user is already a member of the group",
   "withoutname": "Without name",
   "property": "Properties",
+  "or": "or",
   "name-property": "Property name",
   "name-property-notnull": "Property name cannot be empty",
   "name-property-min-characters": "Property name must have at least 3 characters",

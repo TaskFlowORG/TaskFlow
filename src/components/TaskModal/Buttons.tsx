@@ -30,7 +30,7 @@ export const Buttons = ({ updateTask }: Props) => {
       <Button
         font="font-alata"
         textSize=" text-mn md:text-p14 lg:text-p max-w-[80px] sm:max-w-full"
-        text={"Salvar"}
+        text={t("save")}
         fnButton={() => updateTask()}
         paddingY="py-1"
         padding="p-4"
