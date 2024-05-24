@@ -290,7 +290,7 @@
   "selected-option": "Opção selecionada",
   "select": "Selecione",
   "sendInvitationSuccess": "Convite enviado com sucesso",
-  "sendInvitationError": "Erro ao enviar o convite",
+  "sendInvitationError": "Este usuário não pode ser um membro do grupo",
   "promover-owner": "Promover a dono",
   "error-change-owner": "Error ao mudar o dono do grupo",
   "success-email": "Email enviado com sucesso!",
