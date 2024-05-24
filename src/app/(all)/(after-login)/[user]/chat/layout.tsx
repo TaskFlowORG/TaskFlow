@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useContext, useState, useEffect, use } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "next-i18next";
 import { Chat, ChatGroupPost, ChatPrivatePost } from "@/models";
 import { ChatsBar } from "../../../../../components/Chat/components/ChatsBar";
 import { ChatDontExists } from "@/components/Chat/components/ChatDontExists";
-
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 import { UserContext } from "@/contexts/UserContext";
@@ -19,16 +18,13 @@ import { If } from "@/components/If";
 import { ErrorModal } from "@/components/ErrorModal";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
-
 export default function ChatMessages({ children }: { children: React.ReactNode }) {
-  const route = useRouter();
   const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects } = useContext(ProjectsContext);
   const [listaChats, setListaChats] = useState<Chat[]>([]);
   const [chats, setChats] = useState<Chat[]>([]);
-  const [searchin, setSearching] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [possibleChats, setPossibleChats] = useState<Array<ChatGroupPost | ChatPrivatePost>>([]);
   const [chatContenteType, setChatContentType] = useState<String>("PRIVATE");
@@ -40,6 +36,9 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
   const [chat, setChat] = useState<Chat>();
   const [chatsPrivados, setChatsPrivados] = useState<Chat[]>([]);
   const [chatsGrupos, setChatsGrupos] = useState<Chat[]>([]);
+  const [error, setError] = useState<boolean>(false);
+  const asynThrow = useAsyncThrow();
+  const route = useRouter();
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -48,13 +47,12 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     });
   }, []);
 
-  const asynThrow = useAsyncThrow();
-
   async function buscarChats() {
     const response = await chatService.findAllGroup().catch(asynThrow);
     const response2 = await chatService.findAllPrivate().catch(asynThrow);
     if (response && response2) setChats([...response, ...response2]), setChatsPrivados(response2), setChatsGrupos(response);
   }
+
   useEffect(() => {
     buscarChats();
   }, [user]);
@@ -154,9 +152,6 @@ export default function ChatMessages({ children }: { children: React.ReactNode }
     setFilteredChats([...filteredChats, chatPost]);
     buscarChats();
   };
-
-  const [error, setError] = useState<boolean>(false);
-
 
   return (
     <>

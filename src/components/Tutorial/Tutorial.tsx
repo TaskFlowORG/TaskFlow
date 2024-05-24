@@ -39,6 +39,7 @@ export const Tutorial = () => {
       setUser(updated);
     }
     document.body.classList.remove("none-events");
+    document.body.classList.add("auto-events");
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
