@@ -70,11 +70,12 @@ export const GroupComponent = ({
   };
 
   const getName = () => {
-    const len = screenSize === "sm" ? 8 : screenSize === "md" ? 8 : 20;
+    const len = screenSize === "sm" ? 8 : screenSize === "md" ? 8 : screenSize === "lg" ? 12 : 10;
     return group?.name && group.name.length > len
       ? `${group.name.substring(0, len)}...`
       : group?.name;
-  };
+};
+
 
   const{project} = useContext(ProjectContext);
 

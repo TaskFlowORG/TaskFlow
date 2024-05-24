@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { ProjectContext } from "@/contexts";
 import { useTranslation } from "react-i18next";
+import { TaskModalContext } from "@/utils/TaskModalContext";
 
 type Props = {
   updateTask: () => void;

@@ -30,7 +30,7 @@ export const OptionsInput = ({
         <NeedPermission permission="update">
           <button
             className=" h-4 w-4 rotate-45 p-px rounded-full shadow-blur-10 flex justify-center items-center"
-            onClick={() => setOptions([...options, new Option("", "")])}
+            onClick={() => setOptions(options==null ? [new Option("", "")]: [...options, new Option("", "")])}
           >
             <IconPlus />
           </button>
