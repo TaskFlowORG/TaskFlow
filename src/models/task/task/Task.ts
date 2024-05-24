@@ -14,6 +14,7 @@ export class Task {
         public waitingRevision: boolean,
         public properties: PropertyValue[],
         public logs: Log[],
+        public dependencies:Task[],
         public comments: Message[]) { }
 
 

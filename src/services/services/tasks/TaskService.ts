@@ -26,6 +26,11 @@ class TaskService {
         return response.data;
     }
 
+    async findDependencies(task:Task, pageId:number): Promise<Task[]> {
+        const response = await Api.get<Task[]>(`task/findDependencies/${task.id}/${pageId}`, {withCredentials: true});
+        return response.data;
+    }
+
     async delete(id: number, projectId: string): Promise<void> {
         await Api.delete(`task/project/${projectId}/${id}`, {withCredentials: true});
     }

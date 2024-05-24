@@ -108,6 +108,7 @@ export const TimeFilter = ({
     valueTest,
     callback,
   }: typeFunctionChrono) {
+    
     if (!play) return;
     if (valueTest > 59) {
       callback();

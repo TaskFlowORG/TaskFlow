@@ -73,6 +73,7 @@ export const CardContent = ({ task, user }: Props) => {
   return (
     <>
       <div className="flex justify-between items-center gap-2">
+        {task.dependencies.length > 0 && task.dependencies[0].name}
         <If condition={localTask.completed || localTask.waitingRevision}>
           <span
             className={

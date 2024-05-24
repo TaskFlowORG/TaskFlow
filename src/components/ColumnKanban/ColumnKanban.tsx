@@ -4,7 +4,7 @@ import { RoundedCard } from "@/components/RoundedCard/RoundedCard";
 import { useContext, useEffect, useState } from "react";
 import { verify } from "crypto";
 import { CardContent } from "../CardContent";
-import { 
+import {
   Direction,
   DragDropContext,
   Draggable,
@@ -30,7 +30,13 @@ interface Props {
   user: User;
 }
 
-export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props) => {
+export const ColumnKanban = ({
+  option,
+  tasks,
+  openModal,
+  allTasks,
+  user,
+}: Props) => {
   const { theme } = useTheme();
   const context = useContext(FilterContext);
   const { filterProp, setFilterProp, input } = context;
@@ -89,44 +95,48 @@ export const ColumnKanban = ({ option, tasks, openModal, allTasks, user }: Props
               >
                 {columnTasks.map((item, index) => {
                   // if (showTask(item.task, context)) {
-                    return (
-                      <Draggable
-                        draggableId={`${item.id}-${option?.id}`}
-                        key={index}
-                        isDragDisabled={!hasPermission || item.task.completed}
-                        index={allTasks.indexOf(item)}
-                        // draggableId={`${item.id}`}
-                        // index={index}
-                        // key={index}
-                      >
-                        {(provided) => {
-                          return (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              style={{
-                                ...provided.draggableProps.style,
-                              }}
-                              id={item.task.id?.toString()}
-                              onClick={() => openModal!(item)}
-                            >
-                              <RoundedCard
+                  return (
+                    <Draggable
+                      draggableId={`${item.id}-${option?.id}`}
+                      key={index}
+                      isDragDisabled={!hasPermission || item.task.completed}
+                      index={allTasks.indexOf(item)}
+                      // draggableId={`${item.id}`}
+                      // index={index}
+                      // key={index}
+                    >
+                      {(provided) => {
+                        return (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            style={{
+                              ...provided.draggableProps.style,
+                            }}
+                            id={item.task.id?.toString()}
+                            onClick={() => openModal!(item)}
+                          >
+  
+                            <RoundedCard
                               completed={item.task.completed}
                               waiting={item.task.waitingRevision}
-                                color={
-                                  option?.color ??
-                                  (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
-                                }
-                              >
-                                <CardContent user={user} task={item.task as Task} />
-                              </RoundedCard>
-                              {/* <span className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">{item.indexAtColumn}</span> */}
-                            </div>
-                          );
-                        }}
-                      </Draggable>
-                    );
+                              color={
+                                option?.color ??
+                                (theme == "dark" ? "#FCFCFC" : "#3d3d3d")
+                              }
+                            >
+                              <CardContent
+                                user={user}
+                                task={item.task as Task}
+                              />
+                            </RoundedCard>
+                            {/* <span className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">{item.indexAtColumn}</span> */}
+                          </div>
+                        );
+                      }}
+                    </Draggable>
+                  );
                   // }
                 })}
               </div>

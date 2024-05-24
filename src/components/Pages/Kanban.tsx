@@ -11,7 +11,7 @@ import { OrderInput } from "@/components/OrderInput/OrderInput";
 import { FilterAdvancedInput } from "@/components/FilterAdvancedInput/FilterAdvancedInput";
 import { FilteredProperty } from "@/types/FilteredProperty";
 import { RegisterTaskModal } from "@/components/RegisterTaskModal";
-import { pageService, taskService } from "@/services";
+import { pageService, projectService, taskService } from "@/services";
 import {
   MultiOptionValued,
   Option,
@@ -23,6 +23,7 @@ import {
   TypeOfProperty,
   UniOptionValued,
   Project,
+  Task,
 } from "@/models";
 import { TaskModalContext } from "@/utils/TaskModalContext";
 import { FilterContext } from "@/utils/FilterlistContext";
@@ -48,14 +49,24 @@ export const Kanban = ({ page, user }: Props) => {
   const [list, setList] = useState<FilteredProperty>();
   const { project, setProject } = useContext(ProjectContext);
   const context = useContext(FilterContext);
+  const [taskMãe, setTaskMãe] = useState<Task | undefined>(undefined);
 
   useEffect(() => {
     setTasks(
       (page.tasks as TaskOrdered[]).filter((task) => task.task.deleted == false)
     );
+    console.log(tasks);
     setOptions((page.propertyOrdering as Select).options);
     setId(page.propertyOrdering.id);
+    // let poxinha =  taskService.findDependencies(taskMãe, page.id);
+    taskMãe?.dependencies.forEach(async (dep) => {
+      let poxinha = await taskService.findDependencies(dep, page.id);
+      setPoxas(poxinha);
+    });
+
   }, [page.tasks, project]);
+
+  const [poxas, setPoxas] = useState<Task[]>([]);
 
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
@@ -63,7 +74,6 @@ export const Kanban = ({ page, user }: Props) => {
     setIsOpen!(true);
     setSelectedTask!(task.task);
   }
-
 
   function separateNumbers(stringComHifen: string): [number, number] | null {
     const separatedNumbers = stringComHifen.split("-");
@@ -97,6 +107,45 @@ export const Kanban = ({ page, user }: Props) => {
     })!;
   }
 
+  const handleCreateMuchThings = async () => {
+    await projectService.findOne(project?.id!);
+    const taskFodaPaCaramba = await taskService.insert(project?.id!, page.id);
+    taskFodaPaCaramba.name = "sou quem tá na lista da que ta na lista";
+    let taskReturned3 = await taskService.upDate(
+      taskFodaPaCaramba,
+      project?.id!
+    );
+
+    const taskFodona = await taskService.insert(project?.id!, page.id);
+    taskFodona.name = "sou quem tá na lista";
+    taskFodona.dependencies = [taskReturned3];
+
+    let taskReturned2 = await taskService.upDate(taskFodona, project?.id!);
+
+    const taskMãe = await taskService.insert(project?.id!, page.id);
+    taskMãe.dependencies = [taskReturned2];
+    let returned = await taskService.upDate(taskMãe, project?.id!);
+    setTaskMãe(taskReturned3);
+    let projectPromise2 = await projectService.findOne(project?.id!);
+    setProject!(projectPromise2);
+
+    taskMãe.dependencies.forEach(async (dep) => {
+      let poxinha = await taskService.findDependencies(dep, page.id);
+      console.log(poxinha);
+      console.log("tE RETONRI EM CIMA");
+      setPoxas(poxinha);
+    });
+    // poxas.filter(
+    //   (pa, index) => poxas.findLastIndex((po) => pa.id == po.id) == index
+    // );
+    // let tasksTests = tasks;
+    // console.log("la vai bomba");
+
+    // console.log(
+    //   tasksTests.filter((task) => !poxas.find((po) => po.id == task.id))
+    // );
+  };
+
   function findPropertyInTask(draggedTask: TaskOrdered) {
     return draggedTask?.task?.properties?.find((property) => {
       return property.property.id == id;
@@ -116,7 +165,7 @@ export const Kanban = ({ page, user }: Props) => {
   const onDragEnd = async (result: any) => {
     if (!result.destination) return;
     const { source, destination } = result;
-    console.log(result.draggableId)
+    console.log(result.draggableId);
 
     const separatedNumbers = separateNumbers(result.draggableId);
     const [numberOne, numberTwo] = separatedNumbers!;
@@ -179,6 +228,13 @@ export const Kanban = ({ page, user }: Props) => {
       }}
     >
       <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+        <div
+          className="absolute top-1/2 left-1/2 bg-primary w-1/5 h-1/5 "
+          onClick={handleCreateMuchThings}
+        ></div>
+        {poxas.map((poxa, index) => {
+          return <p key={index}>{poxa?.name}</p>;
+        })}
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollKanban"
