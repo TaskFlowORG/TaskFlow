@@ -11,12 +11,13 @@ import {
   PropertyValue,
   Language,
 } from "@/models";
-import { useContext, useEffect, useState } from "react";
+import { use, useContext, useEffect, useState } from "react";
 import { Date as DateProp } from "@/models";
 import { SearchBar } from "../SearchBar";
 import { useTranslation } from "react-i18next";
 import { UserContext } from "@/contexts/UserContext";
 import { languageToString } from "@/functions/selectLanguage";
+import { log } from "console";
 
 interface Day {
   day: Date;
@@ -47,6 +48,11 @@ export const Calendar = ({ page }: Props) => {
     setTasks(tasksPromise);
     setDays(getDays());
   }, [page.tasks, page]);
+  
+  useEffect(() => {
+    setDays(getDays());
+  }
+  , [month, year, tasks]);
 
   function getPropertyValueOfOrdering(
     task: TaskOrdered,
@@ -63,6 +69,7 @@ export const Calendar = ({ page }: Props) => {
   }
   function getDays(): Array<Day> {
     if (!tasks) return [];
+    
     const lastDate: Date = new Date(year, month, 0);
     const firstDate: Date = new Date(year, month - 1);
     const days: Array<Day> = [];
@@ -124,6 +131,9 @@ export const Calendar = ({ page }: Props) => {
     } else {
       setMonth(month - 1);
     }
+
+    console.log
+    ("month", month);
   }
   function incMonth(): void {
     if (month == 12) {
@@ -132,6 +142,8 @@ export const Calendar = ({ page }: Props) => {
     } else {
       setMonth(month + 1);
     }
+    console.log
+    ("month", month);
   }
   function getMonthName(): string {
     const date: Date = new Date(year, month - 1);
@@ -149,7 +161,7 @@ export const Calendar = ({ page }: Props) => {
             {year}
           </div>
           <div className="w-full h-min flex justify-center items-center">
-            <button onClick={decMonth} className="rotate-180 h-4 sm:h-6">
+            <button onClick={() => decMonth()} className="rotate-180 h-4 sm:h-6">
               <Arrow />
             </button>
             <span
@@ -158,7 +170,7 @@ export const Calendar = ({ page }: Props) => {
             >
               {t(getMonthName())}
             </span>
-            <button onClick={incMonth} className="h-4 sm:h-6">
+            <button onClick={() => incMonth()} className="h-4 sm:h-6">
               <Arrow />
             </button>
           </div>
