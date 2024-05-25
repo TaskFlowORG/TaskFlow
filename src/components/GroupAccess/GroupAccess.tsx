@@ -81,7 +81,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         <div className="flex pl-8 gap-4 items-start">
             <div>
                 <div className="relative rounded-full w-24 h-24 bg-zinc-300">
-                    <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <div className="absolute inset-0 overflow-hidden border-2 border-zinc-300 rounded-full">
                         <Image
                             className="rounded-full"
                             src={src}

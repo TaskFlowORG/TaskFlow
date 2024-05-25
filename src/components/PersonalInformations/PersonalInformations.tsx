@@ -138,7 +138,7 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className="overflow-auto z-10 flex w-full h-full items-center lg:pt-20 pt-[22rem]">
+    <div className="overflow-auto z-10 flex w-full h-full  lg:pt-20 pt-14">
       <div className="flex flex-col relative z-20 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
         <div className="flex flex-col lg:flex-row items-center gap-10 w-full lg:w-[57.5%]  px-6 lg:px-0">
           <div className="h-min relative w-32 lg:w-fit">

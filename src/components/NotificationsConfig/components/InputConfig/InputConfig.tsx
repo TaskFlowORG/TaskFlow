@@ -12,7 +12,7 @@ export const InputConfig = ({ id, type, title, description, onChange, checked, n
                 <label className="relative w-16 h-8 ">
                     <input id={id} type={type} onChange={onChange} className="hidden toggle-input" disabled={!notifications} checked={checked} />
                     <span className="absolute top-0 right-0 bottom-0 left-0 cursor-pointer rounded-2xl bg-input-toggle-grey transition-all  duration-300 before:content-[' '] 
-                        before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-white toggle-slider"></span>
+                        before:absolute before:w-6  before:left-1 before:h-6  before:bottom-1 before:rounded-full before:bg-contrast toggle-slider"></span>
                 </label>
             </div>
         </div>

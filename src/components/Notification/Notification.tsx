@@ -82,8 +82,12 @@ export const Notification = ({
   };
 
   const clickNotification = async (e:any) => {
+    
     e.stopPropagation()
     if (!setUser || !user) return;
+    if(!user.notifications) return;
+    user.notifications.splice(user.notifications.findIndex((n) => n.id == notification.id), 1);
+    setUser({...user});
 
      await notificationService.clickNotification(notification.id).catch((e) => {
         if(e.response.status == 409){
@@ -92,9 +96,7 @@ export const Notification = ({
           setTitleError("Convite já aceito");
         }
     });
-    if(!user.notifications) return;
-    user.notifications.splice(user.notifications.findIndex((n) => n.id == notification.id), 1);
-    setUser({...user});
+
   };
 
   const handleClick = async (e:any) => {

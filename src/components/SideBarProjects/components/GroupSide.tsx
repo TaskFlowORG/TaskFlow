@@ -115,7 +115,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                 openModal={openModal}
               />
               <button
-                className="h-10 create-group w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-white font-alata hover:brightness-110"
+                className="h-10 create-group w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-contrast font-alata hover:brightness-110"
                 onClick={() =>
                   global == "userGroups" ? addNewGroup() : setOpenModal(true)
                 }

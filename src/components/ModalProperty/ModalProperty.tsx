@@ -36,6 +36,7 @@ import { ErrorModal } from "../ErrorModal";
 import { PropertyContext } from "@/utils/PropertyContext";
 import { ProjectContext } from "@/contexts";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { useHasPermission } from "@/hooks/useHasPermission";
 
 
 type ModalPropertyProps = {
@@ -160,6 +161,8 @@ export const ModalProperty = ({
 
   }
 
+  const hasPermission = useHasPermission("update")
+
 
   return (
     <div
@@ -174,12 +177,12 @@ export const ModalProperty = ({
         fnRename={saveNewName}
         renaming={editing}
         icon={
-          editing ?
+          hasPermission &&  editing ?
             <span onClick={(e) => { e.stopPropagation(); saveName() }}>
               <IconSave />
             </span>
             :
-            isHovering ? (
+            hasPermission && isHovering ? (
               <span onClick={(e) => { e.stopPropagation(); setEditing(!editing) }}>
                 <IconEditColoured />
               </span>
