@@ -35,6 +35,7 @@ export const PageSide = (
   const route = useRouter();
 
   const merge = async () => {
+    console.log(listMerge)
     const pages = await pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);

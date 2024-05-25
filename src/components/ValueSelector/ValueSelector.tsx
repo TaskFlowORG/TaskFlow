@@ -16,7 +16,7 @@ interface Props {
 
 export const ValueSelector = ({property, showNames = false}:Props) => {
     function is(property: PropertyValue, type: TypeOfProperty) {
-        return property.property.type == type && property.property.visible == true;
+        return property?.property.type == type && property?.property.visible == true;
       }
         if (
           is(property, TypeOfProperty.TEXT) &&
