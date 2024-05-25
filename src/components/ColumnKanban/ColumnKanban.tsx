@@ -106,15 +106,15 @@ export const ColumnKanban = ({
                       {(provided) => {
                         return (
                           <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                            }}
-                            id={item.task.id?.toString()}
-                            onClick={() => openModal!(item)}
-                            className="select-none"
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          style={{
+                            ...provided.draggableProps.style,
+                          }}
+                          id={item.task.id?.toString()}
+                          onClick={() => openModal!(item)}
+                          className="select-none"
+                          ref={provided.innerRef}
                           >
                             <RoundedCard
                               completed={item.task.completed}
