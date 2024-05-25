@@ -42,10 +42,18 @@ export default function Pages({
   }, [params.page, project, project?.pages]);
   if (!user) return <Loading />;
   if (!page) {
-    throw new AxiosError(undefined, undefined, undefined, undefined, {
-      status: 404,
-    } as AxiosResponse);
-  }
+    //this returns loading for 10 seconds and after thorw 0
+    new Promise((resolve) => setTimeout(resolve, 5000)).then(() => {
+      if (!page) {
+        asynThrow(new AxiosError(undefined, undefined, undefined, undefined, {
+          status: 404,
+        } as AxiosResponse)) 
+      }
+  })
+    return <Loading />;
+}
+
+
 
   //AQUI FICOU ASSIM
   return (

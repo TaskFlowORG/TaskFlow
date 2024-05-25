@@ -1,4 +1,3 @@
-"use client";
 
 import {
   Calendar,
@@ -8,8 +7,6 @@ import {
   Table,
   TimeLine,
 } from "@/components/Pages";
-import { ProjectContext } from "@/contexts";
-import { UserContext } from "@/contexts/UserContext";
 import {
   CanvasPage,
   OrderedPage,
@@ -20,16 +17,11 @@ import {
   TypeOfPage,
   User,
 } from "@/models";
-import { FilteredProperty } from "@/types/FilteredProperty";
 import { FilterContext } from "@/utils/FilterlistContext";
-import { PageContext } from "@/utils/pageContext";
-import { log } from "console";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { SearchBar } from "../SearchBar";
 import { If } from "../If";
 import { showTask } from "./functions";
-import { Loading } from "../Loading";
-import { RenewKanban } from "./RenewKanban";
 
 export const Page = ({
   user,
@@ -47,12 +39,13 @@ export const Page = ({
   const context = useContext(FilterContext);
   const [pageComponent, setPageComponent] = useState<ReactNode | undefined>();
   useEffect(() => {
+    console.log("UBLABLA")
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
       showTask(task.task, context)
     ) as TaskPage[];
     setPage(pageTemp as PageModel);
-  }, [context.filterProp, context.input, tasks]);
+  }, [context.filterProp, context.input]);
 
   useEffect(() => {
     setPageComponent(getPage(page))
