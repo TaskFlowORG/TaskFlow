@@ -6,6 +6,7 @@ import { Select } from "../Select";
 import { OptionsInput } from "../OptionsInput";
 import { useHasPermission } from "@/hooks/useHasPermission";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type ContentModalPropertyProps = {
   property?: Property;
@@ -21,7 +22,7 @@ export const ContentModalProperty = ({
 }: ContentModalPropertyProps) => {
   const permissionUpdate = useHasPermission("update");
   const [content, setContent] = useState<JSX.Element>(<></>);
-
+  const {t} = useTranslation()
   
   const fnReturnCheckbox = () => {
     if (
@@ -44,7 +45,7 @@ export const ContentModalProperty = ({
           classNameInput={
             "w-[50%] bg-input-grey-opacity border-primary border-2 rounded-sm text-center disabled:opacity-100"
           }
-          label="Máximo" // value={property ? (property as Limited).maximum : 0}
+          label={t("max")} // value={property ? (property as Limited).maximum : 0}
         />
       );
     } else if (
@@ -56,7 +57,7 @@ export const ContentModalProperty = ({
       ].includes(type)
     ) {
   
-      return <OptionsInput disabled={!permissionUpdate} property={property} label="Opções" />;
+      return <OptionsInput disabled={!permissionUpdate} property={property} label={t("options")}  />;
     } else {
       return (
         <>
@@ -64,28 +65,28 @@ export const ContentModalProperty = ({
             disabled={!permissionUpdate}
             register={{ ...register("pastDate") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2 truncate"
-            title="Pode ser data passada"
-            label="Pode ser data passada"
+            title={t("can-be-pass")} 
+            label={t("can-be-pass")} 
            
           />
           <InputCheckbox
             disabled={!permissionUpdate}
             register={{ ...register("schedule") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Incluir agendamento"
+            label={t("scheduling")} 
             checked={property ? (property as Date).scheduling : false}
           />
           <InputCheckbox
             disabled={!permissionUpdate}
             register={{ ...register("hours") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Incluir horas"
+            label={t("include-hours")} 
           />
           <InputCheckbox
             disabled={!permissionUpdate}
             register={{ ...register("deadline") }}
             className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-            label="Prazo final"
+            label={t("deadline")} 
           />
         </>
       );
@@ -101,16 +102,16 @@ export const ContentModalProperty = ({
     <div className="h-full w-full justify-between px-6  items-center ">
       <div className="w-full h-full flex flex-col ">  
         
-        <p className="h-[35%] flex items-center">Ajustes</p>
+        <p className="h-[35%] flex items-center">{t("adjusts")}</p>
         <InputCheckbox disabled={!permissionUpdate}
           register={{ ...register("visible") }}
           className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-          label="Visible"
+          label={t("visible")} 
         ></InputCheckbox>
         <InputCheckbox disabled={!permissionUpdate}
           register={{ ...register("obligatory") }}
           className="w-[30%] h-1/3 flex justify-center items-center border-primary outline-none border-2"
-          label="Obligatory"
+          label={t("obligatory")} 
         ></InputCheckbox>
       </div>
       <div className="w-full h-full flex flex-col justify-center">
