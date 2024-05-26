@@ -365,7 +365,7 @@ export const TimeFilter = ({
     // Retorna uma função de limpeza que é executada quando o componente é desmontado
     return () => clearInterval(intervalId);
   }, [seconds, minutes, play]); // O segundo argumento é uma matriz de dependências vazia, o que significa que o efeito só é executado uma vez após a montagem do componente
-
+  
   return (
     <div className="flex gap-4 items-center">
       <NeedPermission permission="update">

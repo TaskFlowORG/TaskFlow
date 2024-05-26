@@ -23,7 +23,7 @@ export const HistoricSection = ({
 
   return (
     <div className=" flex flex-col gap-6">
-      <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
+      <div className="flex flex-col gap-6 h-[442px] overflow-auto  pr-8 bah">
         {(task as Task).logs?.map((log) => {
           return (
             <LogItem item={task} isInModal={isInModal} key={log.id} log={log} />
@@ -31,7 +31,7 @@ export const HistoricSection = ({
         })}
       </div>
       <PDFDownloadLink
-        className="lg:text-p  text-p14 w-full flex gap-2 items-center justify-center  text-white border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
+        className="lg:text-p  text-p14 w-full flex gap-2 items-center justify-center  text-contrast border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
         document={<Report logged={task} user={user} isInProject={!isInModal} />}
         fileName={`${isInModal? t("task") : t("project")} #${task.id} - By ${user.name} ${user.surname}.pdf`}
       >

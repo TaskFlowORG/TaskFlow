@@ -29,7 +29,7 @@ export const HeaderCommentAndHistoric = ({
   );
   return (
     <button className={container}  onClick={() => setIsInComments(!isSelected)}>
-      <div className="hidden md:block w-4 h-4 rounded-full bg-white"></div>
+      <div className={"hidden md:block w-4 h-4 rounded-full" + (isSelected ? " bg-contrast" : " bg-white")}></div>
       <p className={text}>{t(title)}</p>
     </button>
   );

@@ -135,7 +135,7 @@ export const ChatsBar = ({ chat, lastMessage, date, visualize }: ChatProps) => {
             </If>
             <If condition={quantityUnvisualized > 0}>
               <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-                <p className="text-p font-montserrat text-white">{quantityUnvisualized}</p>
+                <p className="text-p font-montserrat text-contrast">{quantityUnvisualized}</p>
               </div>
             </If>
             <If condition={quantityUnvisualized == 0}>
