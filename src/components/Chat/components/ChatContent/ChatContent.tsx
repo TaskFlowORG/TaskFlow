@@ -44,6 +44,9 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
 
     useEffect(() => {
         setPhotoUrl(archiveToSrc(chatContent?.picture));
+        return () => {
+            chatService.upDateToVisualized(id)
+        }
     }, [chatContent])
 
     const scrollToBottom = () => {

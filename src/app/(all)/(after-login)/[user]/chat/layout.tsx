@@ -183,12 +183,8 @@ export default function ChatMessages({
       const list = [...listaChats];
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
-      if (chat && chat.id == chatTemp.id) {
-        const qtty = oldChat.quantityUnvisualized;
-        chatTemp.quantityUnvisualized = qtty + 1;
-      } else {
-        chatTemp.quantityUnvisualized = 0;
-      }
+      const qtty = oldChat.quantityUnvisualized;
+      if(chat?.id != chatTemp.id) chatTemp.quantityUnvisualized = qtty + 1; 
       list.splice(list.indexOf(oldChat), 1);
       const newList = [chatTemp, ...list];
       setListaChats(newList);
@@ -201,11 +197,6 @@ export default function ChatMessages({
   useEffect(() => {
     setListaChats(chats);
   }, [chats]);
-
-  const handleChatClick = (chatId: number) => {
-    setChatAberto(chatId);
-    route.replace(`/${user?.username}/chat/${chatId}`);
-  };
 
   const postChat = async (chat: ChatGroupPost | ChatPrivatePost) => {
     let chatPost;
@@ -225,13 +216,25 @@ export default function ChatMessages({
 
   const [error, setError] = useState<boolean>(false);
 
+  function handleVisualize(id: number): void {
+    const list = [...listaChats];
+    const chat = list.find((c) => c.id == id);
+    if (!chat) return;
+    chat.quantityUnvisualized = 0;
+    const index = list.indexOf(chat);
+    //this visualize without change the order of the list
+    list.splice(index, 1);
+    list.splice(index, 0, chat);
+    setListaChats(list);
+  }
+
   return (
     <>
       <ChatContext.Provider value={{ chat, setChat }}>
         <div className="w-full h-[80vh] lg:h-[89vh] configs flex mt-20 lg:px-14 gap-4 lg:gap-14 flex-col lg:justify-center lg:flex-row">
           <div className={`w-full lg:w-[40%] lg:h-full justify-center`}>
             <div className="flex flex-col items-center w-full lg:h-full gap-4">
-              <div className="flex items-center lg:w-full w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">
+              <div className="flex items-center lg:w-[96%] w-[90%] justify-between bg-input-grey dark:bg-back-grey h-full lg:h-[10%]  rounded-lg shadow-blur-10 ">
                 <div className="flex items-center w-30 px-6 lg:h-full h-20">
                   <h3 className="text-h3 font-alata">{t("chat")}</h3>
                 </div>
@@ -339,7 +342,7 @@ export default function ChatMessages({
                   {(chatContenteType == "GROUP" && chatsGrupos.length == 0) ||
                   (chatContenteType == "PRIVATE" &&
                     chatsPrivados.length == 0) ? (
-                    <div className="h-full flex justify-center items-center">
+                    <div className="h-full flex justify-center  items-center">
                       <ChatDontExists />
                     </div>
                   ) : (
@@ -353,7 +356,7 @@ export default function ChatMessages({
                             chat={chat}
                             lastMessage={chat.lastMessage}
                             date={chat.lastMessage?.dateCreate}
-                            onChatClick={handleChatClick}
+                            visualize={handleVisualize}
                           />
                         </If>
                       </>
