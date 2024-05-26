@@ -34,6 +34,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
   }
 
   useEffect(() => {
+    console.log("chatClicado", chatClicado, chat.id)
     if (chatClicado == chat.id) return
     setQuantityUnvisualized(chat.quantityUnvisualized)
   }, [chat])
