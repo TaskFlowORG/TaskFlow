@@ -435,5 +435,10 @@
   "obligatory": "Obligatory",
   "visible": "Visible",
   "can-be-pass": "Can be passed",
-  "include-hours": "Include hours"
+  "include-hours": "Include hours",
+  "options": "Options",
+  "type-prop-select":"Select",
+  "portuguese": "Português",
+  "english":"English",
+  "spanish":"Español"
 }

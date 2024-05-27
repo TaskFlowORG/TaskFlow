@@ -5,6 +5,8 @@ import { FilterContext } from "@/utils/FilterlistContext";
 import { useTranslation } from "next-i18next";
 import { useState, useEffect, useContext, useRef } from "react";
 import { twMerge } from "tailwind-merge";
+import { IconCalendar } from "../icons";
+import { If } from "../If";
 
 interface DateProps {
   id: number;
@@ -27,7 +29,7 @@ export const DateFilter = ({
   const { t } = useTranslation();
 
   const style = twMerge(
-    "flex gap-4 w-full items-center border-b-[1px]  pb-2",
+    "flex gap-4 w-full items-center relative border-b-[1px]  pb-2",
     isInModal
       ? (property as DateP).includesHours
         ? "p-0 border-none w-[200px]"
@@ -55,7 +57,7 @@ export const DateFilter = ({
   useEffect(() => {
     // const splitTimestamp: string[] = value?.split("T");
     const prop = filterProp!.find((bah) => id == bah.id);
-    if (prop ) {
+    if (prop) {
       // const splitTimestamp: string[] = prop.value?.split("T");
       console.log(prop.value, "Value bros");
       setValued(
@@ -86,7 +88,9 @@ export const DateFilter = ({
   return (
     <div className={style}>
       {!isInModal && (
-        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">{name}:</p>
+        <p className=" text-black dark:text-white whitespace-nowrap text-p14 font-montserrat">
+          {name}:
+        </p>
       )}
       <input
         ref={refDate}
@@ -94,7 +98,9 @@ export const DateFilter = ({
         disabled={isDisabled}
         className="flex-1 py-1 text-p14 font-montserrat px-3 relative text-black dark:text-white border-2 focus:dark:border-zinc-400 focus:border-zinc-500 border-zinc-200 outline-none dark:border-zinc-600 rounded-lg  "
         type={(property as DateP).includesHours ? "datetime-local" : "date"}
-        value={(property as DateP).includesHours ? valued : valued?.split("T")[0]}
+        value={
+          (property as DateP).includesHours ? valued : valued?.split("T")[0]
+        }
         // onChange={(e) => setDate(e.target.value)}
         pattern="/^\d{2}\/\d{2}\/\d{4}$/"
         placeholder={t("insert-expected-value")}
@@ -129,7 +135,7 @@ export const DateFilter = ({
         // }}
 
         onChange={(e) => {
-          console.log(e.target.value)
+          console.log(e.target.value);
           // if (!e.target.value.match("/^\d{2}\/\d{2}\/\d{4}$/"))return;
           // let e = { target: { value: date } };
           setValued(
@@ -141,13 +147,12 @@ export const DateFilter = ({
           if (thisProperty) {
             if (!e.target.value) {
               // thisProperty.value = '';
-              if (!isInModal){
+              if (!isInModal) {
                 filterProp!.splice(filterProp!.indexOf(thisProperty), 1);
                 setFilterProp!([...filterProp!]);
               }
-
             } else {
-              console.log("Amigo estou aqui!!!")
+              console.log("Amigo estou aqui!!!");
               thisProperty.value = (property as DateP).includesHours
                 ? formatDateTime(new Date(e.target.value))
                 : e.target.value + "T00:00:00";
@@ -171,6 +176,9 @@ export const DateFilter = ({
         name=""
         id={`prop${id}`}
       />
+        <span className="w-3 h-3 absolute right-3 ">
+          <IconCalendar  />
+        </span>
     </div>
   );
 };

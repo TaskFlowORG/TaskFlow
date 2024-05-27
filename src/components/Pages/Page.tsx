@@ -45,7 +45,7 @@ export const Page = ({
       showTask(task.task, context)
     ) as TaskPage[];
     setPage(pageTemp as PageModel);
-  }, [context.filterProp, context.input]);
+  }, [context.filterProp, context.input, project]);
 
   useEffect(() => {
     setPageComponent(getPage(page))

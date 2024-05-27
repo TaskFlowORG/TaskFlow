@@ -26,14 +26,14 @@ export const ProjectComponent = ({ project, user }: Props) => {
   return (
     <Link
       href={`/${user}/${project.id}`}
-      className={`w-full flex flex-col shadow-blur-10 gap-8 static z-0 bg-white 
+      className={`w-full max-w-full flex flex-col shadow-blur-10 gap-8 static z-0 bg-white 
     dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <div className="flex gap-2 w-full h-min items-center">
         <div className="w-min">
-          <div className="bg-zinc-200 rounded-md w-12 h-12 relative">
+          <div className="bg-zinc-200 rounded-md overflow-clip w-12 h-12 relative">
             <Image  src={src} fill alt="Image Project" />
           </div>
         </div>
@@ -42,13 +42,13 @@ export const ProjectComponent = ({ project, user }: Props) => {
             className="w-full h-min font-alata text-p text-modal-grey dark:text-white text-ellipsis overflow-hidden"
             style={!project.name ? { opacity: 0.5 } : {}}
           >
-            {project.name ?? t("withoutname")}
+            {project.name ?project.name: t("withoutname")}
           </h4>
           <p
             className="w-full h-min font-montserrat text-mn text-modal-grey dark:text-white truncate"
             style={!project.description ? { opacity: 0.5 } : {}}
           >
-            {project.description ?? t("withoutdescription")}
+            {project.description ?project.description: t("withoutdescription")}
           </p>
         </div>
       </div>

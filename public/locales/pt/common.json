@@ -430,6 +430,10 @@
   "visible": "Visível",
   "can-be-pass": "Pode ser passado",
   "scheduling": "Agendamento",
-  "include-hours": "Incluir horas"
-
+  "include-hours": "Incluir horas",
+  "options": "Opções",
+  "type-prop-select":"Seleção",
+  "portuguese": "Português",
+  "english":"English",
+  "spanish":"Español"
 }

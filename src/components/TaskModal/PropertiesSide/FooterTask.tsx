@@ -24,7 +24,7 @@ export const FooterTask = ({ deleteTask, updateTask }: Props) => {
       {!isDisabled && (
         <NeedPermission permission="delete">
           <div
-            className="p-2 mr-1 self-end justify-center min-h-full items-center flex rounded-lg bg-primary dark:bg-secondary"
+            className="p-2 mr-1 self-end justify-center min-h-full items-center cursor-pointer flex rounded-lg bg-primary dark:bg-secondary"
             onClick={deleteTask}
           >
             <div className=" w-3 md:w-[18px] aspect-square  stroke-contrast">

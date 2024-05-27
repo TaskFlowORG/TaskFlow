@@ -49,7 +49,7 @@ export const TasksInTimeline = ({
         return (
           <div
             key={index}
-            className="h-8 my-[2px]  relative flex hover:brightness-95"
+            className="h-8 my-[2px]  relative flex hover:brightness-95 bg-white dark:bg-modal-grey"
             onClick={(e) => openModal(task.id)}
             style={{ width: ((24 * 60 * 60) / interval) * widthOfInterval }}
           >

@@ -111,7 +111,6 @@ export const ModalRegisterProperty = ({
                     { value: TypeOfProperty.RADIO, image: <IconRadio /> },
                     { value: TypeOfProperty.SELECT, image: <IconSelect /> },
                     { value: TypeOfProperty.TEXT, image: <IconText /> },
-
                     { value: TypeOfProperty.USER, image: <IconUser /> },
                     { value: TypeOfProperty.TIME, image: <IconClock /> },
                   ]}
