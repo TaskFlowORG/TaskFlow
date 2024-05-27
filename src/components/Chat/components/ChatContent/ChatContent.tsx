@@ -1,7 +1,8 @@
+
 import Image from 'next/image'
 import { MessageContent } from "@/components/Chat/components/MessageContent";
 import { Chat, Message, OtherUser } from "@/models"
-import { useState, useEffect, useContext, useRef, ChangeEvent } from "react"
+import { useState, useEffect, useContext, useRef, ChangeEvent, use } from "react"
 import { chatService } from "@/services";
 import { UserContext } from "@/contexts/UserContext";
 import { Keyboard } from "@/components/Keyboard";
@@ -9,12 +10,13 @@ import { Dictophone } from "@/components/Dictophone";
 import { If } from "@/components/If";
 import { compareDates } from "@/components/Pages/functions";
 import { archiveToSrc } from "@/functions";
-import { AudioFile, GoBackIcon, PdfIcon } from "@/components/icons";
+import { AudioFile, GoBackIcon, IconInvert, IconRedo, PdfIcon, SendMessage } from "@/components/icons";
 import { SelectArchive } from "../SelectArchive";
 import { useTranslation } from 'react-i18next';
 import { useAsyncThrow } from '@/hooks/useAsyncThrow';
 import { useRouter } from 'next/navigation';
 import { IconSend } from '@/components/icons/GeneralIcons/IconSend';
+
 
 interface MessageGroup {
     id: number,
@@ -35,6 +37,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
     const [arquivoUrl, setArquivoUrl] = useState<string>();
     const [arquivo, setArquivo] = useState<File | null>();
     const arquivoParaEnviar = useRef<HTMLInputElement>(null);
+
     const { t } = useTranslation();
     const router = useRouter();
     const asynThrow = useAsyncThrow();

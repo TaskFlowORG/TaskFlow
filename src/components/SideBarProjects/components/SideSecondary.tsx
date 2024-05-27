@@ -50,7 +50,7 @@ const {user:userObj} = useContext(UserContext);
         if(!groups1 || !groups2) return
         
 
-        const groupTemp = groups1?.find(g => groups2.find(g2 => g2.id == g.id));
+        const groupTemp = groups1.find(g => groups2.find(g2 => g2.id == g.id));
         setGroupId(groupTemp?.id!);  
       }
     if (!project || !modalTrash) return;
