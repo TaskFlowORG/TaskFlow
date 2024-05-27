@@ -48,7 +48,7 @@ export const SelectWithImage = ({ list, onChange, selected, disabled }: Props) =
                     z-20 dark:border-modal-grey absolute flex  py-1 items-start ${openToTop ? `bottom-11 flex-col-reverse origin-bottom` : "top-8 flex-col origin-top"}`}>
                         {
                             list.map((item, index) => (
-                                <div key={index} className="hover:bg-zinc-200  select-none hover:dark:bg-zinc-600 w-10 h-8 min-h-8  flex items-center justify-center px-2 bg-white dark:bg-back-grey  " title={t(item.value.toLowerCase())}
+                                <div key={index} className="hover:bg-zinc-200  select-none hover:dark:bg-zinc-600 w-10 h-8 min-h-8  flex items-center justify-center px-2 bg-white dark:bg-back-grey  " title={t(item.value == "SELECT" ? "type-prop-select":item.value.toLowerCase())}
                                     onClick={() => { onChange(item.value); setShow(false) }}>
                                     {item.image}
                                 </div>

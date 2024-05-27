@@ -104,7 +104,7 @@ const router = useRouter();
         >
           <If condition={tasksTrash.length == 0}>
             <div className="flex items-center justify-center bg-white dark:bg-modal-grey h-full w-80 text-primary dark:text-secondary h5 p-4">
-              <p className="text-p flex pb-10 flex-wrap font-montserrat text-center items-center h-min w-3/4 ">
+              <p className="text-p flex  flex-wrap font-montserrat text-center items-center h-min w-3/4 ">
                 {t("no-tasks-trash")}
               </p>
             </div>

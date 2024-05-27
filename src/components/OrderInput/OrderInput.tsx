@@ -4,7 +4,7 @@ import { OrderOption } from "./OrderOption";
 import Image from "next/image";
 import { MouseEvent } from "react";
 import { OrderedPage, Page, Project, Property, TypeOfPage, TypeOfProperty } from "@/models";
-import { pageService } from "@/services";
+import { pageService, projectService } from "@/services";
 import { LocalModal } from "../Modal";
 import { useClickAway } from "react-use";
 import { ProjectContext } from "@/contexts";
@@ -40,14 +40,12 @@ export const OrderInput = ({
       (property) => property.id.toString() == e.currentTarget.id
     );
     page.propertyOrdering = property!;
-    const pageU = await pageService.updatePropertiesOrdering(
+    await pageService.updatePropertiesOrdering(
       project?.id!,
       property!,
       page.id
     );
-    let pageD = project?.pages.find((pageK) => pageK.id == pageU.id);
-    pageD = pageU
-    setProject!({ ...project! });
+    setProject!({ ...await projectService.findOne(project!.id)! });
   }
 
   const ref = useRef(null);

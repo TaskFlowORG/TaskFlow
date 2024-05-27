@@ -98,7 +98,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         <div className={"flex md:pl-48 lg:pl-8 md:gap-4 md:items-start flex-col  items-center   w-full   md:relative justify-center md:left-0  md:flex-row"}>
             <div>
                 <div className="relative rounded-full w-24 h-24 bg-zinc-300">
-                    <div className="absolute inset-0 overflow-hidden rounded-full">
+                    <div className="absolute inset-0 overflow-hidden border-2 border-zinc-300 rounded-full">
                         <Image
                             className="rounded-full"
                             src={src}

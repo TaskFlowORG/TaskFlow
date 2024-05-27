@@ -121,8 +121,8 @@ export const CommentsSection = ({ task, user }: Props) => {
     setInput("");
   }
   return (
-    <div className=" flex flex-col gap-6">
-      <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah">
+    <div className=" flex flex-col gap-6 h-full">
+      <div className="flex flex-col gap-6 h-[442px] overflow-auto pr-8 bah thin-scrollbar">
         {commentsTask?.map((comment, index) => {
           return (
             <Comment

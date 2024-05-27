@@ -6,48 +6,57 @@ import { UserContext } from "@/contexts/UserContext";
 import { archiveToSrc } from "@/functions";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { Archive, OtherUser, Project, User } from "@/models";
-import { userService } from "@/services";
+import { groupService, userService } from "@/services";
 import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { MouseEvent, useContext, useEffect, useState } from "react";
 import { set } from "react-hook-form";
- 
+
 export const FeaturedUser = () => {
   const { project } = useContext(ProjectContext);
   const [users, setUsers] = useState<Array<OtherUser | User>>([]);
   const asyncThrow = useAsyncThrow();
-  const {user} = useContext(UserContext);
-  useEffect(() => { 
+  const { user } = useContext(UserContext);
+  useEffect(() => {
     (async () => {
       if (!project || !user) return;
       const users = await userService.findAll().catch(asyncThrow);
       if (!users) return;
-      setUsers(
-        [...users
-          .filter(
-            (user) =>
-              user.permissions.find(
-                (permission) => permission.project.id === project.id
-              ) != undefined
-          )
-          .sort((a, b) => a.points - b.points), user]
+      const filtered = users.filter(
+        (user) =>
+          user.permissions.find(
+            (permission) => permission.project.id === project.id
+          ) != undefined
       );
+      filtered.push(project.owner);
+      const groups = await groupService.findGroupsByAProject(project.id);
+      for (let group of groups) {
+        users.push(await userService.findByUsername(group.ownerUsername));
+      }
+      // setUsers([...list])
+      const finalList = users.filter((user, index) => {
+        let indexL = users.findLastIndex((userL) => userL.id == user.id);
+        return indexL == index;
+      });
+      setUsers([...finalList.sort((a, b) => a.points - b.points)]);
     })();
   }, [project, user]);
   const { t } = useTranslation();
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<OtherUser | null>(new OtherUser(
-    0,
-    "jonatas",
-    "",
-    "",
-    new Archive(0, "jpg", "pic", new Uint8Array()),
-    "",
-    "",
-    "",
-    0,
-  ));
+  const [selectedUser, setSelectedUser] = useState<OtherUser | null>(
+    new OtherUser(
+      0,
+      "jonatas",
+      "",
+      "",
+      new Archive(0, "jpg", "pic", new Uint8Array()),
+      "",
+      "",
+      "",
+      0
+    )
+  );
 
   const openUser = (e: MouseEvent<HTMLDivElement>, user: OtherUser) => {
     setX(e.clientX);
@@ -91,7 +100,9 @@ export const FeaturedUser = () => {
                   {user.name + " " + user.surname}
                 </p>
               </span>
-              <div className="font-alata h-full flex items-center justify-end text-p">{user.points ?? 0}</div>
+              <div className="font-alata h-full flex items-center justify-end text-p">
+                {user.points ?? 0}
+              </div>
             </div>
           ))
         )}
@@ -103,7 +114,7 @@ export const FeaturedUser = () => {
           setCondition={setIsOpened}
         >
           <OtherUserComponent user={selectedUser!} />
-          </LocalModal>
+        </LocalModal>
       </div>
     </div>
   );

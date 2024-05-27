@@ -33,7 +33,7 @@ export const CenterModal = ({
             exit={{ opacity: 0, transition: { delay: 0 } }}
             transition={{ duration: 0.1 }}
             className="fixed top-0 bottom-0 left-0 z-[100] w-full h-screen flex justify-center 
-                        items-center bg-black bg-opacity-10 backdrop-blur-[2px]"
+                        items-center bg-black bg-opacity-10 backdrop-blur-[2px] py-10"
 
           >
             <motion.div

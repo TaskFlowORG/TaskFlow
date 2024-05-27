@@ -9,34 +9,40 @@ import { chatService } from "@/services";
 import { use, useContext, useEffect, useState } from "react";
 import { archiveToSrc } from "@/functions";
 import { useTranslation } from 'react-i18next';
+import { ChatContent } from '../ChatContent';
+import { ChatContext } from '@/contexts/ChatsContext';
+import Link from 'next/link';
 
 interface ChatProps {
   key: number
   chat: Chat
   lastMessage: Message
   date: Date
-  onChatClick: (chatId: number) => void
+  visualize: (id:number) => void
 }
 
-export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) => {
+export const ChatsBar = ({ chat, lastMessage, date, visualize }: ChatProps) => {
 
   const [quantityUnvisualized, setQuantityUnvisualized] = useState<number>(chat.quantityUnvisualized)
-  const [chatClicado, setChatClicado] = useState<number>()
   const [photoUrl, setPhotoUrl] = useState<string>(chat ? archiveToSrc(chat.picture) : "");
   const { user } = useContext(UserContext);
   const { t } = useTranslation();
 
+  const {chat: chatClicado} = useContext(ChatContext)
+
   const setarChat = () => {
-    onChatClick(chat.id);
     chatService.upDateToVisualized(chat.id)
     setQuantityUnvisualized(0)
-    setChatClicado(chat.id)
+    visualize(chat.id)
   }
 
+
+
   useEffect(() => {
-    if (chatClicado == chat.id) return
-    setQuantityUnvisualized(chat.quantityUnvisualized)
-  }, [chat])
+    console.log("chatClicado", chatClicado?.id, chat.id, chat.quantityUnvisualized)
+    if (chatClicado?.id == chat.id) setarChat()
+    else setQuantityUnvisualized(chat.quantityUnvisualized)
+  }, [chat, chatClicado])
 
   useEffect(() => {
     setPhotoUrl(archiveToSrc(chat?.picture));
@@ -44,7 +50,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
 
   return (
     <>
-      <div className="lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer">
+      <Link  href={"/" + user?.username + "/chat/" + chat.id} className="lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer">
         <div onClick={() => setarChat()} className="w-full h-28 grid grid-cols-3 duration-0" style={{ gridTemplateColumns: "20% 55% 25%" }}>
           <div className="flex items-center pl-2">
             <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary dark:border-secondary border-2">
@@ -129,7 +135,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             </If>
             <If condition={quantityUnvisualized > 0}>
               <div className="flex items-center justify-center w-8 h-8 bg-primary rounded-full">
-                <p className="text-p font-montserrat text-white">{quantityUnvisualized}</p>
+                <p className="text-p font-montserrat text-contrast">{quantityUnvisualized}</p>
               </div>
             </If>
             <If condition={quantityUnvisualized == 0}>
@@ -139,7 +145,7 @@ export const ChatsBar = ({ chat, onChatClick, lastMessage, date }: ChatProps) =>
             </If>
           </div>
         </div>
-      </div >
+      </Link >
     </>
   )
 }

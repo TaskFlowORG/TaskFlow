@@ -56,7 +56,7 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
             className={` h-max pt-40 w-full overflow-x-clip justify-center items-center ${extendida ? "flex" : "invisible"
               }`}
           >
-            <h3 className={`hidden lg:block font-alata text-h3 whitespace-pre-wrap text-center`}>{pageTitle}</h3>
+            <h3 className={`hidden lg:block font-alata text-h3 whitespace-pre-wrap text-center`}>{t(pageTitle)}</h3>
           </div>
         </span>
         <div className="w-min h-full flex justify-center dark:text-white lg:flex-col items-start gap-8">

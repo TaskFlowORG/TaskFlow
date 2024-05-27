@@ -16,7 +16,7 @@ export const OtherUserComponent = ({ user }: { user: OtherUser }) => {
   return (
     <div className="bg-white dark:bg-modal-grey gap-2 rounded-md flex flex-col justify-center items-center p-4 w-min h-min">
       <div className=" w-64  h-16 flex gap-2">
-        <div className=" rounded-full relative h-full aspect-square bg-zinc-400">
+        <div className=" rounded-full overflow-clip border-[1px] border-zinc-300 relative h-full aspect-square bg-zinc-400">
           <Image src={src} alt="User Picture" fill />
         </div>
         <div className="flex flex-col w-[70%]">

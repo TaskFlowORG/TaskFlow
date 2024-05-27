@@ -138,14 +138,14 @@ export const PersonalInformations = () => {
   };
 
   return (
-    <div className="overflow-auto z-10 flex w-full h-full items-center lg:pt-20 pt-[22rem]">
+    <div className="overflow-auto z-10 flex w-full h-full  lg:pt-20 pt-14">
       <div className="flex flex-col relative z-20 justify-start items-center gap-10 w-full h-min py-20 lg:py-0">
         <div className="flex flex-col lg:flex-row items-center gap-10 w-full lg:w-[57.5%]  px-6 lg:px-0">
           <div className="h-min relative w-32 lg:w-fit">
-            <div className="w-min h-min rounded-full overflow-clip relative p-1 bg-gradient-to-t from-primary to-secondary  dark:from-secondary dark:to-primary">
-              <span className="bg-input-grey dark:bg-modal-grey absolute top-0 left-0 w-full" style={{ height: 100 - percentage + "%" }} />
+            <div className="w-min h-min rounded-full overflow-clip border-[1px] border-primary dark:border-secondary relative p-1 bg-gradient-to-t from-primary to-secondary  dark:from-secondary dark:to-primary">
+              <span className="bg-input-grey  dark:bg-modal-grey absolute top-0 left-0 w-full" style={{ height: 100 - percentage + "%" }} />
               <div
-                id="fotoDeUsuario" className="relative  rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
+                id="fotoDeUsuario" className="relative border-[1px] border-primary dark:border-secondary rounded-full bg-slate-500 lg:w-48 lg:h-48 w-28 h-28">
                 <Image
                   fill
                   className="rounded-full w-full h-full"
