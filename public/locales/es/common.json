@@ -429,6 +429,11 @@
   "options": "Opciones",
   "type-prop-select": "Selección",
   "portuguese": "Português",
-  "english":"English",
-  "spanish":"Español"
+  "english": "English",
+  "spanish": "Español",
+  "phrase-luka": "¡Creando soluciones modernas e intuitivas! Enfocado en elaborar código accesible para todos los usuarios, sin sacrificar la calidad estética y siempre innovando.",
+  "phrase-marquardt": "En el mundo del software, la única limitación es tu imaginación. Transforma líneas de código en nuevas soluciones que moldearán el futuro.",
+  "phrase-becker": "Cada línea de código tiene el poder de transformar el mundo, haciendo del desarrollador un arquitecto de soluciones, un artista de la innovación y un guardián de la excelencia técnica.",
+  "phrase-heloisa": "La esencia de mi trabajo reside en la pasión por la innovación, en la búsqueda incansable de nuevas formas de hacer las cosas, siempre con dedicación y compromiso.",
+  "phrase-jonatas": "Soy un profesional de la tecnología en programación y diseño UX/UI, con experiencia en front-end y back-end, enfocado en crear soluciones innovadoras para los usuarios."
 }

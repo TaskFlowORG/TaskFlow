@@ -28,7 +28,7 @@ export const Devs = () => {
     {
       name: "Jonatas",
       description:
-        "Sou um profissional de tecnologia em programação e design UX/UI, com experiência em front-end e back-end, focado em criar soluções inovadoras para os usuários.",
+        t("phrase-jonatas"),
       links: [
         "https://www.linkedin.com/in/jonatas-jackson-gon%C3%A7alves-554661274/",
         "https://github.com/Jonatass06",
@@ -37,7 +37,7 @@ export const Devs = () => {
     {
       name: "Luka",
       description:
-        "Criando soluções modernas e intuitivas! Focado em criar códigos acessíveis para todos os usuários, sem perder a qualidade estética e sempre inovando.",
+        t("phrase-luka"),
       links: [
         "https://www.linkedin.com/in/gabriel-luka-00390230b/",
         "https://github.com/GabrielLukaA",
@@ -50,7 +50,7 @@ export const Devs = () => {
         "https://github.com/heloisaFogaca",
       ],
       description:
-        "A essência do meu trabalho está na paixão pela inovação, na busca incessante por novas formas de fazer as coisas, sempre com dedicação e comprometimento.",
+        t("phrase-heloisa"),
     },
     {
       name: "Becker",
@@ -59,7 +59,7 @@ export const Devs = () => {
         "https://github.com/BeckerMM",
       ],
       description:
-        "Cada linha de código tem o poder de transformar o mundo, tornando o desenvolvedor um arquiteto de soluções, artista da inovação e guardião da excelência técnica.",
+        t("phrase-becker"),
     },
     {
       name: "Marquardt",
@@ -68,7 +68,7 @@ export const Devs = () => {
         "https://github.com/Marquardtt",
       ],
       description:
-        "No mundo do software, a única limitação é a sua imaginação. Transforme linhas de código em novas soluções que moldarão o futuro.",
+        t("phrase-marquardt"),
     },
   ];
 
@@ -104,18 +104,16 @@ export const Devs = () => {
             );
           })}
           <div
-            className={`swiper-button-prevs ${
-              theme == "dark"
-                ? "swiper-type-of-page-k"
-                : "swiper-type-of-page-s"
-            }`}
+            className={`swiper-button-prevs ${theme == "dark"
+              ? "swiper-type-of-page-k"
+              : "swiper-type-of-page-s"
+              }`}
           ></div>
           <div
-            className={`swiper-button-nexts ${
-              theme == "dark"
-                ? "swiper-type-of-page-k"
-                : "swiper-type-of-page-s"
-            }`}
+            className={`swiper-button-nexts ${theme == "dark"
+              ? "swiper-type-of-page-k"
+              : "swiper-type-of-page-s"
+              }`}
           ></div>
         </Swiper>
       </div>
