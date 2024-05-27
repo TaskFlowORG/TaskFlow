@@ -53,9 +53,11 @@ export const TaskLegend = ({
               (prop) => prop.property.id === propOrdering.id
             )?.value as TimeValued;
             return (
-              <div className="w-full h-min flex justify-center ">
-                <div
+              <div className="w-full h-min flex justify-center "
+              
                   key={index}
+              >
+                <div
                   className="h-8 w-full md:px-6 gap-2 flex justify-start items-center cursor-pointer hover:brightness-95 flex-1"
                   onClick={() => openModal(task.id)}
                 >
