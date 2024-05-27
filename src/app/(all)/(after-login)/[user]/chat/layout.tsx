@@ -184,7 +184,7 @@ export default function ChatMessages({
       const oldChat = list.find((c) => c.id == chatTemp.id);
       if (!oldChat) return;
       const qtty = oldChat.quantityUnvisualized;
-      if(chat?.id != chatTemp.id) chatTemp.quantityUnvisualized = qtty + 1; 
+      if (chat?.id != chatTemp.id) chatTemp.quantityUnvisualized = qtty + 1;
       list.splice(list.indexOf(oldChat), 1);
       const newList = [chatTemp, ...list];
       setListaChats(newList);
@@ -301,9 +301,9 @@ export default function ChatMessages({
                                 className="w-full p-1 cursor-pointer min-h-11 h-min max-h-min font-alata shadowww rounded-md flex-col flex justify-center items-start"
                                 key={index}
                               >
-                                
+
                                 <p className="text-p font-alata text-start truncate w-56 h-max">
-                                {chat instanceof ChatGroupPost ? t("group") + ": " : ""} {chat.getName() || t("withoutname")}
+                                  {chat instanceof ChatGroupPost ? t("group") + ": " : ""} {chat.getName() || t("withoutname")}
                                 </p>
                                 {chat instanceof ChatPrivatePost ? (
                                   <p className="text-primary bg-transparent truncate w-56 h-max text-mn dark:text-secondary opacity-75">
@@ -340,27 +340,30 @@ export default function ChatMessages({
               >
                 <div className="w-full h-full flex  flex-col items-center ">
                   {(chatContenteType == "GROUP" && chatsGrupos.length == 0) ||
-                  (chatContenteType == "PRIVATE" &&
-                    chatsPrivados.length == 0) ? (
+                    (chatContenteType == "PRIVATE" &&
+                      chatsPrivados.length == 0) ? (
                     <div className="h-full flex justify-center  items-center">
                       <ChatDontExists />
                     </div>
                   ) : (
-                    filteredChats.map((chat) => (
-                      <>
-                        <If
-                          condition={chatContenteType == chat.type.toString()}
-                        >
-                          <ChatsBar
-                            key={chat.id}
-                            chat={chat}
-                            lastMessage={chat.lastMessage}
-                            date={chat.lastMessage?.dateCreate}
-                            visualize={handleVisualize}
-                          />
-                        </If>
-                      </>
-                    ))
+                    filteredChats.find(c => c.type.toString() == chatContenteType) ?
+                      filteredChats.map((chat) => (
+                        <>
+                          <If
+                            condition={chatContenteType == chat.type.toString()}
+                          >
+                            <ChatsBar
+                              key={chat.id}
+                              chat={chat}
+                              lastMessage={chat.lastMessage}
+                              date={chat.lastMessage?.dateCreate}
+                              visualize={handleVisualize}
+                            />
+                          </If>
+                        </>
+                      ))
+                      :
+                      <ChatDontExists />
                   )}
                 </div>
               </div>
