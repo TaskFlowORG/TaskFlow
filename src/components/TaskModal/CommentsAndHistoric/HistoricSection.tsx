@@ -23,7 +23,7 @@ export const HistoricSection = ({
 
   return (
     <div className=" flex flex-col gap-6">
-      <div className="flex flex-col gap-6 h-[442px] overflow-auto  pr-8 bah">
+      <div className="flex flex-col gap-6 h-[442px] overflow-auto thin-scrollbar pr-8 bah">
         {(task as Task).logs?.map((log) => {
           return (
             <LogItem item={task} isInModal={isInModal} key={log.id} log={log} />

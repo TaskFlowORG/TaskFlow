@@ -417,14 +417,10 @@ export const TesPropertiesSide = ({
       const taskReturned = await taskService
         .upDate(task as Task, project!.id)
         .catch(asynThrow);
-      const page = project?.pages.find((page) => page.id == pageId);
-      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskReturned && taskPage) {
-        taskPage.task = taskReturned;
-      }
       setSelectedTask!(taskReturned!);
 
-      setProject!({ ...project! });
+      const projectTemp = await projectService.findOne(project!.id).catch(asynThrow);
+      if (projectTemp) setProject!(projectTemp);
     } else {
       const projectReturned = await projectService
         .update(task as Project, project!.id)

@@ -28,7 +28,8 @@ export const TaskName = ({ task }: Props) => {
       // console.log("Atualizei o nome otário")
       task.name = e.target.value;
       setTaskName(e.target.value);
-      await taskService.upDate(task as Task, project!.id);
+      const taskUpdated = await taskService.upDate(task as Task, project!.id);
+      setSelectedTask!(taskUpdated);
     }
   }
 
@@ -65,7 +66,6 @@ export const TaskName = ({ task }: Props) => {
           taskP.task.name = task.name;
         }
       }
-
       setProject!({ ...project! });
     }
   }, [task?.name]);

@@ -38,7 +38,7 @@ export const Header = ({
   useEffect(() => {
     const conection = onConnect(`/notifications/${user!.id}`, (message) => {
       const notification = JSON.parse(message.body);
-      setNotifications((prev) => [notification, ...prev]);
+      setNotifications((prev) => [...prev, notification]);
       setThereAreNotifications(true);
       sound.play();
     });
@@ -124,7 +124,7 @@ export const Header = ({
               right
             >
               <div className="h-min max-h-48 bg-white none-scrollbar dark:bg-modal-grey rounded-sm flex flex-col overflow-y-auto w-80">
-                {notifications.map((notification, index) => {
+                {notifications.slice(0).reverse().map((notification, index) => {
                   return (
                     <span
                       key={index}

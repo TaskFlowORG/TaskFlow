@@ -16,7 +16,7 @@ export const Headline = () => {
       <p className="md:text-[16px] text-modal-grey dark:text-white  mn whitespace-normal">
 {t('taskFlow-intro')
 }      </p>
-      <Link href={"/register"}>
+      <Link href={"/login"}>
         <Button
           width={"w-min"}
           text={t('start-now')}

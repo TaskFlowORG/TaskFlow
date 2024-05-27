@@ -1,18 +1,13 @@
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import { useContext } from "react";
-import { URL } from "url";
-import { UserContext } from "./contexts/UserContext";
-import { Route } from "react-router-dom";
 
 export async function middleware(req: NextRequest) {
 
   const token = req.cookies.get("JWT");
   if (
     !token &&
-    req.nextUrl.pathname !== "/login" &&
-    req.nextUrl.pathname !== "/register" &&
-    req.nextUrl.pathname !== "/"
+    req.nextUrl.pathname != "/login" &&
+    req.nextUrl.pathname != "/register" &&
+    req.nextUrl.pathname != "/"
   ) {
     const domain = req.nextUrl.origin;
     const loginUrl = domain + "/login";
@@ -20,9 +15,9 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl);
   } else if (
     token &&
-    (req.nextUrl.pathname === "/login" ||
-      req.nextUrl.pathname === "/register" ||
-      req.nextUrl.pathname === "/")
+    (req.nextUrl.pathname == "/login" ||
+      req.nextUrl.pathname == "/register" ||
+      req.nextUrl.pathname == "/")
   ) {
     const username = req.cookies.get("username")?.value; 
     const domain = req.nextUrl.origin;

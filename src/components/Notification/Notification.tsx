@@ -38,9 +38,11 @@ export const Notification = ({
   const router = useRouter();
   useEffect(() => {
     (async () => {
-      const link = notification.link;
+      const linkOfNotf = notification.link;
+      console.log("LINK", linkOfNotf)
       if (await validateLink(notification)) {
-        if (link.endsWith("/")) {
+        if (linkOfNotf.endsWith("/")) {
+          console.log("IF", linkOfNotf)
           let pageWithTask;
           for (let project of projects ?? []) {
             const p = await projectService.findOne(project.id);
@@ -49,8 +51,12 @@ export const Notification = ({
               p.tasks.find((t) => t.task.id == notification.objId)
             );
           }
-          setLink(link + pageWithTask?.id);
-        } else [setLink(link)];
+
+        setLink(linkOfNotf + pageWithTask?.id);
+        } else{
+          console.log("ELSE", linkOfNotf)
+          setLink(linkOfNotf);
+        }
       } else {
         setLink("");
       }
@@ -128,6 +134,28 @@ export const Notification = ({
       1
     );
     setUser({ ...user });
+    if (notification.auxObjId == null && link) {
+      router.push(link);
+      return;
+    }
+    console.log("CLICK", link)
+    fnClick && fnClick();
+    if (link) router.push(link);
+    if (
+      [
+        TypeOfNotification.COMMENTS,
+        TypeOfNotification.CHANGETASK,
+        TypeOfNotification.DEADLINE,
+        TypeOfNotification.SCHEDULE,
+      ].includes(notification.type)
+    ) {
+      const projectTemp = await projectService.findOne(1);
+      setIsOpen && setIsOpen(true);
+      const task = projectTemp?.pages
+        .flatMap((p) => p.tasks)
+        .find((t) => t.task.id == notification.objId)?.task;
+      setSelectedTask && task && setSelectedTask(task);
+    }
 
     await notificationService.clickNotification(notification.id).catch((e) => {
       if (e.response.status == 409) {
@@ -156,7 +184,7 @@ export const Notification = ({
   const validateLink = async (notification: NotificationModel) => {
     switch (notification.type) {
       case TypeOfNotification.CHANGETASK:
-      case TypeOfNotification.COMMENTS:
+      case TypeOfNotification.COMMENTS:        
         return await testIfTaskExists();
       case TypeOfNotification.DEADLINE:
       case TypeOfNotification.SCHEDULE:
@@ -195,29 +223,7 @@ export const Notification = ({
     ) {
       clickNotification(e);
     }
-    if (notification.auxObjId == null && link) {
-      router.push(link);
-      return;
-    }
-
     fnClick && fnClick();
-
-    if (link) router.push(link);
-    if (
-      [
-        TypeOfNotification.COMMENTS,
-        TypeOfNotification.CHANGETASK,
-        TypeOfNotification.DEADLINE,
-        TypeOfNotification.SCHEDULE,
-      ].includes(notification.type)
-    ) {
-      const projectTemp = await projectService.findOne(1);
-      setIsOpen && setIsOpen(true);
-      const task = projectTemp?.pages
-        .flatMap((p) => p.tasks)
-        .find((t) => t.task.id == notification.objId)?.task;
-      setSelectedTask && task && setSelectedTask(task);
-    }
   };
 
   const deleteNotification = async (
