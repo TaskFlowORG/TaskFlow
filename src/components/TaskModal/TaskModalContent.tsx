@@ -69,16 +69,16 @@ export const TaskModalContent = ({
   }, [project]);
 
   const style = twMerge(
-    "flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0 h-full  w-full max-h-full overflow-y-auto",
+    "flex gap-8 lg:justify-between lg:gap-0 flex-col lg:flex-row pr-4 lg:pr-0 h-full  w-full max-h-full overflow-y-auto lg:overflow-y-visible",
     isInModal ? "max-w-[1300px]" : ""
   );
 
   return (
     <div className={style}>
-      <div className="flex flex-col gap-12 w-full lg:w-2/5">
+      <div className="flex flex-col gap-12 w-full lg:w-2/5 max-h-full ">
         {isInModal && <TaskName task={task as Task} />}
-        <div className="flex flex-col w-full gap-6">
-          <div className="flex gap-0 w-full">
+        <div className="flex flex-col w-full gap-6 h-full max-h-full ">
+          <div className="flex gap-0 w-full ">
             <HeaderCommentAndHistoric
               title="comments"
               isSelected={isInComments}
@@ -96,7 +96,7 @@ export const TaskModalContent = ({
               }}
             />
           </div>
-          {isInComments && <CommentsSection task={task} user={user} />}
+          {isInComments && <CommentsSection isInModal={isInModal} task={task} user={user} />}
           {isInHistorics && (
             <HistoricSection isInModal={isInModal} user={user} task={task} />
           )}
@@ -111,7 +111,7 @@ export const TaskModalContent = ({
         }}
       >
         <div className="hidden lg:block w-[2px]  min-h-full bg-[#F2F2F2]"></div>
-        <div className=" lg:hidden w-full min-h-[2px] bg-[#F2F2F2]"></div>
+        <div className={" md:mt-0  lg:hidden w-full min-h-[2px] bg-[#F2F2F2] " + (isInModal?"mt-40":" mt-12")}></div>
 
         <TesPropertiesSide
           filter={filter}

@@ -445,5 +445,8 @@
   "phrase-marquardt": "In the world of software, the only limitation is your imagination. Turn lines of code into new solutions that will shape the future.",
   "phrase-becker": "Each line of code has the power to transform the world, making the developer an architect of solutions, an artist of innovation, and a guardian of technical excellence.",
   "phrase-heloisa": "The essence of my work lies in a passion for innovation, an unrelenting quest for new ways of doing things, always with dedication and commitment.",
-  "phrase-jonatas": "I am a technology professional in programming and UX/UI design, with experience in front-end and back-end, focused on creating innovative solutions for users."
+  "phrase-jonatas": "I am a technology professional in programming and UX/UI design, with experience in front-end and back-end, focused on creating innovative solutions for users.",
+  "cant-delete-prop": "You cannot delete this property!",
+  "cant-delete-prop-desc": "Some view/page requires this property. If it is deleted, it will not function correctly. Remove or modify the affected view/page."
+
 }

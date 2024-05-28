@@ -498,11 +498,11 @@ export const TesPropertiesSide = ({
   }
 
   return (
-    <div className="w-full lg:w-2/5 flex flex-col properties-section justify-between min-h-full ">
+    <div className={"w-full lg:w-2/5 flex flex-col properties-section justify-between  md:mt-0 mt-4 "}>
       {/* <pre>{JSON.stringify(propertiesToValidate, null, 2)}</pre> */}
-      <div className="w-full">
+      <div className="w-full h-[calc(100%_-_205px)]">
         {/* bg-black */}
-        <div className="flex max-w-full flex-col gap-5 h-full max-h-[460px] min-h-[450px]  overflow-auto bah pr-4 w-full">
+        <div className="flex max-w-full flex-col gap-5 h-full max-h-[400px] lg:max-h-full  overflow-auto bah pr-4 w-full">
           {valuesOfObjects(task)
             .sort((a: PropertyValue, b: PropertyValue) => a.id! - b.id!)
             .map((prop) => {
@@ -594,6 +594,8 @@ export const TesPropertiesSide = ({
             })}
         </div>
       </div>
+      <div className="min-h-48 h-min mt-4 flex flex-col justify-between">
+
       <NeedPermission permission="create">
         {((!(task as Task).completed && !isProject(task)) ||
           (!(task as Task).completed && project?.owner?.id == user?.id)) && (
@@ -623,6 +625,7 @@ export const TesPropertiesSide = ({
         <div className=" min-w-full h-[2px] bg-[#F2F2F2]"></div>
       )}
       {<FooterTask deleteTask={deleteTask} updateTask={updateTask} />}
+      </div>
     </div>
   );
 };
