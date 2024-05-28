@@ -40,11 +40,11 @@ export default function Groups({ params }: { params: { user: string, group: numb
             <div className="absolute flex h-[99vh] w-[130%] md:hidden top-44">
                 <SVGGroupMobile />
             </div>
-            <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 mt-32">
-                <div className="flex flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
+            <div className="w-full h-screen flex flex-col lg:flex-row lg:gap-8 xl:gap-32 pb-16 pt-32">
+                <div className="flex h-full flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
                     {<Description user={user} groupId={params.group} />}
                 </div>
-                <div className="flex flex-col lg:flex-row lg:w-1/2 mt-12 lg:mt-0">
+                <div className="flex h-full flex-col lg:flex-row lg:w-1/2 pt-12 lg:pt-0">
                     {<UsersList group={group} user={user} setGroup={setGroup} />}
                 </div>
             </div>
