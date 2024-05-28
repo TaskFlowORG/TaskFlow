@@ -87,7 +87,7 @@ export const ColumnKanban = ({
                 // overflowY: "scroll",
               }}
               ref={provided.innerRef} {...provided.droppableProps}
-              className="flex w-[360px] min-w-min max-h-full h-fit rounded-lg flex-col"
+              className="flex w-[360px] min-w-min  h-fit rounded-lg flex-col"
              
             >
               <div className="flex  h-min w-full gap-6 flex-col" >

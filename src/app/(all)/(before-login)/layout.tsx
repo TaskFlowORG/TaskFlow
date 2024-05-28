@@ -9,6 +9,7 @@ import Cookies from "js-cookie";
 import { LanguageContext, LanguageProvider } from "@/contexts/ContextLanguage";
 import { UserContext } from "@/contexts/UserContext";
 import Link from "next/link";
+import { setConfigsDefault } from "@/utils/setConfigsDefault";
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -20,6 +21,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     if(!setUser) return;
     setUser(undefined);
   }, [setUser]);
+
+  useEffect(() => {
+    setConfigsDefault();
+  }, [language]);
 
   return (
     <>
