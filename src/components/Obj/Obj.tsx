@@ -64,17 +64,17 @@ export const Obj = ({
    justify-center ` +
     (color
       ? "bg-input-grey dark:bg-modal-grey text-primary dark:text-white"
-      : " bg-primary dark:bg-secondary text-contrast ");
+      : " bg-primary dark:bg-secondary  text-contrast ");
   return (
     <AnimatePresence initial={false}>
       <div
         className={
-          `flex justify-center ${
+          `flex items-start  justify-center  ${
             objs.length <= 1 ? " " :
             resposiveClasses
               ? " pr-4 " + resposiveClasses
               : "xl:pr-4  lg:pr-3 md:pr-2"
-          } pr-1 flex-wrap ` + mawWidth
+          } pr-1 flex-wrap  ` + mawWidth
         }
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -88,7 +88,8 @@ export const Obj = ({
           z="z-[60]"
           condition={otherUser !== undefined && openUser}
           setCondition={() => setOtherUser(undefined)}
-          right
+          classesPosition="absolute top-0 2xl:right-0 hidden sm:flex sm:-right-20 lg:-right-24"
+          
         >
           <OtherUserComponent user={otherUser!} />
         </LocalModal>

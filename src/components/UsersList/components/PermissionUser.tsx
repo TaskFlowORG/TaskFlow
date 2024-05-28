@@ -79,7 +79,7 @@ export const PermissionUser = ({ group, showUser, project, setGroup }: Props) =>
 
         <div className="flex gap-6 w-full ml-2" onClick={(e) => openUser(e)}>
           <button>{userIcon}</button>
-          <p className="whitespace-nowrap text-p font-montserrat overflow-hidden dark:text-[#FCFCFC] text-black">{displayFullName}</p>
+          <p className="whitespace-nowrap text-p truncate font-montserrat dark:text-[#FCFCFC] text-black">{displayFullName}</p>
         </div>
 
         <div className="text-primary dark:text-secondary w-36 flex justify-between ">

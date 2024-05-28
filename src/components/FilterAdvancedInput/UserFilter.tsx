@@ -33,10 +33,10 @@ export const UserFilter = ({
   const [users, setUsers] = useState<OtherUser[]>([]);
   const [actualCounter, setActualCounter] = useState(value?.length);
 
-  const [x, setX] = useState(0)
-  const [y, setY] = useState(0)
+  const [x, setX] = useState(0);
+  const [y, setY] = useState(0);
   const style = twMerge(
-    "flex gap-4 items-center border-b-[1px] relative  pb-2",
+    "flex gap-4 items-center w-auto flex-1 border-b-[1px] relative  pb-2",
     isInModal ? " p-0 border-none pl-4" : " "
   );
 
@@ -76,10 +76,10 @@ export const UserFilter = ({
 
   return (
     <div className={style}>
-      {!isInModal && <p className=" text-black dark:text-white">{name}:</p>}
-      <div className="flex  justify-end">
-        <div className="flex gap-4">
-          <div className="z-50 relative">
+      {!isInModal && <p className=" text-black w-min dark:text-white">{name}:</p>}
+      <div className="flex w-full justify-end ">
+        <div className="flex gap-4 w-full justify-between">
+          <div className="z-50 relative w-full">
             <Obj
               openUser
               resposiveClasses="hover:brightness-95"
@@ -141,7 +141,7 @@ export const UserFilter = ({
               />
             )}
             {!isDisabled && (
-              <div className="flex gap-2">
+              <div className="flex gap-2 ">
                 {(property.maximum == undefined ||
                   actualCounter < property.maximum) && (
                   <div

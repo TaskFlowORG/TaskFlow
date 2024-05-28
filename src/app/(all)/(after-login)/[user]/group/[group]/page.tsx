@@ -44,6 +44,7 @@ export default function Groups({ params }: { params: { user: string, group: numb
                     <div className="flex flex-col lg:flex-row lg:w-1/2 mt-8 md:mt-16 lg:mt-0">
                         <UsersList group={group} user={user} setGroup={setGroup} />
                     </div>
+
                 </div>
             </div>
         )

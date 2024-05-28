@@ -132,8 +132,7 @@ export const Calendar = ({ page }: Props) => {
       setMonth(month - 1);
     }
 
-    console.log
-    ("month", month);
+
   }
   function incMonth(): void {
     if (month == 12) {
@@ -142,8 +141,6 @@ export const Calendar = ({ page }: Props) => {
     } else {
       setMonth(month + 1);
     }
-    console.log
-    ("month", month);
   }
   function getMonthName(): string {
     const date: Date = new Date(year, month - 1);

@@ -150,14 +150,14 @@ export const Project = () => {
                 className="bg-transparent placeholder:text-primary dark:placeholder:text-secondary pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
-                value={name}
+                value={name ?? ""}
                 onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                 onChange={(e) => setName(e.target.value)}
                 onBlur={saveName}
               />
               <textarea
                 style={{ opacity: description ? 1 : 0.5, resize: "none" }}
-                value={description }
+                value={description ?? "" }
                 placeholder={t("withoutname")}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={saveDescription}

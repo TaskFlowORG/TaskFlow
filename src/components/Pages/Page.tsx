@@ -39,7 +39,6 @@ export const Page = ({
   const context = useContext(FilterContext);
   const [pageComponent, setPageComponent] = useState<ReactNode | undefined>();
   useEffect(() => {
-    console.log("UBLABLA")
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
       showTask(task.task, context)

@@ -336,7 +336,6 @@ export const TimeFilter = ({
   };
 
   const handleUpdateColor = async (e: any) => {
-    console.log(e.target.value);
     value.color = e.target.value;
     if (!isProject(task)) {
       const taskReturned = await taskService.upDate(task as Task, project!.id);

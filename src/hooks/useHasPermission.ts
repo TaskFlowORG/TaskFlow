@@ -48,12 +48,10 @@ export const useHasPermission = (
       const permission = user.permissions.find(
         (p) => p.project.id === project.id
       );
-      // console.log(permission);
       if (!permission) {
         setSucess(false);
         return;
       } else {
-        console.log(permission.permission.includes(action.toUpperCase()));
         setSucess(permission.permission.includes(action.toUpperCase()));
       }
     }

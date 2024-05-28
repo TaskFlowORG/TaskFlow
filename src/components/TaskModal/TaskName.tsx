@@ -25,7 +25,6 @@ export const TaskName = ({ task }: Props) => {
   const { t } = useTranslation();
   async function updateNameTask(e: any) {
     if (task.name != e.target.value) {
-      // console.log("Atualizei o nome otário")
       task.name = e.target.value;
       setTaskName(e.target.value);
       const taskUpdated = await taskService.upDate(task as Task, project!.id);

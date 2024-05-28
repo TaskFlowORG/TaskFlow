@@ -23,6 +23,7 @@ export const InviteGroupToProject = ({ openModal, setOpenModal, setError }: Prop
 
   const fetchData = async () => {
     try {
+      if(!project) return;
       const globalGroups = await groupService.findAll();
 
 

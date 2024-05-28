@@ -59,7 +59,6 @@ export const DateFilter = ({
     const prop = filterProp!.find((bah) => id == bah.id);
     if (prop) {
       // const splitTimestamp: string[] = prop.value?.split("T");
-      console.log(prop.value, "Value bros");
       setValued(
         (property as DateP).includesHours
           ? formatDateTime(new Date(prop.value))
@@ -79,7 +78,6 @@ export const DateFilter = ({
   }, [value, setFilterProp, filterProp]);
   const [date, setDate] = useState("");
   useEffect(() => {
-    console.log(valued);
     setDate((property as DateP).includesHours ? valued : valued?.split("T")[0]);
   }, [valued]);
 
@@ -135,7 +133,6 @@ export const DateFilter = ({
         // }}
 
         onChange={(e) => {
-          console.log(e.target.value);
           // if (!e.target.value.match("/^\d{2}\/\d{2}\/\d{4}$/"))return;
           // let e = { target: { value: date } };
           setValued(
@@ -152,7 +149,6 @@ export const DateFilter = ({
                 setFilterProp!([...filterProp!]);
               }
             } else {
-              console.log("Amigo estou aqui!!!");
               thisProperty.value = (property as DateP).includesHours
                 ? formatDateTime(new Date(e.target.value))
                 : e.target.value + "T00:00:00";
@@ -160,7 +156,6 @@ export const DateFilter = ({
             }
           } else {
             if (e.target.value) {
-              console.log(formatDateTime(new Date(e.target.value)));
               setFilterProp!([
                 ...filterProp!,
                 {

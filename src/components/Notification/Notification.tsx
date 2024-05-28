@@ -39,10 +39,8 @@ export const Notification = ({
   useEffect(() => {
     (async () => {
       const linkOfNotf = notification.link;
-      console.log("LINK", linkOfNotf)
       if (await validateLink(notification)) {
         if (linkOfNotf.endsWith("/")) {
-          console.log("IF", linkOfNotf)
           let pageWithTask;
           for (let project of projects ?? []) {
             const p = await projectService.findOne(project.id);
@@ -54,7 +52,6 @@ export const Notification = ({
 
         setLink(linkOfNotf + pageWithTask?.id);
         } else{
-          console.log("ELSE", linkOfNotf)
           setLink(linkOfNotf);
         }
       } else {
@@ -138,7 +135,6 @@ export const Notification = ({
       router.push(link);
       return;
     }
-    console.log("CLICK", link)
     fnClick && fnClick();
     if (link) router.push(link);
     if (

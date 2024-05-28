@@ -28,6 +28,7 @@ export default function Home({ params }: { params: { user: string, project: numb
     }, [params.project]);
     if (!user) return <Loading />
     return (
+
         <div className="group-page w-screen h-screen">
         <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                 <SVGGroupPage />

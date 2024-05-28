@@ -31,6 +31,8 @@ import { If } from "@/components/If";
 import { ErrorModal } from "@/components/ErrorModal";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
+import { TypeOfNotification } from "@/models/enums/TypeOfNotification";
+import { notificationService } from "@/services/services/NotificationService";
 
 export default function ChatMessages({
   children,
@@ -39,7 +41,7 @@ export default function ChatMessages({
 }) {
   const route = useRouter();
   const { t } = useTranslation();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [windowWidth, setWindowWidth] = useState<number>(0);
   const { projects } = useContext(ProjectsContext);
   const [listaChats, setListaChats] = useState<Chat[]>([]);
@@ -213,6 +215,17 @@ export default function ChatMessages({
     setFilteredChats([...filteredChats, chatPost]);
     buscarChats();
   };
+
+
+  useEffect(() => {
+    user?.notifications.filter((n) => n.type == TypeOfNotification.CHAT).map((n) => {
+      notificationService.deleteNotification(n.id);
+    });
+    if (!user || user.notifications.find((n) => n.type == TypeOfNotification.CHAT) == undefined) return;
+    user.notifications = user?.notifications.filter((n) => n.type != TypeOfNotification.CHAT);
+    if(setUser) setUser({...user});
+  }, [user]);
+
 
   const [error, setError] = useState<boolean>(false);
 

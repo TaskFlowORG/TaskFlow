@@ -12,7 +12,6 @@ type isOpenBro = {
 
 export const TaskModal = ({ setIsOpen, isOpen, task, user }: isOpenBro) => {
   useEffect(() => {
-    console.log(task)
     if (!task) setIsOpen(false);
   }, [task]);
   return (
