@@ -27,25 +27,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
     const refDescription = useRef<HTMLTextAreaElement>(null);
     const refName = useRef<HTMLInputElement>(null);
 
-    // Definindo o estado do tamanho da tela
-    const [screenSize, setScreenSize] = useState<'sm' | 'lg'>('lg');
-
-    useEffect(() => {
-        function handleResize() {
-            // Atualiza o tamanho da tela quando a janela é redimensionada
-            setScreenSize(window.innerWidth <= 640 ? 'sm' : 'lg');
-        }
-
-        // Define o tamanho da tela inicialmente quando o componente monta
-        handleResize();
-
-        // Adiciona um event listener para monitorar alterações no tamanho da janela
-        window.addEventListener('resize', handleResize);
-
-        // Remove o event listener quando o componente é desmontado
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
     const fetchData = async () => {
         if (project != null) {
             const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
@@ -98,7 +79,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         <div className={"flex md:pl-48 lg:pl-8 md:gap-4 md:items-start flex-col  items-center   w-full   md:relative justify-center md:left-0  md:flex-row"}>
             <div>
                 <div className="relative rounded-full w-24 h-24 bg-zinc-300">
-                    <div className="absolute inset-0 overflow-hidden rounded-full">
+                <div className="absolute inset-0 overflow-hidden border-2 border-zinc-300 rounded-full">
                         <Image
                             className="rounded-full"
                             src={src}
