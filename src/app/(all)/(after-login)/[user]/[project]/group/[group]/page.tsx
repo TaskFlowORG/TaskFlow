@@ -29,7 +29,6 @@ export default function Groups({ params }: { params: { user: string, group: numb
     }, [params.group]);
 
     if (!user) return <Loading />
-    if (group?.owner.id !== user.id && !group?.users.find(u => u.id === user.id)) throw new AxiosError("Unauthorized", undefined, undefined, undefined, { status: 403 } as AxiosResponse<any>)
 
         return (
             <div className="group-page w-screen h-screen">
