@@ -44,14 +44,6 @@ export default function Groups({ params }: { params: { user: string, group: numb
                         <UsersList project={project} group={group} user={user} setGroup={setGroup} />
                     </div>
                 </div>
-                {/* <div className="w-full sm:h-screen lg:h-auto flex flex-col lg:flex-row lg:gap-8 xl:gap-32 pb-16 pt-32">
-    <div className="flex h-full flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
-        <Description project={project} user={user} groupId={params.group} />
-    </div>
-    <div className="flex h-full flex-col lg:flex-row lg:w-1/2 pt-12 lg:pt-0">
-        <UsersList project={project} group={group} user={user} setGroup={setGroup} />
-    </div>
-</div> */}
             </div>
         )
 }

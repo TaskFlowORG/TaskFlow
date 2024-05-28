@@ -61,7 +61,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
     return (
         <>
             <select
-                className="flex mr-6 text-p font-alata text-primary dark:text-secondary text-center w-[55%] md:w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
+                className="flex mr-6 text-p font-alata text-primary dark:text-secondary text-center w-[70%] md:w-[45%] h-8 dark:bg-[#3C3C3C] pl-2 pr-8 border-2 rounded-sm border-primary dark:border-secondary appearance-none focus:outline-none"
                 name="permission"
                 id="permission"
                 value={permissions.find(p => p.name === selectedPermission)?.id.toString() || ""}
@@ -74,7 +74,7 @@ export const PermissionComponent = ({ permissions, group, project }: Props) => {
                     </option>
                 ))}
             </select>
-            <Arrow className={"absolute inset-y-5 border-l-[2px] left-[39%] md:left-[85%] flex items-center pointer-events-none"} />
+            <Arrow className={"absolute inset-y-5 border-l-[2px] left-[73%] md:left-[85%] flex items-center pointer-events-none"} />
             {successPermission && (
                 <div className="fixed inset-x-0 text-p14 font-montserrat mx-auto w-72 h-12 flex items-center justify-center bg-[#F2F2F2] text-black rounded shadow-md animate-fadeInOut notification slideUpAppear">
                     {text}

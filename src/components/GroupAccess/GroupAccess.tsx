@@ -131,7 +131,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     />
                 </div>
                 {project?.id != null && (
-                    <div className="flex md:justify-end relative">
+                    <div className="flex justify-end relative">
                         <PermissionComponent permissions={permissions} group={group} project={project} />
                     </div>
                 )}
