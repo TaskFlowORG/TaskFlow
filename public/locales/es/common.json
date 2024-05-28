@@ -437,6 +437,8 @@
   "phrase-heloisa": "La esencia de mi trabajo reside en la pasión por la innovación, en la búsqueda incansable de nuevas formas de hacer las cosas, siempre con dedicación y compromiso.",
   "phrase-jonatas": "Soy un profesional de la tecnología en programación y diseño UX/UI, con experiencia en front-end y back-end, enfocado en crear soluciones innovadoras para los usuarios.",
   "error-delete-property": "No puedes eliminar esta propiedad!",
-  "error-alert-property": "Alguna vista/página necesita esta propiedad, si se elimina, no funcionará correctamente. Elimina o modifica la página correspondiente."
+  "error-alert-property": "Alguna vista/página necesita esta propiedad, si se elimina, no funcionará correctamente. Elimina o modifica la página correspondiente.",
+  "error-invite-acept": "Esta invitación ya ha sido aceptada por ti, probablemente la persona que te invitó envió más de una invitación. Si todavía hay invitaciones duplicadas del mismo usuario, por favor elimínalas.",
+  "invite-already-acept": "Invitación ya aceptada"
 
 }
