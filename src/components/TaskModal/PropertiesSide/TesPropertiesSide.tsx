@@ -99,11 +99,9 @@ export const TesPropertiesSide = ({
 
   async function deleteTask() {
     if (!isProject(task)) {
-      taskService.delete(task.id, project!.id.toString());
-      let page = project?.pages.find((page) => pageId == page.id);
-      let taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      page?.tasks.splice(page.tasks.indexOf(taskPage!), 1);
-      setProject!({ ...project! });
+      await taskService.delete(task.id, project!.id.toString());
+      const projectTemp = await projectService.findOne(project!.id).catch(asynThrow);
+      setProject!({ ...projectTemp! });
       {
         setIsOpen && setIsOpen(false);
       }
@@ -111,6 +109,7 @@ export const TesPropertiesSide = ({
       projectService.delete(project!.id);
       router.push("/"+user?.username+"/projects");
       setProjects!(projects!.filter((proj) => proj.id != project!.id));
+      setProject!(undefined);
     }
   }
 
@@ -417,14 +416,10 @@ export const TesPropertiesSide = ({
       const taskReturned = await taskService
         .upDate(task as Task, project!.id)
         .catch(asynThrow);
-      const page = project?.pages.find((page) => page.id == pageId);
-      const taskPage = page?.tasks.find((taskP) => taskP.task.id == task.id);
-      if (taskReturned && taskPage) {
-        taskPage.task = taskReturned;
-      }
       setSelectedTask!(taskReturned!);
 
-      setProject!({ ...project! });
+      const projectTemp = await projectService.findOne(project!.id).catch(asynThrow);
+      if (projectTemp) setProject!(projectTemp);
     } else {
       const projectReturned = await projectService
         .update(task as Project, project!.id)

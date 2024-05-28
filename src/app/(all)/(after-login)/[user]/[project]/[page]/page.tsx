@@ -39,13 +39,21 @@ export default function Pages({
     setPageId(pageTemp?.id);
     setInPage(pageTemp.type != TypeOfPage.LIST);
     setTasks(pageTemp.tasks);
-  }, [params.page, project, project?.pages]);
+  }, [params.page, project]);
   if (!user) return <Loading />;
   if (!page) {
-    throw new AxiosError(undefined, undefined, undefined, undefined, {
-      status: 404,
-    } as AxiosResponse);
-  }
+    //this returns loading for 10 seconds and after thorw 0
+    new Promise((resolve) => setTimeout(resolve, 5000)).then(() => {
+      if (!page) {
+        asynThrow(new AxiosError(undefined, undefined, undefined, undefined, {
+          status: 404,
+        } as AxiosResponse)) 
+      }
+  })
+    return <Loading />;
+}
+
+
 
   //AQUI FICOU ASSIM
   return (

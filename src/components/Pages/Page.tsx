@@ -1,4 +1,3 @@
-"use client";
 
 import {
   Calendar,
@@ -8,8 +7,6 @@ import {
   Table,
   TimeLine,
 } from "@/components/Pages";
-import { ProjectContext } from "@/contexts";
-import { UserContext } from "@/contexts/UserContext";
 import {
   CanvasPage,
   OrderedPage,
@@ -20,16 +17,11 @@ import {
   TypeOfPage,
   User,
 } from "@/models";
-import { FilteredProperty } from "@/types/FilteredProperty";
 import { FilterContext } from "@/utils/FilterlistContext";
-import { PageContext } from "@/utils/pageContext";
-import { log } from "console";
-import { useContext, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { SearchBar } from "../SearchBar";
 import { If } from "../If";
 import { showTask } from "./functions";
-import { Loading } from "../Loading";
-import { RenewKanban } from "./RenewKanban";
 
 export const Page = ({
   user,
@@ -45,67 +37,51 @@ export const Page = ({
   setPage: (page: PageModel) => void;
 }) => {
   const context = useContext(FilterContext);
+  const [pageComponent, setPageComponent] = useState<ReactNode | undefined>();
   useEffect(() => {
+    console.log("UBLABLA")
     const pageTemp = { ...page };
     pageTemp.tasks = tasks?.filter((task) =>
       showTask(task.task, context)
     ) as TaskPage[];
     setPage(pageTemp as PageModel);
-  }, [context.filterProp, context.input, tasks]);
+  }, [context.filterProp, context.input, project]);
+
+  useEffect(() => {
+    setPageComponent(getPage(page))
+  }, [page])
 
   if (page.type == TypeOfPage.CANVAS)
-    return (
-      <span className="page">
-        <Canvas page={page as CanvasPage} />
-      </span>
-    );
+    return <Canvas page={page as CanvasPage} />;
 
   function getPage(page: PageModel) {
     switch (page?.type) {
       case TypeOfPage.CALENDAR:
-        return (
-          <span className="page">
-            <Calendar page={page as OrderedPage} />
-          </span>
-        );
+        return <Calendar page={page as OrderedPage} />;
       case TypeOfPage.KANBAN:
         // Lembra de ajeitar isso luka
         return (
-          <span className="page">
-            
-            <Kanban
-              user={user}
-              page={page as OrderedPage}
-              project={project as Project}
-            />
-          </span>
+          <Kanban
+            user={user}
+            page={page as OrderedPage}
+            project={project as Project}
+          />
         );
       case TypeOfPage.LIST:
-        return (
-          <span className="page">
-            <List page={page} />
-          </span>
-        );
+        return <List page={page} />;
       case TypeOfPage.TABLE:
-        return (
-          <span className="page">
-            <Table page={page} project={project} />
-          </span>
-        );
+        return <Table page={page} project={project} />;
       case TypeOfPage.TIMELINE:
-        return (
-          <span className="page">
-            <TimeLine page={page} />
-          </span>
-        );
+        return <TimeLine page={page} />;
     }
   }
 
+  
   return (
     <div className="w-screen h-screen created-page pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
-      <div className="w-full h-full">
+      <div className="w-full h-full flex flex-col">
         <If condition={page?.type != TypeOfPage.CALENDAR}>
-          <div className="flex-col sm:flex-row flex gap-5 justify-between self-center w-full items-center  pb-4  relative   h-max">
+          <div className="flex-col sm:flex-row flex gap-5 justify-between self-center w-full items-center  pb-4  relative  h-[108px] sm:h-16">
             <div className="flex gap-4 items-center">
               <h1 className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white">
                 {page?.name}
@@ -126,7 +102,7 @@ export const Page = ({
             </div>
           </div>
         </If>
-        {getPage(page)}
+        <span className="sm:h-[calc(100%_-_64px)] h-[calc(100%_-_108px)] w-full page flex flex-col ">{pageComponent}</span>
       </div>
     </div>
   );

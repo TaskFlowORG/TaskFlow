@@ -70,12 +70,11 @@ export const GroupComponent = ({
   };
 
   const getName = () => {
-    const len = screenSize === "sm" ? 8 : screenSize === "md" ? 8 : screenSize === "lg" ? 12 : 10;
+    const len = screenSize === "sm" ? 8 : screenSize === "md" ? 8 : 20;
     return group?.name && group.name.length > len
       ? `${group.name.substring(0, len)}...`
       : group?.name;
-};
-
+  };
 
   const{project} = useContext(ProjectContext);
 
@@ -96,7 +95,12 @@ export const GroupComponent = ({
         await groupService.removeOfPoject(group.id, project?.id);
         const updatedGroups = groups.filter((g) => g.id !== group.id);
         setGroups([...updatedGroups]);
-        router.push("/" + user+"/"+project?.id);
+        if(project?.owner.id == userObj?.id){
+          router.push("/" + user+"/"+project?.id);
+        }else{
+          router.push("/" + user);
+          window.location.reload();
+        }
       } catch (error) {
         console.error("Error deleting the group:", error);
       }

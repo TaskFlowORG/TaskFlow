@@ -153,7 +153,7 @@ export const Login = () => {
               </form>
               <div className="flex w-4/5 items-center gap-2 justify-between">
                 <div className="h-[2px] bg-zinc-200 w-full flex-1"></div>
-                <p className="text-mn font-montserrat text-zinc-400 py-1">{t('or')}</p>
+                <p className="text-mn font-montserrat text-zinc-400 py-1">Ou</p>
                 <div className="h-[2px] bg-zinc-200 w-full flex-1"></div>
               </div>
 

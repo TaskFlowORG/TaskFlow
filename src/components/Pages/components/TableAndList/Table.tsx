@@ -76,20 +76,20 @@ export const Table = ({ page }: Props) => {
               ))}
             </div>
           </div>
-          <Droppable droppableId={`${page.id}`}>
+          <Droppable droppableId={`${page.id}`} ignoreContainerClipping>
             {(provided, snapshot) => {
               return (
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="overflow-y-auto none-scrollbar h-[87%] flex relative w-full"
+                  className="overflow-y-auto none-scrollbar h-[87%] flex relative w-full "
                 >
                   {page.tasks.length == 0 ? (
                     <div className="text-h4 font-alata text-primary items-center pb-10 dark:text-secondary w-full h-full flex   justify-center">
                       {t("no-tasks-in-page")}
                     </div>
                   ) : (
-                    <div className="w-full gap-1 flex flex-col h-min">
+                    <div className="w-full gap-1 flex flex-col h-min absolute">
                       {list.map((l, index) => {
                         return (
                           <Draggable
@@ -97,15 +97,17 @@ export const Table = ({ page }: Props) => {
                             index={index}
                             isDragDisabled={!permission}
                             key={index}
+                            
                           >
                             {(providedDrag, snapshot) => {
                               return (
+
                                 <div
-                                  {...providedDrag.draggableProps}
                                   {...providedDrag.dragHandleProps}
                                   ref={providedDrag.innerRef}
+                                  {...providedDrag.draggableProps}
                                   className={
-                                    "bg-white dark:bg-modal-grey flexhover:brightness-95 flex " +
+                                    "bg-white dark:bg-modal-grey  w-full hover:brightness-95 flex " +
                                     (l.task.completed || l.task.waitingRevision
                                       ? " border-green-500 border-2"
                                       : "") +

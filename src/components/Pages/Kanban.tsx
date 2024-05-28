@@ -168,23 +168,17 @@ export const Kanban = ({ page, user }: Props) => {
   };
 
   return (
-    <FilterContext.Provider
-      value={{
-        filterProp: filter,
-        setFilterProp: setFilter,
-        list,
-        setList: setList,
-        input: input,
-        setInput: setInput,
-      }}
-    >
-      <div className="w-full h-full mt-[5em] flex flex-col dark:bg-back-grey">
+
+      <div className="w-full h-full  flex flex-col dark:bg-back-grey">
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
             id="scrollKanban"
-            // Da um salve nesse overflow-y-auto aí mano
-            className="flex gap-8 justify-start bah flex-row pl-3 w-[90%] md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px]  h-full mb-6 overflow-x-auto  self-center"
+            // Da um salve nesse overflow-y-autoa aí mano
+            className="gap-8 justify-start  pl-3 w-[90%]  md:w-[750px] lg:w-[950px] xl:w-[1150px] 1.5xl:w-[1360px] 2xl:w-[1560px]  h-full self-center" 
+            style={{overflowX: "auto"}}
           >
+            <div className="flex justify-start w-min  h-full">
+
             {options?.map((option) => {
               return (
                 <ColumnKanban
@@ -242,9 +236,9 @@ export const Kanban = ({ page, user }: Props) => {
                 option={new Option("Não Marcadas", "#767867", 0)}
               />
             }
+            </div>
           </div>
         </DragDropContext>
       </div>
-    </FilterContext.Provider>
   );
 };

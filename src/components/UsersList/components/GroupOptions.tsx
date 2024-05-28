@@ -43,7 +43,7 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
 
     async function changeOwner() {
         try {
-            deleteUser()
+            // deleteUser()
             await groupService.updateOwner(showUser, group.id)
             setGroup({ ...group })
             route.push("/" + user?.username)

@@ -8,6 +8,7 @@ import React, { useContext, useEffect } from "react";
 import Cookies from "js-cookie";
 import { LanguageContext, LanguageProvider } from "@/contexts/ContextLanguage";
 import { UserContext } from "@/contexts/UserContext";
+import Link from "next/link";
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -23,6 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className=" p-4 flex justify-between w-full items-center fixed z-[99]">
+        <Link href="/">
         <Image
           src="Icon.svg"
           alt="icon"
@@ -30,6 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           height={64}
           className="grayscale brightness-[60] invert dark:invert-0 cursor-pointer"
         />
+        </Link>
         <div className="flex gap-6">
           <Image
             src="moon.svg"

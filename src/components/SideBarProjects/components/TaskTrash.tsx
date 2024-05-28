@@ -35,11 +35,11 @@ export const TaskTrash = ({
   };
   const redo = async () => {
     if (project?.id != undefined && setProject != undefined) {
-      taskService.redo(task.id, project.id);
+      await taskService.redo(task.id, project.id);
 
       setArrayTasks(arrayTasks.filter((t) => t.id != task.id));
       const projectGet = await projectService.findOne(project.id);
-      setProject(projectGet);
+      setProject({...projectGet});
     }
   };
   const { t } = useTranslation();

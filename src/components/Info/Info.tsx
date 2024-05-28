@@ -7,8 +7,8 @@ export const Info = ({text, title, right}: {text:string, title:string, right?:bo
     const {t} = useTranslation();
     const [show, setShow] = useState(false)
     return (
-        <span className="w-min text-modal-grey dark:text-white h-min relative"
-        onMouseEnter={() => setShow(prev => !prev)}
+        <span className="min-w-4 min-h-4 text-modal-grey  dark:text-white relative "
+        onMouseOver={() => setShow(prev => !prev)}
                 onMouseLeave={() => setShow(prev => !prev)}>
             <div className="w-4 h-4 flex justify-center items-center rounded-full 
             p-1 text-[12px] bg-white  font-alata

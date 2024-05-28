@@ -1,7 +1,7 @@
 import { Page, PagePost, Project, TypeOfPage, TypeOfProperty } from "@/models";
 import { useContext, useEffect, useRef, useState } from "react";
 import { If } from "../../If";
-import { pageService } from "@/services";
+import { pageService, projectService } from "@/services";
 import "swiper/css";
 import "swiper/css/effect-flip";
 import "swiper/css/pagination";
@@ -26,6 +26,9 @@ import { useHasPermission } from "@/hooks/useHasPermission";
 import { NeedPermission } from "@/components/NeedPermission";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { UserContext } from "@/contexts/UserContext";
+import { TaskModalContext } from "@/utils/TaskModalContext";
+import { PageContext } from "@/utils/pageContext";
 
 interface Props {
   page: Page;
@@ -58,6 +61,7 @@ export const PageComponent = ({
   const [x, setX] = useState<number>(0);
   const ref = useRef<HTMLDivElement>(null);
   const { setProject } = useContext(ProjectContext);
+  const {pageId} = useContext(PageContext)
 
   useEffect(() => {
     setTruncate(false);
@@ -98,22 +102,22 @@ export const PageComponent = ({
     }
   }, [renaiming]);
 
+  const {user} = useContext(UserContext);
+
   const changeType = async () => {
-    const pagePromise = await pageService.insert(
+    if(page.type == type) return;
+    const pageInsert = await pageService.insert(
       project.id,
       new PagePost(page.name, type, project)
     );
-
-    await pageService.merge(project.id, [pagePromise], page.id);
-    const projectTemp = { ...project };
-    projectTemp.pages.splice(project.pages.indexOf(page), 1);
-    projectTemp.pages.push(pagePromise);
-    setProject!(projectTemp);
+    router.push(`/${username}/${project.id}/${pageInsert.id}`);
+     await pageService.merge(project.id, [pageInsert], page.id)
     await pageService.delete(project.id, page.id);
     setTruncate(false);
     setModal(false);
     setChangingType(false);
-    router.push(`/${username}/${project.id}/${pagePromise.id}`);
+    const projecttemp = await  projectService.findOne(project.id);
+    setProject!(projecttemp)
   };
 
   useClickAway(ref, () => {
@@ -173,7 +177,7 @@ export const PageComponent = ({
              h-full justify-center pb-2 px-3 gap-2 text-modal-grey dark:text-white "
             >
               <NeedPermission permission="delete">
-                <Link  href={`/${username}/${project.id}`}>
+                <Link  href={pageId == page.id ? `/${username}/${project.id}` :  `/${username}/${project.id}/${pageId}`}>
                   <ButtonPageOption
                     fnButton={excludePage}
                     icon={<IconTrashBin />}

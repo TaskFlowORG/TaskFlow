@@ -21,8 +21,8 @@ export const SideModal = ({
 }: Props) => {
   const ref = useRef(null);
   const {step, isTutorialMade} = useContext(TutorialContext);
-  const listSteps = [3, 4, 5, 6, 11, 22, 23, 24, 25];
-  useClickAway(ref, () => ((step && !listSteps.includes(step) || isTutorialMade) && setCondition(false)));
+  const listSteps = [3,4,5,6,11,22,23,24,25]; 
+  useClickAway(ref, () => (step && !listSteps.includes(step) ) || isTutorialMade && setCondition(false));
 
   return (
     <AnimatePresence mode="wait" initial={false}>

@@ -398,7 +398,16 @@ export const TimeFilter = ({
                 className="h-6  flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
               >
                 <div className="h-[10px] aspect-square relative">
-                  <Image src={"/play.svg"} alt="Play" fill></Image>
+                  <svg
+                    width="8"
+                    height="8"
+                    viewBox="0 0 8 8"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-full h-full text-contrast"
+                  >
+                    <path d="M7.37042 2.95786C7.55954 3.05843 7.71772 3.20856 7.82804 3.39217C7.93835 3.57577 7.99663 3.78593 7.99663 4.00012C7.99663 4.21431 7.93835 4.42447 7.82804 4.60808C7.71772 4.79168 7.55954 4.94181 7.37042 5.04238L2.32569 7.78563C1.51339 8.22781 0.515625 7.65294 0.515625 6.74377V1.25686C0.515625 0.347302 1.51339 -0.227179 2.32569 0.214215L7.37042 2.95786Z" />
+                  </svg>
                 </div>
               </div>
             )}
@@ -409,7 +418,18 @@ export const TimeFilter = ({
               className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
             >
               <div className="h-[10px] aspect-square relative">
-                <Image src={"/pause.svg"} alt="pause" fill></Image>
+                <svg
+                  width="8"
+                  height="9"
+                  viewBox="0 0 8 9"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-full h-full text-contrast"
+                >
+                  <path
+                    d="M7.392 1.547V8.267C7.392 8.44523 7.3212 8.61615 7.19518 8.74218C7.06915 8.8682 6.89823 8.939 6.72 8.939H5.04C4.86177 8.939 4.69085 8.8682 4.56482 8.74218C4.4388 8.61615 4.368 8.44523 4.368 8.267V1.547C4.368 1.36877 4.4388 1.19785 4.56482 1.07182C4.69085 0.9458 4.86177 0.875 5.04 0.875H6.72C6.89823 0.875 7.06915 0.9458 7.19518 1.07182C7.3212 1.19785 7.392 1.36877 7.392 1.547ZM2.352 0.875H0.672C0.493775 0.875 0.322849 0.9458 0.196824 1.07182C0.0707998 1.19785 0 1.36877 0 1.547V8.267C0 8.44523 0.0707998 8.61615 0.196824 8.74218C0.322849 8.8682 0.493775 8.939 0.672 8.939H2.352C2.53023 8.939 2.70115 8.8682 2.82718 8.74218C2.9532 8.61615 3.024 8.44523 3.024 8.267V1.547C3.024 1.36877 2.9532 1.19785 2.82718 1.07182C2.70115 0.9458 2.53023 0.875 2.352 0.875Z"
+                  />
+                </svg>
               </div>
             </div>
           )}
@@ -419,7 +439,7 @@ export const TimeFilter = ({
               className="h-6 flex items-center justify-center aspect-square rounded-md bg-primary dark:bg-secondary"
               onClick={handleClickRestart}
             >
-              <div className="h-[10px] aspect-square relative bg-white rounded-sm"></div>
+              <div className="h-[10px] aspect-square relative bg-contrast rounded-sm"></div>
             </div>
           )}
         </NeedPermission>
