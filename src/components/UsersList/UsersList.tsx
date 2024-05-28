@@ -93,7 +93,6 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
         console.log(user.permissions, "mandando convite");
         await groupService.inviteUser(group.id, user.id)
         
-        
         setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)
       setNewUser(undefined);
