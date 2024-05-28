@@ -90,8 +90,8 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
     }
     try {
       if (group != null) {
+        console.log(user.permissions, "mandando convite");
         await groupService.inviteUser(group.id, user.id)
-        
         
         setInvite(t("sendInvitationSuccess"))
         setSucessInvite(true)
@@ -126,11 +126,11 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
 
   return (
     <div className="flex w-full justify-center h-full lg:justify-start">
-      <div className="bg-[#F2F2F2] dark:bg-[#333] w-72 md:w-96 py-8 lg:py-12 flex h-full relative">
-        <div className="flex flex-col gap-12 justify-between h-full">
+      <div className="bg-[#F2F2F2] dark:bg-[#333] w-72 md:w-96 py-8 lg:py-12 relative">
+        <div className="flex flex-col gap-12 justify-between">
           {
           group?.owner.id == user.id && 
-          <div className="h-min">
+          <div >
             <input
               ref={inputRef}
               className=" relative left-[10%] h-10 w-[80%] dark:bg-[#3C3C3C] text-p14 font-alata rounded-xl px-5 placeholder:border-primary dark:border-secondary"
@@ -139,7 +139,6 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               id="campoTexto"
               value={text}
               onChange={combinedOnChange}
-              onBlur={() => setShowSuggestions(false)}
             />
             <span className="absolute w-[80%] opacity-50 top-6 left-[10%] text-p14 font-alata text-modal-grey dark:text-white">{newUser ? "@"+newUser.username : ""}</span>
             <button
@@ -154,7 +153,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               </div>
             </button>
             {showSuggestions && suggestedUsers.length > 0 && (
-              <ul className="absolute h-min max-h-40 z-10 thin-scrollbar bg-white left-[10%] dark:bg-[#333] w-[80%] border border-gray-300 dark:border-gray-700  mt-2 rounded-md overflow-y-auto shadow-md">
+              <ul className="absolute z-10 bg-white left-[10%] dark:bg-[#333] w-[80%] border border-gray-300 dark:border-gray-700  mt-2 rounded-md overflow-hidden shadow-md">
                 {suggestedUsers.map((username) => (
                   <li
                     key={username}
@@ -171,7 +170,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
             )}
           </div>
           }
-          <div className="self-center  w-[80%] h-full overflow-y-scroll  none-scrollbar flex flex-col gap-6" >
+          <div className="self-center w-[80%] max-h-[330px] overflow-y-scroll none-scrollbar flex flex-col gap-6" >
             {
               group != undefined ?
                 <PermissionUser
@@ -182,6 +181,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
                   setGroup={setGroup}
                 /> : ""
             }
+
             {
               group?.users.map((u) => (
                 <PermissionUser
