@@ -31,12 +31,11 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         if (project != null) {
             const fetchedPermissions = await permissionService.findAll(project.id).catch(asynThrow);
             if (fetchedPermissions)
-            setPermissions(fetchedPermissions);
-            
+                setPermissions(fetchedPermissions);
         }
         const fetchedGroup = await groupService.findOne(groupId).catch(asynThrow);
         if (fetchedGroup)
-        setGroup(fetchedGroup);
+            setGroup(fetchedGroup);
         if (fetchedGroup) {
             setName(fetchedGroup?.name || "");
             setDescription(fetchedGroup?.description || "");
@@ -45,9 +44,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
 
     useEffect(() => {
         fetchData();
-
     }, [groupId]);
-
 
     const updatePicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (group) {
@@ -55,7 +52,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             if (!file) return;
             const updateGroup = await groupService.updatePicture(file, group.id).catch(asynThrow);
             if (updateGroup)
-            setGroup(updateGroup);
+                setGroup(updateGroup);
         }
     };
 
@@ -63,7 +60,6 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
         if (group && name) {
             group.name = name;
             await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id).catch(asynThrow);
-
         }
     }
 
@@ -73,15 +69,17 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
             await groupService.update(new GroupPut(group.id, group.name, group.description, group.permissions, group.users), group.id).catch(asynThrow);
         }
     }
+
     const [src, setSrc] = useState<string>("/Assets/noImage.png");
     useEffect(() => {
-      setSrc(archiveToSrc(group?.picture));
+        setSrc(archiveToSrc(group?.picture));
     }, [group]);
+
     return (
-        <div className="flex pl-8 gap-4 items-start">
+        <div className={"flex md:pl-48 lg:pl-8 md:gap-4 md:items-start flex-col  items-center   w-full   md:relative justify-center md:left-0  md:flex-row"}>
             <div>
                 <div className="relative rounded-full w-24 h-24 bg-zinc-300">
-                    <div className="absolute inset-0 overflow-hidden border-2 border-zinc-300 rounded-full">
+                <div className="absolute inset-0 overflow-hidden border-2 border-zinc-300 rounded-full">
                         <Image
                             className="rounded-full"
                             src={src}
@@ -91,7 +89,7 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         />
                     </div>
                     <div>
-                    <If condition={group?.owner.id == user?.id}>
+                        <If condition={group?.owner.id == user?.id}>
                             <span
                                 className="absolute rounded-full bottom-1 -right-1 border-2 border-primary 
                                 dark:border-secondary h-6 w-6 p-1 flex justify-center items-center  bg-white shadow-blur-10 dark:bg-modal-grey"
@@ -108,16 +106,16 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                     </div>
                 </div>
             </div>
-
-            <div className="flex flex-col gap-10">
+    
+            <div className={"flex flex-col md:mt-0"}>
                 <div className="flex flex-col gap-4">
                     <input
-                        className=" text-[#333] text-h5 font-pAlata dark:text-[#FCFCFC] bg-transparent"
+                        className="text-[#333] text-h5 font-pAlata dark:text-[#FCFCFC] bg-transparent"
                         ref={refName}
                         disabled={group?.owner.id != user?.id}
                         type="text"
                         placeholder={t("withoutname")}
-                        value={name }
+                        value={name}
                         onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                         onChange={(e) => setName(e.target.value)}
                         onBlur={updateNameOfAGroup}
@@ -132,14 +130,13 @@ export const GroupAccess = ({ project, groupId, user }: Props) => {
                         placeholder={t("withoutdescription")}
                     />
                 </div>
-                { project?.id != null && (
+                {project?.id != null && (
                     <div className="flex md:justify-end relative">
                         <PermissionComponent permissions={permissions} group={group} project={project} />
                     </div>
                 )}
-
             </div>
-        </div >
-    )
+        </div>
+    );
+    
 }
-
