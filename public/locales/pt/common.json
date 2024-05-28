@@ -438,8 +438,8 @@
   "phrase-becker": "Cada linha de código tem o poder de transformar o mundo, tornando o desenvolvedor um arquiteto de soluções, artista da inovação e guardião da excelência técnica.",
   "phrase-heloisa": "A essência do meu trabalho está na paixão pela inovação, na busca incessante por novas formas de fazer as coisas, sempre com dedicação e comprometimento.",
   "phrase-jonatas": "Sou um profissional de tecnologia em programação e design UX/UI, com experiência em front-end e back-end, focado em criar soluções inovadoras para os usuários.",
- "error-delete-property": "Você não pode deletar essa propriedade!",
-  "error-alert-property": "Alguma visualização/página necessita dessa propriedade, caso ela seja deletada ela não funcionará corretamente, remove ou altere a página em questão.",
+  "cant-delete-prop": "Você não pode deletar essa propriedade!",
+  "cant-delete-prop-desc": "Alguma visualização/página necessita dessa propriedade, caso ela seja deletada ela não funcionará corretamente, remove ou altere a página em questão.",
   "error-invite-acept": "Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o.",
   "invite-already-acept":"Convite já aceito"
 

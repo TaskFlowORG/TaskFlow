@@ -233,6 +233,8 @@ export const RegisterProperty = ({
   const classesOut =
     "w-full h-8 rounded-t-md flex items-center justify-center bg-tranparent border-2 border-primary dark:border-secondary text-primary dark:text-secondary";
 
+  
+
   return (
     <SideModal
       footer={
