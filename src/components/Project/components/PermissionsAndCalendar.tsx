@@ -128,7 +128,6 @@ export const PermissionsAndCalendar = () => {
         );
       })
       .map((t) => t.task);
-      console.log(tasksFiltering)
     setFilteredTasks(tasksFiltering.filter((tsk1, index) => tasksFiltering.findLastIndex(tsk2 => tsk1.id == tsk2.id) == index));
   }, [date, property]);
 

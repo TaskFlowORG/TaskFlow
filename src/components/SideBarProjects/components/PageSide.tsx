@@ -35,7 +35,6 @@ export const PageSide = (
   const route = useRouter();
 
   const merge = async () => {
-    console.log(listMerge)
     const pages = await pageService.merge(project.id, listMerge, pageMerging!.id);
     setListMerge([]);
     setMerging(false);
@@ -51,9 +50,6 @@ export const PageSide = (
     setProject!(projectTemp);
   };
 
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
 
   async function insert()  {
     const page = await pageService.insert(project.id, new PagePost("Nova Página", type, project))

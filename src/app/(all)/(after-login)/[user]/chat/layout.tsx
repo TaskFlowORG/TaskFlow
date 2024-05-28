@@ -221,7 +221,6 @@ export default function ChatMessages({
     user?.notifications.filter((n) => n.type == TypeOfNotification.CHAT).map((n) => {
       notificationService.deleteNotification(n.id);
     });
-    console.log(user?.notifications)
     if (!user || user.notifications.find((n) => n.type == TypeOfNotification.CHAT) == undefined) return;
     user.notifications = user?.notifications.filter((n) => n.type != TypeOfNotification.CHAT);
     if(setUser) setUser({...user});

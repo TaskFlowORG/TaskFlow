@@ -43,7 +43,6 @@ export const Keyboard = ({
 
   const mousemove = (e:MouseEvent) => {
     if(!isDragging)return;
-    console.log(e.clientX, "X")
     setX(e.clientX)
     setY(e.clientY)
   }

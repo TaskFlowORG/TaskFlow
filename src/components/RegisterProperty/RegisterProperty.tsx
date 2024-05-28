@@ -47,10 +47,7 @@ export const RegisterProperty = ({
   const { setProject } = useContext(ProjectContext);
 
   useEffect(() => {
-    console.log("TU TA DE SACANAGEM, QUEISSO");
-    console.log(propertyId);
     if (propertyId) {
-      console.log("CHEGUEI AQUI MEU MNAO LUKA RELAXA ");
       if (project.properties.find((prop) => prop.id == propertyId)) {
         setIsInProject(true);
         setPropertiesArray(

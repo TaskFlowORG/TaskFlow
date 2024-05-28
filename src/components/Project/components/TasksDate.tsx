@@ -45,7 +45,6 @@ export const TasksDate = () => {
       ) == index
   );
   const checkDay = (property: PropertyValue | undefined, day: Date) => {
-    console.log("prop", property);
     if (!property) return false;
     if (!property.value) return false;
     if (!property.value.value) return false;
