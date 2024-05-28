@@ -116,7 +116,6 @@ export const Kanban = ({ page, user }: Props) => {
   const onDragEnd = async (result: any) => {
     if (!result.destination) return;
     const { source, destination } = result;
-    console.log(result.draggableId)
 
     const separatedNumbers = separateNumbers(result.draggableId);
     const [numberOne, numberTwo] = separatedNumbers!;

@@ -85,7 +85,6 @@ export const FileFilter = ({ propertyValue, property, task, value }: Props) => {
           project!.id,
           propertyValue.id!
         );
-        console.log(bah)
         setName(selectedFile.name);
         propertyValue.value = bah;
         let propValued = valuesOfObjects(task).find(

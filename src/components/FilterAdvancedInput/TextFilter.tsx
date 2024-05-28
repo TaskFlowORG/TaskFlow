@@ -29,7 +29,6 @@ export const TextFilter = ({ id, name, value, isInModal = false }: Props) => {
     } else {
       setValued(value ?? "");
     }
-    console.log(hasPermission);
   }, [value, setFilterProp, filterProp]);
 
   const style = twMerge(

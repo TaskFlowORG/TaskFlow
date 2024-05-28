@@ -123,7 +123,6 @@ export const TesPropertiesSide = ({
         );
 
         if (inputProperty) {
-          console.log(inputProperty, "cara eu sou essa buceeta");
           if (
             inputProperty.value == "" ||
             inputProperty.value == "244a271c-ab15-4620-b4e2-a24c92fe4042" ||
@@ -133,25 +132,20 @@ export const TesPropertiesSide = ({
             errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            console.log("ZEROU1");
             // propertyForm.errors = [];
             errors = [];
 
             setPropertiesToValidate([...propertiesToValidate]);
-            console.log(propertiesToValidate);
           }
         } else {
-          console.log(propertyForm.property.value.value, "Devia ter funfado");
           if (
             !propertyForm.property.value.value ||
             propertyForm.property.value.value.length == 0
           ) {
-            console.log("Carai i né que to vazi");
             errors.push(`${t("property-required")}`);
             // propertyForm.errors.push(`${t("property-required")}`);
             setPropertiesToValidate([...propertiesToValidate]);
           } else {
-            console.log("ZEROU1");
             // propertyForm.errors = [];
             errors = [];
             setPropertiesToValidate([...propertiesToValidate]);
@@ -208,13 +202,11 @@ export const TesPropertiesSide = ({
                 );
                 setPropertiesToValidate([...propertiesToValidate]);
               } else {
-                console.log("ZEROU");
                 // propertyForm.errors = [];
                 errors = [];
                 setPropertiesToValidate([...propertiesToValidate]);
               }
             } else {
-              console.log(propertyForm.property.value.value);
               if (
                 propertyForm.property.value.value.length >
                 (propertyForm.property.property as Limited).maximum
@@ -256,21 +248,17 @@ export const TesPropertiesSide = ({
           );
           if (!(propertyForm.property.property as DateProp).canBePass) {
             if (inputProperty) {
-              console.log("ENTRO AQUI E SOU", inputProperty);
               if (testIfIsPass(propertyForm, new Date(), inputProperty)) {
-                console.log("SOU PASSADO MANO, CONFIA NO PAI");
 
                 errors.push(`${t("property-not-past")}`);
                 // propertyForm.errors.push(`${t("property-not-past")}`);
               } else {
                 // if (passObligatoryVerification(propertyForm)) {
-                console.log("ZEROU");
                 // propertyForm.errors = [];
                 errors = [];
                 // }
               }
             } else {
-              console.log(propertyForm.property.value.value);
               if (
                 propertyForm.property.value.value &&
                 testIfIsPass(propertyForm, new Date(), {
@@ -282,7 +270,6 @@ export const TesPropertiesSide = ({
                 errors.push(`${t("property-not-past")}`);
               } else {
                 // if (passObligatoryVerification(propertyForm)) {
-                console.log("ZEROU");
                 // propertyForm.errors = [];
                 errors = [];
                 // }
@@ -316,21 +303,6 @@ export const TesPropertiesSide = ({
     if ((propertyForm.property.property as DateProp).includesHours) {
       return new Date(propInput?.value) < currentDate;
     } else {
-      // console.log(!(new Date(propInput?.value).getFullYear() > currentDate.getFullYear() ||
-      // new Date(propInput?.value).getMonth() > currentDate.getMonth() ||
-      // new Date(propInput?.value).getDate() >= currentDate.getDate() ), "result")
-      console.log(
-        new Date(propInput?.value).getFullYear() > currentDate.getFullYear(),
-        "year"
-      );
-      console.log(
-        new Date(propInput?.value).getMonth() > currentDate.getMonth(),
-        "month"
-      );
-      console.log(
-        new Date(propInput?.value).getDate() >= currentDate.getDate(),
-        "day"
-      );
       let inputDate = new Date(propInput.value);
       const normalizedInputDate = new Date(
         inputDate.getFullYear(),
@@ -342,8 +314,6 @@ export const TesPropertiesSide = ({
         currentDate.getMonth(),
         currentDate.getDate()
       );
-      console.log(normalizedCurrentDate, "hoje cuzão");
-      console.log(normalizedInputDate, "no dia qu i o cara botou cuzaum");
 
       if (normalizedInputDate.getTime() >= normalizedCurrentDate.getTime())
         return false;
@@ -407,7 +377,6 @@ export const TesPropertiesSide = ({
             updateProp.value.value = new DateWithGoogle(null, "", null);
           updateProp.value.value.dateTime = value.value + "-03:00";
         } else {
-          console.log(value, "value");
           updateProp.value.value = value.value;
         }
       }
@@ -512,7 +481,6 @@ export const TesPropertiesSide = ({
         setProject!({ ...projectReturned });
       }
     } catch (error) {
-      console.log(error);
     }
   };
 
@@ -549,7 +517,6 @@ export const TesPropertiesSide = ({
                         onClick={() => {
                           if (isTaskProperty(prop.property)) {
                             setOpenedConfig(!openedConfig);
-                            console.log(prop.property.id);
                             setIdConfig(prop.property.id);
                           } else {
                             setIsOpen!(false);

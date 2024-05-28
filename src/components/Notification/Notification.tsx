@@ -135,7 +135,6 @@ export const Notification = ({
       router.push(link);
       return;
     }
-    console.log("CLICK", link)
     fnClick && fnClick();
     if (link) router.push(link);
     if (
