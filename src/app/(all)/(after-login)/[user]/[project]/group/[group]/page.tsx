@@ -36,7 +36,7 @@ export default function Groups({ params }: { params: { user: string, group: numb
             <div className="absolute hidden md:flex md:-bottom-36 xl:2xl:bottom-0 -z-50">
                     <SVGGroupPage />
                 </div>
-                <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32  mt-20 md:mt-32">
+                <div className="w-full flex flex-col lg:flex-row lg:gap-8 xl:gap-32 pt-20 md:pt-32">
                     <div className="flex flex-col lg:flex-row md:w-1/2 lg:ml-10 lg:justify-end">
                         <Description project={project} user={user} groupId={params.group} />
                     </div>
@@ -44,6 +44,14 @@ export default function Groups({ params }: { params: { user: string, group: numb
                         <UsersList project={project} group={group} user={user} setGroup={setGroup} />
                     </div>
                 </div>
+                {/* <div className="w-full sm:h-screen lg:h-auto flex flex-col lg:flex-row lg:gap-8 xl:gap-32 pb-16 pt-32">
+    <div className="flex h-full flex-col lg:flex-row w-1/2 lg:ml-10 lg:justify-end">
+        <Description project={project} user={user} groupId={params.group} />
+    </div>
+    <div className="flex h-full flex-col lg:flex-row lg:w-1/2 pt-12 lg:pt-0">
+        <UsersList project={project} group={group} user={user} setGroup={setGroup} />
+    </div>
+</div> */}
             </div>
         )
 }
