@@ -139,7 +139,7 @@ export const UsersList = ({ project, group, user, setGroup }: Props) => {
               id="campoTexto"
               value={text}
               onChange={combinedOnChange}
-              onBlur={() => text ? null : setShowSuggestions(false)}
+              onBlur={() => setShowSuggestions(false)}
             />
             <span className="absolute w-[80%] opacity-50 top-6 left-[10%] text-p14 font-alata text-modal-grey dark:text-white">{newUser ? "@"+newUser.username : ""}</span>
             <button
