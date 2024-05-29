@@ -17,6 +17,7 @@ import { useTheme } from "next-themes";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { showTask } from "../Pages/functions";
 import { useHasPermission } from "@/hooks/useHasPermission";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   color?: string;
@@ -38,6 +39,7 @@ export const ColumnKanban = ({
   user,
 }: Props) => {
   const { theme } = useTheme();
+  const {t} = useTranslation()
   const context = useContext(FilterContext);
   const { filterProp, setFilterProp, input } = context;
   const [columnTasks, setTasks] = useState<TaskOrdered[]>([]);
@@ -63,7 +65,7 @@ export const ColumnKanban = ({
             }}
           ></div>
           <h4 className="text-h4 font-alata whitespace-nowrap h-min text-black dark:text-white ">
-            {option?.name ?? "Não marcadas"}
+            {option?.name ?? t("not-marked")}
           </h4>
         </div>
       <Droppable
@@ -77,7 +79,7 @@ export const ColumnKanban = ({
 
             <div
               style={{
-                opacity: option?.name == "Não Marcadas" ? 0.75 : 1,
+                opacity: option?.name == t("not-marked") ? 0.75 : 1,
                 borderRadius: 16,
                 padding: 16,
                 background: snapshot.isDraggingOver

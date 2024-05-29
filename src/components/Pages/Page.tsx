@@ -1,4 +1,3 @@
-
 import {
   Calendar,
   Canvas,
@@ -22,6 +21,7 @@ import { ReactNode, useContext, useEffect, useState } from "react";
 import { SearchBar } from "../SearchBar";
 import { If } from "../If";
 import { showTask } from "./functions";
+import { useTranslation } from "react-i18next";
 
 export const Page = ({
   user,
@@ -37,6 +37,7 @@ export const Page = ({
   setPage: (page: PageModel) => void;
 }) => {
   const context = useContext(FilterContext);
+  const { t } = useTranslation();
   const [pageComponent, setPageComponent] = useState<ReactNode | undefined>();
   useEffect(() => {
     const pageTemp = { ...page };
@@ -47,8 +48,8 @@ export const Page = ({
   }, [context.filterProp, context.input, project]);
 
   useEffect(() => {
-    setPageComponent(getPage(page))
-  }, [page])
+    setPageComponent(getPage(page));
+  }, [page]);
 
   if (page.type == TypeOfPage.CANVAS)
     return <Canvas page={page as CanvasPage} />;
@@ -75,15 +76,19 @@ export const Page = ({
     }
   }
 
-  
   return (
     <div className="w-screen h-screen created-page pt-24 px-8 md:px-16 lg:px-40 xl:px-52 2xl:px-48 flex justify-center dark:bg-back-grey">
       <div className="w-full h-full flex flex-col">
         <If condition={page?.type != TypeOfPage.CALENDAR}>
           <div className="flex-col sm:flex-row flex gap-5 justify-between self-center w-full items-center  pb-4  relative  h-[108px] sm:h-16">
             <div className="flex gap-4 items-center">
-              <h1 className=" text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white">
-                {page?.name}
+              <h1
+                className={
+                  " text-h3  leading-none lg:text-h2 1.5xl:text-h1 font-alata text-primary whitespace-nowrap    dark:text-white " +
+                  (page?.name ? "" : "opacity-50")
+                }
+              >
+                {page?.name ? page?.name : t("withoutname")}
               </h1>
             </div>
             <div className="w-max">
@@ -101,7 +106,9 @@ export const Page = ({
             </div>
           </div>
         </If>
-        <span className="sm:h-[calc(100%_-_64px)] h-[calc(100%_-_108px)] w-full page flex flex-col ">{pageComponent}</span>
+        <span className="sm:h-[calc(100%_-_64px)] h-[calc(100%_-_108px)] w-full page flex flex-col ">
+          {pageComponent}
+        </span>
       </div>
     </div>
   );

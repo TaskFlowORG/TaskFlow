@@ -32,6 +32,7 @@ import { User } from "@/models/user/user/User";
 import { ProjectContext } from "@/contexts";
 import { updateIndexes } from "./functions/updateIndexes";
 import { showTask } from "./functions";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   user: User;
@@ -141,7 +142,7 @@ export const Kanban = ({ page, user }: Props) => {
     } else {
       propertyInTask.value.value = optionDestination ?? null;
     }
-
+    
     const updatePageAndTask = async () => {
       if (!project) return;
       try {
@@ -165,9 +166,10 @@ export const Kanban = ({ page, user }: Props) => {
     await updatePageAndTask();
     updateIndexes(result, tasks, setTasks, project);
   };
+  const {t} = useTranslation();
 
   return (
-
+    
       <div className="w-full h-full  flex flex-col dark:bg-back-grey">
         <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
           <div
@@ -232,7 +234,7 @@ export const Kanban = ({ page, user }: Props) => {
                 })}
                 propertyId={id}
                 color="#767867"
-                option={new Option("Não Marcadas", "#767867", 0)}
+                option={new Option(t("not-marked"), "#767867", 0)}
               />
             }
             </div>

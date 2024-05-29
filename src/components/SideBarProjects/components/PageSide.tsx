@@ -1,6 +1,6 @@
 import { pageService } from "@/services";
 import { ChangeEvent, use, useContext, useEffect, useState } from "react";
-import { Page, PagePost, Project, TypeOfPage } from "@/models";
+import { NumberValued, Page, PagePost, Project, TypeOfPage } from "@/models";
 import { If } from "@/components/If";
 import { TypeOfPageComponent } from "./TypeOfPageComponent";
 import { PageComponent } from "./PageComponent";
@@ -52,7 +52,7 @@ export const PageSide = (
 
 
   async function insert()  {
-    const page = await pageService.insert(project.id, new PagePost("Nova Página", type, project))
+    const page = await pageService.insert(project.id, new PagePost("", type, project))
     
     const projectTemp = { ...project };
     projectTemp.pages.push(page)

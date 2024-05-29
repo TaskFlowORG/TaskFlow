@@ -83,6 +83,7 @@ export const SideBarButton = ({
           <p
             className={
               "text-p font-montserrat text-modal-grey dark:text-white openOptions  outline-none none-scrollbar " +
+              (text ? "" : "opacity-50 ") +
               (renaming ? "overflow-x-auto whitespace-nowrap " : " truncate ") +
               (isHovering != undefined && isHovering && hasButton ? "w-[2rem] smm:w-[4rem] sm:w-[7rem] " : "smm:w-[6rem] sm:w-[9rem]")
             }
@@ -92,7 +93,7 @@ export const SideBarButton = ({
             contentEditable={renaming}
             ref={renaming ? textRef : undefined}
           >
-            {text ?? t("withoutname")}
+            {text ? text:  t("withoutname")}
           </p>
         </Link>
         <If condition={isHovering != undefined && isHovering}>

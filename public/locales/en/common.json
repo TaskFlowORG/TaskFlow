@@ -450,5 +450,8 @@
   "cant-delete-prop-desc": "Some view/page requires this property. If it is deleted, it will not function correctly. Remove or modify the affected view/page.",
   "error-invite-acept": "This invitation has already been accepted by you, probably the person who invited you sent more than one invitation. If there are still any duplicate invitations from the same user, please delete them.",
   "invite-already-acept": "Invitation already accepted",
-  "option":"Option"
+  "option":"Option",
+  "not-marked": "Not marked",
+  "new-page": "New Page"
+
 }

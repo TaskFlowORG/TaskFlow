@@ -144,10 +144,10 @@ export const GroupComponent = ({
           ""
         )}
         <div className="flex flex-col ml-2">
-          <div className="text-start text-p font-montserrat rounded-md">
+          <div className={"text-start text-p font-montserrat rounded-md " + (getName() ? "" : "opacity-50")}>
             {getName() || t("withoutname")}
           </div>
-          <div className="text-start text-p14 font-montserrat rounded-md">
+          <div className={"text-start text-p14 font-montserrat rounded-md " + (getName() ? "" : "opacity-50")}>
             {getDescription() || t("withoutdescription")}
           </div>
         </div>
