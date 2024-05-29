@@ -40,6 +40,24 @@ export const TasksInTimeline = ({
     return date;
   };
 
+  const findEnd = (start: DateTimelines, task: Task) => {
+    const date = new Date(new Date(start.date));
+
+    const propVl = task.properties.find(
+      (prop) => prop.property.id === propOrdering.id
+    )?.value as TimeValued;
+    if (!propVl.value.starts) return null;
+    if (!propVl.value.ends) return null;
+    const index = propVl.value.starts.indexOf(start);
+    return new Date(propVl.value.ends[index] ? propVl.value.ends[index].date : Date.now());
+  };
+  
+  const testIfIsIn = (start: Date, end: Date, date: Date) => {
+    const isAfter = start.getDate() <= date.getDate() && start.getMonth() <= date.getMonth() && start.getFullYear() <= date.getFullYear();
+    const isBefore = end.getDate() >= date.getDate() && end.getMonth() >= date.getMonth() && end.getFullYear() >= date.getFullYear();
+    return isAfter && isBefore;
+  }
+
   return (
     <div className="h-min w-min flex flex-col box-border " ref={ref}>
       {tasks.map((task, index) => {
@@ -57,14 +75,15 @@ export const TasksInTimeline = ({
               propVl.value.starts &&
               propVl?.value.starts
                 .filter((start) =>
-                  compareDates(
+                  testIfIsIn(
                     new Date(new Date(start.date)),
+                    findEnd(start, task) ?? new Date(),
                     new Date(fixDate(new Date(date)))
-                  )
+                  ) 
                 )
                 .map((start, index) => {
                   return (
-                    <TaskInTimeline  key={index} widthOfInterval={widthOfInterval} propOrdering={propOrdering} interval={interval} propVl={propVl} task={task} start={start} index={index}  />
+                    <TaskInTimeline dateSelected={fixDate(new Date(date))} key={index} widthOfInterval={widthOfInterval} propOrdering={propOrdering} interval={interval} propVl={propVl} task={task} start={start} index={index}  />
                   );
                 })}
           </div>
