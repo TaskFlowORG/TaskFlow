@@ -5,6 +5,7 @@ import { Option } from "@/models";
 import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { If } from "@/components/If";
 import { NeedPermission } from "@/components/NeedPermission";
+import { useTranslation } from "react-i18next";
 
 type ContentInputProps = {
   index: number;
@@ -22,6 +23,7 @@ remove
   const [color, setColor] = useState<string>(option.color);
   const [name, setName] = useState<string>(option.name);
   const [hovering, setIsHovering] = useState(false);
+  const {t} = useTranslation();
 
   useEffect(() => {
     option.name = name;
@@ -44,7 +46,7 @@ remove
         onChange={(e) => setName(e.target.value)}
         value={name}
         className="w-full h-min disabled:opacity-100 rounded-sm bg-transparent"
-        placeholder={`Opção ${index + 1}`}
+        placeholder={`${t("option")} ${index + 1}`}
         disabled={disabled}
       />
       <span className="w-8 h-min justify-end flex">
