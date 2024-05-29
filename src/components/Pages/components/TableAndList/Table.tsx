@@ -36,6 +36,12 @@ export const Table = ({ page }: Props) => {
     )
   );
 
+  useEffect(() => {
+    setList((page.tasks as TaskOrdered[]).sort(
+      (a, b) => a.indexAtColumn - b.indexAtColumn
+    ))
+  }, [page])  
+
   const { setSelectedTask, setIsOpen } = useContext(TaskModalContext);
 
   const openModal = (id: number) => {

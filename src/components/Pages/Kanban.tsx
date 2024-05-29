@@ -45,10 +45,7 @@ export const Kanban = ({ page, user }: Props) => {
   const [tasks, setTasks] = useState<TaskOrdered[]>([]);
   const [id, setId] = useState<number>(0);
   const [options, setOptions] = useState<Option[]>([]);
-  const [filter, setFilter] = useState<FilteredProperty[]>([]);
-  const [list, setList] = useState<FilteredProperty>();
   const { project, setProject } = useContext(ProjectContext);
-  const context = useContext(FilterContext);
 
   useEffect(() => {
     setTasks(

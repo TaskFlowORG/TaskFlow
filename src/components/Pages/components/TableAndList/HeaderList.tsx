@@ -17,7 +17,7 @@ export const HeaderList = ({name, page, p}:Props) => {
             <span className={"flex " + (page ? "w-min h-min" : "w-[18px] h-[18px]")}>
                 <IconsSelector property={p} page={page} />
             </span>
-           <p className={"w-min truncate font-alata text-h5 " + (name?  "":"opacity-50")}>{ name ?? t("withoutname") }</p>
+           <p className={"w-min truncate font-alata text-h5 " + (name?  "":"opacity-50")}>{ name ? name : t("withoutname") }</p>
         </div>
     )
 }

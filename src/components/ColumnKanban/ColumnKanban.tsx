@@ -74,9 +74,6 @@ export const ColumnKanban = ({
       >
         {(provided, snapshot) => {
           return (
-
-
-
             <div
               style={{
                 opacity: option?.name == t("not-marked") ? 0.75 : 1,
