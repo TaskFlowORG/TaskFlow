@@ -35,12 +35,9 @@ export const TaskModalContent = ({
   const [users, setUsers] = useState<OtherUser[]>([]);
   const asynThrow = useAsyncThrow();
 
-
-
   useEffect(() => {
     setList(undefined);
     setFilter([]);
-    
   }, [isOpen]);
 
   useEffect(() => {
@@ -48,7 +45,8 @@ export const TaskModalContent = ({
       if (!project) return;
       let users = await userService.findAll();
       users = users.filter(
-        (user) => user.permissions.find(
+        (user) =>
+          user.permissions.find(
             (permission) => permission.project.id === project.id
           ) != undefined
       );
@@ -65,7 +63,6 @@ export const TaskModalContent = ({
       setUsers([...finalList]);
     };
     findGroups();
-
   }, [project]);
 
   const style = twMerge(
@@ -75,10 +72,10 @@ export const TaskModalContent = ({
 
   return (
     <div className={style}>
-      <div className="flex flex-col gap-12 w-full lg:w-2/5 max-h-full ">
+      <div className="flex flex-col justify-start gap-12 w-full lg:w-2/5 h-full max-h-full ">
         {isInModal && <TaskName task={task as Task} />}
-        <div className="flex flex-col w-full gap-6 h-full max-h-full ">
-          <div className="flex gap-0 w-full ">
+        <div className="flex w-full gap-6 h-min  ">
+          <div className="flex gap-0 w-full h-min">
             <HeaderCommentAndHistoric
               title="comments"
               isSelected={isInComments}
@@ -96,7 +93,11 @@ export const TaskModalContent = ({
               }}
             />
           </div>
-          {isInComments && <CommentsSection isInModal={isInModal} task={task} user={user} />}
+        </div>
+        <div className={"flex w-full " + (isInModal ? " h-[calc(100%_-_200px)] " : "h-full")}>
+          {isInComments && (
+            <CommentsSection isInModal={isInModal} task={task} user={user} />
+          )}
           {isInHistorics && (
             <HistoricSection isInModal={isInModal} user={user} task={task} />
           )}
@@ -111,7 +112,12 @@ export const TaskModalContent = ({
         }}
       >
         <div className="hidden lg:block w-[2px]  min-h-full bg-[#F2F2F2]"></div>
-        <div className={" md:mt-0  lg:hidden w-full min-h-[2px] bg-[#F2F2F2] " + (isInModal?"mt-40":" mt-12")}></div>
+        <div
+          className={
+            " md:mt-0  lg:hidden w-full min-h-[2px] bg-[#F2F2F2] " +
+            (isInModal ? "mt-40" : " mt-12")
+          }
+        ></div>
 
         <TesPropertiesSide
           filter={filter}

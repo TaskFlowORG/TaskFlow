@@ -22,9 +22,8 @@ export const HistoricSection = ({
   const {t} = useTranslation()
 
   return (
-    <div className={" flex flex-col gap-6 h-full justify-between " + 
-    (isInModal ? "md:max-h-[calc(100%_-_164px)] xl:max-h-[calc(100%_-_196px)] max-h-full":"md:max-h-[calc(100%_-_67px)] max-h-full")}>
-      <div className="flex flex-col gap-6  overflow-auto  pr-8 bah thin-scrollbar">
+    <div className={" flex flex-col gap-6 h-full  w-full "}>
+      <div className="flex flex-col gap-6  overflow-y-auto  h-full pr-8 bah thin-scrollbar">
         {(task as Task).logs?.map((log) => {
           return (
             <LogItem item={task} isInModal={isInModal} key={log.id} log={log} />
