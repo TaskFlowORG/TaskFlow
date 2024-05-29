@@ -107,7 +107,7 @@ export const Kanban = ({ page, user }: Props) => {
     optionDestination: Option
   ) {
     return propertyInTask.value.value.filter((value: any) => {
-      return value.id != optionId && value.id != optionDestination?.id;
+      return value?.id != optionId && value?.id != optionDestination?.id;
     });
   }
 
