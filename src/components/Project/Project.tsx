@@ -40,11 +40,10 @@ export const Project = () => {
   const saveName = async () => {
     if (!project || !setProject) return;
     project.name = name;
-    const updated = await projectService.patch(
-      projectToPutDTO(project),
-      project.id
-    ).catch(asyncThrow);
-    if(updated) setProject(updated);
+    const updated = await projectService
+      .patch(projectToPutDTO(project), project.id)
+      .catch(asyncThrow);
+    if (updated) setProject(updated);
   };
 
   const projectToPutDTO = (project: ProjectModel) => {
@@ -61,11 +60,10 @@ export const Project = () => {
   const saveDescription = async () => {
     if (!project || !setProject) return;
     project.description = description;
-    const updated = await projectService.patch(
-      projectToPutDTO(project),
-      project.id
-    ).catch(asyncThrow);
-    if(updated) setProject(updated);
+    const updated = await projectService
+      .patch(projectToPutDTO(project), project.id)
+      .catch(asyncThrow);
+    if (updated) setProject(updated);
   };
 
   const refDescription = useRef<HTMLTextAreaElement>(null);
@@ -78,19 +76,25 @@ export const Project = () => {
     if (!project || !setProject) return;
     const file = e.target.files?.[0];
     if (!file) return;
-    const updated = await projectService.updatePicture(file, project.id).catch(asyncThrow);
-    if(updated) setProject(updated);
+    const updated = await projectService
+      .updatePicture(file, project.id)
+      .catch(asyncThrow);
+    if (updated) setProject(updated);
   };
 
   useEffect(() => {
     (async () => {
       if (!project || !user) return;
-      const groups = await groupService.findGroupsByAProject(project?.id).catch(asyncThrow);
-      if(!groups) return;
+      const groups = await groupService
+        .findGroupsByAProject(project?.id)
+        .catch(asyncThrow);
+      if (!groups) return;
       let list: OtherUser[] = [];
       for (let group of groups) {
-        const owner = await userService.findByUsername(group.ownerUsername).catch(asyncThrow)
-        if(owner) list.push(owner);
+        const owner = await userService
+          .findByUsername(group.ownerUsername)
+          .catch(asyncThrow);
+        if (owner) list.push(owner);
       }
       setPossibleOwners(
         list.filter((u, index) => list.indexOf(u) === index && u.id !== user.id)
@@ -106,7 +110,6 @@ export const Project = () => {
       setProject(updated);
     });
   };
-
 
   const [src, setSrc] = useState<string>("/Assets/noImage.png");
   useEffect(() => {
@@ -145,19 +148,18 @@ export const Project = () => {
               <input
                 ref={refName}
                 placeholder={t("withoutname")}
-
                 disabled={project?.owner?.id != user?.id}
                 className="bg-transparent placeholder:text-primary dark:placeholder:text-secondary pl-2 truncate w-full text-center text-primary smm:text-start dark:text-secondary rounderd-md text-h4 font-alata"
                 style={{ opacity: name ? 1 : 0.5 }}
                 type="text"
-                value={name}
+                value={name ?? ""}
                 onKeyUp={(e) => e.key == "Enter" && refName.current?.blur()}
                 onChange={(e) => setName(e.target.value)}
                 onBlur={saveName}
               />
               <textarea
                 style={{ opacity: description ? 1 : 0.5, resize: "none" }}
-                value={description }
+                value={description ?? ""}
                 placeholder={t("withoutname")}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={saveDescription}
@@ -194,10 +196,11 @@ export const Project = () => {
                               <button
                                 key={user.id}
                                 className="text-p14 font-montserrat w-full min-h-10 rounded-md shadow-blur-10"
-                                onClick={() =>
-                                  project &&
-                                  projectService.updateOwner(user, project.id)
-                                }
+                                onClick={() => {
+                                  if (!project) return;
+                                  projectService.updateOwner(user, project.id);
+                                  window.location.reload();
+                                }}
                               >
                                 @{user.username}
                               </button>
@@ -231,7 +234,6 @@ export const Project = () => {
             </span>
           </div>
         </div>
-    
 
         <div className="h-5/6 w-full pt-6 px-8 sm:px-0  ">
           <TaskModalWrapper>

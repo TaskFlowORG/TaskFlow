@@ -81,7 +81,6 @@ export const PageComponent = ({
     setModal(false);
     setTruncate(false);
     setProject!(projectTemp);
-    console.log("APAGEI");
   };
 
   const saveNewName = (e: any) => {

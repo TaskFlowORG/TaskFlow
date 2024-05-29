@@ -28,7 +28,6 @@ export const GroupAccess = ({ name, description, project, group }) => {
             const hasPermission = group.permissions.some(permission => permission.id === selectedPermission.id);
 
             if (hasPermission) {
-                console.log('Este grupo já possui esta permissão.');
                 setSelectedPermission("");
                 alert('Este grupo já possui esta permissão.');
             } else {

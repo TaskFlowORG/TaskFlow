@@ -5,8 +5,7 @@ import { Api } from '@/services/axios';
 
 class PageService {
   async insert(projectId: number, page: PagePost): Promise<Page> {
-    console.log('page', page);
-    
+
     return (await Api.post<Page>(`page/project/${projectId}`, page, {withCredentials: true})).data;
   }
 

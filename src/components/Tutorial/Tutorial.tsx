@@ -80,6 +80,7 @@ export const Tutorial = () => {
       steps={steps.steps}
       stepIndex={step}
       hideCloseButton
+      hideBackButton
       disableOverlayClose
       callback={(data) => handleJoyrideCallback(data)}
       disableCloseOnEsc

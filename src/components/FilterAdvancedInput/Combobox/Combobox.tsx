@@ -54,28 +54,19 @@ export const Combobox = ({
           thisProperty.value.indexOf(selectedOption.username),
           1
         );
-        console.log("to na 1");
-
         optionalCounter && setOptionalCounter!(optionalCounter - 1);
       } else {
         thisProperty.value.push(selectedOption.username);
-        console.log("to na 2");
-        console.log(optionalCounter);
         setOptionalCounter!(1);
-        console.log(optionalCounter);
       }
       setFilterProp!([...filterProp!]);
     } else if (selectedOption != null) {
       let newValue = value.map((value) => value.username);
       if (isRemoving) {
         newValue.splice(newValue.indexOf(selectedOption.username), 1);
-        console.log("to na 3");
-
         optionalCounter && setOptionalCounter!(optionalCounter - 1);
       } else {
         newValue.push(selectedOption.username);
-        console.log("to na 4");
-
         optionalCounter && setOptionalCounter!(optionalCounter + 1);
       }
       setFilterProp!([...filterProp!, { id: id, value: [...newValue] }]);

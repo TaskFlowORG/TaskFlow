@@ -435,5 +435,11 @@
   "phrase-marquardt": "En el mundo del software, la única limitación es tu imaginación. Transforma líneas de código en nuevas soluciones que moldearán el futuro.",
   "phrase-becker": "Cada línea de código tiene el poder de transformar el mundo, haciendo del desarrollador un arquitecto de soluciones, un artista de la innovación y un guardián de la excelencia técnica.",
   "phrase-heloisa": "La esencia de mi trabajo reside en la pasión por la innovación, en la búsqueda incansable de nuevas formas de hacer las cosas, siempre con dedicación y compromiso.",
-  "phrase-jonatas": "Soy un profesional de la tecnología en programación y diseño UX/UI, con experiencia en front-end y back-end, enfocado en crear soluciones innovadoras para los usuarios."
+  "phrase-jonatas": "Soy un profesional de la tecnología en programación y diseño UX/UI, con experiencia en front-end y back-end, enfocado en crear soluciones innovadoras para los usuarios.",
+  "cant-delete-prop": "No puedes eliminar esta propiedad!",
+  "cant-delete-prop-desc": "Alguna vista/página necesita esta propiedad, si se elimina, no funcionará correctamente. Elimina o modifica la página correspondiente.",
+  "error-invite-acept": "Esta invitación ya ha sido aceptada por ti, probablemente la persona que te invitó envió más de una invitación. Si todavía hay invitaciones duplicadas del mismo usuario, por favor elimínalas.",
+  "invite-already-acept": "Invitación ya aceptada",
+  "option":"Opción"
+
 }

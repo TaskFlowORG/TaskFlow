@@ -135,7 +135,6 @@ export const Notification = ({
       router.push(link);
       return;
     }
-    console.log("CLICK", link)
     fnClick && fnClick();
     if (link) router.push(link);
     if (
@@ -158,9 +157,9 @@ export const Notification = ({
       if (e.response.status == 409) {
         setError(true);
         setMessageError(
-          "Esse convite já foi aceito por você, provavelmente quem o convidou mandou mais de um convite, caso ainda haja algum convite repetido do mesmo usuário, por favor, delete-o."
+          t("error-invite-acept")
         );
-        setTitleError("Convite já aceito");
+        setTitleError(t("invite-already-acept"));
       }
     });
   };

@@ -47,10 +47,7 @@ export const RegisterProperty = ({
   const { setProject } = useContext(ProjectContext);
 
   useEffect(() => {
-    console.log("TU TA DE SACANAGEM, QUEISSO");
-    console.log(propertyId);
     if (propertyId) {
-      console.log("CHEGUEI AQUI MEU MNAO LUKA RELAXA ");
       if (project.properties.find((prop) => prop.id == propertyId)) {
         setIsInProject(true);
         setPropertiesArray(
@@ -149,11 +146,11 @@ export const RegisterProperty = ({
   };
 
   const deleteProperty = async (property: Property) => {
-    await propertyService.delete(project.id, property.id);
+    await propertyService.delete(project.id, property.id).catch(() => setError(true));
     setPropertiesArray(propertiesArray.filter((p) => p.id != property.id));
     const projectTemp = await projectService
       .findOne(project.id)
-      .catch(() => setError(true));
+      
     if (projectTemp) setProject!({...projectTemp});
   };
   const [modalPropertyRegister, setModalPropertyRegister] = useState(false);
@@ -235,6 +232,8 @@ export const RegisterProperty = ({
     "w-full h-8 rounded-t-md flex items-center justify-center bg-primary dark:bg-secondary text-contrast";
   const classesOut =
     "w-full h-8 rounded-t-md flex items-center justify-center bg-tranparent border-2 border-primary dark:border-secondary text-primary dark:text-secondary";
+
+  
 
   return (
     <SideModal

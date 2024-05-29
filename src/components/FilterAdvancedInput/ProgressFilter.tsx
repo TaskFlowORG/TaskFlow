@@ -78,7 +78,6 @@ export const ProgressFilter = ({
           id=""
           placeholder="%"
           onChange={(e) => {
-            console.log(property?.maximum)
             if ((property?.maximum == undefined && parseFloat(e.target.value) > 100) ||  property?.maximum < parseFloat(e.target.value)){
               setValued(property?.maximum == undefined ? 0  : parseFloat(e.target.value));
             } else {

@@ -22,8 +22,9 @@ export const HistoricSection = ({
   const {t} = useTranslation()
 
   return (
-    <div className=" flex flex-col gap-6">
-      <div className="flex flex-col gap-6 h-[442px] overflow-auto thin-scrollbar pr-8 bah">
+    <div className={" flex flex-col gap-6 h-full justify-between " + 
+    (isInModal ? "md:max-h-[calc(100%_-_164px)] xl:max-h-[calc(100%_-_196px)] max-h-full":"md:max-h-[calc(100%_-_67px)] max-h-full")}>
+      <div className="flex flex-col gap-6  overflow-auto  pr-8 bah thin-scrollbar">
         {(task as Task).logs?.map((log) => {
           return (
             <LogItem item={task} isInModal={isInModal} key={log.id} log={log} />
@@ -31,7 +32,7 @@ export const HistoricSection = ({
         })}
       </div>
       <PDFDownloadLink
-        className="lg:text-p  text-p14 w-full flex gap-2 items-center justify-center  text-contrast border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
+        className="lg:text-p max-h-12  text-p14 w-full flex gap-2 items-center justify-center  text-contrast border-[1px] shadow-comment bg-primary dark:bg-secondary flex-1 font-alata px-3 py-[10px] rounded-lg"
         document={<Report logged={task} user={user} isInProject={!isInModal} />}
         fileName={`${isInModal? t("task") : t("project")} #${task.id} - By ${user.name} ${user.surname}.pdf`}
       >

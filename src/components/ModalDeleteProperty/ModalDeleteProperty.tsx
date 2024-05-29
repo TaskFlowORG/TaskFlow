@@ -3,6 +3,7 @@ import { Button } from "../Button";
 import { propertyService } from "@/services";
 import { CenterModal } from "../Modal/CenterModal";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 type ModalDelete = {
   property: Property;
   close: (boolean: boolean) => void;
@@ -18,34 +19,35 @@ export const ModalDeleteProperty = ({
   deleteProperty,
 }: ModalDelete) => {
   const { t } = useTranslation();
+  const [error, setError] = useState<boolean>(false);
   return (
     <>
       <CenterModal condition={isClosed} setCondition={close}>
         <div className="p-10 flex flex-col gap-8">
           <div className="h-[60%]  flex flex-col gap-4 ">
             <p className="h4 text-primary ">
-              {t("delete-property")}
+              {error ? t("error-delete-property"):t("delete-property")}
             </p>
             <p>
-             {t("alert-property")}{" "}
+             {error? t("error-alert-property") : t("alert-property")}{" "}
             </p>
           </div>
 
           <div className="h-min flex justify-between">
-            <Button
+             <Button
               padding="px-5 sm:px-12"
               secondary
-              text={t("delete-account-cancel")}
+              text={error ? "OK": t("delete-account-cancel")}
               fnButton={() => close(false)}
             ></Button>
-            <Button
+            {!error && <Button
               padding="px-5 sm:px-12"
               fnButton={async () => {
                 closeProperty();
-                deleteProperty(property);
+                deleteProperty(property)
                 close(false);
               }}
-            ></Button>
+            ></Button>}
           </div>
         </div>
       </CenterModal>

@@ -17,6 +17,7 @@ import { authentication } from "@/services/services/Authentication";
 import { ChangeAccountNameModal } from "./components/ChangeAccountNameModal";
 import { ChangePasswordModal } from "./components/ChangePasswordModal";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
+import { useRouter } from "next/navigation";
 
 export const PersonalInformations = () => {
   const steps = [1000, 5000, 10000, 15000, 30000, 50000, 100000, 200000, 500000, 1000000]
@@ -125,13 +126,13 @@ export const PersonalInformations = () => {
     setSucess(true);
     setMessage(t("profile-photo-sucess"));
   };
-
+const route = useRouter();
   const deleteUser = async () => {
     if (!user || !setUser) return;
     try {
       await userService.delete(user.username);
       authentication.logout();
-      window.location.reload();
+      route.push("/");
     } catch (error) {
       setError(true);
     }
@@ -295,7 +296,7 @@ export const PersonalInformations = () => {
             <AnimatePresence mode="wait">
               {extenderBotaoDel ? (
                 <motion.p initial={{ width: 0 }} animate={{ width: "max-content" }} exit={{ width: 0 }} transition={{ duration: 0.2 }}
-                  className="font-montserrat text-p w-max whitespace-nowrap lg:block hidden">
+                  className="font-montserrat text-p w-max whitespace-nowrap overflow-clip lg:block hidden">
                   {t("delete-account")}
                 </motion.p>
               ) : null}

@@ -25,7 +25,7 @@ export const ErrorModal = ({
 }: ErrorModalProps) => {
   return (
     <CenterModal condition={condition} setCondition={setCondition}>
-      <div className="w-full p-4 h-60 flex flex-col justify-between">
+      <div className="w-full p-4 h-min gap-10 flex flex-col justify-between">
         <div className="flex flex-col gap-4 px-8">
           <h4 className="w-full text-center text-h4 text-primary">{title}</h4>
           <p className="w-full text-center">{message}</p>
