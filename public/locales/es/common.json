@@ -46,7 +46,7 @@
   "username-min": "El nombre de usuario debe contener al menos 3 caracteres",
   "username-max": "El nombre de usuario debe contener un máximo de 20 caracteres",
   "email-invalid": "Correo electrónico inválido",
-  "password-min": "La contraseña debe contener al menos 6 caracteres",
+  "password-min": "La contraseña debe contener al menos 8 caracteres",
   "password-lowercase": "La contraseña debe contener al menos una letra minúscula",
   "password-uppercase": "La contraseña debe contener al menos una letra mayúscula",
   "password-number": "La contraseña debe contener al menos un número",
@@ -442,6 +442,6 @@
   "invite-already-acept": "Invitación ya aceptada",
   "option":"Opción",
   "not-marked": "No marcada",
-  "new-page": "Nueva página"
-
+  "new-page": "Nueva página",
+  "max": "Máximo"
 }

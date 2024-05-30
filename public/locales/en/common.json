@@ -14,7 +14,7 @@
   "username-min": "Username must contain at least 3 characters.",
   "username-max": "Username must contain a maximum of 20 characters.",
   "email-invalid": "Invalid email",
-  "password-min": "Password must contain at least 6 characters.",
+  "password-min": "Password must contain at least 8 characters.",
   "password-lowercase": "Password must contain at least one lowercase letter.",
   "password-uppercase": "Password must contain at least one uppercase letter.",
   "password-number": "Password must contain at least one number.",
@@ -452,6 +452,7 @@
   "invite-already-acept": "Invitation already accepted",
   "option":"Option",
   "not-marked": "Not marked",
-  "new-page": "New Page"
+  "new-page": "New Page",
+  "max": "Max"
 
 }
