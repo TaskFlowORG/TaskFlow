@@ -17,7 +17,7 @@ import { useContext, useEffect, useState } from "react";
 export default function Pages({
   params,
 }: {
-  params: { user: string; project: number; page: number };
+  params: { project: number; page: number };
 }) {
   const { project } = useContext(ProjectContext);
   const [page, setPage] = useState<PageModel | undefined>(

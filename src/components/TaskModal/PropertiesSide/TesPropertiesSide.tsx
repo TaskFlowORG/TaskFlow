@@ -107,7 +107,7 @@ export const TesPropertiesSide = ({
       }
     } else {
       projectService.delete(project!.id);
-      router.push("/"+user?.username+"/projects");
+      router.push("/home/projects");
       setProjects!(projects!.filter((proj) => proj.id != project!.id));
       setProject!(undefined);
     }

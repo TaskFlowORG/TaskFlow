@@ -57,7 +57,7 @@ export const PageSide = (
     const projectTemp = { ...project };
     projectTemp.pages.push(page)
     setProject!(projectTemp)
-    route.push(`/${user}/${project.id}/${page.id}`);
+    route.push(`/home/${project.id}/${page.id}`);
   };
 
   const changeInput = (e: ChangeEvent<HTMLInputElement>, page: Page) => {

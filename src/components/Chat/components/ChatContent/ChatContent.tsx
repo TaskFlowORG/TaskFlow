@@ -127,7 +127,7 @@ export const ChatContent = ({ id, lastMessage, name, messages, chatContent }: Me
                                 <h5 className='truncate  '>{name || "Grupo sem nome"}</h5>
                             </div>
                             <div className='flex justify-end'>
-                                <div onClick={() => router.replace(`/${user?.username}/chat`)} className='flex items-center justify-center w-10 h-10 lg:invisible visible mx-5'>
+                                <div onClick={() => router.replace(`/home/chat`)} className='flex items-center justify-center w-10 h-10 lg:invisible visible mx-5'>
                                     <GoBackIcon classes='w-8 h-8'></GoBackIcon>
                                 </div>
                             </div>

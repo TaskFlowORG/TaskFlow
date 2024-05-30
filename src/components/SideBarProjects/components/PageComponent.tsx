@@ -109,7 +109,7 @@ export const PageComponent = ({
       project.id,
       new PagePost(page.name, type, project)
     );
-    router.push(`/${username}/${project.id}/${pageInsert.id}`);
+    router.push(`/home/${project.id}/${pageInsert.id}`);
      await pageService.merge(project.id, [pageInsert], page.id)
     await pageService.delete(project.id, page.id);
     setTruncate(false);
@@ -166,7 +166,7 @@ export const PageComponent = ({
           isHovering={truncate && !renaiming && !merging}
           link={
             !renaiming && !merging
-              ? "/" + username + "/" + project.id + "/" + page.id
+              ? "/home/" + project.id + "/" + page.id
               : undefined
           }
         >
@@ -176,7 +176,7 @@ export const PageComponent = ({
              h-full justify-center pb-2 px-3 gap-2 text-modal-grey dark:text-white "
             >
               <NeedPermission permission="delete">
-                <Link  href={pageId == page.id ? `/${username}/${project.id}` :  `/${username}/${project.id}/${pageId}`}>
+                <Link  href={pageId == page.id ? `/home/${project.id}` :  `/home/${project.id}/${pageId}`}>
                   <ButtonPageOption
                     fnButton={excludePage}
                     icon={<IconTrashBin />}

@@ -9,16 +9,18 @@ import { Task } from "@/models"
 import { ProjectsContext } from "@/contexts"
 import { useTranslation } from "next-i18next"
 import { useAsyncThrow } from "@/hooks/useAsyncThrow"
+import { UserContext } from "@/contexts/UserContext"
 
-export default function InitialPage({params}:{params:{user:string}}) {
+export default function InitialPage() {
     const {projects} = useContext(ProjectsContext);
     const [tasks, setTasks] = useState<Task[]>([])
   const asynThrow = useAsyncThrow();
+        const {user} = useContext(UserContext);
     
   
     useEffect(() => {
         (async () => {
-            const tasks = await taskService.findTodaysTasks(params.user).catch(asynThrow);
+            const tasks = await taskService.findTodaysTasks(user?.username ?? "").catch(asynThrow);
             if(!tasks) return;
             setTasks(tasks)
         })()
@@ -37,7 +39,7 @@ export default function InitialPage({params}:{params:{user:string}}) {
                     </h1>
                     <div className={`flex w-full flex-col  flex-1 h-full pt-6 lg:pt-0 justify-start 
                     items-center gap-6 lg:flex-row lg:justify-center lg:items-start`}>
-                        <ProjectsMainPage projects={projects} user={params.user} />
+                        <ProjectsMainPage projects={projects} user={user?.username ?? ""} />
                         <div className="h-full w-2/3 lg:h-full flex tasks-today">
                             <InitialPageTasks tasks={tasks}/>
                         </div>

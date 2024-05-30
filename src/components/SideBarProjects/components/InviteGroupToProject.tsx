@@ -4,15 +4,17 @@ import { IconSearch } from "@/components/icons/OptionsFilter/Search";
 import { ProjectContext } from "@/contexts";
 import { SimpleGroup } from "@/models/user/group/SimpleGroup";
 import { groupService, projectService } from "@/services";
+import { setGlobal } from "next/dist/trace";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 interface Props {
   openModal: boolean;
   setOpenModal: (value: boolean) => void;
   setError: (value: boolean) => void;
+  setGroups: (value: SimpleGroup[]) => void;
 }
 
-export const InviteGroupToProject = ({ openModal, setOpenModal, setError }: Props) => {
+export const InviteGroupToProject = ({ openModal, setOpenModal, setError, setGroups }: Props) => {
   const [groupsGlobal, setGroupsGlobal] = useState<SimpleGroup[]>([]);
   const { project } = useContext(ProjectContext);
   const [filteredGroups, setFilteredGroups] = useState<SimpleGroup[]>([]);
@@ -42,9 +44,11 @@ export const InviteGroupToProject = ({ openModal, setOpenModal, setError }: Prop
     }
   };
 
-  const inviteToProject = (group: SimpleGroup) => {
+  const inviteToProject = async (group: SimpleGroup) => {
     if (!project) return;
-    projectService.inviteGroup(project.id, group).then(() => setOpenModal(false)).catch((error) => setError(true));
+    await projectService.inviteGroup(project.id, group).then(() => setOpenModal(false)).catch((error) => setError(true));
+    const groups = await groupService.findGroupsByAProject(project.id);
+    setGroups(groups);
   };
 
   const [search, setSearch] = useState("");

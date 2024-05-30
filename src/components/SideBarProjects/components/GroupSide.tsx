@@ -58,15 +58,15 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
 
     const newGroup = new GroupPost("", "", groupPermission, []);
     const group = await groupService.insert(newGroup);
-    router.push("/" + user + "/group/" + group.id);
+    router.push("/home/group/" + group.id);
     fetchData();
   };
 
   const sendRoute = (groupId: number) => {
     if (project?.id != undefined && global == "projectGroups") {
-      router.push("/" + user + "/"+project.id+"/group/" + groupId);
+      router.push("/home/"+project.id+"/group/" + groupId);
     } else {
-      router.push("/" + user + "/group/" + groupId);
+      router.push("/home/group/" + groupId);
     }
   };
   const {user:userObj} = useContext(UserContext)
@@ -113,6 +113,7 @@ export const GroupSide = ({ project, user, setModalGroups, global }: Props) => {
                 setError={setError}
                 setOpenModal={setOpenModal}
                 openModal={openModal}
+                setGroups={setGroups}
               />
               <button
                 className="h-10 create-group w-52 md:mr-0 md:w-64 rounded-lg bg-primary dark:bg-secondary text-contrast font-alata hover:brightness-110"

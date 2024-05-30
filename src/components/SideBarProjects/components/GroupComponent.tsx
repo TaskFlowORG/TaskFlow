@@ -84,7 +84,7 @@ export const GroupComponent = ({
         await groupService.delete(group.id);
         const updatedGroups = groups.filter((g) => g.id !== group.id);
         setGroups([...updatedGroups]);
-        router.push("/" + user);
+        router.push("/home");
       } catch (error) {
         console.error("Error deleting the group:", error);
       }
@@ -96,9 +96,9 @@ export const GroupComponent = ({
         const updatedGroups = groups.filter((g) => g.id !== group.id);
         setGroups([...updatedGroups]);
         if(project?.owner.id == userObj?.id){
-          router.push("/" + user+"/"+project?.id);
+          router.push("/home/"+project?.id);
         }else{
-          router.push("/" + user);
+          router.push("/home" );
           window.location.reload();
         }
       } catch (error) {
@@ -112,7 +112,7 @@ export const GroupComponent = ({
       await userService.getOutOfAGroup(group.id);
       const updatedGroups = groups.filter((g) => g.id !== group.id);
       setGroups([...updatedGroups]);
-      router.push("/" + user);
+      router.push("/home");
     } catch (error) {
       console.error("Error getting out of the group:", error);
     }

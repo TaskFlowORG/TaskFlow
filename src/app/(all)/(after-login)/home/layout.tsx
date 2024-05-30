@@ -25,7 +25,7 @@ export default function Layout({
   params,
 }: {
   children: React.ReactNode;
-  params: { project: number; user: string };
+  params: { project: number };
 }) {
   const [project, setProject] = useState<Project>();
   const [projects, setProjects] = useState<ProjectSimple[]>([]);
@@ -120,13 +120,14 @@ export default function Layout({
     })();
   }, [theme]);
 
+
   useEffect(() => {
     (async () => {
       const projectsT = await projectService.findAllOfAUser().catch(asynThrow);
       if (!projectsT) return;
       setProjects(projectsT);
     })();
-  }, [params.user]);
+  }, [user]);
 
   useEffect(() => {
     if (!project) return;
@@ -167,7 +168,7 @@ export default function Layout({
                 <Header setSidebarOpen={setOpenSideBar}></Header>
                 <main className="w-screen   h-screen flex flex-col items-center justify-start">
                   <SideBarProjects
-                    user={params.user}
+                    user={user.username}
                     project={project}
                     setOpenSideBar={setOpenSideBar}
                     openSideBar={openSideBar}

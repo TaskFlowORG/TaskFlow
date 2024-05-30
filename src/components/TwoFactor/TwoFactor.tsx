@@ -50,7 +50,7 @@ export const TwoFactor = ({ password, username }: Props) => {
             response.status == 200
             const data = await response.data;
             if (response.status == 200) {
-                router.push("/" + username)
+                router.push("/home")
             } else {
                 setError(data.message || 'Failed to verify OTP');
             }

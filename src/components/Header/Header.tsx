@@ -82,7 +82,7 @@ export const Header = ({
       />
 
       <div className=" w-full h-full flex space-x-[48px] chat-button  items-center justify-end">
-        <Link href={`/${user?.username}/chat`}>
+        <Link href={`/home/chat`}>
           <Image
             src="/Assets/themeLight/notification.svg"
             alt="notification"
@@ -139,7 +139,7 @@ export const Header = ({
         <IconSwitcherTheme />
         <div className="w-min h-min relative">
           <Link
-            href={`/${user?.username}/configurations/account`}
+            href={`/home/configurations/account`}
             className="settings-button"
           >
             <svg

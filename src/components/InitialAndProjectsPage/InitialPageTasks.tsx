@@ -38,7 +38,7 @@ export const InitialPageTasks = ({tasks}:{tasks:Task[]}) => {
         if(!setIsOpen || !setSelectedTask) return
         setSelectedTask(task)
         setIsOpen(true)
-        router.push(`/${user?.username}/${projectWithPage?.id}/${pageWithTask?.id}`)
+        router.push(`/home/${projectWithPage?.id}/${pageWithTask?.id}`)
     }
 
 

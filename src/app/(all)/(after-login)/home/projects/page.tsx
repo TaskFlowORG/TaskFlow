@@ -19,7 +19,7 @@ import { IconPlus } from "@/components/icons/GeneralIcons/IconPlus";
 import { FilterContext } from "@/utils/FilterlistContext";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 
-export default function Projects({ params }: { params: { user: string } }) {
+export default function Projects() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState<string>("");
@@ -80,7 +80,7 @@ const {project, setProject} = useContext(ProjectContext);
       projectsTemp.push(newProject);
       setProjects!(projectsTemp);
       setProject!(await projectService.findOne(newProject.id));
-      router.push(`/${params.user}/${newProject.id}`);
+      router.push(`/home/${newProject.id}`);
 
     });
   };
@@ -134,7 +134,7 @@ const {project, setProject} = useContext(ProjectContext);
                     {list.map((p) => {
                       return (
                         <ProjectComponent
-                          user={params.user}
+                          user={user?.username ?? ""}
                           project={p}
                           key={p.id}
                         />

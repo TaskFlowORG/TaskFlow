@@ -7,7 +7,7 @@ import { Loading } from "@/components/Loading";
 import { Project } from "@/components/Project";
 import { PageContext } from "@/utils/pageContext";
 
-export default function Dashboard({ params }: { params: { project: number, user:string } }) {
+export default function Dashboard( ) {
   const { project } = useContext(ProjectContext);
   const {user} = useContext(UserContext);
   const {setPageId, setInPage} = useContext(PageContext);

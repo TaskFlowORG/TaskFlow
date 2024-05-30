@@ -19,7 +19,7 @@ import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { PropertyContext } from "@/utils/PropertyContext";
 
 interface Props {
-  params: { project: number; user: string };
+  params: { project: number};
   children: React.ReactNode;
 }
 

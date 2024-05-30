@@ -66,7 +66,7 @@ export const Login = () => {
       .then(async (value) => {
         if (!value) return;
         else {
-          route.push("/" + data.username);
+          route.push("/home");
         }
       })
       .catch((error) => {

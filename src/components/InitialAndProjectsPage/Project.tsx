@@ -25,7 +25,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
 
   return (
     <Link
-      href={`/${user}/${project.id}`}
+      href={`/home/${project.id}`}
       className={`w-full max-w-full flex flex-col shadow-blur-10 gap-8 static z-0 bg-white 
     dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
@@ -69,7 +69,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
       resposiveClasses="hover:brightness-95"
       functionObj={(o) =>
                   router.push(
-                    `/${user}/${project.id}/group/${(o as SimpleGroup).id}`
+                    `/home/${project.id}/group/${(o as SimpleGroup).id}`
                   )
                 }
                 mawWidth="w-full"

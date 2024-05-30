@@ -97,7 +97,7 @@ export const Register = () => {
         new UserPost(new UserDetails(username, password), name, surname, mail)
       ).then(() => {
         authentication.login({username, password}).then(() => {
-          router.push("/" + username);
+          router.push("/home");
         });
       }).catch((error) => {
         if(!error.response) return;

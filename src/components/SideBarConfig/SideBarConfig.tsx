@@ -62,19 +62,19 @@ export const SideBarConfig = ({ user, pageTitle }: Props) => {
         <div className="w-min h-full flex justify-center dark:text-white lg:flex-col items-start gap-8">
           <NavItems
             extendida={extendida}
-            href={`/${user.username}/configurations/account`}
+            href={`/home/configurations/account`}
             icon={<IconUser sidebar />}
             text={t("personal-informations-side-bar")}
           />
           <NavItems
             extendida={extendida}
-            href={`/${user.username}/configurations/general`}
+            href={`/home/configurations/general`}
             icon={<IconConfig />}
             text={t("configurations-side-bar")}
           />
           <NavItems
             extendida={extendida}
-            href={`/${user.username}/configurations/notifications`}
+            href={`/home/configurations/notifications`}
             icon={<IconNotification />}
             text={t("notifications-side-bar")}
           />

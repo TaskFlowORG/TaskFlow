@@ -46,7 +46,7 @@ export const GroupOptions = ({ isOpen, group, showUser, setGroup }: Props) => {
             // deleteUser()
             await groupService.updateOwner(showUser, group.id)
             setGroup({ ...group })
-            route.push("/" + user?.username)
+            route.push("/home")
         } catch (error) {
             setText(t("error-change-owner"));
             setSuccessDelete(true);

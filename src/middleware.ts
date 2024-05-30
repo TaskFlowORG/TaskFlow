@@ -19,9 +19,8 @@ export async function middleware(req: NextRequest) {
       req.nextUrl.pathname == "/register" ||
       req.nextUrl.pathname == "/")
   ) {
-    const username = req.cookies.get("username")?.value; 
     const domain = req.nextUrl.origin;
-    const homeUrl = domain + "/"+username ;
+    const homeUrl = domain + "/home" ;
     return NextResponse.redirect(homeUrl);
   }
   return NextResponse.next();

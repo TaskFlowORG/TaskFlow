@@ -49,7 +49,7 @@ export const ChatsBar = ({ chat, lastMessage, date, visualize }: ChatProps) => {
 
   return (
     <>
-      <Link  href={"/" + user?.username + "/chat/" + chat.id} className="lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer">
+      <Link  href={"/home/chat/" + chat.id} className="lg:w-[96%] w-[90%] h-28 rounded-md flex shadow-blur-10 my-3 cursor-pointer">
         <div onClick={() => setarChat()} className="w-full h-28 grid grid-cols-3 duration-0" style={{ gridTemplateColumns: "20% 55% 25%" }}>
           <div className="flex items-center pl-2">
             <div className="relative col-start-1 col-end-2 w-14 h-14 bg-back-grey rounded-full border-primary dark:border-secondary border-2">

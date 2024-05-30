@@ -75,7 +75,7 @@ const router = useRouter();
       <SideBarButton
         icon={<IconDashboard />}
         text={t("project")}
-        link={`/${user}/${project?.id}`}
+        link={`/home/${project?.id}`}
       />
       <span className="pages-button">
 

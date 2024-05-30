@@ -34,7 +34,7 @@ export const TutorialConfig = () => {
     user.configuration.isTutorialMade = false;
     const updated = await userService.patch(user);
     setUser({ ...updated });
-    router.push("/" + user.username);
+    router.push("/home");
   };
 
   return (

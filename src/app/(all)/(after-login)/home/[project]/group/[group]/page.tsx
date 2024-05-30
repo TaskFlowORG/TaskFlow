@@ -12,7 +12,7 @@ import { Loading } from "@/components/Loading";
 import { useAsyncThrow } from "@/hooks/useAsyncThrow";
 import { AxiosError, AxiosResponse } from "axios";
 
-export default function Groups({ params }: { params: { user: string, group: number } }) {
+export default function Groups({ params }: { params: { group: number } }) {
     const { project } = useContext(ProjectContext);
     const [group, setGroup] = useState<Group>();
     const [user, setUser] = useState<OtherUser>()
