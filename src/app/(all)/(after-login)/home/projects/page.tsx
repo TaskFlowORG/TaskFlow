@@ -130,7 +130,7 @@ const {project, setProject} = useContext(ProjectContext);
             >
               {listOfLists.map((list, index) => {
                 return (
-                  <div key={index} className="flex flex-col gap-5 h-full w-full lg:w-1/2 :w-1/3">
+                  <div key={index} className="flex flex-col flex-1 gap-5 h-full w-full lg:w-1/2 xl:w-1/3">
                     {list.map((p) => {
                       return (
                         <ProjectComponent

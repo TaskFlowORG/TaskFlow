@@ -26,7 +26,7 @@ export const ProjectComponent = ({ project, user }: Props) => {
   return (
     <Link
       href={`/home/${project.id}`}
-      className={`w-full max-w-full flex flex-col shadow-blur-10 gap-8 static z-0 bg-white 
+      className={`w-full max-w-full flex flex-col shadow-blur-10 gap-8 static z-0  bg-white 
     dark:bg-modal-grey p-6 rounded-md h-min `}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}

@@ -160,7 +160,7 @@ export const Project = () => {
               <textarea
                 style={{ opacity: description ? 1 : 0.5, resize: "none" }}
                 value={description ?? ""}
-                placeholder={t("withoutname")}
+                placeholder={t("withoutdescription")}
                 onChange={(e) => setDescription(e.target.value)}
                 onBlur={saveDescription}
                 ref={refDescription}
