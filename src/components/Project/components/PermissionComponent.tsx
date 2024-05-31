@@ -136,7 +136,7 @@ export const PermissionComponent = ({
           onChange={(e: any) => {
             setName(e.target.value);
           }}
-          className="max-w-full w-full truncate text-contrast bg-transparent text-p font-montserrat"
+          className="max-w-full w-full truncate text-contrast bg-transparent placeholder:text-contrast text-p font-montserrat"
           style={{ opacity: name || editing ? 1 : 0.5 }}
           title={name == null || name == "" ? t("withoutname") : name}
         />
