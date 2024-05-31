@@ -48,10 +48,7 @@ export const ModalRegisterProperty = ({
 
   const schema = z.object({
     name: z
-      .string()
-      .nonempty(t("name-property-notnull"))
-      .min(3, t("name-property-min-characters"))
-      .max(50, t("name-property-max-characters")),
+      .string().optional().default(""),
     maximum: z.number().optional().default(0),
     visible: z.boolean().optional().default(true),
     obligatory: z.boolean().optional().default(false),
@@ -59,7 +56,7 @@ export const ModalRegisterProperty = ({
     schedule: z.boolean().optional().default(false),
     hours: z.boolean().optional().default(false),
     deadline: z.boolean().optional().default(false),
-    color: z.string().optional().default("black"),
+    color: z.string().optional().default("#f04a94"),
   });
 
   const container = twMerge(

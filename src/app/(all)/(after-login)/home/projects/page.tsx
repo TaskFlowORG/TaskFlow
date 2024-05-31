@@ -125,12 +125,12 @@ const {project, setProject} = useContext(ProjectContext);
           <div className="w-full lg:w-3/5 h-[70vh] flex justify-center none-scrollbar overflow-y-scroll">
             <div
               className={
-                "justify-start flex p-6 px-12 smm:px-24 sm:px-6 gap-x-12  h-full w-full  sm:w-3/5 lg:w-full "
+                "justify-start flex p-6 px-12 smm:px-24 sm:px-6  h-full w-full   sm:w-3/5 lg:w-full "
               }
             >
               {listOfLists.map((list, index) => {
                 return (
-                  <div key={index} className="flex flex-col flex-1 gap-5 h-full w-full lg:w-1/2 xl:w-1/3">
+                  <div key={index} className={"flex flex-col flex-1 gap-5 h-full w-full lg:w-1/2 xl:w-1/3  px-6"}>
                     {list.map((p) => {
                       return (
                         <ProjectComponent
