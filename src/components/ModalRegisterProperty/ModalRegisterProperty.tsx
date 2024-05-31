@@ -135,13 +135,8 @@ export const ModalRegisterProperty = ({
               <button
                 className="w-5 h-5/6 flex justify-center items-center rounded-sm"
                 onClick={() => {
-                  if (errors.name || getValues().name === "") {
-                    return;
-                  }
                   postProperty(getValues().name, getValues(), selected);
-                  close();
-
-                  setValue("name", "");
+                  close();  setValue("name", "");
                 }}
               >
                 <IconSave />

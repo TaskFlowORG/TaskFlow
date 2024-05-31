@@ -75,6 +75,7 @@ export const RegisterProperty = ({
     selected: TypeOfProperty
   ) => {
     let propertyObj;
+    console.log("POST")
     if (
       [
         TypeOfProperty.TIME,
