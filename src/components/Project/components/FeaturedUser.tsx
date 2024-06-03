@@ -69,7 +69,7 @@ export const FeaturedUser = () => {
   const [y, setY] = useState<number>(0);
 
   return (
-    <div className=" h-64 md:h-2/5 w-full shadow-blur-10 rounded-md p-4">
+    <div className=" h-64 md:h-[58%] w-full shadow-blur-10 rounded-md p-4">
       <h5 className=" font-alata text-h5 h-8 text-primary dark:text-secondary">
         {t("featured-user")}
       </h5>
